@@ -1,0 +1,15 @@
+{
+  "n": 24,
+  "decision_accuracy": 1.0,
+  "refusal_precision": 1.0,
+  "refusal_recall": 1.0,
+  "answer_grounding_rate": 1.0,
+  "p50_latency_ms": 1.537459495011717,
+  "p95_latency_ms": 1.8743543128948652,
+  "confusion": {
+    "ANSWER->ANSWER": 8,
+    "REFUSE_STALE->REFUSE_STALE": 6,
+    "REFUSE_NO_EVIDENCE->REFUSE_NO_EVIDENCE": 5,
+    "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 5
+  }
+}
