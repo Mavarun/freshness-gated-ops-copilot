@@ -22,3 +22,7 @@
 {"query": "What is the database password rotation interval?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: hygiene page mentions passwords, not a rotation interval"}
 {"query": "What is the chargeback playbook for INC-4821?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: incident is documented, chargeback playbook is not"}
 {"query": "What IP allowlist is configured on the inc-4821 Slack webhook?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: channel exists, webhook IP allowlist does not"}
+{"query": "What is the production maintenance change window?", "expect_decision": "ANSWER", "expect_decision_global": "REFUSE_STALE", "note": "mixed-sla: confluence age~62h passes 7d SLA, fails global 48h"}
+{"query": "When does the production freeze start?", "expect_decision": "ANSWER", "expect_decision_global": "REFUSE_STALE", "note": "mixed-sla: same confluence policy page; global over-refuses"}
+{"query": "What is the live payments-api request rate?", "expect_decision": "REFUSE_STALE", "expect_decision_global": "ANSWER", "note": "mixed-sla: grafana age~2.5h fails 1h SLA, passes global 48h"}
+{"query": "What qps does the payments-api live scrape show?", "expect_decision": "REFUSE_STALE", "expect_decision_global": "ANSWER", "note": "mixed-sla: grafana under-protect if global-only"}
