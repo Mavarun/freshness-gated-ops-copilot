@@ -18,6 +18,12 @@ not an answer. The system has four structured decisions:
 
 No paid LLM is required. CI is offline, seeded, and clock-frozen.
 
+## Hypothesis (2026-09-14 slice)
+
+1. Different source systems need different freshness SLAs (e.g. live metrics 1h vs policy docs 7d); a single global SLA either over-refuses or under-protects.
+2. Per-source SLA config should change refusal decisions on the same corpus vs global-only.
+3. GitHub Actions running pytest + golden eval on PR protects regressions without paid LLM APIs.
+
 ## Why this is not another RAG demo
 
 Typical RAG: embed → top-k → generate. Staleness, if it appears at all, is a
@@ -42,7 +48,7 @@ flowchart TD
   S --> K{Supporting chunks?}
   K -->|coverage below floor| N
   K -->|partial / key-token fail| U[REFUSE_UNGROUNDED]
-  K -->|yes| F{Freshness SLA<br/>max_age_hours}
+  K -->|yes| F{Per-source freshness SLA<br/>fallback to global}
   F -->|all supporting stale| ST[REFUSE_STALE]
   F -->|fresh supporting remains| X[Extractive sentences]
   X --> G{Answer grounded<br/>in fresh evidence?}
@@ -57,31 +63,38 @@ flowchart TD
 Clock is frozen at `2026-09-13T00:00:00+00:00` (`EVAL_CLOCK`) so ages, golden
 labels, and CI do not drift. Override with `OPS_COPILOT_NOW` only for a live demo.
 
-Default SLA: **48 hours**. Inclusive: `age_hours <= max_age_hours` passes.
+Default mode: **per-source SLAs** from `config/source_slas.yaml` (e.g. grafana 1h,
+datadog 8h, confluence 168h) with `max_age_hours=48` as the fallback for unknown
+sources. Set `CopilotConfig(use_source_slas=False)` for the v0 global-only path.
+Inclusive: `age_hours <= max_age_hours` passes.
 
 ## Corpus
 
-`data/corpus/ops_docs.jsonl` — 21 synthetic ops docs (PagerDuty, Statuspage,
+`data/corpus/ops_docs.jsonl` — 23 synthetic ops docs (PagerDuty, Statuspage,
 runbooks, Kubernetes, Slack, Grafana, Datadog, LaunchDarkly, Jira, Confluence).
 
-12 are fresh against the frozen clock; 9 are intentionally stale (March Redis
-policy, June on-call, Q1 blue-green, Nov auth TTL, April Kafka drain, Q1 SLO,
-May payments-worker replicas, closed INC-3104). Several topics exist on both
-sides of the SLA so the gate has to choose.
+Includes mixed-SLA fixtures: a Confluence maintenance policy at ~62h (fails
+global 48h, passes confluence 7d) and a Grafana live qps scrape at ~2.5h
+(passes global 48h, fails grafana 1h).
 
 ## Package
 
 ```
+config/
+  source_slas.yaml   source_system → max_age_hours (+ global fallback)
 src/ops_copilot/
-  corpus.py      load JSONL, age relative to a clock, paragraph chunks
-  retrieve.py    BM25 (rank_bm25, Okapi fallback) + TF-IDF cosine stub
-  freshness.py   PASS/FAIL + age_hours
-  grounding.py   IDF-weighted coverage + high-IDF key-token gate
-  policy.py      ANSWER | REFUSE_STALE | REFUSE_UNGROUNDED | REFUSE_NO_EVIDENCE
-  answer.py      extractive sentences, or a refusal template
-  trace.py       JSONL: query, ids, ages, decision, latency_ms, cost units
-  eval.py        golden runner + refusal/grounding/latency metrics
-  pipeline.py    retrieve → support → freshness → extract → decide
+  corpus.py          load JSONL, age relative to a clock, paragraph chunks
+  retrieve.py        BM25 (rank_bm25, Okapi fallback) + TF-IDF cosine stub
+  source_slas.py     YAML loader + resolve_max_age
+  freshness.py       PASS/FAIL + age_hours (global or per-source lookup)
+  grounding.py       IDF-weighted coverage + high-IDF key-token gate
+  policy.py          ANSWER | REFUSE_STALE | REFUSE_UNGROUNDED | REFUSE_NO_EVIDENCE
+  answer.py          extractive sentences, or a refusal template
+  trace.py           JSONL: query, ids, ages, decision, latency_ms, cost units
+  eval.py            golden runner + global vs per-source comparison
+  pipeline.py        retrieve → support → freshness → extract → decide
+.github/workflows/
+  eval.yml           pytest + scripts/run_eval.py on push/PR
 ```
 
 ## How to run
@@ -96,30 +109,45 @@ python scripts/run_eval.py
 ```
 
 `run_eval.py` writes `artifacts/eval_report.md`, `artifacts/eval_metrics.json`,
-and `artifacts/traces.jsonl`.
+`artifacts/eval_comparison.md`, `artifacts/eval_comparison.json`, and
+`artifacts/traces.jsonl`.
 
-## Golden eval (real run)
+## Golden eval (real run — 2026-09-14)
 
-24 labeled cases: 8 fresh-ok, 6 stale-must-refuse, 5 no-evidence, 5 ungrounded
-traps. Frozen clock, `max_age_hours=48`. Measured on the eval harness in this
-repo (no LLM).
+28 labeled cases on the frozen clock. Default path uses per-source SLAs; the
+harness also runs global-only (`max_age_hours=48`) on the same corpus. Measured
+offline (no LLM).
 
-| Metric | Value |
-| --- | ---: |
-| cases | 24 |
-| decision_accuracy | 1.000 |
-| refusal_precision | 1.000 |
-| refusal_recall | 1.000 |
-| answer_grounding_rate | 1.000 |
-| p50_latency_ms | 1.54 |
-| p95_latency_ms | 1.87 |
+| Metric | Global-only (48h) | Per-source SLAs |
+| --- | ---: | ---: |
+| cases | 28 | 28 |
+| decision_accuracy | 1.000 | 1.000 |
+| refusal_precision | 1.000 | 1.000 |
+| answer_grounding_rate | 1.000 | 1.000 |
+| refusal_recall | 1.000 | 1.000 |
+| p50_latency_ms | 1.43 | 1.49 |
+| p95_latency_ms | 2.06 | 1.68 |
+| decision flips vs other mode | 4 | 4 |
 
-Confusion is diagonal: `ANSWER→ANSWER` 8, `REFUSE_STALE→REFUSE_STALE` 6,
+**4 decision flips** on a fixed corpus — empirical confirmation of hypothesis 2:
+
+| Query | Global-only | Per-source |
+| --- | --- | --- |
+| production maintenance change window | `REFUSE_STALE` | `ANSWER` |
+| production freeze start | `REFUSE_STALE` | `ANSWER` |
+| live payments-api request rate | `ANSWER` | `REFUSE_STALE` |
+| payments-api live scrape qps | `ANSWER` | `REFUSE_STALE` |
+
+Per-source confusion is diagonal: `ANSWER→ANSWER` 10, `REFUSE_STALE→REFUSE_STALE` 8,
 `REFUSE_NO_EVIDENCE→REFUSE_NO_EVIDENCE` 5, `REFUSE_UNGROUNDED→REFUSE_UNGROUNDED` 5.
 
-Full case table: [`artifacts/eval_report.md`](artifacts/eval_report.md).
+Full tables: [`artifacts/eval_report.md`](artifacts/eval_report.md),
+[`artifacts/eval_comparison.md`](artifacts/eval_comparison.md).
 
-`pytest` : **34 passed**.
+`pytest` : **45 passed**.
+
+CI: [`.github/workflows/eval.yml`](.github/workflows/eval.yml) runs `pytest` and
+`python scripts/run_eval.py` on every push/PR to `main`.
 
 ## Limitations
 
@@ -131,8 +159,8 @@ Full case table: [`artifacts/eval_report.md`](artifacts/eval_report.md).
 - **Extractive only.** No generator means no fluent synthesis and no
   hallucination from an LLM — also no multi-hop join across docs beyond
   concatenated sentences.
-- **One SLA for every source.** A Statuspage incident and a Confluence roster
-  should not share `max_age_hours=48`. Per-source SLAs are the obvious next gate.
+- **Per-source SLAs are hand-tuned.** The YAML mapping is a research knob, not
+  a learned policy; real orgs would derive thresholds from incident postmortems.
 - **BM25 + TF-IDF is not semantic.** Synonyms and implicit references fail
   closed. That is acceptable here because the refusal path is the point.
 - **1.000 scores are on a crafted golden set.** They are a regression harness,
@@ -142,11 +170,12 @@ Full case table: [`artifacts/eval_report.md`](artifacts/eval_report.md).
 ## Hiring takeaway
 
 Production agents on live data need a refusal contract: *what evidence, how
-old, did it actually support the ask, and what do we do when any of those
-fail?* This repo is that contract in ~400 lines of Python, with a golden set
-that punishes answering from stale or tangential chunks. If you are hiring for
-ops / production-agent work, the interesting review is `policy.py`,
-`freshness.py`, and `data/golden/questions.jsonl` — not the retriever.
+old (and for which source), did it actually support the ask, and what do we do
+when any of those fail?* This repo is that contract in Python, with a golden
+set that punishes answering from stale or tangential chunks and a CI workflow
+that re-checks the contract on every PR. If you are hiring for ops /
+production-agent work, the interesting review is `policy.py`, `freshness.py`,
+`config/source_slas.yaml`, and `data/golden/questions.jsonl` — not the retriever.
 
 ## License
 
