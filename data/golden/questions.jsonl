@@ -1,0 +1,24 @@
+{"query": "What is the current checkout p99 latency?", "expect_decision": "ANSWER", "note": "fresh-ok: Grafana + INC-4821 both state 2410ms"}
+{"query": "Is the checkout_retry feature flag enabled?", "expect_decision": "ANSWER", "note": "fresh-ok: LaunchDarkly 15 percent canary"}
+{"query": "Who is the primary on-call right now?", "expect_decision": "ANSWER", "note": "fresh-ok: Asha Patel; stale June rotation must not win"}
+{"query": "How many checkout-api replicas are running?", "expect_decision": "ANSWER", "note": "fresh-ok: k8s snapshot current replicas 12"}
+{"query": "What is the remaining error budget for checkout?", "expect_decision": "ANSWER", "note": "fresh-ok: Datadog 31 percent remaining"}
+{"query": "What mitigation does the checkout latency runbook recommend?", "expect_decision": "ANSWER", "note": "fresh-ok: HPA 20, disable promo, raise pool 128"}
+{"query": "What is the Redis checkout-pool utilization?", "expect_decision": "ANSWER", "note": "fresh-ok: 49 of 50 connections, not the stale maxmemory doc"}
+{"query": "What is the status of the payments-api?", "expect_decision": "ANSWER", "note": "fresh-ok: statuspage degraded 12 percent 5xx"}
+{"query": "What is the Redis maxmemory-policy?", "expect_decision": "REFUSE_STALE", "note": "stale-must-refuse: only March 2026 runbook states the policy"}
+{"query": "How do we run the blue-green deploy procedure?", "expect_decision": "REFUSE_STALE", "note": "stale-must-refuse: Q1 procedure retired after mesh cutover"}
+{"query": "What is the auth token TTL?", "expect_decision": "REFUSE_STALE", "note": "stale-must-refuse: only Nov 2025 identity page"}
+{"query": "How do I drain Kafka consumer lag on payments-worker?", "expect_decision": "REFUSE_STALE", "note": "stale-must-refuse: April 2026 broker recipe"}
+{"query": "What was the Q1 checkout SLO target?", "expect_decision": "REFUSE_STALE", "note": "stale-must-refuse: Q1 archive dashboard 99.5 percent"}
+{"query": "How many replicas should payments-worker run?", "expect_decision": "REFUSE_STALE", "note": "stale-must-refuse: May k8s snapshot is the only replica count"}
+{"query": "How do I reset the SAP payroll connector?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: SAP / payroll not in corpus"}
+{"query": "What is the Snowflake warehouse auto-suspend setting?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: Snowflake absent"}
+{"query": "Who owns Android push-notification cert rotation?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: mobile certs absent"}
+{"query": "What is the PCI DSS scan cadence for the vault cluster?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: PCI / vault-cluster cadence absent"}
+{"query": "How do I provision a new Istio ingress gateway in eu-west-3?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: Istio / eu-west-3 absent"}
+{"query": "What is the rollback procedure for the checkout_retry feature flag?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: flag state is documented, rollback procedure is not"}
+{"query": "What millicore CPU request is configured on checkout-api?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: HPA utilization is documented, millicore CPU request is not"}
+{"query": "What is the database password rotation interval?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: hygiene page mentions passwords, not a rotation interval"}
+{"query": "What is the chargeback playbook for INC-4821?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: incident is documented, chargeback playbook is not"}
+{"query": "What IP allowlist is configured on the inc-4821 Slack webhook?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: channel exists, webhook IP allowlist does not"}
