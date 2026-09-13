@@ -12,7 +12,8 @@ Gates fire in this order:
 
 Freshness is applied to *supporting* evidence, not to whatever BM25 dumped.
 A fresh-but-tangential Redis pool chart cannot launder a stale maxmemory-policy
-runbook into an answer.
+runbook into an answer. When per-source SLAs are enabled, each supporting chunk
+is judged against its own source_system max_age_hours.
 """
 
 from __future__ import annotations
@@ -36,6 +37,7 @@ def decide(
     max_age_hours: float,
     best_support: float = 0.0,
     support_floor: float = 0.20,
+    use_source_slas: bool = False,
 ) -> PolicyDecision:
     if not retrieved:
         return PolicyDecision(
@@ -71,11 +73,26 @@ def decide(
 
     if not fresh_supporting:
         oldest = max((c.age_hours for c in supporting), default=0.0)
+        # Prefer the SLA that was actually applied to supporting evidence.
+        by_id = {f.chunk_id: f for f in freshness}
+        applied = []
+        for chunk in supporting:
+            fr = by_id.get(chunk.chunk_id)
+            if fr is not None:
+                applied.append(
+                    f"{chunk.source_system}:{fr.max_age_hours:g}h"
+                    f"(age={chunk.age_hours:.1f}h)"
+                )
+        sla_detail = (
+            "per-source SLAs [" + "; ".join(applied[:3]) + "]"
+            if use_source_slas and applied
+            else f"max_age_hours={max_age_hours:g}"
+        )
         return PolicyDecision(
             decision=Decision.REFUSE_STALE,
             reason=(
                 f"supporting evidence fails freshness SLA "
-                f"(max_age_hours={max_age_hours:g}; "
+                f"({sla_detail}; "
                 f"oldest_supporting_age_hours={oldest:.1f}; "
                 f"supporting={len(supporting)}; retrieved={len(retrieved)})"
             ),

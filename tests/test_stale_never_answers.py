@@ -24,11 +24,13 @@ def test_golden_stale_queries_never_answer(copilot: Copilot) -> None:
         assert result.decision is Decision.REFUSE_STALE, (query, result.decision, result.reason)
         assert result.cited_ids == []
         assert result.fresh_hits == []
+        # Tangential fresh BM25 hits may exist; supporting evidence must be stale.
         assert result.retrieved, query
 
 
 def test_tight_sla_refuses_otherwise_fresh_docs() -> None:
-    tight = Copilot(config=CopilotConfig(max_age_hours=0.25))
+    # 30-minute SLA makes every corpus doc stale relative to the frozen clock.
+    tight = Copilot(config=CopilotConfig(max_age_hours=0.25, use_source_slas=False))
     result = tight.ask("What is the current checkout p99 latency?")
     assert result.decision is Decision.REFUSE_STALE
     assert result.decision is not Decision.ANSWER
@@ -58,8 +60,11 @@ def test_answer_citations_are_always_fresh(copilot: Copilot) -> None:
     result = copilot.ask("Who is the primary on-call right now?")
     assert result.decision is Decision.ANSWER
     for chunk in result.fresh_hits:
-        assert age_passes(chunk.age_hours, copilot.config.max_age_hours)
+        sla = copilot.sla_for(chunk.source_system)
+        assert age_passes(chunk.age_hours, sla)
     for doc_id in result.cited_ids:
         ages = [c.age_hours for c in result.fresh_hits if c.doc_id == doc_id]
         assert ages
-        assert all(age_passes(a, copilot.config.max_age_hours) for a in ages)
+        for chunk in result.fresh_hits:
+            if chunk.doc_id == doc_id:
+                assert age_passes(chunk.age_hours, copilot.sla_for(chunk.source_system))

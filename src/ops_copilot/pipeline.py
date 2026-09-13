@@ -13,6 +13,7 @@ from ops_copilot.freshness import annotate, fresh_only
 from ops_copilot.grounding import Grounder
 from ops_copilot.policy import decide
 from ops_copilot.retrieve import Retriever
+from ops_copilot.source_slas import SourceSlaTable, load_source_slas, resolve_max_age
 from ops_copilot.types import Chunk, CopilotResult, Decision
 
 
@@ -51,24 +52,49 @@ class Copilot:
         *,
         path: str | Path | None = None,
         now: datetime | str | None = None,
+        sla_table: SourceSlaTable | None = None,
     ) -> None:
         self.config = config or CopilotConfig()
         self.corpus = corpus or Corpus(path=path, now=now)
         self.retriever = Retriever(self.corpus.chunks, self.config)
         texts = [f"{c.title} {c.text}" for c in self.corpus.chunks]
         self.grounder = Grounder(texts, threshold=self.config.grounding_threshold)
+        if sla_table is not None:
+            self.sla_table = sla_table
+        elif self.config.use_source_slas:
+            self.sla_table = load_source_slas(self.config.source_sla_path)
+        else:
+            self.sla_table = None
+
+    def sla_for(self, source_system: str) -> float:
+        """Resolve the max_age_hours that applies to a source_system."""
+        return resolve_max_age(
+            source_system,
+            table=self.sla_table,
+            global_default_hours=self.config.max_age_hours,
+            use_source_slas=self.config.use_source_slas,
+        )
 
     def ask(self, query: str) -> CopilotResult:
         started = time.perf_counter()
         retrieved = self.retriever.search(query)
-        freshness = annotate(retrieved, self.config.max_age_hours)
+        sla_lookup = self.sla_for if self.config.use_source_slas else None
+        freshness = annotate(
+            retrieved,
+            None if sla_lookup else self.config.max_age_hours,
+            sla_lookup=sla_lookup,
+        )
         supporting, best_support = supporting_chunks(
             query,
             retrieved,
             self.grounder,
             self.config.grounding_threshold,
         )
-        fresh_hits = fresh_only(supporting, self.config.max_age_hours)
+        fresh_hits = fresh_only(
+            supporting,
+            None if sla_lookup else self.config.max_age_hours,
+            sla_lookup=sla_lookup,
+        )
 
         draft = ""
         grounding = None
@@ -80,6 +106,7 @@ class Copilot:
             )
             grounding = self.grounder.check(query, fresh_hits, draft)
         elif supporting or retrieved:
+            # Coverage against whatever we have so the refusal reason is inspectable.
             grounding = self.grounder.check(query, supporting or retrieved, draft)
 
         policy = decide(
@@ -91,6 +118,7 @@ class Copilot:
             max_age_hours=self.config.max_age_hours,
             best_support=best_support,
             support_floor=self.config.support_floor,
+            use_source_slas=self.config.use_source_slas,
         )
 
         if policy.decision is Decision.ANSWER:

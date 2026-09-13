@@ -62,6 +62,7 @@ class FreshnessResult:
     max_age_hours: float
     doc_id: str
     chunk_id: str
+    source_system: str = ""
 
     def as_dict(self) -> dict:
         return {
@@ -70,6 +71,7 @@ class FreshnessResult:
             "max_age_hours": self.max_age_hours,
             "doc_id": self.doc_id,
             "chunk_id": self.chunk_id,
+            "source_system": self.source_system,
         }
 
 
