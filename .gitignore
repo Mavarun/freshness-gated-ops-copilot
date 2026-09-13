@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+.env
+.env.*
+
+# Test / tooling
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Runtime traces (eval report is committed)
+artifacts/traces.jsonl
+artifacts/*.tmp
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
