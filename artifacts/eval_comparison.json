@@ -1,0 +1,61 @@
+{
+  "global_only": {
+    "mode": "global_only",
+    "n": 28,
+    "decision_accuracy": 1.0,
+    "refusal_precision": 1.0,
+    "refusal_recall": 1.0,
+    "answer_grounding_rate": 1.0,
+    "p50_latency_ms": 1.4280289760790765,
+    "p95_latency_ms": 2.055133448448032,
+    "confusion": {
+      "ANSWER->ANSWER": 10,
+      "REFUSE_STALE->REFUSE_STALE": 8,
+      "REFUSE_NO_EVIDENCE->REFUSE_NO_EVIDENCE": 5,
+      "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 5
+    }
+  },
+  "per_source": {
+    "mode": "per_source",
+    "n": 28,
+    "decision_accuracy": 1.0,
+    "refusal_precision": 1.0,
+    "refusal_recall": 1.0,
+    "answer_grounding_rate": 1.0,
+    "p50_latency_ms": 1.494277035817504,
+    "p95_latency_ms": 1.6842275683302432,
+    "confusion": {
+      "ANSWER->ANSWER": 10,
+      "REFUSE_STALE->REFUSE_STALE": 8,
+      "REFUSE_NO_EVIDENCE->REFUSE_NO_EVIDENCE": 5,
+      "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 5
+    }
+  },
+  "decision_flips": [
+    {
+      "query": "What is the production maintenance change window?",
+      "global_decision": "REFUSE_STALE",
+      "per_source_decision": "ANSWER",
+      "note": "mixed-sla: confluence age~62h passes 7d SLA, fails global 48h"
+    },
+    {
+      "query": "When does the production freeze start?",
+      "global_decision": "REFUSE_STALE",
+      "per_source_decision": "ANSWER",
+      "note": "mixed-sla: same confluence policy page; global over-refuses"
+    },
+    {
+      "query": "What is the live payments-api request rate?",
+      "global_decision": "ANSWER",
+      "per_source_decision": "REFUSE_STALE",
+      "note": "mixed-sla: grafana age~2.5h fails 1h SLA, passes global 48h"
+    },
+    {
+      "query": "What qps does the payments-api live scrape show?",
+      "global_decision": "ANSWER",
+      "per_source_decision": "REFUSE_STALE",
+      "note": "mixed-sla: grafana under-protect if global-only"
+    }
+  ],
+  "n_flips": 4
+}
