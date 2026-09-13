@@ -36,6 +36,11 @@ class CopilotConfig:
     """Policy and retrieval knobs for a single copilot instance."""
 
     max_age_hours: float = 48.0
+    # When True, freshness uses per-source SLAs (see config/source_slas.yaml)
+    # with max_age_hours as the fallback for unknown sources. When False,
+    # every source shares max_age_hours (v0 global-only behaviour).
+    use_source_slas: bool = True
+    source_sla_path: str | None = None
     top_k: int = 5
     min_retrieve_score: float = 1.15
     min_cosine: float = 0.08
