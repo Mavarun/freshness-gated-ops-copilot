@@ -1,0 +1,18 @@
+# Per-source freshness SLAs for the ops copilot.
+# Ages are measured against EVAL_CLOCK (2026-09-13T00:00:00Z).
+# Unknown source_system values fall back to global_default_hours.
+
+global_default_hours: 48
+
+# Hours. Live scrapes are tight; policy/wiki pages are loose.
+sources:
+  grafana: 1          # live dashboards — hours, not days
+  datadog: 8          # telemetry snapshots
+  pagerduty: 12       # open incidents
+  statuspage: 6       # public component status
+  kubernetes: 6       # workload snapshots
+  slack: 24           # incident threads
+  launchdarkly: 24    # flag state
+  jira: 72            # change tickets
+  runbook: 48         # procedural docs (match former global)
+  confluence: 168     # policy / wiki — 7 days
