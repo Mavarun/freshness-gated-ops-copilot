@@ -12,9 +12,16 @@ from typing import Any
 
 from fastapi import FastAPI, HTTPException
 
-from ops_copilot import Copilot, CopilotConfig, __version__
-from ops_copilot.api_schemas import EvidenceItem, QueryRequest, QueryResponse
+from ops_copilot import Copilot, CopilotConfig, EVAL_CLOCK, __version__
+from ops_copilot.api_schemas import (
+    EvidenceItem,
+    HealthResponse,
+    QueryRequest,
+    QueryResponse,
+    SourcesResponse,
+)
 from ops_copilot.config import parse_clock
+from ops_copilot.source_slas import load_source_slas
 from ops_copilot.trace import TraceWriter
 from ops_copilot.types import CopilotResult, FreshnessResult
 
@@ -63,9 +70,7 @@ def _sla_used(copilot: Copilot, result: CopilotResult) -> dict[str, Any]:
     }
 
 
-def result_to_response(
-    result: CopilotResult, *, trace_id: str, sla_used: dict[str, Any]
-) -> QueryResponse:
+def result_to_response(result: CopilotResult, *, trace_id: str, sla_used: dict[str, Any]) -> QueryResponse:
     freshes = _freshness_by_chunk(result)
     evidence: list[EvidenceItem] = []
     for chunk in result.retrieved:
@@ -113,6 +118,35 @@ def query(body: QueryRequest) -> QueryResponse:
     sla = _sla_used(copilot, result)
     _tracer.write(result, extra={"trace_id": trace_id, "sla_used": sla})
     return result_to_response(result, trace_id=trace_id, sla_used=sla)
+
+
+@app.get("/health", response_model=HealthResponse)
+def health() -> HealthResponse:
+    copilot = get_copilot(None)
+    return HealthResponse(
+        status="ok",
+        clock=EVAL_CLOCK.isoformat(),
+        version=__version__,
+        use_source_slas=copilot.config.use_source_slas,
+        corpus_docs=len(copilot.corpus.docs),
+        corpus_chunks=len(copilot.corpus.chunks),
+    )
+
+
+@app.get("/sources", response_model=SourcesResponse)
+def sources() -> SourcesResponse:
+    """Return the per-source freshness SLA table used by the default copilot."""
+    copilot = get_copilot(None)
+    if copilot.sla_table is not None:
+        table = copilot.sla_table
+    else:
+        table = load_source_slas(copilot.config.source_sla_path)
+    return SourcesResponse(
+        global_default_hours=table.global_default_hours,
+        sources=dict(table.sources),
+        path=table.path,
+        use_source_slas=copilot.config.use_source_slas,
+    )
 
 
 def create_app() -> FastAPI:
