@@ -18,11 +18,13 @@ not an answer. The system has four structured decisions:
 
 No paid LLM is required. CI is offline, seeded, and clock-frozen.
 
-## Hypothesis (2026-09-14 slice)
+## Hypothesis (2026-09-15 FastAPI demo slice)
 
-1. Different source systems need different freshness SLAs (e.g. live metrics 1h vs policy docs 7d); a single global SLA either over-refuses or under-protects.
-2. Per-source SLA config should change refusal decisions on the same corpus vs global-only.
-3. GitHub Actions running pytest + golden eval on PR protects regressions without paid LLM APIs.
+1. A tiny FastAPI surface makes the freshness gate demoable in <1 minute for hiring managers.
+2. HTTP responses should expose decision, reasons, evidence ages, and trace_id — not just answer text.
+3. API contract tests (TestClient) catch regressions without live servers in CI.
+
+Prior (2026-09-14): per-source SLAs change refusals vs global-only; Actions protect regressions offline.
 
 ## Why this is not another RAG demo
 
@@ -93,8 +95,13 @@ src/ops_copilot/
   trace.py           JSONL: query, ids, ages, decision, latency_ms, cost units
   eval.py            golden runner + global vs per-source comparison
   pipeline.py        retrieve → support → freshness → extract → decide
+  api_schemas.py     Pydantic QueryRequest / QueryResponse models
+  api.py             FastAPI: POST /query, GET /health, GET /sources
 .github/workflows/
   eval.yml           pytest + scripts/run_eval.py on push/PR
+scripts/
+  run_api.py         one-command uvicorn demo
+Makefile             make api | test | eval | demo
 ```
 
 ## How to run
@@ -102,11 +109,37 @@ src/ops_copilot/
 Python 3.10+. No API keys.
 
 ```bash
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev,api]"
 pytest
 python scripts/run_demo.py
 python scripts/run_eval.py
 ```
+
+### FastAPI demo (<1 minute)
+
+```bash
+# one-command
+python scripts/run_api.py
+# or: make api
+# or: uvicorn ops_copilot.api:app --host 127.0.0.1 --port 8000
+```
+
+```bash
+curl -s http://127.0.0.1:8000/health | python -m json.tool
+curl -s http://127.0.0.1:8000/sources | python -m json.tool
+curl -s http://127.0.0.1:8000/query \
+  -H 'content-type: application/json' \
+  -d '{"query":"What is the current checkout p99 latency?"}' | python -m json.tool
+curl -s http://127.0.0.1:8000/query \
+  -H 'content-type: application/json' \
+  -d '{"query":"What is the Redis maxmemory-policy?"}' | python -m json.tool
+```
+
+Happy-path `POST /query` returns `decision=ANSWER` with evidence ages and a
+`trace_id`. The Redis maxmemory query returns `REFUSE_STALE` (supporting
+runbook is months old under the frozen clock). Optional body field `clock`
+overrides `EVAL_CLOCK` for live demos. Each query appends to
+`artifacts/traces.jsonl` (same schema as the CLI path, plus `trace_id`).
 
 `run_eval.py` writes `artifacts/eval_report.md`, `artifacts/eval_metrics.json`,
 `artifacts/eval_comparison.md`, `artifacts/eval_comparison.json`, and
@@ -123,8 +156,8 @@ offline (no LLM).
 | cases | 28 | 28 |
 | decision_accuracy | 1.000 | 1.000 |
 | refusal_precision | 1.000 | 1.000 |
-| answer_grounding_rate | 1.000 | 1.000 |
 | refusal_recall | 1.000 | 1.000 |
+| answer_grounding_rate | 1.000 | 1.000 |
 | p50_latency_ms | 1.43 | 1.49 |
 | p95_latency_ms | 2.06 | 1.68 |
 | decision flips vs other mode | 4 | 4 |
@@ -144,7 +177,7 @@ Per-source confusion is diagonal: `ANSWER→ANSWER` 10, `REFUSE_STALE→REFUSE_S
 Full tables: [`artifacts/eval_report.md`](artifacts/eval_report.md),
 [`artifacts/eval_comparison.md`](artifacts/eval_comparison.md).
 
-`pytest` : **45 passed**.
+`pytest` : **52 passed** (includes FastAPI TestClient contract tests).
 
 CI: [`.github/workflows/eval.yml`](.github/workflows/eval.yml) runs `pytest` and
 `python scripts/run_eval.py` on every push/PR to `main`.
@@ -166,6 +199,8 @@ CI: [`.github/workflows/eval.yml`](.github/workflows/eval.yml) runs `pytest` and
 - **1.000 scores are on a crafted golden set.** They are a regression harness,
   not a claim about production traffic.
 - **Cost units are synthetic.** There is no paid model in the CI path.
+- **Demo API is single-process.** No auth, no multi-tenant isolation, no rate
+  limits — fine for a hiring walkthrough, not a production gateway.
 
 ## Hiring takeaway
 
