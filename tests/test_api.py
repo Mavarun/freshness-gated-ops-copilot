@@ -101,3 +101,16 @@ def test_query_optional_clock_override() -> None:
     assert body["trace_id"]
     # Ages should be huge relative to 2099.
     assert body["ages"] and min(body["ages"]) > 1000
+
+
+def test_query_refuse_disagree() -> None:
+    resp = client.post(
+        "/query",
+        json={"query": "What is the sidecar mesh mtls handshake budget?"},
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["decision"] == Decision.REFUSE_DISAGREE.value
+    assert body["disagreement"] is not None
+    assert body["disagreement"]["agreed"] is False
+    assert body["cited_ids"] == []
