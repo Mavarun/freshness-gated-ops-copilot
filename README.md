@@ -2,106 +2,102 @@
 
 Most RAG demos answer from whatever chunk ranks high. This project is an
 **ops knowledge copilot that refuses to answer when evidence fails a freshness
-SLA or a grounding check**. Freshness is a first-class gate, not a footnote —
-hiring signal for live-data / production-agent roles.
+SLA, a grounding check, or a retriever-agreement check**. Freshness and
+disagreement are first-class gates — hiring signal for live-data / production-agent roles.
 
 A stale runbook that still BM25-matches "Redis maxmemory-policy" is not an
 answer. A fresh feature-flag page that never mentions a rollback procedure is
-not an answer. The system has four structured decisions:
+not an answer. When BM25 and a second dense stub disagree on top evidence, a
+fluent answer is also not safe. The system has five structured decisions:
 
 | Decision | Meaning |
 | --- | --- |
-| `ANSWER` | Fresh, supporting evidence passed the grounding gate; extractive sentences only |
+| `ANSWER` | Fresh, supporting evidence passed grounding; extractive sentences only |
 | `REFUSE_STALE` | The chunks that would actually support the query are older than the SLA |
 | `REFUSE_UNGROUNDED` | Retrieval found something related; it does not support the ask |
 | `REFUSE_NO_EVIDENCE` | Nothing in the corpus is about this query |
+| `REFUSE_DISAGREE` | BM25 and the title-hash dense stub disagree on top-k doc_ids |
 
 No paid LLM is required. CI is offline, seeded, and clock-frozen.
 
-## Hypothesis (2026-09-15 FastAPI demo slice)
+## Hypothesis (2026-09-16 disagreement routing)
 
-1. A tiny FastAPI surface makes the freshness gate demoable in <1 minute for hiring managers.
-2. HTTP responses should expose decision, reasons, evidence ages, and trace_id — not just answer text.
-3. API contract tests (TestClient) catch regressions without live servers in CI.
+1. BM25 and a second retriever (offline dense stub via title char-hash cosine) often disagree on top evidence; forcing agreement before `ANSWER` reduces silent wrong answers.
+2. When top-k doc-id sets disagree beyond a Jaccard threshold, policy should `REFUSE_DISAGREE` even if freshness passes.
+3. Golden cases can show flips vs a BM25-only path; report `disagreement_rate` + `decision_accuracy`.
 
-Prior (2026-09-14): per-source SLAs change refusals vs global-only; Actions protect regressions offline.
+Prior (2026-09-15): FastAPI demo surface. Prior (2026-09-14): per-source SLAs + Actions.
 
 ## Why this is not another RAG demo
 
-Typical RAG: embed → top-k → generate. Staleness, if it appears at all, is a
-citation timestamp the model is free to ignore.
+Typical RAG: embed → top-k → generate. Staleness and ranker conflict, if they
+appear at all, are footnotes the model is free to ignore.
 
 This repo inverts that. **Freshness is applied to supporting evidence, not to
-whatever ranked high.** A live Redis pool chart cannot launder a March
-maxmemory-policy runbook into an answer. A June on-call roster cannot override
-today's rotation. The refusal is the product.
-
-That is the production-agent problem: live ops data goes stale on a timescale
-of hours, and a fluent wrong answer is worse than a structured no.
+whatever ranked high.** **Disagreement is checked after freshness and before
+grounding** so an extractive draft cannot paper over BM25 vs dense-stub conflict.
+A live Redis pool chart cannot launder a March maxmemory-policy runbook. A
+hyphenated title FAQ that char-hash cosine loves cannot override a terse config
+that BM25 prefers — the system refuses instead.
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-  Q[Query] --> R[Retrieve BM25 + TF-IDF cosine]
+  Q[Query] --> R[Retrieve BM25 + body TF-IDF hybrid]
+  Q --> B[BM25-only top-k doc_ids]
+  Q --> D[TitleHashDenseStub top-k doc_ids]
   R --> E{Any hits?}
   E -->|no| N[REFUSE_NO_EVIDENCE]
   E -->|yes| S[Support filter<br/>IDF coverage + key-token gate]
   S --> K{Supporting chunks?}
   K -->|coverage below floor| N
   K -->|partial / key-token fail| U[REFUSE_UNGROUNDED]
-  K -->|yes| F{Per-source freshness SLA<br/>fallback to global}
+  K -->|yes| F{Per-source freshness SLA}
   F -->|all supporting stale| ST[REFUSE_STALE]
-  F -->|fresh supporting remains| X[Extractive sentences]
+  F -->|fresh supporting remains| J{BM25 vs dense stub<br/>Jaccard >= threshold?}
+  B --> J
+  D --> J
+  J -->|disagree| DJ[REFUSE_DISAGREE]
+  J -->|agree| X[Extractive sentences]
   X --> G{Answer grounded<br/>in fresh evidence?}
   G -->|no| U
   G -->|yes| A[ANSWER + citations]
   A --> T[JSONL trace]
   ST --> T
+  DJ --> T
   U --> T
   N --> T
 ```
 
-Clock is frozen at `2026-09-13T00:00:00+00:00` (`EVAL_CLOCK`) so ages, golden
-labels, and CI do not drift. Override with `OPS_COPILOT_NOW` only for a live demo.
+Clock is frozen at `2026-09-13T00:00:00+00:00` (`EVAL_CLOCK`). Default mode:
+**per-source SLAs** + **disagreement gate** (`disagreement_top_k=1`,
+`disagreement_jaccard_threshold=1.0` → top evidence doc_ids must match).
 
-Default mode: **per-source SLAs** from `config/source_slas.yaml` (e.g. grafana 1h,
-datadog 8h, confluence 168h) with `max_age_hours=48` as the fallback for unknown
-sources. Set `CopilotConfig(use_source_slas=False)` for the v0 global-only path.
-Inclusive: `age_hours <= max_age_hours` passes.
+The second retriever is `TitleHashDenseStub`: `HashingVectorizer(analyzer=char_wb)`
+cosine over **titles** — an offline stand-in for dense embeddings. Hyphenated
+title decoys that BM25 treats as a single token still match spaced queries via
+character n-grams, which is how the disagreement traps are constructed.
 
 ## Corpus
 
-`data/corpus/ops_docs.jsonl` — 23 synthetic ops docs (PagerDuty, Statuspage,
-runbooks, Kubernetes, Slack, Grafana, Datadog, LaunchDarkly, Jira, Confluence).
-
-Includes mixed-SLA fixtures: a Confluence maintenance policy at ~62h (fails
-global 48h, passes confluence 7d) and a Grafana live qps scrape at ~2.5h
-(passes global 48h, fails grafana 1h).
+`data/corpus/ops_docs.jsonl` — 47 synthetic ops docs including mixed-SLA fixtures
+and four disagreement-trap families (mesh budget, canary salt, WAL cadence,
+trace reservoir) with terse configs + hyphenated title baits.
 
 ## Package
 
 ```
 config/
-  source_slas.yaml   source_system → max_age_hours (+ global fallback)
+  source_slas.yaml
 src/ops_copilot/
-  corpus.py          load JSONL, age relative to a clock, paragraph chunks
-  retrieve.py        BM25 (rank_bm25, Okapi fallback) + TF-IDF cosine stub
-  source_slas.py     YAML loader + resolve_max_age
-  freshness.py       PASS/FAIL + age_hours (global or per-source lookup)
-  grounding.py       IDF-weighted coverage + high-IDF key-token gate
-  policy.py          ANSWER | REFUSE_STALE | REFUSE_UNGROUNDED | REFUSE_NO_EVIDENCE
-  answer.py          extractive sentences, or a refusal template
-  trace.py           JSONL: query, ids, ages, decision, latency_ms, cost units
-  eval.py            golden runner + global vs per-source comparison
-  pipeline.py        retrieve → support → freshness → extract → decide
-  api_schemas.py     Pydantic QueryRequest / QueryResponse models
-  api.py             FastAPI: POST /query, GET /health, GET /sources
-.github/workflows/
-  eval.yml           pytest + scripts/run_eval.py on push/PR
-scripts/
-  run_api.py         one-command uvicorn demo
-Makefile             make api | test | eval | demo
+  retrieve.py        BM25 + body TF-IDF hybrid; search_bm25; TitleHashDenseStub
+  disagreement.py    Jaccard on top-k doc_ids; assess_disagreement
+  disagreement_compare.py  BM25-only vs dual eval comparison
+  policy.py          ANSWER | REFUSE_* including REFUSE_DISAGREE
+  pipeline.py        retrieve → support → freshness → disagreement → extract → decide
+  eval.py            golden runner + SLA comparison
+  api.py             FastAPI: POST /query exposes disagreement block
 ```
 
 ## How to run
@@ -115,69 +111,46 @@ python scripts/run_demo.py
 python scripts/run_eval.py
 ```
 
-### FastAPI demo (<1 minute)
+### FastAPI demo
 
 ```bash
-# one-command
 python scripts/run_api.py
-# or: make api
-# or: uvicorn ops_copilot.api:app --host 127.0.0.1 --port 8000
+# curl POST /query — decisions include REFUSE_DISAGREE with a disagreement payload
 ```
-
-```bash
-curl -s http://127.0.0.1:8000/health | python -m json.tool
-curl -s http://127.0.0.1:8000/sources | python -m json.tool
-curl -s http://127.0.0.1:8000/query \
-  -H 'content-type: application/json' \
-  -d '{"query":"What is the current checkout p99 latency?"}' | python -m json.tool
-curl -s http://127.0.0.1:8000/query \
-  -H 'content-type: application/json' \
-  -d '{"query":"What is the Redis maxmemory-policy?"}' | python -m json.tool
-```
-
-Happy-path `POST /query` returns `decision=ANSWER` with evidence ages and a
-`trace_id`. The Redis maxmemory query returns `REFUSE_STALE` (supporting
-runbook is months old under the frozen clock). Optional body field `clock`
-overrides `EVAL_CLOCK` for live demos. Each query appends to
-`artifacts/traces.jsonl` (same schema as the CLI path, plus `trace_id`).
 
 `run_eval.py` writes `artifacts/eval_report.md`, `artifacts/eval_metrics.json`,
-`artifacts/eval_comparison.md`, `artifacts/eval_comparison.json`, and
-`artifacts/traces.jsonl`.
+`artifacts/eval_comparison.{md,json}`, `artifacts/eval_disagreement.{md,json}`,
+and `artifacts/traces.jsonl`.
 
-## Golden eval (real run — 2026-09-14)
+## Golden eval (real run — 2026-09-16)
 
-28 labeled cases on the frozen clock. Default path uses per-source SLAs; the
-harness also runs global-only (`max_age_hours=48`) on the same corpus. Measured
-offline (no LLM).
+32 labeled cases on the frozen clock. Dual path (default) vs BM25-only
+(`use_disagreement_gate=False`):
 
-| Metric | Global-only (48h) | Per-source SLAs |
+| Metric | BM25-only (gate off) | Dual disagreement |
 | --- | ---: | ---: |
-| cases | 28 | 28 |
+| cases | 32 | 32 |
 | decision_accuracy | 1.000 | 1.000 |
 | refusal_precision | 1.000 | 1.000 |
 | refusal_recall | 1.000 | 1.000 |
 | answer_grounding_rate | 1.000 | 1.000 |
-| p50_latency_ms | 1.43 | 1.49 |
-| p95_latency_ms | 2.06 | 1.68 |
+| disagreement_rate | 0.344 | 0.344 |
+| n_disagreed | 11 | 11 |
 | decision flips vs other mode | 4 | 4 |
 
-**4 decision flips** on a fixed corpus — empirical confirmation of hypothesis 2:
+**4 decision flips** — BM25-only would `ANSWER` the trap queries; dual
+emits `REFUSE_DISAGREE` (Jaccard 0.0 on top-1 doc_ids):
 
-| Query | Global-only | Per-source |
+| Query | BM25-only | Dual |
 | --- | --- | --- |
-| production maintenance change window | `REFUSE_STALE` | `ANSWER` |
-| production freeze start | `REFUSE_STALE` | `ANSWER` |
-| live payments-api request rate | `ANSWER` | `REFUSE_STALE` |
-| payments-api live scrape qps | `ANSWER` | `REFUSE_STALE` |
+| sidecar mesh mtls handshake budget | `ANSWER` | `REFUSE_DISAGREE` |
+| checkout canary stickiness salt | `ANSWER` | `REFUSE_DISAGREE` |
+| payments WAL checkpoint cadence | `ANSWER` | `REFUSE_DISAGREE` |
+| checkout trace sample reservoir size | `ANSWER` | `REFUSE_DISAGREE` |
 
-Per-source confusion is diagonal: `ANSWER→ANSWER` 10, `REFUSE_STALE→REFUSE_STALE` 8,
-`REFUSE_NO_EVIDENCE→REFUSE_NO_EVIDENCE` 5, `REFUSE_UNGROUNDED→REFUSE_UNGROUNDED` 5.
+Policy order: no-evidence → ungrounded support → stale → **disagree** → grounding → answer.
 
-Full tables: [`artifacts/eval_report.md`](artifacts/eval_report.md),
-[`artifacts/eval_comparison.md`](artifacts/eval_comparison.md).
-
-`pytest` : **52 passed** (includes FastAPI TestClient contract tests).
+`pytest` : **64 passed** (includes disagreement matrix + API `REFUSE_DISAGREE` contract).
 
 CI: [`.github/workflows/eval.yml`](.github/workflows/eval.yml) runs `pytest` and
 `python scripts/run_eval.py` on every push/PR to `main`.
@@ -186,31 +159,28 @@ CI: [`.github/workflows/eval.yml`](.github/workflows/eval.yml) runs `pytest` and
 
 - **Lexical grounding is not entailment.** Token overlap plus a high-IDF
   key-token gate will miss paraphrase and will still pass some cleverly worded
-  traps. It is a kill-switch, not a fact checker.
+  traps.
+- **Title-hash dense stub is not a real embedding model.** It is a reproducible
+  offline stand-in; production would swap in a local sentence encoder.
+- **Top-k=1 agreement is strict.** Softening the Jaccard threshold / raising k
+  trades silent-error reduction for answer coverage.
 - **Synthetic corpus, frozen clock.** Useful for a reproducible hiring artifact;
   not a substitute for wiring PagerDuty / Grafana with their real `updated_at`.
 - **Extractive only.** No generator means no fluent synthesis and no
-  hallucination from an LLM — also no multi-hop join across docs beyond
-  concatenated sentences.
-- **Per-source SLAs are hand-tuned.** The YAML mapping is a research knob, not
-  a learned policy; real orgs would derive thresholds from incident postmortems.
-- **BM25 + TF-IDF is not semantic.** Synonyms and implicit references fail
-  closed. That is acceptable here because the refusal path is the point.
-- **1.000 scores are on a crafted golden set.** They are a regression harness,
-  not a claim about production traffic.
-- **Cost units are synthetic.** There is no paid model in the CI path.
-- **Demo API is single-process.** No auth, no multi-tenant isolation, no rate
-  limits — fine for a hiring walkthrough, not a production gateway.
+  hallucination from an LLM.
+- **Per-source SLAs are hand-tuned.** The YAML mapping is a research knob.
+- **1.000 scores are on a crafted golden set.** Regression harness, not a claim
+  about production traffic.
+- **Demo API is single-process.** No auth, no multi-tenant isolation.
 
 ## Hiring takeaway
 
 Production agents on live data need a refusal contract: *what evidence, how
-old (and for which source), did it actually support the ask, and what do we do
-when any of those fail?* This repo is that contract in Python, with a golden
-set that punishes answering from stale or tangential chunks and a CI workflow
-that re-checks the contract on every PR. If you are hiring for ops /
-production-agent work, the interesting review is `policy.py`, `freshness.py`,
-`config/source_slas.yaml`, and `data/golden/questions.jsonl` — not the retriever.
+old, did two independent rankers agree, did it actually support the ask, and
+what do we do when any of those fail?* This repo is that contract in Python.
+If you are hiring for ops / production-agent work, the interesting review is
+`policy.py`, `disagreement.py`, `retrieve.py` (`TitleHashDenseStub`), and
+`data/golden/questions.jsonl` — not the chat UI.
 
 ## License
 
