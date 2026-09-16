@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from ops_copilot import Copilot
 from ops_copilot.eval import load_golden, run_comparison, run_eval
+from ops_copilot.disagreement_compare import run_disagreement_comparison
 from ops_copilot.types import Decision
 
 
@@ -40,3 +41,13 @@ def test_comparison_has_flips(copilot: Copilot) -> None:
     # Per-source labels should be exact on the crafted set.
     assert comparison.per_source_report.decision_accuracy == 1.0
     assert comparison.global_report.decision_accuracy == 1.0
+
+
+def test_disagreement_comparison_has_flips() -> None:
+    comparison = run_disagreement_comparison()
+    assert comparison.dual_report.n == comparison.bm25_only_report.n
+    assert comparison.dual_report.n >= 30
+    assert len(comparison.flips) >= 4
+    assert comparison.dual_report.decision_accuracy == 1.0
+    assert comparison.bm25_only_report.decision_accuracy == 1.0
+    assert comparison.dual_report.disagreement_rate > 0.0
