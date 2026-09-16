@@ -1,4 +1,4 @@
-"""Compose retrieve → support filter → freshness → extractive draft → policy."""
+"""Compose retrieve → support → freshness → disagreement → extractive draft → policy."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ from pathlib import Path
 from ops_copilot.answer import extractive_answer, render_refusal
 from ops_copilot.config import CopilotConfig, parse_clock
 from ops_copilot.corpus import Corpus
+from ops_copilot.disagreement import assess_disagreement
 from ops_copilot.freshness import annotate, fresh_only
 from ops_copilot.grounding import Grounder
 from ops_copilot.policy import decide
@@ -17,9 +18,14 @@ from ops_copilot.source_slas import SourceSlaTable, load_source_slas, resolve_ma
 from ops_copilot.types import Chunk, CopilotResult, Decision
 
 
-def _cost_units(n_retrieved: int, use_dense: bool) -> float:
+def _cost_units(n_retrieved: int, use_dense: bool, use_disagreement: bool) -> float:
     # Synthetic accounting units — no paid LLM in this path.
-    return 1.0 + 0.15 * n_retrieved + (0.40 if use_dense else 0.0)
+    return (
+        1.0
+        + 0.15 * n_retrieved
+        + (0.40 if use_dense else 0.0)
+        + (0.25 if use_disagreement else 0.0)
+    )
 
 
 def supporting_chunks(
@@ -43,7 +49,7 @@ def supporting_chunks(
 
 
 class Copilot:
-    """Offline ops copilot with freshness as a first-class gate."""
+    """Offline ops copilot with freshness and disagreement as first-class gates."""
 
     def __init__(
         self,
@@ -77,22 +83,34 @@ class Copilot:
 
     def ask(self, query: str) -> CopilotResult:
         started = time.perf_counter()
+        cfg = self.config
         retrieved = self.retriever.search(query)
-        sla_lookup = self.sla_for if self.config.use_source_slas else None
+        bm25_hits = self.retriever.search_bm25(query, top_k=cfg.disagreement_top_k)
+        dense_hits = self.retriever.search_dense_stub(
+            query, top_k=cfg.disagreement_top_k
+        )
+        disagreement = assess_disagreement(
+            bm25_hits,
+            dense_hits,
+            top_k=cfg.disagreement_top_k,
+            threshold=cfg.disagreement_jaccard_threshold,
+        )
+
+        sla_lookup = self.sla_for if cfg.use_source_slas else None
         freshness = annotate(
             retrieved,
-            None if sla_lookup else self.config.max_age_hours,
+            None if sla_lookup else cfg.max_age_hours,
             sla_lookup=sla_lookup,
         )
         supporting, best_support = supporting_chunks(
             query,
             retrieved,
             self.grounder,
-            self.config.grounding_threshold,
+            cfg.grounding_threshold,
         )
         fresh_hits = fresh_only(
             supporting,
-            None if sla_lookup else self.config.max_age_hours,
+            None if sla_lookup else cfg.max_age_hours,
             sla_lookup=sla_lookup,
         )
 
@@ -102,11 +120,10 @@ class Copilot:
             draft = extractive_answer(
                 query,
                 fresh_hits,
-                max_sentences=self.config.max_answer_sentences,
+                max_sentences=cfg.max_answer_sentences,
             )
             grounding = self.grounder.check(query, fresh_hits, draft)
         elif supporting or retrieved:
-            # Coverage against whatever we have so the refusal reason is inspectable.
             grounding = self.grounder.check(query, supporting or retrieved, draft)
 
         policy = decide(
@@ -115,10 +132,12 @@ class Copilot:
             supporting,
             fresh_hits,
             grounding,
-            max_age_hours=self.config.max_age_hours,
+            max_age_hours=cfg.max_age_hours,
             best_support=best_support,
-            support_floor=self.config.support_floor,
-            use_source_slas=self.config.use_source_slas,
+            support_floor=cfg.support_floor,
+            use_source_slas=cfg.use_source_slas,
+            disagreement=disagreement,
+            use_disagreement_gate=cfg.use_disagreement_gate,
         )
 
         if policy.decision is Decision.ANSWER:
@@ -139,8 +158,11 @@ class Copilot:
             freshness=freshness,
             grounding=grounding,
             latency_ms=latency_ms,
-            approx_cost_units=_cost_units(len(retrieved), self.config.use_dense),
+            approx_cost_units=_cost_units(
+                len(retrieved), cfg.use_dense, cfg.use_disagreement_gate
+            ),
             cited_ids=cited,
+            disagreement=disagreement.as_dict(),
         )
 
 
