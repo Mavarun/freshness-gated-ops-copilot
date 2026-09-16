@@ -12,9 +12,11 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from ops_copilot.eval import (  # noqa: E402
     render_comparison_markdown,
-    render_disagreement_comparison_markdown,
     render_markdown,
     run_comparison,
+)
+from ops_copilot.disagreement_compare import (  # noqa: E402
+    render_disagreement_comparison_markdown,
     run_disagreement_comparison,
 )
 
