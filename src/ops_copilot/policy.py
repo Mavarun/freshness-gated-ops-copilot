@@ -7,17 +7,23 @@ Gates fire in this order:
    (coverage below a weak floor) → REFUSE_NO_EVIDENCE
 3. partial support, below the grounding threshold → REFUSE_UNGROUNDED
 4. supporting chunks exist, all fail the freshness SLA → REFUSE_STALE
-5. fresh supporting chunks fail the final answer-grounding check → REFUSE_UNGROUNDED
-6. else ANSWER
+5. fresh supporting exists, but BM25 vs dense-stub top-k doc-ids disagree
+   beyond the Jaccard threshold → REFUSE_DISAGREE
+6. fresh supporting chunks fail the final answer-grounding check → REFUSE_UNGROUNDED
+7. else ANSWER
 
 Freshness is applied to *supporting* evidence, not to whatever BM25 dumped.
 A fresh-but-tangential Redis pool chart cannot launder a stale maxmemory-policy
 runbook into an answer. When per-source SLAs are enabled, each supporting chunk
 is judged against its own source_system max_age_hours.
+
+Disagreement is checked *after* freshness and *before* grounding so a fluent
+extractive draft cannot paper over ranker conflict.
 """
 
 from __future__ import annotations
 
+from ops_copilot.disagreement import DisagreementResult
 from ops_copilot.types import (
     Chunk,
     Decision,
@@ -38,6 +44,8 @@ def decide(
     best_support: float = 0.0,
     support_floor: float = 0.20,
     use_source_slas: bool = False,
+    disagreement: DisagreementResult | None = None,
+    use_disagreement_gate: bool = True,
 ) -> PolicyDecision:
     if not retrieved:
         return PolicyDecision(
@@ -73,7 +81,6 @@ def decide(
 
     if not fresh_supporting:
         oldest = max((c.age_hours for c in supporting), default=0.0)
-        # Prefer the SLA that was actually applied to supporting evidence.
         by_id = {f.chunk_id: f for f in freshness}
         applied = []
         for chunk in supporting:
@@ -95,6 +102,22 @@ def decide(
                 f"({sla_detail}; "
                 f"oldest_supporting_age_hours={oldest:.1f}; "
                 f"supporting={len(supporting)}; retrieved={len(retrieved)})"
+            ),
+        )
+
+    if (
+        use_disagreement_gate
+        and disagreement is not None
+        and disagreement.disagreed
+    ):
+        return PolicyDecision(
+            decision=Decision.REFUSE_DISAGREE,
+            reason=(
+                f"BM25 and title-hash dense stub disagree on top-{disagreement.top_k} "
+                f"doc_ids (jaccard={disagreement.jaccard:.3f} < "
+                f"threshold={disagreement.threshold:g}; "
+                f"bm25={list(disagreement.bm25_ids)}; "
+                f"dense_stub={list(disagreement.dense_ids)})"
             ),
         )
 
