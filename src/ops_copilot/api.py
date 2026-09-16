@@ -28,7 +28,7 @@ from ops_copilot.types import CopilotResult, FreshnessResult
 app = FastAPI(
     title="Freshness-gated ops copilot",
     description=(
-        "Demo HTTP surface: POST /query returns ANSWER | REFUSE_* with evidence "
+        "Demo HTTP surface: POST /query returns ANSWER | REFUSE_* (incl. REFUSE_DISAGREE) with evidence "
         "ages and trace_id. Offline extractive path; no paid LLM."
     ),
     version=__version__,
@@ -99,6 +99,7 @@ def result_to_response(result: CopilotResult, *, trace_id: str, sla_used: dict[s
         trace_id=trace_id,
         cited_ids=list(result.cited_ids),
         grounding=result.grounding.as_dict() if result.grounding else None,
+        disagreement=result.disagreement,
     )
 
 
