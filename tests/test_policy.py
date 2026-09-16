@@ -141,3 +141,57 @@ def test_policy_matrix_labels() -> None:
     assert got["stale"] is Decision.REFUSE_STALE
     assert got["ungrounded"] is Decision.REFUSE_UNGROUNDED
     assert got["ok"] is Decision.ANSWER
+
+
+def test_disagreement_refuses_after_freshness() -> None:
+    from ops_copilot.disagreement import DisagreementResult
+
+    chunks = [make_chunk("fresh", hours_old=2.0)]
+    disagreement = DisagreementResult(
+        jaccard=0.0,
+        threshold=1.0,
+        top_k=1,
+        bm25_ids=("doc_a",),
+        dense_ids=("doc_b",),
+        agreed=False,
+    )
+    decision = decide(
+        chunks,
+        annotate(chunks, 48.0),
+        supporting=chunks,
+        fresh_supporting=chunks,
+        grounding=_grounded(),
+        max_age_hours=48.0,
+        best_support=0.9,
+        disagreement=disagreement,
+        use_disagreement_gate=True,
+    )
+    assert decision.decision is Decision.REFUSE_DISAGREE
+    assert "jaccard" in decision.reason
+
+
+def test_stale_beats_disagreement() -> None:
+    """Freshness gate fires before disagreement."""
+    from ops_copilot.disagreement import DisagreementResult
+
+    chunks = [make_chunk("stale", hours_old=200.0)]
+    disagreement = DisagreementResult(
+        jaccard=0.0,
+        threshold=1.0,
+        top_k=1,
+        bm25_ids=("a",),
+        dense_ids=("b",),
+        agreed=False,
+    )
+    decision = decide(
+        chunks,
+        annotate(chunks, 48.0),
+        supporting=chunks,
+        fresh_supporting=[],
+        grounding=_grounded(),
+        max_age_hours=48.0,
+        best_support=0.9,
+        disagreement=disagreement,
+        use_disagreement_gate=True,
+    )
+    assert decision.decision is Decision.REFUSE_STALE
