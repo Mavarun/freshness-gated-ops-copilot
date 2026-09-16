@@ -50,3 +50,9 @@ class CopilotConfig:
     use_dense: bool = True
     max_answer_sentences: int = 2
     rng_seed: int = RNG_SEED
+    # Disagreement routing: compare BM25 vs TitleHashDenseStub top-k doc ids.
+    use_disagreement_gate: bool = True
+    disagreement_top_k: int = 1
+    # Agreed when Jaccard >= threshold. With top_k=1, threshold=1.0 means
+    # the two retrievers must share the same top doc_id.
+    disagreement_jaccard_threshold: float = 1.0
