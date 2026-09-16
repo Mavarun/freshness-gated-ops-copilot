@@ -15,7 +15,7 @@
 {"query": "How do I reset the SAP payroll connector?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: SAP / payroll not in corpus"}
 {"query": "What is the Snowflake warehouse auto-suspend setting?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: Snowflake absent"}
 {"query": "Who owns Android push-notification cert rotation?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: mobile certs absent"}
-{"query": "What is the PCI DSS scan cadence for the vault cluster?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: PCI / vault-cluster cadence absent"}
+{"query": "What is the PCI DSS scan cadence for the vault cluster?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded: PCI / vault-cluster cadence absent; expanded corpus yields weak lexical bleed below grounding threshold"}
 {"query": "How do I provision a new Istio ingress gateway in eu-west-3?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: Istio / eu-west-3 absent"}
 {"query": "What is the rollback procedure for the checkout_retry feature flag?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: flag state is documented, rollback procedure is not"}
 {"query": "What millicore CPU request is configured on checkout-api?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: HPA utilization is documented, millicore CPU request is not"}
@@ -26,3 +26,7 @@
 {"query": "When does the production freeze start?", "expect_decision": "ANSWER", "expect_decision_global": "REFUSE_STALE", "note": "mixed-sla: same confluence policy page; global over-refuses"}
 {"query": "What is the live payments-api request rate?", "expect_decision": "REFUSE_STALE", "expect_decision_global": "ANSWER", "note": "mixed-sla: grafana age~2.5h fails 1h SLA, passes global 48h"}
 {"query": "What qps does the payments-api live scrape show?", "expect_decision": "REFUSE_STALE", "expect_decision_global": "ANSWER", "note": "mixed-sla: grafana under-protect if global-only"}
+{"query": "What is the sidecar mesh mtls handshake budget?", "expect_decision": "REFUSE_DISAGREE", "expect_decision_bm25_only": "ANSWER", "note": "disagree-trap: BM25→cfg_mesh_mtls, title-hash→bait FAQ; freshness would pass"}
+{"query": "What is the checkout canary stickiness salt?", "expect_decision": "REFUSE_DISAGREE", "expect_decision_bm25_only": "ANSWER", "note": "disagree-trap: BM25→cfg_stickiness, title-hash→hyphenated bait"}
+{"query": "What is the payments WAL checkpoint cadence?", "expect_decision": "REFUSE_DISAGREE", "expect_decision_bm25_only": "ANSWER", "note": "disagree-trap: BM25→cfg_wal, title-hash→bait FAQ"}
+{"query": "What is the checkout trace sample reservoir size?", "expect_decision": "REFUSE_DISAGREE", "expect_decision_bm25_only": "ANSWER", "note": "disagree-trap: BM25→cfg_reservoir, title-hash→bait FAQ"}
