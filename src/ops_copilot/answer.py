@@ -17,6 +17,10 @@ REFUSAL_TEMPLATES = {
     Decision.REFUSE_NO_EVIDENCE: (
         "REFUSED: no retrieved evidence cleared the score floor for this query."
     ),
+    Decision.REFUSE_DISAGREE: (
+        "REFUSED: BM25 and the title-hash dense stub disagree on top evidence. "
+        "I will not answer when retrievers conflict."
+    ),
 }
 
 
@@ -35,7 +39,7 @@ def extractive_answer(
 ) -> str:
     """Pull the best query-overlapping sentences from fresh evidence."""
     q_toks = set(content_tokens(query))
-    candidates: list[tuple] = []
+    candidates: list[tuple[float, int, str, str]] = []
     for chunk in evidence:
         for sent in split_sentences(chunk.text):
             words = sent.split()
