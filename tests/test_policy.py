@@ -110,6 +110,7 @@ def test_tangential_fresh_cannot_launder_stale_support() -> None:
     stale = make_chunk("stale", hours_old=400.0, text="redis maxmemory-policy is allkeys-lru")
     fresh = make_chunk("fresh", hours_old=2.0, text="redis checkout-pool is 49 of 50")
     chunks = [stale, fresh]
+    # Only the stale chunk actually supports "maxmemory-policy".
     decision = decide(
         chunks,
         annotate(chunks, 48.0),
@@ -195,3 +196,23 @@ def test_stale_beats_disagreement() -> None:
         use_disagreement_gate=True,
     )
     assert decision.decision is Decision.REFUSE_STALE
+
+
+def test_budget_beats_stale_when_both_apply() -> None:
+    """Budget is checked first — over-budget sessions do not surface REFUSE_STALE."""
+    chunks = [make_chunk("stale", hours_old=200.0)]
+    decision = decide(
+        chunks,
+        annotate(chunks, 48.0),
+        supporting=chunks,
+        fresh_supporting=[],
+        grounding=_grounded(),
+        max_age_hours=48.0,
+        best_support=0.9,
+        use_budget_gate=True,
+        session_spent=5.0,
+        request_cost=1.0,
+        session_budget=5.0,
+        session_id="over",
+    )
+    assert decision.decision is Decision.REFUSE_BUDGET
