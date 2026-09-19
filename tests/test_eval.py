@@ -51,3 +51,14 @@ def test_disagreement_comparison_has_flips() -> None:
     assert comparison.dual_report.decision_accuracy == 1.0
     assert comparison.bm25_only_report.decision_accuracy == 1.0
     assert comparison.dual_report.disagreement_rate > 0.0
+
+
+def test_golden_budget_cases_trip() -> None:
+    cases = [c for c in load_golden() if c["expect_decision"] == Decision.REFUSE_BUDGET.value]
+    assert len(cases) >= 2
+    report = run_eval(Copilot())
+    budget_scores = [s for s in report.scores if s.expect_decision == Decision.REFUSE_BUDGET.value]
+    assert budget_scores
+    assert all(s.match for s in budget_scores)
+    assert report.n_budget_refused >= 2
+    assert report.budget_refuse_rate > 0.0
