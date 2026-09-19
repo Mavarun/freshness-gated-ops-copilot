@@ -10,7 +10,8 @@ Gates fire in this order:
 5. fresh supporting exists, but BM25 vs dense-stub top-k doc-ids disagree
    beyond the Jaccard threshold → REFUSE_DISAGREE
 6. fresh supporting chunks fail the final answer-grounding check → REFUSE_UNGROUNDED
-7. else ANSWER
+7. extractive draft echoes an unjustified planted canary → REFUSE_CANARY
+8. else ANSWER
 
 Freshness is applied to *supporting* evidence, not to whatever BM25 dumped.
 A fresh-but-tangential Redis pool chart cannot launder a stale maxmemory-policy
@@ -19,10 +20,15 @@ is judged against its own source_system max_age_hours.
 
 Disagreement is checked *after* freshness and *before* grounding so a fluent
 extractive draft cannot paper over ranker conflict.
+
+Canary scan runs *after* grounding on the extractive draft: a token planted
+in retrieved evidence that leaks into the answer without appearing in the
+query is treated as a prompt-injection / exfiltration signal.
 """
 
 from __future__ import annotations
 
+from ops_copilot.canary import CanaryScanResult
 from ops_copilot.disagreement import DisagreementResult
 from ops_copilot.types import (
     Chunk,
@@ -46,6 +52,8 @@ def decide(
     use_source_slas: bool = False,
     disagreement: DisagreementResult | None = None,
     use_disagreement_gate: bool = True,
+    canary_scan: CanaryScanResult | None = None,
+    use_canary_gate: bool = True,
 ) -> PolicyDecision:
     if not retrieved:
         return PolicyDecision(
@@ -129,6 +137,21 @@ def decide(
             reason=(
                 f"fresh supporting evidence failed lexical grounding "
                 f"(query_coverage={cov:.2f} < threshold={thresh:.2f})"
+            ),
+        )
+
+    if (
+        use_canary_gate
+        and canary_scan is not None
+        and canary_scan.has_leak
+    ):
+        n_leaked = len(canary_scan.leaked)
+        return PolicyDecision(
+            decision=Decision.REFUSE_CANARY,
+            reason=(
+                f"extractive draft echoed {n_leaked} unjustified canary "
+                f"token(s) (registry_size={canary_scan.registry_size}); "
+                f"token values withheld from refusal text"
             ),
         )
 
