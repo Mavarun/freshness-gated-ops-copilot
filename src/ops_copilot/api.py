@@ -100,6 +100,7 @@ def result_to_response(result: CopilotResult, *, trace_id: str, sla_used: dict[s
         cited_ids=list(result.cited_ids),
         grounding=result.grounding.as_dict() if result.grounding else None,
         disagreement=result.disagreement,
+        canary=result.canary,
         approx_cost_units=round(result.approx_cost_units, 4),
         session_id=result.session_id,
         session_spent_before=round(result.session_spent_before, 4),
