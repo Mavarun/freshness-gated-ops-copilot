@@ -14,6 +14,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from ops_copilot.canary import canary_detection_metrics
 from ops_copilot.config import CopilotConfig
 from ops_copilot.pipeline import Copilot
 from ops_copilot.trace import TraceWriter
@@ -46,6 +47,8 @@ class CaseScore:
     jaccard: float | None = None
     session_id: str | None = None
     budget_refused: bool = False
+    expect_canary_leak: bool | None = None
+    actual_canary_leak: bool | None = None
 
 
 @dataclass
@@ -64,6 +67,10 @@ class EvalReport:
     n_disagreed: int = 0
     budget_refuse_rate: float = 0.0
     n_budget_refused: int = 0
+    canary_precision: float = 0.0
+    canary_recall: float = 0.0
+    canary_f1: float = 0.0
+    n_canary_labeled: int = 0
 
     def as_dict(self) -> dict:
         return {
@@ -77,6 +84,10 @@ class EvalReport:
             "n_disagreed": self.n_disagreed,
             "budget_refuse_rate": self.budget_refuse_rate,
             "n_budget_refused": self.n_budget_refused,
+            "canary_precision": self.canary_precision,
+            "canary_recall": self.canary_recall,
+            "canary_f1": self.canary_f1,
+            "n_canary_labeled": self.n_canary_labeled,
             "p50_latency_ms": self.p50_latency_ms,
             "p95_latency_ms": self.p95_latency_ms,
             "confusion": self.confusion,
