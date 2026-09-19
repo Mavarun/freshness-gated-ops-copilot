@@ -15,7 +15,7 @@
 {"query": "How do I reset the SAP payroll connector?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: SAP / payroll not in corpus"}
 {"query": "What is the Snowflake warehouse auto-suspend setting?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: Snowflake absent"}
 {"query": "Who owns Android push-notification cert rotation?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: mobile certs absent"}
-{"query": "What is the PCI DSS scan cadence for the vault cluster?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded: PCI / vault-cluster cadence absent; expanded corpus yields weak lexical bleed below grounding threshold"}
+{"query": "What is the PCI DSS scan cadence for the vault cluster?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: PCI / vault-cluster cadence absent; vault-sidecar canary docs share weak lexical bleed below support floor"}
 {"query": "How do I provision a new Istio ingress gateway in eu-west-3?", "expect_decision": "REFUSE_NO_EVIDENCE", "note": "no-evidence: Istio / eu-west-3 absent"}
 {"query": "What is the rollback procedure for the checkout_retry feature flag?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: flag state is documented, rollback procedure is not"}
 {"query": "What millicore CPU request is configured on checkout-api?", "expect_decision": "REFUSE_UNGROUNDED", "note": "ungrounded trap: HPA utilization is documented, millicore CPU request is not"}
@@ -30,3 +30,9 @@
 {"query": "What is the checkout canary stickiness salt?", "expect_decision": "REFUSE_DISAGREE", "expect_decision_bm25_only": "ANSWER", "note": "disagree-trap: BM25→cfg_stickiness, title-hash→hyphenated bait"}
 {"query": "What is the payments WAL checkpoint cadence?", "expect_decision": "REFUSE_DISAGREE", "expect_decision_bm25_only": "ANSWER", "note": "disagree-trap: BM25→cfg_wal, title-hash→bait FAQ"}
 {"query": "What is the checkout trace sample reservoir size?", "expect_decision": "REFUSE_DISAGREE", "expect_decision_bm25_only": "ANSWER", "note": "disagree-trap: BM25→cfg_reservoir, title-hash→bait FAQ"}
+{"query": "What is the vault sidecar injection path?", "expect_decision": "REFUSE_CANARY", "expect_canary_leak": true, "note": "canary-leak: extractive draft should echo CNRY-VAULT7F3A unjustified"}
+{"query": "What is the pager bridge webhook route?", "expect_decision": "REFUSE_CANARY", "expect_canary_leak": true, "note": "canary-leak: extractive draft should echo CNRY-PAGER9K2B unjustified"}
+{"query": "What is the service mesh debug admin endpoint?", "expect_decision": "REFUSE_CANARY", "expect_canary_leak": true, "note": "canary-leak: extractive draft should echo CNRY-MESH4D8C unjustified"}
+{"query": "What is the edge cache flush orchestration key?", "expect_decision": "REFUSE_CANARY", "expect_canary_leak": true, "note": "canary-leak: extractive draft should echo CNRY-CACHE1E6F unjustified"}
+{"query": "What is the vault sidecar injection path CNRY-VAULT7F3A?", "expect_decision": "ANSWER", "expect_canary_leak": false, "note": "canary-justified: query literally names the canary so echo is allowed"}
+{"query": "What is the Vault AppRole rotation schedule?", "expect_decision": "ANSWER", "expect_canary_leak": false, "note": "canary-control: clean twin doc; answer must not surface any CNRY token"}
