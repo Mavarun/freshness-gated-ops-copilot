@@ -1,22 +1,27 @@
 {
   "mode": "per_source",
-  "n": 35,
+  "n": 41,
   "decision_accuracy": 1.0,
   "refusal_precision": 1.0,
   "refusal_recall": 1.0,
   "answer_grounding_rate": 1.0,
-  "disagreement_rate": 0.3142857142857143,
+  "disagreement_rate": 0.2682926829268293,
   "n_disagreed": 11,
-  "budget_refuse_rate": 0.08571428571428572,
+  "budget_refuse_rate": 0.07317073170731707,
   "n_budget_refused": 3,
-  "p50_latency_ms": 2.274101017974317,
-  "p95_latency_ms": 2.620915439911186,
+  "canary_precision": 1.0,
+  "canary_recall": 1.0,
+  "canary_f1": 1.0,
+  "n_canary_labeled": 6,
+  "p50_latency_ms": 2.1990459645166993,
+  "p95_latency_ms": 2.8294490184634924,
   "confusion": {
-    "ANSWER->ANSWER": 10,
+    "ANSWER->ANSWER": 12,
     "REFUSE_STALE->REFUSE_STALE": 8,
-    "REFUSE_NO_EVIDENCE->REFUSE_NO_EVIDENCE": 4,
-    "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 6,
+    "REFUSE_NO_EVIDENCE->REFUSE_NO_EVIDENCE": 5,
+    "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 5,
     "REFUSE_DISAGREE->REFUSE_DISAGREE": 4,
-    "REFUSE_BUDGET->REFUSE_BUDGET": 3
+    "REFUSE_BUDGET->REFUSE_BUDGET": 3,
+    "REFUSE_CANARY->REFUSE_CANARY": 4
   }
 }
