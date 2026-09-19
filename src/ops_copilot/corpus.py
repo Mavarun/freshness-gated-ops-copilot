@@ -15,6 +15,9 @@ from ops_copilot.types import Chunk, Document
 DEFAULT_CORPUS = (
     Path(__file__).resolve().parents[2] / "data" / "corpus" / "ops_docs.jsonl"
 )
+CANARY_CORPUS = (
+    Path(__file__).resolve().parents[2] / "data" / "corpus" / "canary_docs.jsonl"
+)
 
 
 def age_hours(updated_at: datetime, now: datetime) -> float:
@@ -56,6 +59,32 @@ def load_documents(path: str | Path | None = None) -> list[Document]:
             )
     if not docs:
         raise ValueError(f"corpus is empty: {src}")
+    canary_src = CANARY_CORPUS if path is None else None
+    if (
+        canary_src is not None
+        and canary_src.is_file()
+        and Path(src).resolve() == DEFAULT_CORPUS.resolve()
+    ):
+        with canary_src.open(encoding="utf-8") as handle:
+            for line_no, raw in enumerate(handle, start=1):
+                line = raw.strip()
+                if not line:
+                    continue
+                row = json.loads(line)
+                missing = {"doc_id", "title", "body", "updated_at", "source_system"} - set(row)
+                if missing:
+                    raise ValueError(
+                        f"{canary_src}:{line_no}: missing fields {sorted(missing)}"
+                    )
+                docs.append(
+                    Document(
+                        doc_id=str(row["doc_id"]),
+                        title=str(row["title"]),
+                        body=str(row["body"]),
+                        updated_at=parse_updated_at(row["updated_at"]),
+                        source_system=str(row["source_system"]),
+                    )
+                )
     return docs
 
 
