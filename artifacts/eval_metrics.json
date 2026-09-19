@@ -1,19 +1,22 @@
 {
   "mode": "per_source",
-  "n": 32,
+  "n": 35,
   "decision_accuracy": 1.0,
   "refusal_precision": 1.0,
   "refusal_recall": 1.0,
   "answer_grounding_rate": 1.0,
-  "disagreement_rate": 0.34375,
+  "disagreement_rate": 0.3142857142857143,
   "n_disagreed": 11,
-  "p50_latency_ms": 2.605098008643836,
-  "p95_latency_ms": 3.977167111588642,
+  "budget_refuse_rate": 0.08571428571428572,
+  "n_budget_refused": 3,
+  "p50_latency_ms": 2.274101017974317,
+  "p95_latency_ms": 2.620915439911186,
   "confusion": {
     "ANSWER->ANSWER": 10,
     "REFUSE_STALE->REFUSE_STALE": 8,
     "REFUSE_NO_EVIDENCE->REFUSE_NO_EVIDENCE": 4,
-    "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 6,
-    "REFUSE_DISAGREE->REFUSE_DISAGREE": 4
+    "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 4,
+    "REFUSE_DISAGREE->REFUSE_DISAGREE": 6,
+    "REFUSE_BUDGET->REFUSE_BUDGET": 3
   }
 }
