@@ -56,3 +56,9 @@ class CopilotConfig:
     # Agreed when Jaccard >= threshold. With top_k=1, threshold=1.0 means
     # the two retrievers must share the same top doc_id.
     disagreement_jaccard_threshold: float = 1.0
+    # Session cost budget: accumulate approx_cost_units per session_id.
+    # When spent + this request would exceed the budget, policy emits REFUSE_BUDGET.
+    # Gate applies only when a session_id is provided (API header/body or ask()).
+    use_budget_gate: bool = True
+    # Default allows ~2 typical hybrid+disagreement queries then trips on the 3rd.
+    session_budget_cost_units: float = 5.0
