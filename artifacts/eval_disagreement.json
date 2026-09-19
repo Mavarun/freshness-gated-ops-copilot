@@ -1,0 +1,68 @@
+{
+  "bm25_only": {
+    "mode": "bm25_only",
+    "n": 35,
+    "decision_accuracy": 1.0,
+    "refusal_precision": 1.0,
+    "refusal_recall": 1.0,
+    "answer_grounding_rate": 1.0,
+    "disagreement_rate": 0.3142857142857143,
+    "n_disagreed": 11,
+    "budget_refuse_rate": 0.08571428571428572,
+    "n_budget_refused": 3,
+    "p50_latency_ms": 2.204005024395883,
+    "p95_latency_ms": 2.604775875806808,
+    "confusion": {
+      "ANSWER->ANSWER": 14,
+      "REFUSE_STALE->REFUSE_STALE": 8,
+      "REFUSE_NO_EVIDENCE->REFUSE_NO_EVIDENCE": 4,
+      "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 6,
+      "REFUSE_BUDGET->REFUSE_BUDGET": 3
+    }
+  },
+  "dual_disagreement": {
+    "mode": "dual_disagreement",
+    "n": 35,
+    "decision_accuracy": 1.0,
+    "refusal_precision": 1.0,
+    "refusal_recall": 1.0,
+    "answer_grounding_rate": 1.0,
+    "disagreement_rate": 0.11428571428571428,
+    "n_disagreed": 4,
+    "budget_refuse_rate": 0.08571428571428572,
+    "n_budget_refused": 3,
+    "p50_latency_ms": 2.274101017974317,
+    "p95_latency_ms": 2.620915439911186,
+    "confusion": {
+      "ANSWER->ANSWER": 10,
+      "REFUSE_STALE->REFUSE_STALE": 8,
+      "REFUSE_NO_EVIDENCE->REFUSE_NO_EVIDENCE": 4,
+      "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 6,
+      "REFUSE_DISAGREE->REFUSE_DISAGREE": 4,
+      "REFUSE_BUDGET->REFUSE_BUDGET": 3
+    }
+  },
+  "n_flips": 4,
+  "decision_flips": [
+    {
+      "query": "What is the sidecar mesh mtls handshake budget?",
+      "bm25_only_decision": "ANSWER",
+      "dual_decision": "REFUSE_DISAGREE"
+    },
+    {
+      "query": "What is the checkout canary stickiness salt?",
+      "bm25_only_decision": "ANSWER",
+      "dual_decision": "REFUSE_DISAGREE"
+    },
+    {
+      "query": "What is the payments WAL checkpoint cadence?",
+      "bm25_only_decision": "ANSWER",
+      "dual_decision": "REFUSE_DISAGREE"
+    },
+    {
+      "query": "What is the checkout trace sample reservoir size?",
+      "bm25_only_decision": "ANSWER",
+      "dual_decision": "REFUSE_DISAGREE"
+    }
+  ]
+}
