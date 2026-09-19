@@ -114,3 +114,59 @@ def test_query_refuse_disagree() -> None:
     assert body["disagreement"] is not None
     assert body["disagreement"]["agreed"] is False
     assert body["cited_ids"] == []
+
+
+def test_query_refuse_budget_via_body_session() -> None:
+    """Seeded session near budget must REFUSE_BUDGET on an otherwise ANSWER query."""
+    from ops_copilot.api import get_copilot
+
+    copilot = get_copilot(None)
+    copilot.ledger.reset()
+    copilot.ledger.seed("api-budget-body", 4.0)
+    resp = client.post(
+        "/query",
+        json={
+            "query": "What is the current checkout p99 latency?",
+            "session_id": "api-budget-body",
+        },
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["decision"] == Decision.REFUSE_BUDGET.value
+    assert body["session_id"] == "api-budget-body"
+    assert body["session_budget"] == 5.0
+    assert body["approx_cost_units"] is not None and body["approx_cost_units"] > 0
+    assert body["cited_ids"] == []
+
+
+def test_query_refuse_budget_via_header() -> None:
+    from ops_copilot.api import get_copilot
+
+    copilot = get_copilot(None)
+    copilot.ledger.reset()
+    copilot.ledger.seed("api-budget-hdr", 4.0)
+    resp = client.post(
+        "/query",
+        json={"query": "Is the checkout_retry feature flag enabled?"},
+        headers={"X-Session-Id": "api-budget-hdr"},
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["decision"] == Decision.REFUSE_BUDGET.value
+    assert body["session_id"] == "api-budget-hdr"
+
+
+def test_query_without_session_still_answers() -> None:
+    """Budget gate is inert when no session_id is provided."""
+    from ops_copilot.api import get_copilot
+
+    get_copilot(None).ledger.reset()
+    resp = client.post(
+        "/query",
+        json={"query": "What is the current checkout p99 latency?"},
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["decision"] == Decision.ANSWER.value
+    assert body["session_id"] is None
+    assert body["session_budget"] is None
