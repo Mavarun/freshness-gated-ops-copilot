@@ -49,6 +49,7 @@ class QueryResponse(BaseModel):
     cited_ids: list[str] = Field(default_factory=list)
     grounding: dict[str, Any] | None = None
     disagreement: dict[str, Any] | None = None
+    canary: dict[str, Any] | None = None
     approx_cost_units: float | None = None
     session_id: str | None = None
     session_spent_before: float | None = None
