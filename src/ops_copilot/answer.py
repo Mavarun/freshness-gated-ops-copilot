@@ -25,6 +25,10 @@ REFUSAL_TEMPLATES = {
         "REFUSED: this session would exceed the configured cost budget. "
         "I will not answer when the session budget is exhausted."
     ),
+    Decision.REFUSE_CANARY: (
+        "REFUSED: extractive draft echoed a planted canary token not justified "
+        "by the query (possible prompt-injection / exfiltration). Token values withheld."
+    ),
 }
 
 
