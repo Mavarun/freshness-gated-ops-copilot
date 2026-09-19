@@ -11,6 +11,7 @@ from datetime import datetime
 from pathlib import Path
 
 from ops_copilot.answer import extractive_answer, render_refusal
+from ops_copilot.canary import CanaryRegistry, scan_answer
 from ops_copilot.config import CopilotConfig, parse_clock
 from ops_copilot.corpus import Corpus
 from ops_copilot.cost_budget import SessionCostLedger
@@ -78,6 +79,7 @@ class Copilot:
         else:
             self.sla_table = None
         self.ledger = ledger if ledger is not None else SessionCostLedger()
+        self.canary_registry = CanaryRegistry.load(self.config.canary_registry_path)
 
     def sla_for(self, source_system: str) -> float:
         """Resolve the max_age_hours that applies to a source_system."""
@@ -142,6 +144,7 @@ class Copilot:
         spent_before = self.ledger.spent(session_id)
         budget_active = bool(cfg.use_budget_gate and session_id)
 
+        canary_scan = scan_answer(draft, query, self.canary_registry)
         policy = decide(
             retrieved,
             freshness,
@@ -159,6 +162,8 @@ class Copilot:
             request_cost=request_cost,
             session_budget=cfg.session_budget_cost_units,
             session_id=session_id,
+            canary_scan=canary_scan,
+            use_canary_gate=cfg.use_canary_gate,
         )
 
         if policy.decision is Decision.ANSWER:
@@ -190,6 +195,7 @@ class Copilot:
             session_spent_before=spent_before,
             session_spent_after=spent_after,
             session_budget=cfg.session_budget_cost_units if budget_active else None,
+            canary=canary_scan.as_dict(),
         )
 
 
