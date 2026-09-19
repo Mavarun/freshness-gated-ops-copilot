@@ -1,4 +1,8 @@
-"""Compose retrieve → support → freshness → disagreement → extractive draft → policy."""
+"""Compose retrieve → support → freshness → disagreement → extractive draft → policy.
+
+Session cost budget is checked first in policy when a session_id is provided:
+spent + this request's approx_cost_units must stay within session_budget_cost_units.
+"""
 
 from __future__ import annotations
 
@@ -9,6 +13,7 @@ from pathlib import Path
 from ops_copilot.answer import extractive_answer, render_refusal
 from ops_copilot.config import CopilotConfig, parse_clock
 from ops_copilot.corpus import Corpus
+from ops_copilot.cost_budget import SessionCostLedger
 from ops_copilot.disagreement import assess_disagreement
 from ops_copilot.freshness import annotate, fresh_only
 from ops_copilot.grounding import Grounder
@@ -49,7 +54,7 @@ def supporting_chunks(
 
 
 class Copilot:
-    """Offline ops copilot with freshness and disagreement as first-class gates."""
+    """Offline ops copilot with freshness, disagreement, and session budget gates."""
 
     def __init__(
         self,
@@ -59,6 +64,7 @@ class Copilot:
         path: str | Path | None = None,
         now: datetime | str | None = None,
         sla_table: SourceSlaTable | None = None,
+        ledger: SessionCostLedger | None = None,
     ) -> None:
         self.config = config or CopilotConfig()
         self.corpus = corpus or Corpus(path=path, now=now)
@@ -71,6 +77,7 @@ class Copilot:
             self.sla_table = load_source_slas(self.config.source_sla_path)
         else:
             self.sla_table = None
+        self.ledger = ledger if ledger is not None else SessionCostLedger()
 
     def sla_for(self, source_system: str) -> float:
         """Resolve the max_age_hours that applies to a source_system."""
@@ -81,7 +88,7 @@ class Copilot:
             use_source_slas=self.config.use_source_slas,
         )
 
-    def ask(self, query: str) -> CopilotResult:
+    def ask(self, query: str, *, session_id: str | None = None) -> CopilotResult:
         started = time.perf_counter()
         cfg = self.config
         retrieved = self.retriever.search(query)
@@ -116,6 +123,9 @@ class Copilot:
 
         draft = ""
         grounding = None
+        # Draft/ground only when disagreement will not refuse — still compute
+        # grounding for inspectability when we disagree, but skip extractive work
+        # is optional; we compute for traces either way when fresh hits exist.
         if fresh_hits:
             draft = extractive_answer(
                 query,
@@ -125,6 +135,12 @@ class Copilot:
             grounding = self.grounder.check(query, fresh_hits, draft)
         elif supporting or retrieved:
             grounding = self.grounder.check(query, supporting or retrieved, draft)
+
+        request_cost = _cost_units(
+            len(retrieved), cfg.use_dense, cfg.use_disagreement_gate
+        )
+        spent_before = self.ledger.spent(session_id)
+        budget_active = bool(cfg.use_budget_gate and session_id)
 
         policy = decide(
             retrieved,
@@ -138,6 +154,11 @@ class Copilot:
             use_source_slas=cfg.use_source_slas,
             disagreement=disagreement,
             use_disagreement_gate=cfg.use_disagreement_gate,
+            use_budget_gate=budget_active,
+            session_spent=spent_before,
+            request_cost=request_cost,
+            session_budget=cfg.session_budget_cost_units,
+            session_id=session_id,
         )
 
         if policy.decision is Decision.ANSWER:
@@ -146,6 +167,10 @@ class Copilot:
         else:
             answer = render_refusal(policy.decision, policy.reason)
             cited = []
+
+        spent_after = (
+            self.ledger.record(session_id, request_cost) if session_id else spent_before
+        )
 
         latency_ms = (time.perf_counter() - started) * 1000.0
         return CopilotResult(
@@ -158,11 +183,13 @@ class Copilot:
             freshness=freshness,
             grounding=grounding,
             latency_ms=latency_ms,
-            approx_cost_units=_cost_units(
-                len(retrieved), cfg.use_dense, cfg.use_disagreement_gate
-            ),
+            approx_cost_units=request_cost,
             cited_ids=cited,
             disagreement=disagreement.as_dict(),
+            session_id=session_id,
+            session_spent_before=spent_before,
+            session_spent_after=spent_after,
+            session_budget=cfg.session_budget_cost_units if budget_active else None,
         )
 
 
@@ -172,8 +199,9 @@ def run_query(
     config: CopilotConfig | None = None,
     path: str | Path | None = None,
     now: datetime | str | None = None,
+    session_id: str | None = None,
 ) -> CopilotResult:
     """Convenience wrapper used by scripts and tests."""
     cfg = config or CopilotConfig()
     copilot = Copilot(config=cfg, path=path, now=parse_clock(now))
-    return copilot.ask(query)
+    return copilot.ask(query, session_id=session_id)
