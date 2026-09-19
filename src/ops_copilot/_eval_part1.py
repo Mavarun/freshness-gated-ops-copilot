@@ -47,6 +47,15 @@ def _metrics(scores: list[CaseScore], mode: str) -> EvalReport:
     n_dis = len(disagreed)
     budgeted = [s for s in scores if s.budget_refused]
     n_bud = len(budgeted)
+    canary_cases = [
+        {
+            "expect_canary_leak": s.expect_canary_leak,
+            "actual_canary_leak": s.actual_canary_leak,
+        }
+        for s in scores
+        if s.expect_canary_leak is not None
+    ]
+    canary_m = canary_detection_metrics(canary_cases)
     return EvalReport(
         scores=scores,
         n=n,
@@ -62,6 +71,10 @@ def _metrics(scores: list[CaseScore], mode: str) -> EvalReport:
         n_disagreed=n_dis,
         budget_refuse_rate=(n_bud / n) if n else 0.0,
         n_budget_refused=n_bud,
+        canary_precision=float(canary_m["canary_precision"]),
+        canary_recall=float(canary_m["canary_recall"]),
+        canary_f1=float(canary_m["canary_f1"]),
+        n_canary_labeled=int(canary_m["n_labeled"]),
     )
 
 
