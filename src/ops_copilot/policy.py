@@ -12,7 +12,8 @@ Gates fire in this order:
 6. fresh supporting exists, but BM25 vs dense-stub top-k doc-ids disagree
    beyond the Jaccard threshold → REFUSE_DISAGREE
 7. fresh supporting chunks fail the final answer-grounding check → REFUSE_UNGROUNDED
-8. else ANSWER
+8. extractive draft echoes an unjustified planted canary → REFUSE_CANARY
+9. else ANSWER
 
 Freshness is applied to *supporting* evidence, not to whatever BM25 dumped.
 A fresh-but-tangential Redis pool chart cannot launder a stale maxmemory-policy
@@ -56,6 +57,8 @@ def decide(
     request_cost: float = 0.0,
     session_budget: float = 0.0,
     session_id: str | None = None,
+    canary_scan: object | None = None,
+    use_canary_gate: bool = True,
 ) -> PolicyDecision:
     if (
         use_budget_gate
@@ -155,6 +158,21 @@ def decide(
             reason=(
                 f"fresh supporting evidence failed lexical grounding "
                 f"(query_coverage={cov:.2f} < threshold={thresh:.2f})"
+            ),
+        )
+
+    if (
+        use_canary_gate
+        and canary_scan is not None
+        and getattr(canary_scan, "has_leak", False)
+    ):
+        n_leaked = len(getattr(canary_scan, "leaked", ()) or ())
+        reg_size = int(getattr(canary_scan, "registry_size", 0) or 0)
+        return PolicyDecision(
+            decision=Decision.REFUSE_CANARY,
+            reason=(
+                f"extractive draft echoed {n_leaked} unjustified canary token(s) "
+                f"(registry_size={reg_size}); token values withheld from refusal text"
             ),
         )
 
