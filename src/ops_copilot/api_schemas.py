@@ -15,6 +15,10 @@ class QueryRequest(BaseModel):
         default=None,
         description="Optional ISO-8601 clock override (else EVAL_CLOCK / OPS_COPILOT_NOW)",
     )
+    session_id: str | None = Field(
+        default=None,
+        description="Optional session id for cost-budget accumulation (also accepted via X-Session-Id header)",
+    )
 
 
 class EvidenceItem(BaseModel):
@@ -45,6 +49,11 @@ class QueryResponse(BaseModel):
     cited_ids: list[str] = Field(default_factory=list)
     grounding: dict[str, Any] | None = None
     disagreement: dict[str, Any] | None = None
+    approx_cost_units: float | None = None
+    session_id: str | None = None
+    session_spent_before: float | None = None
+    session_spent_after: float | None = None
+    session_budget: float | None = None
 
 
 class HealthResponse(BaseModel):
