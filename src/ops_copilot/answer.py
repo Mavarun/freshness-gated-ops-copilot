@@ -21,6 +21,11 @@ REFUSAL_TEMPLATES = {
         "REFUSED: BM25 and the title-hash dense stub disagree on top evidence. "
         "I will not answer when retrievers conflict."
     ),
+    Decision.REFUSE_CANARY: (
+        "REFUSED: extractive answer echoed a planted canary token that the "
+        "query did not justify. Treating this as a prompt-injection / "
+        "exfiltration signal."
+    ),
 }
 
 

@@ -13,6 +13,7 @@ class Decision(str, Enum):
     REFUSE_UNGROUNDED = "REFUSE_UNGROUNDED"
     REFUSE_NO_EVIDENCE = "REFUSE_NO_EVIDENCE"
     REFUSE_DISAGREE = "REFUSE_DISAGREE"
+    REFUSE_CANARY = "REFUSE_CANARY"
 
 
 class FreshnessStatus(str, Enum):
@@ -114,6 +115,7 @@ class CopilotResult:
     approx_cost_units: float
     cited_ids: list[str]
     disagreement: dict | None = None
+    canary: dict | None = None
 
     def as_dict(self) -> dict:
         return {
@@ -127,6 +129,7 @@ class CopilotResult:
             "freshness": [f.as_dict() for f in self.freshness],
             "grounding": self.grounding.as_dict() if self.grounding else None,
             "disagreement": self.disagreement,
+            "canary": self.canary,
             "latency_ms": round(self.latency_ms, 3),
             "approx_cost_units": round(self.approx_cost_units, 4),
         }

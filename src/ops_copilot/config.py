@@ -56,3 +56,7 @@ class CopilotConfig:
     # Agreed when Jaccard >= threshold. With top_k=1, threshold=1.0 means
     # the two retrievers must share the same top doc_id.
     disagreement_jaccard_threshold: float = 1.0
+    # Prompt-injection canary farm: refuse when an extractive draft echoes
+    # a planted canary token that the query did not justify.
+    use_canary_gate: bool = True
+    canary_registry_path: str | None = None
