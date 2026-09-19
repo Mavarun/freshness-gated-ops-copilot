@@ -1,4 +1,4 @@
-"""Compose retrieve → support → freshness → disagreement → extractive draft → policy."""
+"""Compose retrieve → support → freshness → disagreement → extractive draft → canary → policy."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ from datetime import datetime
 from pathlib import Path
 
 from ops_copilot.answer import extractive_answer, render_refusal
+from ops_copilot.canary import CanaryRegistry, scan_answer
 from ops_copilot.config import CopilotConfig, parse_clock
 from ops_copilot.corpus import Corpus
 from ops_copilot.disagreement import assess_disagreement
@@ -72,6 +73,10 @@ class Copilot:
         else:
             self.sla_table = None
 
+        self.canary_registry = CanaryRegistry.load(
+            self.config.canary_registry_path
+        )
+
     def sla_for(self, source_system: str) -> float:
         """Resolve the max_age_hours that applies to a source_system."""
         return resolve_max_age(
@@ -126,6 +131,8 @@ class Copilot:
         elif supporting or retrieved:
             grounding = self.grounder.check(query, supporting or retrieved, draft)
 
+        canary_scan = scan_answer(draft, query, self.canary_registry)
+
         policy = decide(
             retrieved,
             freshness,
@@ -138,6 +145,8 @@ class Copilot:
             use_source_slas=cfg.use_source_slas,
             disagreement=disagreement,
             use_disagreement_gate=cfg.use_disagreement_gate,
+            canary_scan=canary_scan,
+            use_canary_gate=cfg.use_canary_gate,
         )
 
         if policy.decision is Decision.ANSWER:
@@ -163,6 +172,7 @@ class Copilot:
             ),
             cited_ids=cited,
             disagreement=disagreement.as_dict(),
+            canary=canary_scan.as_dict(),
         )
 
 
