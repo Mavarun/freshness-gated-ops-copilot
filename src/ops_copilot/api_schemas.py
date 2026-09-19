@@ -45,6 +45,7 @@ class QueryResponse(BaseModel):
     cited_ids: list[str] = Field(default_factory=list)
     grounding: dict[str, Any] | None = None
     disagreement: dict[str, Any] | None = None
+    canary: dict[str, Any] | None = None
 
 
 class HealthResponse(BaseModel):
