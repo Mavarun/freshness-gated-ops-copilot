@@ -52,13 +52,24 @@ def run_disagreement_comparison(
 
     for case in cases:
         q = case["query"]
-        bm25_res: CopilotResult = bm25_bot.ask(q)
-        dual_res: CopilotResult = dual_bot.ask(q)
+        sid = case.get("session_id")
+        session_id = str(sid) if sid else None
+        if session_id and "seed_session_spent" in case:
+            spent = float(case["seed_session_spent"])
+            bm25_bot.ledger.seed(session_id, spent)
+            dual_bot.ledger.seed(session_id, spent)
+        bm25_res: CopilotResult = bm25_bot.ask(q, session_id=session_id)
+        dual_res: CopilotResult = dual_bot.ask(q, session_id=session_id)
         expect_bm25 = str(case.get("expect_decision_bm25_only") or case["expect_decision"])
         expect_dual = str(case["expect_decision"])
 
         def _score(res: CopilotResult, expect: str, mode: str) -> CaseScore:
             actual = res.decision.value
+            disagreed = None
+            jaccard = None
+            if res.disagreement is not None:
+                disagreed = not bool(res.disagreement.get("agreed", True))
+                jaccard = res.disagreement.get("jaccard")
             return CaseScore(
                 query=q,
                 expect_decision=expect,
@@ -74,6 +85,10 @@ def run_disagreement_comparison(
                 cited_ids=res.cited_ids,
                 reason=res.reason,
                 mode=mode,
+                disagreed=disagreed,
+                jaccard=jaccard,
+                session_id=session_id,
+                budget_refused=actual == "REFUSE_BUDGET",
             )
 
         b = _score(bm25_res, expect_bm25, "bm25_only")
@@ -98,9 +113,7 @@ def run_disagreement_comparison(
     dual_report = _metrics(dual_scores, "dual_disagreement")
     n_disagreed = sum(1 for s in dual_scores if s.actual_decision == "REFUSE_DISAGREE")
     try:
-        dual_report.disagreement_rate = (
-            n_disagreed / dual_report.n if dual_report.n else 0.0
-        )
+        dual_report.disagreement_rate = n_disagreed / dual_report.n if dual_report.n else 0.0
         dual_report.n_disagreed = n_disagreed
     except Exception:
         pass
