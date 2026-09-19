@@ -10,7 +10,7 @@ import uuid
 from functools import lru_cache
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header, HTTPException
 
 from ops_copilot import Copilot, CopilotConfig, EVAL_CLOCK, __version__
 from ops_copilot.api_schemas import (
@@ -28,7 +28,7 @@ from ops_copilot.types import CopilotResult, FreshnessResult
 app = FastAPI(
     title="Freshness-gated ops copilot",
     description=(
-        "Demo HTTP surface: POST /query returns ANSWER | REFUSE_* (incl. REFUSE_DISAGREE) with evidence "
+        "Demo HTTP surface: POST /query returns ANSWER | REFUSE_* (incl. REFUSE_DISAGREE, REFUSE_BUDGET) with evidence "
         "ages and trace_id. Offline extractive path; no paid LLM."
     ),
     version=__version__,
@@ -100,12 +100,20 @@ def result_to_response(result: CopilotResult, *, trace_id: str, sla_used: dict[s
         cited_ids=list(result.cited_ids),
         grounding=result.grounding.as_dict() if result.grounding else None,
         disagreement=result.disagreement,
+        approx_cost_units=round(result.approx_cost_units, 4),
+        session_id=result.session_id,
+        session_spent_before=round(result.session_spent_before, 4),
+        session_spent_after=round(result.session_spent_after, 4),
+        session_budget=result.session_budget,
     )
 
 
 @app.post("/query", response_model=QueryResponse)
-def query(body: QueryRequest) -> QueryResponse:
-    """Run retrieve → support → freshness → extract → policy; write a JSONL trace."""
+def query(
+    body: QueryRequest,
+    x_session_id: str | None = Header(default=None, alias="X-Session-Id"),
+) -> QueryResponse:
+    """Run retrieve → support → freshness → budget → extract → policy; write a JSONL trace."""
     q = body.query.strip()
     if not q:
         raise HTTPException(status_code=422, detail="query must not be empty")
@@ -114,10 +122,14 @@ def query(body: QueryRequest) -> QueryResponse:
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=f"invalid clock: {exc}") from exc
 
-    result = copilot.ask(q)
+    session_id = (body.session_id or x_session_id or "").strip() or None
+    result = copilot.ask(q, session_id=session_id)
     trace_id = str(uuid.uuid4())
     sla = _sla_used(copilot, result)
-    _tracer.write(result, extra={"trace_id": trace_id, "sla_used": sla})
+    _tracer.write(
+        result,
+        extra={"trace_id": trace_id, "sla_used": sla, "session_id": session_id},
+    )
     return result_to_response(result, trace_id=trace_id, sla_used=sla)
 
 
