@@ -21,6 +21,10 @@ REFUSAL_TEMPLATES = {
         "REFUSED: BM25 and the title-hash dense stub disagree on top evidence. "
         "I will not answer when retrievers conflict."
     ),
+    Decision.REFUSE_BUDGET: (
+        "REFUSED: this session would exceed the configured cost budget. "
+        "I will not answer when the session budget is exhausted."
+    ),
 }
 
 
@@ -49,6 +53,7 @@ def extractive_answer(
             if score <= 0:
                 continue
             lead = 1 if chunk.chunk_id.endswith("::p0") else 0
+            # Prefer higher overlap, then lead paragraph, then earlier candidates.
             candidates.append((score, lead, -len(candidates), sent.strip(), chunk.doc_id))
     candidates.sort(reverse=True)
     picked: list[str] = []
