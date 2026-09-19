@@ -13,6 +13,7 @@ class Decision(str, Enum):
     REFUSE_UNGROUNDED = "REFUSE_UNGROUNDED"
     REFUSE_NO_EVIDENCE = "REFUSE_NO_EVIDENCE"
     REFUSE_DISAGREE = "REFUSE_DISAGREE"
+    REFUSE_BUDGET = "REFUSE_BUDGET"
 
 
 class FreshnessStatus(str, Enum):
@@ -114,6 +115,10 @@ class CopilotResult:
     approx_cost_units: float
     cited_ids: list[str]
     disagreement: dict | None = None
+    session_id: str | None = None
+    session_spent_before: float = 0.0
+    session_spent_after: float = 0.0
+    session_budget: float | None = None
 
     def as_dict(self) -> dict:
         return {
@@ -129,4 +134,8 @@ class CopilotResult:
             "disagreement": self.disagreement,
             "latency_ms": round(self.latency_ms, 3),
             "approx_cost_units": round(self.approx_cost_units, 4),
+            "session_id": self.session_id,
+            "session_spent_before": round(self.session_spent_before, 4),
+            "session_spent_after": round(self.session_spent_after, 4),
+            "session_budget": self.session_budget,
         }
