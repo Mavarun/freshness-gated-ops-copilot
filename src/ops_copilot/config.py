@@ -62,3 +62,6 @@ class CopilotConfig:
     use_budget_gate: bool = True
     # Default allows ~2 typical hybrid+disagreement queries then trips on the 3rd.
     session_budget_cost_units: float = 5.0
+    # Prompt-injection canary farm: refuse when draft echoes unjustified CNRY tokens.
+    use_canary_gate: bool = True
+    canary_registry_path: str | None = None
