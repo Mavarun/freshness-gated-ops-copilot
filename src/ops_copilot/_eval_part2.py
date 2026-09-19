@@ -16,6 +16,16 @@
             jaccard=jaccard,
             session_id=str(sid) if sid else None,
             budget_refused=actual == Decision.REFUSE_BUDGET.value,
+            expect_canary_leak=(
+                bool(case["expect_canary_leak"])
+                if "expect_canary_leak" in case
+                else None
+            ),
+            actual_canary_leak=(
+                bool((result.canary or {}).get("has_leak"))
+                if result.canary is not None
+                else None
+            ),
         )
         scores.append(score)
         if tracer:
@@ -100,6 +110,10 @@ def render_markdown(report: EvalReport) -> str:
         f"| n_disagreed | {m.get('n_disagreed', 0)} |",
         f"| budget_refuse_rate | {m.get('budget_refuse_rate', 0.0):.3f} |",
         f"| n_budget_refused | {m.get('n_budget_refused', 0)} |",
+        f"| canary_precision | {m.get('canary_precision', 0.0):.3f} |",
+        f"| canary_recall | {m.get('canary_recall', 0.0):.3f} |",
+        f"| canary_f1 | {m.get('canary_f1', 0.0):.3f} |",
+        f"| n_canary_labeled | {m.get('n_canary_labeled', 0)} |",
         f"| p50_latency_ms | {m['p50_latency_ms']:.2f} |",
         f"| p95_latency_ms | {m['p95_latency_ms']:.2f} |",
         "",
