@@ -67,3 +67,5 @@ class CopilotConfig:
     canary_registry_path: str | None = None
     # HITL write gate: imperative writes become PROPOSE_WRITE (pending) until human approve.
     use_hitl_write_gate: bool = True
+    # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
+    use_pii_gate: bool = True
