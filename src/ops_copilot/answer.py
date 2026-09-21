@@ -29,6 +29,10 @@ REFUSAL_TEMPLATES = {
         "REFUSED: extractive draft echoed a planted canary token not justified "
         "by the query (possible prompt-injection / exfiltration). Token values withheld."
     ),
+    Decision.PROPOSE_WRITE: (
+        "PENDING WRITE: a mutating action was proposed and is waiting for "
+        "explicit human approve. It will not execute until approved."
+    ),
 }
 
 

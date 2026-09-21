@@ -15,6 +15,7 @@ class Decision(str, Enum):
     REFUSE_DISAGREE = "REFUSE_DISAGREE"
     REFUSE_BUDGET = "REFUSE_BUDGET"
     REFUSE_CANARY = "REFUSE_CANARY"
+    PROPOSE_WRITE = "PROPOSE_WRITE"
 
 
 class FreshnessStatus(str, Enum):
@@ -121,6 +122,7 @@ class CopilotResult:
     session_spent_after: float = 0.0
     session_budget: float | None = None
     canary: dict | None = None
+    proposed_write: dict | None = None
 
     def as_dict(self) -> dict:
         return {
@@ -141,4 +143,5 @@ class CopilotResult:
             "session_spent_after": round(self.session_spent_after, 4),
             "session_budget": self.session_budget,
             "canary": self.canary,
+            "proposed_write": self.proposed_write,
         }

@@ -65,3 +65,5 @@ class CopilotConfig:
     # Prompt-injection canary farm: refuse when draft echoes unjustified CNRY tokens.
     use_canary_gate: bool = True
     canary_registry_path: str | None = None
+    # HITL write gate: imperative writes become PROPOSE_WRITE (pending) until human approve.
+    use_hitl_write_gate: bool = True
