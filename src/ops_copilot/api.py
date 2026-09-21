@@ -109,6 +109,9 @@ def result_to_response(result: CopilotResult, *, trace_id: str, sla_used: dict[s
         session_spent_after=round(result.session_spent_after, 4),
         session_budget=result.session_budget,
         proposed_write=result.proposed_write,
+        pii_detected=bool(result.pii_detected),
+        redactions_count=int(result.redactions_count),
+        pii=result.pii,
     )
 
 
