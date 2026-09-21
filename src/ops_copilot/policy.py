@@ -15,7 +15,8 @@ Gates fire in this order:
    beyond the Jaccard threshold → REFUSE_DISAGREE
 8. fresh supporting chunks fail the final answer-grounding check → REFUSE_UNGROUNDED
 9. extractive draft echoes an unjustified planted canary → REFUSE_CANARY
-10. else ANSWER
+10. extractive draft contains unauthorized PII/secrets → REFUSE_PII
+11. else ANSWER (authorized contact PII is masked upstream, not refused)
 
 Freshness is applied to *supporting* evidence, not to whatever BM25 dumped.
 A fresh-but-tangential Redis pool chart cannot launder a stale maxmemory-policy
@@ -65,6 +66,8 @@ def decide(
     use_canary_gate: bool = True,
     write_intent: object | None = None,
     use_hitl_write_gate: bool = True,
+    pii_scan: object | None = None,
+    use_pii_gate: bool = True,
 ) -> PolicyDecision:
     if (
         use_budget_gate
@@ -82,9 +85,6 @@ def decide(
             ),
         )
 
-    # Write intents skip evidence/freshness/grounding: we propose a mutation,
-    # we do not answer from corpus. Budget already applied above. Rejected /
-    # pending writes never execute (see hitl.HitlWriteLedger).
     if use_hitl_write_gate and write_intent is not None:
         action = getattr(write_intent, "action_type", None)
         action_v = getattr(action, "value", None) or str(action or "write")
@@ -194,6 +194,22 @@ def decide(
             reason=(
                 f"extractive draft echoed {n_leaked} unjustified canary token(s) "
                 f"(registry_size={reg_size}); token values withheld from refusal text"
+            ),
+        )
+
+    if (
+        use_pii_gate
+        and pii_scan is not None
+        and getattr(pii_scan, "should_refuse", False)
+    ):
+        n_matches = int(getattr(pii_scan, "redactions_count", 0) or 0)
+        kinds = getattr(pii_scan, "matches", ()) or ()
+        kind_names = sorted({getattr(m, "kind", "?") for m in kinds}) or ["pii"]
+        return PolicyDecision(
+            decision=Decision.REFUSE_PII,
+            reason=(
+                f"extractive draft contained unauthorized PII/secrets "
+                f"(n={n_matches}; kinds={kind_names}); raw values withheld"
             ),
         )
 
