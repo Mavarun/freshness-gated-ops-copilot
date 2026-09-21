@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 
 from ops_copilot.canary import canary_detection_metrics
+from ops_copilot.pii_redact import pii_detection_metrics
 from ops_copilot.config import CopilotConfig
 from ops_copilot.pipeline import Copilot
 from ops_copilot.trace import TraceWriter
@@ -49,6 +50,9 @@ class CaseScore:
     budget_refused: bool = False
     expect_canary_leak: bool | None = None
     actual_canary_leak: bool | None = None
+    propose_write: bool = False
+    expect_pii: bool | None = None
+    actual_pii: bool | None = None
 
 
 @dataclass
@@ -71,6 +75,12 @@ class EvalReport:
     canary_recall: float = 0.0
     canary_f1: float = 0.0
     n_canary_labeled: int = 0
+    propose_write_rate: float = 0.0
+    n_propose_write: int = 0
+    pii_precision: float = 0.0
+    pii_recall: float = 0.0
+    pii_f1: float = 0.0
+    n_pii_labeled: int = 0
 
     def as_dict(self) -> dict:
         return {
@@ -88,6 +98,12 @@ class EvalReport:
             "canary_recall": self.canary_recall,
             "canary_f1": self.canary_f1,
             "n_canary_labeled": self.n_canary_labeled,
+            "propose_write_rate": self.propose_write_rate,
+            "n_propose_write": self.n_propose_write,
+            "pii_precision": self.pii_precision,
+            "pii_recall": self.pii_recall,
+            "pii_f1": self.pii_f1,
+            "n_pii_labeled": self.n_pii_labeled,
             "p50_latency_ms": self.p50_latency_ms,
             "p95_latency_ms": self.p95_latency_ms,
             "confusion": self.confusion,
