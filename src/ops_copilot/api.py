@@ -19,6 +19,8 @@ from ops_copilot.api_schemas import (
     QueryRequest,
     QueryResponse,
     SourcesResponse,
+    WriteDecisionRequest,
+    WriteRecordResponse,
 )
 from ops_copilot.config import parse_clock
 from ops_copilot.source_slas import load_source_slas
@@ -28,7 +30,7 @@ from ops_copilot.types import CopilotResult, FreshnessResult
 app = FastAPI(
     title="Freshness-gated ops copilot",
     description=(
-        "Demo HTTP surface: POST /query returns ANSWER | REFUSE_* (incl. REFUSE_DISAGREE, REFUSE_BUDGET) with evidence "
+        "Demo HTTP surface: POST /query returns ANSWER | PROPOSE_WRITE | REFUSE_* with evidence "
         "ages and trace_id. Offline extractive path; no paid LLM."
     ),
     version=__version__,
@@ -106,6 +108,7 @@ def result_to_response(result: CopilotResult, *, trace_id: str, sla_used: dict[s
         session_spent_before=round(result.session_spent_before, 4),
         session_spent_after=round(result.session_spent_after, 4),
         session_budget=result.session_budget,
+        proposed_write=result.proposed_write,
     )
 
 
@@ -161,6 +164,51 @@ def sources() -> SourcesResponse:
         path=table.path,
         use_source_slas=copilot.config.use_source_slas,
     )
+
+
+
+@app.post("/writes/{write_id}/approve", response_model=WriteRecordResponse)
+def approve_write(
+    write_id: str,
+    body: WriteDecisionRequest,
+) -> WriteRecordResponse:
+    """Approve a pending write; runs the offline execute stub. Rejected writes cannot approve."""
+    copilot = get_copilot(None)
+    try:
+        record = copilot.hitl.approve(write_id, actor=body.actor.strip())
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except (ValueError, PermissionError) as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    d = record.as_dict()
+    return WriteRecordResponse(**d)
+
+
+@app.post("/writes/{write_id}/reject", response_model=WriteRecordResponse)
+def reject_write(
+    write_id: str,
+    body: WriteDecisionRequest,
+) -> WriteRecordResponse:
+    """Reject a pending write. Rejected writes never execute."""
+    copilot = get_copilot(None)
+    try:
+        record = copilot.hitl.reject(
+            write_id, actor=body.actor.strip(), reason=body.reason or ""
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    d = record.as_dict()
+    return WriteRecordResponse(**d)
+
+
+@app.get("/writes/pending", response_model=list[WriteRecordResponse])
+def list_pending_writes() -> list[WriteRecordResponse]:
+    """List PENDING write proposals awaiting human approve/reject."""
+    copilot = get_copilot(None)
+    return [WriteRecordResponse(**r.as_dict()) for r in copilot.hitl.list_pending()]
+
 
 
 def create_app() -> FastAPI:
