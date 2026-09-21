@@ -1,27 +1,30 @@
 {
   "mode": "per_source",
-  "n": 41,
+  "n": 46,
   "decision_accuracy": 1.0,
   "refusal_precision": 1.0,
   "refusal_recall": 1.0,
   "answer_grounding_rate": 1.0,
-  "disagreement_rate": 0.2682926829268293,
-  "n_disagreed": 11,
-  "budget_refuse_rate": 0.07317073170731707,
+  "disagreement_rate": 0.30434782608695654,
+  "n_disagreed": 14,
+  "budget_refuse_rate": 0.06521739130434782,
   "n_budget_refused": 3,
   "canary_precision": 1.0,
   "canary_recall": 1.0,
   "canary_f1": 1.0,
   "n_canary_labeled": 6,
-  "p50_latency_ms": 2.1990459645166993,
-  "p95_latency_ms": 2.8294490184634924,
+  "propose_write_rate": 0.08695652173913043,
+  "n_propose_write": 4,
+  "p50_latency_ms": 2.118431501003215,
+  "p95_latency_ms": 2.427865749268676,
   "confusion": {
     "ANSWER->ANSWER": 12,
     "REFUSE_STALE->REFUSE_STALE": 8,
     "REFUSE_NO_EVIDENCE->REFUSE_NO_EVIDENCE": 5,
-    "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 5,
+    "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 6,
     "REFUSE_DISAGREE->REFUSE_DISAGREE": 4,
     "REFUSE_BUDGET->REFUSE_BUDGET": 3,
-    "REFUSE_CANARY->REFUSE_CANARY": 4
+    "REFUSE_CANARY->REFUSE_CANARY": 4,
+    "PROPOSE_WRITE->PROPOSE_WRITE": 4
   }
 }
