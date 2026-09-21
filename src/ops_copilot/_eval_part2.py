@@ -26,6 +26,13 @@
                 if result.canary is not None
                 else None
             ),
+            propose_write=actual == Decision.PROPOSE_WRITE.value,
+            expect_pii=(
+                bool(case["expect_pii"]) if "expect_pii" in case else None
+            ),
+            actual_pii=(
+                bool(result.pii_detected) if "expect_pii" in case else None
+            ),
         )
         scores.append(score)
         if tracer:
@@ -114,6 +121,12 @@ def render_markdown(report: EvalReport) -> str:
         f"| canary_recall | {m.get('canary_recall', 0.0):.3f} |",
         f"| canary_f1 | {m.get('canary_f1', 0.0):.3f} |",
         f"| n_canary_labeled | {m.get('n_canary_labeled', 0)} |",
+        f"| propose_write_rate | {m.get('propose_write_rate', 0.0):.3f} |",
+        f"| n_propose_write | {m.get('n_propose_write', 0)} |",
+        f"| pii_precision | {m.get('pii_precision', 0.0):.3f} |",
+        f"| pii_recall | {m.get('pii_recall', 0.0):.3f} |",
+        f"| pii_f1 | {m.get('pii_f1', 0.0):.3f} |",
+        f"| n_pii_labeled | {m.get('n_pii_labeled', 0)} |",
         f"| p50_latency_ms | {m['p50_latency_ms']:.2f} |",
         f"| p95_latency_ms | {m['p95_latency_ms']:.2f} |",
         "",
