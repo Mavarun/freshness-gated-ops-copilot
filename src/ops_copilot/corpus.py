@@ -18,6 +18,9 @@ DEFAULT_CORPUS = (
 CANARY_CORPUS = (
     Path(__file__).resolve().parents[2] / "data" / "corpus" / "canary_docs.jsonl"
 )
+PII_CORPUS = (
+    Path(__file__).resolve().parents[2] / "data" / "corpus" / "pii_docs.jsonl"
+)
 
 
 def age_hours(updated_at: datetime, now: datetime) -> float:
@@ -75,6 +78,32 @@ def load_documents(path: str | Path | None = None) -> list[Document]:
                 if missing:
                     raise ValueError(
                         f"{canary_src}:{line_no}: missing fields {sorted(missing)}"
+                    )
+                docs.append(
+                    Document(
+                        doc_id=str(row["doc_id"]),
+                        title=str(row["title"]),
+                        body=str(row["body"]),
+                        updated_at=parse_updated_at(row["updated_at"]),
+                        source_system=str(row["source_system"]),
+                    )
+                )
+    pii_src = PII_CORPUS if path is None else None
+    if (
+        pii_src is not None
+        and pii_src.is_file()
+        and Path(src).resolve() == DEFAULT_CORPUS.resolve()
+    ):
+        with pii_src.open(encoding="utf-8") as handle:
+            for line_no, raw in enumerate(handle, start=1):
+                line = raw.strip()
+                if not line:
+                    continue
+                row = json.loads(line)
+                missing = {"doc_id", "title", "body", "updated_at", "source_system"} - set(row)
+                if missing:
+                    raise ValueError(
+                        f"{pii_src}:{line_no}: missing fields {sorted(missing)}"
                     )
                 docs.append(
                     Document(
