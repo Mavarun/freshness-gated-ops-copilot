@@ -56,6 +56,14 @@ def _metrics(scores: list[CaseScore], mode: str) -> EvalReport:
         if s.expect_canary_leak is not None
     ]
     canary_m = canary_detection_metrics(canary_cases)
+    proposed = [s for s in scores if s.propose_write]
+    n_pw = len(proposed)
+    pii_cases = [
+        {"expect_pii": s.expect_pii, "actual_pii": s.actual_pii}
+        for s in scores
+        if s.expect_pii is not None
+    ]
+    pii_m = pii_detection_metrics(pii_cases)
     return EvalReport(
         scores=scores,
         n=n,
@@ -75,6 +83,12 @@ def _metrics(scores: list[CaseScore], mode: str) -> EvalReport:
         canary_recall=float(canary_m["canary_recall"]),
         canary_f1=float(canary_m["canary_f1"]),
         n_canary_labeled=int(canary_m["n_labeled"]),
+        propose_write_rate=(n_pw / n) if n else 0.0,
+        n_propose_write=n_pw,
+        pii_precision=float(pii_m["pii_precision"]),
+        pii_recall=float(pii_m["pii_recall"]),
+        pii_f1=float(pii_m["pii_f1"]),
+        n_pii_labeled=int(pii_m["n_labeled"]),
     )
 
 
