@@ -14,6 +14,7 @@ from pathlib import Path
 
 from ops_copilot.answer import extractive_answer, render_refusal
 from ops_copilot.canary import CanaryRegistry, scan_answer
+from ops_copilot.pii_redact import scan_answer_pii
 from ops_copilot.config import CopilotConfig, parse_clock
 from ops_copilot.corpus import Corpus
 from ops_copilot.cost_budget import SessionCostLedger
@@ -151,6 +152,7 @@ class Copilot:
         budget_active = bool(cfg.use_budget_gate and session_id)
 
         canary_scan = scan_answer(draft, query, self.canary_registry)
+        pii_scan = scan_answer_pii(draft, query)
         write_intent = (
             detect_write_intent(query) if cfg.use_hitl_write_gate else None
         )
@@ -175,11 +177,16 @@ class Copilot:
             use_canary_gate=cfg.use_canary_gate,
             write_intent=write_intent,
             use_hitl_write_gate=cfg.use_hitl_write_gate,
+            pii_scan=pii_scan,
+            use_pii_gate=cfg.use_pii_gate,
         )
 
         proposed_write = None
         if policy.decision is Decision.ANSWER:
-            answer = draft
+            if getattr(pii_scan, "action", "pass") == "redact":
+                answer = pii_scan.redacted_text
+            else:
+                answer = draft
             cited = list(dict.fromkeys(c.doc_id for c in fresh_hits))
         elif policy.decision is Decision.PROPOSE_WRITE and write_intent is not None:
             evidence_ids = list(
@@ -221,6 +228,9 @@ class Copilot:
             session_budget=cfg.session_budget_cost_units if budget_active else None,
             canary=canary_scan.as_dict(),
             proposed_write=proposed_write,
+            pii_detected=bool(pii_scan.pii_detected),
+            redactions_count=int(pii_scan.redactions_count),
+            pii=pii_scan.as_dict(),
         )
 
 
