@@ -4,16 +4,18 @@ Gates fire in this order:
 
 1. session cost budget would be exceeded → REFUSE_BUDGET
    (only when use_budget_gate and a session_id is in play)
-2. nothing retrieved → REFUSE_NO_EVIDENCE
-3. retrieved, but no chunk actually supports the query
+2. write intent (restart/page/patch) → PROPOSE_WRITE (pending HITL;
+   skips evidence gates — we propose a mutation, we do not answer from corpus)
+3. nothing retrieved → REFUSE_NO_EVIDENCE
+4. retrieved, but no chunk actually supports the query
    (coverage below a weak floor) → REFUSE_NO_EVIDENCE
-4. partial support, below the grounding threshold → REFUSE_UNGROUNDED
-5. supporting chunks exist, all fail the freshness SLA → REFUSE_STALE
-6. fresh supporting exists, but BM25 vs dense-stub top-k doc-ids disagree
+5. partial support, below the grounding threshold → REFUSE_UNGROUNDED
+6. supporting chunks exist, all fail the freshness SLA → REFUSE_STALE
+7. fresh supporting exists, but BM25 vs dense-stub top-k doc-ids disagree
    beyond the Jaccard threshold → REFUSE_DISAGREE
-7. fresh supporting chunks fail the final answer-grounding check → REFUSE_UNGROUNDED
-8. extractive draft echoes an unjustified planted canary → REFUSE_CANARY
-9. else ANSWER
+8. fresh supporting chunks fail the final answer-grounding check → REFUSE_UNGROUNDED
+9. extractive draft echoes an unjustified planted canary → REFUSE_CANARY
+10. else ANSWER
 
 Freshness is applied to *supporting* evidence, not to whatever BM25 dumped.
 A fresh-but-tangential Redis pool chart cannot launder a stale maxmemory-policy
@@ -24,7 +26,9 @@ Disagreement is checked *after* freshness and *before* grounding so a fluent
 extractive draft cannot paper over ranker conflict.
 
 Budget is checked *first* so an over-budget session cannot ANSWER even when
-freshness and disagreement would otherwise pass.
+freshness and disagreement would otherwise pass. Write intent is checked
+*second* (after budget) so mutating asks become PROPOSE_WRITE rather than
+auto-executing; rejected writes never reach the execute stub.
 """
 
 from __future__ import annotations
@@ -59,6 +63,8 @@ def decide(
     session_id: str | None = None,
     canary_scan: object | None = None,
     use_canary_gate: bool = True,
+    write_intent: object | None = None,
+    use_hitl_write_gate: bool = True,
 ) -> PolicyDecision:
     if (
         use_budget_gate
@@ -73,6 +79,21 @@ def decide(
                 f"request_cost={request_cost:.4f}; "
                 f"budget={session_budget:g}; "
                 f"projected={session_spent + request_cost:.4f})"
+            ),
+        )
+
+    # Write intents skip evidence/freshness/grounding: we propose a mutation,
+    # we do not answer from corpus. Budget already applied above. Rejected /
+    # pending writes never execute (see hitl.HitlWriteLedger).
+    if use_hitl_write_gate and write_intent is not None:
+        action = getattr(write_intent, "action_type", None)
+        action_v = getattr(action, "value", None) or str(action or "write")
+        target = getattr(write_intent, "target", "?")
+        return PolicyDecision(
+            decision=Decision.PROPOSE_WRITE,
+            reason=(
+                f"write intent detected ({action_v} → {target}); "
+                f"proposed write stays PENDING until explicit human approve"
             ),
         )
 
