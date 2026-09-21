@@ -170,3 +170,28 @@ def test_query_without_session_still_answers() -> None:
     assert body["decision"] == Decision.ANSWER.value
     assert body["session_id"] is None
     assert body["session_budget"] is None
+
+
+def test_query_pii_fields_on_authorized_contact() -> None:
+    resp = client.post(
+        "/query",
+        json={"query": "What is the vault-transit key rotation contact email?"},
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["decision"] == Decision.ANSWER.value
+    assert body["pii_detected"] is True
+    assert body["redactions_count"] >= 1
+    assert "ops-secrets@example.com" not in body["answer_or_refusal"]
+
+
+def test_query_pii_refuse_secret() -> None:
+    resp = client.post(
+        "/query",
+        json={"query": "What is the staging deploy aws access key id?"},
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["decision"] == Decision.REFUSE_PII.value
+    assert body["pii_detected"] is True
+    assert "AKIATESTKEY000000000" not in body["answer_or_refusal"]
