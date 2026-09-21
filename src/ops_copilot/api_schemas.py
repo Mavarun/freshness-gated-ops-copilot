@@ -56,6 +56,9 @@ class QueryResponse(BaseModel):
     session_spent_after: float | None = None
     session_budget: float | None = None
     proposed_write: dict[str, Any] | None = None
+    pii_detected: bool = False
+    redactions_count: int = 0
+    pii: dict[str, Any] | None = None
 
 
 class HealthResponse(BaseModel):
