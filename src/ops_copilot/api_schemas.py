@@ -55,6 +55,7 @@ class QueryResponse(BaseModel):
     session_spent_before: float | None = None
     session_spent_after: float | None = None
     session_budget: float | None = None
+    proposed_write: dict[str, Any] | None = None
 
 
 class HealthResponse(BaseModel):
@@ -73,3 +74,20 @@ class SourcesResponse(BaseModel):
     sources: dict[str, float]
     path: str | None = None
     use_source_slas: bool = True
+
+class WriteDecisionRequest(BaseModel):
+    """Body for POST /writes/{id}/approve and /reject."""
+
+    actor: str = Field(..., min_length=1, description="Human actor approving or rejecting")
+    reason: str = Field(default="", description="Optional reject reason")
+
+
+class WriteRecordResponse(BaseModel):
+    """HITL write ledger record returned after propose/approve/reject."""
+
+    write_id: str
+    status: str
+    proposal: dict[str, Any]
+    audit: list[dict[str, Any]]
+    executed: bool
+    execution_result: dict[str, Any] | None = None

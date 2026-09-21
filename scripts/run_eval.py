@@ -25,11 +25,10 @@ def main() -> None:
     artifacts = ROOT / "artifacts"
     artifacts.mkdir(parents=True, exist_ok=True)
     golden = ROOT / "data" / "golden" / "questions.jsonl"
-    corpus = ROOT / "data" / "corpus" / "ops_docs.jsonl"
 
     comparison = run_comparison(
         golden_path=golden,
-        corpus_path=corpus,
+        # Omit corpus_path so default loader merges ops_docs + canary_docs.
         trace_path=artifacts / "traces.jsonl",
     )
 
@@ -49,7 +48,6 @@ def main() -> None:
 
     disagree = run_disagreement_comparison(
         golden_path=golden,
-        corpus_path=corpus,
     )
     d_md = render_disagreement_comparison_markdown(disagree)
     (artifacts / "eval_disagreement.md").write_text(d_md, encoding="utf-8")
