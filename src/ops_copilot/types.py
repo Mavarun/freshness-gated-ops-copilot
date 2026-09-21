@@ -15,6 +15,7 @@ class Decision(str, Enum):
     REFUSE_DISAGREE = "REFUSE_DISAGREE"
     REFUSE_BUDGET = "REFUSE_BUDGET"
     REFUSE_CANARY = "REFUSE_CANARY"
+    REFUSE_PII = "REFUSE_PII"
     PROPOSE_WRITE = "PROPOSE_WRITE"
 
 
@@ -123,6 +124,9 @@ class CopilotResult:
     session_budget: float | None = None
     canary: dict | None = None
     proposed_write: dict | None = None
+    pii_detected: bool = False
+    redactions_count: int = 0
+    pii: dict | None = None
 
     def as_dict(self) -> dict:
         return {
@@ -144,4 +148,7 @@ class CopilotResult:
             "session_budget": self.session_budget,
             "canary": self.canary,
             "proposed_write": self.proposed_write,
+            "pii_detected": self.pii_detected,
+            "redactions_count": self.redactions_count,
+            "pii": self.pii,
         }

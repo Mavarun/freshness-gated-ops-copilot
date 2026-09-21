@@ -29,6 +29,11 @@ REFUSAL_TEMPLATES = {
         "REFUSED: extractive draft echoed a planted canary token not justified "
         "by the query (possible prompt-injection / exfiltration). Token values withheld."
     ),
+    Decision.REFUSE_PII: (
+        "REFUSED: extractive draft contained PII or secrets not authorized "
+        "by the query. Raw values withheld; request a rotation contact email "
+        "explicitly to receive a masked contact form."
+    ),
     Decision.PROPOSE_WRITE: (
         "PENDING WRITE: a mutating action was proposed and is waiting for "
         "explicit human approve. It will not execute until approved."
@@ -61,7 +66,6 @@ def extractive_answer(
             if score <= 0:
                 continue
             lead = 1 if chunk.chunk_id.endswith("::p0") else 0
-            # Prefer higher overlap, then lead paragraph, then earlier candidates.
             candidates.append((score, lead, -len(candidates), sent.strip(), chunk.doc_id))
     candidates.sort(reverse=True)
     picked: list[str] = []

@@ -36,9 +36,6 @@ class CopilotConfig:
     """Policy and retrieval knobs for a single copilot instance."""
 
     max_age_hours: float = 48.0
-    # When True, freshness uses per-source SLAs (see config/source_slas.yaml)
-    # with max_age_hours as the fallback for unknown sources. When False,
-    # every source shares max_age_hours (v0 global-only behaviour).
     use_source_slas: bool = True
     source_sla_path: str | None = None
     top_k: int = 5
@@ -50,20 +47,12 @@ class CopilotConfig:
     use_dense: bool = True
     max_answer_sentences: int = 2
     rng_seed: int = RNG_SEED
-    # Disagreement routing: compare BM25 vs TitleHashDenseStub top-k doc ids.
     use_disagreement_gate: bool = True
     disagreement_top_k: int = 1
-    # Agreed when Jaccard >= threshold. With top_k=1, threshold=1.0 means
-    # the two retrievers must share the same top doc_id.
     disagreement_jaccard_threshold: float = 1.0
-    # Session cost budget: accumulate approx_cost_units per session_id.
-    # When spent + this request would exceed the budget, policy emits REFUSE_BUDGET.
-    # Gate applies only when a session_id is provided (API header/body or ask()).
     use_budget_gate: bool = True
-    # Default allows ~2 typical hybrid+disagreement queries then trips on the 3rd.
     session_budget_cost_units: float = 5.0
-    # Prompt-injection canary farm: refuse when draft echoes unjustified CNRY tokens.
     use_canary_gate: bool = True
     canary_registry_path: str | None = None
-    # HITL write gate: imperative writes become PROPOSE_WRITE (pending) until human approve.
     use_hitl_write_gate: bool = True
+    use_pii_gate: bool = True
