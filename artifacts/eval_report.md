@@ -1,15 +1,24 @@
-# Golden eval (canary farm)
+# Freshness-gated ops copilot - golden eval
 
-decision_accuracy=1.0
-canary_f1=1.0
-n=41
-confusion=
-{
-  "ANSWER->ANSWER": 12,
-  "REFUSE_STALE->REFUSE_STALE": 8,
-  "REFUSE_NO_EVIDENCE->REFUSE_NO_EVIDENCE": 5,
-  "REFUSE_UNGROUNDED->REFUSE_UNGROUNDED": 5,
-  "REFUSE_DISAGREE->REFUSE_DISAGREE": 4,
-  "REFUSE_BUDGET->REFUSE_BUDGET": 3,
-  "REFUSE_CANARY->REFUSE_CANARY": 4
-}
+## Summary metrics
+
+| Metric | Value |
+| --- | ---: |
+| mode | per_source |
+| cases | 46 |
+| decision_accuracy | 1.000 |
+| refusal_precision | 1.000 |
+| refusal_recall | 1.000 |
+| answer_grounding_rate | 1.000 |
+| disagreement_rate | 0.304 |
+| n_disagreed | 14 |
+| budget_refuse_rate | 0.065 |
+| n_budget_refused | 3 |
+| canary_precision | 1.000 |
+| canary_recall | 1.000 |
+| canary_f1 | 1.000 |
+| n_canary_labeled | 6 |
+| propose_write_rate | 0.087 |
+| n_propose_write | 4 |
+| p50_latency_ms | 2.12 |
+| p95_latency_ms | 2.43 |
