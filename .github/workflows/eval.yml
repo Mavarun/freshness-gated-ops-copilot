@@ -29,6 +29,11 @@ jobs:
       - name: Run golden eval (global vs per-source)
         run: python scripts/run_eval.py
 
+      # Report-only: accuracy drops under perturbation are the finding and never
+      # fail the build. A crash (non-zero exit) still fails the job.
+      - name: Robustness report (clean vs perturbed, non-gating on accuracy)
+        run: python scripts/run_robustness.py
+
       - name: Upload eval artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -39,3 +44,5 @@ jobs:
             artifacts/eval_metrics.json
             artifacts/eval_comparison.md
             artifacts/eval_comparison.json
+            artifacts/robustness_report.md
+            artifacts/robustness_metrics.json
