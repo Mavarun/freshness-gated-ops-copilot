@@ -1,4 +1,4 @@
-.PHONY: test eval demo api install
+.PHONY: test eval demo api install robustness paraphrases
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -14,3 +14,9 @@ demo:
 
 api:
 	python scripts/run_api.py
+
+paraphrases:
+	python scripts/make_paraphrase_set.py
+
+robustness:
+	python scripts/run_robustness.py
