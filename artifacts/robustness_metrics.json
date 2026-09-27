@@ -2,65 +2,65 @@
  "n_clean": 51,
  "clean_accuracy": 1.0,
  "n_perturbed": 203,
- "perturbed_accuracy": 0.4729,
- "accuracy_drop": 0.5271,
- "n_flips": 107,
+ "perturbed_accuracy": 0.8916,
+ "accuracy_drop": 0.1084,
+ "n_flips": 22,
  "per_perturbation": {
   "synonym": {
    "n": 50,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.32,
-   "delta": -0.68,
-   "n_flips": 34
+   "perturbed_accuracy": 0.62,
+   "delta": -0.38,
+   "n_flips": 19
   },
   "word_order": {
    "n": 51,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.9412,
-   "delta": -0.0588,
-   "n_flips": 3
+   "perturbed_accuracy": 0.9804,
+   "delta": -0.0196,
+   "n_flips": 1
   },
   "typo": {
    "n": 51,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.2941,
-   "delta": -0.7059,
-   "n_flips": 36
+   "perturbed_accuracy": 0.9804,
+   "delta": -0.0196,
+   "n_flips": 1
   },
   "polite": {
    "n": 51,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.3333,
-   "delta": -0.6667,
-   "n_flips": 34
+   "perturbed_accuracy": 0.9804,
+   "delta": -0.0196,
+   "n_flips": 1
   }
  },
  "per_gate": {
   "ANSWER": {
    "n": 56,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.2321,
-   "delta": -0.7679,
-   "n_flips": 43,
+   "perturbed_accuracy": 0.8036,
+   "delta": -0.1964,
+   "n_flips": 11,
    "n_clean_cases": 14,
    "by_perturbation": {
-    "synonym": 0.0,
-    "word_order": 0.9286,
-    "typo": 0.0,
-    "polite": 0.0
+    "synonym": 0.2857,
+    "word_order": 1.0,
+    "typo": 1.0,
+    "polite": 0.9286
    }
   },
   "PROPOSE_WRITE": {
    "n": 16,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.5,
-   "delta": -0.5,
-   "n_flips": 8,
+   "perturbed_accuracy": 0.8125,
+   "delta": -0.1875,
+   "n_flips": 3,
    "n_clean_cases": 4,
    "by_perturbation": {
-    "synonym": 0.0,
+    "synonym": 0.5,
     "word_order": 0.75,
-    "typo": 0.25,
+    "typo": 1.0,
     "polite": 1.0
    }
   },
@@ -81,29 +81,29 @@
   "REFUSE_CANARY": {
    "n": 16,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.3125,
-   "delta": -0.6875,
-   "n_flips": 11,
+   "perturbed_accuracy": 0.875,
+   "delta": -0.125,
+   "n_flips": 2,
    "n_clean_cases": 4,
    "by_perturbation": {
-    "synonym": 0.25,
+    "synonym": 0.5,
     "word_order": 1.0,
-    "typo": 0.0,
-    "polite": 0.0
+    "typo": 1.0,
+    "polite": 1.0
    }
   },
   "REFUSE_DISAGREE": {
    "n": 16,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.3125,
-   "delta": -0.6875,
-   "n_flips": 11,
+   "perturbed_accuracy": 0.75,
+   "delta": -0.25,
+   "n_flips": 4,
    "n_clean_cases": 4,
    "by_perturbation": {
     "synonym": 0.25,
     "word_order": 1.0,
-    "typo": 0.0,
-    "polite": 0.0
+    "typo": 0.75,
+    "polite": 1.0
    }
   },
   "REFUSE_NO_EVIDENCE": {
@@ -123,174 +123,208 @@
   "REFUSE_PII": {
    "n": 12,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.25,
-   "delta": -0.75,
-   "n_flips": 9,
+   "perturbed_accuracy": 0.9167,
+   "delta": -0.0833,
+   "n_flips": 1,
    "n_clean_cases": 3,
    "by_perturbation": {
-    "synonym": 0.0,
+    "synonym": 0.6667,
     "word_order": 1.0,
-    "typo": 0.0,
-    "polite": 0.0
+    "typo": 1.0,
+    "polite": 1.0
    }
   },
   "REFUSE_STALE": {
    "n": 31,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.2581,
-   "delta": -0.7419,
-   "n_flips": 23,
+   "perturbed_accuracy": 0.9677,
+   "delta": -0.0323,
+   "n_flips": 1,
    "n_clean_cases": 8,
    "by_perturbation": {
-    "synonym": 0.0,
+    "synonym": 0.8571,
     "word_order": 1.0,
-    "typo": 0.0,
-    "polite": 0.0
+    "typo": 1.0,
+    "polite": 1.0
    }
   },
   "REFUSE_UNGROUNDED": {
    "n": 20,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.9,
-   "delta": -0.1,
-   "n_flips": 2,
+   "perturbed_accuracy": 1.0,
+   "delta": 0.0,
+   "n_flips": 0,
    "n_clean_cases": 5,
    "by_perturbation": {
     "synonym": 1.0,
-    "word_order": 0.8,
+    "word_order": 1.0,
     "typo": 1.0,
-    "polite": 0.8
+    "polite": 1.0
    }
   }
  },
  "transitions": {
-  "ANSWER->REFUSE_UNGROUNDED": 41,
-  "REFUSE_STALE->REFUSE_UNGROUNDED": 23,
-  "REFUSE_DISAGREE->REFUSE_UNGROUNDED": 11,
-  "REFUSE_CANARY->REFUSE_UNGROUNDED": 11,
-  "REFUSE_PII->REFUSE_UNGROUNDED": 8,
-  "PROPOSE_WRITE->REFUSE_UNGROUNDED": 7,
-  "REFUSE_UNGROUNDED->PROPOSE_WRITE": 2,
-  "ANSWER->REFUSE_DISAGREE": 1,
+  "ANSWER->REFUSE_UNGROUNDED": 9,
+  "REFUSE_DISAGREE->REFUSE_UNGROUNDED": 4,
+  "REFUSE_CANARY->REFUSE_UNGROUNDED": 2,
+  "PROPOSE_WRITE->REFUSE_UNGROUNDED": 2,
   "ANSWER->REFUSE_NO_EVIDENCE": 1,
-  "PROPOSE_WRITE->REFUSE_NO_EVIDENCE": 1,
-  "REFUSE_PII->ANSWER": 1
+  "ANSWER->REFUSE_DISAGREE": 1,
+  "REFUSE_STALE->REFUSE_UNGROUNDED": 1,
+  "PROPOSE_WRITE->REFUSE_DISAGREE": 1,
+  "REFUSE_PII->REFUSE_UNGROUNDED": 1
  },
  "flip_kinds": {
-  "wrong_refusal_reason": 53,
-  "over_refusal": 43,
-  "missed_write": 8,
-  "spurious_write": 2,
-  "fail_open": 1
+  "over_refusal": 11,
+  "wrong_refusal_reason": 8,
+  "missed_write": 3
  },
  "n_raw_pii_outputs": 0,
+ "n_fail_open": 0,
+ "fail_open": [],
+ "n_spurious_write": 0,
  "flips": [
   "g00-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g00-word_order: ANSWER->REFUSE_DISAGREE (over_refusal)",
-  "g00-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g00-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
   "g01-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g01-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g01-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
   "g02-synonym: ANSWER->REFUSE_NO_EVIDENCE (over_refusal)",
-  "g02-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g02-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g03-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g03-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g03-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
   "g04-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g04-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g04-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
   "g05-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g05-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g05-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g06-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g06-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g06-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g07-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g07-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g07-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g08-typo: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g08-polite: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g09-synonym: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g09-typo: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g09-polite: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g10-synonym: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g10-typo: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g10-polite: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
+  "g05-polite: ANSWER->REFUSE_DISAGREE (over_refusal)",
   "g11-synonym: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g11-typo: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g11-polite: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g12-synonym: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g12-typo: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g12-polite: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g13-synonym: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g13-typo: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g13-polite: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g24-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g24-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g24-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
   "g25-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g25-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g25-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g26-synonym: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g26-typo: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g26-polite: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g27-synonym: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g27-typo: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g27-polite: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g28-synonym: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g28-typo: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g28-polite: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g29-synonym: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g29-typo: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g29-polite: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g30-synonym: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g30-typo: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g30-polite: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g31-typo: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g31-polite: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g35-synonym: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g35-typo: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g35-polite: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g36-typo: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g36-polite: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g37-synonym: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g37-typo: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g37-polite: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g38-synonym: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g38-typo: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g38-polite: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g39-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g39-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g39-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
   "g40-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g40-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g40-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g41-synonym: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
   "g42-synonym: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
-  "g42-word_order: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
-  "g42-typo: PROPOSE_WRITE->REFUSE_NO_EVIDENCE (missed_write)",
+  "g42-word_order: PROPOSE_WRITE->REFUSE_DISAGREE (missed_write)",
   "g43-synonym: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
-  "g43-typo: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
-  "g44-synonym: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
-  "g44-typo: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
-  "g45-word_order: REFUSE_UNGROUNDED->PROPOSE_WRITE (spurious_write)",
-  "g45-polite: REFUSE_UNGROUNDED->PROPOSE_WRITE (spurious_write)",
   "g46-synonym: REFUSE_PII->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g46-typo: REFUSE_PII->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g46-polite: REFUSE_PII->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g47-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g47-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g47-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g48-synonym: REFUSE_PII->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g48-typo: REFUSE_PII->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g48-polite: REFUSE_PII->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g49-synonym: REFUSE_PII->ANSWER (fail_open)",
-  "g49-typo: REFUSE_PII->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g49-polite: REFUSE_PII->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g50-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g50-typo: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
-  "g50-polite: ANSWER->REFUSE_UNGROUNDED (over_refusal)"
- ]
+  "g50-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)"
+ ],
+ "before": {
+  "perturbed_accuracy": 0.4729,
+  "n_flips": 107,
+  "n_fail_open": 1,
+  "n_spurious_write": 2,
+  "n_raw_pii_outputs": 0,
+  "per_perturbation": {
+   "synonym": 0.32,
+   "word_order": 0.9412,
+   "typo": 0.2941,
+   "polite": 0.3333
+  },
+  "per_gate": {
+   "ANSWER": 0.2321,
+   "PROPOSE_WRITE": 0.5,
+   "REFUSE_BUDGET": 1.0,
+   "REFUSE_CANARY": 0.3125,
+   "REFUSE_DISAGREE": 0.3125,
+   "REFUSE_NO_EVIDENCE": 1.0,
+   "REFUSE_PII": 0.25,
+   "REFUSE_STALE": 0.2581,
+   "REFUSE_UNGROUNDED": 0.9
+  }
+ },
+ "ablations": {
+  "normalizer + salience only": {
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.6453,
+   "per_perturbation": {
+    "synonym": 0.32,
+    "word_order": 0.9804,
+    "typo": 0.2941,
+    "polite": 0.9804
+   },
+   "n_fail_open": 1
+  },
+  "+ typo tolerance": {
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.8177,
+   "per_perturbation": {
+    "synonym": 0.32,
+    "word_order": 0.9804,
+    "typo": 0.9804,
+    "polite": 0.9804
+   },
+   "n_fail_open": 1
+  },
+  "+ synonym map (no typo)": {
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.7192,
+   "per_perturbation": {
+    "synonym": 0.62,
+    "word_order": 0.9804,
+    "typo": 0.2941,
+    "polite": 0.9804
+   },
+   "n_fail_open": 0
+  },
+  "full (typo + synonyms)": {
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.8916,
+   "per_perturbation": {
+    "synonym": 0.62,
+    "word_order": 0.9804,
+    "typo": 0.9804,
+    "polite": 0.9804
+   },
+   "n_fail_open": 0
+  }
+ },
+ "leakage": {
+  "synonym_pairs_applicable": 122,
+  "synonym_pairs_covered": 39,
+  "synonym_pair_coverage": 0.3197,
+  "covered_pairs": [
+   "restart->reboot",
+   "restart->bounce",
+   "restart->recycle",
+   "latency->response time",
+   "replicas->pods",
+   "replicas->instances",
+   "status->health",
+   "utilization->usage",
+   "mitigation->remediation",
+   "mitigation->workaround",
+   "runbook->playbook",
+   "procedure->process",
+   "procedure->steps",
+   "email->e-mail",
+   "token->credential",
+   "token->secret",
+   "rotation->rollover",
+   "outage->incident",
+   "outage->downtime",
+   "config->configuration",
+   "deploy->release",
+   "deploy->rollout",
+   "cadence->frequency",
+   "production->prod",
+   "password->passphrase",
+   "feature flag->feature toggle",
+   "flag->toggle",
+   "rollback->revert",
+   "target->goal",
+   "target->objective",
+   "request rate->throughput",
+   "endpoint->URL",
+   "path->route",
+   "route->path",
+   "flush->purge",
+   "playbook->runbook",
+   "qps->throughput",
+   "qps->requests per second",
+   "stickiness->affinity"
+  ],
+  "corpus_group_words": 60,
+  "corpus_group_words_in_eval_map": 58,
+  "polite_prefix_words": 10,
+  "polite_prefix_words_in_filler": 10
+ }
 }
