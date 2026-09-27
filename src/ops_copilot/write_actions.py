@@ -31,10 +31,23 @@ class WriteActionType(str, Enum):
     PATCH_CONFIG = "patch_config"
 
 
-# How-to / definition reads must not trip the write gate.
+# How-to / definition reads must not trip the write gate. Matched anywhere in
+# the normalized query, not only at the start: "Quick question: how do I
+# restart X?" and "I was wondering, what is the procedure to restart X" are
+# reads. "how" may sit up to two words before its auxiliary ("how I do",
+# "how would we"). Missing a write here is the safe failure: the query falls
+# through to the evidence gates and is answered or refused, never executed.
 _READ_CUES = re.compile(
-    r"^\s*(how\s+(do|to|can|should)|what\s+(is|are|does)|where\s+is|"
-    r"who\s+is|when\s+(is|does)|why\s+(is|does)|explain|describe)\b",
+    r"\b(?:"
+    r"how(?:\s+\w+){0,2}?\s+(?:do|does|did|can|could|should|would|to)"
+    r"|what\s+(?:is|are|does|was|were)"
+    r"|where\s+(?:is|are|do|does)"
+    r"|who\s+(?:is|are|does)"
+    r"|when\s+(?:is|does|do|should)"
+    r"|why\s+(?:is|does|do|did)"
+    r"|(?:steps|procedure|process|instructions|runbook)\s+(?:to|for)"
+    r"|explain|describe"
+    r")\b",
     re.IGNORECASE,
 )
 
