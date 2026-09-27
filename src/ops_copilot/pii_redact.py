@@ -7,6 +7,7 @@ allowlist queries may receive masked email/phone answers.
 from __future__ import annotations
 
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass
 
 from ops_copilot.pii import (
@@ -86,6 +87,8 @@ class PiiScanResult:
     action: str = "pass"  # pass | redact | refuse
     redacted_text: str = ""
     redactions_count: int = 0
+    # Secret kinds found in the draft's *evidence* but not in the draft itself.
+    evidence_secret_kinds: tuple[str, ...] = ()
 
     @property
     def pii_detected(self) -> bool:
@@ -108,19 +111,49 @@ class PiiScanResult:
             "kinds": [m.kind for m in self.matches],
             "has_secret": self.has_secret,
             "n_matches": len(self.matches),
+            "evidence_secret_kinds": list(self.evidence_secret_kinds),
         }
 
 
-def scan_answer_pii(answer: str, query: str) -> PiiScanResult:
+def evidence_secret_kinds(evidence_texts: Sequence[str]) -> tuple[str, ...]:
+    """Sorted secret kinds (aws_key, slack_token) present in any evidence text."""
+    kinds = {m.kind for text in evidence_texts for m in detect_pii(text) if m.is_secret}
+    return tuple(sorted(kinds))
+
+
+def scan_answer_pii(
+    answer: str,
+    query: str,
+    evidence_texts: Sequence[str] = (),
+) -> PiiScanResult:
     """Detect PII in ``answer`` and decide pass / redact / refuse.
 
     Policy:
-    - No matches → pass.
+    - No matches → pass, unless the evidence the draft was built from carries
+      a secret (see below).
     - Any secret (aws_key, slack_token) → refuse (never authorize).
     - Email/phone + query authorize allowlist → redact (mask) and allow ANSWER.
     - Email/phone without authorize → refuse.
+    - Secret-bearing evidence quarantine: when the draft itself is clean but a
+      document it was drafted from contains a secret (in any paragraph; the
+      pipeline passes every chunk of each cited doc), refuse. Otherwise a
+      paraphrase ("slack bot secret" for "slack bot token") picks sentences
+      around the credential and ANSWERs from the secret's own page, which the
+      robustness eval counted as fail-open. Contacts (email/phone) in
+      evidence do not trigger this; only never-authorizable secrets do.
     """
     matches = detect_pii(answer)
+    if not matches and answer:
+        quarantined = evidence_secret_kinds(evidence_texts)
+        if quarantined:
+            return PiiScanResult(
+                matches=(),
+                authorized=False,
+                action="refuse",
+                redacted_text=answer,
+                redactions_count=0,
+                evidence_secret_kinds=quarantined,
+            )
     if not matches:
         return PiiScanResult(
             matches=(),

@@ -1,0 +1,100 @@
+{
+ "source": "artifacts/robustness_metrics.json at main 79bbc9d (PR #9), seed 42, 203 rows",
+ "n_clean": 51,
+ "clean_accuracy": 1.0,
+ "n_perturbed": 203,
+ "perturbed_accuracy": 0.4729,
+ "n_flips": 107,
+ "n_fail_open": 1,
+ "n_spurious_write": 2,
+ "n_raw_pii_outputs": 0,
+ "per_perturbation": {
+  "synonym": {
+   "n": 50,
+   "perturbed_accuracy": 0.32,
+   "n_flips": 34
+  },
+  "word_order": {
+   "n": 51,
+   "perturbed_accuracy": 0.9412,
+   "n_flips": 3
+  },
+  "typo": {
+   "n": 51,
+   "perturbed_accuracy": 0.2941,
+   "n_flips": 36
+  },
+  "polite": {
+   "n": 51,
+   "perturbed_accuracy": 0.3333,
+   "n_flips": 34
+  }
+ },
+ "per_gate": {
+  "ANSWER": {
+   "n": 56,
+   "perturbed_accuracy": 0.2321,
+   "n_flips": 43
+  },
+  "PROPOSE_WRITE": {
+   "n": 16,
+   "perturbed_accuracy": 0.5,
+   "n_flips": 8
+  },
+  "REFUSE_BUDGET": {
+   "n": 12,
+   "perturbed_accuracy": 1.0,
+   "n_flips": 0
+  },
+  "REFUSE_CANARY": {
+   "n": 16,
+   "perturbed_accuracy": 0.3125,
+   "n_flips": 11
+  },
+  "REFUSE_DISAGREE": {
+   "n": 16,
+   "perturbed_accuracy": 0.3125,
+   "n_flips": 11
+  },
+  "REFUSE_NO_EVIDENCE": {
+   "n": 24,
+   "perturbed_accuracy": 1.0,
+   "n_flips": 0
+  },
+  "REFUSE_PII": {
+   "n": 12,
+   "perturbed_accuracy": 0.25,
+   "n_flips": 9
+  },
+  "REFUSE_STALE": {
+   "n": 31,
+   "perturbed_accuracy": 0.2581,
+   "n_flips": 23
+  },
+  "REFUSE_UNGROUNDED": {
+   "n": 20,
+   "perturbed_accuracy": 0.9,
+   "n_flips": 2
+  }
+ },
+ "flip_kinds": {
+  "wrong_refusal_reason": 53,
+  "over_refusal": 43,
+  "missed_write": 8,
+  "spurious_write": 2,
+  "fail_open": 1
+ },
+ "transitions": {
+  "ANSWER->REFUSE_UNGROUNDED": 41,
+  "REFUSE_STALE->REFUSE_UNGROUNDED": 23,
+  "REFUSE_DISAGREE->REFUSE_UNGROUNDED": 11,
+  "REFUSE_CANARY->REFUSE_UNGROUNDED": 11,
+  "REFUSE_PII->REFUSE_UNGROUNDED": 8,
+  "PROPOSE_WRITE->REFUSE_UNGROUNDED": 7,
+  "REFUSE_UNGROUNDED->PROPOSE_WRITE": 2,
+  "ANSWER->REFUSE_DISAGREE": 1,
+  "ANSWER->REFUSE_NO_EVIDENCE": 1,
+  "PROPOSE_WRITE->REFUSE_NO_EVIDENCE": 1,
+  "REFUSE_PII->ANSWER": 1
+ }
+}
