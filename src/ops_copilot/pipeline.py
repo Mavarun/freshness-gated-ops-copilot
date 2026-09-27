@@ -81,6 +81,7 @@ class Copilot:
             texts,
             threshold=self.config.grounding_threshold,
             typo_tolerance=self.config.typo_tolerance,
+            synonyms=self.config.use_synonyms,
         )
         if sla_table is not None:
             self.sla_table = sla_table
@@ -162,7 +163,11 @@ class Copilot:
         canary_scan = scan_answer(draft, query, self.canary_registry)
         pii_scan = scan_answer_pii(draft, rq)
         write_intent = (
-            detect_write_intent(query, typo_tolerance=cfg.typo_tolerance)
+            detect_write_intent(
+                query,
+                typo_tolerance=cfg.typo_tolerance,
+                synonyms=cfg.use_synonyms,
+            )
             if cfg.use_hitl_write_gate
             else None
         )
