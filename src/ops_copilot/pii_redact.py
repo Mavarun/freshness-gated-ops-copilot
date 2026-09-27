@@ -15,6 +15,7 @@ from ops_copilot.pii import (
     SECRET_KINDS,
     detect_pii,
 )
+from ops_copilot.text import normalize_text
 
 
 def mask_email(value: str) -> str:
@@ -66,9 +67,14 @@ def redact_text(text: str, matches: tuple[PiiMatch, ...] | None = None) -> tuple
 
 
 def query_authorizes_contact(query: str) -> bool:
-    """True when the query explicitly asks for a contact email/phone (allowlist)."""
-    q = (query or "").lower()
-    return any(phrase in q for phrase in AUTHORIZE_CONTACT_PHRASES)
+    """True when the query explicitly asks for a contact email/phone (allowlist).
+
+    Matched on normalized text with word boundaries, so "CONTACT EMAIL?!" and
+    "contact email" agree and "contact emails" is not a substring accident.
+    Secrets never authorize regardless (see ``scan_answer_pii``).
+    """
+    q = f" {normalize_text(query)} "
+    return any(f" {normalize_text(phrase)} " in q for phrase in AUTHORIZE_CONTACT_PHRASES)
 
 
 @dataclass

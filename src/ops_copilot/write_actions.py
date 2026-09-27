@@ -3,6 +3,9 @@
 Read-path ANSWER is fine. Imperative writes (restart, page oncall, patch config)
 must be structured proposals — never auto-executed. Keyword/heuristic detection
 is intentional for the offline golden set (no paid LLM).
+
+Detection runs on ``text.normalize_text(query)`` so case, curly quotes, and
+trailing punctuation never decide whether a write is proposed.
 """
 
 from __future__ import annotations
@@ -11,6 +14,8 @@ import re
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any
+
+from ops_copilot.text import normalize_text
 
 
 class WriteActionType(str, Enum):
@@ -67,10 +72,11 @@ def detect_write_intent(query: str) -> ProposedWrite | None:
     Returns ``None`` for read-path questions (including how-to restart docs).
     """
     q = (query or "").strip()
-    if not q or _READ_CUES.search(q):
+    nq = normalize_text(q)
+    if not nq or _READ_CUES.search(nq):
         return None
 
-    m = _RESTART.search(q)
+    m = _RESTART.search(nq)
     if m:
         target = m.group("target").strip("-. ")
         return ProposedWrite(
@@ -80,7 +86,7 @@ def detect_write_intent(query: str) -> ProposedWrite | None:
             query=q,
         )
 
-    m = _PAGE.search(q)
+    m = _PAGE.search(nq)
     if m:
         raw = (m.group("target") or "primary").strip("-. ")
         target = raw or "primary"
@@ -91,7 +97,7 @@ def detect_write_intent(query: str) -> ProposedWrite | None:
             query=q,
         )
 
-    m = _PATCH.search(q)
+    m = _PATCH.search(nq)
     if m:
         target = m.group("target").strip("-. ")
         value = m.group("value")

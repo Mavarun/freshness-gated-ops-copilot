@@ -5,6 +5,10 @@ answer evidence. Disagreement routing compares ``search_bm25`` against
 ``search_dense_stub`` (``TitleHashDenseStub``) — an offline stand-in for a
 real dense embedder that often ranks title-similar decoys differently from
 full-text BM25.
+
+Every ranker sees the query through ``text.normalize_text`` (and corpus text
+through the same function), so a '?' stuck to the last word or a curly quote
+cannot change BM25 terms, TF-IDF terms, or the dense stub's char n-grams.
 """
 
 from __future__ import annotations
@@ -18,7 +22,7 @@ from sklearn.feature_extraction.text import HashingVectorizer, TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 from ops_copilot.config import CopilotConfig
-from ops_copilot.text import content_tokens, tokenize
+from ops_copilot.text import content_tokens, normalize_text, tokenize
 from ops_copilot.types import Chunk
 
 try:
@@ -96,6 +100,7 @@ class TitleHashDenseStub:
             n_features=n_features,
             alternate_sign=False,
             norm="l2",
+            preprocessor=normalize_text,
         )
         self._matrix = self._vectorizer.transform([c.title for c in chunks])
 
@@ -133,7 +138,7 @@ class Retriever:
         self._matrix = None
         if self.config.use_dense:
             self._vectorizer = TfidfVectorizer(
-                lowercase=True,
+                preprocessor=normalize_text,
                 token_pattern=r"[a-z0-9][a-z0-9_\-]{1,}",
             )
             corpus_text = [f"{c.title} {c.text}" for c in chunks]
