@@ -94,8 +94,95 @@ STOPWORDS = frozenset(
         "setting",
         "settings",
         "enabled",
+        # Generic function words that carry no ops content. Negations
+        # ("not", "no", "never") are deliberately absent: they change meaning.
+        "am",
+        "been",
+        "being",
+        "were",
+        "has",
+        "have",
+        "had",
+        "its",
+        "they",
+        "them",
+        "their",
+        "there",
+        "here",
+        "if",
+        "then",
+        "than",
+        "so",
+        "too",
+        "very",
+        "may",
+        "might",
+        "must",
+        "shall",
+        "would",
+        "could",
+        "why",
+        "whom",
+        "whose",
+        "us",
     }
 )
+
+# Politeness / discourse filler: words people wrap around a question that say
+# nothing about *what* is being asked. They are never salient for grounding
+# (see grounding.py). Kept separate from STOPWORDS so the list is auditable.
+# Overlap note: this is a closed class, so it necessarily covers the words in
+# the robustness eval's polite prefixes (perturb._QUESTION_PREFIXES /
+# _IMPERATIVE_PREFIXES); robustness.leakage_report() measures that overlap.
+FILLER_WORDS = frozenset(
+    {
+        "hey",
+        "hi",
+        "hello",
+        "team",
+        "folks",
+        "all",
+        "sorry",
+        "bother",
+        "bothering",
+        "but",
+        "wondering",
+        "wonder",
+        "curious",
+        "quick",
+        "question",
+        "kindly",
+        "thanks",
+        "thank",
+        "pls",
+        "plz",
+        "chance",
+        "mind",
+        "know",
+        "let",
+        "like",
+        "want",
+        "wanted",
+        "ask",
+        "asking",
+        "help",
+        "appreciate",
+        "anyone",
+        "someone",
+        "somebody",
+        "happen",
+        "possibly",
+        "maybe",
+        "actually",
+        "basically",
+        "okay",
+        "ok",
+    }
+)
+
+NON_SALIENT = STOPWORDS | FILLER_WORDS
+
+_IDENTIFIER_CHARS = frozenset("-_.")
 
 
 # Typographic look-alikes folded to ASCII before anything else runs.
@@ -153,11 +240,19 @@ def tokenize(text: str) -> list[str]:
     return [m.group(0) for m in TOKEN_RE.finditer(normalize_text(text))]
 
 
+def is_identifier(token: str) -> bool:
+    """Identifier-like tokens (p99, checkout-api, checkout_retry, 2410) match exactly.
+
+    Typo and synonym tolerance never rewrite these: users copy-paste them.
+    """
+    return any(ch.isdigit() or ch in _IDENTIFIER_CHARS for ch in token)
+
+
 def content_tokens(text: str) -> list[str]:
-    """Tokens with stopwords and 1-char noise removed."""
+    """Tokens with stopwords, politeness filler, and 1-char noise removed."""
     out: list[str] = []
     for tok in tokenize(text):
-        if tok in STOPWORDS:
+        if tok in NON_SALIENT:
             continue
         if len(tok) < 2:
             continue
