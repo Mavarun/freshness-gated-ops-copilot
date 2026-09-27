@@ -1,8 +1,17 @@
-"""Shared tokenization for retrieval, grounding, and extractive answers."""
+"""Shared normalization and tokenization for retrieval, grounding, and gates.
+
+``normalize_text`` is the single entry point every matcher uses before it looks
+at a query: BM25, the body TF-IDF hybrid, the title-hash dense stub, the
+grounding gate, the write-intent gate, and the PII contact allowlist. Before it
+existed each component saw a slightly different string (the dense stub hashed
+``p99?`` with the question mark attached, the write gate matched raw case), so
+the same question could rank differently depending on where punctuation fell.
+"""
 
 from __future__ import annotations
 
 import re
+import unicodedata
 from collections import Counter
 
 TOKEN_RE = re.compile(r"[a-z0-9][a-z0-9_\-]{1,}", re.I)
@@ -89,9 +98,59 @@ STOPWORDS = frozenset(
 )
 
 
+# Typographic look-alikes folded to ASCII before anything else runs.
+_ASCII_FOLD = str.maketrans(
+    {
+        "\u2018": "'",
+        "\u2019": "'",
+        "\u201b": "'",
+        "\u2032": "'",
+        "\u201c": '"',
+        "\u201d": '"',
+        "\u2010": "-",
+        "\u2011": "-",
+        "\u2012": "-",
+        "\u2013": "-",
+        "\u2014": " ",
+        "\u2212": "-",
+        "\u00a0": " ",
+        "\u200b": "",
+    }
+)
+_CONTRACTION_IS = re.compile(
+    r"\b(what|where|who|how|when|why|which|that|there|here|it)'s\b"
+)
+_POSSESSIVE = re.compile(r"'s\b")
+# Keep only characters that can live inside a token; ``-_./:@`` survive only
+# *between* alphanumerics so identifiers (checkout-api, redis.maxmemory-policy,
+# checkout_retry, 18:04) stay intact while stuck-on punctuation ("p99?",
+# "(resolved)", "#inc-4821") is stripped.
+_NON_TOKEN_CHARS = re.compile(r"[^a-z0-9\-_./:@\s]+")
+_EDGE_JOINERS = re.compile(r"(?<![a-z0-9])[\-_./:@]+|[\-_./:@]+(?![a-z0-9])")
+
+
+def normalize_text(text: str) -> str:
+    """Canonical matching form: NFKC + accent strip, lowercase, no loose punctuation.
+
+    Identifier punctuation between alphanumerics is preserved; everything else
+    that is not a letter/digit becomes whitespace. Idempotent.
+    """
+    if not text:
+        return ""
+    t = unicodedata.normalize("NFKD", text.translate(_ASCII_FOLD))
+    t = "".join(ch for ch in t if not unicodedata.combining(ch))
+    t = unicodedata.normalize("NFKC", t).lower()
+    t = _CONTRACTION_IS.sub(r"\1 is", t)
+    t = _POSSESSIVE.sub("", t)
+    t = t.replace("'", "")
+    t = _NON_TOKEN_CHARS.sub(" ", t)
+    t = _EDGE_JOINERS.sub(" ", t)
+    return " ".join(t.split())
+
+
 def tokenize(text: str) -> list[str]:
-    """Lowercased word tokens, including short identifiers like p99."""
-    return [m.group(0).lower() for m in TOKEN_RE.finditer(text or "")]
+    """Lowercased word tokens (of normalized text), including identifiers like p99."""
+    return [m.group(0) for m in TOKEN_RE.finditer(normalize_text(text))]
 
 
 def content_tokens(text: str) -> list[str]:
