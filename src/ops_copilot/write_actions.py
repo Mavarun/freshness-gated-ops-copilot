@@ -5,7 +5,10 @@ must be structured proposals — never auto-executed. Keyword/heuristic detectio
 is intentional for the offline golden set (no paid LLM).
 
 Detection runs on ``text.normalize_text(query)`` so case, curly quotes, and
-trailing punctuation never decide whether a write is proposed.
+trailing punctuation never decide whether a write is proposed. With typo
+tolerance on, words of 5+ characters one keyboard slip from a write keyword
+(``rrstart``, ``pathc``, ``onclal``) are read as that keyword; inflections
+(``restarts``, ``patched``) are left alone so descriptions do not become writes.
 """
 
 from __future__ import annotations
@@ -15,7 +18,8 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any
 
-from ops_copilot.text import normalize_text
+from ops_copilot.lexicon import is_keyboard_typo
+from ops_copilot.text import is_identifier, normalize_text
 
 
 class WriteActionType(str, Enum):
@@ -50,6 +54,24 @@ _PATCH = re.compile(
 )
 
 
+# Keywords the regexes below key on; typo snapping targets only these.
+WRITE_KEYWORDS: tuple[str, ...] = ("restart", "patch", "oncall", "on-call", "config")
+
+
+def _snap_write_keywords(text: str) -> str:
+    out: list[str] = []
+    for word in text.split():
+        if len(word) >= 5 and word.isalpha() and not is_identifier(word):
+            for kw in WRITE_KEYWORDS:
+                if word == kw or word.startswith(kw) or kw.startswith(word):
+                    break
+                if is_keyboard_typo(word, kw):
+                    word = kw
+                    break
+        out.append(word)
+    return " ".join(out)
+
+
 @dataclass
 class ProposedWrite:
     """Structured write the agent wants to perform — pending until HITL approve."""
@@ -66,7 +88,7 @@ class ProposedWrite:
         return d
 
 
-def detect_write_intent(query: str) -> ProposedWrite | None:
+def detect_write_intent(query: str, *, typo_tolerance: bool = True) -> ProposedWrite | None:
     """Return a ProposedWrite when ``query`` looks like an imperative write.
 
     Returns ``None`` for read-path questions (including how-to restart docs).
@@ -75,6 +97,8 @@ def detect_write_intent(query: str) -> ProposedWrite | None:
     nq = normalize_text(q)
     if not nq or _READ_CUES.search(nq):
         return None
+    if typo_tolerance:
+        nq = _snap_write_keywords(nq)
 
     m = _RESTART.search(nq)
     if m:

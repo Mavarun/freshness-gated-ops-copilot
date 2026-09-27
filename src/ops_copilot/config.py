@@ -69,3 +69,6 @@ class CopilotConfig:
     use_hitl_write_gate: bool = True
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
+    # Typo tolerance: unknown plain words snap to a unique corpus word within
+    # one edit (identifiers exact-only). Off reproduces exact-match behaviour.
+    typo_tolerance: bool = True
