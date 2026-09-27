@@ -77,7 +77,11 @@ class Copilot:
         self.corpus = corpus or Corpus(path=path, now=now)
         self.retriever = Retriever(self.corpus.chunks, self.config)
         texts = [f"{c.title} {c.text}" for c in self.corpus.chunks]
-        self.grounder = Grounder(texts, threshold=self.config.grounding_threshold)
+        self.grounder = Grounder(
+            texts,
+            threshold=self.config.grounding_threshold,
+            typo_tolerance=self.config.typo_tolerance,
+        )
         if sla_table is not None:
             self.sla_table = sla_table
         elif self.config.use_source_slas:
@@ -100,10 +104,14 @@ class Copilot:
     def ask(self, query: str, *, session_id: str | None = None) -> CopilotResult:
         started = time.perf_counter()
         cfg = self.config
-        retrieved = self.retriever.search(query)
-        bm25_hits = self.retriever.search_bm25(query, top_k=cfg.disagreement_top_k)
+        # Rankers and the extractive drafter see the normalized, filler-free,
+        # typo-snapped query; grounding does its own term analysis on the raw
+        # query; the canary gate keeps the raw query (identifiers exact-only).
+        rq = self.retriever.rewrite_query(query)
+        retrieved = self.retriever.search(rq)
+        bm25_hits = self.retriever.search_bm25(rq, top_k=cfg.disagreement_top_k)
         dense_hits = self.retriever.search_dense_stub(
-            query, top_k=cfg.disagreement_top_k
+            rq, top_k=cfg.disagreement_top_k
         )
         disagreement = assess_disagreement(
             bm25_hits,
@@ -137,7 +145,7 @@ class Copilot:
         # is optional; we compute for traces either way when fresh hits exist.
         if fresh_hits:
             draft = extractive_answer(
-                query,
+                rq,
                 fresh_hits,
                 max_sentences=cfg.max_answer_sentences,
             )
@@ -152,9 +160,11 @@ class Copilot:
         budget_active = bool(cfg.use_budget_gate and session_id)
 
         canary_scan = scan_answer(draft, query, self.canary_registry)
-        pii_scan = scan_answer_pii(draft, query)
+        pii_scan = scan_answer_pii(draft, rq)
         write_intent = (
-            detect_write_intent(query) if cfg.use_hitl_write_gate else None
+            detect_write_intent(query, typo_tolerance=cfg.typo_tolerance)
+            if cfg.use_hitl_write_gate
+            else None
         )
         policy = decide(
             retrieved,

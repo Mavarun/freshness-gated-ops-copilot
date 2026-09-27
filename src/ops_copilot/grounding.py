@@ -10,6 +10,11 @@ Salience policy (which query words evidence must support):
   deliberate: "millicore", "chargeback", or "SAP" are unknown *content*, and
   counting them as missing is what keeps the ungrounded / no-evidence traps
   refusing. Only filler is exempt, never unfamiliar content.
+
+Typo tolerance: an unknown, non-identifier word that is one edit away from a
+unique corpus word (``lexicon.CorpusVocabulary.correct``) is matched as that
+word ("checkuot" -> "checkout"); if it is one edit from a stopword/filler
+("whhat", "crrent") it is dropped as filler. Identifiers stay exact-only.
 """
 
 from __future__ import annotations
@@ -17,7 +22,14 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-from ops_copilot.text import content_tokens, idf_map, is_identifier, match_tokens
+from ops_copilot.lexicon import CorpusVocabulary
+from ops_copilot.text import (
+    NON_SALIENT,
+    content_tokens,
+    idf_map,
+    is_identifier,
+    match_tokens,
+)
 from ops_copilot.types import Chunk, GroundingResult
 
 
@@ -26,7 +38,7 @@ class QueryTerm:
     """One salient query term and the evidence forms that count as support."""
 
     token: str
-    kind: str  # identifier | known | unknown
+    kind: str  # identifier | known | typo | unknown
     weight: float
     alts: frozenset[str]
 
@@ -37,34 +49,48 @@ class QueryTerm:
 class Grounder:
     """Mark an answer ungrounded when the query is not supported by evidence."""
 
-    def __init__(self, corpus_texts: list[str], threshold: float = 0.52) -> None:
+    def __init__(
+        self,
+        corpus_texts: list[str],
+        threshold: float = 0.52,
+        *,
+        typo_tolerance: bool = True,
+    ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
         self.n_docs = max(len(tokenized), 1)
         self.oov_idf = math.log(self.n_docs + 1.0) + 1.0
         self.threshold = threshold
+        self.typo_tolerance = typo_tolerance
+        self.vocab = CorpusVocabulary(tokenized, extra_words=NON_SALIENT)
 
     def _weight(self, token: str) -> float:
         return self.idf.get(token, self.oov_idf)
 
-    def _term(self, tok: str) -> QueryTerm:
+    def _term(self, tok: str) -> QueryTerm | None:
+        """Classify one content token; ``None`` means non-salient (typo'd filler)."""
         if is_identifier(tok):
-            kind = "identifier"
-        elif tok in self.idf:
-            kind = "known"
-        else:
-            kind = "unknown"
-        return QueryTerm(token=tok, kind=kind, weight=self._weight(tok), alts=frozenset({tok}))
+            return QueryTerm(tok, "identifier", self._weight(tok), frozenset({tok}))
+        if tok in self.idf:
+            return QueryTerm(tok, "known", self._weight(tok), frozenset({tok}))
+        if self.typo_tolerance:
+            fixed = self.vocab.correct(tok)
+            if self.vocab.is_typo_of_any(tok, NON_SALIENT):
+                return None
+            if fixed is not None and fixed in self.idf:
+                return QueryTerm(fixed, "typo", self._weight(fixed), frozenset({fixed}))
+        return QueryTerm(tok, "unknown", self.oov_idf, frozenset({tok}))
 
     def terms(self, query: str) -> list[QueryTerm]:
         """Unique salient terms of ``query`` in first-seen order."""
         seen: set[str] = set()
         out: list[QueryTerm] = []
         for tok in content_tokens(query):
-            if tok in seen:
+            term = self._term(tok)
+            if term is None or term.token in seen:
                 continue
-            seen.add(tok)
-            out.append(self._term(tok))
+            seen.add(term.token)
+            out.append(term)
         return out
 
     def _unique(self, text: str) -> list[str]:

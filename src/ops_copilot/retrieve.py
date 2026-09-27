@@ -9,6 +9,10 @@ full-text BM25.
 Every ranker sees the query through ``text.normalize_text`` (and corpus text
 through the same function), so a '?' stuck to the last word or a curly quote
 cannot change BM25 terms, TF-IDF terms, or the dense stub's char n-grams.
+
+``Retriever.rewrite_query`` additionally drops politeness filler and replaces
+unknown plain words with their unique one-edit corpus neighbour ("checkuot"
+-> "checkout"). Identifiers are never rewritten.
 """
 
 from __future__ import annotations
@@ -22,7 +26,15 @@ from sklearn.feature_extraction.text import HashingVectorizer, TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 from ops_copilot.config import CopilotConfig
-from ops_copilot.text import content_tokens, normalize_text, tokenize
+from ops_copilot.lexicon import CorpusVocabulary
+from ops_copilot.text import (
+    FILLER_WORDS,
+    NON_SALIENT,
+    content_tokens,
+    is_identifier,
+    normalize_text,
+    tokenize,
+)
 from ops_copilot.types import Chunk
 
 try:
@@ -134,6 +146,7 @@ class Retriever:
         self.config = config or CopilotConfig()
         self._tokenized = [tokenize(f"{c.title} {c.text}") for c in chunks]
         self._bm25 = _bm25_engine(self._tokenized)
+        self.vocab = CorpusVocabulary(self._tokenized, extra_words=NON_SALIENT)
         self._vectorizer: TfidfVectorizer | None = None
         self._matrix = None
         if self.config.use_dense:
@@ -144,6 +157,26 @@ class Retriever:
             corpus_text = [f"{c.title} {c.text}" for c in chunks]
             self._matrix = self._vectorizer.fit_transform(corpus_text)
         self.dense_stub = TitleHashDenseStub(chunks)
+
+    def rewrite_query(self, query: str) -> str:
+        """Normalized query with filler dropped and typos snapped to corpus words."""
+        words: list[str] = []
+        for word in normalize_text(query).split():
+            if word in FILLER_WORDS:
+                continue
+            if (
+                self.config.typo_tolerance
+                and word.isalpha()
+                and not is_identifier(word)
+                and word not in self.vocab
+            ):
+                if self.vocab.is_typo_of_any(word, FILLER_WORDS):
+                    continue
+                fixed = self.vocab.correct(word)
+                if fixed is not None:
+                    word = fixed
+            words.append(word)
+        return " ".join(words)
 
     def _bm25_scores(self, query: str) -> np.ndarray:
         return np.asarray(self._bm25.get_scores(tokenize(query)), dtype=float)
