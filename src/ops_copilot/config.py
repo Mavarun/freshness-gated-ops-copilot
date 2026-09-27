@@ -72,3 +72,6 @@ class CopilotConfig:
     # Typo tolerance: unknown plain words snap to a unique corpus word within
     # one edit (identifiers exact-only). Off reproduces exact-match behaviour.
     typo_tolerance: bool = True
+    # Corpus-side synonym/lemma groups (synonyms.py) for grounding, retrieval
+    # rewrite, and restart verbs. Off = the ablation reported in the README.
+    use_synonyms: bool = True

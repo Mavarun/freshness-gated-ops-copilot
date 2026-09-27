@@ -12,7 +12,9 @@ cannot change BM25 terms, TF-IDF terms, or the dense stub's char n-grams.
 
 ``Retriever.rewrite_query`` additionally drops politeness filler and replaces
 unknown plain words with their unique one-edit corpus neighbour ("checkuot"
--> "checkout"). Identifiers are never rewritten.
+-> "checkout") or, failing that, with the corpus-known members of their
+``synonyms.OPS_EQUIVALENTS`` group ("instances" -> "replicas"). Known corpus
+words and identifiers are never rewritten.
 """
 
 from __future__ import annotations
@@ -27,6 +29,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from ops_copilot.config import CopilotConfig
 from ops_copilot.lexicon import CorpusVocabulary
+from ops_copilot.synonyms import equivalents, fold_phrases
 from ops_copilot.text import (
     FILLER_WORDS,
     NON_SALIENT,
@@ -159,17 +162,24 @@ class Retriever:
         self.dense_stub = TitleHashDenseStub(chunks)
 
     def rewrite_query(self, query: str) -> str:
-        """Normalized query with filler dropped and typos snapped to corpus words."""
+        """Normalized query: filler dropped, typos and unknown synonyms snapped."""
+        cfg = self.config
+        text = normalize_text(query)
+        if cfg.use_synonyms:
+            text = fold_phrases(text)
         words: list[str] = []
-        for word in normalize_text(query).split():
+        for word in text.split():
             if word in FILLER_WORDS:
                 continue
-            if (
-                self.config.typo_tolerance
-                and word.isalpha()
-                and not is_identifier(word)
-                and word not in self.vocab
-            ):
+            if not word.isalpha() or is_identifier(word) or word in self.vocab:
+                words.append(word)
+                continue
+            if cfg.use_synonyms:
+                known = sorted(w for w in equivalents(word) if w in self.vocab)
+                if known:
+                    words.extend(known)
+                    continue
+            if cfg.typo_tolerance:
                 if self.vocab.is_typo_of_any(word, FILLER_WORDS):
                     continue
                 fixed = self.vocab.correct(word)

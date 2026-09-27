@@ -9,6 +9,8 @@ trailing punctuation never decide whether a write is proposed. With typo
 tolerance on, words of 5+ characters one keyboard slip from a write keyword
 (``rrstart``, ``pathc``, ``onclal``) are read as that keyword; inflections
 (``restarts``, ``patched``) are left alone so descriptions do not become writes.
+With synonyms on, the restart verbs come from the corpus-side equivalence
+group (``synonyms.restart_verbs``: reboot / bounce / recycle).
 """
 
 from __future__ import annotations
@@ -19,6 +21,7 @@ from enum import Enum
 from typing import Any
 
 from ops_copilot.lexicon import is_keyboard_typo
+from ops_copilot.synonyms import restart_verbs
 from ops_copilot.text import is_identifier, normalize_text
 
 
@@ -35,11 +38,16 @@ _READ_CUES = re.compile(
     re.IGNORECASE,
 )
 
-_RESTART = re.compile(
-    r"\b(?:please\s+|go\s+ahead\s+and\s+|can\s+you\s+|could\s+you\s+)?"
-    r"restart\s+(?:the\s+)?(?P<target>[\w.-]+)",
-    re.IGNORECASE,
-)
+def _restart_re(verbs: tuple[str, ...]) -> re.Pattern[str]:
+    return re.compile(
+        r"\b(?:please\s+|go\s+ahead\s+and\s+|can\s+you\s+|could\s+you\s+)?"
+        rf"(?:{'|'.join(verbs)})\s+(?:the\s+)?(?P<target>[\w.-]+)",
+        re.IGNORECASE,
+    )
+
+
+_RESTART = _restart_re(("restart",))
+_RESTART_SYN = _restart_re(restart_verbs())
 _PAGE = re.compile(
     r"\b(?:please\s+|can\s+you\s+|could\s+you\s+)?"
     r"page\s+(?:the\s+)?on[- ]?call"
@@ -88,7 +96,12 @@ class ProposedWrite:
         return d
 
 
-def detect_write_intent(query: str, *, typo_tolerance: bool = True) -> ProposedWrite | None:
+def detect_write_intent(
+    query: str,
+    *,
+    typo_tolerance: bool = True,
+    synonyms: bool = True,
+) -> ProposedWrite | None:
     """Return a ProposedWrite when ``query`` looks like an imperative write.
 
     Returns ``None`` for read-path questions (including how-to restart docs).
@@ -100,7 +113,7 @@ def detect_write_intent(query: str, *, typo_tolerance: bool = True) -> ProposedW
     if typo_tolerance:
         nq = _snap_write_keywords(nq)
 
-    m = _RESTART.search(nq)
+    m = (_RESTART_SYN if synonyms else _RESTART).search(nq)
     if m:
         target = m.group("target").strip("-. ")
         return ProposedWrite(
