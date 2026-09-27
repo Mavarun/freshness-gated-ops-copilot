@@ -92,6 +92,9 @@ class Copilot:
         self.ledger = ledger if ledger is not None else SessionCostLedger()
         self.hitl = hitl if hitl is not None else HitlWriteLedger()
         self.canary_registry = CanaryRegistry.load(self.config.canary_registry_path)
+        self._doc_texts: dict[str, list[str]] = {}
+        for c in self.corpus.chunks:
+            self._doc_texts.setdefault(c.doc_id, []).append(c.text)
 
     def sla_for(self, source_system: str) -> float:
         """Resolve the max_age_hours that applies to a source_system."""
@@ -161,7 +164,14 @@ class Copilot:
         budget_active = bool(cfg.use_budget_gate and session_id)
 
         canary_scan = scan_answer(draft, query, self.canary_registry)
-        pii_scan = scan_answer_pii(draft, rq)
+        # Quarantine is document-scoped: a cited page that holds a secret in
+        # another paragraph is still a secret-bearing page.
+        cited_docs = dict.fromkeys(c.doc_id for c in fresh_hits)
+        pii_scan = scan_answer_pii(
+            draft,
+            rq,
+            evidence_texts=[t for d in cited_docs for t in self._doc_texts.get(d, ())],
+        )
         write_intent = (
             detect_write_intent(
                 query,

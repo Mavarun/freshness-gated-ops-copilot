@@ -15,7 +15,8 @@ Gates fire in this order:
    beyond the Jaccard threshold → REFUSE_DISAGREE
 8. fresh supporting chunks fail the final answer-grounding check → REFUSE_UNGROUNDED
 9. extractive draft echoes an unjustified planted canary → REFUSE_CANARY
-10. extractive draft contains unauthorized PII/secrets → REFUSE_PII
+10. extractive draft contains unauthorized PII/secrets, or the fresh evidence
+    it was drafted from carries a never-authorizable secret → REFUSE_PII
 11. else ANSWER (authorized contact PII is masked upstream, not refused)
 
 Freshness is applied to *supporting* evidence, not to whatever BM25 dumped.
@@ -205,6 +206,16 @@ def decide(
         n_matches = int(getattr(pii_scan, "redactions_count", 0) or 0)
         kinds = getattr(pii_scan, "matches", ()) or ()
         kind_names = sorted({getattr(m, "kind", "?") for m in kinds}) or ["pii"]
+        quarantined = list(getattr(pii_scan, "evidence_secret_kinds", ()) or ())
+        if not kinds and quarantined:
+            return PolicyDecision(
+                decision=Decision.REFUSE_PII,
+                reason=(
+                    f"supporting evidence carries unauthorized secrets "
+                    f"(kinds={quarantined}) that the draft omitted; refusing "
+                    f"instead of answering around them; raw values withheld"
+                ),
+            )
         return PolicyDecision(
             decision=Decision.REFUSE_PII,
             reason=(
