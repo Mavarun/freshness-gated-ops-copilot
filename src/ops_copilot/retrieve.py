@@ -13,8 +13,10 @@ cannot change BM25 terms, TF-IDF terms, or the dense stub's char n-grams.
 ``Retriever.rewrite_query`` additionally drops politeness filler and replaces
 unknown plain words with their unique one-edit corpus neighbour ("checkuot"
 -> "checkout") or, failing that, with the corpus-known members of their
-``synonyms.OPS_EQUIVALENTS`` group ("instances" -> "replicas"). Known corpus
-words and identifiers are never rewritten.
+``synonyms.OPS_EQUIVALENTS`` group ("instances" -> "replicas"), or, when the
+optional semantic backoff is on and nothing else matched, with its closest
+corpus words (``semantic.SemanticBackoff``). Known corpus words and
+identifiers are never rewritten.
 """
 
 from __future__ import annotations
@@ -29,6 +31,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from ops_copilot.config import CopilotConfig
 from ops_copilot.lexicon import CorpusVocabulary
+from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases
 from ops_copilot.text import (
     FILLER_WORDS,
@@ -142,11 +145,18 @@ class TitleHashDenseStub:
 class Retriever:
     """Rank chunks with BM25, optional body TF-IDF hybrid, and a title dense stub."""
 
-    def __init__(self, chunks: list[Chunk], config: CopilotConfig | None = None) -> None:
+    def __init__(
+        self,
+        chunks: list[Chunk],
+        config: CopilotConfig | None = None,
+        *,
+        semantic: SemanticBackoff | None = None,
+    ) -> None:
         if not chunks:
             raise ValueError("retriever requires at least one chunk")
         self.chunks = chunks
         self.config = config or CopilotConfig()
+        self.semantic = semantic
         self._tokenized = [tokenize(f"{c.title} {c.text}") for c in chunks]
         self._bm25 = _bm25_engine(self._tokenized)
         self.vocab = CorpusVocabulary(self._tokenized, extra_words=NON_SALIENT)
@@ -184,7 +194,13 @@ class Retriever:
                     continue
                 fixed = self.vocab.correct(word)
                 if fixed is not None:
-                    word = fixed
+                    words.append(fixed)
+                    continue
+            if self.semantic is not None:
+                near = sorted(n.word for n in self.semantic.neighbours(word))
+                if near:
+                    words.extend(near)
+                    continue
             words.append(word)
         return " ".join(words)
 

@@ -17,11 +17,17 @@ word ("checkuot" -> "checkout"); if it is one edit from a stopword/filler
 ("whhat", "crrent") it is dropped as filler. Identifiers stay exact-only.
 
 Synonym awareness: a query word is also supported by any member of its
-corpus-side equivalence group (``synonyms.OPS_EQUIVALENTS``; "health" is
-supported by "status"), and hyphen spellings are interchangeable ("oncall" ~
+corpus-side equivalence group (``synonyms.OPS_EQUIVALENTS``; "usage" is
+supported by "utilization"), and hyphen spellings are interchangeable ("oncall" ~
 "on-call"). An unknown word whose group has a corpus-known member is weighted
 like that member instead of as OOV. The eval's own perturbation map is never
 consulted (see synonyms.py for the leakage note).
+
+Semantic backoff (optional, ``semantic.SemanticBackoff``): a word that is still
+unknown after the synonym and typo steps may be supported by its closest
+corpus words from the corpus PPMI/SVD embedding (or one char-trigram
+neighbour), weighted like the heaviest of them. It is the last step, so it never
+changes known words, identifiers, synonyms, or typo snaps.
 """
 
 from __future__ import annotations
@@ -30,6 +36,7 @@ import math
 from dataclasses import dataclass
 
 from ops_copilot.lexicon import CorpusVocabulary
+from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases, hyphen_variants
 from ops_copilot.text import (
     NON_SALIENT,
@@ -47,7 +54,7 @@ class QueryTerm:
     """One salient query term and the evidence forms that count as support."""
 
     token: str
-    kind: str  # identifier | known | typo | synonym | unknown
+    kind: str  # identifier | known | typo | synonym | semantic | unknown
     weight: float
     alts: frozenset[str]
 
@@ -65,6 +72,7 @@ class Grounder:
         *,
         typo_tolerance: bool = True,
         synonyms: bool = True,
+        semantic: SemanticBackoff | None = None,
     ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
@@ -73,6 +81,7 @@ class Grounder:
         self.threshold = threshold
         self.typo_tolerance = typo_tolerance
         self.synonyms = synonyms
+        self.semantic = semantic
         self.vocab = CorpusVocabulary(tokenized, extra_words=NON_SALIENT)
 
     def _weight(self, token: str) -> float:
@@ -103,12 +112,18 @@ class Grounder:
                 return None
             if fixed is not None and fixed in self.idf:
                 return QueryTerm(fixed, "typo", self._weight(fixed), self._alts(fixed))
+        if self.semantic is not None and not is_identifier(tok):
+            near = [n.word for n in self.semantic.neighbours(tok) if n.word in self.idf]
+            if near:
+                weight = max(self._weight(w) for w in near)
+                return QueryTerm(tok, "semantic", weight, frozenset({tok, *near}))
         return QueryTerm(tok, "unknown", self.oov_idf, frozenset({tok}))
 
     def _query_tokens(self, query: str) -> list[str]:
+        text = normalize_text(query)
         if self.synonyms:
-            return content_tokens(fold_phrases(normalize_text(query)))
-        return content_tokens(query)
+            text = fold_phrases(text)
+        return content_tokens(text)
 
     def _evidence_forms(self, evidence: str) -> set[str]:
         forms = match_tokens(content_tokens(evidence))
