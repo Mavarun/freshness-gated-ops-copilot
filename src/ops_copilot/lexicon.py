@@ -16,7 +16,12 @@ the keyboard constraint rejects both. Further rules:
   words have too many neighbours otherwise, e.g. ``slak`` -> ``slack`` is
   allowed but ``lag`` -> ``log`` is not);
 - ties are broken by shared first character, then shared last character,
-  then higher document frequency; a remaining tie returns ``None``.
+  then higher document frequency; a remaining tie returns ``None``;
+- query context comes first for question words: an unknown token directly
+  followed by an auxiliary ("wat is", "hwo do") whose candidates include a
+  wh-word is that wh-word (``fix_interrogative_typos``). Document frequency
+  alone got this wrong: stopwords have no corpus df, so "wat" snapped to the
+  corpus word "wait" (df 2) and became a missing key term (g28-typo).
 
 The vocabulary is built from the corpus (plus, optionally, stopword/filler
 lists so typo'd filler such as ``whhat`` can be recognised as filler).
@@ -30,6 +35,10 @@ from collections.abc import Iterable
 from ops_copilot.text import is_identifier
 
 MIN_TOKEN_LEN = 3
+WH_WORDS = frozenset({"what", "who", "how", "when", "where", "which", "why"})
+AUXILIARIES = frozenset(
+    {"is", "are", "was", "were", "do", "does", "did", "can", "could", "should", "would", "will"}
+)
 MIN_TARGET_LEN = 4
 FREE_EDIT_LEN = 5
 
@@ -198,3 +207,27 @@ class CorpusVocabulary:
         """
         tied = self.tied_candidates(token)
         return bool(tied) and all(w in words for w in tied)
+
+
+def fix_interrogative_typos(normalized: str, vocab: CorpusVocabulary | None = None) -> str:
+    """Rewrite a misspelt wh-word that precedes an auxiliary ("wat is" -> "what is").
+
+    Only plain tokens that are not already wh-words are touched, and only when
+    a keyboard-slip candidate is a wh-word. With ``vocab``, known corpus words
+    ("wait is ...") are left alone and candidates follow the vocabulary's
+    length rules; without it (the write gate) the keyboard model alone decides.
+    """
+    words = normalized.split()
+    for i in range(len(words) - 1):
+        tok = words[i]
+        if tok in WH_WORDS or words[i + 1] not in AUXILIARIES or not tok.isalpha():
+            continue
+        if vocab is not None:
+            if tok in vocab:
+                continue
+            wh = sorted(c for c in vocab.candidates(tok) if c in WH_WORDS)
+        else:
+            wh = [w for w in sorted(WH_WORDS) if is_keyboard_typo(tok, w)]
+        if wh:
+            words[i] = wh[0]
+    return " ".join(words)

@@ -9,8 +9,11 @@ trailing punctuation never decide whether a write is proposed. With typo
 tolerance on, words of 5+ characters one keyboard slip from a write keyword
 (``rrstart``, ``pathc``, ``onclal``) are read as that keyword; inflections
 (``restarts``, ``patched``) are left alone so descriptions do not become writes.
+A misspelt wh-word before an auxiliary ("hwo do I restart X", "wat is") is
+read as the wh-word first, so a typo cannot turn a how-to read into a write.
 With synonyms on, the restart verbs come from the corpus-side equivalence
-group (``synonyms.restart_verbs``: reboot / bounce / recycle).
+group (``synonyms.restart_verbs``; only ``restart`` itself since the held-out
+split removed reboot / bounce / recycle).
 """
 
 from __future__ import annotations
@@ -20,7 +23,7 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any
 
-from ops_copilot.lexicon import is_keyboard_typo
+from ops_copilot.lexicon import fix_interrogative_typos, is_keyboard_typo
 from ops_copilot.synonyms import restart_verbs
 from ops_copilot.text import is_identifier, normalize_text
 
@@ -61,10 +64,14 @@ def _restart_re(verbs: tuple[str, ...]) -> re.Pattern[str]:
 
 _RESTART = _restart_re(("restart",))
 _RESTART_SYN = _restart_re(restart_verbs())
-_PAGE = re.compile(
-    r"\b(?:please\s+|can\s+you\s+|could\s+you\s+)?"
-    r"page\s+(?:the\s+)?on[- ]?call"
-    r"(?:\s+for\s+(?:the\s+)?(?P<target>[\w\s.-]+?))?(?:\s+now)?\s*[.!]?\s*$",
+# Position-independent: the cue may sit anywhere in the query and anything may
+# follow it ("page the oncall the for outage payments" after word-order
+# noise). The target is read separately from the first "for ..." after it.
+# Before, the pattern was anchored to the end of the query, so a shuffled
+# or trailing clause silently dropped the write (g42-word_order).
+_PAGE = re.compile(r"\bpage\s+(?:the\s+)?on[- ]?call\b", re.IGNORECASE)
+_PAGE_TARGET = re.compile(
+    r"\bfor\s+(?:the\s+)?(?P<target>[\w.-]+(?:\s+[\w.-]+)*?)(?:\s+now)?\s*$",
     re.IGNORECASE,
 )
 _PATCH = re.compile(
@@ -121,6 +128,8 @@ def detect_write_intent(
     """
     q = (query or "").strip()
     nq = normalize_text(q)
+    if typo_tolerance:
+        nq = fix_interrogative_typos(nq)  # "hwo do I restart X" is still a read
     if not nq or _READ_CUES.search(nq):
         return None
     if typo_tolerance:
@@ -138,7 +147,8 @@ def detect_write_intent(
 
     m = _PAGE.search(nq)
     if m:
-        raw = (m.group("target") or "primary").strip("-. ")
+        t = _PAGE_TARGET.search(nq, m.end())
+        raw = (t.group("target") if t else "primary").strip("-. ")
         target = raw or "primary"
         return ProposedWrite(
             action_type=WriteActionType.PAGE_ONCALL,

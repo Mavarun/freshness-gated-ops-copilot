@@ -30,7 +30,7 @@ from sklearn.feature_extraction.text import HashingVectorizer, TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 from ops_copilot.config import CopilotConfig
-from ops_copilot.lexicon import CorpusVocabulary
+from ops_copilot.lexicon import CorpusVocabulary, fix_interrogative_typos
 from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases
 from ops_copilot.text import (
@@ -175,6 +175,8 @@ class Retriever:
         """Normalized query: filler dropped, typos and unknown synonyms snapped."""
         cfg = self.config
         text = normalize_text(query)
+        if cfg.typo_tolerance:
+            text = fix_interrogative_typos(text, self.vocab)
         if cfg.use_synonyms:
             text = fold_phrases(text)
         words: list[str] = []

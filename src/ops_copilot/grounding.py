@@ -35,7 +35,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-from ops_copilot.lexicon import CorpusVocabulary
+from ops_copilot.lexicon import CorpusVocabulary, fix_interrogative_typos
 from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases, hyphen_variants
 from ops_copilot.text import (
@@ -121,6 +121,8 @@ class Grounder:
 
     def _query_tokens(self, query: str) -> list[str]:
         text = normalize_text(query)
+        if self.typo_tolerance:
+            text = fix_interrogative_typos(text, self.vocab)
         if self.synonyms:
             text = fold_phrases(text)
         return content_tokens(text)
