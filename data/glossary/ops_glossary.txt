@@ -1,0 +1,49 @@
+# Generic ops glossary for the offline semantic backoff (semantic.py).
+#
+# Hand-written, one plain definition per line, in general SRE vocabulary. It is
+# not generated from the robustness eval and does not copy its perturbation
+# map, but it was written after the dev / held-out split existed, so any dev
+# word that appears here makes the *dev* numbers optimistic. No held-out word
+# may appear (tests/test_heldout_leakage.py enforces this after plural folding),
+# so the held-out numbers never benefit from it. Lines starting with # are
+# ignored.
+An incident is an unplanned outage or degradation of a production service.
+The primary on-call is the lead on-duty responder who acknowledges pages first.
+Paging escalates to the secondary on-call if the primary does not acknowledge.
+An alert pages the on-call when an SLO burn rate is too high.
+Mitigation, or remediation, is the action that reduces customer impact before a root cause fix.
+A runbook, also called a playbook, documents the procedure an operator follows.
+A rollback reverts a deployment to the previous release.
+A feature flag, or feature toggle, enables or disables a code branch without a deploy.
+Replicas are identical instances or pods of a workload.
+Utilization is the usage of a resource as a percent of its limit.
+Saturation means a resource such as a connection pool is close to full.
+Latency is how long a call takes to finish; p50 and p99 are percentiles of latency.
+Throughput is measured in qps or rps.
+An error budget is the allowance of failures an SLO permits over its window.
+The remaining error budget is what is still unspent in the window.
+A maintenance window is the scheduled timeframe in which risky changes are allowed.
+A change freeze blocks production changes from its start date until its end date.
+A canary release sends a small share of users to a new version before a full release.
+Secrets such as tokens, keys and passwords must be rotated on a schedule.
+Rotation replaces a secret with a new one and revokes the old one.
+A webhook is an HTTP hook that notifies another service about an event.
+An allowlist names the IP ranges that may connect.
+An endpoint is the URL a client calls.
+A gateway sits at the edge and forwards calls to backend services.
+A deploy, or deployment, ships a release to production.
+Prod is short for production.
+Status pages report whether a component is operational or degraded.
+A checkpoint writes a snapshot of the WAL so recovery replays less of the log.
+Session stickiness pins a client to one backend.
+A salt is random input mixed into a hash.
+Consumer backlog on a queue grows when workers fall behind; draining it means catching up.
+An mTLS handshake authenticates both client and server with certificates.
+A sidecar is a helper container deployed next to the application container.
+A memory policy decides which keys Redis evicts when memory is full.
+A dispute or chargeback is a card payment reversal requested by the cardholder.
+A contact email is the mailbox that reaches the team operating a service.
+Invalidating a cache evicts stale entries.
+Provisioning builds new infrastructure such as clusters or gateways.
+A restart stops and starts a process.
+A patch changes a single value in a running deployment.
