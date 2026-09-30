@@ -13,16 +13,23 @@ out on purpose, e.g. ``lag`` (consumer lag is its own metric), ``owner`` ~
 doc-title prefix ("db cfg 31") and it lifted the database-password trap from
 REFUSE_NO_EVIDENCE to REFUSE_UNGROUNDED on the clean golden set.
 
-Overlap with the eval's map is unavoidable for standard ops vocabulary
-(``reboot`` ~ ``restart``, ``pods`` ~ ``replicas``); ``robustness.leakage_report``
-measures it and the README reports it next to an ablation with this map off.
+Leakage-free (heldout-synonyms slice): the eval's synonym vocabulary is split into dev
+and held-out words (``synonym_split.py``, seed 42, 64 of 127 novel words held
+out; ``data/golden/synonym_split.json``). Every held-out word was deleted from
+the groups and phrases below, even standard ops vocabulary, and groups left
+with a single member were dropped. ``restart`` keeps a one-member group only
+because the write gate reads its verb list from here. Dev words may stay; they
+are what the dev rows measure. ``tests/test_heldout_leakage.py`` asserts no
+held-out word is in this map or in the semantic-backoff glossary, and
+``robustness.leakage_report`` reports dev and held-out coverage separately
+(held-out coverage must be 0).
 
 Rules:
 
 - groups are bidirectional; a query word matches evidence containing any word
   of its group (after the usual plural fold);
-- multi-word phrases (``response time``) are rewritten to a single group
-  member before tokenizing;
+- multi-word phrases (``OPS_PHRASES``, currently none) are rewritten to a
+  single group member before tokenizing;
 - hyphen/space spelling variants (``oncall`` / ``on-call``, ``e-mail`` /
   ``email``) are equivalent without needing an entry (``hyphen_variants``);
 - identifiers with digits (``p99``, ``inc-4821``) are never expanded.
@@ -34,44 +41,34 @@ import re
 
 # Each tuple is one equivalence group; the first member is the corpus anchor.
 OPS_EQUIVALENTS: tuple[tuple[str, ...], ...] = (
-    # write verbs (the restart gate keys on this group)
-    ("restart", "reboot", "bounce", "recycle"),
+    # write verbs (the restart gate keys on this group; synonyms held out)
+    ("restart",),
     # workload / capacity
     ("replicas", "instances", "pods"),
     ("utilization", "usage"),
-    ("latency", "responsetime"),
     ("qps", "rps", "throughput"),
     # state / incident vocabulary
-    ("status", "health"),
-    ("incident", "outage", "downtime"),
-    ("mitigation", "remediation", "workaround"),
+    ("incident", "outage"),
+    ("mitigation", "remediation"),
     ("runbook", "playbook"),
-    ("procedure", "process", "steps"),
+    ("procedure", "process"),
     ("rollback", "revert"),
-    ("target", "objective", "goal"),
-    ("cadence", "frequency"),
-    # config / deploy
-    ("config", "configuration", "cfg"),
-    ("deploy", "deployment", "release", "rollout"),
+    ("target", "goal"),
+    # deploy
+    ("deploy", "deployment", "release"),
     ("production", "prod"),
     ("flag", "toggle"),
     # networking
     ("endpoint", "url"),
-    ("path", "route"),
-    ("stickiness", "affinity"),
-    # cache / credentials
-    ("flush", "purge"),
-    ("token", "secret", "credential"),
-    ("password", "passphrase"),
-    ("rotation", "rollover"),
+    # credentials
+    ("token", "secret"),
 )
 
-# Multi-word spellings folded to one token before tokenizing.
-OPS_PHRASES: tuple[tuple[str, str], ...] = (
-    ("response time", "responsetime"),
-    ("requests per second", "rps"),
-    ("request rate", "qps"),
-)
+# Multi-word spellings folded to one token before tokenizing. Empty since the
+# held-out split: "response time" and "requests per second" contain held-out
+# words, and "request rate" -> qps shares the plural-folded form of the
+# held-out word "requests", so it went too (strict reading of the rule).
+OPS_PHRASES: tuple[tuple[str, str], ...] = ()
 
 _GROUP_OF: dict[str, frozenset[str]] = {}
 for _group in OPS_EQUIVALENTS:
