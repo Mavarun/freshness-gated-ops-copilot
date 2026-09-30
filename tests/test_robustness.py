@@ -10,7 +10,7 @@ import pytest
 from ops_copilot.eval import load_golden
 from ops_copilot.paraphrase_set import dump_jsonl, load_paraphrase_set
 from ops_copilot.perturb import PERTURBATION_TYPES
-from ops_copilot.robustness import classify_flip, run_robustness
+from ops_copilot.robustness import ABLATIONS, classify_flip, load_before, run_robustness
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -74,3 +74,36 @@ def test_run_script_writes_artifacts(tmp_path: Path) -> None:
     # Committed artifact (quoted in README) must match a fresh deterministic run.
     committed = json.loads((ROOT / "artifacts" / "robustness_metrics.json").read_text("utf-8"))
     assert metrics == committed
+
+
+def test_synonym_rows_are_split_dev_and_heldout(report) -> None:
+    sp = report.per_synonym_split
+    assert set(sp) == {"dev", "heldout"}
+    assert sp["dev"]["n"] + sp["heldout"]["n"] == report.per_perturbation["synonym"]["n"]
+    for c in report.cases:
+        if c.perturbation == "synonym":
+            assert c.synonym_split in {"dev", "heldout"}, c.id
+        else:
+            assert c.synonym_split == "", c.id
+    assert report.as_dict()["per_synonym_split"] == sp
+
+
+def test_before_is_the_frozen_pr10_run_rescored_with_the_split() -> None:
+    before = load_before()
+    assert before is not None
+    assert "00cacb5" in before["source"]
+    assert before["perturbed_accuracy"] == pytest.approx(0.8916, abs=1e-4)
+    assert len(before["decisions"]) == 203
+    assert before["per_synonym_split"]["dev"]["n"] == 15
+    assert before["per_synonym_split"]["heldout"]["n"] == 35
+
+
+def test_ablation_grid_toggles_only_the_synonym_sources() -> None:
+    assert set(ABLATIONS) == {
+        "no map, no embedding",
+        "map only (leakage-free)",
+        "embedding only",
+        "map + embedding",
+    }
+    for knobs in ABLATIONS.values():
+        assert set(knobs) == {"use_synonyms", "use_semantic_backoff"}
