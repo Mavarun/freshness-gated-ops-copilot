@@ -24,6 +24,7 @@ from ops_copilot.freshness import annotate, fresh_only
 from ops_copilot.grounding import Grounder
 from ops_copilot.policy import decide
 from ops_copilot.retrieve import Retriever
+from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.source_slas import SourceSlaTable, load_source_slas, resolve_max_age
 from ops_copilot.types import Chunk, CopilotResult, Decision
 from ops_copilot.write_actions import detect_write_intent
@@ -75,13 +76,24 @@ class Copilot:
     ) -> None:
         self.config = config or CopilotConfig()
         self.corpus = corpus or Corpus(path=path, now=now)
-        self.retriever = Retriever(self.corpus.chunks, self.config)
         texts = [f"{c.title} {c.text}" for c in self.corpus.chunks]
+        self.semantic = (
+            SemanticBackoff(
+                texts,
+                min_similarity=self.config.semantic_min_similarity,
+                max_neighbours=self.config.semantic_max_neighbours,
+                use_char_ngrams=self.config.semantic_char_ngrams,
+            )
+            if self.config.use_semantic_backoff
+            else None
+        )
+        self.retriever = Retriever(self.corpus.chunks, self.config, semantic=self.semantic)
         self.grounder = Grounder(
             texts,
             threshold=self.config.grounding_threshold,
             typo_tolerance=self.config.typo_tolerance,
             synonyms=self.config.use_synonyms,
+            semantic=self.semantic,
         )
         if sla_table is not None:
             self.sla_table = sla_table

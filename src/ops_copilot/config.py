@@ -75,3 +75,11 @@ class CopilotConfig:
     # Corpus-side synonym/lemma groups (synonyms.py) for grounding, retrieval
     # rewrite, and restart verbs. Off = the ablation reported in the README.
     use_synonyms: bool = True
+    # Offline semantic backoff (semantic.py): a corpus PPMI/SVD embedding plus
+    # char-trigram similarity maps an otherwise unplaceable query word to a
+    # few corpus words, for grounding and the retrieval rewrite. Default
+    # decided by the held-out synonym rows (README "Held-out synonyms").
+    use_semantic_backoff: bool = False
+    semantic_char_ngrams: bool = True
+    semantic_min_similarity: float = 0.60
+    semantic_max_neighbours: int = 1
