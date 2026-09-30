@@ -129,7 +129,15 @@ def _match_case(src: str, repl: str) -> str:
     return repl[:1].upper() + repl[1:] if src[:1].isupper() else repl
 
 
-def synonym_swap(query: str, rng: random.Random, max_swaps: int = 2) -> str:
+def synonym_swap_trace(
+    query: str, rng: random.Random, max_swaps: int = 2
+) -> tuple[str, list[tuple[str, str]]]:
+    """``synonym_swap`` plus the ``(key, replacement)`` pairs it applied.
+
+    Consumes the RNG exactly like the original swap, so replaying it with
+    ``_rng(seed, "synonym", query)`` recovers which pairs produced a committed
+    paraphrase row (``synonym_split`` uses this to tag dev / held-out rows).
+    """
     spans: list[tuple[int, int, str]] = []
     taken: set[int] = set()
     # Longest keys first so "feature flag" wins over "flag".
@@ -141,14 +149,25 @@ def synonym_swap(query: str, rng: random.Random, max_swaps: int = 2) -> str:
             taken |= idx
             spans.append((m.start(), m.end(), key))
     if not spans:
-        return query
+        return query, []
     spans.sort()
     chosen = rng.sample(spans, k=min(max_swaps, len(spans)))
     out = query
+    applied: list[tuple[str, str]] = []
     for start, end, key in sorted(chosen, reverse=True):
         repl = rng.choice(OPS_SYNONYMS[key])
         out = out[:start] + _match_case(out[start:end], repl) + out[end:]
-    return out
+        applied.append((key, repl))
+    return out, applied[::-1]
+
+
+def synonym_swap(query: str, rng: random.Random, max_swaps: int = 2) -> str:
+    return synonym_swap_trace(query, rng, max_swaps)[0]
+
+
+def synonym_pairs() -> list[tuple[str, str]]:
+    """Every ``(key, replacement)`` pair of ``OPS_SYNONYMS`` in map order."""
+    return [(key, repl) for key, repls in OPS_SYNONYMS.items() for repl in repls]
 
 
 def shuffle_word_order(query: str, rng: random.Random) -> str:

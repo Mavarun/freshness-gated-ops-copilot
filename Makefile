@@ -1,4 +1,4 @@
-.PHONY: test eval demo api install robustness paraphrases
+.PHONY: test eval demo api install robustness paraphrases split
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -20,3 +20,6 @@ paraphrases:
 
 robustness:
 	python scripts/run_robustness.py
+
+split:
+	python scripts/make_synonym_split.py
