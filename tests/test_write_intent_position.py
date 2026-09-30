@@ -64,3 +64,41 @@ def test_restart_now_still_proposes_write() -> None:
     assert result.decision is Decision.PROPOSE_WRITE
     assert result.proposed_write is not None
     assert result.proposed_write["executed"] is False
+
+
+# g42: the page-oncall cue used to be anchored to the end of the query, so a
+# shuffled or trailing clause dropped the write.
+@pytest.mark.parametrize(
+    ("query", "target"),
+    [
+        ("Page the oncall the for outage payments", "outage payments"),
+        ("Page the oncall for the payments outage", "payments outage"),
+        ("Page the on-call for payments now", "payments"),
+        ("Payments is down, page the on-call", "primary"),
+        ("page the oncall, checkout is erroring", "primary"),
+    ],
+)
+def test_page_oncall_is_position_independent(query: str, target: str) -> None:
+    w = detect_write_intent(query)
+    assert w is not None and w.action_type is WriteActionType.PAGE_ONCALL
+    assert w.target == target
+
+
+def test_page_oncall_reads_stay_reads() -> None:
+    assert detect_write_intent("What is the page oncall procedure?") is None
+    assert detect_write_intent("How do I page the oncall for payments?") is None
+    assert detect_write_intent("Who gets paged by the oncall rotation?") is None
+
+
+def test_g42_word_order_row_proposes_the_page(copilot: Copilot) -> None:
+    result = copilot.ask("Page the oncall the for outage payments")
+    assert result.decision is Decision.PROPOSE_WRITE
+    assert result.proposed_write["status"] == "PENDING"
+    assert result.proposed_write["proposal"]["action_type"] == "page_oncall"
+    assert result.proposed_write["executed"] is False
+
+
+def test_typod_question_word_keeps_how_to_a_read() -> None:
+    assert detect_write_intent("Hwo do I restart checkout-api?") is None
+    assert detect_write_intent("Wat is the procedure to restart checkout-api") is None
+    assert detect_write_intent("restart checkout-api now") is not None

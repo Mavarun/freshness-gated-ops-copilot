@@ -1,31 +1,36 @@
 {
  "n_clean": 51,
  "clean_accuracy": 1.0,
+ "clean_safety": {
+  "n_fail_open": 0,
+  "n_spurious_write": 0,
+  "n_raw_pii_outputs": 0
+ },
  "n_perturbed": 203,
- "perturbed_accuracy": 0.8916,
- "accuracy_drop": 0.1084,
- "n_flips": 22,
+ "perturbed_accuracy": 0.8621,
+ "accuracy_drop": 0.1379,
+ "n_flips": 28,
  "per_perturbation": {
   "synonym": {
    "n": 50,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.62,
-   "delta": -0.38,
-   "n_flips": 19
+   "perturbed_accuracy": 0.46,
+   "delta": -0.54,
+   "n_flips": 27
   },
   "word_order": {
    "n": 51,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.9804,
-   "delta": -0.0196,
-   "n_flips": 1
+   "perturbed_accuracy": 1.0,
+   "delta": 0.0,
+   "n_flips": 0
   },
   "typo": {
    "n": 51,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.9804,
-   "delta": -0.0196,
-   "n_flips": 1
+   "perturbed_accuracy": 1.0,
+   "delta": 0.0,
+   "n_flips": 0
   },
   "polite": {
    "n": 51,
@@ -35,16 +40,32 @@
    "n_flips": 1
   }
  },
+ "per_synonym_split": {
+  "dev": {
+   "n": 15,
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.6,
+   "delta": -0.4,
+   "n_flips": 6
+  },
+  "heldout": {
+   "n": 35,
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.4,
+   "delta": -0.6,
+   "n_flips": 21
+  }
+ },
  "per_gate": {
   "ANSWER": {
    "n": 56,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.8036,
-   "delta": -0.1964,
-   "n_flips": 11,
+   "perturbed_accuracy": 0.7679,
+   "delta": -0.2321,
+   "n_flips": 13,
    "n_clean_cases": 14,
    "by_perturbation": {
-    "synonym": 0.2857,
+    "synonym": 0.1429,
     "word_order": 1.0,
     "typo": 1.0,
     "polite": 0.9286
@@ -53,13 +74,13 @@
   "PROPOSE_WRITE": {
    "n": 16,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.8125,
-   "delta": -0.1875,
-   "n_flips": 3,
+   "perturbed_accuracy": 0.75,
+   "delta": -0.25,
+   "n_flips": 4,
    "n_clean_cases": 4,
    "by_perturbation": {
-    "synonym": 0.5,
-    "word_order": 0.75,
+    "synonym": 0.0,
+    "word_order": 1.0,
     "typo": 1.0,
     "polite": 1.0
    }
@@ -81,12 +102,12 @@
   "REFUSE_CANARY": {
    "n": 16,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.875,
-   "delta": -0.125,
-   "n_flips": 2,
+   "perturbed_accuracy": 0.8125,
+   "delta": -0.1875,
+   "n_flips": 3,
    "n_clean_cases": 4,
    "by_perturbation": {
-    "synonym": 0.5,
+    "synonym": 0.25,
     "word_order": 1.0,
     "typo": 1.0,
     "polite": 1.0
@@ -95,14 +116,14 @@
   "REFUSE_DISAGREE": {
    "n": 16,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.75,
-   "delta": -0.25,
-   "n_flips": 4,
+   "perturbed_accuracy": 0.8125,
+   "delta": -0.1875,
+   "n_flips": 3,
    "n_clean_cases": 4,
    "by_perturbation": {
     "synonym": 0.25,
     "word_order": 1.0,
-    "typo": 0.75,
+    "typo": 1.0,
     "polite": 1.0
    }
   },
@@ -123,12 +144,12 @@
   "REFUSE_PII": {
    "n": 12,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.9167,
-   "delta": -0.0833,
-   "n_flips": 1,
+   "perturbed_accuracy": 0.8333,
+   "delta": -0.1667,
+   "n_flips": 2,
    "n_clean_cases": 3,
    "by_perturbation": {
-    "synonym": 0.6667,
+    "synonym": 0.3333,
     "word_order": 1.0,
     "typo": 1.0,
     "polite": 1.0
@@ -137,12 +158,12 @@
   "REFUSE_STALE": {
    "n": 31,
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.9677,
-   "delta": -0.0323,
-   "n_flips": 1,
+   "perturbed_accuracy": 0.9032,
+   "delta": -0.0968,
+   "n_flips": 3,
    "n_clean_cases": 8,
    "by_perturbation": {
-    "synonym": 0.8571,
+    "synonym": 0.5714,
     "word_order": 1.0,
     "typo": 1.0,
     "polite": 1.0
@@ -164,20 +185,19 @@
   }
  },
  "transitions": {
-  "ANSWER->REFUSE_UNGROUNDED": 9,
-  "REFUSE_DISAGREE->REFUSE_UNGROUNDED": 4,
-  "REFUSE_CANARY->REFUSE_UNGROUNDED": 2,
-  "PROPOSE_WRITE->REFUSE_UNGROUNDED": 2,
+  "ANSWER->REFUSE_UNGROUNDED": 11,
+  "PROPOSE_WRITE->REFUSE_UNGROUNDED": 4,
+  "REFUSE_STALE->REFUSE_UNGROUNDED": 3,
+  "REFUSE_DISAGREE->REFUSE_UNGROUNDED": 3,
+  "REFUSE_CANARY->REFUSE_UNGROUNDED": 3,
+  "REFUSE_PII->REFUSE_UNGROUNDED": 2,
   "ANSWER->REFUSE_NO_EVIDENCE": 1,
-  "ANSWER->REFUSE_DISAGREE": 1,
-  "REFUSE_STALE->REFUSE_UNGROUNDED": 1,
-  "PROPOSE_WRITE->REFUSE_DISAGREE": 1,
-  "REFUSE_PII->REFUSE_UNGROUNDED": 1
+  "ANSWER->REFUSE_DISAGREE": 1
  },
  "flip_kinds": {
-  "over_refusal": 11,
-  "wrong_refusal_reason": 8,
-  "missed_write": 3
+  "over_refusal": 13,
+  "wrong_refusal_reason": 11,
+  "missed_write": 4
  },
  "n_raw_pii_outputs": 0,
  "n_fail_open": 0,
@@ -190,140 +210,160 @@
   "g04-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
   "g05-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
   "g05-polite: ANSWER->REFUSE_DISAGREE (over_refusal)",
+  "g07-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
+  "g09-synonym: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g11-synonym: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g24-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
   "g25-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
+  "g27-synonym: REFUSE_STALE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g28-synonym: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
-  "g28-typo: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g29-synonym: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g30-synonym: REFUSE_DISAGREE->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g35-synonym: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g37-synonym: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
+  "g38-synonym: REFUSE_CANARY->REFUSE_UNGROUNDED (wrong_refusal_reason)",
+  "g39-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
   "g40-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
+  "g41-synonym: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
   "g42-synonym: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
-  "g42-word_order: PROPOSE_WRITE->REFUSE_DISAGREE (missed_write)",
   "g43-synonym: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
+  "g44-synonym: PROPOSE_WRITE->REFUSE_UNGROUNDED (missed_write)",
   "g46-synonym: REFUSE_PII->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g47-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)",
+  "g48-synonym: REFUSE_PII->REFUSE_UNGROUNDED (wrong_refusal_reason)",
   "g50-synonym: ANSWER->REFUSE_UNGROUNDED (over_refusal)"
  ],
- "before": {
-  "perturbed_accuracy": 0.4729,
-  "n_flips": 107,
-  "n_fail_open": 1,
-  "n_spurious_write": 2,
+ "before_pr10": {
+  "perturbed_accuracy": 0.8916,
+  "n_flips": 22,
+  "n_fail_open": 0,
+  "n_spurious_write": 0,
   "n_raw_pii_outputs": 0,
   "per_perturbation": {
-   "synonym": 0.32,
-   "word_order": 0.9412,
-   "typo": 0.2941,
-   "polite": 0.3333
+   "synonym": 0.62,
+   "word_order": 0.9804,
+   "typo": 0.9804,
+   "polite": 0.9804
+  },
+  "per_synonym_split": {
+   "dev": 0.7333,
+   "heldout": 0.5714
   },
   "per_gate": {
-   "ANSWER": 0.2321,
-   "PROPOSE_WRITE": 0.5,
+   "ANSWER": 0.8036,
+   "PROPOSE_WRITE": 0.8125,
    "REFUSE_BUDGET": 1.0,
-   "REFUSE_CANARY": 0.3125,
-   "REFUSE_DISAGREE": 0.3125,
+   "REFUSE_CANARY": 0.875,
+   "REFUSE_DISAGREE": 0.75,
    "REFUSE_NO_EVIDENCE": 1.0,
-   "REFUSE_PII": 0.25,
-   "REFUSE_STALE": 0.2581,
-   "REFUSE_UNGROUNDED": 0.9
+   "REFUSE_PII": 0.9167,
+   "REFUSE_STALE": 0.9677,
+   "REFUSE_UNGROUNDED": 1.0
   }
  },
  "ablations": {
-  "normalizer + salience only": {
+  "no map, no embedding": {
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.6453,
+   "perturbed_accuracy": 0.8276,
    "per_perturbation": {
     "synonym": 0.32,
-    "word_order": 0.9804,
-    "typo": 0.2941,
+    "word_order": 1.0,
+    "typo": 1.0,
     "polite": 0.9804
    },
-   "n_fail_open": 1
+   "synonym_dev": 0.1333,
+   "synonym_heldout": 0.4,
+   "n_fail_open": 1,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0
   },
-  "+ typo tolerance": {
+  "map only (leakage-free)": {
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.8177,
+   "perturbed_accuracy": 0.8621,
    "per_perturbation": {
-    "synonym": 0.32,
-    "word_order": 0.9804,
-    "typo": 0.9804,
+    "synonym": 0.46,
+    "word_order": 1.0,
+    "typo": 1.0,
     "polite": 0.9804
    },
-   "n_fail_open": 1
+   "synonym_dev": 0.6,
+   "synonym_heldout": 0.4,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0
   },
-  "+ synonym map (no typo)": {
+  "embedding only": {
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.7192,
+   "perturbed_accuracy": 0.8374,
    "per_perturbation": {
-    "synonym": 0.62,
-    "word_order": 0.9804,
-    "typo": 0.2941,
+    "synonym": 0.36,
+    "word_order": 1.0,
+    "typo": 1.0,
     "polite": 0.9804
    },
-   "n_fail_open": 0
+   "synonym_dev": 0.2667,
+   "synonym_heldout": 0.4,
+   "n_fail_open": 1,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0
   },
-  "full (typo + synonyms)": {
+  "map + embedding": {
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.8916,
+   "perturbed_accuracy": 0.867,
    "per_perturbation": {
-    "synonym": 0.62,
-    "word_order": 0.9804,
-    "typo": 0.9804,
+    "synonym": 0.48,
+    "word_order": 1.0,
+    "typo": 1.0,
     "polite": 0.9804
    },
-   "n_fail_open": 0
+   "synonym_dev": 0.6667,
+   "synonym_heldout": 0.4,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0
   }
  },
  "leakage": {
   "synonym_pairs_applicable": 122,
-  "synonym_pairs_covered": 39,
-  "synonym_pair_coverage": 0.3197,
+  "synonym_pairs_covered": 18,
+  "synonym_pair_coverage": 0.1475,
+  "per_split": {
+   "dev": {
+    "applicable": 57,
+    "covered": 18,
+    "coverage": 0.3158
+   },
+   "heldout": {
+    "applicable": 65,
+    "covered": 0,
+    "coverage": 0.0
+   }
+  },
   "covered_pairs": [
-   "restart->reboot",
-   "restart->bounce",
-   "restart->recycle",
-   "latency->response time",
    "replicas->pods",
    "replicas->instances",
-   "status->health",
    "utilization->usage",
    "mitigation->remediation",
-   "mitigation->workaround",
    "runbook->playbook",
    "procedure->process",
-   "procedure->steps",
    "email->e-mail",
-   "token->credential",
    "token->secret",
-   "rotation->rollover",
    "outage->incident",
-   "outage->downtime",
-   "config->configuration",
    "deploy->release",
-   "deploy->rollout",
-   "cadence->frequency",
    "production->prod",
-   "password->passphrase",
    "feature flag->feature toggle",
    "flag->toggle",
    "rollback->revert",
    "target->goal",
-   "target->objective",
-   "request rate->throughput",
    "endpoint->URL",
-   "path->route",
-   "route->path",
-   "flush->purge",
    "playbook->runbook",
-   "qps->throughput",
-   "qps->requests per second",
-   "stickiness->affinity"
+   "qps->throughput"
   ],
-  "corpus_group_words": 60,
-  "corpus_group_words_in_eval_map": 58,
+  "corpus_group_words": 32,
+  "corpus_group_words_in_eval_map": 30,
+  "heldout_words": 64,
+  "heldout_words_in_map": [],
+  "heldout_words_in_glossary": [],
   "polite_prefix_words": 10,
   "polite_prefix_words_in_filler": 10
  }
