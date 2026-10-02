@@ -1,6 +1,7 @@
 """Compose retrieve → support → freshness → disagreement → extractive draft → policy.
 
-HITL: imperative writes become PROPOSE_WRITE via HitlWriteLedger (pending until approve).
+HITL: imperative writes become PROPOSE_WRITE via HitlWriteLedger (pending until approve);
+write-shaped instructions the parser cannot pin down become REFUSE_AMBIGUOUS_WRITE.
 
 Session cost budget is checked first in policy when a session_id is provided:
 spent + this request's approx_cost_units must stay within session_budget_cost_units.
@@ -28,7 +29,9 @@ from ops_copilot.retrieve import Retriever
 from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.source_slas import SourceSlaTable, load_source_slas, resolve_max_age
 from ops_copilot.types import Chunk, CopilotResult, Decision
-from ops_copilot.write_actions import detect_write_intent
+from ops_copilot.write_actions import proposal_from_intent
+from ops_copilot.write_intent import AMBIGUOUS, classify_write_intent
+from ops_copilot.write_targets import EntityRegistry, default_registry
 
 
 def _cost_units(n_retrieved: int, use_dense: bool, use_disagreement: bool) -> float:
@@ -125,6 +128,12 @@ class Copilot:
         self.ledger = ledger if ledger is not None else SessionCostLedger()
         self.hitl = hitl if hitl is not None else HitlWriteLedger()
         self.canary_registry = CanaryRegistry.load(self.config.canary_registry_path)
+        self.registry = (
+            default_registry()
+            if path is None and corpus is None
+            else EntityRegistry.from_texts(texts)
+        )
+        self.write_prototypes = None
         self._doc_texts: dict[str, list[str]] = {}
         for c in self.corpus.chunks:
             self._doc_texts.setdefault(c.doc_id, []).append(c.text)
@@ -217,15 +226,20 @@ class Copilot:
             rq,
             evidence_texts=[t for d in cited_docs for t in self._doc_texts.get(d, ())],
         )
-        write_intent = (
-            detect_write_intent(
+        intent = (
+            classify_write_intent(
                 query,
+                registry=self.registry,
                 typo_tolerance=cfg.typo_tolerance,
-                synonyms=cfg.use_synonyms,
+                mood_detection=cfg.write_mood_detection,
+                prototypes=self.write_prototypes,
+                min_confidence=cfg.write_min_confidence,
             )
             if cfg.use_hitl_write_gate
             else None
         )
+        write_intent = proposal_from_intent(intent) if intent is not None else None
+        ambiguous_write = intent if intent is not None and intent.status == AMBIGUOUS else None
         policy = decide(
             retrieved,
             freshness,
@@ -249,6 +263,7 @@ class Copilot:
             use_hitl_write_gate=cfg.use_hitl_write_gate,
             pii_scan=pii_scan,
             use_pii_gate=cfg.use_pii_gate,
+            ambiguous_write=ambiguous_write,
         )
 
         proposed_write = None
@@ -301,6 +316,7 @@ class Copilot:
             pii_detected=bool(pii_scan.pii_detected),
             redactions_count=int(pii_scan.redactions_count),
             pii=pii_scan.as_dict(),
+            write_intent=intent.parse_dict() if intent is not None else None,
         )
 
 

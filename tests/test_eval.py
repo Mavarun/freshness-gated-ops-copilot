@@ -10,7 +10,10 @@ def test_golden_set_covers_all_decisions() -> None:
     cases = load_golden()
     assert len(cases) >= 20
     labels = {c["expect_decision"] for c in cases}
-    assert labels == {d.value for d in Decision}
+    # REFUSE_AMBIGUOUS_WRITE is exercised by the dedicated write-intent eval
+    # set (data/golden/write_intent_eval.jsonl), not by the frozen 51-row
+    # golden set that the 203 perturbed rows and the synonym split derive from.
+    assert labels == {d.value for d in Decision} - {Decision.REFUSE_AMBIGUOUS_WRITE.value}
 
 
 def test_eval_metrics_sane(copilot: Copilot) -> None:

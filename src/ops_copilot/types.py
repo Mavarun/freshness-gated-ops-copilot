@@ -17,6 +17,7 @@ class Decision(str, Enum):
     REFUSE_CANARY = "REFUSE_CANARY"
     REFUSE_PII = "REFUSE_PII"
     PROPOSE_WRITE = "PROPOSE_WRITE"
+    REFUSE_AMBIGUOUS_WRITE = "REFUSE_AMBIGUOUS_WRITE"
 
 
 class FreshnessStatus(str, Enum):
@@ -135,6 +136,8 @@ class CopilotResult:
     pii_detected: bool = False
     redactions_count: int = 0
     pii: dict | None = None
+    # Write-intent parse trace (status, mood, verb, target, confidence).
+    write_intent: dict | None = None
 
     def as_dict(self) -> dict:
         return {
@@ -159,4 +162,5 @@ class CopilotResult:
             "pii_detected": self.pii_detected,
             "redactions_count": self.redactions_count,
             "pii": self.pii,
+            "write_intent": self.write_intent,
         }

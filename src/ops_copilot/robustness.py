@@ -55,6 +55,9 @@ ARTIFACTS = Path(__file__).resolve().parents[2] / "artifacts"
 DEFAULT_BASELINE = ARTIFACTS / "robustness_baseline.json"
 DEFAULT_BEFORE = ARTIFACTS / "robustness_pr11.json"
 PR10_BEFORE = ARTIFACTS / "robustness_pr10.json"
+# PR #12 (real embeddings), frozen per row for the default config and, under
+# "embedding_on", for the frozen-MiniLM config: the write-gate slice's before.
+PR12_BEFORE = ARTIFACTS / "robustness_pr12.json"
 SPLITS: tuple[str, ...] = ("dev", "heldout")
 
 

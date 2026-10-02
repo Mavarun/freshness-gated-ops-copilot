@@ -68,6 +68,12 @@ class CopilotConfig:
     canary_registry_path: str | None = None
     # HITL write gate: imperative writes become PROPOSE_WRITE (pending) until human approve.
     use_hitl_write_gate: bool = True
+    # Structured write-intent parser (write_intent.py). Mood detection off is
+    # the "lexicon parser only" ablation (first ontology verb anywhere is an
+    # instruction). Proposals need at least write_min_confidence; anything
+    # write-shaped below it, or without a target, is REFUSE_AMBIGUOUS_WRITE.
+    write_mood_detection: bool = True
+    write_min_confidence: float = 0.65
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within

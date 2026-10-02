@@ -38,6 +38,12 @@ REFUSAL_TEMPLATES = {
         "PENDING WRITE: a mutating action was proposed and is waiting for "
         "explicit human approve. It will not execute until approved."
     ),
+    Decision.REFUSE_AMBIGUOUS_WRITE: (
+        "NEEDS CLARIFICATION: this reads like a request to change something, but "
+        "the action or its target is not clear enough to propose. Nothing was "
+        "proposed or executed; restate it as one explicit action and target "
+        "(for example 'restart checkout-api')."
+    ),
 }
 
 

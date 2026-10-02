@@ -14,6 +14,7 @@ from ops_copilot.robustness import (
     ABLATIONS,
     EMBED_ABLATIONS,
     PR10_BEFORE,
+    PR12_BEFORE,
     classify_flip,
     load_before,
     run_robustness,
@@ -113,9 +114,24 @@ def test_pr10_run_stays_loadable_for_history() -> None:
     assert pr10["perturbed_accuracy"] == pytest.approx(0.8916, abs=1e-4)
 
 
-def test_default_config_matches_pr11_row_for_row(report) -> None:
-    before = load_before()
-    assert {c.id: c.perturbed_decision for c in report.cases} == before["decisions"]
+# The structured write parser changes exactly these rows of the PR #12 run:
+# the dev 'update ... setting' and held-out 'page the on-duty engineer' rows
+# are now proposed; 'bounce' / 'reboot' (held-out verbs, not in any lexicon)
+# become a clarifying refusal instead of REFUSE_UNGROUNDED.
+WRITE_PARSER_CHANGES = {
+    "g41-synonym": "REFUSE_AMBIGUOUS_WRITE",
+    "g42-synonym": "PROPOSE_WRITE",
+    "g43-synonym": "PROPOSE_WRITE",
+    "g44-synonym": "REFUSE_AMBIGUOUS_WRITE",
+}
+
+
+def test_default_config_matches_pr12_except_the_parsed_writes(report) -> None:
+    before = load_before(PR12_BEFORE)
+    assert before is not None and "fcc8157" in before["source"]
+    actual = {c.id: c.perturbed_decision for c in report.cases}
+    changed = {rid: d for rid, d in actual.items() if d != before["decisions"][rid]}
+    assert changed == WRITE_PARSER_CHANGES
 
 
 def test_embedding_ablations_only_toggle_embedding_knobs() -> None:

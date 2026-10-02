@@ -4,8 +4,11 @@ Gates fire in this order:
 
 1. session cost budget would be exceeded → REFUSE_BUDGET
    (only when use_budget_gate and a session_id is in play)
-2. write intent (restart/page/patch) → PROPOSE_WRITE (pending HITL;
-   skips evidence gates — we propose a mutation, we do not answer from corpus)
+2. write intent → PROPOSE_WRITE (pending HITL; skips evidence gates — we
+   propose a mutation, we do not answer from corpus). A write-shaped
+   instruction the parser cannot pin down (no target, several targets,
+   conditional, unsupported or unrecognised verb, low confidence) →
+   REFUSE_AMBIGUOUS_WRITE: ask, never guess a mutation
 3. nothing retrieved → REFUSE_NO_EVIDENCE
 4. retrieved, but no chunk actually supports the query
    (coverage below a weak floor) → REFUSE_NO_EVIDENCE
@@ -69,6 +72,7 @@ def decide(
     use_hitl_write_gate: bool = True,
     pii_scan: object | None = None,
     use_pii_gate: bool = True,
+    ambiguous_write: object | None = None,
 ) -> PolicyDecision:
     if (
         use_budget_gate
@@ -90,12 +94,21 @@ def decide(
         action = getattr(write_intent, "action_type", None)
         action_v = getattr(action, "value", None) or str(action or "write")
         target = getattr(write_intent, "target", "?")
+        conf = getattr(write_intent, "confidence", None)
+        conf_s = f"; confidence={conf:.2f}" if isinstance(conf, float) else ""
         return PolicyDecision(
             decision=Decision.PROPOSE_WRITE,
             reason=(
-                f"write intent detected ({action_v} → {target}); "
+                f"write intent detected ({action_v} → {target}{conf_s}); "
                 f"proposed write stays PENDING until explicit human approve"
             ),
+        )
+
+    if use_hitl_write_gate and ambiguous_write is not None:
+        why = getattr(ambiguous_write, "reason", "ambiguous write")
+        return PolicyDecision(
+            decision=Decision.REFUSE_AMBIGUOUS_WRITE,
+            reason=f"write-like instruction not proposed: {why}",
         )
 
     if not retrieved:
