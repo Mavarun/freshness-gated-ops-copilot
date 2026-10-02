@@ -22,7 +22,7 @@ from ops_copilot.hitl import HitlWriteLedger
 from ops_copilot.disagreement import assess_disagreement
 from ops_copilot.embeddings import resolve_backend
 from ops_copilot.freshness import annotate, fresh_only
-from ops_copilot.grounding import Grounder
+from ops_copilot.grounding import EmbeddingSupport, Grounder
 from ops_copilot.policy import decide
 from ops_copilot.retrieve import Retriever
 from ops_copilot.semantic import SemanticBackoff
@@ -52,8 +52,7 @@ def supporting_chunks(
     best = 0.0
     for chunk in chunks:
         text = f"{chunk.title} {chunk.text}"
-        cov, _ = grounder.coverage(query, text)
-        keys_ok = grounder.keys_supported(query, text)
+        cov, keys_ok = grounder.chunk_support(query, text)
         if cov > best:
             best = cov
         if cov >= threshold and keys_ok:
@@ -105,6 +104,16 @@ class Copilot:
             typo_tolerance=self.config.typo_tolerance,
             synonyms=self.config.use_synonyms,
             semantic=self.semantic,
+            embed_support=(
+                EmbeddingSupport(
+                    self.embeddings,
+                    self.config.semantic_grounding_threshold,
+                    query_form=self.retriever.rewrite_query,
+                    max_rescued_terms=self.config.semantic_grounding_max_terms,
+                )
+                if self.embeddings is not None and self.config.embed_semantic_grounding
+                else None
+            ),
         )
         if sla_table is not None:
             self.sla_table = sla_table

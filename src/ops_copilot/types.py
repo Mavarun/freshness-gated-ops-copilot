@@ -87,6 +87,10 @@ class GroundingResult:
     answer_coverage: float
     threshold: float
     overlap_tokens: list[str] = field(default_factory=list)
+    # Semantic grounding backoff (embeddings): query terms counted as supported
+    # because a cited sentence cleared the cosine threshold, and that cosine.
+    semantic_rescued: list[str] = field(default_factory=list)
+    semantic_similarity: float | None = None
 
     def as_dict(self) -> dict:
         return {
@@ -95,6 +99,10 @@ class GroundingResult:
             "answer_coverage": round(self.answer_coverage, 4),
             "threshold": self.threshold,
             "overlap_tokens": self.overlap_tokens,
+            "semantic_rescued": self.semantic_rescued,
+            "semantic_similarity": (
+                None if self.semantic_similarity is None else round(self.semantic_similarity, 4)
+            ),
         }
 
 
