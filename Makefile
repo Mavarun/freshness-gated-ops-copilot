@@ -1,4 +1,4 @@
-.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings
+.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -31,3 +31,6 @@ split:
 # Needs [embed] and the cached model (first run: --allow-download).
 embeddings:
 	python scripts/precompute_embeddings.py
+
+calibrate:
+	python scripts/calibrate_semantic_grounding.py

@@ -94,3 +94,9 @@ class CopilotConfig:
     embedding_allow_download: bool = False
     # With a backend on: use it as the dense retriever in the disagreement gate.
     embed_dense_retriever: bool = True
+    # With a backend on: semantic grounding backoff (grounding.EmbeddingSupport).
+    # Threshold and max_terms come from scripts/calibrate_semantic_grounding.py
+    # (clean golden + dev synonym rows only).
+    embed_semantic_grounding: bool = True
+    semantic_grounding_threshold: float = 0.53
+    semantic_grounding_max_terms: int = 1

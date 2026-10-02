@@ -28,12 +28,28 @@ unknown after the synonym and typo steps may be supported by its closest
 corpus words from the corpus PPMI/SVD embedding (or one char-trigram
 neighbour), weighted like the heaviest of them. It is the last step, so it never
 changes known words, identifiers, synonyms, or typo snaps.
+
+Semantic grounding (optional, ``EmbeddingSupport``, sentence embeddings): a
+salient term that is still *unknown* after all of the above (not a corpus word,
+not an identifier or number, alphabetic) may count as supported by a chunk when
+some sentence of that chunk has cosine >= ``threshold`` with the rewritten
+query. The threshold is calibrated on the clean golden set plus the *dev*
+synonym rows only (``scripts/calibrate_semantic_grounding.py``). It is a
+backoff alongside the lexical checks, not a replacement: every corpus-known
+and identifier term must still be matched lexically, at most
+``max_rescued_terms`` unknown words can be rescued per query, and the answer
+coverage check stays lexical.
 """
 
 from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from typing import Callable, Sequence
+
+import numpy as np
+
+from ops_copilot.embeddings import EmbeddingBackend, evidence_sentences
 
 from ops_copilot.lexicon import CorpusVocabulary, fix_interrogative_typos
 from ops_copilot.semantic import SemanticBackoff
@@ -62,6 +78,57 @@ class QueryTerm:
         return any(a in evidence_forms for a in self.alts)
 
 
+class EmbeddingSupport:
+    """Max cosine between the (rewritten) query and any evidence sentence."""
+
+    def __init__(
+        self,
+        backend: EmbeddingBackend,
+        threshold: float,
+        *,
+        query_form: Callable[[str], str] | None = None,
+        max_rescued_terms: int = 1,
+    ) -> None:
+        self.backend = backend
+        self.threshold = float(threshold)
+        self.query_form = query_form or normalize_text
+        self.max_rescued_terms = int(max_rescued_terms)
+        self._qcache: dict[str, np.ndarray | None] = {}
+
+    def query_vector(self, query: str) -> np.ndarray | None:
+        if query not in self._qcache:
+            self._qcache[query] = self.backend.vector(self.query_form(query))
+        return self._qcache[query]
+
+    def best_similarity(self, query: str, evidence_parts: Sequence[str]) -> float | None:
+        """Highest query-sentence cosine, or ``None`` when nothing is embeddable."""
+        qv = self.query_vector(query)
+        if qv is None:
+            return None
+        sentences = [s for part in evidence_parts for s in evidence_sentences(part)]
+        vecs = [v for v in self.backend.lookup(sentences) if v is not None]
+        if not vecs:
+            return None
+        return float(np.max(np.vstack(vecs) @ qv))
+
+    def supports(self, query: str, evidence_parts: Sequence[str]) -> bool:
+        best = self.best_similarity(query, evidence_parts)
+        return best is not None and best >= self.threshold
+
+
+@dataclass(frozen=True)
+class Support:
+    """Which salient terms an evidence text supports, lexically or semantically."""
+
+    terms: list[QueryTerm]
+    lexical: frozenset[str]
+    rescued: frozenset[str]
+    similarity: float | None
+
+    def ok(self, term: QueryTerm) -> bool:
+        return term.token in self.lexical or term.token in self.rescued
+
+
 class Grounder:
     """Mark an answer ungrounded when the query is not supported by evidence."""
 
@@ -73,6 +140,7 @@ class Grounder:
         typo_tolerance: bool = True,
         synonyms: bool = True,
         semantic: SemanticBackoff | None = None,
+        embed_support: EmbeddingSupport | None = None,
     ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
@@ -82,6 +150,7 @@ class Grounder:
         self.typo_tolerance = typo_tolerance
         self.synonyms = synonyms
         self.semantic = semantic
+        self.embed_support = embed_support
         self.vocab = CorpusVocabulary(tokenized, extra_words=NON_SALIENT)
 
     def _weight(self, token: str) -> float:
@@ -157,31 +226,74 @@ class Grounder:
     def key_tokens(self, query: str, k: int | None = None) -> list[str]:
         return [t.token for t in self._key_terms(self.terms(query), k)]
 
-    def keys_supported(self, query: str, evidence: str) -> bool:
+    @staticmethod
+    def rescuable(term: QueryTerm) -> bool:
+        """Only still-unknown plain words may be supported by embeddings."""
+        return term.kind == "unknown" and term.token.isalpha() and not is_identifier(term.token)
+
+    def support(
+        self,
+        query: str,
+        evidence: str,
+        *,
+        evidence_parts: Sequence[str] | None = None,
+        semantic: bool = True,
+    ) -> Support:
+        """Lexical support per term, plus the semantic rescue when enabled."""
+        terms = self.terms(query)
+        ev = self._evidence_forms(evidence)
+        lexical = frozenset(t.token for t in terms if t.supported_by(ev))
+        rescued: frozenset[str] = frozenset()
+        sim: float | None = None
+        es = self.embed_support if semantic else None
+        if es is not None and terms:
+            missing = [t for t in terms if t.token not in lexical]
+            candidates = [t for t in missing if self.rescuable(t)]
+            if candidates and len(candidates) <= es.max_rescued_terms:
+                sim = es.best_similarity(query, evidence_parts or [evidence])
+                if sim is not None and sim >= es.threshold:
+                    rescued = frozenset(t.token for t in candidates)
+        return Support(terms, lexical, rescued, sim)
+
+    def keys_supported(
+        self, query: str, evidence: str, *, evidence_parts: Sequence[str] | None = None
+    ) -> bool:
         """Every term in the high-IDF half of the query must appear in evidence."""
-        keys = self._key_terms(self.terms(query))
+        sup = self.support(query, evidence, evidence_parts=evidence_parts)
+        keys = self._key_terms(sup.terms)
         if not keys:
             return False
-        ev = self._evidence_forms(evidence)
-        return all(t.supported_by(ev) for t in keys)
+        return all(sup.ok(t) for t in keys)
 
     def missing_key_tokens(self, query: str, evidence: str) -> list[str]:
         """High-IDF query terms the evidence does not support (for traces)."""
-        ev = self._evidence_forms(evidence)
-        return [t.token for t in self._key_terms(self.terms(query)) if not t.supported_by(ev)]
+        sup = self.support(query, evidence)
+        return [t.token for t in self._key_terms(sup.terms) if not sup.ok(t)]
 
-    def coverage(self, query: str, evidence: str) -> tuple[float, list[str]]:
-        terms = self.terms(query)
-        if not terms:
+    def coverage(
+        self, query: str, evidence: str, *, evidence_parts: Sequence[str] | None = None
+    ) -> tuple[float, list[str]]:
+        sup = self.support(query, evidence, evidence_parts=evidence_parts)
+        return self._coverage(sup)
+
+    @staticmethod
+    def _coverage(sup: Support) -> tuple[float, list[str]]:
+        if not sup.terms:
             return 0.0, []
-        ev = self._evidence_forms(evidence)
-        hit = [t for t in terms if t.supported_by(ev)]
+        hit = [t for t in sup.terms if sup.ok(t)]
         present = sum(t.weight for t in hit)
-        total = sum(t.weight for t in terms)
+        total = sum(t.weight for t in sup.terms)
         overlap = [t.token for t in hit]
         if total <= 0:
             return 0.0, overlap
         return present / total, overlap
+
+    def chunk_support(self, query: str, evidence: str) -> tuple[float, bool]:
+        """(coverage, key gate) for one chunk's evidence string, one pass."""
+        sup = self.support(query, evidence)
+        keys = self._key_terms(sup.terms)
+        keys_ok = bool(keys) and all(sup.ok(t) for t in keys)
+        return self._coverage(sup)[0], keys_ok
 
     def support_score(self, query: str, evidence: str) -> float:
         """Coverage, zeroed when the key-token gate fails."""
@@ -198,11 +310,15 @@ class Grounder:
         threshold: float | None = None,
     ) -> GroundingResult:
         thresh = self.threshold if threshold is None else threshold
-        evidence = " ".join(f"{c.title} {c.text}" for c in evidence_chunks)
-        q_cov, overlap = self.coverage(query, evidence)
-        keys_ok = self.keys_supported(query, evidence) if evidence_chunks else False
+        parts = [f"{c.title} {c.text}" for c in evidence_chunks]
+        evidence = " ".join(parts)
+        sup = self.support(query, evidence, evidence_parts=parts)
+        q_cov, overlap = self._coverage(sup)
+        keys = self._key_terms(sup.terms)
+        keys_ok = bool(evidence_chunks) and bool(keys) and all(sup.ok(t) for t in keys)
         if answer:
-            a_cov, _ = self.coverage(answer, evidence)
+            # The draft is extracted from the evidence: lexical coverage only.
+            a_cov, _ = self._coverage(self.support(answer, evidence, semantic=False))
         else:
             a_cov = 0.0
         answer_ok = (not answer) or a_cov >= 0.50
@@ -219,4 +335,6 @@ class Grounder:
             answer_coverage=a_cov,
             threshold=thresh,
             overlap_tokens=overlap,
+            semantic_rescued=sorted(sup.rescued),
+            semantic_similarity=sup.similarity,
         )
