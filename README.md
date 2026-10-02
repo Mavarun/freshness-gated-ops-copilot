@@ -15,9 +15,171 @@ behind a **HITL approve** gate. Offline CI, frozen clock.
 | `REFUSE_CANARY` | Extractive draft echoed a planted canary not justified by the query |
 | `REFUSE_PII` | Draft contained unauthorized PII/secrets, or a cited doc holds a never-authorizable secret |
 | `REFUSE_BUDGET` | Session spent + request `approx_cost_units` would exceed session budget |
-| `PROPOSE_WRITE` | Imperative write detected; pending HITL approve (never auto-executes) |
+| `PROPOSE_WRITE` | Imperative/request write parsed (action + target + confidence); pending HITL approve (never auto-executes) |
+| `REFUSE_AMBIGUOUS_WRITE` | Looks like a write but no target, several targets/actions, conditional, unsupported, or low confidence: asks to clarify |
 
 
+
+## Write-intent classifier (2026-10-03): 0 spurious writes, held-out writes 0/3 → 1/3 (2/3 with the backoff)
+
+PR #12 left 3 held-out write rows unsolved (`bounce`, `reboot`, `page the on-duty
+engineer`), because the write gate was a handful of regexes. This slice replaces it
+with a structured parser. **The rule is that a missed write beats a spurious one.**
+Every proposal still waits for human approval. Labels and the 203 rows are unchanged
+(seed 42, frozen clock 2026-09-13).
+
+### What changed
+
+1. **Action ontology** (`write_ontology.py`). There are 9 actions: restart, scale,
+   rollback, deploy, page/escalate, toggle flag, rotate secret, patch config, and
+   clear cache. Each action has a verb cluster (single verbs plus phrasals such as
+   `roll back` and `scale up`) and the target kinds it accepts. Separate classes cover
+   read verbs (`show`, `check`, `explain`…) and unsupported mutations (`delete`,
+   `drop`…), plus nominal followers (`restart policy`, `release notes`, `page
+   rotation`) that turn a verb into a noun.
+2. **Target extraction** (`write_targets.py`). An `EntityRegistry` is built from the
+   corpus by suffix and context rules: services (`checkout-api`, `payments-worker`,
+   `redis`…), flags, page recipients (`cache-oncall`, `checkout-primary`), secrets,
+   config keys, and caches. Unknown identifiers that have the right shape
+   (`billing-api`) are accepted with lower confidence. Incident ids, dates, regions,
+   and canary tokens are never accepted as targets. A page without a recipient
+   targets the incident in its `for …` clause.
+3. **Mood detection** (`write_mood.py`), per clause. The moods are imperative
+   (`restart X`), request (`can you restart X`, `I need you to …`), informational
+   (`how do I restart`, `can I restart`, `is it safe to rotate`), declarative (`we
+   restart X nightly`, `the runbook says to restart X`), negated, and conditional.
+   Only imperative and request clauses can propose.
+4. **The new gate** (`write_intent.py`, wired into the pipeline in place of the regex
+   gate). The classifier returns propose, ambiguous, or none. Confidence is
+   verb × mood × target × kind-compatibility, and a proposal needs at least 0.65.
+   `PROPOSE_WRITE` now carries the parsed action, target, payload (replicas, flag
+   state, config value), confidence, and the full parse, and it stays `PENDING`.
+   A new decision, **`REFUSE_AMBIGUOUS_WRITE`**, asks a clarifying question instead
+   of proposing in these cases: no target, several targets or actions, a conditional
+   instruction, a kind mismatch (`rotate checkout-api`), an unsupported mutation
+   (`delete`), or an unknown verb aimed at a known target (`bounce checkout-api`).
+   Budget still refuses first. With `use_hitl_write_gate=False`, both write
+   decisions are off.
+5. **Optional prototype backoff** (`write_prototypes.py`). It is off by default and
+   enabled with `write_prototype_backoff`. For an unknown verb aimed at a registry
+   target, the masked span `<verb> the <kind noun>` is embedded and compared with
+   per-action prototypes built from lexicon verbs, plus READ and UNSUPPORTED contrast
+   classes. A span is accepted only if all of these hold: the nearest class is a
+   write action, cosine ≥ **0.73**, margin over the runner-up ≥ **0.07**, and the
+   action accepts the target kind. The threshold and margin were calibrated on 51
+   hand-written *dev* verbs (`data/write/prototype_dev.jsonl`). The rule requires 0
+   false accepts with a 0.02 buffer, then takes the strictest end. It accepts 10 of
+   22 dev positives and 0 of 29 negatives (`artifacts/write_prototype_calibration.md`).
+   The live model and the frozen fixture pick the same values. Write spans are frozen
+   in `data/embeddings/minilm_write.npz`, so CI never downloads the model.
+
+**No leakage.** Lexicons, mood cues, prototypes, and dev verbs are tested against
+every held-out synonym word *and* its regular inflections
+(`tests/test_write_ontology.py`). These generic ops words are held-out, so they were
+deliberately **left out**: `bounce, reboot, recycle, reinitialize, kick, cycle,
+ping, engineer, set, modify, config/configure/configuration, rollout, rollover,
+credential, passphrase, down, capacity, count, turn, flush, purge, create, list,
+owner`. The PR #12 informational cue `steps to` was dropped as well (`steps` is
+held-out). As a result, `turn off X`, `set X to …`, and `flush the cache` are **not**
+recognized writes.
+
+### Before / after (real runs, same 203 rows; `artifacts/robustness_report.md`)
+
+| metric | PR #12 default | after default | PR #12 embedding on | after embedding on |
+| --- | ---: | ---: | ---: | ---: |
+| clean decision_accuracy (51) | 1.000 | **1.000** | 1.000 | **1.000** |
+| perturbed decision_accuracy (203) | 0.862 | 0.872 | 0.887 | 0.897 |
+| synonym, dev rows (15) | 0.600 | 0.667 | 0.733 | 0.800 |
+| synonym, **held-out** rows (35) | 0.400 | 0.429 | 0.486 | **0.514** |
+| held-out ANSWER / PROPOSE_WRITE correct | 0/12 | 1/12 | 1/12 | 2/12 |
+| held-out PROPOSE_WRITE correct | 0/3 | 1/3 | 0/3 | 1/3 |
+| flips | 28 | 26 | 23 | 21 |
+| fail-open, perturbed / clean | 0 / 0 | **0 / 0** | 0 / 0 | **0 / 0** |
+| spurious PROPOSE_WRITE, perturbed / clean | 0 / 0 | **0 / 0** | 0 / 0 | **0 / 0** |
+| raw PII/secret in output, perturbed / clean | 0 / 0 | **0 / 0** | 0 / 0 | **0 / 0** |
+
+| gate (expected) | n | PR #12 default | after default | PR #12 emb on | after emb on |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| ANSWER | 56 | 0.768 | 0.768 | 0.804 | 0.804 |
+| **PROPOSE_WRITE** | 16 | 0.750 | **0.875** | 0.750 | **0.875** |
+| REFUSE_BUDGET | 12 | 1.000 | 1.000 | 1.000 | 1.000 |
+| REFUSE_CANARY | 16 | 0.812 | 0.812 | 0.875 | 0.875 |
+| REFUSE_DISAGREE | 16 | 0.812 | 0.812 | 0.875 | 0.875 |
+| REFUSE_NO_EVIDENCE | 24 | 1.000 | 1.000 | 1.000 | 1.000 |
+| REFUSE_PII | 12 | 0.833 | 0.833 | 0.833 | 0.833 |
+| REFUSE_STALE | 31 | 0.903 | 0.903 | 0.935 | 0.935 |
+| REFUSE_UNGROUNDED | 20 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+Compared with PR #12, the default config changes exactly 4 rows (a test pins this).
+Dev `g43` *update … setting* and held-out `g42` *page the on-duty engineer* are now
+proposed, with the right action and target. Held-out `g41` *bounce* and `g44`
+*reboot* go from REFUSE_UNGROUNDED to REFUSE_AMBIGUOUS_WRITE. That is still wrong,
+but the user is now asked to name a known action instead of getting a read-path
+refusal.
+
+### Ablation (robustness, same 203 rows) and latency
+
+| write gate | clean | perturbed | syn held-out | held-out WRITE | spurious write, perturbed / clean | fail-open | p50 / p95 ms |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| lexicon parser only (no mood) | 0.961 | 0.813 | 0.400 | 1/3 | **5 / 1** | 0 | 4.02 / 5.82 |
+| + mood detection (**default**) | 1.000 | 0.872 | 0.429 | 1/3 | 0 / 0 | 0 | 3.88 / 5.31 |
+| + mood, embedding on | 1.000 | 0.897 | 0.514 | 1/3 | 0 / 0 | 0 | 3.35 / 4.75 |
+| + mood + prototype backoff (emb on) | 1.000 | **0.901** | **0.543** | **2/3** | 0 / 0 | 0 | 3.44 / 4.92 |
+
+Without mood detection, the parser proposes writes for *"How do I restart the
+checkout-api service?"* (clean) and for perturbed reads such as `g19` and `g45`. That
+is why mood detection is part of the default. The backoff turns `g44` *reboot* into
+`restart_service` (cosine 0.94, margin 0.12). It still rejects `g41` *bounce*: the
+nearest class is rollback at 0.72, below 0.73. The classifier alone costs about
+37 µs p50 and 55 µs p95 per query (84 µs p95 with the backoff, from frozen lookups),
+compared with 18 µs for the old regexes. Pipeline latency is dominated by retrieval
+(`artifacts/write_intent_latency.md`, this box, CPU). With the live model instead of
+the fixture, each unknown-verb span costs one extra MiniLM forward pass, which this
+slice did not measure.
+
+### Write-intent eval (hand-written, 48 rows; `artifacts/write_intent_eval.md`)
+
+There are 22 writes (18 imperative or request phrasings plus 4 "backoff" rows whose
+verb is in no lexicon), 9 informational questions, 9 adversarial non-writes
+(descriptions, nominal uses, negation, an injection), and 8 ambiguous instructions.
+The rows use only non-held-out vocabulary (tested) and do not overlap with the golden
+or perturbed sets. **I wrote them by hand, after the parser and as its author**, so
+this is a regression check on fresh phrasings, not an unbiased benchmark.
+
+| config | precision | recall | exact action+target | spurious writes (rate) | clarification recall | over-asking |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| PR #12 keyword regex | 0.300 | 0.136 | 3/22 | 7 (0.269) | 0.000 | 0 |
+| lexicon parser only (no mood) | 0.621 | 0.818 | 18/22 | 11 (0.423) | 0.625 | 0 |
+| + mood detection (default) | **1.000** | 0.818 | 18/22 | **0** | **1.000** | 0 |
+| + mood, embedding on | 1.000 | 0.818 | 18/22 | 0 | 1.000 | 0 |
+| + mood + prototype backoff | 1.000 | **0.864** | 19/22 | 0 | 1.000 | 0 |
+
+The default proposes all 18 lexicon writes with the right action and target. It
+misses all 4 backoff rows by design. With the backoff, only `upsize checkout-api` →
+scale gets through. `Retune maxmemory-policy to allkeys-lru` and `reactivate the
+checkout_retry flag` never reach the backoff, because the trailing `to <value>` and
+`flag` break the unknown-verb shape. `buzz checkout-primary` lands nearest to READ,
+so it is rejected. None of these were tuned on the eval set.
+
+### Weaknesses
+
+- Held-out writes: `bounce` is still missed, even with the backoff. `reboot` is
+  solved only by the optional backoff. I knew those two verbs while designing the
+  backoff (the threshold and margin come from dev verbs only), so the 2/3 is not
+  fully blind.
+- The backoff threshold rests on 22 dev positives. The feasible band is
+  [0.50, 0.73], and taking its strictest end trades recall for safety. Several
+  sensible dev verbs (`restore`, `deactivate`, `call`) are still rejected. The READ
+  and UNSUPPORTED contrast classes are short hand-made lists.
+- Lexical gaps from the leakage rule: `set X to`, `turn off`, `flush`, and `purge`
+  are not writes. A real deployment would add them back, and its held-out eval would
+  have to use other words.
+- A few targets are fragile. A page with no named recipient uses the `for …` clause
+  as the target (`payments downtime`), and an unregistered `-api`/`-worker` name is
+  accepted at confidence 0.85.
+- Mood detection is rules. Unusual phrasings, such as indirect requests without a
+  request frame or sarcasm, can fall either way. The fallback is a clarifying refusal
+  or no write, never an executed write.
 
 ## Real embeddings (2026-10-02): held-out synonyms 0.400 → 0.486, and only 1 of 12 understood
 
@@ -581,6 +743,8 @@ pytest
 python scripts/run_eval.py
 python scripts/make_paraphrase_set.py   # regenerate perturbed set (seed 42)
 python scripts/run_robustness.py        # report + metrics: before/after, ablation, leakage
+python scripts/run_write_intent_eval.py --latency  # hand-written write-intent eval + timings
+python scripts/calibrate_write_prototypes.py       # prototype backoff threshold (dev verbs only)
 python scripts/run_api.py
 ```
 
