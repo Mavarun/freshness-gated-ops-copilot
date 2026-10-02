@@ -1,0 +1,30 @@
+{
+ "dtype": "float16",
+ "files": {
+  "minilm_corpus.npz": {
+   "bytes": 228679,
+   "dim": 384,
+   "fingerprint": "c5efe28552738755",
+   "kind": "corpus",
+   "model": "sentence-transformers/all-MiniLM-L6-v2",
+   "n": 299,
+   "sha256": "e5ceef907fb59defe3a496468faa164cae455defba351f4cf456e9199e1a8d27"
+  },
+  "minilm_queries.npz": {
+   "bytes": 141343,
+   "dim": 384,
+   "fingerprint": "e1fcc66dad0fd0a3",
+   "kind": "queries",
+   "model": "sentence-transformers/all-MiniLM-L6-v2",
+   "n": 188,
+   "sha256": "bb336c9fc2ab3b6786cdf1f56a1c225e6b579bedffc36c6de6672c0948b628ad"
+  }
+ },
+ "model": "sentence-transformers/all-MiniLM-L6-v2",
+ "normalized": true,
+ "versions": {
+  "numpy": "2.5.3",
+  "sentence_transformers": "6.1.0",
+  "torch": "2.14.1+cpu"
+ }
+}

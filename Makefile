@@ -1,4 +1,4 @@
-.PHONY: test eval demo api install install-embed robustness paraphrases split
+.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -27,3 +27,7 @@ robustness:
 
 split:
 	python scripts/make_synonym_split.py
+
+# Needs [embed] and the cached model (first run: --allow-download).
+embeddings:
+	python scripts/precompute_embeddings.py
