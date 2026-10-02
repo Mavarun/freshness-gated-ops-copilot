@@ -20,6 +20,7 @@ from ops_copilot.corpus import Corpus
 from ops_copilot.cost_budget import SessionCostLedger
 from ops_copilot.hitl import HitlWriteLedger
 from ops_copilot.disagreement import assess_disagreement
+from ops_copilot.embeddings import resolve_backend
 from ops_copilot.freshness import annotate, fresh_only
 from ops_copilot.grounding import Grounder
 from ops_copilot.policy import decide
@@ -87,7 +88,17 @@ class Copilot:
             if self.config.use_semantic_backoff
             else None
         )
-        self.retriever = Retriever(self.corpus.chunks, self.config, semantic=self.semantic)
+        self.embeddings = resolve_backend(
+            self.config.embedding_backend,
+            model_name=self.config.embedding_model,
+            allow_download=self.config.embedding_allow_download,
+        )
+        self.retriever = Retriever(
+            self.corpus.chunks,
+            self.config,
+            semantic=self.semantic,
+            embeddings=self.embeddings,
+        )
         self.grounder = Grounder(
             texts,
             threshold=self.config.grounding_threshold,
@@ -126,14 +137,13 @@ class Copilot:
         rq = self.retriever.rewrite_query(query)
         retrieved = self.retriever.search(rq)
         bm25_hits = self.retriever.search_bm25(rq, top_k=cfg.disagreement_top_k)
-        dense_hits = self.retriever.search_dense_stub(
-            rq, top_k=cfg.disagreement_top_k
-        )
+        dense_hits = self.retriever.search_dense(rq, top_k=cfg.disagreement_top_k)
         disagreement = assess_disagreement(
             bm25_hits,
             dense_hits,
             top_k=cfg.disagreement_top_k,
             threshold=cfg.disagreement_jaccard_threshold,
+            dense_name=self.retriever.last_dense_name,
         )
 
         sla_lookup = self.sla_for if cfg.use_source_slas else None

@@ -50,7 +50,8 @@ class CopilotConfig:
     use_dense: bool = True
     max_answer_sentences: int = 2
     rng_seed: int = RNG_SEED
-    # Disagreement routing: compare BM25 vs TitleHashDenseStub top-k doc ids.
+    # Disagreement routing: compare BM25 vs the dense retriever (TitleHashDenseStub,
+    # or the MiniLM EmbeddingDenseRetriever when embeddings are on) top-k doc ids.
     use_disagreement_gate: bool = True
     disagreement_top_k: int = 1
     # Agreed when Jaccard >= threshold. With top_k=1, threshold=1.0 means
@@ -91,3 +92,5 @@ class CopilotConfig:
     embedding_backend: str = "off"
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     embedding_allow_download: bool = False
+    # With a backend on: use it as the dense retriever in the disagreement gate.
+    embed_dense_retriever: bool = True

@@ -44,6 +44,7 @@ class DisagreementResult:
     bm25_ids: tuple[str, ...]
     dense_ids: tuple[str, ...]
     agreed: bool
+    dense_name: str = "title_hash_dense_stub"
 
     @property
     def disagreed(self) -> bool:
@@ -57,6 +58,7 @@ class DisagreementResult:
             "bm25_ids": list(self.bm25_ids),
             "dense_ids": list(self.dense_ids),
             "agreed": self.agreed,
+            "dense_name": self.dense_name,
         }
 
 
@@ -66,6 +68,7 @@ def assess_disagreement(
     *,
     top_k: int = 1,
     threshold: float = 1.0,
+    dense_name: str = "title_hash_dense_stub",
 ) -> DisagreementResult:
     """Compare top-k doc-id sets; ``agreed`` when Jaccard >= threshold.
 
@@ -96,4 +99,5 @@ def assess_disagreement(
         bm25_ids=tuple(bm25_ordered),
         dense_ids=tuple(dense_ordered),
         agreed=score >= threshold,
+        dense_name=dense_name,
     )
