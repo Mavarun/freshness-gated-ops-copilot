@@ -20,13 +20,13 @@
    "sha256": "bb336c9fc2ab3b6786cdf1f56a1c225e6b579bedffc36c6de6672c0948b628ad"
   },
   "minilm_write.npz": {
-   "bytes": 152476,
+   "bytes": 154668,
    "dim": 384,
-   "fingerprint": "0d3a0d85a9d330c3",
+   "fingerprint": "71e6feb101f4ce23",
    "kind": "write",
    "model": "sentence-transformers/all-MiniLM-L6-v2",
-   "n": 207,
-   "sha256": "6c5987429bd7b3b67446e497df7d17fe2901e693c60b4f77980a0a60feb986a4"
+   "n": 210,
+   "sha256": "314b7ba63654e4cc25fea30f75ff7e7e6f1dd81c342acef4369ae3c1c981c483"
   }
  },
  "model": "sentence-transformers/all-MiniLM-L6-v2",
