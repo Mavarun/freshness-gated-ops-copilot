@@ -83,3 +83,11 @@ class CopilotConfig:
     semantic_char_ngrams: bool = True
     semantic_min_similarity: float = 0.60
     semantic_max_neighbours: int = 1
+    # Optional sentence embeddings (embeddings.py, extra "[embed]").
+    # "off" keeps the offline title-hash dense stub and lexical-only grounding
+    # (the CI default); "frozen" reads the committed float16 fixtures in
+    # data/embeddings/ (no model needed); "model" runs all-MiniLM-L6-v2 from the
+    # local Hugging Face cache; "auto" uses the model if cached, else the fixture.
+    embedding_backend: str = "off"
+    embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
+    embedding_allow_download: bool = False
