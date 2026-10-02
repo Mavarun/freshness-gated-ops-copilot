@@ -4,8 +4,8 @@ Two interchangeable backends return L2-normalised vectors for exact text
 strings:
 
 - ``FrozenEmbeddings`` reads the committed float16 fixtures in
-  ``data/embeddings/`` (corpus passages, evidence sentences, and the golden +
-  perturbed queries, all produced by ``scripts/precompute_embeddings.py`` with
+  ``data/embeddings/`` (corpus passages, evidence sentences, the golden +
+  perturbed queries, and the write-prototype spans, all produced by ``scripts/precompute_embeddings.py`` with
   ``sentence-transformers/all-MiniLM-L6-v2``). It needs only numpy, never
   downloads anything, and is what CI uses to evaluate the embedding path.
   A text that is not in the fixture is a *miss*: callers fall back to the
@@ -39,6 +39,9 @@ DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 FIXTURE_DIR = Path(__file__).resolve().parents[2] / "data" / "embeddings"
 CORPUS_FIXTURE = FIXTURE_DIR / "minilm_corpus.npz"
 QUERY_FIXTURE = FIXTURE_DIR / "minilm_queries.npz"
+# Write-prototype backoff: lexicon prototype spans, dev calibration spans and
+# the masked spans of eval queries that reach the backoff.
+WRITE_FIXTURE = FIXTURE_DIR / "minilm_write.npz"
 MANIFEST = FIXTURE_DIR / "manifest.json"
 BACKENDS: tuple[str, ...] = ("off", "frozen", "model", "auto")
 
@@ -129,7 +132,9 @@ class FrozenEmbeddings(EmbeddingBackend):
     name = "frozen"
 
     def __init__(self, paths: Iterable[str | Path] | None = None) -> None:
-        paths = [Path(p) for p in (paths or (CORPUS_FIXTURE, QUERY_FIXTURE))]
+        if paths is None:
+            paths = [CORPUS_FIXTURE, QUERY_FIXTURE] + ([WRITE_FIXTURE] if WRITE_FIXTURE.is_file() else [])
+        paths = [Path(p) for p in paths]
         model = DEFAULT_MODEL
         loaded: dict[str, np.ndarray] = {}
         for path in paths:

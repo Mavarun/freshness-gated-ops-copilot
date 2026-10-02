@@ -1,0 +1,475 @@
+{
+ "backend": "frozen",
+ "n_dev": 51,
+ "chosen": {
+  "threshold": 0.73,
+  "margin": 0.07,
+  "correct": 10,
+  "n_positive": 22,
+  "optimal_threshold_run": [
+   0.5,
+   0.73
+  ]
+ },
+ "per_row": [
+  {
+   "verb": "reload",
+   "kind": "service",
+   "label": "restart_service",
+   "nearest": "restart_service",
+   "cosine": 0.8858,
+   "margin": 0.0825,
+   "accepted": true
+  },
+  {
+   "verb": "rerun",
+   "kind": "service",
+   "label": "restart_service",
+   "nearest": "restart_service",
+   "cosine": 0.85,
+   "margin": 0.0686,
+   "accepted": false
+  },
+  {
+   "verb": "refresh",
+   "kind": "service",
+   "label": "restart_service",
+   "nearest": "restart_service",
+   "cosine": 0.8184,
+   "margin": 0.0955,
+   "accepted": true
+  },
+  {
+   "verb": "upscale",
+   "kind": "service",
+   "label": "scale_service",
+   "nearest": "scale_service",
+   "cosine": 0.7339,
+   "margin": 0.1613,
+   "accepted": true
+  },
+  {
+   "verb": "expand",
+   "kind": "service",
+   "label": "scale_service",
+   "nearest": "scale_service",
+   "cosine": 0.7375,
+   "margin": 0.0502,
+   "accepted": false
+  },
+  {
+   "verb": "shrink",
+   "kind": "service",
+   "label": "scale_service",
+   "nearest": "scale_service",
+   "cosine": 0.7476,
+   "margin": 0.0771,
+   "accepted": true
+  },
+  {
+   "verb": "resize",
+   "kind": "service",
+   "label": "scale_service",
+   "nearest": "scale_service",
+   "cosine": 0.7731,
+   "margin": 0.175,
+   "accepted": true
+  },
+  {
+   "verb": "restore",
+   "kind": "service",
+   "label": "rollback_deploy",
+   "nearest": "rollback_deploy",
+   "cosine": 0.8315,
+   "margin": 0.0521,
+   "accepted": false
+  },
+  {
+   "verb": "downgrade",
+   "kind": "service",
+   "label": "rollback_deploy",
+   "nearest": "rollback_deploy",
+   "cosine": 0.7879,
+   "margin": 0.0691,
+   "accepted": false
+  },
+  {
+   "verb": "launch",
+   "kind": "service",
+   "label": "deploy_release",
+   "nearest": "READ",
+   "cosine": 0.749,
+   "margin": 0.0038,
+   "accepted": false
+  },
+  {
+   "verb": "publish",
+   "kind": "service",
+   "label": "deploy_release",
+   "nearest": "deploy_release",
+   "cosine": 0.7529,
+   "margin": 0.0766,
+   "accepted": true
+  },
+  {
+   "verb": "summon",
+   "kind": "recipient",
+   "label": "page_oncall",
+   "nearest": "READ",
+   "cosine": 0.7594,
+   "margin": 0.007,
+   "accepted": false
+  },
+  {
+   "verb": "call",
+   "kind": "recipient",
+   "label": "page_oncall",
+   "nearest": "READ",
+   "cosine": 0.831,
+   "margin": 0.0134,
+   "accepted": false
+  },
+  {
+   "verb": "wake",
+   "kind": "recipient",
+   "label": "page_oncall",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.7619,
+   "margin": 0.0034,
+   "accepted": false
+  },
+  {
+   "verb": "activate",
+   "kind": "flag",
+   "label": "toggle_flag",
+   "nearest": "toggle_flag",
+   "cosine": 0.8784,
+   "margin": 0.088,
+   "accepted": true
+  },
+  {
+   "verb": "deactivate",
+   "kind": "flag",
+   "label": "toggle_flag",
+   "nearest": "toggle_flag",
+   "cosine": 0.8819,
+   "margin": 0.0289,
+   "accepted": false
+  },
+  {
+   "verb": "reroll",
+   "kind": "secret",
+   "label": "rotate_secret",
+   "nearest": "rotate_secret",
+   "cosine": 0.7651,
+   "margin": 0.0373,
+   "accepted": false
+  },
+  {
+   "verb": "replace",
+   "kind": "secret",
+   "label": "rotate_secret",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.895,
+   "margin": 0.0429,
+   "accepted": false
+  },
+  {
+   "verb": "tweak",
+   "kind": "config_key",
+   "label": "patch_config",
+   "nearest": "patch_config",
+   "cosine": 0.8977,
+   "margin": 0.0938,
+   "accepted": true
+  },
+  {
+   "verb": "alter",
+   "kind": "config_key",
+   "label": "patch_config",
+   "nearest": "patch_config",
+   "cosine": 0.9436,
+   "margin": 0.1189,
+   "accepted": true
+  },
+  {
+   "verb": "amend",
+   "kind": "config_key",
+   "label": "patch_config",
+   "nearest": "patch_config",
+   "cosine": 0.8744,
+   "margin": 0.1494,
+   "accepted": true
+  },
+  {
+   "verb": "empty",
+   "kind": "cache",
+   "label": "clear_cache",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.8692,
+   "margin": 0.0603,
+   "accepted": false
+  },
+  {
+   "verb": "trace",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.8395,
+   "margin": 0.1948,
+   "accepted": false
+  },
+  {
+   "verb": "audit",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.7973,
+   "margin": 0.1881,
+   "accepted": false
+  },
+  {
+   "verb": "grep",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.7203,
+   "margin": 0.0401,
+   "accepted": false
+  },
+  {
+   "verb": "tail",
+   "kind": "service",
+   "label": "none",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.713,
+   "margin": 0.0546,
+   "accepted": false
+  },
+  {
+   "verb": "query",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.6974,
+   "margin": 0.1118,
+   "accepted": false
+  },
+  {
+   "verb": "profile",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.7059,
+   "margin": 0.1055,
+   "accepted": false
+  },
+  {
+   "verb": "curl",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.5533,
+   "margin": 0.0319,
+   "accepted": false
+  },
+  {
+   "verb": "ssh",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.581,
+   "margin": 0.0591,
+   "accepted": false
+  },
+  {
+   "verb": "view",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.8583,
+   "margin": 0.1879,
+   "accepted": false
+  },
+  {
+   "verb": "analyze",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.8154,
+   "margin": 0.1649,
+   "accepted": false
+  },
+  {
+   "verb": "test",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.7507,
+   "margin": 0.1346,
+   "accepted": false
+  },
+  {
+   "verb": "debug",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.8013,
+   "margin": 0.182,
+   "accepted": false
+  },
+  {
+   "verb": "open",
+   "kind": "service",
+   "label": "none",
+   "nearest": "deploy_release",
+   "cosine": 0.7587,
+   "margin": 0.034,
+   "accepted": false
+  },
+  {
+   "verb": "nuke",
+   "kind": "service",
+   "label": "none",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.7771,
+   "margin": 0.0845,
+   "accepted": false
+  },
+  {
+   "verb": "zap",
+   "kind": "service",
+   "label": "none",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.6623,
+   "margin": 0.009,
+   "accepted": false
+  },
+  {
+   "verb": "scrap",
+   "kind": "service",
+   "label": "none",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.848,
+   "margin": 0.0568,
+   "accepted": false
+  },
+  {
+   "verb": "obliterate",
+   "kind": "service",
+   "label": "none",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.8719,
+   "margin": 0.0732,
+   "accepted": false
+  },
+  {
+   "verb": "isolate",
+   "kind": "service",
+   "label": "none",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.7415,
+   "margin": 0.0837,
+   "accepted": false
+  },
+  {
+   "verb": "love",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.6784,
+   "margin": 0.0528,
+   "accepted": false
+  },
+  {
+   "verb": "thank",
+   "kind": "service",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.5975,
+   "margin": 0.0594,
+   "accepted": false
+  },
+  {
+   "verb": "praise",
+   "kind": "flag",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.6888,
+   "margin": 0.0117,
+   "accepted": false
+  },
+  {
+   "verb": "read",
+   "kind": "secret",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.8374,
+   "margin": 0.0738,
+   "accepted": false
+  },
+  {
+   "verb": "copy",
+   "kind": "secret",
+   "label": "none",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.7762,
+   "margin": 0.0191,
+   "accepted": false
+  },
+  {
+   "verb": "share",
+   "kind": "secret",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.8453,
+   "margin": 0.0607,
+   "accepted": false
+  },
+  {
+   "verb": "leak",
+   "kind": "secret",
+   "label": "none",
+   "nearest": "UNSUPPORTED",
+   "cosine": 0.8539,
+   "margin": 0.0164,
+   "accepted": false
+  },
+  {
+   "verb": "export",
+   "kind": "config_key",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.6777,
+   "margin": 0.0261,
+   "accepted": false
+  },
+  {
+   "verb": "screenshot",
+   "kind": "config_key",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.7461,
+   "margin": 0.0168,
+   "accepted": false
+  },
+  {
+   "verb": "thank",
+   "kind": "recipient",
+   "label": "none",
+   "nearest": "READ",
+   "cosine": 0.6823,
+   "margin": 0.0918,
+   "accepted": false
+  },
+  {
+   "verb": "email",
+   "kind": "recipient",
+   "label": "none",
+   "nearest": "page_oncall",
+   "cosine": 0.8052,
+   "margin": 0.0454,
+   "accepted": false
+  }
+ ]
+}

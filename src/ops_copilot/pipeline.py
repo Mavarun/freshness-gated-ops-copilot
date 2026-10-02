@@ -31,6 +31,7 @@ from ops_copilot.source_slas import SourceSlaTable, load_source_slas, resolve_ma
 from ops_copilot.types import Chunk, CopilotResult, Decision
 from ops_copilot.write_actions import proposal_from_intent
 from ops_copilot.write_intent import AMBIGUOUS, classify_write_intent
+from ops_copilot.write_prototypes import PrototypeBackoff
 from ops_copilot.write_targets import EntityRegistry, default_registry
 
 
@@ -133,7 +134,15 @@ class Copilot:
             if path is None and corpus is None
             else EntityRegistry.from_texts(texts)
         )
-        self.write_prototypes = None
+        self.write_prototypes = (
+            PrototypeBackoff(
+                self.embeddings,
+                threshold=self.config.write_prototype_threshold,
+                margin=self.config.write_prototype_margin,
+            )
+            if self.config.write_prototype_backoff and self.embeddings is not None
+            else None
+        )
         self._doc_texts: dict[str, list[str]] = {}
         for c in self.corpus.chunks:
             self._doc_texts.setdefault(c.doc_id, []).append(c.text)
