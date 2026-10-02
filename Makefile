@@ -1,4 +1,4 @@
-.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate
+.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -34,3 +34,6 @@ embeddings:
 
 calibrate:
 	python scripts/calibrate_semantic_grounding.py
+
+embed-eval:
+	python scripts/run_embedding_eval.py

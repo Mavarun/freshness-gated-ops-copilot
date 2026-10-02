@@ -20,15 +20,28 @@ Dev / held-out: every synonym row is tagged ``dev`` or ``heldout`` from
 accuracy is reported separately for the two. The held-out number is the one
 to quote: none of its replacement words is in any product lexicon. The PR #10
 run is frozen per row in ``artifacts/robustness_pr10.json`` so the same
-split can be applied to the "before" column.
+split can be applied to the "before" column. Since the real-embeddings
+slice the default "before" is PR #11 (``artifacts/robustness_pr11.json``,
+same compact format); PR #10 stays loadable for history.
+
+Embedding path: ``EMBEDDING_ON`` is the default config with the frozen
+MiniLM fixture (dense retriever + semantic grounding, strict).
+``EMBED_ABLATIONS`` toggles the two embedding uses (and the strict safety
+rules) on top of the default config. All of it runs offline from
+``data/embeddings/``; ``RobustnessReport.latency_ms`` holds per-row wall
+time, which is reported by ``scripts/run_embedding_eval.py`` and never
+written into the deterministic metrics JSON.
 """
 
 from __future__ import annotations
 
 import json
+import re
 from collections import Counter
 from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
+
+import numpy as np
 
 from ops_copilot.config import CopilotConfig
 from ops_copilot.eval import load_golden, run_eval
@@ -40,7 +53,8 @@ from ops_copilot.pipeline import Copilot
 WRITE = "PROPOSE_WRITE"
 ARTIFACTS = Path(__file__).resolve().parents[2] / "artifacts"
 DEFAULT_BASELINE = ARTIFACTS / "robustness_baseline.json"
-DEFAULT_BEFORE = ARTIFACTS / "robustness_pr10.json"
+DEFAULT_BEFORE = ARTIFACTS / "robustness_pr11.json"
+PR10_BEFORE = ARTIFACTS / "robustness_pr10.json"
 SPLITS: tuple[str, ...] = ("dev", "heldout")
 
 
@@ -97,6 +111,19 @@ class RobustnessReport:
     cases: list[PerturbedCase] = field(default_factory=list)
     per_synonym_split: dict[str, dict] = field(default_factory=dict)
     clean_safety: dict[str, int] = field(default_factory=dict)
+    latency_ms: list[float] = field(default_factory=list)
+
+    def latency_summary(self) -> dict[str, float]:
+        """p50 / p95 / mean per-query wall time over the perturbed rows (ms)."""
+        if not self.latency_ms:
+            return {"p50": 0.0, "p95": 0.0, "mean": 0.0, "n": 0}
+        arr = np.asarray(self.latency_ms, dtype=float)
+        return {
+            "p50": float(np.percentile(arr, 50)),
+            "p95": float(np.percentile(arr, 95)),
+            "mean": float(arr.mean()),
+            "n": int(arr.size),
+        }
 
     @property
     def flips(self) -> list[PerturbedCase]:
@@ -169,7 +196,17 @@ def split_buckets(cases: list[PerturbedCase]) -> dict[str, dict]:
     for split in SPLITS:
         sel = [c for c in cases if c.synonym_split == split]
         if sel:
-            out[split] = _bucket(sel)
+            bucket = _bucket(sel)
+            bucket["by_gate"] = {
+                gate: {
+                    "n": sum(1 for c in sel if c.expect_decision == gate),
+                    "correct": sum(
+                        1 for c in sel if c.expect_decision == gate and c.perturbed_match
+                    ),
+                }
+                for gate in sorted({c.expect_decision for c in sel})
+            }
+            out[split] = bucket
     return out
 
 
@@ -212,6 +249,7 @@ def run_robustness(
 
     bot = Copilot(config=cfg)  # fresh ledgers: no state leaks from the clean run
     cases: list[PerturbedCase] = []
+    latency: list[float] = []
     for row in rows:
         idx = int(row["source_index"])
         if not 0 <= idx < len(golden):
@@ -222,6 +260,7 @@ def run_robustness(
         if sid and "seed_session_spent" in row:
             bot.ledger.seed(str(sid), float(row["seed_session_spent"]))
         result = bot.ask(row["query"], session_id=str(sid) if sid else None)
+        latency.append(float(result.latency_ms))
         clean = clean_scores[idx]
         actual = result.decision.value
         cases.append(
@@ -277,6 +316,7 @@ def run_robustness(
         cases=cases,
         per_synonym_split=split_buckets(cases),
         clean_safety=clean_safety,
+        latency_ms=latency,
     )
 
 
@@ -299,6 +339,8 @@ def load_before(
     if not src.is_file():
         return None
     before = json.loads(src.read_text(encoding="utf-8"))
+    tag = re.search(r"PR #\d+", str(before.get("source", "")))
+    before.setdefault("label", tag.group(0) if tag else "before")
     expect = {str(r["id"]): r["expect_decision"] for r in load_paraphrase_set(paraphrase_path)}
     # Stored compactly: only flipped rows; every other row matched its label.
     flipped = before.get("flipped_decisions", {})
@@ -325,6 +367,34 @@ ABLATIONS: dict[str, dict] = {
 }
 
 
+# Real-embeddings slice: default config (map on, PPMI backoff off) plus the
+# frozen MiniLM fixture; only the two embedding uses and strict mode toggle.
+EMBEDDING_ON: dict = {"embedding_backend": "frozen"}
+EMBED_ABLATIONS: dict[str, dict] = {
+    "embedding retriever only": {
+        "embedding_backend": "frozen",
+        "embed_dense_retriever": True,
+        "embed_semantic_grounding": False,
+    },
+    "semantic grounding only": {
+        "embedding_backend": "frozen",
+        "embed_dense_retriever": False,
+        "embed_semantic_grounding": True,
+    },
+    "both (embedding on)": {
+        "embedding_backend": "frozen",
+        "embed_dense_retriever": True,
+        "embed_semantic_grounding": True,
+    },
+    "both, strict off (unsafe)": {
+        "embedding_backend": "frozen",
+        "embed_dense_retriever": True,
+        "embed_semantic_grounding": True,
+        "semantic_grounding_strict": False,
+    },
+}
+
+
 def ablation_row(rep: RobustnessReport) -> dict:
     d = rep.as_dict(flip_detail=False)
     return {
@@ -333,10 +403,20 @@ def ablation_row(rep: RobustnessReport) -> dict:
         "per_perturbation": {k: b["perturbed_accuracy"] for k, b in rep.per_perturbation.items()},
         "synonym_dev": rep.per_synonym_split.get("dev", {}).get("perturbed_accuracy", 0.0),
         "synonym_heldout": rep.per_synonym_split.get("heldout", {}).get("perturbed_accuracy", 0.0),
+        "heldout_answer_write_correct": _understood(rep),
+        "fail_open": d["fail_open"],
         "n_fail_open": d["n_fail_open"],
         "n_spurious_write": d["n_spurious_write"],
         "n_raw_pii_outputs": d["n_raw_pii_outputs"],
     }
+
+
+def _understood(rep: RobustnessReport) -> str:
+    """Held-out rows that need the synonym understood (ANSWER / PROPOSE_WRITE)."""
+    by_gate = rep.per_synonym_split.get("heldout", {}).get("by_gate", {})
+    n = sum(by_gate.get(g, {}).get("n", 0) for g in ("ANSWER", WRITE))
+    ok = sum(by_gate.get(g, {}).get("correct", 0) for g in ("ANSWER", WRITE))
+    return f"{ok}/{n}"
 
 
 def run_ablations(
@@ -344,11 +424,12 @@ def run_ablations(
     golden_path: str | Path | None = None,
     paraphrase_path: str | Path | None = None,
     config: CopilotConfig | None = None,
+    grid: dict[str, dict] | None = None,
 ) -> dict[str, dict]:
-    """Re-run clean + perturbed with the synonym map / semantic backoff toggled."""
+    """Re-run clean + perturbed with the knobs of each ``grid`` entry applied."""
     base = config or CopilotConfig()
     out: dict[str, dict] = {}
-    for label, knobs in ABLATIONS.items():
+    for label, knobs in (grid if grid is not None else ABLATIONS).items():
         rep = run_robustness(
             golden_path=golden_path,
             paraphrase_path=paraphrase_path,
@@ -459,93 +540,118 @@ def _d(a: float | None, b: float | None) -> str:
     return "-" if a is None or b is None else f"{a - b:+.3f}"
 
 
-def _before_after_lines(d: dict, before: dict) -> list[str]:
+def _before_after_lines(d: dict, before: dict, emb: dict | None = None) -> list[str]:
+    """Before (frozen run) vs after (this run, default) [vs after, embedding on]."""
+    label = before.get("label", "PR #11")
     bsplit = before.get("per_synonym_split", {})
-    asplit = d.get("per_synonym_split", {})
+    cols = [("after (default)", d)] + ([("after (embedding on)", emb)] if emb else [])
 
-    def row(label: str, b: float | None, a: float | None) -> str:
-        return f"| {label} | {_f(b)} | {_f(a)} | {_d(a, b)} |"
+    def get(src: dict, *path):
+        cur = src
+        for p in path:
+            if not isinstance(cur, dict) or p not in cur:
+                return None
+            cur = cur[p]
+        return cur
 
-    def count(label: str, key: str) -> str:
-        b, a = before.get(key), d.get(key)
-        delta = "-" if b is None else f"{int(a) - int(b):+d}"
-        return f"| {label} | {b if b is not None else '-'} | {a} | {delta} |"
+    def frow(name: str, b, vals) -> str:
+        return f"| {name} | {_f(b)} | " + " | ".join(_f(v) for v in vals) + " |"
 
+    def crow(name: str, key: str) -> str:
+        b = before.get(key)
+        vals = [str(src.get(key, "-")) for _, src in cols]
+        return f"| {name} | {b if b is not None else '-'} | " + " | ".join(vals) + " |"
+
+    head = "| metric | before (" + label + ") | " + " | ".join(c for c, _ in cols) + " |"
+    sep = "| --- | ---: | " + " | ".join("---:" for _ in cols) + " |"
     lines = [
-        "## Before (PR #10) / after (this run)",
+        f"## Before ({label}) / after (this run)",
         "",
         f"Before = `{before.get('source', 'before')}`, re-scored per row with the "
-        "same dev / held-out split. Same 203 rows, same labels.",
+        "same dev / held-out split. Same 203 rows, same labels."
+        + (
+            " Embedding on = frozen all-MiniLM-L6-v2 fixture, dense retriever + "
+            "strict semantic grounding."
+            if emb
+            else ""
+        ),
         "",
-        "| metric | before (PR #10) | after | delta |",
-        "| --- | ---: | ---: | ---: |",
-        row("clean decision_accuracy", before["clean_accuracy"], d["clean_accuracy"]),
-        row("perturbed decision_accuracy (all 203)", before["perturbed_accuracy"], d["perturbed_accuracy"]),
+        head,
+        sep,
+        frow("clean decision_accuracy", before["clean_accuracy"], [s["clean_accuracy"] for _, s in cols]),
+        frow(
+            "perturbed decision_accuracy (all 203)",
+            before["perturbed_accuracy"],
+            [s["perturbed_accuracy"] for _, s in cols],
+        ),
     ]
-    for split, label in (("dev", "synonym, dev rows"), ("heldout", "synonym, held-out rows")):
-        n = asplit.get(split, {}).get("n", 0)
+    for split, name in (("dev", "synonym, dev rows"), ("heldout", "synonym, held-out rows")):
+        n = get(d, "per_synonym_split", split, "n") or 0
         lines.append(
-            row(
-                f"{label} (n={n})",
-                bsplit.get(split, {}).get("perturbed_accuracy"),
-                asplit.get(split, {}).get("perturbed_accuracy"),
+            frow(
+                f"{name} (n={n})",
+                get(bsplit, split, "perturbed_accuracy"),
+                [get(s, "per_synonym_split", split, "perturbed_accuracy") for _, s in cols],
             )
         )
     lines += [
-        count("flips", "n_flips"),
-        count("fail-open (expected refusal/write -> ANSWER)", "n_fail_open"),
-        count("spurious PROPOSE_WRITE", "n_spurious_write"),
-        count("raw PII/secret in final output", "n_raw_pii_outputs"),
+        crow("flips", "n_flips"),
+        crow("fail-open (expected refusal/write -> ANSWER)", "n_fail_open"),
+        crow("spurious PROPOSE_WRITE", "n_spurious_write"),
+        crow("raw PII/secret in final output", "n_raw_pii_outputs"),
         "",
-        "PR #10's synonym map still contained the held-out words, so its held-out "
-        "column is leaky; the after column is not.",
-        "",
-        "| perturbation | n | before | after | delta |",
-        "| --- | ---: | ---: | ---: | ---: |",
+        "| perturbation | n | before | " + " | ".join(c for c, _ in cols) + " |",
+        "| --- | ---: | ---: | " + " | ".join("---:" for _ in cols) + " |",
     ]
     for kind, b in d["per_perturbation"].items():
-        prev = before["per_perturbation"].get(kind, {}).get("perturbed_accuracy")
-        lines.append(
-            f"| {kind} | {b['n']} | {_f(prev)} | {b['perturbed_accuracy']:.3f} | "
-            f"{_d(b['perturbed_accuracy'], prev)} |"
-        )
+        prev = get(before, "per_perturbation", kind, "perturbed_accuracy")
+        vals = [get(s, "per_perturbation", kind, "perturbed_accuracy") for _, s in cols]
+        lines.append(f"| {kind} | {b['n']} | {_f(prev)} | " + " | ".join(_f(v) for v in vals) + " |")
     lines += [
         "",
-        "| gate (expected) | n | before | after | delta | flips before | flips after |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| gate (expected) | n | before | " + " | ".join(c for c, _ in cols) + " |",
+        "| --- | ---: | ---: | " + " | ".join("---:" for _ in cols) + " |",
     ]
     for gate, b in sorted(d["per_gate"].items()):
-        prev = before["per_gate"].get(gate, {})
-        pa = prev.get("perturbed_accuracy")
-        lines.append(
-            f"| {gate} | {b['n']} | {_f(pa)} | {b['perturbed_accuracy']:.3f} | "
-            f"{_d(b['perturbed_accuracy'], pa)} | {prev.get('n_flips', '-')} | {b['n_flips']} |"
-        )
+        prev = get(before, "per_gate", gate, "perturbed_accuracy")
+        vals = [get(s, "per_gate", gate, "perturbed_accuracy") for _, s in cols]
+        lines.append(f"| {gate} | {b['n']} | {_f(prev)} | " + " | ".join(_f(v) for v in vals) + " |")
     return lines + [""]
 
 
-def _ablation_lines(ablations: dict, kinds: list[str]) -> list[str]:
-    lines = [
-        "## Ablation (same code, synonym sources toggled)",
-        "",
+def _ablation_lines(
+    ablations: dict,
+    kinds: list[str],
+    *,
+    title: str = "## Ablation (same code, synonym sources toggled)",
+    blurb: str = (
         "Normalizer, filler list, typo tolerance, position-independent write cues "
         "and the secret-evidence quarantine are always on; only the leakage-free "
         "corpus-side synonym map and the semantic backoff (corpus PPMI/SVD "
-        "embedding + char trigrams) are toggled.",
+        "embedding + char trigrams) are toggled."
+    ),
+) -> list[str]:
+    lines = [
+        title,
+        "",
+        blurb,
         "",
         "| config | clean | perturbed | "
         + " | ".join(kinds)
-        + " | syn dev | syn held-out | fail-open | spurious write | raw PII |",
+        + " | syn dev | syn held-out | held-out ANSWER/WRITE | fail-open | spurious write | raw PII |",
         "| --- | ---: | ---: | "
         + " | ".join("---:" for _ in kinds)
-        + " | ---: | ---: | ---: | ---: | ---: |",
+        + " | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for label, a in ablations.items():
         cells = " | ".join(f"{a['per_perturbation'].get(k, 0.0):.3f}" for k in kinds)
         lines.append(
             f"| {label} | {a['clean_accuracy']:.3f} | {a['perturbed_accuracy']:.3f} | "
             f"{cells} | {a['synonym_dev']:.3f} | {a['synonym_heldout']:.3f} | "
-            f"{a['n_fail_open']} | {a['n_spurious_write']} | {a['n_raw_pii_outputs']} |"
+            f"{a.get('heldout_answer_write_correct', '-')} | "
+            f"{a['n_fail_open']}"
+            + (f" ({', '.join(a['fail_open'])})" if a.get("fail_open") else "")
+            + f" | {a['n_spurious_write']} | {a['n_raw_pii_outputs']} |"
         )
     return lines + [""]
 
@@ -577,6 +683,29 @@ def _leakage_lines(leak: dict) -> list[str]:
     ]
 
 
+def _embedding_lines(emb: dict, calibration: dict | None) -> list[str]:
+    lines = ["## Embedding on: held-out rows by expected decision", ""]
+    if calibration:
+        lines += [
+            f"Semantic grounding threshold {calibration['threshold']} "
+            f"(max {calibration['max_terms']} rescued word per query), calibrated on "
+            "clean golden + dev synonym rows only "
+            "(`artifacts/semantic_grounding_calibration.md`).",
+            "",
+        ]
+    lines += ["| split | expected | n | correct |", "| --- | --- | ---: | ---: |"]
+    for split, b in emb.get("per_synonym_split", {}).items():
+        for gate, g in b.get("by_gate", {}).items():
+            lines.append(f"| {split} | {gate} | {g['n']} | {g['correct']} |")
+    lines.append("")
+    lines.append(
+        f"- fail-open: {emb['n_fail_open']}, spurious PROPOSE_WRITE: "
+        f"{emb['n_spurious_write']}, raw PII/secret: {emb['n_raw_pii_outputs']}; "
+        f"clean: {emb.get('clean_safety', {})}"
+    )
+    return lines + [""]
+
+
 def render_robustness_markdown(
     report: RobustnessReport,
     *,
@@ -584,8 +713,12 @@ def render_robustness_markdown(
     baseline: dict | None = None,
     ablations: dict | None = None,
     leakage: dict | None = None,
+    embedding: RobustnessReport | None = None,
+    embed_ablations: dict | None = None,
+    calibration: dict | None = None,
 ) -> str:
     d = report.as_dict()
+    emb = embedding.as_dict(flip_detail=False) if embedding is not None else None
     lines = [
         "# Robustness eval: clean vs perturbed golden set",
         "",
@@ -616,7 +749,20 @@ def render_robustness_markdown(
             )
         lines.append("")
     if baseline:
-        lines += _before_after_lines(d, baseline)
+        lines += _before_after_lines(d, baseline, emb)
+    if emb is not None:
+        lines += _embedding_lines(emb, calibration)
+    if embed_ablations:
+        lines += _ablation_lines(
+            embed_ablations,
+            kinds,
+            title="## Ablation: real embeddings (frozen all-MiniLM-L6-v2 fixture)",
+            blurb=(
+                "Default config (leakage-free map on, PPMI backoff off) plus the "
+                "frozen fixture; only the dense retriever swap, the semantic "
+                "grounding backoff and its strict safety rules toggle."
+            ),
+        )
     if ablations:
         lines += _ablation_lines(ablations, kinds)
     if leakage:
