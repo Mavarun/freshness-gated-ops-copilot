@@ -1,10 +1,16 @@
-"""BM25 baseline plus an embedding-free dense stub (title char-hash cosine).
+"""BM25 baseline plus a dense retriever for the disagreement gate.
 
 ``Retriever.search`` keeps the hybrid BM25 + body TF-IDF path used for
 answer evidence. Disagreement routing compares ``search_bm25`` against
-``search_dense_stub`` (``TitleHashDenseStub``) — an offline stand-in for a
-real dense embedder that often ranks title-similar decoys differently from
-full-text BM25.
+``search_dense``:
+
+- default (``embedding_backend="off"``): ``TitleHashDenseStub``, the offline
+  title char-hash cosine stand-in;
+- with an embedding backend and ``embed_dense_retriever``:
+  ``EmbeddingDenseRetriever``, cosine between the rewritten query and each
+  chunk's ``title. body`` passage under all-MiniLM-L6-v2 (live or frozen
+  fixture). When the query vector is unavailable (a frozen-fixture miss) the
+  call falls back to the title-hash stub and says so in ``last_dense_name``.
 
 Every ranker sees the query through ``text.normalize_text`` (and corpus text
 through the same function), so a '?' stuck to the last word or a curly quote
@@ -30,6 +36,7 @@ from sklearn.feature_extraction.text import HashingVectorizer, TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 from ops_copilot.config import CopilotConfig
+from ops_copilot.embeddings import EmbeddingBackend, passage_text
 from ops_copilot.lexicon import CorpusVocabulary, fix_interrogative_typos
 from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases
@@ -142,6 +149,49 @@ class TitleHashDenseStub:
         return hits
 
 
+class EmbeddingDenseRetriever:
+    """Sentence-embedding cosine over chunk passages (``title. body``)."""
+
+    name = "minilm_dense"
+
+    def __init__(self, chunks: list[Chunk], backend: EmbeddingBackend) -> None:
+        if not chunks:
+            raise ValueError("dense retriever requires at least one chunk")
+        self.chunks = chunks
+        self.backend = backend
+        vecs = backend.lookup([passage_text(c) for c in chunks])
+        self._available = np.array([v is not None for v in vecs], dtype=bool)
+        dim = next((v.shape[0] for v in vecs if v is not None), 0)
+        self._matrix = np.zeros((len(chunks), dim), dtype=np.float64)
+        for i, v in enumerate(vecs):
+            if v is not None:
+                self._matrix[i] = v
+        self.n_missing_passages = int((~self._available).sum())
+
+    def scores(self, query: str) -> np.ndarray | None:
+        """Cosine per chunk, or ``None`` when the query has no vector."""
+        qv = self.backend.vector(query)
+        if qv is None or self._matrix.shape[1] == 0:
+            return None
+        sims = self._matrix @ qv
+        return np.where(self._available, sims, -1.0)
+
+    def search(self, query: str, *, top_k: int = 5) -> list[Chunk] | None:
+        sims = self.scores(query)
+        if sims is None:
+            return None
+        hits: list[Chunk] = []
+        # Stable order: cosine desc, then corpus order, so ties are reproducible.
+        for idx in np.lexsort((np.arange(len(sims)), -np.round(sims, 6))):
+            cos = float(sims[idx])
+            if cos <= 0.0:
+                continue
+            hits.append(replace(self.chunks[idx], score=cos, bm25=0.0, dense=cos))
+            if len(hits) >= top_k:
+                break
+        return hits
+
+
 class Retriever:
     """Rank chunks with BM25, optional body TF-IDF hybrid, and a title dense stub."""
 
@@ -151,6 +201,7 @@ class Retriever:
         config: CopilotConfig | None = None,
         *,
         semantic: SemanticBackoff | None = None,
+        embeddings: EmbeddingBackend | None = None,
     ) -> None:
         if not chunks:
             raise ValueError("retriever requires at least one chunk")
@@ -170,6 +221,12 @@ class Retriever:
             corpus_text = [f"{c.title} {c.text}" for c in chunks]
             self._matrix = self._vectorizer.fit_transform(corpus_text)
         self.dense_stub = TitleHashDenseStub(chunks)
+        self.dense_embed = (
+            EmbeddingDenseRetriever(chunks, embeddings)
+            if embeddings is not None and self.config.embed_dense_retriever
+            else None
+        )
+        self.last_dense_name = self.dense_stub.name
 
     def rewrite_query(self, query: str) -> str:
         """Normalized query: filler dropped, typos and unknown synonyms snapped."""
@@ -279,6 +336,19 @@ class Retriever:
     def search_dense_stub(self, query: str, *, top_k: int | None = None) -> list[Chunk]:
         """Title-hash dense stub ranking for disagreement comparison."""
         k = top_k if top_k is not None else self.config.top_k
+        return self.dense_stub.search(query, top_k=k)
+
+    def search_dense(self, query: str, *, top_k: int | None = None) -> list[Chunk]:
+        """Dense ranking for the disagreement gate (embedding, else title-hash stub)."""
+        k = top_k if top_k is not None else self.config.top_k
+        if self.dense_embed is not None:
+            hits = self.dense_embed.search(query, top_k=k)
+            if hits is not None:
+                self.last_dense_name = self.dense_embed.name
+                return hits
+            self.last_dense_name = f"{self.dense_stub.name} (embedding miss)"
+        else:
+            self.last_dense_name = self.dense_stub.name
         return self.dense_stub.search(query, top_k=k)
 
     def search(self, query: str, *, top_k: int | None = None) -> list[Chunk]:

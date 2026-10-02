@@ -164,11 +164,12 @@ def decide(
         return PolicyDecision(
             decision=Decision.REFUSE_DISAGREE,
             reason=(
-                f"BM25 and title-hash dense stub disagree on top-{disagreement.top_k} "
+                f"BM25 and {getattr(disagreement, 'dense_name', 'dense')} disagree on "
+                f"top-{disagreement.top_k} "
                 f"doc_ids (jaccard={disagreement.jaccard:.3f} < "
                 f"threshold={disagreement.threshold:g}; "
                 f"bm25={list(disagreement.bm25_ids)}; "
-                f"dense_stub={list(disagreement.dense_ids)})"
+                f"dense={list(disagreement.dense_ids)})"
             ),
         )
 

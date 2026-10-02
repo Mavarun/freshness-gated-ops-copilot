@@ -18,7 +18,7 @@ REFUSAL_TEMPLATES = {
         "REFUSED: no retrieved evidence cleared the score floor for this query."
     ),
     Decision.REFUSE_DISAGREE: (
-        "REFUSED: BM25 and the title-hash dense stub disagree on top evidence. "
+        "REFUSED: BM25 and the dense retriever disagree on top evidence. "
         "I will not answer when retrievers conflict."
     ),
     Decision.REFUSE_BUDGET: (
