@@ -20,18 +20,12 @@ from __future__ import annotations
 
 import re
 from dataclasses import asdict, dataclass, field
-from enum import Enum
 from typing import Any
 
 from ops_copilot.lexicon import fix_interrogative_typos, is_keyboard_typo
 from ops_copilot.synonyms import restart_verbs
 from ops_copilot.text import is_identifier, normalize_text
-
-
-class WriteActionType(str, Enum):
-    RESTART_SERVICE = "restart_service"
-    PAGE_ONCALL = "page_oncall"
-    PATCH_CONFIG = "patch_config"
+from ops_copilot.write_ontology import WriteActionType  # noqa: F401  (re-export)
 
 
 # How-to / definition reads must not trip the write gate. Matched anywhere in
