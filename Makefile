@@ -1,7 +1,11 @@
-.PHONY: test eval demo api install robustness paraphrases split
+.PHONY: test eval demo api install install-embed robustness paraphrases split
 
 install:
 	python -m pip install -e ".[dev,api]"
+
+# Optional: real MiniLM model (CPU torch wheel keeps the download small).
+install-embed:
+	python -m pip install -e ".[dev,embed]" --extra-index-url https://download.pytorch.org/whl/cpu
 
 test:
 	pytest
