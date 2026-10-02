@@ -1,0 +1,70 @@
+{
+ "machine": "Linux x86_64 python 3.13.5",
+ "model_available": true,
+ "latency_ms": {
+  "default (embedding off)": {
+   "p50": 3.694781000376679,
+   "p95": 5.143716500606387,
+   "mean": 3.822315861989992,
+   "n": 203,
+   "perturbed_accuracy": 0.8620689655172413,
+   "synonym_heldout": 0.4,
+   "n_fail_open": 0
+  },
+  "embedding retriever only [frozen]": {
+   "p50": 3.189204988302663,
+   "p95": 4.748405799909958,
+   "mean": 3.3464365659724336,
+   "n": 203,
+   "perturbed_accuracy": 0.8620689655172413,
+   "synonym_heldout": 0.4,
+   "n_fail_open": 0
+  },
+  "semantic grounding only [frozen]": {
+   "p50": 3.9236340089701116,
+   "p95": 5.816835997393354,
+   "mean": 4.122036837960084,
+   "n": 203,
+   "perturbed_accuracy": 0.8866995073891626,
+   "synonym_heldout": 0.4857142857142857,
+   "n_fail_open": 0
+  },
+  "both (embedding on) [frozen]": {
+   "p50": 3.3723369997460395,
+   "p95": 5.124465297558342,
+   "mean": 3.5578144291012084,
+   "n": 203,
+   "perturbed_accuracy": 0.8866995073891626,
+   "synonym_heldout": 0.4857142857142857,
+   "n_fail_open": 0
+  },
+  "both, strict off (unsafe) [frozen]": {
+   "p50": 3.262982005253434,
+   "p95": 4.903505704714915,
+   "mean": 3.4022716406200613,
+   "n": 203,
+   "perturbed_accuracy": 0.8866995073891626,
+   "synonym_heldout": 0.5428571428571428,
+   "n_fail_open": 1
+  },
+  "both (embedding on) [live model]": {
+   "p50": 8.510359009960666,
+   "p95": 11.338033592619466,
+   "mean": 8.58765343342348,
+   "n": 203,
+   "perturbed_accuracy": 0.8866995073891626,
+   "synonym_heldout": 0.4857142857142857,
+   "n_fail_open": 0
+  }
+ },
+ "dense_agreement": {
+  "n_queries": 254,
+  "bm25_vs_title_hash_stub_top1_agree": 182,
+  "bm25_vs_minilm_top1_agree": 186,
+  "title_hash_stub_vs_minilm_top1_agree": 191
+ },
+ "live_vs_frozen": {
+  "min_query_cosine_live_vs_fixture": 0.9999999999999997,
+  "decision_mismatches": []
+ }
+}

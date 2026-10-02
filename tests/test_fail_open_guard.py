@@ -130,9 +130,29 @@ def test_report_renders_before_after_and_fail_open(report) -> None:
     before = load_before()
     assert before is not None and before["n_perturbed"] == 203
     md = render_robustness_markdown(report, baseline=before, leakage=leakage_report())
-    assert "## Before (PR #10) / after (this run)" in md
+    assert "## Before (PR #11) / after (this run)" in md
     assert "## Synonym rows: dev vs held-out" in md
     assert "| synonym, held-out rows (n=35) |" in md
     assert "| fail-open (expected refusal/write -> ANSWER) |" in md
     assert "## Leakage check" in md
     assert "## Remaining flipped cases" in md
+
+
+def test_report_renders_the_embedding_columns_and_ablation(report) -> None:
+    from dataclasses import replace
+
+    from ops_copilot import CopilotConfig
+    from ops_copilot.robustness import EMBEDDING_ON, ablation_row, render_robustness_markdown
+
+    emb = run_robustness(config=replace(CopilotConfig(), **EMBEDDING_ON))
+    md = render_robustness_markdown(
+        report,
+        baseline=load_before(),
+        embedding=emb,
+        embed_ablations={"both (embedding on)": ablation_row(emb)},
+        calibration={"threshold": 0.45, "max_terms": 1},
+    )
+    assert "| metric | before (PR #11) | after (default) | after (embedding on) |" in md
+    assert "## Embedding on: held-out rows by expected decision" in md
+    assert "## Ablation: real embeddings" in md
+    assert "| heldout | ANSWER | 9 |" in md

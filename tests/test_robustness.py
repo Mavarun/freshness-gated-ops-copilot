@@ -10,7 +10,14 @@ import pytest
 from ops_copilot.eval import load_golden
 from ops_copilot.paraphrase_set import dump_jsonl, load_paraphrase_set
 from ops_copilot.perturb import PERTURBATION_TYPES
-from ops_copilot.robustness import ABLATIONS, classify_flip, load_before, run_robustness
+from ops_copilot.robustness import (
+    ABLATIONS,
+    EMBED_ABLATIONS,
+    PR10_BEFORE,
+    classify_flip,
+    load_before,
+    run_robustness,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -88,14 +95,45 @@ def test_synonym_rows_are_split_dev_and_heldout(report) -> None:
     assert report.as_dict()["per_synonym_split"] == sp
 
 
-def test_before_is_the_frozen_pr10_run_rescored_with_the_split() -> None:
+def test_before_is_the_frozen_pr11_run_rescored_with_the_split() -> None:
     before = load_before()
     assert before is not None
-    assert "00cacb5" in before["source"]
-    assert before["perturbed_accuracy"] == pytest.approx(0.8916, abs=1e-4)
+    assert "31fceb0" in before["source"] and before["label"] == "PR #11"
+    assert before["perturbed_accuracy"] == pytest.approx(0.8621, abs=1e-4)
     assert len(before["decisions"]) == 203
     assert before["per_synonym_split"]["dev"]["n"] == 15
     assert before["per_synonym_split"]["heldout"]["n"] == 35
+    assert before["per_synonym_split"]["heldout"]["perturbed_accuracy"] == pytest.approx(0.4)
+
+
+def test_pr10_run_stays_loadable_for_history() -> None:
+    pr10 = load_before(PR10_BEFORE)
+    assert pr10 is not None and pr10["label"] == "PR #10"
+    assert "00cacb5" in pr10["source"]
+    assert pr10["perturbed_accuracy"] == pytest.approx(0.8916, abs=1e-4)
+
+
+def test_default_config_matches_pr11_row_for_row(report) -> None:
+    before = load_before()
+    assert {c.id: c.perturbed_decision for c in report.cases} == before["decisions"]
+
+
+def test_embedding_ablations_only_toggle_embedding_knobs() -> None:
+    assert set(EMBED_ABLATIONS) == {
+        "embedding retriever only",
+        "semantic grounding only",
+        "both (embedding on)",
+        "both, strict off (unsafe)",
+    }
+    allowed = {
+        "embedding_backend",
+        "embed_dense_retriever",
+        "embed_semantic_grounding",
+        "semantic_grounding_strict",
+    }
+    for knobs in EMBED_ABLATIONS.values():
+        assert knobs["embedding_backend"] == "frozen"
+        assert set(knobs) <= allowed
 
 
 def test_ablation_grid_toggles_only_the_synonym_sources() -> None:
