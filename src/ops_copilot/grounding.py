@@ -35,10 +35,15 @@ not an identifier or number, alphabetic) may count as supported by a chunk when
 some sentence of that chunk has cosine >= ``threshold`` with the rewritten
 query. The threshold is calibrated on the clean golden set plus the *dev*
 synonym rows only (``scripts/calibrate_semantic_grounding.py``). It is a
-backoff alongside the lexical checks, not a replacement: every corpus-known
-and identifier term must still be matched lexically, at most
-``max_rescued_terms`` unknown words can be rescued per query, and the answer
-coverage check stays lexical.
+backoff alongside the lexical checks, not a replacement: at most
+``max_rescued_terms`` unknown words can be rescued per query, the answer
+coverage check stays lexical, and in strict mode (default) the rescue only
+applies when *every other* salient term of the query is matched lexically by
+that evidence, and only for wh-questions. Strict mode exists because the
+non-strict version answered the ``g19-synonym`` trap (*rollback steps*): the
+flag page is topically close to the query, so ``steps`` was rescued while the
+known word ``rollback`` was simply absent. The wh-question rule keeps an
+unrecognised command (*Can you reboot payments-worker?*) off the read path.
 """
 
 from __future__ import annotations
@@ -51,7 +56,7 @@ import numpy as np
 
 from ops_copilot.embeddings import EmbeddingBackend, evidence_sentences
 
-from ops_copilot.lexicon import CorpusVocabulary, fix_interrogative_typos
+from ops_copilot.lexicon import WH_WORDS, CorpusVocabulary, fix_interrogative_typos
 from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases, hyphen_variants
 from ops_copilot.text import (
@@ -88,8 +93,10 @@ class EmbeddingSupport:
         *,
         query_form: Callable[[str], str] | None = None,
         max_rescued_terms: int = 1,
+        strict: bool = True,
     ) -> None:
         self.backend = backend
+        self.strict = bool(strict)
         self.threshold = float(threshold)
         self.query_form = query_form or normalize_text
         self.max_rescued_terms = int(max_rescued_terms)
@@ -226,6 +233,12 @@ class Grounder:
     def key_tokens(self, query: str, k: int | None = None) -> list[str]:
         return [t.token for t in self._key_terms(self.terms(query), k)]
 
+    def is_wh_question(self, query: str) -> bool:
+        text = normalize_text(query)
+        if self.typo_tolerance:
+            text = fix_interrogative_typos(text, self.vocab)
+        return any(w in WH_WORDS for w in text.split())
+
     @staticmethod
     def rescuable(term: QueryTerm) -> bool:
         """Only still-unknown plain words may be supported by embeddings."""
@@ -249,7 +262,14 @@ class Grounder:
         if es is not None and terms:
             missing = [t for t in terms if t.token not in lexical]
             candidates = [t for t in missing if self.rescuable(t)]
-            if candidates and len(candidates) <= es.max_rescued_terms:
+            # Strict mode: every other salient term must be matched lexically,
+            # so a topical sentence cannot paper over a missing known word.
+            complete = len(candidates) == len(missing) or not es.strict
+            # Strict mode: only wh-questions (what / how / who ...) get a
+            # semantic rescue. "Can you reboot X?" names an action the write
+            # gate did not recognise; it must never become a read-path answer.
+            question = not es.strict or self.is_wh_question(query)
+            if candidates and complete and question and len(candidates) <= es.max_rescued_terms:
                 sim = es.best_similarity(query, evidence_parts or [evidence])
                 if sim is not None and sim >= es.threshold:
                     rescued = frozenset(t.token for t in candidates)
