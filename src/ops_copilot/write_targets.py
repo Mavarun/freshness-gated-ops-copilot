@@ -90,7 +90,8 @@ SYSTEM_NAMES: dict[str, str] = {"redis": SERVICE, "kafka": SERVICE}
 _NOT_A_TARGET = re.compile(
     r"^(?:inc|ops|sev|cnry|about|q\d|p\d+|akia|xoxb)[-\d]|"  # ids, canaries, planted keys
     r"^[\d][\d\-:./]*[a-z]{0,3}$|"  # dates, times, sizes (400ms, 2gb, 5xx)
-    r"^p\d+$|^v\d+$|^k8s$"
+    r"^p\d+$|^v\d+$|^k8s$|"
+    r"^[a-z]{2}-[a-z]+-\d+$"  # cloud regions (us-east-1) scope a write, they are not its target
 )
 _INCIDENT = re.compile(r"^inc-\d+$")
 _PAGE_WORDS = frozenset({"page", "pager", "paging", "paged"})

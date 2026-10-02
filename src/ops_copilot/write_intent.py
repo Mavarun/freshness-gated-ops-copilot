@@ -240,7 +240,10 @@ def _attach_target(parse: ActionParse, tokens: list[str], registry: EntityRegist
         if heads:
             chosen = phrase_target(tokens, start, heads, spec.target_kinds[0])
     parse.target = chosen
-    others = [t for t in compatible + unknown if chosen is None or t.name != chosen.name]
+    # Only further entities of the same kind compete with the chosen target
+    # ("restart checkout-api and payments-api"); an unknown-shape identifier
+    # next to a registry target is a qualifier, not a second write.
+    others = [t for t in compatible if chosen is not None and t.name != chosen.name and t.kind == chosen.kind]
     parse.extra_targets = others
     name = chosen.name if chosen else None
     if action is WriteActionType.RESTART_SERVICE:
@@ -340,7 +343,24 @@ def classify_write_intent(
             mood.mood.value, clause=" | ".join(" ".join(c.tokens) for c, _ in actions),
         )
     clause, parse = actions[0]
+    second = _second_action_verb(clause, typo_tolerance)
+    if second is not None:
+        return WriteIntent(
+            AMBIGUOUS, q, f"second write verb {second!r} in the same request; ask for one at a time",
+            mood.mood.value, clause=" ".join(clause.tokens),
+        )
     return _finish(q, clause, parse, min_confidence)
+
+
+def _second_action_verb(clause: Clause, typo_tolerance: bool) -> str | None:
+    """A coordinated second instruction verb (``... and restart it``) after the head."""
+    toks = clause.tokens
+    for i in range(max(clause.head, 0) + 1, len(toks) - 1):
+        if toks[i] in {"and", "then", "also"}:
+            nxt = toks[i + 1]
+            if nxt in _WRITE_VERBS:
+                return nxt
+    return None
 
 
 def _finish(q: str, clause: Clause, parse: ActionParse, min_confidence: float) -> WriteIntent:
