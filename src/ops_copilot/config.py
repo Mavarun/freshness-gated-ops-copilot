@@ -74,6 +74,13 @@ class CopilotConfig:
     # write-shaped below it, or without a target, is REFUSE_AMBIGUOUS_WRITE.
     write_mood_detection: bool = True
     write_min_confidence: float = 0.65
+    # Optional nearest-action-prototype backoff for "<unknown verb> <entity>"
+    # instructions (write_prototypes.py). Needs an embedding backend; a no-op
+    # when embedding_backend is "off". Threshold / margin from
+    # scripts/calibrate_write_prototypes.py (hand-written dev verbs only).
+    write_prototype_backoff: bool = False
+    write_prototype_threshold: float = 0.73
+    write_prototype_margin: float = 0.07
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
