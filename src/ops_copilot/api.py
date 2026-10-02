@@ -112,6 +112,7 @@ def result_to_response(result: CopilotResult, *, trace_id: str, sla_used: dict[s
         pii_detected=bool(result.pii_detected),
         redactions_count=int(result.redactions_count),
         pii=result.pii,
+        write_intent=result.write_intent,
     )
 
 

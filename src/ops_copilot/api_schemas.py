@@ -59,6 +59,7 @@ class QueryResponse(BaseModel):
     pii_detected: bool = False
     redactions_count: int = 0
     pii: dict[str, Any] | None = None
+    write_intent: dict[str, Any] | None = None
 
 
 class HealthResponse(BaseModel):

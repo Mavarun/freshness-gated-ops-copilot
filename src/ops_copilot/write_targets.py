@@ -207,6 +207,11 @@ def identifier_targets(tokens: list[str], registry: EntityRegistry, start: int =
         if kind is not None:
             out.append(Target(tok, kind, "registry", 1.0, i))
             continue
+        tail = tok.rsplit(".", 1)[-1] if "." in tok else ""
+        if tail and registry.kind(tail) is not None:
+            # redis.maxmemory-policy: a dotted path ending in a registry key
+            out.append(Target(tok, registry.kind(tail), "registry", 1.0, i))
+            continue
         if _INCIDENT.match(tok):
             out.append(Target(tok, INCIDENT, "registry", 1.0, i))
             continue
