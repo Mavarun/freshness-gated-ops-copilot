@@ -110,6 +110,7 @@ class Copilot:
                     self.config.semantic_grounding_threshold,
                     query_form=self.retriever.rewrite_query,
                     max_rescued_terms=self.config.semantic_grounding_max_terms,
+                    strict=self.config.semantic_grounding_strict,
                 )
                 if self.embeddings is not None and self.config.embed_semantic_grounding
                 else None
@@ -198,6 +199,19 @@ class Copilot:
         # Quarantine is document-scoped: a cited page that holds a secret in
         # another paragraph is still a secret-bearing page.
         cited_docs = dict.fromkeys(c.doc_id for c in fresh_hits)
+        semantic_used = bool(grounding is not None and grounding.semantic_rescued)
+        if semantic_used and cfg.semantic_grounding_strict and not canary_scan.has_leak:
+            # Safety tightening for the semantic grounding backoff: an answer
+            # that leans on embedding support must not cite a page holding an
+            # unjustified canary, even when the extractive draft happened to
+            # skip that paragraph (see README "Real embeddings", g35-synonym).
+            doc_scan = scan_answer(
+                " ".join(t for d in cited_docs for t in self._doc_texts.get(d, ())),
+                query,
+                self.canary_registry,
+            )
+            if doc_scan.has_leak:
+                canary_scan = doc_scan
         pii_scan = scan_answer_pii(
             draft,
             rq,

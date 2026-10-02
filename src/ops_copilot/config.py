@@ -98,5 +98,9 @@ class CopilotConfig:
     # Threshold and max_terms come from scripts/calibrate_semantic_grounding.py
     # (clean golden + dev synonym rows only).
     embed_semantic_grounding: bool = True
-    semantic_grounding_threshold: float = 0.53
+    semantic_grounding_threshold: float = 0.45
     semantic_grounding_max_terms: int = 1
+    # Safety tightening (README "Real embeddings"): rescue only wh-questions
+    # whose every other salient term is matched lexically, and refuse a rescued
+    # answer whose cited page holds an unjustified canary. Off = unsafe ablation.
+    semantic_grounding_strict: bool = True
