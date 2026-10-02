@@ -21,7 +21,10 @@ from ops_copilot.config import CopilotConfig  # noqa: E402
 from ops_copilot.robustness import (  # noqa: E402
     EMBED_ABLATIONS,
     EMBEDDING_ON,
+    EMBEDDING_ON_BACKOFF,
     PR10_BEFORE,
+    PR11_BEFORE,
+    ablation_row,
     leakage_report,
     load_before,
     render_robustness_markdown,
@@ -84,7 +87,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument(
         "--before",
         default=None,
-        help="frozen PR #11 per-row run (default: artifacts/robustness_pr11.json)",
+        help="frozen PR #12 per-row run (default: artifacts/robustness_pr12.json)",
     )
     args = ap.parse_args(argv)
 
@@ -96,6 +99,26 @@ def main(argv: list[str] | None = None) -> int:
     )
     before = load_before(args.before, paraphrase_path=args.paraphrase)
     before_pr10 = load_before(PR10_BEFORE, paraphrase_path=args.paraphrase)
+    before_pr11 = load_before(PR11_BEFORE, paraphrase_path=args.paraphrase)
+    # Write-gate ablation: reuse the default and embedding-on runs above.
+    write_ablations = {
+        "lexicon parser only (no mood)": ablation_row(
+            run_robustness(
+                golden_path=args.golden,
+                paraphrase_path=args.paraphrase,
+                config=replace(CopilotConfig(), write_mood_detection=False),
+            )
+        ),
+        "+ mood detection (default)": ablation_row(report),
+        "+ mood, embedding on": ablation_row(embedding),
+        "+ mood + prototype backoff (embedding on)": ablation_row(
+            run_robustness(
+                golden_path=args.golden,
+                paraphrase_path=args.paraphrase,
+                config=replace(CopilotConfig(), **EMBEDDING_ON_BACKOFF),
+            )
+        ),
+    }
     ablations = run_ablations(golden_path=args.golden, paraphrase_path=args.paraphrase)
     embed_ablations = run_ablations(
         golden_path=args.golden, paraphrase_path=args.paraphrase, grid=EMBED_ABLATIONS
@@ -119,16 +142,22 @@ def main(argv: list[str] | None = None) -> int:
             embedding=embedding,
             embed_ablations=embed_ablations,
             calibration=calibration,
+            write_ablations=write_ablations,
         ),
         encoding="utf-8",
     )
     metrics = report.as_dict(flip_detail=False)
     if before:
-        metrics["before_pr11"] = _before_summary(before)
+        metrics["before_pr12"] = _before_summary(before)
+        if isinstance(before.get("embedding_on"), dict):
+            metrics["before_pr12"]["embedding_on"] = _before_summary(before["embedding_on"])
+    if before_pr11:
+        metrics["before_pr11"] = _before_summary(before_pr11)
     if before_pr10:
         metrics["before_pr10"] = _before_summary(before_pr10)
     metrics["embedding_on"] = _summary(embedding)
     metrics["embedding_ablations"] = embed_ablations
+    metrics["write_ablations"] = write_ablations
     if calibration:
         metrics["semantic_grounding_calibration"] = calibration
     metrics["ablations"] = ablations

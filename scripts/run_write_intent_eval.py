@@ -85,7 +85,6 @@ def _time(fn, queries, reps: int) -> tuple[float, float]:
 def latency_md(reps: int = 20) -> str:
     from ops_copilot.pipeline import Copilot
     from ops_copilot.write_intent import classify_write_intent
-    from ops_copilot.write_prototypes import PrototypeMatcher  # noqa: F401
 
     queries = [r["query"] for r in load_write_eval()]
     lines = [
@@ -114,6 +113,19 @@ def latency_md(reps: int = 20) -> str:
         bot = Copilot(config=replace(CopilotConfig(), **knobs))
         p50, p95 = _time(bot.ask, queries, max(1, reps // 4))
         lines.append(f"| full pipeline ask: {label} | {p50:.0f} | {p95:.0f} |")
+    from ops_copilot.robustness import run_robustness
+
+    lines += [
+        "",
+        "Full pipeline over the 203 perturbed robustness rows (ms per query, "
+        "`RobustnessReport.latency_summary`):",
+        "",
+        "| config | p50 ms | p95 ms | mean ms |",
+        "|---|---|---|---|",
+    ]
+    for label, knobs in WRITE_EVAL_CONFIGS.items():
+        lat = run_robustness(config=replace(CopilotConfig(), **knobs)).latency_summary()
+        lines.append(f"| {label} | {lat['p50']:.2f} | {lat['p95']:.2f} | {lat['mean']:.2f} |")
     return "\n".join(lines) + "\n"
 
 

@@ -21,8 +21,16 @@ accuracy is reported separately for the two. The held-out number is the one
 to quote: none of its replacement words is in any product lexicon. The PR #10
 run is frozen per row in ``artifacts/robustness_pr10.json`` so the same
 split can be applied to the "before" column. Since the real-embeddings
-slice the default "before" is PR #11 (``artifacts/robustness_pr11.json``,
-same compact format); PR #10 stays loadable for history.
+slice the "before" was PR #11 (``artifacts/robustness_pr11.json``, same
+compact format). Since the write-intent slice the default "before" is PR #12
+(``artifacts/robustness_pr12.json``), frozen for the default config and,
+under ``embedding_on``, for the frozen-MiniLM config; PR #10 and PR #11 stay
+loadable for history.
+
+Write gate: ``WRITE_ABLATIONS`` runs the structured write classifier as a
+lexicon parser only (no mood detection), with mood detection (the default),
+with the embedding on, and with the optional nearest-action-prototype
+backoff (``EMBEDDING_ON_BACKOFF``).
 
 Embedding path: ``EMBEDDING_ON`` is the default config with the frozen
 MiniLM fixture (dense retriever + semantic grounding, strict).
@@ -53,11 +61,12 @@ from ops_copilot.pipeline import Copilot
 WRITE = "PROPOSE_WRITE"
 ARTIFACTS = Path(__file__).resolve().parents[2] / "artifacts"
 DEFAULT_BASELINE = ARTIFACTS / "robustness_baseline.json"
-DEFAULT_BEFORE = ARTIFACTS / "robustness_pr11.json"
 PR10_BEFORE = ARTIFACTS / "robustness_pr10.json"
+PR11_BEFORE = ARTIFACTS / "robustness_pr11.json"
 # PR #12 (real embeddings), frozen per row for the default config and, under
 # "embedding_on", for the frozen-MiniLM config: the write-gate slice's before.
 PR12_BEFORE = ARTIFACTS / "robustness_pr12.json"
+DEFAULT_BEFORE = PR12_BEFORE
 SPLITS: tuple[str, ...] = ("dev", "heldout")
 
 
@@ -337,7 +346,10 @@ def load_before(
     split_path: str | Path | None = None,
     paraphrase_path: str | Path | None = None,
 ) -> dict | None:
-    """Frozen PR #10 run with the dev / held-out split applied to its rows."""
+    """Frozen earlier run with the dev / held-out split applied to its rows.
+
+    A nested ``embedding_on`` run (PR #12) is re-scored the same way.
+    """
     src = Path(path) if path else DEFAULT_BEFORE
     if not src.is_file():
         return None
@@ -345,6 +357,14 @@ def load_before(
     tag = re.search(r"PR #\d+", str(before.get("source", "")))
     before.setdefault("label", tag.group(0) if tag else "before")
     expect = {str(r["id"]): r["expect_decision"] for r in load_paraphrase_set(paraphrase_path)}
+    _rescore_before(before, expect, split_path)
+    if isinstance(before.get("embedding_on"), dict):
+        before["embedding_on"].setdefault("label", before["label"] + " (embedding on)")
+        _rescore_before(before["embedding_on"], expect, split_path)
+    return before
+
+
+def _rescore_before(before: dict, expect: dict[str, str], split_path: str | Path | None) -> None:
     # Stored compactly: only flipped rows; every other row matched its label.
     flipped = before.get("flipped_decisions", {})
     decisions = {rid: flipped.get(rid, exp) for rid, exp in expect.items()}
@@ -355,9 +375,15 @@ def load_before(
         ids = [rid for rid, s in splits.items() if s == split and rid in decisions]
         if ids:
             hits = [decisions[rid] == expect[rid] for rid in ids]
-            per_split[split] = {"n": len(ids), "perturbed_accuracy": _acc(hits)}
+            by_gate = {
+                gate: {
+                    "n": sum(1 for rid in ids if expect[rid] == gate),
+                    "correct": sum(1 for rid in ids if expect[rid] == gate and decisions[rid] == gate),
+                }
+                for gate in sorted({expect[rid] for rid in ids})
+            }
+            per_split[split] = {"n": len(ids), "perturbed_accuracy": _acc(hits), "by_gate": by_gate}
     before["per_synonym_split"] = per_split
-    return before
 
 
 # Normalizer, filler list, typo tolerance, position-independent write cues
@@ -398,8 +424,20 @@ EMBED_ABLATIONS: dict[str, dict] = {
 }
 
 
+# Write-intent slice: the structured write classifier, built up step by step.
+# Only the write-gate knobs (and the embedding backend) toggle.
+EMBEDDING_ON_BACKOFF: dict = {**EMBEDDING_ON, "write_prototype_backoff": True}
+WRITE_ABLATIONS: dict[str, dict] = {
+    "lexicon parser only (no mood)": {"write_mood_detection": False},
+    "+ mood detection (default)": {},
+    "+ mood, embedding on": dict(EMBEDDING_ON),
+    "+ mood + prototype backoff (embedding on)": dict(EMBEDDING_ON_BACKOFF),
+}
+
+
 def ablation_row(rep: RobustnessReport) -> dict:
     d = rep.as_dict(flip_detail=False)
+    held = rep.per_synonym_split.get("heldout", {}).get("by_gate", {}).get(WRITE, {})
     return {
         "clean_accuracy": rep.clean_accuracy,
         "perturbed_accuracy": rep.perturbed_accuracy,
@@ -407,6 +445,8 @@ def ablation_row(rep: RobustnessReport) -> dict:
         "synonym_dev": rep.per_synonym_split.get("dev", {}).get("perturbed_accuracy", 0.0),
         "synonym_heldout": rep.per_synonym_split.get("heldout", {}).get("perturbed_accuracy", 0.0),
         "heldout_answer_write_correct": _understood(rep),
+        "heldout_write_correct": f"{held.get('correct', 0)}/{held.get('n', 0)}",
+        "clean_safety": dict(rep.clean_safety),
         "fail_open": d["fail_open"],
         "n_fail_open": d["n_fail_open"],
         "n_spurious_write": d["n_spurious_write"],
@@ -544,10 +584,16 @@ def _d(a: float | None, b: float | None) -> str:
 
 
 def _before_after_lines(d: dict, before: dict, emb: dict | None = None) -> list[str]:
-    """Before (frozen run) vs after (this run, default) [vs after, embedding on]."""
-    label = before.get("label", "PR #11")
-    bsplit = before.get("per_synonym_split", {})
-    cols = [("after (default)", d)] + ([("after (embedding on)", emb)] if emb else [])
+    """Before (frozen run) vs after (this run), for the default config and,
+    when given, the embedding-on config (paired with the frozen run's own
+    ``embedding_on`` column if it has one)."""
+    label = before.get("label", "before")
+    cols: list[tuple[str, dict]] = [(f"{label} (default)", before), ("after (default)", d)]
+    if emb is not None:
+        b_emb = before.get("embedding_on")
+        if isinstance(b_emb, dict):
+            cols.append((f"{label} (embedding on)", b_emb))
+        cols.append(("after (embedding on)", emb))
 
     def get(src: dict, *path):
         cur = src
@@ -557,16 +603,30 @@ def _before_after_lines(d: dict, before: dict, emb: dict | None = None) -> list[
             cur = cur[p]
         return cur
 
-    def frow(name: str, b, vals) -> str:
-        return f"| {name} | {_f(b)} | " + " | ".join(_f(v) for v in vals) + " |"
+    def frow(name: str, *path) -> str:
+        return f"| {name} | " + " | ".join(_f(get(src, *path)) for _, src in cols) + " |"
 
-    def crow(name: str, key: str) -> str:
-        b = before.get(key)
-        vals = [str(src.get(key, "-")) for _, src in cols]
-        return f"| {name} | {b if b is not None else '-'} | " + " | ".join(vals) + " |"
+    def crow(name: str, fn) -> str:
+        cells = []
+        for _, src in cols:
+            try:
+                v = fn(src)
+            except (KeyError, TypeError):
+                v = None
+            cells.append("-" if v is None else str(v))
+        return f"| {name} | " + " | ".join(cells) + " |"
 
-    head = "| metric | before (" + label + ") | " + " | ".join(c for c, _ in cols) + " |"
-    sep = "| --- | ---: | " + " | ".join("---:" for _ in cols) + " |"
+    def gate_count(split: str, gates: tuple[str, ...]):
+        def fn(src: dict) -> str:
+            bg = src["per_synonym_split"][split]["by_gate"]
+            n = sum(bg.get(g, {}).get("n", 0) for g in gates)
+            ok = sum(bg.get(g, {}).get("correct", 0) for g in gates)
+            return f"{ok}/{n}"
+
+        return fn
+
+    head = "| metric | " + " | ".join(c for c, _ in cols) + " |"
+    sep = "| --- | " + " | ".join("---:" for _ in cols) + " |"
     lines = [
         f"## Before ({label}) / after (this run)",
         "",
@@ -574,51 +634,47 @@ def _before_after_lines(d: dict, before: dict, emb: dict | None = None) -> list[
         "same dev / held-out split. Same 203 rows, same labels."
         + (
             " Embedding on = frozen all-MiniLM-L6-v2 fixture, dense retriever + "
-            "strict semantic grounding."
+            "strict semantic grounding (prototype backoff off; see the write-gate ablation)."
             if emb
             else ""
         ),
         "",
         head,
         sep,
-        frow("clean decision_accuracy", before["clean_accuracy"], [s["clean_accuracy"] for _, s in cols]),
-        frow(
-            "perturbed decision_accuracy (all 203)",
-            before["perturbed_accuracy"],
-            [s["perturbed_accuracy"] for _, s in cols],
-        ),
+        frow("clean decision_accuracy", "clean_accuracy"),
+        frow("perturbed decision_accuracy (all 203)", "perturbed_accuracy"),
     ]
     for split, name in (("dev", "synonym, dev rows"), ("heldout", "synonym, held-out rows")):
         n = get(d, "per_synonym_split", split, "n") or 0
-        lines.append(
-            frow(
-                f"{name} (n={n})",
-                get(bsplit, split, "perturbed_accuracy"),
-                [get(s, "per_synonym_split", split, "perturbed_accuracy") for _, s in cols],
-            )
-        )
+        lines.append(frow(f"{name} (n={n})", "per_synonym_split", split, "perturbed_accuracy"))
     lines += [
-        crow("flips", "n_flips"),
-        crow("fail-open (expected refusal/write -> ANSWER)", "n_fail_open"),
-        crow("spurious PROPOSE_WRITE", "n_spurious_write"),
-        crow("raw PII/secret in final output", "n_raw_pii_outputs"),
+        crow("held-out ANSWER/PROPOSE_WRITE rows correct", gate_count("heldout", ("ANSWER", WRITE))),
+        crow("held-out PROPOSE_WRITE rows correct", gate_count("heldout", (WRITE,))),
+        crow("flips", lambda s: s["n_flips"]),
+        crow("fail-open (expected refusal/write -> ANSWER)", lambda s: s["n_fail_open"]),
+        crow("spurious PROPOSE_WRITE", lambda s: s["n_spurious_write"]),
+        crow("raw PII/secret in final output", lambda s: s["n_raw_pii_outputs"]),
+        crow(
+            "clean: fail-open / spurious write / raw PII",
+            lambda s: "{n_fail_open} / {n_spurious_write} / {n_raw_pii_outputs}".format(
+                **s["clean_safety"]
+            ),
+        ),
         "",
-        "| perturbation | n | before | " + " | ".join(c for c, _ in cols) + " |",
-        "| --- | ---: | ---: | " + " | ".join("---:" for _ in cols) + " |",
+        "| perturbation | n | " + " | ".join(c for c, _ in cols) + " |",
+        "| --- | ---: | " + " | ".join("---:" for _ in cols) + " |",
     ]
     for kind, b in d["per_perturbation"].items():
-        prev = get(before, "per_perturbation", kind, "perturbed_accuracy")
         vals = [get(s, "per_perturbation", kind, "perturbed_accuracy") for _, s in cols]
-        lines.append(f"| {kind} | {b['n']} | {_f(prev)} | " + " | ".join(_f(v) for v in vals) + " |")
+        lines.append(f"| {kind} | {b['n']} | " + " | ".join(_f(v) for v in vals) + " |")
     lines += [
         "",
-        "| gate (expected) | n | before | " + " | ".join(c for c, _ in cols) + " |",
-        "| --- | ---: | ---: | " + " | ".join("---:" for _ in cols) + " |",
+        "| gate (expected) | n | " + " | ".join(c for c, _ in cols) + " |",
+        "| --- | ---: | " + " | ".join("---:" for _ in cols) + " |",
     ]
     for gate, b in sorted(d["per_gate"].items()):
-        prev = get(before, "per_gate", gate, "perturbed_accuracy")
         vals = [get(s, "per_gate", gate, "perturbed_accuracy") for _, s in cols]
-        lines.append(f"| {gate} | {b['n']} | {_f(prev)} | " + " | ".join(_f(v) for v in vals) + " |")
+        lines.append(f"| {gate} | {b['n']} | " + " | ".join(_f(v) for v in vals) + " |")
     return lines + [""]
 
 
@@ -641,10 +697,11 @@ def _ablation_lines(
         "",
         "| config | clean | perturbed | "
         + " | ".join(kinds)
-        + " | syn dev | syn held-out | held-out ANSWER/WRITE | fail-open | spurious write | raw PII |",
+        + " | syn dev | syn held-out | held-out ANSWER/WRITE | held-out WRITE | fail-open"
+        " | spurious write | raw PII | clean fail-open/spurious/PII |",
         "| --- | ---: | ---: | "
         + " | ".join("---:" for _ in kinds)
-        + " | ---: | ---: | ---: | ---: | ---: | ---: |",
+        + " | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for label, a in ablations.items():
         cells = " | ".join(f"{a['per_perturbation'].get(k, 0.0):.3f}" for k in kinds)
@@ -652,11 +709,20 @@ def _ablation_lines(
             f"| {label} | {a['clean_accuracy']:.3f} | {a['perturbed_accuracy']:.3f} | "
             f"{cells} | {a['synonym_dev']:.3f} | {a['synonym_heldout']:.3f} | "
             f"{a.get('heldout_answer_write_correct', '-')} | "
+            f"{a.get('heldout_write_correct', '-')} | "
             f"{a['n_fail_open']}"
             + (f" ({', '.join(a['fail_open'])})" if a.get("fail_open") else "")
-            + f" | {a['n_spurious_write']} | {a['n_raw_pii_outputs']} |"
+            + f" | {a['n_spurious_write']} | {a['n_raw_pii_outputs']} | "
+            + _clean_cell(a.get("clean_safety"))
+            + " |"
         )
     return lines + [""]
+
+
+def _clean_cell(cs: dict | None) -> str:
+    if not cs:
+        return "-"
+    return f"{cs['n_fail_open']}/{cs['n_spurious_write']}/{cs['n_raw_pii_outputs']}"
 
 
 def _leakage_lines(leak: dict) -> list[str]:
@@ -719,6 +785,7 @@ def render_robustness_markdown(
     embedding: RobustnessReport | None = None,
     embed_ablations: dict | None = None,
     calibration: dict | None = None,
+    write_ablations: dict | None = None,
 ) -> str:
     d = report.as_dict()
     emb = embedding.as_dict(flip_detail=False) if embedding is not None else None
@@ -764,6 +831,19 @@ def render_robustness_markdown(
                 "Default config (leakage-free map on, PPMI backoff off) plus the "
                 "frozen fixture; only the dense retriever swap, the semantic "
                 "grounding backoff and its strict safety rules toggle."
+            ),
+        )
+    if write_ablations:
+        lines += _ablation_lines(
+            write_ablations,
+            kinds,
+            title="## Ablation: write-intent gate",
+            blurb=(
+                "Structured write classifier (action ontology + verb-cluster lexicons + "
+                "registry targets). Lexicon only = first lexicon verb anywhere counts as "
+                "an instruction (no mood detection); the default adds clause-level mood "
+                "detection; the last row adds the nearest-action-prototype backoff "
+                "(frozen fixture, threshold and margin calibrated on dev-only verbs)."
             ),
         )
     if ablations:

@@ -16,39 +16,42 @@ Held-out rows use at least one synonym pair whose replacement words were removed
 | dev | 15 | 1.000 | 0.667 | 5 |
 | heldout | 35 | 1.000 | 0.429 | 20 |
 
-## Before (PR #11) / after (this run)
+## Before (PR #12) / after (this run)
 
-Before = `scripts/run_robustness.py at main 31fceb0 (PR #11), default config, seed 42, 203 rows, frozen clock`, re-scored per row with the same dev / held-out split. Same 203 rows, same labels. Embedding on = frozen all-MiniLM-L6-v2 fixture, dense retriever + strict semantic grounding.
+Before = `scripts/run_robustness.py at main fcc8157 (PR #12), default config, seed 42, 203 rows, frozen clock`, re-scored per row with the same dev / held-out split. Same 203 rows, same labels. Embedding on = frozen all-MiniLM-L6-v2 fixture, dense retriever + strict semantic grounding (prototype backoff off; see the write-gate ablation).
 
-| metric | before (PR #11) | after (default) | after (embedding on) |
-| --- | ---: | ---: | ---: |
-| clean decision_accuracy | 1.000 | 1.000 | 1.000 |
-| perturbed decision_accuracy (all 203) | 0.862 | 0.872 | 0.897 |
-| synonym, dev rows (n=15) | 0.600 | 0.667 | 0.800 |
-| synonym, held-out rows (n=35) | 0.400 | 0.429 | 0.514 |
-| flips | 28 | 26 | 21 |
-| fail-open (expected refusal/write -> ANSWER) | 0 | 0 | 0 |
-| spurious PROPOSE_WRITE | 0 | 0 | 0 |
-| raw PII/secret in final output | 0 | 0 | 0 |
-
-| perturbation | n | before | after (default) | after (embedding on) |
+| metric | PR #12 (default) | after (default) | PR #12 (embedding on) | after (embedding on) |
 | --- | ---: | ---: | ---: | ---: |
-| synonym | 50 | 0.460 | 0.500 | 0.600 |
-| word_order | 51 | 1.000 | 1.000 | 1.000 |
-| typo | 51 | 1.000 | 1.000 | 1.000 |
-| polite | 51 | 0.980 | 0.980 | 0.980 |
+| clean decision_accuracy | 1.000 | 1.000 | 1.000 | 1.000 |
+| perturbed decision_accuracy (all 203) | 0.862 | 0.872 | 0.887 | 0.897 |
+| synonym, dev rows (n=15) | 0.600 | 0.667 | 0.733 | 0.800 |
+| synonym, held-out rows (n=35) | 0.400 | 0.429 | 0.486 | 0.514 |
+| held-out ANSWER/PROPOSE_WRITE rows correct | 0/12 | 1/12 | 1/12 | 2/12 |
+| held-out PROPOSE_WRITE rows correct | 0/3 | 1/3 | 0/3 | 1/3 |
+| flips | 28 | 26 | 23 | 21 |
+| fail-open (expected refusal/write -> ANSWER) | 0 | 0 | 0 | 0 |
+| spurious PROPOSE_WRITE | 0 | 0 | 0 | 0 |
+| raw PII/secret in final output | 0 | 0 | 0 | 0 |
+| clean: fail-open / spurious write / raw PII | 0 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 |
 
-| gate (expected) | n | before | after (default) | after (embedding on) |
-| --- | ---: | ---: | ---: | ---: |
-| ANSWER | 56 | 0.768 | 0.768 | 0.804 |
-| PROPOSE_WRITE | 16 | 0.750 | 0.875 | 0.875 |
-| REFUSE_BUDGET | 12 | 1.000 | 1.000 | 1.000 |
-| REFUSE_CANARY | 16 | 0.812 | 0.812 | 0.875 |
-| REFUSE_DISAGREE | 16 | 0.812 | 0.812 | 0.875 |
-| REFUSE_NO_EVIDENCE | 24 | 1.000 | 1.000 | 1.000 |
-| REFUSE_PII | 12 | 0.833 | 0.833 | 0.833 |
-| REFUSE_STALE | 31 | 0.903 | 0.903 | 0.935 |
-| REFUSE_UNGROUNDED | 20 | 1.000 | 1.000 | 1.000 |
+| perturbation | n | PR #12 (default) | after (default) | PR #12 (embedding on) | after (embedding on) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| synonym | 50 | 0.460 | 0.500 | 0.560 | 0.600 |
+| word_order | 51 | 1.000 | 1.000 | 1.000 | 1.000 |
+| typo | 51 | 1.000 | 1.000 | 1.000 | 1.000 |
+| polite | 51 | 0.980 | 0.980 | 0.980 | 0.980 |
+
+| gate (expected) | n | PR #12 (default) | after (default) | PR #12 (embedding on) | after (embedding on) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| ANSWER | 56 | 0.768 | 0.768 | 0.804 | 0.804 |
+| PROPOSE_WRITE | 16 | 0.750 | 0.875 | 0.750 | 0.875 |
+| REFUSE_BUDGET | 12 | 1.000 | 1.000 | 1.000 | 1.000 |
+| REFUSE_CANARY | 16 | 0.812 | 0.812 | 0.875 | 0.875 |
+| REFUSE_DISAGREE | 16 | 0.812 | 0.812 | 0.875 | 0.875 |
+| REFUSE_NO_EVIDENCE | 24 | 1.000 | 1.000 | 1.000 | 1.000 |
+| REFUSE_PII | 12 | 0.833 | 0.833 | 0.833 | 0.833 |
+| REFUSE_STALE | 31 | 0.903 | 0.903 | 0.935 | 0.935 |
+| REFUSE_UNGROUNDED | 20 | 1.000 | 1.000 | 1.000 | 1.000 |
 
 ## Embedding on: held-out rows by expected decision
 
@@ -79,23 +82,34 @@ Semantic grounding threshold 0.45 (max 1 rescued word per query), calibrated on 
 
 Default config (leakage-free map on, PPMI backoff off) plus the frozen fixture; only the dense retriever swap, the semantic grounding backoff and its strict safety rules toggle.
 
-| config | clean | perturbed | synonym | word_order | typo | polite | syn dev | syn held-out | held-out ANSWER/WRITE | fail-open | spurious write | raw PII |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| embedding retriever only | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 0 | 0 | 0 |
-| semantic grounding only | 1.000 | 0.897 | 0.600 | 1.000 | 1.000 | 0.980 | 0.800 | 0.514 | 2/12 | 0 | 0 | 0 |
-| both (embedding on) | 1.000 | 0.897 | 0.600 | 1.000 | 1.000 | 0.980 | 0.800 | 0.514 | 2/12 | 0 | 0 | 0 |
-| both, strict off (unsafe) | 1.000 | 0.897 | 0.620 | 1.000 | 0.980 | 0.980 | 0.733 | 0.571 | 4/12 | 1 (g19-synonym) | 0 | 0 |
+| config | clean | perturbed | synonym | word_order | typo | polite | syn dev | syn held-out | held-out ANSWER/WRITE | held-out WRITE | fail-open | spurious write | raw PII | clean fail-open/spurious/PII |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| embedding retriever only | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| semantic grounding only | 1.000 | 0.897 | 0.600 | 1.000 | 1.000 | 0.980 | 0.800 | 0.514 | 2/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| both (embedding on) | 1.000 | 0.897 | 0.600 | 1.000 | 1.000 | 0.980 | 0.800 | 0.514 | 2/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| both, strict off (unsafe) | 1.000 | 0.897 | 0.620 | 1.000 | 0.980 | 0.980 | 0.733 | 0.571 | 4/12 | 1/3 | 1 (g19-synonym) | 0 | 0 | 0/0/0 |
+
+## Ablation: write-intent gate
+
+Structured write classifier (action ontology + verb-cluster lexicons + registry targets). Lexicon only = first lexicon verb anywhere counts as an instruction (no mood detection); the default adds clause-level mood detection; the last row adds the nearest-action-prototype backoff (frozen fixture, threshold and margin calibrated on dev-only verbs).
+
+| config | clean | perturbed | synonym | word_order | typo | polite | syn dev | syn held-out | held-out ANSWER/WRITE | held-out WRITE | fail-open | spurious write | raw PII | clean fail-open/spurious/PII |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| lexicon parser only (no mood) | 0.961 | 0.813 | 0.480 | 0.902 | 0.922 | 0.941 | 0.667 | 0.400 | 1/12 | 1/3 | 0 | 5 | 0 | 0/1/0 |
+| + mood detection (default) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| + mood, embedding on | 1.000 | 0.897 | 0.600 | 1.000 | 1.000 | 0.980 | 0.800 | 0.514 | 2/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| + mood + prototype backoff (embedding on) | 1.000 | 0.901 | 0.620 | 1.000 | 1.000 | 0.980 | 0.800 | 0.543 | 3/12 | 2/3 | 0 | 0 | 0 | 0/0/0 |
 
 ## Ablation (same code, synonym sources toggled)
 
 Normalizer, filler list, typo tolerance, position-independent write cues and the secret-evidence quarantine are always on; only the leakage-free corpus-side synonym map and the semantic backoff (corpus PPMI/SVD embedding + char trigrams) are toggled.
 
-| config | clean | perturbed | synonym | word_order | typo | polite | syn dev | syn held-out | held-out ANSWER/WRITE | fail-open | spurious write | raw PII |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| no map, no embedding | 1.000 | 0.837 | 0.360 | 1.000 | 1.000 | 0.980 | 0.200 | 0.429 | 1/12 | 1 (g49-synonym) | 0 | 0 |
-| map only (leakage-free) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 0 | 0 | 0 |
-| embedding only | 1.000 | 0.847 | 0.400 | 1.000 | 1.000 | 0.980 | 0.333 | 0.429 | 1/12 | 1 (g49-synonym) | 0 | 0 |
-| map + embedding | 1.000 | 0.877 | 0.520 | 1.000 | 1.000 | 0.980 | 0.733 | 0.429 | 1/12 | 0 | 0 | 0 |
+| config | clean | perturbed | synonym | word_order | typo | polite | syn dev | syn held-out | held-out ANSWER/WRITE | held-out WRITE | fail-open | spurious write | raw PII | clean fail-open/spurious/PII |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| no map, no embedding | 1.000 | 0.837 | 0.360 | 1.000 | 1.000 | 0.980 | 0.200 | 0.429 | 1/12 | 1/3 | 1 (g49-synonym) | 0 | 0 | 0/0/0 |
+| map only (leakage-free) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| embedding only | 1.000 | 0.847 | 0.400 | 1.000 | 1.000 | 0.980 | 0.333 | 0.429 | 1/12 | 1/3 | 1 (g49-synonym) | 0 | 0 | 0/0/0 |
+| map + embedding | 1.000 | 0.877 | 0.520 | 1.000 | 1.000 | 0.980 | 0.733 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
 
 ## Leakage check (product lexicons vs the eval's perturbation vocabulary)
 

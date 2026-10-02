@@ -14,7 +14,9 @@ from ops_copilot.robustness import (
     ABLATIONS,
     EMBED_ABLATIONS,
     PR10_BEFORE,
+    PR11_BEFORE,
     PR12_BEFORE,
+    WRITE_ABLATIONS,
     classify_flip,
     load_before,
     run_robustness,
@@ -96,15 +98,29 @@ def test_synonym_rows_are_split_dev_and_heldout(report) -> None:
     assert report.as_dict()["per_synonym_split"] == sp
 
 
-def test_before_is_the_frozen_pr11_run_rescored_with_the_split() -> None:
+def test_before_is_the_frozen_pr12_run_rescored_with_the_split() -> None:
     before = load_before()
     assert before is not None
-    assert "31fceb0" in before["source"] and before["label"] == "PR #11"
+    assert "fcc8157" in before["source"] and before["label"] == "PR #12"
     assert before["perturbed_accuracy"] == pytest.approx(0.8621, abs=1e-4)
     assert len(before["decisions"]) == 203
-    assert before["per_synonym_split"]["dev"]["n"] == 15
-    assert before["per_synonym_split"]["heldout"]["n"] == 35
-    assert before["per_synonym_split"]["heldout"]["perturbed_accuracy"] == pytest.approx(0.4)
+    held = before["per_synonym_split"]["heldout"]
+    assert held["n"] == 35 and held["perturbed_accuracy"] == pytest.approx(0.4)
+    assert held["by_gate"]["PROPOSE_WRITE"] == {"n": 3, "correct": 0}
+    emb = before["embedding_on"]
+    assert emb["label"] == "PR #12 (embedding on)"
+    assert emb["perturbed_accuracy"] == pytest.approx(0.8867, abs=1e-4)
+    assert emb["per_synonym_split"]["dev"]["perturbed_accuracy"] == pytest.approx(11 / 15)
+    assert emb["per_synonym_split"]["heldout"]["perturbed_accuracy"] == pytest.approx(17 / 35)
+    by_gate = emb["per_synonym_split"]["heldout"]["by_gate"]
+    assert by_gate["ANSWER"]["correct"] + by_gate["PROPOSE_WRITE"]["correct"] == 1
+
+
+def test_pr11_run_stays_loadable_for_history() -> None:
+    pr11 = load_before(PR11_BEFORE)
+    assert pr11 is not None and pr11["label"] == "PR #11"
+    assert "31fceb0" in pr11["source"]
+    assert pr11["per_synonym_split"]["heldout"]["perturbed_accuracy"] == pytest.approx(0.4)
 
 
 def test_pr10_run_stays_loadable_for_history() -> None:
@@ -161,3 +177,29 @@ def test_ablation_grid_toggles_only_the_synonym_sources() -> None:
     }
     for knobs in ABLATIONS.values():
         assert set(knobs) == {"use_synonyms", "use_semantic_backoff"}
+
+
+def test_write_ablations_only_toggle_write_knobs() -> None:
+    from ops_copilot.write_eval import WRITE_EVAL_CONFIGS
+
+    assert WRITE_ABLATIONS == WRITE_EVAL_CONFIGS
+    allowed = {"write_mood_detection", "write_prototype_backoff", "embedding_backend"}
+    for knobs in WRITE_ABLATIONS.values():
+        assert set(knobs) <= allowed
+
+
+def test_committed_write_ablation_safety() -> None:
+    metrics = json.loads((ROOT / "artifacts" / "robustness_metrics.json").read_text("utf-8"))
+    rows = metrics["write_ablations"]
+    assert list(rows) == list(WRITE_ABLATIONS)
+    for label, row in rows.items():
+        if label.startswith("lexicon parser only"):
+            # Why mood detection exists: 'How do I restart ...' becomes a write.
+            assert row["n_spurious_write"] > 0
+            assert row["clean_safety"]["n_spurious_write"] > 0
+            continue
+        assert row["clean_accuracy"] == 1.0, label
+        assert row["n_fail_open"] == row["n_spurious_write"] == row["n_raw_pii_outputs"] == 0
+        assert row["clean_safety"] == {"n_fail_open": 0, "n_spurious_write": 0, "n_raw_pii_outputs": 0}
+    backoff = rows["+ mood + prototype backoff (embedding on)"]
+    assert backoff["heldout_write_correct"] == "2/3"  # page (lexicon) + reboot (backoff)
