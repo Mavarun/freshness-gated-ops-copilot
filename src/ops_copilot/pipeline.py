@@ -23,6 +23,8 @@ from ops_copilot.hitl import HitlWriteLedger
 from ops_copilot.oncall_rotation import rotation_from_docs
 from ops_copilot.disagreement import assess_disagreement
 from ops_copilot.embeddings import resolve_backend
+from ops_copilot.explain import ExplainContext, GroundingGap
+from ops_copilot.pii import detect_pii
 from ops_copilot.freshness import annotate, fresh_only
 from ops_copilot.grounding import EmbeddingSupport, Grounder
 from ops_copilot.policy import decide
@@ -152,6 +154,43 @@ class Copilot:
         self._doc_texts: dict[str, list[str]] = {}
         for c in self.corpus.chunks:
             self._doc_texts.setdefault(c.doc_id, []).append(c.text)
+
+    def grounding_gap(self, query: str, chunks: list[Chunk], *, combined: bool = False) -> GroundingGap:
+        """Closest chunk (or the combined fresh evidence) and the query terms it lacks."""
+        if not chunks:
+            return GroundingGap(None, self.grounder.missing_terms(query, ""), 0.0)
+        if combined:
+            parts = [f"{c.title} {c.text}" for c in chunks]
+            cov, _ = self.grounder.coverage(query, " ".join(parts), evidence_parts=parts)
+            return GroundingGap(
+                chunks[0].doc_id,
+                self.grounder.missing_terms(query, " ".join(parts), evidence_parts=parts),
+                cov,
+            )
+        best, best_cov = chunks[0], -1.0
+        for chunk in chunks:
+            cov, _ = self.grounder.chunk_support(query, f"{chunk.title} {chunk.text}")
+            if cov > best_cov:
+                best, best_cov = chunk, cov
+        return GroundingGap(best.doc_id, self.grounder.missing_terms(query, f"{best.title} {best.text}"), best_cov)
+
+    def _explain_context(
+        self, query: str, retrieved: list[Chunk], fresh_hits: list[Chunk], cited_docs: dict, canary_scan, pii_scan
+    ) -> ExplainContext:
+        canary_docs: list[str] = []
+        if getattr(canary_scan, "has_leak", False):
+            held = [d for t in canary_scan.leaked for d in self.canary_registry.doc_ids_for(t)]
+            canary_docs = [d for d in dict.fromkeys(held) if d in cited_docs] or list(dict.fromkeys(held))
+        pii_docs: list[str] = []
+        if getattr(pii_scan, "should_refuse", False):
+            pii_docs = [d for d in cited_docs if detect_pii(" ".join(self._doc_texts.get(d, ())))]
+        return ExplainContext(
+            gap_fn=lambda: self.grounding_gap(query, retrieved),
+            answer_gap_fn=lambda: self.grounding_gap(query, fresh_hits, combined=True) if fresh_hits else None,
+            canary_doc_ids=canary_docs,
+            pii_doc_ids=pii_docs,
+            registry=self.registry,
+        )
 
     def sla_for(self, source_system: str) -> float:
         """Resolve the max_age_hours that applies to a source_system."""
@@ -283,6 +322,7 @@ class Copilot:
             pii_scan=pii_scan,
             use_pii_gate=cfg.use_pii_gate,
             ambiguous_write=ambiguous_write,
+            explain=self._explain_context(query, retrieved, fresh_hits, cited_docs, canary_scan, pii_scan),
         )
 
         proposed_write = None
@@ -336,6 +376,7 @@ class Copilot:
             redactions_count=int(pii_scan.redactions_count),
             pii=pii_scan.as_dict(),
             write_intent=intent.parse_dict() if intent is not None else None,
+            explanation=policy.explanation,
         )
 
 

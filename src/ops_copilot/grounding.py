@@ -290,6 +290,20 @@ class Grounder:
         sup = self.support(query, evidence)
         return [t.token for t in self._key_terms(sup.terms) if not sup.ok(t)]
 
+    def missing_terms(
+        self, query: str, evidence: str, *, evidence_parts: Sequence[str] | None = None, k: int = 6
+    ) -> list[str]:
+        """Salient query terms ``evidence`` does not support, for refusal explanations.
+
+        The high-IDF key terms come first (they are what the key-token gate
+        checks), then the rest, each group by weight; at most ``k``.
+        """
+        sup = self.support(query, evidence, evidence_parts=evidence_parts)
+        keys = self._key_terms(sup.terms)
+        key_ids = {t.token for t in keys}
+        rest = sorted((t for t in sup.terms if t.token not in key_ids), key=lambda t: t.weight, reverse=True)
+        return [t.token for t in [*keys, *rest] if not sup.ok(t)][:k]
+
     def coverage(
         self, query: str, evidence: str, *, evidence_parts: Sequence[str] | None = None
     ) -> tuple[float, list[str]]:

@@ -111,6 +111,9 @@ class GroundingResult:
 class PolicyDecision:
     decision: Decision
     reason: str
+    # Structured refusal explanation (explain.RefusalExplanation.as_dict());
+    # None for ANSWER and PROPOSE_WRITE.
+    explanation: dict | None = None
 
 
 @dataclass
@@ -138,6 +141,8 @@ class CopilotResult:
     pii: dict | None = None
     # Write-intent parse trace (status, mood, verb, target, confidence).
     write_intent: dict | None = None
+    # Structured refusal explanation (refusals only).
+    explanation: dict | None = None
 
     def as_dict(self) -> dict:
         return {
