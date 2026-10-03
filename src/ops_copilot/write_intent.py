@@ -60,12 +60,14 @@ from ops_copilot.write_ontology import (
 from ops_copilot.write_phrasal import match_frame, particle_meaning, separated_particle
 from ops_copilot.write_targets import (
     GENERIC_SERVICE_NOUNS,
+    REGISTERED_SOURCES,
     EntityRegistry,
     Target,
     default_registry,
     identifier_targets,
     page_target,
     phrase_target,
+    suggest_targets,
 )
 
 PROPOSE = "propose"
@@ -122,6 +124,8 @@ class WriteIntent:
     confidence: float = 0.0
     clause: str = ""
     prototype: dict | None = None
+    # Did-you-mean registry names for an unregistered target, best first.
+    suggestions: list[str] = field(default_factory=list)
 
     @property
     def is_write(self) -> bool:
@@ -139,6 +143,7 @@ class WriteIntent:
             "confidence": round(self.confidence, 3),
             "clause": self.clause,
             "prototype": self.prototype,
+            "suggestions": list(self.suggestions),
         }
 
 
@@ -367,8 +372,14 @@ def classify_write_intent(
     min_confidence: float = DEFAULT_MIN_CONFIDENCE,
     phrasal: bool = True,
     cli_verbs: bool = True,
+    require_registered: bool = True,
 ) -> WriteIntent:
-    """Classify ``query`` as a write proposal, an ambiguous write, or not a write."""
+    """Classify ``query`` as a write proposal, an ambiguous write, or not a write.
+
+    ``require_registered``: a target must be a corpus-registry entity; any
+    other target (an unseen identifier, a "the auth token" phrase) is
+    ambiguous, with did-you-mean suggestions from the registry.
+    """
     q = (query or "").strip()
     reg = registry if registry is not None else default_registry()
     write_verbs = _WRITE_VERBS | cli_words() if cli_verbs else _WRITE_VERBS
@@ -401,7 +412,9 @@ def classify_write_intent(
 
     actions = [(c, p) for c, p in parses if p.action is not None]
     if not actions:
-        return _no_lexicon_action(q, mood.mood, parses, prototypes, mood_detection, min_confidence, reg)
+        return _no_lexicon_action(
+            q, mood.mood, parses, prototypes, mood_detection, min_confidence, reg, require_registered
+        )
     distinct = {(p.action, p.target.name if p.target else None) for _, p in actions}
     if len(distinct) > 1:
         return WriteIntent(
@@ -415,7 +428,7 @@ def classify_write_intent(
             AMBIGUOUS, q, f"second write verb {second!r} in the same request; ask for one at a time",
             mood.mood.value, clause=" ".join(clause.tokens),
         )
-    return _finish(q, clause, parse, min_confidence)
+    return _finish(q, clause, parse, min_confidence, reg if require_registered else None)
 
 
 def _second_action_verb(clause: Clause, write_verbs: frozenset[str]) -> str | None:
@@ -429,7 +442,14 @@ def _second_action_verb(clause: Clause, write_verbs: frozenset[str]) -> str | No
     return None
 
 
-def _finish(q: str, clause: Clause, parse: ActionParse, min_confidence: float) -> WriteIntent:
+def _finish(
+    q: str,
+    clause: Clause,
+    parse: ActionParse,
+    min_confidence: float,
+    registry: EntityRegistry | None = None,
+) -> WriteIntent:
+    """Final verdict for one parsed action; ``registry`` set = targets must be registered."""
     base = dict(
         query=q,
         mood=clause.mood.value,
@@ -448,6 +468,12 @@ def _finish(q: str, clause: Clause, parse: ActionParse, min_confidence: float) -
     if parse.extra_targets:
         names = [parse.target.name] + [t.name for t in parse.extra_targets]
         return WriteIntent(AMBIGUOUS, reason=f"several targets {names}; one write per request", **base)
+    if (
+        registry is not None
+        and parse.action is not WriteActionType.PAGE_ONCALL
+        and parse.target.source not in REGISTERED_SOURCES
+    ):
+        return _unregistered(parse, registry, base)
     conf = (
         parse.verb_confidence
         * (clause.confidence or 1.0)
@@ -461,6 +487,17 @@ def _finish(q: str, clause: Clause, parse: ActionParse, min_confidence: float) -
     return WriteIntent(PROPOSE, reason=f"{parse.verb_source} verb {parse.verb!r} -> {parse.action.value}", **base)
 
 
+def _unregistered(parse: ActionParse, registry: EntityRegistry, base: dict) -> WriteIntent:
+    """Ambiguous: the target is not a registry entity; suggest the nearest ones."""
+    assert parse.target is not None and parse.action is not None
+    kinds = SPEC_BY_ACTION[parse.action].target_kinds
+    sugg = suggest_targets(parse.target.name, registry, kinds)
+    noun = kinds[0].replace("_", " ") if kinds else "target"
+    why = f"target {parse.target.name!r} is not a registered {noun}"
+    why += f"; did you mean {' or '.join(repr(s) for s in sugg)}?" if sugg else " (no close registry match)"
+    return WriteIntent(AMBIGUOUS, reason=why, suggestions=sugg, **base)
+
+
 def _no_lexicon_action(
     q: str,
     overall: Mood,
@@ -469,6 +506,7 @@ def _no_lexicon_action(
     mood_detection: bool,
     min_confidence: float,
     registry: EntityRegistry,
+    require_registered: bool = True,
 ) -> WriteIntent:
     if not mood_detection:
         return WriteIntent(NONE, q, "no ontology verb", overall.value)
@@ -491,11 +529,14 @@ def _no_lexicon_action(
         if match and match.get("accepted"):
             action = WriteActionType(match["action"])
             proto_parse = ActionParse(action, parse.verb, "prototype", float(match["confidence"]), parse.object_start)
-            _attach_target(proto_parse, clause.tokens, _with_target(registry, target))
+            # With registered targets required, an unseen identifier stays
+            # unregistered (and is refused with suggestions by _finish).
+            attach_reg = registry if require_registered else _with_target(registry, target)
+            _attach_target(proto_parse, clause.tokens, attach_reg)
             proto_parse.prototype = match
             if proto_parse.target is None:
                 proto_parse.target = target
-            return _finish(q, clause, proto_parse, min_confidence)
+            return _finish(q, clause, proto_parse, min_confidence, registry if require_registered else None)
         why = "unrecognised action verb {!r} aimed at {!r}".format(parse.verb, target.name)
         if match:
             why += f" (nearest prototype {match['action']} cos={match['cosine']:.2f} rejected: {match['why']})"

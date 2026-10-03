@@ -1546,9 +1546,9 @@
   "lexicon parser only (no mood)": {
     "by_category": {
       "adversarial": {
-        "asked": 0,
+        "asked": 1,
         "n": 9,
-        "proposed": 3
+        "proposed": 2
       },
       "ambiguous": {
         "asked": 5,
@@ -1579,14 +1579,14 @@
     "clarification_recall": 0.625,
     "exact_action_target": 18,
     "fn": 4,
-    "fp": 11,
+    "fp": 10,
     "n": 48,
     "n_ambiguous": 8,
-    "n_over_asking": 0,
+    "n_over_asking": 1,
     "n_read": 18,
-    "n_spurious_write": 11,
+    "n_spurious_write": 10,
     "n_write": 22,
-    "precision": 0.6206896551724138,
+    "precision": 0.6428571428571429,
     "recall": 0.8181818181818182,
     "rows": [
       {
@@ -1849,11 +1849,11 @@
         "target": null
       },
       {
-        "action": "restart_service",
-        "decision": "PROPOSE_WRITE",
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
         "id": "a07",
         "label": "read",
-        "target": "every"
+        "target": null
       },
       {
         "action": null,
@@ -1926,7 +1926,7 @@
         "target": null
       }
     ],
-    "spurious_write_rate": 0.4230769230769231,
+    "spurious_write_rate": 0.38461538461538464,
     "tp": 18
   }
 }

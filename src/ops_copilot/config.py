@@ -81,6 +81,10 @@ class CopilotConfig:
     # Cache-tool command verbs from their docs (ops_cli_verbs.py: flush,
     # purge, ban, invalidate -> clear_cache). Off = the leakage ablation.
     write_ops_cli_verbs: bool = True
+    # Targets must be corpus-registry entities (write_targets.EntityRegistry);
+    # an unseen identifier or a noun phrase is REFUSE_AMBIGUOUS_WRITE with
+    # did-you-mean suggestions. Off = PR #13 (unseen identifiers at 0.85).
+    write_require_registered_target: bool = True
     # Optional nearest-action-prototype backoff for "<unknown verb> <entity>"
     # instructions (write_prototypes.py). Needs an embedding backend; a no-op
     # when embedding_backend is "off". Threshold / margin from

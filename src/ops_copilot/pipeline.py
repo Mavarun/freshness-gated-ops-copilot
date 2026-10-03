@@ -245,6 +245,7 @@ class Copilot:
                 min_confidence=cfg.write_min_confidence,
                 phrasal=cfg.write_phrasal_parser,
                 cli_verbs=cfg.write_ops_cli_verbs,
+                require_registered=cfg.write_require_registered_target,
             )
             if cfg.use_hitl_write_gate
             else None

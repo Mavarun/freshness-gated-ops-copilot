@@ -79,7 +79,9 @@ def test_reject_never_executes() -> None:
 def test_execute_stub_blocked_while_pending() -> None:
     ledger = HitlWriteLedger()
     bot = Copilot(config=CopilotConfig(), hitl=ledger)
-    result = bot.ask("Please patch nginx.worker_connections config to 4096")
+    # A registered key: unseen identifiers (nginx.worker_connections) are now
+    # refused as unregistered targets instead of proposed.
+    result = bot.ask("Please patch the redis.maxmemory-policy config to noeviction")
     wid = result.proposed_write["write_id"]
     with pytest.raises(PermissionError, match="PENDING"):
         ledger.execute_stub(wid)

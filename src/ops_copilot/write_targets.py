@@ -286,3 +286,56 @@ def page_target(normalized: str, tokens: list[str], start: int, registry: Entity
 def normalized_tokens(text: str) -> list[str]:
     """Whitespace tokens of ``normalize_text`` (identifiers intact)."""
     return normalize_text(text).split()
+
+
+# --- "did you mean": nearest registry names for an unregistered target -------
+
+# Kind suffixes ("api", "worker", "cache" ...) say what a name is, not which
+# one, so they never count as a shared component ("billing-api" is not close
+# to "checkout-api" because both end in -api).
+_KIND_PARTS = frozenset(s.lstrip("-") for s, _ in _SUFFIX_KINDS) | frozenset(
+    {"on", "call", "svc", "flag", "config", "setting"}
+)
+REGISTERED_SOURCES = frozenset({"registry", "oncall_rotation"})
+
+
+def _parts(name: str) -> set[str]:
+    return {p for p in re.split(r"[-_.\s]+", name) if p and p not in _KIND_PARTS}
+
+
+def suggest_targets(
+    name: str,
+    registry: EntityRegistry,
+    kinds: Iterable[str] = (),
+    *,
+    k: int = 3,
+) -> list[str]:
+    """Up to ``k`` registry names close to ``name`` (did-you-mean), best first.
+
+    A registry name qualifies when its optimal-string-alignment distance to
+    ``name`` is at most a quarter of the longer string (``chekout-api`` ->
+    ``checkout-api``, ``payment-worker`` -> ``payments-worker``) or when it
+    shares a non-kind component ("the payments service" -> ``payments-api``,
+    ``payments-worker``). Only names of the wanted ``kinds`` (the kinds the
+    action takes) are considered when kinds are given: a cache clear is never
+    pointed at a pager. Ranking is by distance, then name. No candidate means
+    no suggestion, never a guess.
+    """
+    from ops_copilot.lexicon import damerau_levenshtein
+
+    want = tuple(kinds)
+    query = name.strip().lower()
+    if not query:
+        return []
+    q_parts = _parts(query)
+    scored: list[tuple[int, str]] = []
+    for cand, kind in registry.kinds.items():
+        if cand == query or (want and kind not in want):
+            continue
+        dist = damerau_levenshtein(query, cand)
+        close = dist <= max(1, max(len(query), len(cand)) // 4)
+        shared = bool(q_parts & _parts(cand))
+        if close or shared:
+            scored.append((dist, cand))
+    scored.sort()
+    return [c for _, c in scored[:k]]
