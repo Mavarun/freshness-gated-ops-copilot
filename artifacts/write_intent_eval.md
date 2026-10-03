@@ -6,9 +6,9 @@
 |---|---|---|---|---|---|---|
 | keyword regex (PR #12) | 0.300 | 0.136 (3/22) | 3/22 | 7 (0.269) | 0.000 | 0 |
 | lexicon parser only (no mood) | 0.621 | 0.818 (18/22) | 18/22 | 11 (0.423) | 0.625 | 0 |
-| + mood detection (default) | 1.000 | 0.818 (18/22) | 18/22 | 0 (0.000) | 1.000 | 0 |
-| + mood, embedding on | 1.000 | 0.818 (18/22) | 18/22 | 0 (0.000) | 1.000 | 0 |
-| + mood + prototype backoff (embedding on) | 1.000 | 0.864 (19/22) | 19/22 | 0 (0.000) | 1.000 | 0 |
+| + mood detection (default) | 1.000 | 0.864 (19/22) | 19/22 | 0 (0.000) | 1.000 | 0 |
+| + mood, embedding on | 1.000 | 0.864 (19/22) | 19/22 | 0 (0.000) | 1.000 | 0 |
+| + mood + prototype backoff (embedding on) | 1.000 | 0.909 (20/22) | 20/22 | 0 (0.000) | 1.000 | 0 |
 
 ## Per row (decision per config)
 
@@ -33,7 +33,7 @@
 | w17 | write | Restrat checkout-api please | WRITE restart_service:checkout-api | WRITE restart_service:checkout-api | WRITE restart_service:checkout-api | WRITE restart_service:checkout-api | WRITE restart_service:checkout-api |
 | w18 | write | Increase payments-api replicas to 16 | NOT_WRITE | WRITE scale_service:payments-api | WRITE scale_service:payments-api | WRITE scale_service:payments-api | WRITE scale_service:payments-api |
 | b01 | write | Please upsize checkout-api | NOT_WRITE | R_UNGROUNDED | ASK | ASK | WRITE scale_service:checkout-api |
-| b02 | write | Retune maxmemory-policy to allkeys-lru | NOT_WRITE | R_UNGROUNDED | R_UNGROUNDED | R_UNGROUNDED | R_UNGROUNDED |
+| b02 | write | Retune maxmemory-policy to allkeys-lru | NOT_WRITE | R_UNGROUNDED | WRITE patch_config:maxmemory-policy | WRITE patch_config:maxmemory-policy | WRITE patch_config:maxmemory-policy |
 | b03 | write | Please reactivate the checkout_retry flag | NOT_WRITE | R_UNGROUNDED | R_UNGROUNDED | R_UNGROUNDED | R_UNGROUNDED |
 | b04 | write | Please buzz checkout-primary | NOT_WRITE | R_UNGROUNDED | ASK | ASK | ASK |
 | r01 | read | How do I scale checkout-api? | NOT_WRITE | WRITE scale_service:checkout-api | ANSWER | ANSWER | ANSWER |

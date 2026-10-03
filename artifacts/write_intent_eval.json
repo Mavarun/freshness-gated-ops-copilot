@@ -14,6 +14,392 @@
       "backoff": {
         "asked": 1,
         "n": 4,
+        "proposed": 2
+      },
+      "imperative": {
+        "asked": 0,
+        "n": 11,
+        "proposed": 11
+      },
+      "informational": {
+        "asked": 0,
+        "n": 9,
+        "proposed": 0
+      },
+      "request": {
+        "asked": 0,
+        "n": 7,
+        "proposed": 7
+      }
+    },
+    "clarification_recall": 1.0,
+    "exact_action_target": 20,
+    "fn": 2,
+    "fp": 0,
+    "n": 48,
+    "n_ambiguous": 8,
+    "n_over_asking": 0,
+    "n_read": 18,
+    "n_spurious_write": 0,
+    "n_write": 22,
+    "precision": 1.0,
+    "recall": 0.9090909090909091,
+    "rows": [
+      {
+        "action": "restart_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "w01",
+        "label": "write",
+        "target": "payments-api"
+      },
+      {
+        "action": "restart_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "w02",
+        "label": "write",
+        "target": "promo-service"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "w03",
+        "label": "write",
+        "target": "checkout-api"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "w04",
+        "label": "write",
+        "target": "payments-worker"
+      },
+      {
+        "action": "rollback_deploy",
+        "decision": "PROPOSE_WRITE",
+        "id": "w05",
+        "label": "write",
+        "target": "checkout-api"
+      },
+      {
+        "action": "rollback_deploy",
+        "decision": "PROPOSE_WRITE",
+        "id": "w06",
+        "label": "write",
+        "target": "payments-api"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "w07",
+        "label": "write",
+        "target": "inc-4821 latency spike"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "w08",
+        "label": "write",
+        "target": "cache-oncall"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "w09",
+        "label": "write",
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "w10",
+        "label": "write",
+        "target": "checkout_retry"
+      },
+      {
+        "action": "rotate_secret",
+        "decision": "PROPOSE_WRITE",
+        "id": "w11",
+        "label": "write",
+        "target": "vault-transit"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "w12",
+        "label": "write",
+        "target": "maxmemory-policy"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "w13",
+        "label": "write",
+        "target": "checkout-cache"
+      },
+      {
+        "action": "deploy_release",
+        "decision": "PROPOSE_WRITE",
+        "id": "w14",
+        "label": "write",
+        "target": "payments-worker"
+      },
+      {
+        "action": "restart_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "w15",
+        "label": "write",
+        "target": "redis"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "w16",
+        "label": "write",
+        "target": "promo-service"
+      },
+      {
+        "action": "restart_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "w17",
+        "label": "write",
+        "target": "checkout-api"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "w18",
+        "label": "write",
+        "target": "payments-api"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "b01",
+        "label": "write",
+        "target": "checkout-api"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "b02",
+        "label": "write",
+        "target": "maxmemory-policy"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "b03",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "b04",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "ANSWER",
+        "id": "r01",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r02",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r03",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "ANSWER",
+        "id": "r04",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_DISAGREE",
+        "id": "r05",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r06",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r07",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r08",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r09",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a01",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a02",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a03",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a04",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a05",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_DISAGREE",
+        "id": "a06",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_NO_EVIDENCE",
+        "id": "a07",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a08",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a09",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m01",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m02",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m03",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m04",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m05",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m06",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m07",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m08",
+        "label": "ambiguous",
+        "target": null
+      }
+    ],
+    "spurious_write_rate": 0.0,
+    "tp": 20
+  },
+  "+ mood detection (default)": {
+    "by_category": {
+      "adversarial": {
+        "asked": 0,
+        "n": 9,
+        "proposed": 0
+      },
+      "ambiguous": {
+        "asked": 8,
+        "n": 8,
+        "proposed": 0
+      },
+      "backoff": {
+        "asked": 2,
+        "n": 4,
         "proposed": 1
       },
       "imperative": {
@@ -172,18 +558,18 @@
         "target": "payments-api"
       },
       {
-        "action": "scale_service",
-        "decision": "PROPOSE_WRITE",
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
         "id": "b01",
         "label": "write",
-        "target": "checkout-api"
+        "target": null
       },
       {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
         "id": "b02",
         "label": "write",
-        "target": null
+        "target": "maxmemory-policy"
       },
       {
         "action": null,
@@ -385,392 +771,6 @@
     "spurious_write_rate": 0.0,
     "tp": 19
   },
-  "+ mood detection (default)": {
-    "by_category": {
-      "adversarial": {
-        "asked": 0,
-        "n": 9,
-        "proposed": 0
-      },
-      "ambiguous": {
-        "asked": 8,
-        "n": 8,
-        "proposed": 0
-      },
-      "backoff": {
-        "asked": 2,
-        "n": 4,
-        "proposed": 0
-      },
-      "imperative": {
-        "asked": 0,
-        "n": 11,
-        "proposed": 11
-      },
-      "informational": {
-        "asked": 0,
-        "n": 9,
-        "proposed": 0
-      },
-      "request": {
-        "asked": 0,
-        "n": 7,
-        "proposed": 7
-      }
-    },
-    "clarification_recall": 1.0,
-    "exact_action_target": 18,
-    "fn": 4,
-    "fp": 0,
-    "n": 48,
-    "n_ambiguous": 8,
-    "n_over_asking": 0,
-    "n_read": 18,
-    "n_spurious_write": 0,
-    "n_write": 22,
-    "precision": 1.0,
-    "recall": 0.8181818181818182,
-    "rows": [
-      {
-        "action": "restart_service",
-        "decision": "PROPOSE_WRITE",
-        "id": "w01",
-        "label": "write",
-        "target": "payments-api"
-      },
-      {
-        "action": "restart_service",
-        "decision": "PROPOSE_WRITE",
-        "id": "w02",
-        "label": "write",
-        "target": "promo-service"
-      },
-      {
-        "action": "scale_service",
-        "decision": "PROPOSE_WRITE",
-        "id": "w03",
-        "label": "write",
-        "target": "checkout-api"
-      },
-      {
-        "action": "scale_service",
-        "decision": "PROPOSE_WRITE",
-        "id": "w04",
-        "label": "write",
-        "target": "payments-worker"
-      },
-      {
-        "action": "rollback_deploy",
-        "decision": "PROPOSE_WRITE",
-        "id": "w05",
-        "label": "write",
-        "target": "checkout-api"
-      },
-      {
-        "action": "rollback_deploy",
-        "decision": "PROPOSE_WRITE",
-        "id": "w06",
-        "label": "write",
-        "target": "payments-api"
-      },
-      {
-        "action": "page_oncall",
-        "decision": "PROPOSE_WRITE",
-        "id": "w07",
-        "label": "write",
-        "target": "inc-4821 latency spike"
-      },
-      {
-        "action": "page_oncall",
-        "decision": "PROPOSE_WRITE",
-        "id": "w08",
-        "label": "write",
-        "target": "cache-oncall"
-      },
-      {
-        "action": "toggle_flag",
-        "decision": "PROPOSE_WRITE",
-        "id": "w09",
-        "label": "write",
-        "target": "promo_attach"
-      },
-      {
-        "action": "toggle_flag",
-        "decision": "PROPOSE_WRITE",
-        "id": "w10",
-        "label": "write",
-        "target": "checkout_retry"
-      },
-      {
-        "action": "rotate_secret",
-        "decision": "PROPOSE_WRITE",
-        "id": "w11",
-        "label": "write",
-        "target": "vault-transit"
-      },
-      {
-        "action": "patch_config",
-        "decision": "PROPOSE_WRITE",
-        "id": "w12",
-        "label": "write",
-        "target": "maxmemory-policy"
-      },
-      {
-        "action": "clear_cache",
-        "decision": "PROPOSE_WRITE",
-        "id": "w13",
-        "label": "write",
-        "target": "checkout-cache"
-      },
-      {
-        "action": "deploy_release",
-        "decision": "PROPOSE_WRITE",
-        "id": "w14",
-        "label": "write",
-        "target": "payments-worker"
-      },
-      {
-        "action": "restart_service",
-        "decision": "PROPOSE_WRITE",
-        "id": "w15",
-        "label": "write",
-        "target": "redis"
-      },
-      {
-        "action": "scale_service",
-        "decision": "PROPOSE_WRITE",
-        "id": "w16",
-        "label": "write",
-        "target": "promo-service"
-      },
-      {
-        "action": "restart_service",
-        "decision": "PROPOSE_WRITE",
-        "id": "w17",
-        "label": "write",
-        "target": "checkout-api"
-      },
-      {
-        "action": "scale_service",
-        "decision": "PROPOSE_WRITE",
-        "id": "w18",
-        "label": "write",
-        "target": "payments-api"
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_AMBIGUOUS_WRITE",
-        "id": "b01",
-        "label": "write",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "b02",
-        "label": "write",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "b03",
-        "label": "write",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_AMBIGUOUS_WRITE",
-        "id": "b04",
-        "label": "write",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "ANSWER",
-        "id": "r01",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "r02",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "r03",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "ANSWER",
-        "id": "r04",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_DISAGREE",
-        "id": "r05",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "r06",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "r07",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "r08",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "r09",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "a01",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "a02",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "a03",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "a04",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "a05",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_DISAGREE",
-        "id": "a06",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_NO_EVIDENCE",
-        "id": "a07",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "a08",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
-        "id": "a09",
-        "label": "read",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_AMBIGUOUS_WRITE",
-        "id": "m01",
-        "label": "ambiguous",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_AMBIGUOUS_WRITE",
-        "id": "m02",
-        "label": "ambiguous",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_AMBIGUOUS_WRITE",
-        "id": "m03",
-        "label": "ambiguous",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_AMBIGUOUS_WRITE",
-        "id": "m04",
-        "label": "ambiguous",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_AMBIGUOUS_WRITE",
-        "id": "m05",
-        "label": "ambiguous",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_AMBIGUOUS_WRITE",
-        "id": "m06",
-        "label": "ambiguous",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_AMBIGUOUS_WRITE",
-        "id": "m07",
-        "label": "ambiguous",
-        "target": null
-      },
-      {
-        "action": null,
-        "decision": "REFUSE_AMBIGUOUS_WRITE",
-        "id": "m08",
-        "label": "ambiguous",
-        "target": null
-      }
-    ],
-    "spurious_write_rate": 0.0,
-    "tp": 18
-  },
   "+ mood, embedding on": {
     "by_category": {
       "adversarial": {
@@ -786,7 +786,7 @@
       "backoff": {
         "asked": 2,
         "n": 4,
-        "proposed": 0
+        "proposed": 1
       },
       "imperative": {
         "asked": 0,
@@ -805,8 +805,8 @@
       }
     },
     "clarification_recall": 1.0,
-    "exact_action_target": 18,
-    "fn": 4,
+    "exact_action_target": 19,
+    "fn": 3,
     "fp": 0,
     "n": 48,
     "n_ambiguous": 8,
@@ -815,7 +815,7 @@
     "n_spurious_write": 0,
     "n_write": 22,
     "precision": 1.0,
-    "recall": 0.8181818181818182,
+    "recall": 0.8636363636363636,
     "rows": [
       {
         "action": "restart_service",
@@ -951,11 +951,11 @@
         "target": null
       },
       {
-        "action": null,
-        "decision": "REFUSE_UNGROUNDED",
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
         "id": "b02",
         "label": "write",
-        "target": null
+        "target": "maxmemory-policy"
       },
       {
         "action": null,
@@ -1155,7 +1155,7 @@
       }
     ],
     "spurious_write_rate": 0.0,
-    "tp": 18
+    "tp": 19
   },
   "keyword regex (PR #12)": {
     "by_category": {

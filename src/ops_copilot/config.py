@@ -74,6 +74,13 @@ class CopilotConfig:
     # write-shaped below it, or without a target, is REFUSE_AMBIGUOUS_WRITE.
     write_mood_detection: bool = True
     write_min_confidence: float = 0.65
+    # Phrasal verbs and verb-independent frames (write_phrasal.py): particle
+    # direction / state ("scale down", "turn off <flag>") and "<V> <key> to
+    # <value>" ("set maxmemory-policy to allkeys-lru"). Off = PR #13 parser.
+    write_phrasal_parser: bool = True
+    # Cache-tool command verbs from their docs (ops_cli_verbs.py: flush,
+    # purge, ban, invalidate -> clear_cache). Off = the leakage ablation.
+    write_ops_cli_verbs: bool = True
     # Optional nearest-action-prototype backoff for "<unknown verb> <entity>"
     # instructions (write_prototypes.py). Needs an embedding backend; a no-op
     # when embedding_backend is "off". Threshold / margin from

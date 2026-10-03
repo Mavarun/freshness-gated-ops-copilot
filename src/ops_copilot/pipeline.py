@@ -243,6 +243,8 @@ class Copilot:
                 mood_detection=cfg.write_mood_detection,
                 prototypes=self.write_prototypes,
                 min_confidence=cfg.write_min_confidence,
+                phrasal=cfg.write_phrasal_parser,
+                cli_verbs=cfg.write_ops_cli_verbs,
             )
             if cfg.use_hitl_write_gate
             else None

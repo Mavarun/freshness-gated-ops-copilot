@@ -27,6 +27,14 @@ words left out on purpose, with the action they would have served:
 - clear cache: ``flush``, ``purge``;
 - generic: ``create``, ``list`` (also kept out of the read-verb list).
 
+Since the phrasal slice, two of those gaps are closed *without* touching
+these lexicons: ``write_phrasal`` reads particles and verb-independent
+frames ("scale down X", "turn off <flag>", "set <key> to <value>"), and
+``ops_cli_verbs`` holds the documented cache-tool command verbs ("flush",
+"purge"). Neither feeds ``lexicon_words()``; their held-out overlap is
+pinned separately by the tests. ``bounce``, ``reboot``, ``recycle`` and
+``kick`` have no such resource and stay unrecognised.
+
 Dev words of the split (``update``, ``revert``, ``undo``, ``toggle``,
 ``switch``, ``alert``, ``on-duty``, ``pager``, ``lead``, ``clear``,
 ``release``, ``secret``, ``parameter``, ``value``) may stay: dev rows are
