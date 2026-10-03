@@ -337,6 +337,7 @@ def page_target(
                 f"{word!r} needs the current on-call rotation, but {rotation.doc_id} is stale "
                 f"({rotation.age_hours:.1f}h > {rotation.sla_hours:g}h SLA)"
             )
+            res.rotation_doc = rotation.doc_id
     elif word is not None:
         res.problem = f"{word!r} is not a pager this corpus names"
         res.suggestions = registry.names(RECIPIENT)[:3]

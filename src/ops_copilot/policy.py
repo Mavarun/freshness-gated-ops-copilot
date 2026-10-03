@@ -27,6 +27,13 @@ A fresh-but-tangential Redis pool chart cannot launder a stale maxmemory-policy
 runbook into an answer. When per-source SLAs are enabled, each supporting chunk
 is judged against its own source_system max_age_hours.
 
+Every refusal carries a structured ``explanation`` built by the branch that
+refused (``explain.py``): the gate, the evidence doc ids, stale ages vs SLAs,
+missing salient terms, the two disagreeing top docs, the write parse, and a
+suggested remediation. ``explain`` (an ``ExplainContext``) adds what only the
+pipeline knows: the closest doc and missing terms, and the docs holding a
+leaked canary or secret.
+
 Disagreement is checked *after* freshness and *before* grounding so a fluent
 extractive draft cannot paper over ranker conflict.
 
@@ -39,6 +46,18 @@ auto-executing; rejected writes never reach the execute stub.
 from __future__ import annotations
 
 from ops_copilot.disagreement import DisagreementResult
+from ops_copilot.explain import (
+    ExplainContext,
+    explain_ambiguous_write,
+    explain_budget,
+    explain_canary,
+    explain_disagree,
+    explain_no_evidence,
+    explain_pii,
+    explain_stale,
+    explain_ungrounded,
+    finalize,
+)
 from ops_copilot.types import (
     Chunk,
     Decision,
@@ -73,7 +92,9 @@ def decide(
     pii_scan: object | None = None,
     use_pii_gate: bool = True,
     ambiguous_write: object | None = None,
+    explain: ExplainContext | None = None,
 ) -> PolicyDecision:
+    ctx = explain or ExplainContext()
     if (
         use_budget_gate
         and session_id
@@ -88,6 +109,7 @@ def decide(
                 f"budget={session_budget:g}; "
                 f"projected={session_spent + request_cost:.4f})"
             ),
+            explanation=finalize(explain_budget(session_id, session_spent, request_cost, session_budget)),
         )
 
     if use_hitl_write_gate and write_intent is not None:
@@ -109,12 +131,16 @@ def decide(
         return PolicyDecision(
             decision=Decision.REFUSE_AMBIGUOUS_WRITE,
             reason=f"write-like instruction not proposed: {why}",
+            explanation=finalize(explain_ambiguous_write(ambiguous_write, ctx.registry)),
         )
 
     if not retrieved:
         return PolicyDecision(
             decision=Decision.REFUSE_NO_EVIDENCE,
             reason="no retrieved chunk cleared the minimum score",
+            explanation=finalize(
+                explain_no_evidence(retrieved, ctx.gap, best_support=best_support, floor=support_floor)
+            ),
         )
 
     if not supporting and best_support < support_floor:
@@ -123,6 +149,9 @@ def decide(
             reason=(
                 f"retrieved {len(retrieved)} chunks but none share enough "
                 f"query support (best_support={best_support:.2f} < floor={support_floor:.2f})"
+            ),
+            explanation=finalize(
+                explain_no_evidence(retrieved, ctx.gap, best_support=best_support, floor=support_floor)
             ),
         )
 
@@ -141,6 +170,9 @@ def decide(
         return PolicyDecision(
             decision=Decision.REFUSE_UNGROUNDED,
             reason=detail,
+            explanation=finalize(
+                explain_ungrounded(ctx.gap, coverage=best_support, threshold=thresh, stage="support")
+            ),
         )
 
     if not fresh_supporting:
@@ -167,6 +199,7 @@ def decide(
                 f"oldest_supporting_age_hours={oldest:.1f}; "
                 f"supporting={len(supporting)}; retrieved={len(retrieved)})"
             ),
+            explanation=finalize(explain_stale(supporting, freshness)),
         )
 
     if (
@@ -184,6 +217,7 @@ def decide(
                 f"bm25={list(disagreement.bm25_ids)}; "
                 f"dense={list(disagreement.dense_ids)})"
             ),
+            explanation=finalize(explain_disagree(disagreement)),
         )
 
     if grounding is None or not grounding.passed:
@@ -194,6 +228,9 @@ def decide(
             reason=(
                 f"fresh supporting evidence failed lexical grounding "
                 f"(query_coverage={cov:.2f} < threshold={thresh:.2f})"
+            ),
+            explanation=finalize(
+                explain_ungrounded(ctx.answer_gap or ctx.gap, coverage=cov, threshold=thresh, stage="answer")
             ),
         )
 
@@ -210,6 +247,7 @@ def decide(
                 f"extractive draft echoed {n_leaked} unjustified canary token(s) "
                 f"(registry_size={reg_size}); token values withheld from refusal text"
             ),
+            explanation=finalize(explain_canary(canary_scan, ctx.canary_doc_ids)),
         )
 
     if (
@@ -229,6 +267,7 @@ def decide(
                     f"(kinds={quarantined}) that the draft omitted; refusing "
                     f"instead of answering around them; raw values withheld"
                 ),
+                explanation=finalize(explain_pii(pii_scan, ctx.pii_doc_ids)),
             )
         return PolicyDecision(
             decision=Decision.REFUSE_PII,
@@ -236,6 +275,7 @@ def decide(
                 f"extractive draft contained unauthorized PII/secrets "
                 f"(n={n_matches}; kinds={kind_names}); raw values withheld"
             ),
+            explanation=finalize(explain_pii(pii_scan, ctx.pii_doc_ids)),
         )
 
     cited = ", ".join(dict.fromkeys(c.doc_id for c in fresh_supporting[:3]))

@@ -133,6 +133,8 @@ class WriteIntent:
     prototype: dict | None = None
     # Did-you-mean registry names for an unregistered target, best first.
     suggestions: list[str] = field(default_factory=list)
+    # Machine-readable why for an ambiguous verdict (explain.WRITE_REASON_CODES).
+    reason_code: str = ""
 
     @property
     def is_write(self) -> bool:
@@ -151,6 +153,7 @@ class WriteIntent:
             "clause": self.clause,
             "prototype": self.prototype,
             "suggestions": list(self.suggestions),
+            "reason_code": self.reason_code,
         }
 
 
@@ -294,7 +297,7 @@ def _attach_target(
         }
         if res.role:
             parse.payload["role"] = res.role
-        if res.rotation_doc and res.target is not None:
+        if res.rotation_doc:
             parse.payload["rotation_doc"] = res.rotation_doc
         if res.context:
             parse.payload["context"] = res.context
@@ -448,14 +451,14 @@ def classify_write_intent(
     if len(distinct) > 1:
         return WriteIntent(
             AMBIGUOUS, q, "several write actions in one request; ask for one at a time",
-            mood.mood.value, clause=" | ".join(" ".join(c.tokens) for c, _ in actions),
+            mood.mood.value, reason_code="several_actions", clause=" | ".join(" ".join(c.tokens) for c, _ in actions),
         )
     clause, parse = actions[0]
     second = _second_action_verb(clause, write_verbs)
     if second is not None:
         return WriteIntent(
             AMBIGUOUS, q, f"second write verb {second!r} in the same request; ask for one at a time",
-            mood.mood.value, clause=" ".join(clause.tokens),
+            mood.mood.value, reason_code="several_actions", clause=" ".join(clause.tokens),
         )
     return _finish(q, clause, parse, min_confidence, reg if require_registered else None)
 
@@ -491,17 +494,24 @@ def _finish(
         prototype=parse.prototype,
     )
     if clause.mood is Mood.CONDITIONAL:
-        return WriteIntent(AMBIGUOUS, reason="conditional instruction; restate it once the condition holds", **base)
+        return WriteIntent(
+            AMBIGUOUS, reason="conditional instruction; restate it once the condition holds",
+            reason_code="conditional", **base,
+        )
     if parse.target is None:
         if parse.problem:
             why = f"{parse.problem}; name who to page"
             if parse.suggestions:
                 why += f" (did you mean {' or '.join(repr(x) for x in parse.suggestions)}?)"
-            return WriteIntent(AMBIGUOUS, reason=why, suggestions=list(parse.suggestions), **base)
-        return WriteIntent(AMBIGUOUS, reason="write verb without a specific target", **base)
+            return WriteIntent(
+                AMBIGUOUS, reason=why, reason_code="no_recipient", suggestions=list(parse.suggestions), **base
+            )
+        return WriteIntent(AMBIGUOUS, reason="write verb without a specific target", reason_code="no_target", **base)
     if parse.extra_targets:
         names = [parse.target.name] + [t.name for t in parse.extra_targets]
-        return WriteIntent(AMBIGUOUS, reason=f"several targets {names}; one write per request", **base)
+        return WriteIntent(
+            AMBIGUOUS, reason=f"several targets {names}; one write per request", reason_code="several_targets", **base
+        )
     if registry is not None and parse.target.source not in REGISTERED_SOURCES:
         return _unregistered(parse, registry, base)
     conf = (
@@ -513,7 +523,8 @@ def _finish(
     base["confidence"] = conf
     if conf < min_confidence:
         why = "target kind does not fit the action" if not parse.compatible else "low confidence"
-        return WriteIntent(AMBIGUOUS, reason=f"{why} ({conf:.2f} < {min_confidence:.2f})", **base)
+        code = "kind_mismatch" if not parse.compatible else "low_confidence"
+        return WriteIntent(AMBIGUOUS, reason=f"{why} ({conf:.2f} < {min_confidence:.2f})", reason_code=code, **base)
     return WriteIntent(PROPOSE, reason=f"{parse.verb_source} verb {parse.verb!r} -> {parse.action.value}", **base)
 
 
@@ -525,7 +536,7 @@ def _unregistered(parse: ActionParse, registry: EntityRegistry, base: dict) -> W
     noun = kinds[0].replace("_", " ") if kinds else "target"
     why = f"target {parse.target.name!r} is not a registered {noun}"
     why += f"; did you mean {' or '.join(repr(s) for s in sugg)}?" if sugg else " (no close registry match)"
-    return WriteIntent(AMBIGUOUS, reason=why, suggestions=sugg, **base)
+    return WriteIntent(AMBIGUOUS, reason=why, reason_code="unregistered_target", suggestions=sugg, **base)
 
 
 def _no_lexicon_action(
@@ -545,7 +556,7 @@ def _no_lexicon_action(
         if parse.verb_source == "unsupported" and parse.target is not None:
             return WriteIntent(
                 AMBIGUOUS, q, f"unsupported mutation {parse.verb!r}; no action exists for it",
-                clause.mood.value, verb=parse.verb, verb_source="unsupported", target=parse.target,
+                clause.mood.value, reason_code="unsupported_verb", verb=parse.verb, verb_source="unsupported", target=parse.target,
                 clause=" ".join(clause.tokens),
             )
         if parse.verb_source != "unknown" or not _unknown_verb_shape(clause.tokens, clause.head, parse.target):
@@ -571,7 +582,7 @@ def _no_lexicon_action(
         why = "unrecognised action verb {!r} aimed at {!r}".format(parse.verb, target.name)
         if match:
             why += f" (nearest prototype {match['action']} cos={match['cosine']:.2f} rejected: {match['why']})"
-        return WriteIntent(AMBIGUOUS, reason=why, verb_source="unknown", **common)
+        return WriteIntent(AMBIGUOUS, reason=why, verb_source="unknown", reason_code="unknown_verb", **common)
     return WriteIntent(NONE, q, "no instruction with a write verb", overall.value)
 
 
