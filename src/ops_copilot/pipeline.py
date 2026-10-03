@@ -20,6 +20,7 @@ from ops_copilot.config import CopilotConfig, parse_clock
 from ops_copilot.corpus import Corpus
 from ops_copilot.cost_budget import SessionCostLedger
 from ops_copilot.hitl import HitlWriteLedger
+from ops_copilot.oncall_rotation import rotation_from_docs
 from ops_copilot.disagreement import assess_disagreement
 from ops_copilot.embeddings import resolve_backend
 from ops_copilot.freshness import annotate, fresh_only
@@ -143,6 +144,11 @@ class Copilot:
             if self.config.write_prototype_backoff and self.embeddings is not None
             else None
         )
+        # Default recipient of a generic page ("page the oncall"): the newest
+        # on-call rotation page of this corpus, used only while it is fresh.
+        self.oncall_rotation = rotation_from_docs(
+            self.corpus.docs, now=self.corpus.now, sla_for=self.sla_for
+        )
         self._doc_texts: dict[str, list[str]] = {}
         for c in self.corpus.chunks:
             self._doc_texts.setdefault(c.doc_id, []).append(c.text)
@@ -246,6 +252,7 @@ class Copilot:
                 phrasal=cfg.write_phrasal_parser,
                 cli_verbs=cfg.write_ops_cli_verbs,
                 require_registered=cfg.write_require_registered_target,
+                oncall=self.oncall_rotation,
             )
             if cfg.use_hitl_write_gate
             else None

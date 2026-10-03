@@ -33,7 +33,7 @@
       }
     },
     "clarification_recall": 1.0,
-    "exact_action_target": 20,
+    "exact_action_target": 19,
     "fn": 2,
     "fp": 0,
     "n": 48,
@@ -92,7 +92,7 @@
         "decision": "PROPOSE_WRITE",
         "id": "w07",
         "label": "write",
-        "target": "inc-4821 latency spike"
+        "target": "checkout-primary"
       },
       {
         "action": "page_oncall",
@@ -419,7 +419,7 @@
       }
     },
     "clarification_recall": 1.0,
-    "exact_action_target": 19,
+    "exact_action_target": 18,
     "fn": 3,
     "fp": 0,
     "n": 48,
@@ -478,7 +478,7 @@
         "decision": "PROPOSE_WRITE",
         "id": "w07",
         "label": "write",
-        "target": "inc-4821 latency spike"
+        "target": "checkout-primary"
       },
       {
         "action": "page_oncall",
@@ -805,7 +805,7 @@
       }
     },
     "clarification_recall": 1.0,
-    "exact_action_target": 19,
+    "exact_action_target": 18,
     "fn": 3,
     "fp": 0,
     "n": 48,
@@ -864,7 +864,7 @@
         "decision": "PROPOSE_WRITE",
         "id": "w07",
         "label": "write",
-        "target": "inc-4821 latency spike"
+        "target": "checkout-primary"
       },
       {
         "action": "page_oncall",
@@ -1577,7 +1577,7 @@
       }
     },
     "clarification_recall": 0.625,
-    "exact_action_target": 18,
+    "exact_action_target": 17,
     "fn": 4,
     "fp": 10,
     "n": 48,
@@ -1636,7 +1636,7 @@
         "decision": "PROPOSE_WRITE",
         "id": "w07",
         "label": "write",
-        "target": "inc-4821 latency spike"
+        "target": "checkout-primary"
       },
       {
         "action": "page_oncall",

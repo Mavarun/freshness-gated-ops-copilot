@@ -53,7 +53,9 @@ def test_mood(query: str, mood: Mood) -> None:
         ("Deploy payments-worker to the canary", A.DEPLOY_RELEASE, "payments-worker"),
         ("Increase payments-api replicas to 16", A.SCALE_SERVICE, "payments-api"),
         ("Can you enable checkout_retry for us-east-1?", A.TOGGLE_FLAG, "checkout_retry"),
-        ("Page the on-duty engineer for the payments downtime", A.PAGE_ONCALL, "payments downtime"),
+        # A generic page goes to the current rotation's primary pager; the
+        # "for ..." phrase is the page's context, not its target.
+        ("Page the on-duty engineer for the payments downtime", A.PAGE_ONCALL, "checkout-primary"),
     ],
 )
 def test_ontology_actions_and_targets(query: str, action: A, target: str) -> None:

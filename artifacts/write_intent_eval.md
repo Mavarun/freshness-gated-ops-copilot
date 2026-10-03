@@ -5,10 +5,10 @@
 | config | precision | recall | exact action+target | spurious writes (rate) | clarification recall | over-asking |
 |---|---|---|---|---|---|---|
 | keyword regex (PR #12) | 0.300 | 0.136 (3/22) | 3/22 | 7 (0.269) | 0.000 | 0 |
-| lexicon parser only (no mood) | 0.643 | 0.818 (18/22) | 18/22 | 10 (0.385) | 0.625 | 1 |
-| + mood detection (default) | 1.000 | 0.864 (19/22) | 19/22 | 0 (0.000) | 1.000 | 0 |
-| + mood, embedding on | 1.000 | 0.864 (19/22) | 19/22 | 0 (0.000) | 1.000 | 0 |
-| + mood + prototype backoff (embedding on) | 1.000 | 0.909 (20/22) | 20/22 | 0 (0.000) | 1.000 | 0 |
+| lexicon parser only (no mood) | 0.643 | 0.818 (18/22) | 17/22 | 10 (0.385) | 0.625 | 1 |
+| + mood detection (default) | 1.000 | 0.864 (19/22) | 18/22 | 0 (0.000) | 1.000 | 0 |
+| + mood, embedding on | 1.000 | 0.864 (19/22) | 18/22 | 0 (0.000) | 1.000 | 0 |
+| + mood + prototype backoff (embedding on) | 1.000 | 0.909 (20/22) | 19/22 | 0 (0.000) | 1.000 | 0 |
 
 ## Per row (decision per config)
 
@@ -20,7 +20,7 @@
 | w04 | write | Could you scale out payments-worker to 8 pods? | NOT_WRITE | WRITE scale_service:payments-worker | WRITE scale_service:payments-worker | WRITE scale_service:payments-worker | WRITE scale_service:payments-worker |
 | w05 | write | Roll back checkout-api to the previous release | NOT_WRITE | WRITE rollback_deploy:checkout-api | WRITE rollback_deploy:checkout-api | WRITE rollback_deploy:checkout-api | WRITE rollback_deploy:checkout-api |
 | w06 | write | Revert the payments-api deploy | NOT_WRITE | WRITE rollback_deploy:payments-api | WRITE rollback_deploy:payments-api | WRITE rollback_deploy:payments-api | WRITE rollback_deploy:payments-api |
-| w07 | write | Page checkout-primary for the INC-4821 latency spike | NOT_WRITE | WRITE page_oncall:inc-4821 latency spike | WRITE page_oncall:inc-4821 latency spike | WRITE page_oncall:inc-4821 latency spike | WRITE page_oncall:inc-4821 latency spike |
+| w07 | write | Page checkout-primary for the INC-4821 latency spike | NOT_WRITE | WRITE page_oncall:checkout-primary | WRITE page_oncall:checkout-primary | WRITE page_oncall:checkout-primary | WRITE page_oncall:checkout-primary |
 | w08 | write | Escalate to cache-oncall | NOT_WRITE | WRITE page_oncall:cache-oncall | WRITE page_oncall:cache-oncall | WRITE page_oncall:cache-oncall | WRITE page_oncall:cache-oncall |
 | w09 | write | Disable the promo_attach flag | NOT_WRITE | WRITE toggle_flag:promo_attach | WRITE toggle_flag:promo_attach | WRITE toggle_flag:promo_attach | WRITE toggle_flag:promo_attach |
 | w10 | write | Can you enable checkout_retry for us-east-1? | NOT_WRITE | WRITE toggle_flag:checkout_retry | WRITE toggle_flag:checkout_retry | WRITE toggle_flag:checkout_retry | WRITE toggle_flag:checkout_retry |

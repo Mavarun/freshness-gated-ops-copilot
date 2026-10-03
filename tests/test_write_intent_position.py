@@ -25,7 +25,7 @@ WRITES = [
     ("Please restart the checkout-api service now", WriteActionType.RESTART_SERVICE, "checkout-api"),
     ("Quick one: restart payments-worker", WriteActionType.RESTART_SERVICE, "payments-worker"),
     ("Hey, when you get a chance, page the oncall for the payments outage",
-     WriteActionType.PAGE_ONCALL, "payments outage"),
+     WriteActionType.PAGE_ONCALL, "checkout-primary"),
     ("I need you to patch the redis.maxmemory-policy config to allkeys-lru",
      WriteActionType.PATCH_CONFIG, "redis.maxmemory-policy"),
 ]
@@ -67,21 +67,25 @@ def test_restart_now_still_proposes_write() -> None:
 
 
 # g42: the page-oncall cue used to be anchored to the end of the query, so a
-# shuffled or trailing clause dropped the write.
+# shuffled or trailing clause dropped the write. Since the phrasal slice the
+# target is the recipient (the rotation's primary pager for a generic
+# "oncall"); the "for ..." phrase is payload["context"].
 @pytest.mark.parametrize(
-    ("query", "target"),
+    ("query", "context"),
     [
         ("Page the oncall the for outage payments", "outage payments"),
         ("Page the oncall for the payments outage", "payments outage"),
         ("Page the on-call for payments now", "payments"),
-        ("Payments is down, page the on-call", "primary"),
-        ("page the oncall, checkout is erroring", "primary"),
+        ("Payments is down, page the on-call", None),
+        ("page the oncall, checkout is erroring", None),
     ],
 )
-def test_page_oncall_is_position_independent(query: str, target: str) -> None:
+def test_page_oncall_is_position_independent(query: str, context: str | None) -> None:
     w = detect_write_intent(query)
     assert w is not None and w.action_type is WriteActionType.PAGE_ONCALL
-    assert w.target == target
+    assert w.target == "checkout-primary"
+    assert w.payload.get("context") == context
+    assert w.payload["recipient_source"] == "oncall_rotation"
 
 
 def test_page_oncall_reads_stay_reads() -> None:

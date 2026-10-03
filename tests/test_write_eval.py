@@ -54,7 +54,17 @@ def test_default_config_is_safe_on_the_eval_set(default_run) -> None:
     assert default_run["precision"] == 1.0
     assert default_run["n_over_asking"] == 0
     assert default_run["clarification_recall"] == 1.0
-    assert default_run["exact_action_target"] == default_run["tp"]  # every proposal fully right
+    # Every proposal fully right except w07: its hand-written expect_target is
+    # the incident phrase (the PR #12/#13 page contract); the target is now
+    # the recipient (checkout-primary) and the phrase is payload["context"].
+    # The row is left as written.
+    wrong = [
+        r["id"] for r, x in zip(load_write_eval(), default_run["rows"])
+        if x["decision"] == "PROPOSE_WRITE" and r["label"] == "write"
+        and (x["action"], x["target"]) != (r["expect_action"], r["expect_target"])
+    ]
+    assert wrong == ["w07"]
+    assert default_run["exact_action_target"] == default_run["tp"] - 1
     # b02 "Retune maxmemory-policy to allkeys-lru" is caught by the
     # change-of-state frame (write_phrasal) since the phrasal slice.
     assert default_run["recall"] == pytest.approx(19 / 22)
