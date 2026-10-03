@@ -24,6 +24,7 @@ from ops_copilot.oncall_rotation import rotation_from_docs
 from ops_copilot.disagreement import assess_disagreement
 from ops_copilot.embeddings import resolve_backend
 from ops_copilot.explain import ExplainContext, GroundingGap
+from ops_copilot.explain_redact import redact_string
 from ops_copilot.pii import detect_pii
 from ops_copilot.freshness import annotate, fresh_only
 from ops_copilot.grounding import EmbeddingSupport, Grounder
@@ -190,6 +191,7 @@ class Copilot:
             canary_doc_ids=canary_docs,
             pii_doc_ids=pii_docs,
             registry=self.registry,
+            query=query,
         )
 
     def sla_for(self, source_system: str) -> float:
@@ -345,6 +347,9 @@ class Copilot:
             answer = render_refusal(policy.decision, policy.reason)
             cited = evidence_ids
         else:
+            # Refusal reasons can quote the parsed target (user text); run the
+            # same redaction the explanation gets before it is rendered.
+            policy.reason, _ = redact_string(policy.reason, context=(query,))
             answer = render_refusal(policy.decision, policy.reason)
             cited = []
 
