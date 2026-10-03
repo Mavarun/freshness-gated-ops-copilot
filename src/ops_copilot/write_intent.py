@@ -11,7 +11,9 @@
   parser cannot pin it down: no target, several targets or actions, a
   conditional ("if X, restart Y"), an unsupported mutation ("delete
   checkout-api"), an unrecognised verb aimed at a known entity ("please
-  <verb> checkout-api"), or low confidence. The policy answers with
+  <verb> checkout-api"), a target that is not in the corpus registry
+  (with did-you-mean ``suggestions``), a page with no recipient, or low
+  confidence. The policy answers with
   ``REFUSE_AMBIGUOUS_WRITE`` and asks the user to restate.
 - ``none``: not a write (questions, read verbs, descriptions, negations).
 
@@ -40,6 +42,7 @@ from dataclasses import dataclass, field
 from typing import Any, Protocol
 
 from ops_copilot.lexicon import is_keyboard_typo
+from ops_copilot.oncall_rotation import OncallRotation, default_rotation
 from ops_copilot.ops_cli_verbs import CLI_VERB_INDEX, cli_words
 from ops_copilot.text import is_identifier
 from ops_copilot.write_mood import INSTRUCTION_MOODS, Clause, Mood, analyze_mood
@@ -70,6 +73,7 @@ from ops_copilot.write_targets import (
     suggest_targets,
 )
 
+_DEFAULT = object()
 PROPOSE = "propose"
 AMBIGUOUS = "ambiguous"
 NONE = "none"
@@ -108,6 +112,9 @@ class ActionParse:
     compatible: bool = True
     prototype: dict | None = None
     particles: bool = True  # read a separated particle after the object
+    problem: str | None = None  # why a page has no recipient
+    suggestions: list[str] = field(default_factory=list)
+    typo: bool = True  # typo tolerance for page role words
 
 
 @dataclass
@@ -182,6 +189,7 @@ def parse_action(
     typo_tolerance: bool = True,
     phrasal: bool = True,
     cli_verbs: bool = True,
+    rotation: OncallRotation | None = None,
 ) -> ActionParse:
     """Action, verb and target for the instruction headed at ``tokens[head]``.
 
@@ -226,7 +234,7 @@ def parse_action(
         frame = match_frame(tokens, head, registry) if phrasal and source != "typo" else None
         if frame is not None:
             parse = ActionParse(frame.action, frame.verb, frame.source, frame.confidence, frame.target_position)
-            _attach_target(parse, tokens, registry)
+            _attach_target(parse, tokens, registry, rotation)
             parse.payload.update(frame.payload)
             parse.compatible = parse.compatible and frame.compatible
             return parse
@@ -241,8 +249,8 @@ def parse_action(
         ids = identifier_targets(tokens, registry, start)
         if not has_obj and not any(t.kind in spec.target_kinds[:1] for t in ids):
             return ActionParse(None, verb, "unknown", 0.0, start, target=ids[0] if ids else None)
-    parse = ActionParse(action, verb, source, verb_conf, start, particles=phrasal)
-    _attach_target(parse, tokens, registry)
+    parse = ActionParse(action, verb, source, verb_conf, start, particles=phrasal, typo=typo_tolerance)
+    _attach_target(parse, tokens, registry, rotation)
     return parse
 
 
@@ -265,18 +273,31 @@ def _particle_value(parse: ActionParse, tokens: list[str]) -> str | None:
     return None
 
 
-def _attach_target(parse: ActionParse, tokens: list[str], registry: EntityRegistry) -> None:
+def _attach_target(
+    parse: ActionParse,
+    tokens: list[str],
+    registry: EntityRegistry,
+    rotation: OncallRotation | None = None,
+) -> None:
     action = parse.action
     assert action is not None
     spec = SPEC_BY_ACTION[action]
     start = parse.object_start
     if action is WriteActionType.PAGE_ONCALL:
-        target, recipient = page_target(" ".join(tokens), tokens, start, registry)
-        parse.target = target
+        res = page_target(" ".join(tokens), tokens, start, registry, rotation, typo_tolerance=parse.typo)
+        parse.target = res.target
+        parse.problem, parse.suggestions = res.problem, list(res.suggestions)
         parse.payload = {
-            "recipient": recipient or (target.name if target else None),
+            "recipient": res.target.name if res.target else None,
+            "recipient_source": res.target.source if res.target else None,
             "severity": "critical",
         }
+        if res.role:
+            parse.payload["role"] = res.role
+        if res.rotation_doc and res.target is not None:
+            parse.payload["rotation_doc"] = res.rotation_doc
+        if res.context:
+            parse.payload["context"] = res.context
         return
     ids = [t for t in identifier_targets(tokens, registry, start) if t.kind != INCIDENT]
     compatible = [t for t in ids if t.kind in spec.target_kinds]
@@ -373,15 +394,21 @@ def classify_write_intent(
     phrasal: bool = True,
     cli_verbs: bool = True,
     require_registered: bool = True,
+    oncall: OncallRotation | None | object = _DEFAULT,
 ) -> WriteIntent:
     """Classify ``query`` as a write proposal, an ambiguous write, or not a write.
 
     ``require_registered``: a target must be a corpus-registry entity; any
     other target (an unseen identifier, a "the auth token" phrase) is
     ambiguous, with did-you-mean suggestions from the registry.
+
+    ``oncall``: the on-call rotation a generic page ("page the oncall")
+    resolves to; default = the committed corpus's (``oncall_rotation``),
+    ``None`` = no rotation, so such a page must name its recipient.
     """
     q = (query or "").strip()
     reg = registry if registry is not None else default_registry()
+    rotation = default_rotation() if oncall is _DEFAULT else oncall
     write_verbs = _WRITE_VERBS | cli_words() if cli_verbs else _WRITE_VERBS
     mood = analyze_mood(q, typo_tolerance=typo_tolerance, write_verbs=write_verbs)
     if not mood.clauses:
@@ -406,6 +433,7 @@ def classify_write_intent(
                 parse_action(
                     clause.tokens, head, reg,
                     typo_tolerance=typo_tolerance, phrasal=phrasal, cli_verbs=cli_verbs,
+                    rotation=rotation,  # type: ignore[arg-type]
                 ),
             )
         )
@@ -413,7 +441,8 @@ def classify_write_intent(
     actions = [(c, p) for c, p in parses if p.action is not None]
     if not actions:
         return _no_lexicon_action(
-            q, mood.mood, parses, prototypes, mood_detection, min_confidence, reg, require_registered
+            q, mood.mood, parses, prototypes, mood_detection, min_confidence, reg, require_registered,
+            rotation,  # type: ignore[arg-type]
         )
     distinct = {(p.action, p.target.name if p.target else None) for _, p in actions}
     if len(distinct) > 1:
@@ -464,15 +493,16 @@ def _finish(
     if clause.mood is Mood.CONDITIONAL:
         return WriteIntent(AMBIGUOUS, reason="conditional instruction; restate it once the condition holds", **base)
     if parse.target is None:
+        if parse.problem:
+            why = f"{parse.problem}; name who to page"
+            if parse.suggestions:
+                why += f" (did you mean {' or '.join(repr(x) for x in parse.suggestions)}?)"
+            return WriteIntent(AMBIGUOUS, reason=why, suggestions=list(parse.suggestions), **base)
         return WriteIntent(AMBIGUOUS, reason="write verb without a specific target", **base)
     if parse.extra_targets:
         names = [parse.target.name] + [t.name for t in parse.extra_targets]
         return WriteIntent(AMBIGUOUS, reason=f"several targets {names}; one write per request", **base)
-    if (
-        registry is not None
-        and parse.action is not WriteActionType.PAGE_ONCALL
-        and parse.target.source not in REGISTERED_SOURCES
-    ):
+    if registry is not None and parse.target.source not in REGISTERED_SOURCES:
         return _unregistered(parse, registry, base)
     conf = (
         parse.verb_confidence
@@ -507,6 +537,7 @@ def _no_lexicon_action(
     min_confidence: float,
     registry: EntityRegistry,
     require_registered: bool = True,
+    rotation: OncallRotation | None = None,
 ) -> WriteIntent:
     if not mood_detection:
         return WriteIntent(NONE, q, "no ontology verb", overall.value)
@@ -532,7 +563,7 @@ def _no_lexicon_action(
             # With registered targets required, an unseen identifier stays
             # unregistered (and is refused with suggestions by _finish).
             attach_reg = registry if require_registered else _with_target(registry, target)
-            _attach_target(proto_parse, clause.tokens, attach_reg)
+            _attach_target(proto_parse, clause.tokens, attach_reg, rotation)
             proto_parse.prototype = match
             if proto_parse.target is None:
                 proto_parse.target = target

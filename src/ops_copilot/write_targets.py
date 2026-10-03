@@ -250,37 +250,102 @@ def phrase_target(tokens: list[str], start: int, heads: Iterable[str], kind: str
 _PAGE_CONTEXT = re.compile(r"\bfor\s+(?:the\s+)?(?P<ctx>[\w.-]+(?:\s+[\w.-]+)*?)(?:\s+now)?\s*$")
 
 
-def page_target(normalized: str, tokens: list[str], start: int, registry: EntityRegistry) -> tuple[Target | None, str | None]:
-    """(target, recipient) for a page: the ``for ...`` context, else the recipient.
+@dataclass
+class PageResolution:
+    """Who a page goes to, and why when nobody can be named."""
 
-    Matches the PR #12 contract: "page the oncall for the payments outage" ->
-    target "payments outage"; with no ``for`` clause the target is the
-    recipient ("primary" for the generic on-call words).
+    target: Target | None = None
+    context: str | None = None  # the "for ..." phrase: what the page is about
+    role: str | None = None  # rotation role a generic word asked for
+    rotation_doc: str | None = None
+    problem: str | None = None
+    suggestions: list[str] = field(default_factory=list)
+
+
+def page_target(
+    normalized: str,
+    tokens: list[str],
+    start: int,
+    registry: EntityRegistry,
+    rotation=None,
+    *,
+    typo_tolerance: bool = True,
+) -> PageResolution:
+    """Recipient of a page; the ``for ...`` phrase is its context, never its target.
+
+    - a registry recipient after the verb ("page checkout-primary", "escalate
+      to cache-oncall") is the target;
+    - a generic on-call word ("the oncall", "on-duty", "primary",
+      "secondary") resolves to that role's pager in the current on-call
+      rotation page of the corpus (``oncall_rotation``), recorded as
+      ``source="oncall_rotation"`` with the page's doc id; a missing or
+      stale rotation leaves the page without a recipient;
+    - an unseen recipient-shaped identifier ("billing-oncall") is returned
+      as an unregistered target (refused with suggestions by the classifier);
+    - no recipient at all ("page for the payments outage") is a problem: a
+      page needs someone to wake, so the classifier asks for one.
+
+    With ``typo_tolerance`` a generic word one keyboard slip from a unique
+    role word counts as it ("onclal" -> "oncall", the g42 typo row).
+
+    PR #13 targeted the ``for ...`` phrase (an incident) instead.
     """
-    recips = SPEC_BY_ACTION[WriteActionType.PAGE_ONCALL].objects
-    recipient: str | None = None
-    for tok in tokens[start:]:
-        if tok == "for":
-            break
-        if registry.kind(tok) == RECIPIENT:
-            recipient = tok
-            break
-        if tok in recips or tok.replace("-", "") in {r.replace("-", "") for r in recips}:
-            recipient = tok
-            break
-    # The for-clause is searched after the verb only.
+    from ops_copilot.oncall_rotation import ROLE_WORDS
+
+    objects = SPEC_BY_ACTION[WriteActionType.PAGE_ONCALL].objects
+    res = PageResolution()
     head = " ".join(tokens[:start])
     tail = normalized[len(head):] if normalized.startswith(head) else normalized
     m = _PAGE_CONTEXT.search(tail)
-    if m:
-        ctx = m.group("ctx").strip("-. ")
-        if ctx:
-            return Target(ctx, INCIDENT, "context", 0.9), recipient
-    if recipient is not None:
-        generic = recipient.replace("-", "") in {"oncall", "onduty", "pager", "primary"}
-        name = "primary" if generic else recipient
-        return Target(name, RECIPIENT, "recipient", 0.85), recipient
-    return None, None
+    if m and m.group("ctx").strip("-. "):
+        res.context = m.group("ctx").strip("-. ")
+    word: str | None = None
+    for i in range(start, len(tokens)):
+        tok = tokens[i]
+        if tok == "for":
+            break
+        if registry.kind(tok) == RECIPIENT:
+            res.target = Target(tok, RECIPIENT, "registry", 1.0, i)
+            return res
+        if tok == "on" and tokens[i + 1 : i + 2] == ["call"]:
+            tok = "on-call"
+        if typo_tolerance and tok not in ROLE_WORDS and len(tok) >= 5 and tok.isalpha():
+            from ops_copilot.lexicon import is_keyboard_typo
+
+            snaps = [w for w in ROLE_WORDS if is_keyboard_typo(tok, w)]
+            tok = snaps[0] if len(snaps) == 1 else tok
+        if tok in ROLE_WORDS:
+            word, res.role = tok, ROLE_WORDS[tok]
+            break
+        if tok in objects:
+            word = tok  # "sre", "commander": not a pager this corpus names
+            break
+        if _candidate_token(tok) and shape_kind(tok) == RECIPIENT:
+            res.target = Target(tok, RECIPIENT, "identifier", 0.85, i)
+            return res
+    primary = rotation.pager_for("primary") if rotation is not None else None
+    if res.role is not None:
+        pager = rotation.pager_for(res.role) if rotation is not None else None
+        if pager is not None:
+            res.target = Target(pager, RECIPIENT, "oncall_rotation", 1.0)
+            res.rotation_doc = rotation.doc_id
+            return res
+        if rotation is None or res.role not in rotation.pagers:
+            res.problem = f"{word!r} needs the current on-call rotation, but no rotation page names a {res.role} pager"
+        else:
+            res.problem = (
+                f"{word!r} needs the current on-call rotation, but {rotation.doc_id} is stale "
+                f"({rotation.age_hours:.1f}h > {rotation.sla_hours:g}h SLA)"
+            )
+    elif word is not None:
+        res.problem = f"{word!r} is not a pager this corpus names"
+        res.suggestions = registry.names(RECIPIENT)[:3]
+    else:
+        res.problem = "page without a named recipient"
+    if primary is not None and not res.suggestions:
+        res.suggestions = [primary]
+        res.rotation_doc = rotation.doc_id
+    return res
 
 
 def normalized_tokens(text: str) -> list[str]:
