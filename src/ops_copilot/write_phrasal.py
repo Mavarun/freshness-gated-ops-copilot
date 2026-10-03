@@ -145,8 +145,12 @@ def particle_meaning(action: WriteActionType, particle: str) -> tuple[str, str] 
 
 # A separated particle ends the verb phrase; anything else after it means it
 # was a preposition ("scale checkout-api *in* us-east-1").
+# What may follow a separated particle. The condition words let "switch X off
+# if errors climb" parse, so the clause's CONDITIONAL mood asks about it
+# instead of the frame silently missing it.
 _AFTER_PARTICLE = frozenset(
-    {"", "to", "by", "for", "now", "please", "asap", "immediately", "again", "today", "and", "then"}
+    {"", "to", "by", "for", "now", "please", "asap", "immediately", "again", "today", "and", "then",
+     "if", "unless", "whenever", "until", "once"}
 )
 
 

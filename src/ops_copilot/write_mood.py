@@ -18,7 +18,9 @@ instruction in its second clause):
    you get a chance", "if you can") are dropped.
 3. **Condition clauses** ("if latency spikes", "once the deploy finishes")
    mark any later instruction CONDITIONAL: the classifier asks instead of
-   proposing.
+   proposing. A trailing condition ("restart X if errors climb": if /
+   unless / whenever / until / once followed by at least two tokens) does
+   the same.
 4. **Clause head**: leading politeness ("please", "go ahead and") and request
    frames ("can/could/would/will you", "I need/want you to", "let's") are
    skipped; the next token is the clause head. A head that is an auxiliary
@@ -232,6 +234,19 @@ def _analyze_clause(tokens: list[str], write_verbs: frozenset[str]) -> Clause:
     return clause
 
 
+# A condition after the instruction ("restart X if errors climb") also makes
+# it conditional. "when" / "after" / "before" are left out here: trailing they
+# usually set timing ("when you get a chance", "before the freeze").
+_TRAILING_CONDITIONS = frozenset({"if", "unless", "whenever", "until", "once"})
+
+
+def _trailing_condition(toks: list[str], head: int) -> bool:
+    """A condition word after the clause head with a clause (>= 2 tokens) after it."""
+    if head < 0:
+        return False
+    return any(t in _TRAILING_CONDITIONS and len(toks) - i - 1 >= 2 for i, t in enumerate(toks[head + 1 :], head + 1))
+
+
 def analyze_mood(
     query: str,
     *,
@@ -260,7 +275,7 @@ def analyze_mood(
             clauses.append(Clause(tokens=toks, mood=Mood.DECLARATIVE, frame="condition"))
             continue
         clause = _analyze_clause(toks, verbs)
-        if conditional and clause.mood in INSTRUCTION_MOODS:
+        if clause.mood in INSTRUCTION_MOODS and (conditional or _trailing_condition(toks, clause.head)):
             clause.mood = Mood.CONDITIONAL
         clauses.append(clause)
     if cue:

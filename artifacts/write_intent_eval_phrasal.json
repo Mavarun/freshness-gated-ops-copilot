@@ -1,0 +1,2879 @@
+{
+  "+ mood + prototype backoff (embedding on)": {
+    "by_category": {
+      "adversarial": {
+        "asked": 1,
+        "n": 7,
+        "proposed": 0
+      },
+      "ambiguous": {
+        "asked": 3,
+        "n": 4,
+        "proposed": 0
+      },
+      "cli_verb": {
+        "asked": 0,
+        "n": 2,
+        "proposed": 2
+      },
+      "informational": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 0
+      },
+      "no_recipient": {
+        "asked": 2,
+        "n": 2,
+        "proposed": 0
+      },
+      "phrasal": {
+        "asked": 0,
+        "n": 11,
+        "proposed": 11
+      },
+      "role_page": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 4
+      },
+      "unregistered": {
+        "asked": 5,
+        "n": 5,
+        "proposed": 0
+      }
+    },
+    "clarification_recall": 0.9090909090909091,
+    "exact_action_target": 17,
+    "fn": 0,
+    "fp": 0,
+    "n": 39,
+    "n_ambiguous": 11,
+    "n_over_asking": 1,
+    "n_read": 11,
+    "n_reason_code_correct": 10,
+    "n_reason_code_expected": 11,
+    "n_spurious_write": 0,
+    "n_suggestion_correct": 5,
+    "n_suggestion_expected": 5,
+    "n_write": 17,
+    "precision": 1.0,
+    "recall": 1.0,
+    "rows": [
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p01",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p02",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout_retry"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p03",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p04",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p05",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-worker"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p06",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo-service"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p07",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-api"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p08",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-api"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p09",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "maxmemory-policy"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p10",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "handshake_budget_ms"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p11",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "handshake_budget_ms"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "p12",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-cache"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "p13",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-cache"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p14",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p15",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p16",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-secondary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p17",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u01",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u02",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "checkout-api"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u03",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "payments-api"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u04",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "vault-transit"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u05",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n01",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n02",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m01",
+        "label": "ambiguous",
+        "reason_code": "kind_mismatch",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m02",
+        "label": "ambiguous",
+        "reason_code": "conditional",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "m03",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m04",
+        "label": "ambiguous",
+        "reason_code": "no_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "r01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "a05",
+        "label": "read",
+        "reason_code": "kind_mismatch",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a06",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "a07",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      }
+    ],
+    "spurious_write_rate": 0.0,
+    "tp": 17
+  },
+  "+ mood detection (default)": {
+    "by_category": {
+      "adversarial": {
+        "asked": 1,
+        "n": 7,
+        "proposed": 0
+      },
+      "ambiguous": {
+        "asked": 3,
+        "n": 4,
+        "proposed": 0
+      },
+      "cli_verb": {
+        "asked": 0,
+        "n": 2,
+        "proposed": 2
+      },
+      "informational": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 0
+      },
+      "no_recipient": {
+        "asked": 2,
+        "n": 2,
+        "proposed": 0
+      },
+      "phrasal": {
+        "asked": 0,
+        "n": 11,
+        "proposed": 11
+      },
+      "role_page": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 4
+      },
+      "unregistered": {
+        "asked": 5,
+        "n": 5,
+        "proposed": 0
+      }
+    },
+    "clarification_recall": 0.9090909090909091,
+    "exact_action_target": 17,
+    "fn": 0,
+    "fp": 0,
+    "n": 39,
+    "n_ambiguous": 11,
+    "n_over_asking": 1,
+    "n_read": 11,
+    "n_reason_code_correct": 10,
+    "n_reason_code_expected": 11,
+    "n_spurious_write": 0,
+    "n_suggestion_correct": 5,
+    "n_suggestion_expected": 5,
+    "n_write": 17,
+    "precision": 1.0,
+    "recall": 1.0,
+    "rows": [
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p01",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p02",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout_retry"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p03",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p04",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p05",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-worker"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p06",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo-service"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p07",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-api"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p08",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-api"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p09",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "maxmemory-policy"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p10",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "handshake_budget_ms"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p11",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "handshake_budget_ms"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "p12",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-cache"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "p13",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-cache"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p14",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p15",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p16",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-secondary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p17",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u01",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u02",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "checkout-api"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u03",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "payments-api"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u04",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "vault-transit"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u05",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n01",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n02",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m01",
+        "label": "ambiguous",
+        "reason_code": "kind_mismatch",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m02",
+        "label": "ambiguous",
+        "reason_code": "conditional",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "m03",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m04",
+        "label": "ambiguous",
+        "reason_code": "no_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "r01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "a05",
+        "label": "read",
+        "reason_code": "kind_mismatch",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a06",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "a07",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      }
+    ],
+    "spurious_write_rate": 0.0,
+    "tp": 17
+  },
+  "+ mood, embedding on": {
+    "by_category": {
+      "adversarial": {
+        "asked": 1,
+        "n": 7,
+        "proposed": 0
+      },
+      "ambiguous": {
+        "asked": 3,
+        "n": 4,
+        "proposed": 0
+      },
+      "cli_verb": {
+        "asked": 0,
+        "n": 2,
+        "proposed": 2
+      },
+      "informational": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 0
+      },
+      "no_recipient": {
+        "asked": 2,
+        "n": 2,
+        "proposed": 0
+      },
+      "phrasal": {
+        "asked": 0,
+        "n": 11,
+        "proposed": 11
+      },
+      "role_page": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 4
+      },
+      "unregistered": {
+        "asked": 5,
+        "n": 5,
+        "proposed": 0
+      }
+    },
+    "clarification_recall": 0.9090909090909091,
+    "exact_action_target": 17,
+    "fn": 0,
+    "fp": 0,
+    "n": 39,
+    "n_ambiguous": 11,
+    "n_over_asking": 1,
+    "n_read": 11,
+    "n_reason_code_correct": 10,
+    "n_reason_code_expected": 11,
+    "n_spurious_write": 0,
+    "n_suggestion_correct": 5,
+    "n_suggestion_expected": 5,
+    "n_write": 17,
+    "precision": 1.0,
+    "recall": 1.0,
+    "rows": [
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p01",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p02",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout_retry"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p03",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p04",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p05",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-worker"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p06",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo-service"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p07",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-api"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p08",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-api"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p09",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "maxmemory-policy"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p10",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "handshake_budget_ms"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p11",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "handshake_budget_ms"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "p12",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-cache"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "p13",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-cache"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p14",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p15",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p16",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-secondary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p17",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u01",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u02",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "checkout-api"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u03",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "payments-api"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u04",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "vault-transit"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u05",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n01",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n02",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m01",
+        "label": "ambiguous",
+        "reason_code": "kind_mismatch",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m02",
+        "label": "ambiguous",
+        "reason_code": "conditional",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "m03",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m04",
+        "label": "ambiguous",
+        "reason_code": "no_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "r01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "a05",
+        "label": "read",
+        "reason_code": "kind_mismatch",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a06",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "a07",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      }
+    ],
+    "spurious_write_rate": 0.0,
+    "tp": 17
+  },
+  "default, particle frames + cache-tool verbs off": {
+    "by_category": {
+      "adversarial": {
+        "asked": 0,
+        "n": 7,
+        "proposed": 0
+      },
+      "ambiguous": {
+        "asked": 1,
+        "n": 4,
+        "proposed": 0
+      },
+      "cli_verb": {
+        "asked": 1,
+        "n": 2,
+        "proposed": 1
+      },
+      "informational": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 0
+      },
+      "no_recipient": {
+        "asked": 2,
+        "n": 2,
+        "proposed": 0
+      },
+      "phrasal": {
+        "asked": 0,
+        "n": 11,
+        "proposed": 9
+      },
+      "role_page": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 4
+      },
+      "unregistered": {
+        "asked": 5,
+        "n": 5,
+        "proposed": 0
+      }
+    },
+    "clarification_recall": 0.7272727272727273,
+    "exact_action_target": 14,
+    "fn": 3,
+    "fp": 0,
+    "n": 39,
+    "n_ambiguous": 11,
+    "n_over_asking": 0,
+    "n_read": 11,
+    "n_reason_code_correct": 8,
+    "n_reason_code_expected": 11,
+    "n_spurious_write": 0,
+    "n_suggestion_correct": 5,
+    "n_suggestion_expected": 5,
+    "n_write": 17,
+    "precision": 1.0,
+    "recall": 0.8235294117647058,
+    "rows": [
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "p01",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p02",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout_retry"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p03",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p04",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p05",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-worker"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p06",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo-service"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p07",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-api"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p08",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-api"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p09",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "maxmemory-policy"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "p10",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p11",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "handshake_budget_ms"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "p12",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-cache"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "p13",
+        "label": "write",
+        "reason_code": "unknown_verb",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p14",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p15",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p16",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-secondary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p17",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u01",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u02",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "checkout-api"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u03",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "payments-api"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u04",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "vault-transit"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u05",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n01",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n02",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "m01",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "m02",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "m03",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m04",
+        "label": "ambiguous",
+        "reason_code": "no_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "r01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a05",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a06",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "a07",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      }
+    ],
+    "spurious_write_rate": 0.0,
+    "tp": 14
+  },
+  "default, registry not required": {
+    "by_category": {
+      "adversarial": {
+        "asked": 1,
+        "n": 7,
+        "proposed": 0
+      },
+      "ambiguous": {
+        "asked": 3,
+        "n": 4,
+        "proposed": 0
+      },
+      "cli_verb": {
+        "asked": 0,
+        "n": 2,
+        "proposed": 2
+      },
+      "informational": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 0
+      },
+      "no_recipient": {
+        "asked": 2,
+        "n": 2,
+        "proposed": 0
+      },
+      "phrasal": {
+        "asked": 0,
+        "n": 11,
+        "proposed": 11
+      },
+      "role_page": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 4
+      },
+      "unregistered": {
+        "asked": 0,
+        "n": 5,
+        "proposed": 5
+      }
+    },
+    "clarification_recall": 0.45454545454545453,
+    "exact_action_target": 17,
+    "fn": 0,
+    "fp": 5,
+    "n": 39,
+    "n_ambiguous": 11,
+    "n_over_asking": 1,
+    "n_read": 11,
+    "n_reason_code_correct": 5,
+    "n_reason_code_expected": 11,
+    "n_spurious_write": 5,
+    "n_suggestion_correct": 2,
+    "n_suggestion_expected": 5,
+    "n_write": 17,
+    "precision": 0.7727272727272727,
+    "recall": 1.0,
+    "rows": [
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p01",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p02",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout_retry"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p03",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p04",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p05",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-worker"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p06",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo-service"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p07",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-api"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p08",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-api"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p09",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "maxmemory-policy"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p10",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "handshake_budget_ms"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p11",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "handshake_budget_ms"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "p12",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-cache"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "p13",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-cache"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p14",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p15",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p16",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-secondary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p17",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "restart_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "u01",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "billing-api"
+      },
+      {
+        "action": "restart_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "u02",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "chekout-api"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "u03",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payment-api"
+      },
+      {
+        "action": "rotate_secret",
+        "decision": "PROPOSE_WRITE",
+        "id": "u04",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "vault-transt"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "u05",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "billing-oncall"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n01",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n02",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m01",
+        "label": "ambiguous",
+        "reason_code": "kind_mismatch",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m02",
+        "label": "ambiguous",
+        "reason_code": "conditional",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "m03",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m04",
+        "label": "ambiguous",
+        "reason_code": "no_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "r01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "a05",
+        "label": "read",
+        "reason_code": "kind_mismatch",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a06",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "a07",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      }
+    ],
+    "spurious_write_rate": 0.22727272727272727,
+    "tp": 17
+  },
+  "keyword regex (PR #12)": {
+    "by_category": {
+      "adversarial": {
+        "asked": 0,
+        "n": 7,
+        "proposed": 0
+      },
+      "ambiguous": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 0
+      },
+      "cli_verb": {
+        "asked": 0,
+        "n": 2,
+        "proposed": 0
+      },
+      "informational": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 0
+      },
+      "no_recipient": {
+        "asked": 0,
+        "n": 2,
+        "proposed": 0
+      },
+      "phrasal": {
+        "asked": 0,
+        "n": 11,
+        "proposed": 0
+      },
+      "role_page": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 1
+      },
+      "unregistered": {
+        "asked": 0,
+        "n": 5,
+        "proposed": 2
+      }
+    },
+    "clarification_recall": 0.0,
+    "exact_action_target": 0,
+    "fn": 16,
+    "fp": 2,
+    "n": 39,
+    "n_ambiguous": 11,
+    "n_over_asking": 0,
+    "n_read": 11,
+    "n_spurious_write": 2,
+    "n_write": 17,
+    "precision": 0.3333333333333333,
+    "recall": 0.058823529411764705,
+    "rows": [
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p01",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p02",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p03",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p04",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p05",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p06",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p07",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p08",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p09",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p10",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p11",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p12",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p13",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p14",
+        "label": "write",
+        "target": "primary"
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p15",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p16",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "p17",
+        "label": "write",
+        "target": null
+      },
+      {
+        "action": "restart_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "u01",
+        "label": "ambiguous",
+        "target": "billing-api"
+      },
+      {
+        "action": "restart_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "u02",
+        "label": "ambiguous",
+        "target": "chekout-api"
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "u03",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "u04",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "u05",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "n01",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "n02",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "m01",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "m02",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "m03",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "m04",
+        "label": "ambiguous",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "r01",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "r02",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "r03",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "r04",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "a01",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "a02",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "a03",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "a04",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "a05",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "a06",
+        "label": "read",
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "NOT_WRITE",
+        "id": "a07",
+        "label": "read",
+        "target": null
+      }
+    ],
+    "spurious_write_rate": 0.09090909090909091,
+    "tp": 1
+  },
+  "lexicon parser only (no mood)": {
+    "by_category": {
+      "adversarial": {
+        "asked": 0,
+        "n": 7,
+        "proposed": 0
+      },
+      "ambiguous": {
+        "asked": 1,
+        "n": 4,
+        "proposed": 0
+      },
+      "cli_verb": {
+        "asked": 0,
+        "n": 2,
+        "proposed": 1
+      },
+      "informational": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 1
+      },
+      "no_recipient": {
+        "asked": 2,
+        "n": 2,
+        "proposed": 0
+      },
+      "phrasal": {
+        "asked": 0,
+        "n": 11,
+        "proposed": 9
+      },
+      "role_page": {
+        "asked": 0,
+        "n": 4,
+        "proposed": 4
+      },
+      "unregistered": {
+        "asked": 5,
+        "n": 5,
+        "proposed": 0
+      }
+    },
+    "clarification_recall": 0.7272727272727273,
+    "exact_action_target": 14,
+    "fn": 3,
+    "fp": 1,
+    "n": 39,
+    "n_ambiguous": 11,
+    "n_over_asking": 0,
+    "n_read": 11,
+    "n_reason_code_correct": 8,
+    "n_reason_code_expected": 11,
+    "n_spurious_write": 1,
+    "n_suggestion_correct": 5,
+    "n_suggestion_expected": 5,
+    "n_write": 17,
+    "precision": 0.9333333333333333,
+    "recall": 0.8235294117647058,
+    "rows": [
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "p01",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p02",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout_retry"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p03",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "toggle_flag",
+        "decision": "PROPOSE_WRITE",
+        "id": "p04",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo_attach"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p05",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-worker"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p06",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "promo-service"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p07",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-api"
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "p08",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-api"
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p09",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "maxmemory-policy"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "p10",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": "patch_config",
+        "decision": "PROPOSE_WRITE",
+        "id": "p11",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "handshake_budget_ms"
+      },
+      {
+        "action": "clear_cache",
+        "decision": "PROPOSE_WRITE",
+        "id": "p12",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-cache"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "p13",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p14",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p15",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p16",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-secondary"
+      },
+      {
+        "action": "page_oncall",
+        "decision": "PROPOSE_WRITE",
+        "id": "p17",
+        "label": "write",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "checkout-primary"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u01",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u02",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "checkout-api"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u03",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "payments-api"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u04",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [
+          "vault-transit"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "u05",
+        "label": "ambiguous",
+        "reason_code": "unregistered_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n01",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "n02",
+        "label": "ambiguous",
+        "reason_code": "no_recipient",
+        "suggestions": [
+          "checkout-primary"
+        ],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "m01",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "m02",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "m03",
+        "label": "ambiguous",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_AMBIGUOUS_WRITE",
+        "id": "m04",
+        "label": "ambiguous",
+        "reason_code": "no_target",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": "scale_service",
+        "decision": "PROPOSE_WRITE",
+        "id": "r01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": "payments-worker"
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "r04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a01",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a02",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a03",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a04",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a05",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_UNGROUNDED",
+        "id": "a06",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      },
+      {
+        "action": null,
+        "decision": "REFUSE_STALE",
+        "id": "a07",
+        "label": "read",
+        "reason_code": "",
+        "suggestions": [],
+        "target": null
+      }
+    ],
+    "spurious_write_rate": 0.045454545454545456,
+    "tp": 14
+  }
+}

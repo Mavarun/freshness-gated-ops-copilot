@@ -194,7 +194,14 @@ def explain_ungrounded(gap: GroundingGap | None, *, coverage: float, threshold: 
     closest = gap.closest_doc_id if gap else None
     topic = _terms(missing) or "the question's key terms"
     where = f"closest document {closest}" if closest else "the evidence"
-    summary = f"{where} does not mention {topic} (coverage {coverage:.2f} vs {threshold:.2f})"
+    if coverage >= threshold:
+        # Coverage cleared the bar; the key-token gate (high-IDF terms) failed.
+        summary = (
+            f"{where} does not mention key term(s) {topic} "
+            f"(coverage {coverage:.2f} clears {threshold:.2f}, but the key-term check failed)"
+        )
+    else:
+        summary = f"{where} does not mention {topic} (coverage {coverage:.2f} < {threshold:.2f})"
     rem = [
         Remediation(
             "add_runbook", " ".join(missing[:3]) or None,
@@ -207,7 +214,12 @@ def explain_ungrounded(gap: GroundingGap | None, *, coverage: float, threshold: 
         Decision.REFUSE_UNGROUNDED.value, "grounding", summary,
         evidence_doc_ids=_uniq([closest]),
         missing_terms=missing,
-        details={"stage": stage, "coverage": round(coverage, 4), "threshold": threshold},
+        details={
+            "stage": stage,
+            "coverage": round(coverage, 4),
+            "threshold": threshold,
+            "check": "key_terms" if coverage >= threshold else "coverage",
+        },
         remediation=rem,
     )
 

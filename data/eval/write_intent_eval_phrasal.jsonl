@@ -1,0 +1,39 @@
+{"id": "p01", "category": "phrasal", "label": "write", "query": "Switch promo_attach off", "expect_action": "toggle_flag", "expect_target": "promo_attach"}
+{"id": "p02", "category": "phrasal", "label": "write", "query": "Flip checkout_retry on", "expect_action": "toggle_flag", "expect_target": "checkout_retry"}
+{"id": "p03", "category": "phrasal", "label": "write", "query": "Switch off promo_attach for the EU launch", "expect_action": "toggle_flag", "expect_target": "promo_attach"}
+{"id": "p04", "category": "phrasal", "label": "write", "query": "Please flip promo_attach off for eu-west-1", "expect_action": "toggle_flag", "expect_target": "promo_attach"}
+{"id": "p05", "category": "phrasal", "label": "write", "query": "Scale payments-worker in to 4 pods", "expect_action": "scale_service", "expect_target": "payments-worker"}
+{"id": "p06", "category": "phrasal", "label": "write", "query": "Please scale promo-service out to 6 replicas", "expect_action": "scale_service", "expect_target": "promo-service"}
+{"id": "p07", "category": "phrasal", "label": "write", "query": "Scale checkout-api up to 12 replicas", "expect_action": "scale_service", "expect_target": "checkout-api"}
+{"id": "p08", "category": "phrasal", "label": "write", "query": "Scale the payments-api back to 3 replicas", "expect_action": "scale_service", "expect_target": "payments-api"}
+{"id": "p09", "category": "phrasal", "label": "write", "query": "Change maxmemory-policy to volatile-lru", "expect_action": "patch_config", "expect_target": "maxmemory-policy"}
+{"id": "p10", "category": "phrasal", "label": "write", "query": "Move handshake_budget_ms to 250", "expect_action": "patch_config", "expect_target": "handshake_budget_ms"}
+{"id": "p11", "category": "phrasal", "label": "write", "query": "Bump handshake_budget_ms to 300", "expect_action": "patch_config", "expect_target": "handshake_budget_ms"}
+{"id": "p12", "category": "cli_verb", "label": "write", "query": "Invalidate the checkout-cache", "expect_action": "clear_cache", "expect_target": "checkout-cache"}
+{"id": "p13", "category": "cli_verb", "label": "write", "query": "Ban checkout-cache", "expect_action": "clear_cache", "expect_target": "checkout-cache"}
+{"id": "p14", "category": "role_page", "label": "write", "query": "Page the on-call about INC-4821", "expect_action": "page_oncall", "expect_target": "checkout-primary"}
+{"id": "p15", "category": "role_page", "label": "write", "query": "Page the primary on-call", "expect_action": "page_oncall", "expect_target": "checkout-primary"}
+{"id": "p16", "category": "role_page", "label": "write", "query": "Page the secondary", "expect_action": "page_oncall", "expect_target": "checkout-secondary"}
+{"id": "p17", "category": "role_page", "label": "write", "query": "Escalate to the on-call", "expect_action": "page_oncall", "expect_target": "checkout-primary"}
+{"id": "u01", "category": "unregistered", "label": "ambiguous", "query": "Restart billing-api", "expect_reason_code": "unregistered_target"}
+{"id": "u02", "category": "unregistered", "label": "ambiguous", "query": "Restart chekout-api", "expect_reason_code": "unregistered_target", "expect_suggestion": "checkout-api"}
+{"id": "u03", "category": "unregistered", "label": "ambiguous", "query": "Scale payment-api to 4 replicas", "expect_reason_code": "unregistered_target", "expect_suggestion": "payments-api"}
+{"id": "u04", "category": "unregistered", "label": "ambiguous", "query": "Rotate the vault-transt key", "expect_reason_code": "unregistered_target", "expect_suggestion": "vault-transit"}
+{"id": "u05", "category": "unregistered", "label": "ambiguous", "query": "Page billing-oncall", "expect_reason_code": "unregistered_target"}
+{"id": "n01", "category": "no_recipient", "label": "ambiguous", "query": "Page someone about the checkout latency", "expect_reason_code": "no_recipient", "expect_suggestion": "checkout-primary"}
+{"id": "n02", "category": "no_recipient", "label": "ambiguous", "query": "Page for the payments outage", "expect_reason_code": "no_recipient", "expect_suggestion": "checkout-primary"}
+{"id": "m01", "category": "ambiguous", "label": "ambiguous", "query": "Move checkout-api to v2", "expect_reason_code": "kind_mismatch"}
+{"id": "m02", "category": "ambiguous", "label": "ambiguous", "query": "Switch promo_attach off if errors climb", "expect_reason_code": "conditional"}
+{"id": "m03", "category": "ambiguous", "label": "ambiguous", "query": "Switch promo_attach and checkout_retry off", "expect_reason_code": "several_targets"}
+{"id": "m04", "category": "ambiguous", "label": "ambiguous", "query": "Flip the flag off", "expect_reason_code": "no_target"}
+{"id": "r01", "category": "informational", "label": "read", "query": "How do I scale payments-worker in?"}
+{"id": "r02", "category": "informational", "label": "read", "query": "Should we switch promo_attach off?"}
+{"id": "r03", "category": "informational", "label": "read", "query": "Who is on call for checkout?"}
+{"id": "r04", "category": "informational", "label": "read", "query": "What does handshake_budget_ms default to?"}
+{"id": "a01", "category": "adversarial", "label": "read", "query": "We flipped checkout_retry off last week"}
+{"id": "a02", "category": "adversarial", "label": "read", "query": "Don't switch promo_attach off"}
+{"id": "a03", "category": "adversarial", "label": "read", "query": "Invalidation of checkout-cache takes 30s"}
+{"id": "a04", "category": "adversarial", "label": "read", "query": "The scale-in policy for payments-worker"}
+{"id": "a05", "category": "adversarial", "label": "read", "query": "Click on checkout-api in the dashboard"}
+{"id": "a06", "category": "adversarial", "label": "read", "query": "Log on to checkout-api and look at replicas"}
+{"id": "a07", "category": "adversarial", "label": "read", "query": "Keep checkout_retry on"}
