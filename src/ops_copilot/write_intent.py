@@ -40,6 +40,7 @@ from dataclasses import dataclass, field
 from typing import Any, Protocol
 
 from ops_copilot.lexicon import is_keyboard_typo
+from ops_copilot.ops_cli_verbs import CLI_VERB_INDEX, cli_words
 from ops_copilot.text import is_identifier
 from ops_copilot.write_mood import INSTRUCTION_MOODS, Clause, Mood, analyze_mood
 from ops_copilot.write_ontology import (
@@ -56,6 +57,7 @@ from ops_copilot.write_ontology import (
     phrasal_index,
     verb_index,
 )
+from ops_copilot.write_phrasal import match_frame, particle_meaning, separated_particle
 from ops_copilot.write_targets import (
     GENERIC_SERVICE_NOUNS,
     EntityRegistry,
@@ -93,7 +95,9 @@ class PrototypeMatcher(Protocol):
 class ActionParse:
     action: WriteActionType | None
     verb: str
-    verb_source: str  # lexicon | phrasal | typo | quantity | unsupported | unknown | nominal | prototype
+    # lexicon | phrasal | ops_cli | particle | frame | typo | quantity |
+    # unsupported | unknown | nominal | prototype
+    verb_source: str
     verb_confidence: float
     object_start: int
     target: Target | None = None
@@ -101,6 +105,7 @@ class ActionParse:
     payload: dict[str, Any] = field(default_factory=dict)
     compatible: bool = True
     prototype: dict | None = None
+    particles: bool = True  # read a separated particle after the object
 
 
 @dataclass
@@ -164,24 +169,43 @@ def _number_after(tokens: list[str], start: int) -> int | None:
     return None
 
 
-def parse_action(tokens: list[str], head: int, registry: EntityRegistry, *, typo_tolerance: bool = True) -> ActionParse:
-    """Action, verb and target for the instruction headed at ``tokens[head]``."""
+def parse_action(
+    tokens: list[str],
+    head: int,
+    registry: EntityRegistry,
+    *,
+    typo_tolerance: bool = True,
+    phrasal: bool = True,
+    cli_verbs: bool = True,
+) -> ActionParse:
+    """Action, verb and target for the instruction headed at ``tokens[head]``.
+
+    ``phrasal`` turns on the particle reading and the verb-independent frames
+    of ``write_phrasal``; ``cli_verbs`` the cache-tool command verbs of
+    ``ops_cli_verbs``.
+    """
     word = tokens[head]
     nxt = tokens[head + 1] if head + 1 < len(tokens) else ""
+    cli = CLI_VERB_INDEX if cli_verbs else {}
     verb_conf, source = 1.0, "lexicon"
     action: WriteActionType | None = None
     verb = word
     start = head + 1
-    if word not in _VERBS and (word, nxt) not in _PHRASAL and word not in QUANTITY_VERBS and typo_tolerance:
+    known = word in _VERBS or (word, nxt) in _PHRASAL or word in QUANTITY_VERBS or word in cli
+    if not known and typo_tolerance:
         snapped = _snap_verb(word)
         if snapped is not None:
             word, verb, verb_conf, source = snapped, snapped, TYPO_VERB, "typo"
-    if nxt in NOMINAL_FOLLOWERS and (word in _VERBS or word in UNSUPPORTED_VERBS):
+    if nxt in NOMINAL_FOLLOWERS and (word in _VERBS or word in UNSUPPORTED_VERBS or word in cli):
         return ActionParse(None, verb, "nominal", 0.0, start)
     if (word, nxt) in _PHRASAL:
         action, verb, source, start = _PHRASAL[(word, nxt)], f"{word} {nxt}", "phrasal", head + 2
     elif word in _VERBS:
         action = _VERBS[word][0]
+        if phrasal and particle_meaning(action, nxt) is not None:
+            verb, source, start = f"{word} {nxt}", "phrasal", head + 2
+    elif word in cli:
+        action, source = cli[word], "ops_cli"
     elif word in QUANTITY_VERBS:
         rest = set(tokens[head + 1 :])
         action = (
@@ -194,6 +218,13 @@ def parse_action(tokens: list[str], head: int, registry: EntityRegistry, *, typo
         parse.target = ids[0] if ids else None
         return parse
     else:
+        frame = match_frame(tokens, head, registry) if phrasal and source != "typo" else None
+        if frame is not None:
+            parse = ActionParse(frame.action, frame.verb, frame.source, frame.confidence, frame.target_position)
+            _attach_target(parse, tokens, registry)
+            parse.payload.update(frame.payload)
+            parse.compatible = parse.compatible and frame.compatible
+            return parse
         parse = ActionParse(None, verb, "unknown", 0.0, start)
         ids = identifier_targets(tokens, registry, start)
         parse.target = ids[0] if ids else None
@@ -205,9 +236,28 @@ def parse_action(tokens: list[str], head: int, registry: EntityRegistry, *, typo
         ids = identifier_targets(tokens, registry, start)
         if not has_obj and not any(t.kind in spec.target_kinds[:1] for t in ids):
             return ActionParse(None, verb, "unknown", 0.0, start, target=ids[0] if ids else None)
-    parse = ActionParse(action, verb, source, verb_conf, start)
+    parse = ActionParse(action, verb, source, verb_conf, start, particles=phrasal)
     _attach_target(parse, tokens, registry)
     return parse
+
+
+def _particle_value(parse: ActionParse, tokens: list[str]) -> str | None:
+    """Direction / state carried by a particle: "scale down", "flip X off"."""
+    action = parse.action
+    assert action is not None
+    parts = parse.verb.split()
+    if len(parts) == 2:
+        meaning = particle_meaning(action, parts[1])
+        if meaning is not None:
+            return meaning[1]
+    if parse.particles and parse.target is not None and parse.target.position >= 0:
+        p = separated_particle(tokens, parse.target.position, action)
+        if p is not None:
+            parse.verb = f"{parse.verb} {p}"
+            if parse.verb_source == "lexicon":
+                parse.verb_source = "phrasal"
+            return particle_meaning(action, p)[1]  # type: ignore[index]
+    return None
 
 
 def _attach_target(parse: ActionParse, tokens: list[str], registry: EntityRegistry) -> None:
@@ -254,13 +304,18 @@ def _attach_target(parse: ActionParse, tokens: list[str], registry: EntityRegist
             direction = "increase"
         elif parse.verb in ("decrease", "lower", "reduce"):
             direction = "decrease"
+        elif direction is None:
+            direction = _particle_value(parse, tokens)
         parse.payload = {"service": name, "replicas": _number_after(tokens, start), "direction": direction}
     elif action is WriteActionType.ROLLBACK_DEPLOY:
         parse.payload = {"service": name, "to": "previous"}
     elif action is WriteActionType.DEPLOY_RELEASE:
         parse.payload = {"service": name, "version": _next_after(tokens, start, "to")}
     elif action is WriteActionType.TOGGLE_FLAG:
-        parse.payload = {"flag": name, "state": TOGGLE_STATE.get(parse.verb, "flip")}
+        state = TOGGLE_STATE.get(parse.verb)
+        if state is None and parse.verb not in ("enable", "disable"):
+            state = _particle_value(parse, tokens)
+        parse.payload = {"flag": name, "state": state or "flip"}
     elif action is WriteActionType.ROTATE_SECRET:
         parse.payload = {"secret": name}
     elif action is WriteActionType.CLEAR_CACHE:
@@ -310,11 +365,14 @@ def classify_write_intent(
     mood_detection: bool = True,
     prototypes: PrototypeMatcher | None = None,
     min_confidence: float = DEFAULT_MIN_CONFIDENCE,
+    phrasal: bool = True,
+    cli_verbs: bool = True,
 ) -> WriteIntent:
     """Classify ``query`` as a write proposal, an ambiguous write, or not a write."""
     q = (query or "").strip()
     reg = registry if registry is not None else default_registry()
-    mood = analyze_mood(q, typo_tolerance=typo_tolerance, write_verbs=_WRITE_VERBS)
+    write_verbs = _WRITE_VERBS | cli_words() if cli_verbs else _WRITE_VERBS
+    mood = analyze_mood(q, typo_tolerance=typo_tolerance, write_verbs=write_verbs)
     if not mood.clauses:
         return WriteIntent(NONE, q, "empty query", mood.mood.value)
     if mood_detection and mood.mood is Mood.INFORMATIONAL and mood.cue:
@@ -331,7 +389,15 @@ def classify_write_intent(
             clause = Clause(clause.tokens, head, Mood.IMPERATIVE, "lexicon_only", 1.0)
         if head < 0:
             continue
-        parses.append((clause, parse_action(clause.tokens, head, reg, typo_tolerance=typo_tolerance)))
+        parses.append(
+            (
+                clause,
+                parse_action(
+                    clause.tokens, head, reg,
+                    typo_tolerance=typo_tolerance, phrasal=phrasal, cli_verbs=cli_verbs,
+                ),
+            )
+        )
 
     actions = [(c, p) for c, p in parses if p.action is not None]
     if not actions:
@@ -343,7 +409,7 @@ def classify_write_intent(
             mood.mood.value, clause=" | ".join(" ".join(c.tokens) for c, _ in actions),
         )
     clause, parse = actions[0]
-    second = _second_action_verb(clause, typo_tolerance)
+    second = _second_action_verb(clause, write_verbs)
     if second is not None:
         return WriteIntent(
             AMBIGUOUS, q, f"second write verb {second!r} in the same request; ask for one at a time",
@@ -352,13 +418,13 @@ def classify_write_intent(
     return _finish(q, clause, parse, min_confidence)
 
 
-def _second_action_verb(clause: Clause, typo_tolerance: bool) -> str | None:
+def _second_action_verb(clause: Clause, write_verbs: frozenset[str]) -> str | None:
     """A coordinated second instruction verb (``... and restart it``) after the head."""
     toks = clause.tokens
     for i in range(max(clause.head, 0) + 1, len(toks) - 1):
         if toks[i] in {"and", "then", "also"}:
             nxt = toks[i + 1]
-            if nxt in _WRITE_VERBS:
+            if nxt in write_verbs:
                 return nxt
     return None
 

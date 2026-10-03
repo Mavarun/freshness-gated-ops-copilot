@@ -55,7 +55,9 @@ def test_default_config_is_safe_on_the_eval_set(default_run) -> None:
     assert default_run["n_over_asking"] == 0
     assert default_run["clarification_recall"] == 1.0
     assert default_run["exact_action_target"] == default_run["tp"]  # every proposal fully right
-    assert default_run["recall"] == pytest.approx(18 / 22)
+    # b02 "Retune maxmemory-policy to allkeys-lru" is caught by the
+    # change-of-state frame (write_phrasal) since the phrasal slice.
+    assert default_run["recall"] == pytest.approx(19 / 22)
 
 
 def test_prototype_backoff_stays_safe_on_the_eval_set() -> None:
