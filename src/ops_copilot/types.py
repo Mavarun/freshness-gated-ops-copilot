@@ -168,4 +168,12 @@ class CopilotResult:
             "redactions_count": self.redactions_count,
             "pii": self.pii,
             "write_intent": self.write_intent,
+            "explanation": self.redacted_explanation(),
         }
+
+    def redacted_explanation(self) -> dict | None:
+        """The explanation after a boundary redaction pass against the raw query."""
+        from ops_copilot.explain_redact import redact_explanation
+
+        out, _ = redact_explanation(self.explanation, context=(self.query,))
+        return out

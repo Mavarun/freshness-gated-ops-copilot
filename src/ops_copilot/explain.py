@@ -30,8 +30,9 @@ tokens, PII and secret-shaped strings never appear in one).
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Callable, Iterable
+from typing import Any, Callable, Iterable, Sequence
 
+from ops_copilot.explain_redact import redact_explanation
 from ops_copilot.types import Chunk, Decision, FreshnessResult
 
 GATE_BY_DECISION: dict[Decision, str] = {
@@ -121,6 +122,7 @@ class ExplainContext:
     canary_doc_ids: list[str] = field(default_factory=list)
     pii_doc_ids: list[str] = field(default_factory=list)
     registry: Any = None  # write_targets.EntityRegistry
+    query: str = ""  # raw query; its sensitive spans seed the redaction pass
 
     @staticmethod
     def _resolve(v: Any) -> GroundingGap | None:
@@ -392,5 +394,9 @@ def explain_ambiguous_write(intent: Any, registry: Any = None) -> RefusalExplana
     )
 
 
-def finalize(expl: RefusalExplanation | None) -> dict[str, Any] | None:
-    return expl.as_dict() if expl is not None else None
+def finalize(expl: RefusalExplanation | None, *, context: Sequence[str] = ()) -> dict[str, Any] | None:
+    """Serialize and redact (see ``explain_redact``); ``context`` is the raw query."""
+    if expl is None:
+        return None
+    out, _ = redact_explanation(expl.as_dict(), context=context)
+    return out

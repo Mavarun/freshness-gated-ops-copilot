@@ -95,6 +95,9 @@ def decide(
     explain: ExplainContext | None = None,
 ) -> PolicyDecision:
     ctx = explain or ExplainContext()
+
+    def _fin(expl):
+        return finalize(expl, context=(ctx.query,) if ctx.query else ())
     if (
         use_budget_gate
         and session_id
@@ -109,7 +112,7 @@ def decide(
                 f"budget={session_budget:g}; "
                 f"projected={session_spent + request_cost:.4f})"
             ),
-            explanation=finalize(explain_budget(session_id, session_spent, request_cost, session_budget)),
+            explanation=_fin(explain_budget(session_id, session_spent, request_cost, session_budget)),
         )
 
     if use_hitl_write_gate and write_intent is not None:
@@ -131,14 +134,14 @@ def decide(
         return PolicyDecision(
             decision=Decision.REFUSE_AMBIGUOUS_WRITE,
             reason=f"write-like instruction not proposed: {why}",
-            explanation=finalize(explain_ambiguous_write(ambiguous_write, ctx.registry)),
+            explanation=_fin(explain_ambiguous_write(ambiguous_write, ctx.registry)),
         )
 
     if not retrieved:
         return PolicyDecision(
             decision=Decision.REFUSE_NO_EVIDENCE,
             reason="no retrieved chunk cleared the minimum score",
-            explanation=finalize(
+            explanation=_fin(
                 explain_no_evidence(retrieved, ctx.gap, best_support=best_support, floor=support_floor)
             ),
         )
@@ -150,7 +153,7 @@ def decide(
                 f"retrieved {len(retrieved)} chunks but none share enough "
                 f"query support (best_support={best_support:.2f} < floor={support_floor:.2f})"
             ),
-            explanation=finalize(
+            explanation=_fin(
                 explain_no_evidence(retrieved, ctx.gap, best_support=best_support, floor=support_floor)
             ),
         )
@@ -170,7 +173,7 @@ def decide(
         return PolicyDecision(
             decision=Decision.REFUSE_UNGROUNDED,
             reason=detail,
-            explanation=finalize(
+            explanation=_fin(
                 explain_ungrounded(ctx.gap, coverage=best_support, threshold=thresh, stage="support")
             ),
         )
@@ -199,7 +202,7 @@ def decide(
                 f"oldest_supporting_age_hours={oldest:.1f}; "
                 f"supporting={len(supporting)}; retrieved={len(retrieved)})"
             ),
-            explanation=finalize(explain_stale(supporting, freshness)),
+            explanation=_fin(explain_stale(supporting, freshness)),
         )
 
     if (
@@ -217,7 +220,7 @@ def decide(
                 f"bm25={list(disagreement.bm25_ids)}; "
                 f"dense={list(disagreement.dense_ids)})"
             ),
-            explanation=finalize(explain_disagree(disagreement)),
+            explanation=_fin(explain_disagree(disagreement)),
         )
 
     if grounding is None or not grounding.passed:
@@ -229,7 +232,7 @@ def decide(
                 f"fresh supporting evidence failed lexical grounding "
                 f"(query_coverage={cov:.2f} < threshold={thresh:.2f})"
             ),
-            explanation=finalize(
+            explanation=_fin(
                 explain_ungrounded(ctx.answer_gap or ctx.gap, coverage=cov, threshold=thresh, stage="answer")
             ),
         )
@@ -247,7 +250,7 @@ def decide(
                 f"extractive draft echoed {n_leaked} unjustified canary token(s) "
                 f"(registry_size={reg_size}); token values withheld from refusal text"
             ),
-            explanation=finalize(explain_canary(canary_scan, ctx.canary_doc_ids)),
+            explanation=_fin(explain_canary(canary_scan, ctx.canary_doc_ids)),
         )
 
     if (
@@ -267,7 +270,7 @@ def decide(
                     f"(kinds={quarantined}) that the draft omitted; refusing "
                     f"instead of answering around them; raw values withheld"
                 ),
-                explanation=finalize(explain_pii(pii_scan, ctx.pii_doc_ids)),
+                explanation=_fin(explain_pii(pii_scan, ctx.pii_doc_ids)),
             )
         return PolicyDecision(
             decision=Decision.REFUSE_PII,
@@ -275,7 +278,7 @@ def decide(
                 f"extractive draft contained unauthorized PII/secrets "
                 f"(n={n_matches}; kinds={kind_names}); raw values withheld"
             ),
-            explanation=finalize(explain_pii(pii_scan, ctx.pii_doc_ids)),
+            explanation=_fin(explain_pii(pii_scan, ctx.pii_doc_ids)),
         )
 
     cited = ", ".join(dict.fromkeys(c.doc_id for c in fresh_supporting[:3]))

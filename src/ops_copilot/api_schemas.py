@@ -60,6 +60,10 @@ class QueryResponse(BaseModel):
     redactions_count: int = 0
     pii: dict[str, Any] | None = None
     write_intent: dict[str, Any] | None = None
+    # Structured refusal explanation (gate, evidence doc ids, stale ages vs
+    # SLA, missing terms, disagreeing docs, remediation); None unless refused.
+    # Redacted against the raw query before it leaves the service.
+    explanation: dict[str, Any] | None = None
 
 
 class HealthResponse(BaseModel):
