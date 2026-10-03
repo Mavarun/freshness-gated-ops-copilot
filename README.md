@@ -16,9 +16,187 @@ behind a **HITL approve** gate. Offline CI, frozen clock.
 | `REFUSE_PII` | Draft contained unauthorized PII/secrets, or a cited doc holds a never-authorizable secret |
 | `REFUSE_BUDGET` | Session spent + request `approx_cost_units` would exceed session budget |
 | `PROPOSE_WRITE` | Imperative/request write parsed (action + target + confidence); pending HITL approve (never auto-executes) |
-| `REFUSE_AMBIGUOUS_WRITE` | Looks like a write but no target, several targets/actions, conditional, unsupported, or low confidence: asks to clarify |
+| `REFUSE_AMBIGUOUS_WRITE` | Looks like a write but no target, an unregistered target (did-you-mean), no page recipient, several targets/actions, conditional, unsupported, or low confidence: asks to clarify |
+
+Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces.
 
 
+
+## Phrasal writes and refusal explanations (2026-10-04): 0 spurious writes, every refusal explained
+
+This slice has two parts. The write gate learns multi-word verbs, refuses targets the
+corpus does not know, and stops using a page's `for …` phrase as its target. Every
+refusal also returns a structured, redacted `explanation`. Labels, the golden file, and
+the 203 perturbed rows are unchanged (seed 42, frozen clock 2026-09-13).
+
+### What changed
+
+1. **Phrasal-verb parser** (`write_phrasal.py`). It uses the closed class of English
+   adverbial particles (Quirk et al. 1985, §16.3), so it covers `scale down/up/in/out`
+   and separated forms (`scale payments-worker down to 2`, `flip promo_attach off`).
+   It also has two verb-independent frames, which run only for non-lexicon heads in
+   imperative or request clauses, at confidence 0.9:
+   - a toggle frame, `<V> on|off <flag>`;
+   - a change-of-state frame, `<V> [the] <key> [setting] to <value>`. It only vouches
+     for settings and flags, so `set checkout-api to v2` asks instead of proposing.
+
+   No-change verbs (`keep`, `leave`) and transfer verbs are excluded. A trailing
+   condition (`restart X if errors climb`) now asks instead of proposing.
+2. **Cache-tool command verbs** (`ops_cli_verbs.py`). These are a documented external
+   resource: Redis `FLUSHDB`/`FLUSHALL`, Memcached `flush_all`, Varnish `purge`/`ban`,
+   Cloudflare purge, Fastly, Akamai Fast Purge, and CloudFront invalidation. `flush`,
+   `purge`, `ban`, and `invalidate` map to `clear_cache`, which still needs a cache
+   object, so `flush redis` asks.
+3. **Registry-required targets** (`write_targets.suggest_targets`). A target must be a
+   corpus-registry entity, or a pager from the on-call rotation. Anything else is
+   `REFUSE_AMBIGUOUS_WRITE` with reason code `unregistered_target`, plus did-you-mean
+   suggestions from the registry. A suggestion needs optimal-string-alignment
+   distance ≤ ¼ of the length, or a shared component, and only kinds the action takes
+   qualify. Examples: `chekout-api` → `checkout-api`, `payment-api` →
+   `payments-api`, `vault-transt` → `vault-transit`. `billing-api` gets no suggestion
+   and is no longer accepted at 0.85.
+4. **Page recipients** (`oncall_rotation.py`). A page needs a recipient. It can be a
+   registry pager, or a role (`oncall`, `primary`, `secondary`…, typo-tolerant) that
+   resolves through the newest corpus rotation page (`wiki_oncall_now`: primary
+   `checkout-primary`). The rotation is used only while that page is within its SLA
+   (16 h vs 168 h). The `for …` phrase becomes `payload.context`. If there is no
+   recipient, or the rotation is stale, the request is refused with `no_recipient` and
+   the primary is suggested.
+5. **Refusal explanations** (`explain.py`). Every refusal decision carries
+   `explanation`, with these fields:
+   - `gate`, `summary`, and `evidence_doc_ids`;
+   - `stale_sources`, in retrieval order: doc, source system, `updated_at`, age, SLA,
+     and hours over;
+   - `missing_terms`: salient query terms the closest document lacks;
+   - `top_doc_ids`: the BM25 and dense top docs, for disagreement;
+   - `write`: reason code, verb, target, and suggestions;
+   - `details` and `remediation`: refresh source X, add a runbook for Y, reconcile A
+     vs B, quarantine or scrub doc Z, name a registered target, or start a new
+     session.
+
+   The explanation is built lazily, so answers pay nothing. It appears in the
+   FastAPI `/query` response and in every JSONL trace line.
+6. **Redaction** (`explain_redact.py`). Explanations are built from query terms, so
+   they are redacted before they leave the service, and again at the API and trace
+   boundary. Canary tokens, AWS keys, and chat tokens are matched case-insensitively
+   (queries arrive lower-cased), along with e-mail, phone, `key=value` secrets, and
+   long high-entropy strings. Tokenizer fragments of those spans in the raw query are
+   redacted too, such as the pieces of a split e-mail address. Refusal `reason` lines
+   get the same pass.
+
+**Held-out words (disclosure).** Besides `bounce`, the words `set`, `turn`, `down`,
+`flush`, and `purge` are all held-out synonym words. None of them was added to a
+lexicon, and the leakage test still passes. Two resources do overlap with the held-out
+set, and tests pin the overlap: the particle list overlaps on `{down}`, and the
+cache-tool verbs overlap on `{flush, purge}`. I chose the cache-tool resource because
+this slice asked for `flush` and `purge`. In the 203 rows those two words appear only
+in question rows (`g30`, `g38`). The frames are verb-agnostic, which is how
+`set X to …` and `turn off X` work without lexicon entries. **`bounce` stays missed**
+(it still refuses as `unknown_verb`).
+
+### Before (PR #13) / after: robustness (same 203 rows; `artifacts/robustness_report.md`)
+
+| metric | PR #13 default | after default | PR #13 embedding on | after embedding on |
+| --- | ---: | ---: | ---: | ---: |
+| clean decision_accuracy (51) | 1.000 | **1.000** | 1.000 | **1.000** |
+| perturbed decision_accuracy (203) | 0.872 | 0.872 | 0.897 | 0.897 |
+| synonym, dev / held-out | 0.667 / 0.429 | 0.667 / 0.429 | 0.800 / 0.514 | 0.800 / 0.514 |
+| fail-open, perturbed / clean | 0 / 0 | **0 / 0** | 0 / 0 | **0 / 0** |
+| spurious PROPOSE_WRITE, perturbed / clean | 0 / 0 | **0 / 0** | 0 / 0 | **0 / 0** |
+| raw PII/secret in output, perturbed / clean | 0 / 0 | **0 / 0** | 0 / 0 | **0 / 0** |
+
+**No row of the 203 changes, in either config** (a test pins this). None of the
+perturbed write rows uses the new phrasings, and the held-out phrasal words sit in
+question rows. This slice therefore does not move the robustness numbers, and none
+are claimed. In the write ablation (same rows), switching the particle and cache-tool resources
+off, or not requiring registry targets, also leaves the numbers unchanged.
+The prototype backoff stays at 0.901 / held-out 0.543.
+
+### Write-intent eval (hand-written)
+
+**Original 48 rows** (`artifacts/write_intent_eval.md`):
+
+| config | PR #13 P / R / exact | after P / R / exact | spurious (PR #13 → after) |
+| --- | --- | --- | --- |
+| + mood detection (default) | 1.000 / 0.818 / 18 | 1.000 / **0.864** / 18 | 0 → 0 |
+| + mood, embedding on | 1.000 / 0.818 / 18 | 1.000 / 0.864 / 18 | 0 → 0 |
+| + mood + prototype backoff | 1.000 / 0.864 / 19 | 1.000 / **0.909** / 19 | 0 → 0 |
+
+`b02 Retune maxmemory-policy to allkeys-lru` is now caught by the change-of-state
+frame. Exact stays at 18 because `w07`'s hand-written expected target is the incident
+phrase. The page target is now the recipient (`checkout-primary`), and the phrase is
+in `payload.context`. I left the row as written. Golden `g42`'s
+`expect_write_target: payments outage` likewise now corresponds to `payload.context`;
+the golden file was not edited.
+
+**39 new phrasal rows** (`data/eval/write_intent_eval_phrasal.jsonl`;
+`artifacts/write_intent_eval_phrasal.md`). The set has 17 writes, 11 ambiguous rows
+(each with an expected reason code, and 5 with an expected did-you-mean), and 11
+reads. **I wrote them by hand, after the parser and as its author**, using no held-out
+word. As a result the set cannot contain `set`, `turn`, `down`, `flush`, or `purge`;
+unit tests cover those. The PR #13 column is a frozen run of the PR #13 gate on the
+same rows (`artifacts/write_intent_eval_phrasal_pr13.json`).
+
+| config | precision | recall | exact | spurious | clarification | over-asking | reason code | did-you-mean |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| PR #13 gate (default) | 0.737 | 0.824 | 10/17 | **5** | 0.273 | 0 | n/a | n/a |
+| after (default) | **1.000** | **1.000** | **17/17** | **0** | **0.909** | 1 | 10/11 | 5/5 |
+| after, particle + cache-tool verbs off | 1.000 | 0.824 | 14/17 | 0 | 0.727 | 0 | 8/11 | 5/5 |
+| after, registry not required | 0.773 | 1.000 | 17/17 | 5 | 0.455 | 1 | 5/11 | 2/5 |
+
+PR #13's 5 spurious proposals were the unregistered or misspelled targets
+(`billing-api`, `chekout-api`, `payment-api`, `vault-transt`) and `page for the
+payments outage`. Two misses are pinned:
+- `m03 switch promo_attach and checkout_retry off` is not parsed. Coordinated
+  objects before a separated particle are not handled, so the result is no write
+  rather than a clarifying question.
+- `a05 click on checkout-api in the dashboard` fits the toggle frame and is asked
+  about (kind mismatch). That is over-asking, not a write.
+
+### Refusal-explanation eval (`artifacts/explanation_eval.md`, gating in CI)
+
+There is one hand-written expectation per refusing golden row (33), taken from the
+golden notes (`data/eval/explanation_expectations.jsonl`). Stale ages and SLAs are
+recomputed from the corpus jsonl and `config/source_slas.yaml`, independently of the
+pipeline.
+
+| config | golden rows fully correct | golden checks | schema ok (golden / perturbed) | perturbed transfer checks | write reason codes | did-you-mean | leaks |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| default | 33/33 | 182/182 | 51/51 / 203/203 | 406/415 (0.978) | 10/11 | 5/5 | **0** |
+| embedding on | 33/33 | 182/182 | 51/51 / 203/203 | 418/427 (0.979) | 10/11 | 5/5 | **0** |
+
+Every stale explanation names the right source with the right age and SLA. For
+example, `g08` gives `rb_redis_maxmemory` (runbook) at 4356 h vs 48 h, and `g26` gives
+`graf_payments_qps` (grafana) at 2.5 h vs 1 h. `g13` lists `k8s_payments_worker`
+first, as its note says. Disagreement explanations name the BM25 `cfg_*` doc and the
+dense ranker's bait page. Canary and PII explanations name the planted document and
+never the value.
+
+Transfer is the perturbed rows refused with the same decision as their golden source.
+It misses 7 of 44 missing-term checks, because the synonym swap replaced the very term
+the expectation names. It also misses 2 of 28 stale-first checks, where a perturbed
+query ranks a second stale doc first. Every age, SLA, and doc check holds.
+
+The leak scan covers golden, perturbed, the write refusals, and 84 probe queries that
+paste each of the 8 planted canary/PII values and 6 synthetic secrets into the query.
+It finds 0 leaks in explanations and refusal reasons.
+
+### Weaknesses
+
+- `bounce` is still missed (it refuses as `unknown_verb`). The held-out phrasal words
+  are handled only by verb-agnostic frames and a cache-tool resource that I chose
+  knowing the words. The robustness set does not exercise them, so there is no blind
+  number for them.
+- The frames are verb-agnostic. `click on checkout-api` reads as a toggle (asked, not
+  proposed), and `switch X and Y off` is not parsed.
+- A cache verb aimed at something that is not a cache (`invalidate redis`) is refused
+  with reason code `unknown_verb`, not `kind_mismatch`, so its explanation is less
+  specific than it could be.
+- Missing terms are lexical: synonyms of a covered term can be listed as missing.
+- Redaction is pattern-based plus query fragments. A secret with no recognizable shape
+  that is typed as plain words would pass. The `write_intent` debug field and `query`
+  in traces still echo the user's raw text, as before; only `explanation` and refusal
+  `reason` are redacted.
 
 ## Write-intent classifier (2026-10-03): 0 spurious writes, held-out writes 0/3 → 1/3 (2/3 with the backoff)
 
@@ -43,7 +221,8 @@ Every proposal still waits for human approval. Labels and the 203 rows are uncha
    config keys, and caches. Unknown identifiers that have the right shape
    (`billing-api`) are accepted with lower confidence. Incident ids, dates, regions,
    and canary tokens are never accepted as targets. A page without a recipient
-   targets the incident in its `for …` clause.
+   targets the incident in its `for …` clause. (Both changed on 2026-10-04: targets
+   must be registered, and a page needs a recipient; see above.)
 3. **Mood detection** (`write_mood.py`), per clause. The moods are imperative
    (`restart X`), request (`can you restart X`, `I need you to …`), informational
    (`how do I restart`, `can I restart`, `is it safe to rotate`), declarative (`we
@@ -743,7 +922,8 @@ pytest
 python scripts/run_eval.py
 python scripts/make_paraphrase_set.py   # regenerate perturbed set (seed 42)
 python scripts/run_robustness.py        # report + metrics: before/after, ablation, leakage
-python scripts/run_write_intent_eval.py --latency  # hand-written write-intent eval + timings
+python scripts/run_write_intent_eval.py --latency  # hand-written write-intent eval (48 + 39 phrasal rows) + timings
+python scripts/run_explanation_eval.py             # refusal-explanation correctness + leak scan (exits 1 on a leak)
 python scripts/calibrate_write_prototypes.py       # prototype backoff threshold (dev verbs only)
 python scripts/run_api.py
 ```
