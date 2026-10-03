@@ -23,6 +23,17 @@ Metrics:
 
 ``pr12_keyword_detector`` is the PR #12 regex gate, kept here (eval-only,
 never imported by the pipeline) as the "before" column.
+
+``data/eval/write_intent_eval_phrasal.jsonl`` (39 rows, also hand-written,
+after the phrasal parser, by the same author) is reported *separately* from
+the original 48: 17 writes using particle verbs ("switch X off", "scale X
+in", "move <key> to <value>"), cache-tool verbs ("invalidate", "ban") and
+role pages ("page the on-call"); 11 ambiguous rows (unregistered or
+misspelled targets, a page with no recipient, a conditional, two targets, a
+service given a value) that also carry the expected ``reason_code`` and, where
+the registry has a close name, the expected did-you-mean suggestion; and 11
+reads. It avoids the held-out words too, so it cannot test "set", "turn",
+"down", "flush" or "purge" (all held out).
 """
 
 from __future__ import annotations
@@ -37,6 +48,7 @@ from ops_copilot.pipeline import Copilot
 from ops_copilot.types import Decision
 
 EVAL_SET = Path(__file__).resolve().parents[2] / "data" / "golden" / "write_intent_eval.jsonl"
+PHRASAL_SET = Path(__file__).resolve().parents[2] / "data" / "eval" / "write_intent_eval_phrasal.jsonl"
 WRITE, READ, AMBIGUOUS = "write", "read", "ambiguous"
 
 
@@ -124,8 +136,16 @@ def pr12_keyword_detector(query: str) -> tuple[str, str] | None:
     return None
 
 
-def _score(rows: list[dict], verdicts: list[tuple[str, str | None, str | None]]) -> dict:
-    """verdicts: (decision, action, target) per row."""
+def load_phrasal_eval() -> list[dict]:
+    return load_write_eval(PHRASAL_SET)
+
+
+def _score(
+    rows: list[dict],
+    verdicts: list[tuple[str, str | None, str | None]],
+    intents: list[dict | None] | None = None,
+) -> dict:
+    """verdicts: (decision, action, target) per row; intents: write_intent dicts."""
     tp = fp = fn = exact = clar = over = 0
     n_write = sum(r["label"] == WRITE for r in rows)
     n_nonwrite = len(rows) - n_write
@@ -152,7 +172,22 @@ def _score(rows: list[dict], verdicts: list[tuple[str, str | None, str | None]])
         b["n"] += 1
         b["proposed"] += pr["decision"] == Decision.PROPOSE_WRITE.value
         b["asked"] += pr["decision"] == Decision.REFUSE_AMBIGUOUS_WRITE.value
-    return {
+    extra: dict = {}
+    if intents is not None:
+        coded = [(r, i) for r, i in zip(rows, intents) if r.get("expect_reason_code")]
+        sugg = [(r, i) for r, i in zip(rows, intents) if r.get("expect_suggestion")]
+        for pr, i in zip(per_row, intents):
+            pr["reason_code"] = (i or {}).get("reason_code")
+            pr["suggestions"] = list((i or {}).get("suggestions") or [])
+        extra = {
+            "n_reason_code_expected": len(coded),
+            "n_reason_code_correct": sum((i or {}).get("reason_code") == r["expect_reason_code"] for r, i in coded),
+            "n_suggestion_expected": len(sugg),
+            "n_suggestion_correct": sum(
+                r["expect_suggestion"] in ((i or {}).get("suggestions") or []) for r, i in sugg
+            ),
+        }
+    return extra | {
         "n": len(rows),
         "n_write": n_write,
         "n_read": n_read,
@@ -176,11 +211,14 @@ def run_write_eval(config: CopilotConfig | None = None, *, rows: list[dict] | No
     rows = rows if rows is not None else load_write_eval()
     bot = Copilot(config=config or CopilotConfig())
     verdicts = []
+    intents: list[dict | None] = []
     for r in rows:
         res = bot.ask(r["query"])
         prop = (res.proposed_write or {}).get("proposal") or {}
         verdicts.append((res.decision.value, prop.get("action_type"), prop.get("target")))
-    return _score(rows, verdicts)
+        intents.append(res.write_intent)
+    track = any(r.get("expect_reason_code") for r in rows)
+    return _score(rows, verdicts, intents if track else None)
 
 
 def run_pr12_baseline(rows: list[dict] | None = None) -> dict:
@@ -205,9 +243,29 @@ WRITE_EVAL_CONFIGS: dict[str, dict] = {
 }
 
 
-def run_write_eval_grid(base: CopilotConfig | None = None) -> dict[str, dict]:
+def run_write_eval_grid(base: CopilotConfig | None = None, *, rows: list[dict] | None = None) -> dict[str, dict]:
     base = base or CopilotConfig()
-    out = {"keyword regex (PR #12)": run_pr12_baseline()}
+    rows = rows if rows is not None else load_write_eval()
+    out = {"keyword regex (PR #12)": run_pr12_baseline(rows)}
     for label, knobs in WRITE_EVAL_CONFIGS.items():
-        out[label] = run_write_eval(replace(base, **knobs))
+        out[label] = run_write_eval(replace(base, **knobs), rows=rows)
+    return out
+
+
+# Ablation on the phrasal rows: the three resources of the phrasal slice off.
+PHRASAL_ABLATION = {
+    "default, particle frames + cache-tool verbs off": {
+        "write_phrasal_parser": False,
+        "write_ops_cli_verbs": False,
+    },
+    "default, registry not required": {"write_require_registered_target": False},
+}
+
+
+def run_phrasal_grid(base: CopilotConfig | None = None) -> dict[str, dict]:
+    base = base or CopilotConfig()
+    rows = load_phrasal_eval()
+    out = run_write_eval_grid(base, rows=rows)
+    for label, knobs in PHRASAL_ABLATION.items():
+        out[label] = run_write_eval(replace(base, **knobs), rows=rows)
     return out

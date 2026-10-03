@@ -34,6 +34,11 @@ jobs:
       - name: Robustness report (clean vs perturbed, non-gating on accuracy)
         run: python scripts/run_robustness.py
 
+      # Gating: exits non-zero if any refusal explanation leaks a canary token,
+      # PII or a secret, or a golden explanation check fails.
+      - name: Refusal-explanation eval (golden + perturbed + leak probes)
+        run: python scripts/run_explanation_eval.py
+
       - name: Upload eval artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -46,3 +51,5 @@ jobs:
             artifacts/eval_comparison.json
             artifacts/robustness_report.md
             artifacts/robustness_metrics.json
+            artifacts/explanation_eval.md
+            artifacts/explanation_eval.json
