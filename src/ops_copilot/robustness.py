@@ -22,10 +22,11 @@ to quote: none of its replacement words is in any product lexicon. The PR #10
 run is frozen per row in ``artifacts/robustness_pr10.json`` so the same
 split can be applied to the "before" column. Since the real-embeddings
 slice the "before" was PR #11 (``artifacts/robustness_pr11.json``, same
-compact format). Since the write-intent slice the default "before" is PR #12
-(``artifacts/robustness_pr12.json``), frozen for the default config and,
-under ``embedding_on``, for the frozen-MiniLM config; PR #10 and PR #11 stay
-loadable for history.
+compact format). The write-intent slice compared against PR #12
+(``artifacts/robustness_pr12.json``). Since the phrasal-writes / explanations
+slice the default "before" is PR #13 (``artifacts/robustness_pr13.json``),
+frozen for the default config and, under ``embedding_on``, for the
+frozen-MiniLM config; PR #10, #11 and #12 stay loadable for history.
 
 Write gate: ``WRITE_ABLATIONS`` runs the structured write classifier as a
 lexicon parser only (no mood detection), with mood detection (the default),
@@ -66,7 +67,10 @@ PR11_BEFORE = ARTIFACTS / "robustness_pr11.json"
 # PR #12 (real embeddings), frozen per row for the default config and, under
 # "embedding_on", for the frozen-MiniLM config: the write-gate slice's before.
 PR12_BEFORE = ARTIFACTS / "robustness_pr12.json"
-DEFAULT_BEFORE = PR12_BEFORE
+# PR #13 (structured write-intent parser), same format: the phrasal-writes /
+# refusal-explanations slice's before.
+PR13_BEFORE = ARTIFACTS / "robustness_pr13.json"
+DEFAULT_BEFORE = PR13_BEFORE
 SPLITS: tuple[str, ...] = ("dev", "heldout")
 
 
@@ -432,6 +436,17 @@ WRITE_ABLATIONS: dict[str, dict] = {
     "+ mood detection (default)": {},
     "+ mood, embedding on": dict(EMBEDDING_ON),
     "+ mood + prototype backoff (embedding on)": dict(EMBEDDING_ON_BACKOFF),
+}
+
+
+# Phrasal-writes slice: the three new write-gate resources switched off on
+# top of the default config (reported next to WRITE_ABLATIONS).
+PHRASAL_ABLATIONS: dict[str, dict] = {
+    "default, particle frames + cache-tool verbs off": {
+        "write_phrasal_parser": False,
+        "write_ops_cli_verbs": False,
+    },
+    "default, registry not required": {"write_require_registered_target": False},
 }
 
 

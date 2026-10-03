@@ -130,7 +130,7 @@ def test_report_renders_before_after_and_fail_open(report) -> None:
     before = load_before()
     assert before is not None and before["n_perturbed"] == 203
     md = render_robustness_markdown(report, baseline=before, leakage=leakage_report())
-    assert "## Before (PR #12) / after (this run)" in md
+    assert "## Before (PR #13) / after (this run)" in md
     assert "## Synonym rows: dev vs held-out" in md
     assert "| synonym, held-out rows (n=35) |" in md
     assert "| fail-open (expected refusal/write -> ANSWER) |" in md
@@ -153,10 +153,10 @@ def test_report_renders_the_embedding_columns_and_ablation(report) -> None:
         calibration={"threshold": 0.45, "max_terms": 1},
     )
     assert (
-        "| metric | PR #12 (default) | after (default) | PR #12 (embedding on) | after (embedding on) |"
+        "| metric | PR #13 (default) | after (default) | PR #13 (embedding on) | after (embedding on) |"
         in md
     )
-    assert "| held-out PROPOSE_WRITE rows correct | 0/3 | 1/3 | 0/3 |" in md
+    assert "| held-out PROPOSE_WRITE rows correct | 1/3 | 1/3 | 1/3 | 1/3 |" in md
     assert "## Embedding on: held-out rows by expected decision" in md
     assert "## Ablation: real embeddings" in md
     assert "| heldout | ANSWER | 9 |" in md

@@ -22,8 +22,10 @@ from ops_copilot.robustness import (  # noqa: E402
     EMBED_ABLATIONS,
     EMBEDDING_ON,
     EMBEDDING_ON_BACKOFF,
+    PHRASAL_ABLATIONS,
     PR10_BEFORE,
     PR11_BEFORE,
+    PR12_BEFORE,
     ablation_row,
     leakage_report,
     load_before,
@@ -87,7 +89,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument(
         "--before",
         default=None,
-        help="frozen PR #12 per-row run (default: artifacts/robustness_pr12.json)",
+        help="frozen PR #13 per-row run (default: artifacts/robustness_pr13.json)",
     )
     args = ap.parse_args(argv)
 
@@ -100,6 +102,7 @@ def main(argv: list[str] | None = None) -> int:
     before = load_before(args.before, paraphrase_path=args.paraphrase)
     before_pr10 = load_before(PR10_BEFORE, paraphrase_path=args.paraphrase)
     before_pr11 = load_before(PR11_BEFORE, paraphrase_path=args.paraphrase)
+    before_pr12 = load_before(PR12_BEFORE, paraphrase_path=args.paraphrase)
     # Write-gate ablation: reuse the default and embedding-on runs above.
     write_ablations = {
         "lexicon parser only (no mood)": ablation_row(
@@ -119,6 +122,14 @@ def main(argv: list[str] | None = None) -> int:
             )
         ),
     }
+    for label, knobs in PHRASAL_ABLATIONS.items():
+        write_ablations[label] = ablation_row(
+            run_robustness(
+                golden_path=args.golden,
+                paraphrase_path=args.paraphrase,
+                config=replace(CopilotConfig(), **knobs),
+            )
+        )
     ablations = run_ablations(golden_path=args.golden, paraphrase_path=args.paraphrase)
     embed_ablations = run_ablations(
         golden_path=args.golden, paraphrase_path=args.paraphrase, grid=EMBED_ABLATIONS
@@ -148,9 +159,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     metrics = report.as_dict(flip_detail=False)
     if before:
-        metrics["before_pr12"] = _before_summary(before)
+        metrics["before_pr13"] = _before_summary(before)
         if isinstance(before.get("embedding_on"), dict):
-            metrics["before_pr12"]["embedding_on"] = _before_summary(before["embedding_on"])
+            metrics["before_pr13"]["embedding_on"] = _before_summary(before["embedding_on"])
+    if before_pr12:
+        metrics["before_pr12"] = _before_summary(before_pr12)
+        if isinstance(before_pr12.get("embedding_on"), dict):
+            metrics["before_pr12"]["embedding_on"] = _before_summary(before_pr12["embedding_on"])
     if before_pr11:
         metrics["before_pr11"] = _before_summary(before_pr11)
     if before_pr10:

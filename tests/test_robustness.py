@@ -15,7 +15,9 @@ from ops_copilot.robustness import (
     EMBED_ABLATIONS,
     PR10_BEFORE,
     PR11_BEFORE,
+    PHRASAL_ABLATIONS,
     PR12_BEFORE,
+    PR13_BEFORE,
     WRITE_ABLATIONS,
     classify_flip,
     load_before,
@@ -98,8 +100,32 @@ def test_synonym_rows_are_split_dev_and_heldout(report) -> None:
     assert report.as_dict()["per_synonym_split"] == sp
 
 
-def test_before_is_the_frozen_pr12_run_rescored_with_the_split() -> None:
+def test_before_is_the_frozen_pr13_run_rescored_with_the_split() -> None:
     before = load_before()
+    assert before is not None
+    assert "135c57f" in before["source"] and before["label"] == "PR #13"
+    assert before["perturbed_accuracy"] == pytest.approx(0.8719, abs=1e-4)
+    assert len(before["decisions"]) == 203
+    held = before["per_synonym_split"]["heldout"]
+    assert held["n"] == 35 and held["perturbed_accuracy"] == pytest.approx(15 / 35)
+    emb = before["embedding_on"]
+    assert emb["label"] == "PR #13 (embedding on)"
+    assert emb["perturbed_accuracy"] == pytest.approx(0.8966, abs=1e-4)
+    assert emb["per_synonym_split"]["heldout"]["perturbed_accuracy"] == pytest.approx(18 / 35)
+
+
+def test_phrasal_slice_changes_no_robustness_row(report) -> None:
+    # The phrasal verbs, registry targets and page recipients move no row of
+    # the 203: the perturbed set's write rows use none of the new phrasings,
+    # and its held-out phrasal words (set/turn/down/flush/purge) sit in
+    # question rows. Pinned so a regression shows up as a changed row.
+    before = load_before(PR13_BEFORE)
+    actual = {c.id: c.perturbed_decision for c in report.cases}
+    assert {rid: d for rid, d in actual.items() if d != before["decisions"][rid]} == {}
+
+
+def test_pr12_run_stays_loadable_for_history() -> None:
+    before = load_before(PR12_BEFORE)
     assert before is not None
     assert "fcc8157" in before["source"] and before["label"] == "PR #12"
     assert before["perturbed_accuracy"] == pytest.approx(0.8621, abs=1e-4)
@@ -191,7 +217,7 @@ def test_write_ablations_only_toggle_write_knobs() -> None:
 def test_committed_write_ablation_safety() -> None:
     metrics = json.loads((ROOT / "artifacts" / "robustness_metrics.json").read_text("utf-8"))
     rows = metrics["write_ablations"]
-    assert list(rows) == list(WRITE_ABLATIONS)
+    assert list(rows) == list(WRITE_ABLATIONS) + list(PHRASAL_ABLATIONS)
     for label, row in rows.items():
         if label.startswith("lexicon parser only"):
             # Why mood detection exists: 'How do I restart ...' becomes a write.
