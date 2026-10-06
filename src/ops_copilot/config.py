@@ -116,6 +116,8 @@ class CopilotConfig:
     # word_vector_known_words, a *known* word missing from the evidence may
     # also be supported by its substitutes. Threshold / count / scope from
     # scripts/calibrate_word_vectors.py (clean golden + dev synonym rows only).
+    # Off by default: the dev-chosen setting fixed no held-out row and broke one
+    # (README "External synonym resource"); it is an opt-in for general English.
     use_word_vector_backoff: bool = False
     word_vector_min_similarity: float = 0.88
     word_vector_max_neighbours: int = 1
