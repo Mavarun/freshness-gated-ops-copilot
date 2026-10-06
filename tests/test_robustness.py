@@ -100,18 +100,22 @@ def test_synonym_rows_are_split_dev_and_heldout(report) -> None:
     assert report.as_dict()["per_synonym_split"] == sp
 
 
-def test_before_is_the_frozen_pr13_run_rescored_with_the_split() -> None:
+def test_before_is_the_frozen_pr14_run_rescored_with_the_split() -> None:
     before = load_before()
     assert before is not None
-    assert "135c57f" in before["source"] and before["label"] == "PR #13"
+    assert "138839e" in before["source"] and before["label"] == "PR #14"
     assert before["perturbed_accuracy"] == pytest.approx(0.8719, abs=1e-4)
     assert len(before["decisions"]) == 203
     held = before["per_synonym_split"]["heldout"]
     assert held["n"] == 35 and held["perturbed_accuracy"] == pytest.approx(15 / 35)
     emb = before["embedding_on"]
-    assert emb["label"] == "PR #13 (embedding on)"
+    assert emb["label"] == "PR #14 (embedding on)"
     assert emb["perturbed_accuracy"] == pytest.approx(0.8966, abs=1e-4)
     assert emb["per_synonym_split"]["heldout"]["perturbed_accuracy"] == pytest.approx(18 / 35)
+    # PR #14 moved no row relative to PR #13 (pinned there, frozen here).
+    pr13 = load_before(PR13_BEFORE)
+    assert before["decisions"] == pr13["decisions"]
+    assert before["embedding_on"]["decisions"] == pr13["embedding_on"]["decisions"]
 
 
 def test_phrasal_slice_changes_no_robustness_row(report) -> None:

@@ -26,7 +26,14 @@ compact format). The write-intent slice compared against PR #12
 (``artifacts/robustness_pr12.json``). Since the phrasal-writes / explanations
 slice the default "before" is PR #13 (``artifacts/robustness_pr13.json``),
 frozen for the default config and, under ``embedding_on``, for the
-frozen-MiniLM config; PR #10, #11 and #12 stay loadable for history.
+frozen-MiniLM config. Since the word-vector slice the default "before" is
+PR #14 (``artifacts/robustness_pr14.json``, the same per-row decisions as
+PR #13); PR #10-#13 stay loadable for history.
+
+Word-vector backoff: ``WORDVEC_ABLATIONS`` switches the counter-fitted
+substitute table (``word_vectors.py``) on at its dev-calibrated setting and
+with its scope narrowed to unknown words; ``changed_rows`` lists every row
+whose decision moves.
 
 Write gate: ``WRITE_ABLATIONS`` runs the structured write classifier as a
 lexicon parser only (no mood detection), with mood detection (the default),
@@ -70,7 +77,10 @@ PR12_BEFORE = ARTIFACTS / "robustness_pr12.json"
 # PR #13 (structured write-intent parser), same format: the phrasal-writes /
 # refusal-explanations slice's before.
 PR13_BEFORE = ARTIFACTS / "robustness_pr13.json"
-DEFAULT_BEFORE = PR13_BEFORE
+# PR #14 (phrasal writes + refusal explanations), same format and the same
+# per-row decisions as PR #13: the word-vector slice's before.
+PR14_BEFORE = ARTIFACTS / "robustness_pr14.json"
+DEFAULT_BEFORE = PR14_BEFORE
 SPLITS: tuple[str, ...] = ("dev", "heldout")
 
 
@@ -450,6 +460,43 @@ PHRASAL_ABLATIONS: dict[str, dict] = {
 }
 
 
+# Word-vector slice: the counter-fitted backoff (word_vectors.py) on top of
+# the default config, at the dev-calibrated setting and with its scope narrowed.
+WORDVEC_ON: dict = {"use_word_vector_backoff": True}
+WORDVEC_ABLATIONS: dict[str, dict] = {
+    "default (word-vector backoff off)": {"use_word_vector_backoff": False},
+    "+ word-vector backoff (calibrated: 0.88, 1 substitute, known words too)": dict(WORDVEC_ON),
+    "+ word-vector backoff, unknown words only": {
+        "use_word_vector_backoff": True,
+        "word_vector_known_words": False,
+    },
+}
+
+
+def changed_rows(a: RobustnessReport, b: RobustnessReport) -> list[dict]:
+    """Perturbed rows whose decision differs between two runs (a -> b)."""
+    before = {c.id: c for c in a.cases}
+    out: list[dict] = []
+    for c in b.cases:
+        prev = before.get(c.id)
+        if prev is not None and prev.perturbed_decision != c.perturbed_decision:
+            out.append(
+                {
+                    "id": c.id,
+                    "split": c.synonym_split or "-",
+                    "expect": c.expect_decision,
+                    "before": prev.perturbed_decision,
+                    "after": c.perturbed_decision,
+                    "effect": (
+                        "fixed"
+                        if c.perturbed_match
+                        else "broke" if prev.perturbed_match else "still wrong"
+                    ),
+                }
+            )
+    return out
+
+
 def ablation_row(rep: RobustnessReport) -> dict:
     d = rep.as_dict(flip_detail=False)
     held = rep.per_synonym_split.get("heldout", {}).get("by_gate", {}).get(WRITE, {})
@@ -582,6 +629,37 @@ def leakage_report() -> dict:
         "heldout_words_in_glossary": held_hits(glossary_words),
         "polite_prefix_words": len(prefix_words),
         "polite_prefix_words_in_filler": len(filler_hits),
+        "external_wordvec": _external_wordvec_coverage(),
+    }
+
+
+def _external_wordvec_coverage() -> dict | None:
+    """How many dev / held-out words the external counter-fitted table covers.
+
+    Reported, not asserted to be zero: the table is an outside resource whose
+    vocabulary was never filtered by eval words (that is its point).
+    """
+    from ops_copilot.synonym_split import DEFAULT_SPLIT_PATH, load_split
+    from ops_copilot.word_vectors import DEFAULT_TABLE, load_table
+
+    if not (DEFAULT_TABLE.is_file() and DEFAULT_SPLIT_PATH.is_file()):
+        return None
+    table, split, cfg = load_table(), load_split(), CopilotConfig()
+
+    def hits(words: list[str], th: float) -> int:
+        return sum(1 for w in words if any(sc >= th for _, sc in table.get(w)))
+
+    floor = float(table.meta["floor"])
+    dev, held = list(split["dev_words"]), list(split["heldout_words"])
+    return {
+        "floor": floor,
+        "threshold": cfg.word_vector_min_similarity,
+        "dev_words": len(dev),
+        "heldout_words": len(held),
+        "dev_words_with_entry": hits(dev, floor),
+        "heldout_words_with_entry": hits(held, floor),
+        "dev_words_at_threshold": hits(dev, cfg.word_vector_min_similarity),
+        "heldout_words_at_threshold": hits(held, cfg.word_vector_min_similarity),
     }
 
 
@@ -747,6 +825,19 @@ def _leakage_lines(leak: dict) -> list[str]:
         v = ps.get(split, {})
         return f"{v.get('covered', 0)} of {v.get('applicable', 0)} ({v.get('coverage', 0.0):.1%})"
 
+    ext = leak.get("external_wordvec")
+    ext_lines = (
+        [
+            f"- external counter-fitted table (not authored here, not filtered by eval "
+            f"words): {ext['heldout_words_with_entry']} of {ext['heldout_words']} held-out "
+            f"words and {ext['dev_words_with_entry']} of {ext['dev_words']} dev words have "
+            f"a corpus substitute >= the {ext['floor']:.2f} floor; "
+            f"{ext['heldout_words_at_threshold']} held-out / {ext['dev_words_at_threshold']} "
+            f"dev words clear the calibrated {ext['threshold']:.2f}",
+        ]
+        if ext
+        else []
+    )
     return [
         "## Leakage check (product lexicons vs the eval's perturbation vocabulary)",
         "",
@@ -762,6 +853,7 @@ def _leakage_lines(leak: dict) -> list[str]:
         f"- content words of the eval's polite prefixes that are in `FILLER_WORDS`: "
         f"{leak['polite_prefix_words_in_filler']} of {leak['polite_prefix_words']} "
         "(closed class; unavoidable)",
+        *ext_lines,
         "- covered pairs: " + (", ".join(f"`{p}`" for p in leak["covered_pairs"]) or "none"),
         "",
     ]
@@ -801,6 +893,8 @@ def render_robustness_markdown(
     embed_ablations: dict | None = None,
     calibration: dict | None = None,
     write_ablations: dict | None = None,
+    wordvec_ablations: dict | None = None,
+    wordvec_changes: list[dict] | None = None,
 ) -> str:
     d = report.as_dict()
     emb = embedding.as_dict(flip_detail=False) if embedding is not None else None
@@ -848,6 +942,31 @@ def render_robustness_markdown(
                 "grounding backoff and its strict safety rules toggle."
             ),
         )
+    if wordvec_ablations:
+        lines += _ablation_lines(
+            wordvec_ablations,
+            kinds,
+            title="## Ablation: counter-fitted word-vector backoff (external synonym resource)",
+            blurb=(
+                "Default config plus the committed counter-fitted neighbour table "
+                "(`data/wordvec/`, Mrksic et al. 2016). Threshold, substitute count and "
+                "scope were calibrated on clean golden + dev synonym rows only "
+                "(`artifacts/word_vector_calibration.md`); this table is the first "
+                "held-out run of that setting."
+            ),
+        )
+        if wordvec_changes is not None:
+            lines += [
+                "Rows whose decision changes when the calibrated backoff is switched on:",
+                "",
+                "| row | split | expected | off | on | effect |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+            lines += [
+                f"| {r['id']} | {r['split']} | {r['expect']} | {r['before']} | {r['after']} | {r['effect']} |"
+                for r in wordvec_changes
+            ] or ["| - | - | - | - | - | - |"]
+            lines.append("")
     if write_ablations:
         lines += _ablation_lines(
             write_ablations,
