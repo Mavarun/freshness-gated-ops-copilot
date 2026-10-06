@@ -39,6 +39,7 @@ from ops_copilot.config import CopilotConfig
 from ops_copilot.embeddings import EmbeddingBackend, passage_text
 from ops_copilot.lexicon import CorpusVocabulary, fix_interrogative_typos
 from ops_copilot.semantic import SemanticBackoff
+from ops_copilot.word_vectors import WordVectorBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases
 from ops_copilot.text import (
     FILLER_WORDS,
@@ -202,12 +203,14 @@ class Retriever:
         *,
         semantic: SemanticBackoff | None = None,
         embeddings: EmbeddingBackend | None = None,
+        wordvec: WordVectorBackoff | None = None,
     ) -> None:
         if not chunks:
             raise ValueError("retriever requires at least one chunk")
         self.chunks = chunks
         self.config = config or CopilotConfig()
         self.semantic = semantic
+        self.wordvec = wordvec
         self._tokenized = [tokenize(f"{c.title} {c.text}") for c in chunks]
         self._bm25 = _bm25_engine(self._tokenized)
         self.vocab = CorpusVocabulary(self._tokenized, extra_words=NON_SALIENT)
@@ -254,6 +257,11 @@ class Retriever:
                 fixed = self.vocab.correct(word)
                 if fixed is not None:
                     words.append(fixed)
+                    continue
+            if self.wordvec is not None:
+                near = sorted(n.word for n in self.wordvec.neighbours(word) if n.word in self.vocab)
+                if near:
+                    words.extend(near)
                     continue
             if self.semantic is not None:
                 near = sorted(n.word for n in self.semantic.neighbours(word))

@@ -23,6 +23,13 @@ supported by "utilization"), and hyphen spellings are interchangeable ("oncall" 
 like that member instead of as OOV. The eval's own perturbation map is never
 consulted (see synonyms.py for the leakage note).
 
+Word-vector backoff (optional, ``word_vectors.WordVectorBackoff``): a word that
+is still unknown after the synonym and typo steps may be supported by its
+counter-fitted substitutes among the corpus words (an external PPDB/WordNet-
+constrained resource, cosine >= a dev-calibrated threshold), weighted like the
+heaviest of them. With ``wordvec_known`` a known word's substitutes are also
+accepted as support. It runs before the corpus PPMI backoff.
+
 Semantic backoff (optional, ``semantic.SemanticBackoff``): a word that is still
 unknown after the synonym and typo steps may be supported by its closest
 corpus words from the corpus PPMI/SVD embedding (or one char-trigram
@@ -68,6 +75,7 @@ from ops_copilot.text import (
     normalize_text,
 )
 from ops_copilot.types import Chunk, GroundingResult
+from ops_copilot.word_vectors import WordVectorBackoff
 
 
 @dataclass(frozen=True)
@@ -75,7 +83,7 @@ class QueryTerm:
     """One salient query term and the evidence forms that count as support."""
 
     token: str
-    kind: str  # identifier | known | typo | synonym | semantic | unknown
+    kind: str  # identifier | known | typo | synonym | wordvec | semantic | unknown
     weight: float
     alts: frozenset[str]
 
@@ -148,6 +156,8 @@ class Grounder:
         synonyms: bool = True,
         semantic: SemanticBackoff | None = None,
         embed_support: EmbeddingSupport | None = None,
+        wordvec: WordVectorBackoff | None = None,
+        wordvec_known: bool = False,
     ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
@@ -158,6 +168,8 @@ class Grounder:
         self.synonyms = synonyms
         self.semantic = semantic
         self.embed_support = embed_support
+        self.wordvec = wordvec
+        self.wordvec_known = bool(wordvec_known and wordvec is not None)
         self.vocab = CorpusVocabulary(tokenized, extra_words=NON_SALIENT)
 
     def _weight(self, token: str) -> float:
@@ -176,7 +188,10 @@ class Grounder:
         if is_identifier(tok):
             return QueryTerm(tok, "identifier", self._weight(tok), self._alts(tok))
         if tok in self.idf:
-            return QueryTerm(tok, "known", self._weight(tok), self._alts(tok))
+            alts = self._alts(tok)
+            if self.wordvec_known:
+                alts = alts | self._wordvec_near(tok)
+            return QueryTerm(tok, "known", self._weight(tok), alts)
         if self.synonyms:
             known = [w for w in equivalents(tok) if w in self.idf]
             if known:
@@ -188,12 +203,23 @@ class Grounder:
                 return None
             if fixed is not None and fixed in self.idf:
                 return QueryTerm(fixed, "typo", self._weight(fixed), self._alts(fixed))
+        if self.wordvec is not None and not is_identifier(tok):
+            wv = self._wordvec_near(tok)
+            if wv:
+                weight = max(self._weight(w) for w in wv)
+                return QueryTerm(tok, "wordvec", weight, frozenset({tok, *wv}))
         if self.semantic is not None and not is_identifier(tok):
             near = [n.word for n in self.semantic.neighbours(tok) if n.word in self.idf]
             if near:
                 weight = max(self._weight(w) for w in near)
                 return QueryTerm(tok, "semantic", weight, frozenset({tok, *near}))
         return QueryTerm(tok, "unknown", self.oov_idf, frozenset({tok}))
+
+    def _wordvec_near(self, tok: str) -> frozenset[str]:
+        """Counter-fitted substitutes of ``tok`` that are corpus words."""
+        if self.wordvec is None:
+            return frozenset()
+        return frozenset(n.word for n in self.wordvec.neighbours(tok) if n.word in self.idf)
 
     def _query_tokens(self, query: str) -> list[str]:
         text = normalize_text(query)

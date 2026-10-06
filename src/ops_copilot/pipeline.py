@@ -31,6 +31,7 @@ from ops_copilot.grounding import EmbeddingSupport, Grounder
 from ops_copilot.policy import decide
 from ops_copilot.retrieve import Retriever
 from ops_copilot.semantic import SemanticBackoff
+from ops_copilot.word_vectors import WordVectorBackoff
 from ops_copilot.source_slas import SourceSlaTable, load_source_slas, resolve_max_age
 from ops_copilot.types import Chunk, CopilotResult, Decision
 from ops_copilot.write_actions import proposal_from_intent
@@ -95,6 +96,15 @@ class Copilot:
             if self.config.use_semantic_backoff
             else None
         )
+        self.wordvec = (
+            WordVectorBackoff(
+                texts,
+                min_similarity=self.config.word_vector_min_similarity,
+                max_neighbours=self.config.word_vector_max_neighbours,
+            )
+            if self.config.use_word_vector_backoff
+            else None
+        )
         self.embeddings = resolve_backend(
             self.config.embedding_backend,
             model_name=self.config.embedding_model,
@@ -105,6 +115,7 @@ class Copilot:
             self.config,
             semantic=self.semantic,
             embeddings=self.embeddings,
+            wordvec=self.wordvec,
         )
         self.grounder = Grounder(
             texts,
@@ -112,6 +123,8 @@ class Copilot:
             typo_tolerance=self.config.typo_tolerance,
             synonyms=self.config.use_synonyms,
             semantic=self.semantic,
+            wordvec=self.wordvec,
+            wordvec_known=self.config.word_vector_known_words,
             embed_support=(
                 EmbeddingSupport(
                     self.embeddings,
