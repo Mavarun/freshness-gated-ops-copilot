@@ -108,6 +108,18 @@ class CopilotConfig:
     semantic_char_ngrams: bool = True
     semantic_min_similarity: float = 0.60
     semantic_max_neighbours: int = 1
+    # Counter-fitted word-vector backoff (word_vectors.py): an external
+    # synonym resource (Mrksic et al. 2016, PPDB/WordNet-constrained vectors)
+    # maps a query word the corpus lacks onto at most N corpus substitutes
+    # with cosine >= the threshold, for grounding and the retrieval rewrite.
+    # Committed table only (data/wordvec/), no model or download. With
+    # word_vector_known_words, a *known* word missing from the evidence may
+    # also be supported by its substitutes. Threshold / count / scope from
+    # scripts/calibrate_word_vectors.py (clean golden + dev synonym rows only).
+    use_word_vector_backoff: bool = False
+    word_vector_min_similarity: float = 0.80
+    word_vector_max_neighbours: int = 1
+    word_vector_known_words: bool = False
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
