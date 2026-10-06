@@ -90,10 +90,11 @@ def result_to_response(result: CopilotResult, *, trace_id: str, sla_used: dict[s
                 max_age_hours=fr.max_age_hours if fr else None,
             )
         )
+    safe = result.boundary_dict()
     return QueryResponse(
         decision=result.decision.value,
         answer_or_refusal=result.answer,
-        reason=result.reason,
+        reason=safe["reason"],
         evidence=evidence,
         ages=[round(c.age_hours, 4) for c in result.retrieved],
         sla_used=sla_used,
@@ -108,12 +109,12 @@ def result_to_response(result: CopilotResult, *, trace_id: str, sla_used: dict[s
         session_spent_before=round(result.session_spent_before, 4),
         session_spent_after=round(result.session_spent_after, 4),
         session_budget=result.session_budget,
-        proposed_write=result.proposed_write,
+        proposed_write=safe["proposed_write"],
         pii_detected=bool(result.pii_detected),
         redactions_count=int(result.redactions_count),
         pii=result.pii,
-        write_intent=result.write_intent,
-        explanation=result.redacted_explanation(),
+        write_intent=safe["write_intent"],
+        explanation=safe["explanation"],
     )
 
 

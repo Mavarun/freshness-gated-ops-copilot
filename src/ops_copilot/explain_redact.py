@@ -24,6 +24,15 @@ Two passes, applied to every string anywhere in the explanation dict:
 ``redact_explanation`` is idempotent (a second pass finds nothing) and
 reports how many replacements it made. It runs when the explanation is built
 and again at the API and trace boundaries.
+
+Boundary fields (``redact_boundary``): until PR #14 only ``explanation`` and
+refusal ``reason`` were redacted, while the trace line still stored the raw
+``query`` and the ``write_intent`` / ``proposed_write`` parse, both of which
+echo user text. A secret pasted into a question therefore sat in plain text in
+``artifacts/traces.jsonl``. ``BOUNDARY_FIELDS`` are now redacted the same way
+(both passes, the raw query as context) before a trace line is written and
+before the API responds. The in-process result and the HITL ledger keep the
+raw values, so an approved write still executes what was asked.
 """
 
 from __future__ import annotations
@@ -172,3 +181,31 @@ def explanation_leaks(explanation: dict[str, Any] | None, secrets: Iterable[str]
     low = blob.lower()
     leaks.extend(f"literal:{s[:4]}…" for s in secrets if s and s.lower() in low)
     return leaks
+
+
+# User-derived fields of a result dict that leave the process (trace / API).
+BOUNDARY_FIELDS: tuple[str, ...] = ("query", "reason", "write_intent", "proposed_write")
+
+
+def redact_boundary(
+    payload: dict[str, Any], *, query: str, fields: Sequence[str] = BOUNDARY_FIELDS
+) -> tuple[dict[str, Any], int]:
+    """Copy of ``payload`` with ``fields`` redacted against ``query``.
+
+    Other keys are copied as-is (``explanation`` is redacted by its own pass).
+    Returns ``(copy, n_replacements)``.
+    """
+    frag_re = _fragment_re((query,))
+    out = dict(payload)
+    total = 0
+    for key in fields:
+        if key in out and out[key] is not None:
+            out[key], n = _walk(out[key], frag_re)
+            total += n
+    return out, total
+
+
+def boundary_leaks(payload: dict[str, Any], secrets: Iterable[str] = ()) -> list[str]:
+    """Sensitive kinds / literal secrets left in the boundary fields and explanation."""
+    keys = (*BOUNDARY_FIELDS, "explanation")
+    return explanation_leaks({k: payload.get(k) for k in keys if payload.get(k) is not None}, secrets)

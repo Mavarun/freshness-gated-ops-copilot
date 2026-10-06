@@ -1,4 +1,9 @@
-"""JSONL request traces: query, ids, ages, decision, latency, cost."""
+"""JSONL request traces: query, ids, ages, decision, latency, cost.
+
+Trace lines are written from ``CopilotResult.boundary_dict()``: the query,
+refusal reason and write parse are redacted (``explain_redact.redact_boundary``)
+so a secret pasted into a question never lands in the JSONL file.
+"""
 
 from __future__ import annotations
 
@@ -12,7 +17,7 @@ DEFAULT_TRACE_PATH = Path("artifacts") / "traces.jsonl"
 
 
 def result_to_trace(result: CopilotResult, *, extra: dict | None = None) -> dict:
-    payload = result.as_dict()
+    payload = result.boundary_dict()
     payload["ts"] = datetime.now(timezone.utc).isoformat()
     if extra:
         payload.update(extra)

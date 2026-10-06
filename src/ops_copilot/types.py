@@ -171,6 +171,20 @@ class CopilotResult:
             "explanation": self.redacted_explanation(),
         }
 
+    def boundary_dict(self) -> dict:
+        """``as_dict`` with user-derived fields redacted, for traces and the API.
+
+        ``query``, refusal ``reason``, ``write_intent`` and ``proposed_write``
+        echo user text; a pasted secret, e-mail or canary token is replaced
+        with ``[redacted:<kind>]`` (and its tokenizer fragments with
+        ``[redacted]``). ``boundary_redactions`` counts the replacements.
+        """
+        from ops_copilot.explain_redact import redact_boundary
+
+        out, n = redact_boundary(self.as_dict(), query=self.query)
+        out["boundary_redactions"] = n
+        return out
+
     def redacted_explanation(self) -> dict | None:
         """The explanation after a boundary redaction pass against the raw query."""
         from ops_copilot.explain_redact import redact_explanation

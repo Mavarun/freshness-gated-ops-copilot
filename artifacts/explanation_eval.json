@@ -376,6 +376,42 @@
         "rows_all_correct": 111
       }
     },
+    "trace_leaks": {
+      "by_section": {
+        "golden": {
+          "raw_leaks": 2,
+          "redacted_leaks": 0,
+          "rows": 51,
+          "rows_raw_leaking": 1,
+          "rows_redacted_leaking": 0
+        },
+        "perturbed": {
+          "raw_leaks": 8,
+          "redacted_leaks": 0,
+          "rows": 203,
+          "rows_raw_leaking": 4,
+          "rows_redacted_leaking": 0
+        },
+        "probes": {
+          "raw_leaks": 219,
+          "redacted_leaks": 0,
+          "rows": 84,
+          "rows_raw_leaking": 84,
+          "rows_redacted_leaking": 0
+        },
+        "write": {
+          "raw_leaks": 0,
+          "redacted_leaks": 0,
+          "rows": 11,
+          "rows_raw_leaking": 0,
+          "rows_redacted_leaking": 0
+        }
+      },
+      "n_raw_leaks": 229,
+      "n_redacted_leaks": 0,
+      "n_rows_raw_leaking": 89,
+      "n_rows_redacted_leaking": 0
+    },
     "write_refusals": {
       "n": 11,
       "reason_code_correct": 10,
@@ -761,6 +797,42 @@
         "n_rows": 123,
         "rows_all_correct": 114
       }
+    },
+    "trace_leaks": {
+      "by_section": {
+        "golden": {
+          "raw_leaks": 2,
+          "redacted_leaks": 0,
+          "rows": 51,
+          "rows_raw_leaking": 1,
+          "rows_redacted_leaking": 0
+        },
+        "perturbed": {
+          "raw_leaks": 8,
+          "redacted_leaks": 0,
+          "rows": 203,
+          "rows_raw_leaking": 4,
+          "rows_redacted_leaking": 0
+        },
+        "probes": {
+          "raw_leaks": 219,
+          "redacted_leaks": 0,
+          "rows": 84,
+          "rows_raw_leaking": 84,
+          "rows_redacted_leaking": 0
+        },
+        "write": {
+          "raw_leaks": 0,
+          "redacted_leaks": 0,
+          "rows": 11,
+          "rows_raw_leaking": 0,
+          "rows_redacted_leaking": 0
+        }
+      },
+      "n_raw_leaks": 229,
+      "n_redacted_leaks": 0,
+      "n_rows_raw_leaking": 89,
+      "n_rows_redacted_leaking": 0
     },
     "write_refusals": {
       "n": 11,

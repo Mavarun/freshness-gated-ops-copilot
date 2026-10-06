@@ -44,7 +44,7 @@ import yaml
 
 from ops_copilot.config import EVAL_CLOCK, CopilotConfig
 from ops_copilot.explain import GATE_BY_DECISION
-from ops_copilot.explain_redact import explanation_leaks, find_sensitive
+from ops_copilot.explain_redact import boundary_leaks, explanation_leaks, find_sensitive
 from ops_copilot.pii import detect_pii
 from ops_copilot.pipeline import Copilot
 from ops_copilot.types import Decision
@@ -183,6 +183,17 @@ def _leaks(res, secrets: list[str]) -> list[str]:
     return found
 
 
+def _boundary(res, secrets: list[str], tally: dict[str, int]) -> None:
+    """Leaks in the trace-bound fields: raw (PR #14 traces) vs redacted (now)."""
+    raw = boundary_leaks(res.as_dict(), secrets)
+    safe = boundary_leaks(res.boundary_dict(), secrets)
+    tally["rows"] += 1
+    tally["rows_raw_leaking"] += bool(raw)
+    tally["rows_redacted_leaking"] += bool(safe)
+    tally["raw_leaks"] += len(raw)
+    tally["redacted_leaks"] += len(safe)
+
+
 def _ask(bot: Copilot, row: dict):
     sid = row.get("session_id")
     if sid and "seed_session_spent" in row:
@@ -215,6 +226,12 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
     golden = load_golden()
     exps = {int(e["golden_index"]): e for e in load_expectations()}
     leaks: dict[str, list] = {"golden": [], "perturbed": [], "write": [], "probes": []}
+    trace: dict[str, dict[str, int]] = {
+        k: dict.fromkeys(
+            ("rows", "rows_raw_leaking", "rows_redacted_leaking", "raw_leaks", "redacted_leaks"), 0
+        )
+        for k in leaks
+    }
 
     # 1. golden
     bot = Copilot(config=cfg)
@@ -225,6 +242,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         g_schema += schema_ok(res.decision.value, expl)
         if (lk := _leaks(res, secrets)):
             leaks["golden"].append({"golden_index": i, "leaks": lk})
+        _boundary(res, secrets, trace["golden"])
         exp = exps.get(i)
         if exp is None:
             continue
@@ -249,6 +267,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         p_ref += res.decision.value not in NON_REFUSALS
         if (lk := _leaks(res, secrets)):
             leaks["perturbed"].append({"id": row.get("id"), "leaks": lk})
+        _boundary(res, secrets, trace["perturbed"])
         exp = exps.get(int(row["source_index"]))
         if exp and expl and res.decision.value == golden[int(row["source_index"])]["expect_decision"]:
             t_checks.append(check_fields(exp, expl, truth))
@@ -262,6 +281,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         res = bot.ask(row["query"])
         if (lk := _leaks(res, secrets)):
             leaks["write"].append({"id": row["id"], "leaks": lk})
+        _boundary(res, secrets, trace["write"])
         expl = res.as_dict()["explanation"] or {}
         w = expl.get("write") or {}
         w_n += 1
@@ -284,6 +304,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
             n_probe_refused += res.decision.value not in NON_REFUSALS
             if (lk := _leaks(res, probe_values)):
                 leaks["probes"].append({"template": tpl, "secret_prefix": s[:4], "leaks": lk})
+            _boundary(res, probe_values, trace["probes"])
 
     return {
         "golden": _tally(g_checks)
@@ -309,5 +330,14 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
             "n_leaks": sum(len(v) for v in leaks.values()),
             "by_section": {k: len(v) for k, v in leaks.items()},
             "examples": {k: v[:5] for k, v in leaks.items()},
+        },
+        # Trace-bound fields (query, reason, write_intent, proposed_write,
+        # explanation): what PR #14 wrote raw vs what is written now.
+        "trace_leaks": {
+            "by_section": trace,
+            "n_raw_leaks": sum(t["raw_leaks"] for t in trace.values()),
+            "n_redacted_leaks": sum(t["redacted_leaks"] for t in trace.values()),
+            "n_rows_raw_leaking": sum(t["rows_raw_leaking"] for t in trace.values()),
+            "n_rows_redacted_leaking": sum(t["rows_redacted_leaking"] for t in trace.values()),
         },
     }
