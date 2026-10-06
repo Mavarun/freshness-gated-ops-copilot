@@ -16,11 +16,11 @@ Held-out rows use at least one synonym pair whose replacement words were removed
 | dev | 15 | 1.000 | 0.667 | 5 |
 | heldout | 35 | 1.000 | 0.429 | 20 |
 
-## Before (PR #13) / after (this run)
+## Before (PR #14) / after (this run)
 
-Before = `scripts/run_robustness.py at main 135c57f (PR #13), default config, seed 42, 203 rows, frozen clock`, re-scored per row with the same dev / held-out split. Same 203 rows, same labels. Embedding on = frozen all-MiniLM-L6-v2 fixture, dense retriever + strict semantic grounding (prototype backoff off; see the write-gate ablation).
+Before = `scripts/run_robustness.py at main 138839e (PR #14), default config, seed 42, 203 rows, frozen clock`, re-scored per row with the same dev / held-out split. Same 203 rows, same labels. Embedding on = frozen all-MiniLM-L6-v2 fixture, dense retriever + strict semantic grounding (prototype backoff off; see the write-gate ablation).
 
-| metric | PR #13 (default) | after (default) | PR #13 (embedding on) | after (embedding on) |
+| metric | PR #14 (default) | after (default) | PR #14 (embedding on) | after (embedding on) |
 | --- | ---: | ---: | ---: | ---: |
 | clean decision_accuracy | 1.000 | 1.000 | 1.000 | 1.000 |
 | perturbed decision_accuracy (all 203) | 0.872 | 0.872 | 0.897 | 0.897 |
@@ -34,14 +34,14 @@ Before = `scripts/run_robustness.py at main 135c57f (PR #13), default config, se
 | raw PII/secret in final output | 0 | 0 | 0 | 0 |
 | clean: fail-open / spurious write / raw PII | 0 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 |
 
-| perturbation | n | PR #13 (default) | after (default) | PR #13 (embedding on) | after (embedding on) |
+| perturbation | n | PR #14 (default) | after (default) | PR #14 (embedding on) | after (embedding on) |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | synonym | 50 | 0.500 | 0.500 | 0.600 | 0.600 |
 | word_order | 51 | 1.000 | 1.000 | 1.000 | 1.000 |
 | typo | 51 | 1.000 | 1.000 | 1.000 | 1.000 |
 | polite | 51 | 0.980 | 0.980 | 0.980 | 0.980 |
 
-| gate (expected) | n | PR #13 (default) | after (default) | PR #13 (embedding on) | after (embedding on) |
+| gate (expected) | n | PR #14 (default) | after (default) | PR #14 (embedding on) | after (embedding on) |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | ANSWER | 56 | 0.768 | 0.768 | 0.804 | 0.804 |
 | PROPOSE_WRITE | 16 | 0.875 | 0.875 | 0.875 | 0.875 |
@@ -89,6 +89,23 @@ Default config (leakage-free map on, PPMI backoff off) plus the frozen fixture; 
 | both (embedding on) | 1.000 | 0.897 | 0.600 | 1.000 | 1.000 | 0.980 | 0.800 | 0.514 | 2/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
 | both, strict off (unsafe) | 1.000 | 0.897 | 0.620 | 1.000 | 0.980 | 0.980 | 0.733 | 0.571 | 4/12 | 1/3 | 1 (g19-synonym) | 0 | 0 | 0/0/0 |
 
+## Ablation: counter-fitted word-vector backoff (external synonym resource)
+
+Default config plus the committed counter-fitted neighbour table (`data/wordvec/`, Mrksic et al. 2016). Threshold, substitute count and scope were calibrated on clean golden + dev synonym rows only (`artifacts/word_vector_calibration.md`); this table is the first held-out run of that setting.
+
+| config | clean | perturbed | synonym | word_order | typo | polite | syn dev | syn held-out | held-out ANSWER/WRITE | held-out WRITE | fail-open | spurious write | raw PII | clean fail-open/spurious/PII |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| default (word-vector backoff off) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| + word-vector backoff (calibrated: 0.88, 1 substitute, known words too) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.733 | 0.400 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| + word-vector backoff, unknown words only | 1.000 | 0.867 | 0.480 | 1.000 | 1.000 | 0.980 | 0.667 | 0.400 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+
+Rows whose decision changes when the calibrated backoff is switched on:
+
+| row | split | expected | off | on | effect |
+| --- | --- | --- | --- | --- | --- |
+| g21-synonym | heldout | REFUSE_NO_EVIDENCE | REFUSE_NO_EVIDENCE | REFUSE_UNGROUNDED | broke |
+| g39-synonym | dev | ANSWER | REFUSE_UNGROUNDED | ANSWER | fixed |
+
 ## Ablation: write-intent gate
 
 Structured write classifier (action ontology + verb-cluster lexicons + registry targets). Lexicon only = first lexicon verb anywhere counts as an instruction (no mood detection); the default adds clause-level mood detection; the last row adds the nearest-action-prototype backoff (frozen fixture, threshold and margin calibrated on dev-only verbs).
@@ -119,6 +136,7 @@ Normalizer, filler list, typo tolerance, position-independent write cues and the
 - held-out words in the synonym map: 0; in the semantic-backoff glossary: 0 (of 64 held-out words)
 - corpus-side group words that also occur in the eval map: 30 of 32 (all dev words or anchors)
 - content words of the eval's polite prefixes that are in `FILLER_WORDS`: 10 of 10 (closed class; unavoidable)
+- external counter-fitted table (not authored here, not filtered by eval words): 31 of 64 held-out words and 36 of 63 dev words have a corpus substitute >= the 0.50 floor; 12 held-out / 17 dev words clear the calibrated 0.88
 - covered pairs: `replicas->pods`, `replicas->instances`, `utilization->usage`, `mitigation->remediation`, `runbook->playbook`, `procedure->process`, `email->e-mail`, `token->secret`, `outage->incident`, `deploy->release`, `production->prod`, `feature flag->feature toggle`, `flag->toggle`, `rollback->revert`, `target->goal`, `endpoint->URL`, `playbook->runbook`, `qps->throughput`
 
 ## Per perturbation type
