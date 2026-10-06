@@ -56,6 +56,9 @@ SOURCE_URL = (
     "counter-fitted-vectors.txt.zip"
 )
 SOURCE_NAME = "counter-fitted-vectors (Mrksic et al., NAACL 2016)"
+# SHA-256 of counter-fitted-vectors.txt.zip as downloaded on 2026-10-06.
+SOURCE_SHA256 = "6f67f40c9b2e757695b3af2209bcd4393377962ca440dd4fad542937d01e7d56"
+SOURCE_N_WORDS = 65713
 MIN_WORD_LEN = 3
 TABLE_FLOOR = 0.50
 TABLE_TOP_K = 5
