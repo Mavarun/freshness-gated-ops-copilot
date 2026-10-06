@@ -4,8 +4,9 @@
 
 Writes ``artifacts/explanation_eval.{json,md}`` for the default config and
 the embedding-on config (frozen MiniLM fixture), both deterministic. Exits
-non-zero if any explanation leaks a canary token, PII or a secret, or if a
-golden explanation check fails.
+non-zero if any explanation leaks a canary token, PII or a secret, if a
+redacted trace line (query, reason, write parse, explanation) still holds one,
+or if a golden explanation check fails.
 """
 
 from __future__ import annotations
@@ -71,6 +72,23 @@ def render_md(runs: dict[str, dict]) -> str:
             f"{lk['n_probe_queries']} probe queries ({lk['n_probe_refusals']} refused); leaks by section "
             f"{lk['by_section']}.",
         ]
+        tl = r.get("trace_leaks")
+        if tl:
+            lines += [
+                "",
+                "Trace-bound fields (`query`, `reason`, `write_intent`, `proposed_write`, "
+                f"`explanation`): **{tl['n_rows_raw_leaking']} rows / {tl['n_raw_leaks']} leaks "
+                f"unredacted (as PR #14 wrote them) -> {tl['n_rows_redacted_leaking']} rows / "
+                f"{tl['n_redacted_leaks']} leaks redacted (as written now)**.",
+                "",
+                "| section | rows | rows leaking raw | rows leaking redacted | raw leaks | redacted leaks |",
+                "|---|---:|---:|---:|---:|---:|",
+            ]
+            for sec, t in tl["by_section"].items():
+                lines.append(
+                    f"| {sec} | {t['rows']} | {t['rows_raw_leaking']} | {t['rows_redacted_leaking']} | "
+                    f"{t['raw_leaks']} | {t['redacted_leaks']} |"
+                )
         failed = [x for x in r["golden"]["rows"] if x["failed"]]
         if failed:
             lines += ["", "Golden failures: " + ", ".join(f"g{x['golden_index']:02d} {x['failed']}" for x in failed)]
@@ -87,9 +105,12 @@ def main() -> int:
         g = r["golden"]
         print(
             f"{label:30s} golden {g['rows_all_correct']}/{g['n_rows']} rows, "
-            f"{g['n_checks_correct']}/{g['n_checks']} checks; leaks={r['leaks']['n_leaks']}"
+            f"{g['n_checks_correct']}/{g['n_checks']} checks; leaks={r['leaks']['n_leaks']}; "
+            f"trace leaks raw={r['trace_leaks']['n_raw_leaks']} "
+            f"redacted={r['trace_leaks']['n_redacted_leaks']}"
         )
         bad += r["leaks"]["n_leaks"] + (g["n_checks"] - g["n_checks_correct"])
+        bad += r["trace_leaks"]["n_redacted_leaks"]
     return 1 if bad else 0
 
 

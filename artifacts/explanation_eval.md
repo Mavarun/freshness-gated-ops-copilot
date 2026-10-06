@@ -36,6 +36,15 @@ Expectations: `data/eval/explanation_expectations.jsonl`, one hand-written row p
 
 Leak scan: 8 planted values (canary tokens + corpus PII/secrets), 84 probe queries (83 refused); leaks by section {'golden': 0, 'perturbed': 0, 'write': 0, 'probes': 0}.
 
+Trace-bound fields (`query`, `reason`, `write_intent`, `proposed_write`, `explanation`): **89 rows / 229 leaks unredacted (as PR #14 wrote them) -> 0 rows / 0 leaks redacted (as written now)**.
+
+| section | rows | rows leaking raw | rows leaking redacted | raw leaks | redacted leaks |
+|---|---:|---:|---:|---:|---:|
+| golden | 51 | 1 | 0 | 2 | 0 |
+| perturbed | 203 | 4 | 0 | 8 | 0 |
+| write | 11 | 0 | 0 | 0 | 0 |
+| probes | 84 | 84 | 0 | 219 | 0 |
+
 ## embedding on (frozen MiniLM): checks
 
 | check | golden | perturbed transfer |
@@ -64,3 +73,12 @@ Leak scan: 8 planted values (canary tokens + corpus PII/secrets), 84 probe queri
 | stale_source_system_correct | 8/8 (1.000) | 29/29 (1.000) |
 
 Leak scan: 8 planted values (canary tokens + corpus PII/secrets), 84 probe queries (83 refused); leaks by section {'golden': 0, 'perturbed': 0, 'write': 0, 'probes': 0}.
+
+Trace-bound fields (`query`, `reason`, `write_intent`, `proposed_write`, `explanation`): **89 rows / 229 leaks unredacted (as PR #14 wrote them) -> 0 rows / 0 leaks redacted (as written now)**.
+
+| section | rows | rows leaking raw | rows leaking redacted | raw leaks | redacted leaks |
+|---|---:|---:|---:|---:|---:|
+| golden | 51 | 1 | 0 | 2 | 0 |
+| perturbed | 203 | 4 | 0 | 8 | 0 |
+| write | 11 | 0 | 0 | 0 | 0 |
+| probes | 84 | 84 | 0 | 219 | 0 |
