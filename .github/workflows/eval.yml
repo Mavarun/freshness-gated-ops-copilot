@@ -34,8 +34,14 @@ jobs:
       - name: Robustness report (clean vs perturbed, non-gating on accuracy)
         run: python scripts/run_robustness.py
 
-      # Gating: exits non-zero if any refusal explanation leaks a canary token,
-      # PII or a secret, or a golden explanation check fails.
+      # Report-only: the fresh hand-written general-English synonym set (fails
+      # only if its vocabulary overlaps the perturbation split, or on a crash).
+      - name: Fresh synonym set (word-vector backoff on/off, non-gating on accuracy)
+        run: python scripts/run_fresh_synonym_eval.py
+
+      # Gating: exits non-zero if any refusal explanation, or any redacted trace
+      # line (query / reason / write parse), leaks a canary token, PII or a
+      # secret, or a golden explanation check fails.
       - name: Refusal-explanation eval (golden + perturbed + leak probes)
         run: python scripts/run_explanation_eval.py
 
@@ -53,3 +59,5 @@ jobs:
             artifacts/robustness_metrics.json
             artifacts/explanation_eval.md
             artifacts/explanation_eval.json
+            artifacts/synonym_fresh_eval.md
+            artifacts/synonym_fresh_eval.json
