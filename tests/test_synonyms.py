@@ -35,6 +35,7 @@ PRODUCT_MODULES = (
     "pipeline.py",
     "policy.py",
     "semantic.py",
+    "word_vectors.py",
     "config.py",
 )
 

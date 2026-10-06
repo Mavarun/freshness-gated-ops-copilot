@@ -117,9 +117,9 @@ class CopilotConfig:
     # also be supported by its substitutes. Threshold / count / scope from
     # scripts/calibrate_word_vectors.py (clean golden + dev synonym rows only).
     use_word_vector_backoff: bool = False
-    word_vector_min_similarity: float = 0.80
+    word_vector_min_similarity: float = 0.88
     word_vector_max_neighbours: int = 1
-    word_vector_known_words: bool = False
+    word_vector_known_words: bool = True
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in

@@ -1,0 +1,4477 @@
+{
+ "calibration_rows": [
+  "clean-g00",
+  "clean-g01",
+  "clean-g02",
+  "clean-g03",
+  "clean-g04",
+  "clean-g05",
+  "clean-g06",
+  "clean-g07",
+  "clean-g08",
+  "clean-g09",
+  "clean-g10",
+  "clean-g11",
+  "clean-g12",
+  "clean-g13",
+  "clean-g14",
+  "clean-g15",
+  "clean-g16",
+  "clean-g17",
+  "clean-g18",
+  "clean-g19",
+  "clean-g20",
+  "clean-g21",
+  "clean-g22",
+  "clean-g23",
+  "clean-g24",
+  "clean-g25",
+  "clean-g26",
+  "clean-g27",
+  "clean-g28",
+  "clean-g29",
+  "clean-g30",
+  "clean-g31",
+  "clean-g32",
+  "clean-g33",
+  "clean-g34",
+  "clean-g35",
+  "clean-g36",
+  "clean-g37",
+  "clean-g38",
+  "clean-g39",
+  "clean-g40",
+  "clean-g41",
+  "clean-g42",
+  "clean-g43",
+  "clean-g44",
+  "clean-g45",
+  "clean-g46",
+  "clean-g47",
+  "clean-g48",
+  "clean-g49",
+  "clean-g50",
+  "g02-synonym",
+  "g03-synonym",
+  "g06-synonym",
+  "g10-synonym",
+  "g12-synonym",
+  "g13-synonym",
+  "g22-synonym",
+  "g24-synonym",
+  "g26-synonym",
+  "g34-synonym",
+  "g35-synonym",
+  "g39-synonym",
+  "g43-synonym",
+  "g48-synonym",
+  "g49-synonym"
+ ],
+ "n_clean": 51,
+ "n_dev": 15,
+ "grid": [
+  0.5,
+  0.51,
+  0.52,
+  0.53,
+  0.54,
+  0.55,
+  0.56,
+  0.57,
+  0.58,
+  0.59,
+  0.6,
+  0.61,
+  0.62,
+  0.63,
+  0.64,
+  0.65,
+  0.66,
+  0.67,
+  0.68,
+  0.69,
+  0.7,
+  0.71,
+  0.72,
+  0.73,
+  0.74,
+  0.75,
+  0.76,
+  0.77,
+  0.78,
+  0.79,
+  0.8,
+  0.81,
+  0.82,
+  0.83,
+  0.84,
+  0.85,
+  0.86,
+  0.87,
+  0.88,
+  0.89,
+  0.9,
+  0.91,
+  0.92,
+  0.93,
+  0.94,
+  0.95,
+  0.96,
+  0.97,
+  0.98,
+  0.99,
+  1.0
+ ],
+ "max_neighbours": [
+  1,
+  3
+ ],
+ "scopes": [
+  "unknown words",
+  "unknown + known words"
+ ],
+ "baseline_off": {
+  "accuracy": 0.9242,
+  "clean_accuracy": 1.0,
+  "n_fail_open": 0,
+  "n_spurious_write": 0,
+  "n_raw_pii_outputs": 0,
+  "wrong": [
+   "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+   "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+   "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+   "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+   "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+  ]
+ },
+ "chosen": {
+  "threshold": 0.88,
+  "max_neighbours": 1,
+  "known_words": true,
+  "accuracy": 0.9393939393939394,
+  "optimal_run": [
+   0.79,
+   0.97
+  ]
+ },
+ "default_on": true,
+ "dev_pairs": [
+  {
+   "pair": "page->alert",
+   "word": "alert",
+   "substitute": "reminder",
+   "cosine": 0.545,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "page"
+   ]
+  },
+  {
+   "pair": "patch->update",
+   "word": "update",
+   "substitute": "updates",
+   "cosine": 0.9928,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "replicas->pods",
+   "word": "pods",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "replicas"
+   ]
+  },
+  {
+   "pair": "replicas->instances",
+   "word": "instances",
+   "substitute": "example",
+   "cosine": 0.9645,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "replicas"
+   ]
+  },
+  {
+   "pair": "enabled->switched on",
+   "word": "switched",
+   "substitute": "switch",
+   "cosine": 0.9354,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "utilization->usage",
+   "word": "usage",
+   "substitute": "use",
+   "cosine": 0.9772,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": [
+    "utilization"
+   ]
+  },
+  {
+   "pair": "utilization->saturation",
+   "word": "saturation",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "utilization"
+   ]
+  },
+  {
+   "pair": "mitigation->remediation",
+   "word": "remediation",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "mitigation"
+   ]
+  },
+  {
+   "pair": "recommend->suggest",
+   "word": "suggest",
+   "substitute": "proposal",
+   "cosine": 0.6193,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "runbook->playbook",
+   "word": "playbook",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "runbook"
+   ]
+  },
+  {
+   "pair": "procedure->process",
+   "word": "process",
+   "substitute": "treat",
+   "cosine": 0.7732,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "procedure"
+   ]
+  },
+  {
+   "pair": "email->e-mail",
+   "word": "e-mail",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "email"
+   ]
+  },
+  {
+   "pair": "token->secret",
+   "word": "secret",
+   "substitute": "secrets",
+   "cosine": 0.9635,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": [
+    "token"
+   ]
+  },
+  {
+   "pair": "schedule->calendar",
+   "word": "calendar",
+   "substitute": "timeline",
+   "cosine": 0.9231,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "schedule"
+   ]
+  },
+  {
+   "pair": "window->timeframe",
+   "word": "timeframe",
+   "substitute": "timeline",
+   "cosine": 0.9896,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "window"
+   ]
+  },
+  {
+   "pair": "on-call->on-duty",
+   "word": "on-duty",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "on-call->pager",
+   "word": "pager",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "primary->lead",
+   "word": "lead",
+   "substitute": "leading",
+   "cosine": 0.6461,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": [
+    "primary"
+   ]
+  },
+  {
+   "pair": "outage->incident",
+   "word": "incident",
+   "substitute": "event",
+   "cosine": 0.8243,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "deploy->release",
+   "word": "release",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "deploy"
+   ]
+  },
+  {
+   "pair": "remaining->leftover",
+   "word": "leftover",
+   "substitute": "remaining",
+   "cosine": 0.5396,
+   "is_key_word": true,
+   "kind": "key",
+   "key_in_table_targets": [
+    "remaining"
+   ]
+  },
+  {
+   "pair": "current->present",
+   "word": "present",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "current->latest",
+   "word": "latest",
+   "substitute": "last",
+   "cosine": 0.783,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "freeze->lockdown",
+   "word": "lockdown",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "freeze"
+   ]
+  },
+  {
+   "pair": "freeze->moratorium",
+   "word": "moratorium",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "freeze"
+   ]
+  },
+  {
+   "pair": "production->prod",
+   "word": "prod",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "production"
+   ]
+  },
+  {
+   "pair": "maintenance->upkeep",
+   "word": "upkeep",
+   "substitute": "maintenance",
+   "cosine": 0.9524,
+   "is_key_word": true,
+   "kind": "key",
+   "key_in_table_targets": [
+    "maintenance"
+   ]
+  },
+  {
+   "pair": "maintenance->servicing",
+   "word": "servicing",
+   "substitute": "service",
+   "cosine": 0.9993,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": [
+    "maintenance"
+   ]
+  },
+  {
+   "pair": "database->datastore",
+   "word": "datastore",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "feature flag->feature toggle",
+   "word": "toggle",
+   "substitute": "switch",
+   "cosine": 0.6413,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "feature",
+    "flag"
+   ]
+  },
+  {
+   "pair": "feature flag->feature switch",
+   "word": "switch",
+   "substitute": "change",
+   "cosine": 0.5202,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "feature",
+    "flag"
+   ]
+  },
+  {
+   "pair": "flag->toggle",
+   "word": "toggle",
+   "substitute": "switch",
+   "cosine": 0.6413,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "flag"
+   ]
+  },
+  {
+   "pair": "flag->switch",
+   "word": "switch",
+   "substitute": "change",
+   "cosine": 0.5202,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "flag"
+   ]
+  },
+  {
+   "pair": "rollback->revert",
+   "word": "revert",
+   "substitute": "returning",
+   "cosine": 0.9568,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "rollback"
+   ]
+  },
+  {
+   "pair": "rollback->undo",
+   "word": "undo",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "rollback"
+   ]
+  },
+  {
+   "pair": "owns->maintains",
+   "word": "maintains",
+   "substitute": "retained",
+   "cosine": 0.6213,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "directory->listing",
+   "word": "listing",
+   "substitute": "lists",
+   "cosine": 0.9518,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": [
+    "directory"
+   ]
+  },
+  {
+   "pair": "reset->clear",
+   "word": "clear",
+   "substitute": "manifest",
+   "cosine": 0.6538,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "drain->clear",
+   "word": "clear",
+   "substitute": "manifest",
+   "cosine": 0.6538,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "drain"
+   ]
+  },
+  {
+   "pair": "target->goal",
+   "word": "goal",
+   "substitute": "target",
+   "cosine": 0.9494,
+   "is_key_word": true,
+   "kind": "key",
+   "key_in_table_targets": [
+    "target"
+   ]
+  },
+  {
+   "pair": "request rate->throughput",
+   "word": "throughput",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "rate",
+    "request"
+   ]
+  },
+  {
+   "pair": "endpoint->URL",
+   "word": "url",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "endpoint"
+   ]
+  },
+  {
+   "pair": "key->secret",
+   "word": "secret",
+   "substitute": "secrets",
+   "cosine": 0.9635,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": [
+    "key"
+   ]
+  },
+  {
+   "pair": "path->route",
+   "word": "route",
+   "substitute": "path",
+   "cosine": 0.9721,
+   "is_key_word": true,
+   "kind": "key",
+   "key_in_table_targets": [
+    "path"
+   ]
+  },
+  {
+   "pair": "path->location",
+   "word": "location",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "path"
+   ]
+  },
+  {
+   "pair": "route->URL",
+   "word": "url",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "route"
+   ]
+  },
+  {
+   "pair": "gateway->proxy",
+   "word": "proxy",
+   "substitute": "replacement",
+   "cosine": 0.7184,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "gateway->edge",
+   "word": "edge",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "start->begin",
+   "word": "begin",
+   "substitute": "start",
+   "cosine": 0.9413,
+   "is_key_word": true,
+   "kind": "key",
+   "key_in_table_targets": [
+    "start"
+   ]
+  },
+  {
+   "pair": "error budget->SLO headroom",
+   "word": "slo",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "budget",
+    "error"
+   ]
+  },
+  {
+   "pair": "error budget->SLO headroom",
+   "word": "headroom",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "budget",
+    "error"
+   ]
+  },
+  {
+   "pair": "error budget->error allowance",
+   "word": "allowance",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "budget",
+    "error"
+   ]
+  },
+  {
+   "pair": "service->app",
+   "word": "app",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "service"
+   ]
+  },
+  {
+   "pair": "flush->clear",
+   "word": "clear",
+   "substitute": "manifest",
+   "cosine": 0.6538,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "flush"
+   ]
+  },
+  {
+   "pair": "webhook->hook",
+   "word": "hook",
+   "substitute": "hooks",
+   "cosine": 0.9145,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": [
+    "webhook"
+   ]
+  },
+  {
+   "pair": "chargeback->dispute",
+   "word": "dispute",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "chargeback->refund",
+   "word": "refund",
+   "substitute": "refunds",
+   "cosine": 0.9796,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "playbook->runbook",
+   "word": "runbook",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "playbook"
+   ]
+  },
+  {
+   "pair": "checkpoint->snapshot",
+   "word": "snapshot",
+   "substitute": "freeze",
+   "cosine": 0.6599,
+   "is_key_word": false,
+   "kind": "other",
+   "key_in_table_targets": [
+    "checkpoint"
+   ]
+  },
+  {
+   "pair": "handshake->setup",
+   "word": "setup",
+   "substitute": "set",
+   "cosine": 0.615,
+   "is_key_word": false,
+   "kind": "inflection",
+   "key_in_table_targets": [
+    "handshake"
+   ]
+  },
+  {
+   "pair": "setting->parameter",
+   "word": "parameter",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": []
+  },
+  {
+   "pair": "qps->throughput",
+   "word": "throughput",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "qps"
+   ]
+  },
+  {
+   "pair": "stickiness->pinning",
+   "word": "pinning",
+   "substitute": null,
+   "cosine": null,
+   "is_key_word": false,
+   "kind": "none",
+   "key_in_table_targets": [
+    "stickiness"
+   ]
+  }
+ ],
+ "results": [
+  {
+   "threshold": 0.5,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8636,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.51,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8636,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.52,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8636,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.53,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8636,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.54,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8636,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.55,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.56,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.57,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.58,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.59,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.6,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.61,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.62,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.63,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.64,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.65,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.66,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.67,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.68,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.69,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.7,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.71,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.72,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.73,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.74,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.75,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.76,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.77,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.78,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.79,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.8,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.81,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.82,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.83,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.84,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.85,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.86,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.87,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.88,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.89,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.9,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.91,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.92,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.93,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.94,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.95,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.96,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.97,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.98,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.99,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 1.0,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.5,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8636,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.51,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8636,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.52,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8636,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.53,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8636,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.54,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8636,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.55,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.56,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.57,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.58,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.59,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.6,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.61,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.62,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.63,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.64,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.65,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.66,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.67,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.68,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.69,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.7,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.71,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.72,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.73,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.74,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.75,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.76,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.77,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.78,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.79,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.8,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.81,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.82,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.83,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.84,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.85,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.86,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.87,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.88,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.89,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.9,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.91,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.92,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.93,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.94,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.95,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.96,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.97,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.98,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.99,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 1.0,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.5,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.51,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.52,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.53,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.54,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.55,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.56,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.57,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.58,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.59,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.6,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.61,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.62,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.63,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.64,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.65,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.66,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.67,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.68,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.69,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.7,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.71,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.72,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.73,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.74,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.75,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.76,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.77,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.78,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.79,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.8,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.81,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.82,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.83,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.84,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.85,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.86,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.87,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.88,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.89,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.9,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.91,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.92,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.93,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.94,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.95,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.96,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.97,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.98,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.99,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 1.0,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.5,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.51,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.52,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.53,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.54,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8788,
+   "clean_accuracy": 0.9216,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g14:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.55,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.56,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.57,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.58,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.59,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.6,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.61,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.8939,
+   "clean_accuracy": 0.9412,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.62,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.63,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.64,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.65,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.66,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.67,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.68,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.69,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.7,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.71,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.72,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9608,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "clean-g16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.73,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.74,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.75,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.76,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.77,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.78,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g15:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.79,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.8,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.81,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.82,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.83,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.84,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.85,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.86,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.87,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.88,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.89,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.9,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.91,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.92,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.93,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.94,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.95,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.96,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.97,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9394,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.98,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 0.99,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "threshold": 1.0,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  }
+ ]
+}
