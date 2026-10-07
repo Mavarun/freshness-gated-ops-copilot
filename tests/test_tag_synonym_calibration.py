@@ -76,3 +76,40 @@ def test_dev_word_report_uses_dev_pairs_only() -> None:
     rows = dev_word_report()
     assert rows and all(r["pair"] in split["dev_pairs"] for r in rows)
     assert not [r for r in rows if r["word"] in held]
+
+
+# --- Wiktionary calibration ------------------------------------------------------
+
+from ops_copilot import wiktionary_calibration as wc  # noqa: E402
+
+WART = Path(__file__).resolve().parents[1] / "artifacts" / "wiktionary_calibration.json"
+
+
+def test_wiktionary_calibration_is_dev_only_and_covers_the_grid() -> None:
+    art = json.loads(WART.read_text(encoding="utf-8"))
+    splits = row_splits()
+    assert art["calibration_rows"] == [rid for rid, _, _ in calibration_rows()]
+    assert not [rid for rid in art["calibration_rows"] if splits.get(rid) == "heldout"]
+    assert len(art["results"]) == len(wc.MIN_SCORES) * len(wc.MAX_NEIGHBOURS) * 2
+
+
+def test_wiktionary_selection_prefers_the_strict_score() -> None:
+    def r(acc, m, known=False, k=1, clean=1.0):
+        return {
+            "min_score": m, "known_words": known, "max_neighbours": k, "accuracy": acc,
+            "clean_accuracy": clean, "n_fail_open": 0, "n_spurious_write": 0,
+            "n_raw_pii_outputs": 0,
+        }
+
+    c = wc.select([r(0.9, 1), r(0.9, 2, known=True), r(0.9, 2, k=3), r(0.95, 1, clean=0.98)])
+    assert (c["min_score"], c["known_words"], c["max_neighbours"]) == (2, False, 3)
+
+
+def test_config_keeps_both_external_lexicons_off_without_a_dev_gain() -> None:
+    from ops_copilot.config import CopilotConfig
+
+    cfg = CopilotConfig()
+    for path, flag in ((ART, cfg.use_tag_synonym_backoff), (WART, cfg.use_wiktionary_backoff)):
+        art = json.loads(path.read_text(encoding="utf-8"))
+        if not art["default_on"]:
+            assert flag is False
