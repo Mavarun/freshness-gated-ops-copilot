@@ -18,9 +18,143 @@ behind a **HITL approve** gate. Offline CI, frozen clock.
 | `PROPOSE_WRITE` | Imperative/request write parsed (action + target + confidence); pending HITL approve (never auto-executes) |
 | `REFUSE_AMBIGUOUS_WRITE` | Looks like a write but no target, an unregistered target (did-you-mean), no page recipient, several targets/actions, conditional, unsupported, or low confidence: asks to clarify |
 
-Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14).
+Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15).
 
 
+
+## External ops lexicons and secrets typed in words (2026-10-07): held-out still 1 of 12, 0 of 70 plain-word secret words leak
+
+This slice goes after the top weakness of PR #15, held-out synonym understanding
+(1 of 12 held-out rows that need an answer or a write), with the step PR #15 named:
+an **ops-domain** resource that is also **external**. I built two, calibrated each on
+clean + dev rows only, and ran them once on held-out under a rule fixed beforehand.
+**Neither changed a single held-out row, so both ship off.** The second part closes a
+redaction gap from PR #15: a secret with no recognisable shape, typed as plain words,
+went into traces. Labels, the golden file, the 203 perturbed rows and the dev /
+held-out split are unchanged (seed 42, frozen clock 2026-09-13).
+
+### What changed
+
+1. **Stack Exchange tag synonyms** (`tag_synonyms.py`, `scripts/fetch_tag_synonyms.py`,
+   `data/tagsyn/`, 55 KB). Every community-approved tag synonym of Server Fault, Super
+   User, Unix & Linux, Ask Ubuntu, DevOps, DBA, Network Engineering and Information
+   Security, plus the 2,500 most-applied Stack Overflow synonyms (the anonymous API stops
+   at 25 pages): 4,560 pairs, CC BY-SA, nothing filtered by eval or corpus words. Each
+   site's master tag and its synonyms form one cluster, never merged across sites. A
+   plain single-word tag maps to the other corpus words of its clusters, scored by the
+   number of sites that link them; inflections (`hook`/`hooks`) are dropped.
+2. **Wiktionary computing senses** (`wiktionary_senses.py`,
+   `scripts/build_wiktionary_senses.py`, `data/wiktionary/`, 216 KB). One streaming pass
+   over the 3.3 GB Wiktextract English dump (kaikki.org; dump SHA-256 pinned) keeps every
+   English sense labelled computing / software / networking / databases /
+   telecommunications: 6,717 senses of 5,551 words, with their single-word synonyms and
+   first gloss. Substitutes are listed synonyms and pointer glosses
+   (`Abbreviation of configuration.`, score 2) or the gloss head word (score 1).
+3. **Wiring** (`use_tag_synonym_backoff`, `use_wiktionary_backoff`). As with the word
+   vectors, a still-unknown query word becomes a `tagsyn` / `wiktionary` term that is
+   supported by, and weighted like, its corpus substitute, which also replaces it in the
+   retrieval rewrite. Order: synonym map, typo snap, tag synonyms, Wiktionary, word
+   vectors. A known-word scope is opt-in. Identifiers and numbers are never touched.
+4. **Dev-only calibration** (`tag_synonym_calibration.py`, `wiktionary_calibration.py`,
+   `artifacts/tag_synonym_calibration.md`, `artifacts/wiktionary_calibration.md`). Same
+   51 clean + 15 dev rows and safety bar as PR #15 (the code raises if a held-out row
+   appears). Grids: sites {ops, all} x min_sites {1, 2, 3} x neighbours {1, 3} x scope
+   (24 settings), and min_score {2, 1} x neighbours x scope (8 settings). The tie-breaks
+   (narrowest setting) and the **go / no-go rule** were written into the module
+   docstring before the held-out run: default on only if the setting beats backoff-off
+   on dev *and* does not lower held-out accuracy or add a fail-open, spurious write or raw
+   PII.
+5. **Secrets disclosed in words** (`explain_redact.DISCLOSED_SECRET_RE`). A credential
+   noun (password, passphrase, pin, token, credentials, api key, ...), then a copula or
+   `:` / `=`, then up to six tokens of *any* shape, stopping at clause punctuation or a
+   clause-starting word. A value that starts with a stopword (`the password is in vault`)
+   does not count. The whole span becomes `[redacted:disclosed_secret]` in every boundary
+   and explanation pass, and only the value is fragmented, so the cue word survives in
+   missing-terms lists.
+
+### Calibration (dev) and the held-out run (`artifacts/robustness_report.md`)
+
+On dev, all 24 tag-synonym settings tie the backoff-off accuracy (0.924): the tag
+table offers a substitute for **0 of 63** dev replacement words. Tags name products and
+tools (`gcp` -> `google-cloud-platform`), not paraphrases. Wiktionary with listed
+synonyms only (min_score 2) also ties at 0.924. Adding gloss heads breaks clean `g21`
+(NO_EVIDENCE -> UNGROUNDED, the same "unrelated docs become related" failure as the word
+vectors), so it fails the safety bar. Neither beat backoff-off on dev, so by the
+pre-registered rule neither could become a default. I still ran held-out once, to measure
+it:
+
+| config | perturbed (203) | synonym dev (15) | synonym **held-out** (35) | held-out ANSWER / WRITE | rows changed vs default | fail-open / spurious / raw PII |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| default (both off; = PR #15) | 0.872 | 0.667 | 0.429 | 1/12 | - | 0 / 0 / 0 |
+| + tag synonyms (dev-chosen) | 0.872 | 0.667 | 0.429 | 1/12 | 0 | 0 / 0 / 0 |
+| + Wiktionary senses (dev-chosen) | 0.872 | 0.667 | 0.429 | 1/12 | 0 | 0 / 0 / 0 |
+| + both | 0.872 | 0.667 | 0.429 | 1/12 | 0 | 0 / 0 / 0 |
+| + both + word vectors | 0.872 | 0.733 | 0.400 | 1/12 | 2 (the PR #15 pair) | 0 / 0 / 0 |
+| diagnostic: both at widest feasible setting | 0.872 | 0.667 | 0.429 | 1/12 | 0 | 0 / 0 / 0 |
+
+On the fresh general-English set from PR #15 (26 rows, written the day *before* these
+lexicons existed, so blind for them), each lexicon scores **7/26**, the same decisions
+as the default row for row. Adding them to the word vectors leaves 10/26 unchanged.
+
+**Why (word level, computed after the decision; leakage section of the report).** Of
+the 64 held-out replacement words:
+- 16 are already corpus words (`bounce`, `lag`, `credential`, `path`, `state`), so an
+  unknown-word backoff never consults them;
+- 25 have a Wiktionary computing sense, but only 6 get any corpus substitute, and 0 get
+  one under the strict setting that passed the safety bar;
+- 1 gets a tag substitute;
+- the replaced key word appears in one of their domain glosses for only 1 word
+  (`passphrase` -> password).
+
+The senses exist, but they point elsewhere. Wiktionary's *bounce* is "to turn power to
+(a device) off and back on; to reset; to reboot", which never says *restart*. Its *lag*
+is "to respond slowly", which never says *latency*. Dev looks the same: 3 of 56 words
+have the key in a gloss.
+
+### Secrets typed in words (`artifacts/explanation_eval.md`, gating in CI)
+
+The new probe section has 5 synthetic shapeless secrets (`violet harbor zebra`,
+`quokka plinth`, ...) x 7 templates (`My password is {s}, why can't I log in to
+vault?`, `secret: {s}`, ...). A leak is any distinctive secret word left in `query`,
+`reason`, `write_intent`, `proposed_write` or `explanation`.
+
+| redaction | rows leaking (35) | secret words leaked (70) |
+| --- | ---: | ---: |
+| none | 35 | 70 |
+| PR #15 patterns | 33 | 65 |
+| now | **0** | **0** |
+
+Over-redaction cost: the new pattern changes the trace `query` of **0** of the 51
+golden, 203 perturbed and 11 write-refusal rows. I wrote the templates together with
+the pattern, so this is a regression check, not a blind number. The earlier leak gates
+are unchanged (229 -> 0 trace leaks; 33/33 golden explanation rows, 182/182 checks).
+`pytest`: **568 passed, 4 skipped** (509 + 4 before).
+
+### Weaknesses
+
+- **Held-out synonym understanding is still 1 of 12** (default; 2 of 12 with
+  embeddings on). Three external resources have now been tried blind: general-English
+  word vectors, community tag synonyms and dictionary computing senses. None helps,
+  because the held-out senses (`lag` ~ latency, `bounce` ~ restart, `health` ~ status) are
+  either missing or not phrased with the corpus word. Lexical substitution looks
+  exhausted. The next honest step is a model that scores whether the *evidence* answers
+  the question (an NLI or cross-encoder trained on outside data, with the threshold
+  calibrated on dev), rather than another word list.
+- A quarter of the held-out words are **already corpus words used in another sense**.
+  The backoffs only help unknown words, and the known-word scope only adds substitutes
+  that a resource offers. Sense-aware matching of known words is not attempted.
+- The tag-synonym snapshot is a 2026-10-07 fetch; applied counts drift, and Stack
+  Overflow is cut to its 2,500 most-applied synonyms. The Wiktionary extract keeps only
+  the first gloss per sense and plain lowercase headwords.
+- Disclosed-secret redaction needs a credential noun with a copula or `:` / `=` in
+  front. `use violet harbor zebra to log in` still passes through. It over-redacts
+  statements such as `the token is expired` (0 such rows in the eval sets, but they
+  exist). Answers and evidence are still governed by the PII and canary gates, not by
+  this pass.
+- Everyday paraphrases still mostly refuse (16 of 26 wrong on the fresh set, even with
+  the word vectors). All of them fail closed.
+- `bounce` is still missed and `switch X and Y off` is still not parsed (unchanged since
+  PR #14).
 
 ## External synonym resource and trace redaction (2026-10-06): held-out understanding still 1 of 12, and 0 secrets in traces
 
@@ -1131,7 +1265,8 @@ CI: `.github/workflows/eval.yml` runs pytest + `scripts/run_eval.py` on push/PR 
 - Secrets always refuse (no mask-and-answer path for AWS/Slack tokens).
 - Synthetic corpus / frozen clock; crafted golden set (1.000 scores are a harness, not prod claim).
 - Under seeded perturbations decision_accuracy is 0.872 (default) / 0.897 (embedding on). **Held-out synonym accuracy is 0.429 / 0.514, and only 1 / 2 of 12 held-out rows that need an answer or a write succeed.** An external general-English synonym resource (counter-fitted vectors, opt-in) did not help held-out (0.429 → 0.400) and helps a fresh general-English set only from 7/26 to 10/26. Synonyms the repo has not been given are mostly not understood; they fail closed.
-- Trace and API redaction is pattern-based (plus query fragments); a secret without a recognizable shape typed as plain words is not caught.
+- Trace and API redaction is pattern-based (plus query fragments). A secret typed as plain words is caught only after a credential noun and a copula / `:` / `=` (`my password is ...`), not in free text (`use ... to log in`).
+- Two external ops-domain lexicons (Stack Exchange tag synonyms, Wiktionary computing senses; opt-in) changed no held-out row and add nothing on the fresh general-English set. Their coverage of the eval's ops paraphrases is near zero.
 
 ## Hiring takeaway
 

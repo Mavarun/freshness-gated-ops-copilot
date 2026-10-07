@@ -1,4 +1,4 @@
-.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval
+.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -37,3 +37,11 @@ calibrate:
 
 embed-eval:
 	python scripts/run_embedding_eval.py
+
+# External ops lexicons: dev-only calibration (committed snapshot / extract only).
+calibrate-lexicons:
+	python scripts/calibrate_tag_synonyms.py
+	python scripts/calibrate_wiktionary.py
+
+explain-eval:
+	python scripts/run_explanation_eval.py
