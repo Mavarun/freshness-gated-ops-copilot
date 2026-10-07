@@ -135,6 +135,17 @@ class CopilotConfig:
     tag_synonym_min_sites: int = 1
     tag_synonym_max_neighbours: int = 1
     tag_synonym_known_words: bool = False
+    # Wiktionary computing-sense backoff (wiktionary_senses.py): senses of
+    # English Wiktionary labelled computing / software / networking / ...
+    # map a query word onto corpus words its domain sense lists as synonyms
+    # or names in its gloss. Runs after the tag synonyms, before the word
+    # vectors. Committed extract only (data/wiktionary/). min_score (2 =
+    # synonyms and pointer glosses only, 1 = also the gloss head), count and
+    # scope from scripts/calibrate_tag_synonyms.py (clean + dev rows only).
+    use_wiktionary_backoff: bool = False
+    wiktionary_min_score: int = 1
+    wiktionary_max_neighbours: int = 1
+    wiktionary_known_words: bool = False
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in

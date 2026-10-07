@@ -30,6 +30,10 @@ external ops-domain resource), weighted like the heaviest of them. With
 ``tagsyn_known`` a known word's tag substitutes are also accepted as support.
 It runs before the word-vector backoff.
 
+Wiktionary backoff (optional, ``wiktionary_senses.WiktionarySenseBackoff``):
+the same, with corpus words that a computing-labelled Wiktionary sense of the
+word lists as a synonym or names in its gloss. It runs after the tag synonyms.
+
 Word-vector backoff (optional, ``word_vectors.WordVectorBackoff``): a word that
 is still unknown after the synonym and typo steps may be supported by its
 counter-fitted substitutes among the corpus words (an external PPDB/WordNet-
@@ -83,6 +87,7 @@ from ops_copilot.text import (
 )
 from ops_copilot.types import Chunk, GroundingResult
 from ops_copilot.tag_synonyms import TagSynonymBackoff
+from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
 from ops_copilot.word_vectors import WordVectorBackoff
 
 
@@ -168,6 +173,8 @@ class Grounder:
         wordvec_known: bool = False,
         tagsyn: TagSynonymBackoff | None = None,
         tagsyn_known: bool = False,
+        wiktionary: WiktionarySenseBackoff | None = None,
+        wiktionary_known: bool = False,
     ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
@@ -182,6 +189,8 @@ class Grounder:
         self.wordvec_known = bool(wordvec_known and wordvec is not None)
         self.tagsyn = tagsyn
         self.tagsyn_known = bool(tagsyn_known and tagsyn is not None)
+        self.wiktionary = wiktionary
+        self.wiktionary_known = bool(wiktionary_known and wiktionary is not None)
         self.vocab = CorpusVocabulary(tokenized, extra_words=NON_SALIENT)
 
     def _weight(self, token: str) -> float:
@@ -203,6 +212,8 @@ class Grounder:
             alts = self._alts(tok)
             if self.tagsyn_known:
                 alts = alts | self._tagsyn_near(tok)
+            if self.wiktionary_known:
+                alts = alts | self._wiktionary_near(tok)
             if self.wordvec_known:
                 alts = alts | self._wordvec_near(tok)
             return QueryTerm(tok, "known", self._weight(tok), alts)
@@ -222,6 +233,11 @@ class Grounder:
             if ts:
                 weight = max(self._weight(w) for w in ts)
                 return QueryTerm(tok, "tagsyn", weight, frozenset({tok, *ts}))
+        if self.wiktionary is not None and not is_identifier(tok):
+            wk = self._wiktionary_near(tok)
+            if wk:
+                weight = max(self._weight(w) for w in wk)
+                return QueryTerm(tok, "wiktionary", weight, frozenset({tok, *wk}))
         if self.wordvec is not None and not is_identifier(tok):
             wv = self._wordvec_near(tok)
             if wv:
@@ -239,6 +255,12 @@ class Grounder:
         if self.tagsyn is None:
             return frozenset()
         return frozenset(n.word for n in self.tagsyn.neighbours(tok) if n.word in self.idf)
+
+    def _wiktionary_near(self, tok: str) -> frozenset[str]:
+        """Wiktionary computing-sense substitutes of ``tok`` that are corpus words."""
+        if self.wiktionary is None:
+            return frozenset()
+        return frozenset(n.word for n in self.wiktionary.neighbours(tok) if n.word in self.idf)
 
     def _wordvec_near(self, tok: str) -> frozenset[str]:
         """Counter-fitted substitutes of ``tok`` that are corpus words."""
