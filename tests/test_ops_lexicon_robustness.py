@@ -75,3 +75,20 @@ def test_committed_report_matches_the_pinned_outcome() -> None:
     rows = m["ops_lexicon_ablations"]
     assert {r["heldout_answer_write_correct"] for r in rows.values()} == {"1/12"}
     assert all(r["n_fail_open"] == r["n_spurious_write"] == 0 for r in rows.values())
+
+
+def test_post_decision_coverage_explains_the_null_result() -> None:
+    from ops_copilot.robustness import _external_lexicon_coverage
+
+    cov = _external_lexicon_coverage()
+    assert set(cov) == {"dev", "heldout"}
+    for c in cov.values():
+        assert 0 < c["words"]
+        for k in ("corpus_word", "domain_sense", "wiktionary_sub", "tag_sub", "key_in_gloss"):
+            assert 0 <= c[k] <= c["words"]
+        assert c["wiktionary_sub_strict"] <= c["wiktionary_sub"]
+        assert c["key_is_head"] <= c["key_in_gloss"] == len(c["key_in_gloss_words"])
+    held = cov["heldout"]
+    # the strict (feasible) Wiktionary setting reaches no held-out word at all
+    assert held["wiktionary_sub_strict"] == 0
+    assert held["tag_sub"] <= 1

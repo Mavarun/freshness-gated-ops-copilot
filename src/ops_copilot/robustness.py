@@ -677,7 +677,80 @@ def leakage_report() -> dict:
         "polite_prefix_words": len(prefix_words),
         "polite_prefix_words_in_filler": len(filler_hits),
         "external_wordvec": _external_wordvec_coverage(),
+        "external_lexicons": _external_lexicon_coverage(),
     }
+
+
+def _external_lexicon_coverage() -> dict | None:
+    """Word-level view of the two ops lexicons on dev and held-out pairs.
+
+    Computed *after* the held-out go / no-go (README "External ops lexicons");
+    it explains the null result and changes no setting. Per split, over the
+    replacement words of its pairs:
+
+    - ``corpus_word``: already a corpus word, so an unknown-word backoff never
+      looks it up (only the known-word scope could, and only for its own
+      substitutes);
+    - ``domain_sense``: has a computing-labelled sense in the extract;
+    - ``wiktionary_sub`` / ``wiktionary_sub_strict`` / ``tag_sub``: gets any
+      corpus substitute (min_score 1 / 2; tag synonyms at all sites, 1 site);
+    - ``key_in_gloss``: a content word of the replaced key appears somewhere in
+      one of its domain glosses; ``key_is_head``: it is the gloss head.
+    """
+    from ops_copilot.corpus import Corpus
+    from ops_copilot.synonym_split import DEFAULT_SPLIT_PATH, load_split
+    from ops_copilot.tag_synonyms import DEFAULT_SNAPSHOT, TagSynonymBackoff
+    from ops_copilot.text import content_tokens, normalize_text
+    from ops_copilot.wiktionary_senses import (
+        DEFAULT_EXTRACT,
+        SCORE_SYNONYM,
+        WiktionarySenseBackoff,
+        gloss_head,
+        load_extract,
+    )
+    from ops_copilot.word_vectors import corpus_words
+
+    if not (DEFAULT_SPLIT_PATH.is_file() and DEFAULT_EXTRACT.is_file() and DEFAULT_SNAPSHOT.is_file()):
+        return None
+    texts = [f"{c.title} {c.text}" for c in Corpus().chunks]
+    known = set(corpus_words(texts))
+    wk = WiktionarySenseBackoff(texts, max_neighbours=5)
+    wk2 = WiktionarySenseBackoff(texts, max_neighbours=5, min_score=SCORE_SYNONYM)
+    tg = TagSynonymBackoff(texts, max_neighbours=5)
+    senses: dict[str, list[dict]] = {}
+    for sense in load_extract()["senses"]:
+        senses.setdefault(sense["word"], []).append(sense)
+    split = load_split()
+    out: dict[str, dict] = {}
+    for name in SPLITS:
+        words = set(split[f"{name}_words"])
+        counts = dict.fromkeys(
+            ("words", "corpus_word", "domain_sense", "wiktionary_sub", "wiktionary_sub_strict",
+             "tag_sub", "key_in_gloss", "key_is_head"),
+            0,
+        )
+        key_in_gloss: list[str] = []
+        seen: set[str] = set()
+        for pair in split[f"{name}_pairs"]:
+            key, repl = (x.strip() for x in pair.split("->", 1))
+            key_toks = set(content_tokens(normalize_text(key)))
+            for tok in content_tokens(normalize_text(repl)):
+                if tok not in words or tok in seen:
+                    continue
+                seen.add(tok)
+                counts["words"] += 1
+                counts["corpus_word"] += tok in known
+                counts["domain_sense"] += tok in senses
+                counts["wiktionary_sub"] += bool(wk.neighbours(tok))
+                counts["wiktionary_sub_strict"] += bool(wk2.neighbours(tok))
+                counts["tag_sub"] += bool(tg.neighbours(tok))
+                glosses = [x["gloss"] for x in senses.get(tok, [])]
+                if any(key_toks & set(content_tokens(normalize_text(g))) for g in glosses):
+                    counts["key_in_gloss"] += 1
+                    key_in_gloss.append(f"{tok} ({pair})")
+                    counts["key_is_head"] += any(gloss_head(g)[0] in key_toks for g in glosses)
+        out[name] = counts | {"key_in_gloss_words": key_in_gloss}
+    return out
 
 
 def _external_wordvec_coverage() -> dict | None:
@@ -885,6 +958,18 @@ def _leakage_lines(leak: dict) -> list[str]:
         if ext
         else []
     )
+    lex = leak.get("external_lexicons")
+    if lex:
+        for name, c in lex.items():
+            ext_lines.append(
+                f"- external ops lexicons, {name} replacement words ({c['words']}; computed after "
+                f"the held-out decision): already corpus words {c['corpus_word']}; with a "
+                f"Wiktionary computing sense {c['domain_sense']}; with a Wiktionary substitute "
+                f"{c['wiktionary_sub']} (strict {c['wiktionary_sub_strict']}); with a tag "
+                f"substitute {c['tag_sub']}; replaced key word inside a domain gloss "
+                f"{c['key_in_gloss']} (as the gloss head {c['key_is_head']})"
+                + (f": {', '.join(c['key_in_gloss_words'])}" if c["key_in_gloss_words"] else "")
+            )
     return [
         "## Leakage check (product lexicons vs the eval's perturbation vocabulary)",
         "",
