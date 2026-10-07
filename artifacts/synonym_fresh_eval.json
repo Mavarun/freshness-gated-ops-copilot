@@ -1,5 +1,187 @@
 {
  "configs": {
+  "+ Stack Exchange tag synonyms (dev-chosen)": {
+   "accuracy": 0.2692307692307692,
+   "answer_correct": "0/11",
+   "by_gate": {
+    "ANSWER": {
+     "correct": 0,
+     "n": 11
+    },
+    "PROPOSE_WRITE": {
+     "correct": 2,
+     "n": 2
+    },
+    "REFUSE_CANARY": {
+     "correct": 0,
+     "n": 1
+    },
+    "REFUSE_DISAGREE": {
+     "correct": 0,
+     "n": 2
+    },
+    "REFUSE_NO_EVIDENCE": {
+     "correct": 2,
+     "n": 2
+    },
+    "REFUSE_PII": {
+     "correct": 0,
+     "n": 1
+    },
+    "REFUSE_STALE": {
+     "correct": 0,
+     "n": 4
+    },
+    "REFUSE_UNGROUNDED": {
+     "correct": 3,
+     "n": 3
+    }
+   },
+   "decisions": {
+    "f01": "REFUSE_UNGROUNDED",
+    "f02": "REFUSE_UNGROUNDED",
+    "f03": "REFUSE_UNGROUNDED",
+    "f04": "REFUSE_UNGROUNDED",
+    "f05": "REFUSE_UNGROUNDED",
+    "f06": "REFUSE_UNGROUNDED",
+    "f07": "REFUSE_UNGROUNDED",
+    "f08": "REFUSE_UNGROUNDED",
+    "f09": "REFUSE_UNGROUNDED",
+    "f10": "REFUSE_UNGROUNDED",
+    "f11": "REFUSE_UNGROUNDED",
+    "f12": "REFUSE_UNGROUNDED",
+    "f13": "REFUSE_UNGROUNDED",
+    "f14": "REFUSE_UNGROUNDED",
+    "f15": "REFUSE_UNGROUNDED",
+    "f16": "REFUSE_NO_EVIDENCE",
+    "f17": "REFUSE_NO_EVIDENCE",
+    "f18": "REFUSE_UNGROUNDED",
+    "f19": "REFUSE_UNGROUNDED",
+    "f20": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_UNGROUNDED",
+    "f22": "REFUSE_UNGROUNDED",
+    "f23": "PROPOSE_WRITE",
+    "f24": "PROPOSE_WRITE",
+    "f25": "REFUSE_UNGROUNDED",
+    "f26": "REFUSE_UNGROUNDED"
+   },
+   "n": 26,
+   "n_fail_open": 0,
+   "n_raw_pii_outputs": 0,
+   "n_spurious_write": 0,
+   "wrong": [
+    "f01:ANSWER->REFUSE_UNGROUNDED",
+    "f02:ANSWER->REFUSE_UNGROUNDED",
+    "f03:ANSWER->REFUSE_UNGROUNDED",
+    "f04:ANSWER->REFUSE_UNGROUNDED",
+    "f05:ANSWER->REFUSE_UNGROUNDED",
+    "f06:ANSWER->REFUSE_UNGROUNDED",
+    "f07:ANSWER->REFUSE_UNGROUNDED",
+    "f08:ANSWER->REFUSE_UNGROUNDED",
+    "f09:ANSWER->REFUSE_UNGROUNDED",
+    "f10:ANSWER->REFUSE_UNGROUNDED",
+    "f11:ANSWER->REFUSE_UNGROUNDED",
+    "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f14:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
+    "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
+    "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
+   ]
+  },
+  "+ Wiktionary computing senses (dev-chosen)": {
+   "accuracy": 0.2692307692307692,
+   "answer_correct": "0/11",
+   "by_gate": {
+    "ANSWER": {
+     "correct": 0,
+     "n": 11
+    },
+    "PROPOSE_WRITE": {
+     "correct": 2,
+     "n": 2
+    },
+    "REFUSE_CANARY": {
+     "correct": 0,
+     "n": 1
+    },
+    "REFUSE_DISAGREE": {
+     "correct": 0,
+     "n": 2
+    },
+    "REFUSE_NO_EVIDENCE": {
+     "correct": 2,
+     "n": 2
+    },
+    "REFUSE_PII": {
+     "correct": 0,
+     "n": 1
+    },
+    "REFUSE_STALE": {
+     "correct": 0,
+     "n": 4
+    },
+    "REFUSE_UNGROUNDED": {
+     "correct": 3,
+     "n": 3
+    }
+   },
+   "decisions": {
+    "f01": "REFUSE_UNGROUNDED",
+    "f02": "REFUSE_UNGROUNDED",
+    "f03": "REFUSE_UNGROUNDED",
+    "f04": "REFUSE_UNGROUNDED",
+    "f05": "REFUSE_UNGROUNDED",
+    "f06": "REFUSE_UNGROUNDED",
+    "f07": "REFUSE_UNGROUNDED",
+    "f08": "REFUSE_UNGROUNDED",
+    "f09": "REFUSE_UNGROUNDED",
+    "f10": "REFUSE_UNGROUNDED",
+    "f11": "REFUSE_UNGROUNDED",
+    "f12": "REFUSE_UNGROUNDED",
+    "f13": "REFUSE_UNGROUNDED",
+    "f14": "REFUSE_UNGROUNDED",
+    "f15": "REFUSE_UNGROUNDED",
+    "f16": "REFUSE_NO_EVIDENCE",
+    "f17": "REFUSE_NO_EVIDENCE",
+    "f18": "REFUSE_UNGROUNDED",
+    "f19": "REFUSE_UNGROUNDED",
+    "f20": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_UNGROUNDED",
+    "f22": "REFUSE_UNGROUNDED",
+    "f23": "PROPOSE_WRITE",
+    "f24": "PROPOSE_WRITE",
+    "f25": "REFUSE_UNGROUNDED",
+    "f26": "REFUSE_UNGROUNDED"
+   },
+   "n": 26,
+   "n_fail_open": 0,
+   "n_raw_pii_outputs": 0,
+   "n_spurious_write": 0,
+   "wrong": [
+    "f01:ANSWER->REFUSE_UNGROUNDED",
+    "f02:ANSWER->REFUSE_UNGROUNDED",
+    "f03:ANSWER->REFUSE_UNGROUNDED",
+    "f04:ANSWER->REFUSE_UNGROUNDED",
+    "f05:ANSWER->REFUSE_UNGROUNDED",
+    "f06:ANSWER->REFUSE_UNGROUNDED",
+    "f07:ANSWER->REFUSE_UNGROUNDED",
+    "f08:ANSWER->REFUSE_UNGROUNDED",
+    "f09:ANSWER->REFUSE_UNGROUNDED",
+    "f10:ANSWER->REFUSE_UNGROUNDED",
+    "f11:ANSWER->REFUSE_UNGROUNDED",
+    "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f14:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
+    "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
+    "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
+   ]
+  },
   "+ corpus PPMI backoff (PR #11, for comparison)": {
    "accuracy": 0.2692307692307692,
    "answer_correct": "0/11",
@@ -86,6 +268,94 @@
     "f14:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
+    "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
+    "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
+   ]
+  },
+  "+ tag synonyms + Wiktionary + word vectors": {
+   "accuracy": 0.38461538461538464,
+   "answer_correct": "1/11",
+   "by_gate": {
+    "ANSWER": {
+     "correct": 1,
+     "n": 11
+    },
+    "PROPOSE_WRITE": {
+     "correct": 2,
+     "n": 2
+    },
+    "REFUSE_CANARY": {
+     "correct": 1,
+     "n": 1
+    },
+    "REFUSE_DISAGREE": {
+     "correct": 0,
+     "n": 2
+    },
+    "REFUSE_NO_EVIDENCE": {
+     "correct": 2,
+     "n": 2
+    },
+    "REFUSE_PII": {
+     "correct": 0,
+     "n": 1
+    },
+    "REFUSE_STALE": {
+     "correct": 1,
+     "n": 4
+    },
+    "REFUSE_UNGROUNDED": {
+     "correct": 3,
+     "n": 3
+    }
+   },
+   "decisions": {
+    "f01": "REFUSE_UNGROUNDED",
+    "f02": "REFUSE_UNGROUNDED",
+    "f03": "REFUSE_UNGROUNDED",
+    "f04": "REFUSE_UNGROUNDED",
+    "f05": "REFUSE_UNGROUNDED",
+    "f06": "REFUSE_UNGROUNDED",
+    "f07": "REFUSE_UNGROUNDED",
+    "f08": "REFUSE_UNGROUNDED",
+    "f09": "REFUSE_UNGROUNDED",
+    "f10": "ANSWER",
+    "f11": "REFUSE_UNGROUNDED",
+    "f12": "REFUSE_UNGROUNDED",
+    "f13": "REFUSE_UNGROUNDED",
+    "f14": "REFUSE_STALE",
+    "f15": "REFUSE_UNGROUNDED",
+    "f16": "REFUSE_NO_EVIDENCE",
+    "f17": "REFUSE_NO_EVIDENCE",
+    "f18": "REFUSE_UNGROUNDED",
+    "f19": "REFUSE_UNGROUNDED",
+    "f20": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_CANARY",
+    "f22": "REFUSE_UNGROUNDED",
+    "f23": "PROPOSE_WRITE",
+    "f24": "PROPOSE_WRITE",
+    "f25": "REFUSE_UNGROUNDED",
+    "f26": "REFUSE_UNGROUNDED"
+   },
+   "n": 26,
+   "n_fail_open": 0,
+   "n_raw_pii_outputs": 0,
+   "n_spurious_write": 0,
+   "wrong": [
+    "f01:ANSWER->REFUSE_UNGROUNDED",
+    "f02:ANSWER->REFUSE_UNGROUNDED",
+    "f03:ANSWER->REFUSE_UNGROUNDED",
+    "f04:ANSWER->REFUSE_UNGROUNDED",
+    "f05:ANSWER->REFUSE_UNGROUNDED",
+    "f06:ANSWER->REFUSE_UNGROUNDED",
+    "f07:ANSWER->REFUSE_UNGROUNDED",
+    "f08:ANSWER->REFUSE_UNGROUNDED",
+    "f09:ANSWER->REFUSE_UNGROUNDED",
+    "f11:ANSWER->REFUSE_UNGROUNDED",
+    "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
