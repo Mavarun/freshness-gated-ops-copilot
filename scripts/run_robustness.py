@@ -22,6 +22,7 @@ from ops_copilot.robustness import (  # noqa: E402
     EMBED_ABLATIONS,
     EMBEDDING_ON,
     EMBEDDING_ON_BACKOFF,
+    OPS_LEXICON_ABLATIONS,
     PHRASAL_ABLATIONS,
     PR10_BEFORE,
     PR11_BEFORE,
@@ -127,6 +128,26 @@ def main(argv: list[str] | None = None) -> int:
         if knobs == WORDVEC_ON
     )
     wordvec_changes = changed_rows(report, wordvec_on)
+    # Ops-lexicon slice: Stack Exchange tag synonyms and Wiktionary computing
+    # senses at their dev-chosen settings (first held-out run), plus a diagnostic.
+    lexicon_reports = {
+        label: (
+            report
+            if not knobs
+            else run_robustness(
+                golden_path=args.golden,
+                paraphrase_path=args.paraphrase,
+                config=replace(CopilotConfig(), **knobs),
+            )
+        )
+        for label, knobs in OPS_LEXICON_ABLATIONS.items()
+    }
+    lexicon_ablations = {k: ablation_row(v) for k, v in lexicon_reports.items()}
+    lexicon_changes = {
+        label: changed_rows(report, rep)
+        for label, rep in lexicon_reports.items()
+        if OPS_LEXICON_ABLATIONS[label]
+    }
     # Write-gate ablation: reuse the default and embedding-on runs above.
     write_ablations = {
         "lexicon parser only (no mood)": ablation_row(
@@ -180,6 +201,8 @@ def main(argv: list[str] | None = None) -> int:
             write_ablations=write_ablations,
             wordvec_ablations=wordvec_ablations,
             wordvec_changes=wordvec_changes,
+            lexicon_ablations=lexicon_ablations,
+            lexicon_changes=lexicon_changes,
         ),
         encoding="utf-8",
     )
@@ -205,6 +228,8 @@ def main(argv: list[str] | None = None) -> int:
     metrics["write_ablations"] = write_ablations
     metrics["word_vector_ablations"] = wordvec_ablations
     metrics["word_vector_changed_rows"] = wordvec_changes
+    metrics["ops_lexicon_ablations"] = lexicon_ablations
+    metrics["ops_lexicon_changed_rows"] = lexicon_changes
     if calibration:
         metrics["semantic_grounding_calibration"] = calibration
     metrics["ablations"] = ablations
