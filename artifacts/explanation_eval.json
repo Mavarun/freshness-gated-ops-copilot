@@ -1,5 +1,21 @@
 {
   "default": {
+    "disclosure": {
+      "n_words_total": 70,
+      "now_leaking_templates": [],
+      "now_rows": 0,
+      "now_words": 0,
+      "over_redacted_queries": {
+        "golden": 0,
+        "perturbed": 0,
+        "write": 0
+      },
+      "pr15_rows": 33,
+      "pr15_words": 65,
+      "raw_rows": 35,
+      "raw_words": 70,
+      "rows": 35
+    },
     "golden": {
       "by_check": {
         "bm25_doc_correct": {
@@ -422,6 +438,22 @@
     }
   },
   "embedding on (frozen MiniLM)": {
+    "disclosure": {
+      "n_words_total": 70,
+      "now_leaking_templates": [],
+      "now_rows": 0,
+      "now_words": 0,
+      "over_redacted_queries": {
+        "golden": 0,
+        "perturbed": 0,
+        "write": 0
+      },
+      "pr15_rows": 33,
+      "pr15_words": 65,
+      "raw_rows": 35,
+      "raw_words": 70,
+      "rows": 35
+    },
     "golden": {
       "by_check": {
         "bm25_doc_correct": {

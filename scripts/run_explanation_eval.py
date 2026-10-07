@@ -89,6 +89,25 @@ def render_md(runs: dict[str, dict]) -> str:
                     f"| {sec} | {t['rows']} | {t['rows_raw_leaking']} | {t['rows_redacted_leaking']} | "
                     f"{t['raw_leaks']} | {t['redacted_leaks']} |"
                 )
+        dc = r.get("disclosure")
+        if dc:
+            ov = dc["over_redacted_queries"]
+            lines += [
+                "",
+                f"Secrets disclosed in words ({dc['rows']} probes = {len(set(dc.get('now_leaking_templates', [])))} "
+                "templates still leaking now; synthetic shapeless secrets after a credential noun, "
+                "templates written together with the pattern, so not blind): distinctive secret "
+                "words left in trace-bound fields.",
+                "",
+                "| redaction | rows leaking | secret words leaked |",
+                "|---|---:|---:|",
+                f"| none (raw) | {dc['raw_rows']} | {dc['raw_words']} / {dc['n_words_total']} |",
+                f"| PR #15 patterns | {dc['pr15_rows']} | {dc['pr15_words']} / {dc['n_words_total']} |",
+                f"| now (+ disclosed-secret pattern) | {dc['now_rows']} | {dc['now_words']} / {dc['n_words_total']} |",
+                "",
+                f"Over-redaction cost: trace `query` changed by the new pattern on {ov['golden']} golden, "
+                f"{ov['perturbed']} perturbed and {ov['write']} write-refusal rows.",
+            ]
         failed = [x for x in r["golden"]["rows"] if x["failed"]]
         if failed:
             lines += ["", "Golden failures: " + ", ".join(f"g{x['golden_index']:02d} {x['failed']}" for x in failed)]
@@ -111,6 +130,13 @@ def main() -> int:
         )
         bad += r["leaks"]["n_leaks"] + (g["n_checks"] - g["n_checks_correct"])
         bad += r["trace_leaks"]["n_redacted_leaks"]
+        bad += r["disclosure"]["now_words"]
+        print(
+            f"{'':30s} disclosed-in-words secret words leaked: raw={r['disclosure']['raw_words']} "
+            f"pr15={r['disclosure']['pr15_words']} now={r['disclosure']['now_words']} "
+            f"(of {r['disclosure']['n_words_total']}); over-redacted queries "
+            f"{r['disclosure']['over_redacted_queries']}"
+        )
     return 1 if bad else 0
 
 
