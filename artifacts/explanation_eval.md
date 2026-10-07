@@ -45,6 +45,16 @@ Trace-bound fields (`query`, `reason`, `write_intent`, `proposed_write`, `explan
 | write | 11 | 0 | 0 | 0 | 0 |
 | probes | 84 | 84 | 0 | 219 | 0 |
 
+Secrets disclosed in words (35 probes: no template still leaking): distinctive secret words left in trace-bound fields.
+
+| redaction | rows leaking | secret words leaked |
+|---|---:|---:|
+| none (raw) | 35 | 70 / 70 |
+| PR #15 patterns | 33 | 65 / 70 |
+| now (+ disclosed-secret pattern) | 0 | 0 / 70 |
+
+Over-redaction cost: trace `query` changed by the new pattern on 0 golden, 0 perturbed and 0 write-refusal rows.
+
 ## embedding on (frozen MiniLM): checks
 
 | check | golden | perturbed transfer |
@@ -82,3 +92,13 @@ Trace-bound fields (`query`, `reason`, `write_intent`, `proposed_write`, `explan
 | perturbed | 203 | 4 | 0 | 8 | 0 |
 | write | 11 | 0 | 0 | 0 | 0 |
 | probes | 84 | 84 | 0 | 219 | 0 |
+
+Secrets disclosed in words (35 probes: no template still leaking): distinctive secret words left in trace-bound fields.
+
+| redaction | rows leaking | secret words leaked |
+|---|---:|---:|
+| none (raw) | 35 | 70 / 70 |
+| PR #15 patterns | 33 | 65 / 70 |
+| now (+ disclosed-secret pattern) | 0 | 0 / 70 |
+
+Over-redaction cost: trace `query` changed by the new pattern on 0 golden, 0 perturbed and 0 write-refusal rows.

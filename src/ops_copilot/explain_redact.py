@@ -51,12 +51,33 @@ SECRET_ASSIGNMENT_RE = re.compile(
     r"(?i)\b(?:password|passwd|pwd|secret|token|api[_-]?key|access[_-]?key|private[_-]?key)"
     r"\s*[:=]\s*[^\s,;'\"]+"
 )
+# A secret *disclosed in words*: a credential noun, a copula or ":" / "=", then
+# up to six tokens of any shape ("my vault passphrase is violet harbor zebra").
+# Nothing about the value is recognisable, so the cue is the only signal. The
+# value stops at clause punctuation or at a word that starts a new clause, and
+# may not start with a stopword ("the password is in vault" names a place, not
+# a secret). The whole span, cue included, is replaced. Over-redaction of
+# statements such as "the token is expired" is accepted and measured
+# (``explain_eval``: rows whose trace query changes).
+_CUE = (
+    r"pass(?:word|phrase|code)s?|passwd|pin|secret|token|credentials?|"
+    r"api[ _-]?key|access[ _-]?key|private[ _-]?key"
+)
+_COPULA = r"is|was|are|were|reads|equals|(?:is |was )?set to|[:=]"
+_CLAUSE = r"and|but|so|why|what|how|who|when|where|can|could|would|please|is|does|do|did|then"
+_STOP_ALT = "|".join(sorted(STOPWORDS, key=len, reverse=True))
+DISCLOSED_SECRET_RE = re.compile(
+    rf"(?i)\b(?:{_CUE})\s*(?:{_COPULA})\s+"
+    rf"(?!(?:{_STOP_ALT})\b)(?!\[redacted)"
+    rf"(?P<val>[^\s,.;?!]+(?:\s+(?!(?:{_CLAUSE})\b)[^\s,.;?!]+){{0,5}})"
+)
 # >= 32 chars of key-ish alphabet with both letters and digits; doc ids use
 # underscores/hyphens and no long digit runs, so they never match.
 HIGH_ENTROPY_RE = re.compile(r"\b(?=[A-Za-z0-9+/=]*\d)(?=[A-Za-z0-9+/=]*[A-Za-z])[A-Za-z0-9+/=]{32,}")
 
 SENSITIVE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("canary", CANARY_ANY_CASE_RE),
+    ("disclosed_secret", DISCLOSED_SECRET_RE),
     ("secret", SECRET_ASSIGNMENT_RE),
     ("aws_key", AWS_KEY_ANY_CASE_RE),
     ("slack_token", SLACK_TOKEN_ANY_CASE_RE),
@@ -65,20 +86,24 @@ SENSITIVE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("high_entropy", HIGH_ENTROPY_RE),
 )
 
+# The PR #15 pattern set (no disclosed-in-words secrets), kept for the
+# before / after measurement in explain_eval.
+PR15_PATTERNS = tuple(p for p in SENSITIVE_PATTERNS if p[0] != "disclosed_secret")
+
 _MIN_FRAGMENT = 2
 
 
-def find_sensitive(text: str) -> list[tuple[str, str]]:
+def find_sensitive(text: str, *, patterns=SENSITIVE_PATTERNS) -> list[tuple[str, str]]:
     """Return ``(kind, value)`` for every sensitive span in ``text``."""
     out: list[tuple[str, str]] = []
     if not text:
         return out
-    for kind, pat in SENSITIVE_PATTERNS:
+    for kind, pat in patterns:
         out.extend((kind, m.group(0)) for m in pat.finditer(text))
     return out
 
 
-def sensitive_fragments(texts: Iterable[str]) -> set[str]:
+def sensitive_fragments(texts: Iterable[str], *, patterns=SENSITIVE_PATTERNS) -> set[str]:
     """Tokenizer fragments of every sensitive span in ``texts`` (lower-cased).
 
     For an e-mail address only the local part is fragmented: the domain
@@ -87,18 +112,25 @@ def sensitive_fragments(texts: Iterable[str]) -> set[str]:
     """
     frags: set[str] = set()
     for text in texts:
-        for kind, value in find_sensitive(text or ""):
+        for kind, value in find_sensitive(text or "", patterns=patterns):
             frags.add(value.lower())
             part = value.split("@", 1)[0] if kind == "email" else value
+            if kind == "disclosed_secret":
+                # fragment the value only: the cue ("token", "password") is
+                # an ordinary word the explanation must keep
+                m = DISCLOSED_SECRET_RE.search(value)
+                part = m.group("val") if m else value
             frags.update(
                 t for t in tokenize(part) if len(t) >= _MIN_FRAGMENT and t not in STOPWORDS
             )
     return frags
 
 
-def _redact_str(s: str, frag_re: re.Pattern[str] | None) -> tuple[str, int]:
+def _redact_str(
+    s: str, frag_re: re.Pattern[str] | None, patterns=SENSITIVE_PATTERNS
+) -> tuple[str, int]:
     n = 0
-    for kind, pat in SENSITIVE_PATTERNS:
+    for kind, pat in patterns:
         s, k = pat.subn(f"[redacted:{kind}]", s)
         n += k
     if frag_re is not None:
@@ -107,14 +139,14 @@ def _redact_str(s: str, frag_re: re.Pattern[str] | None) -> tuple[str, int]:
     return s, n
 
 
-def _walk(obj: Any, frag_re: re.Pattern[str] | None) -> tuple[Any, int]:
+def _walk(obj: Any, frag_re: re.Pattern[str] | None, patterns=SENSITIVE_PATTERNS) -> tuple[Any, int]:
     if isinstance(obj, str):
-        return _redact_str(obj, frag_re)
+        return _redact_str(obj, frag_re, patterns)
     if isinstance(obj, dict):
         total = 0
         out = {}
         for k, v in obj.items():
-            nv, n = _walk(v, frag_re)
+            nv, n = _walk(v, frag_re, patterns)
             out[k] = nv
             total += n
         return out, total
@@ -122,15 +154,15 @@ def _walk(obj: Any, frag_re: re.Pattern[str] | None) -> tuple[Any, int]:
         total = 0
         items = []
         for v in obj:
-            nv, n = _walk(v, frag_re)
+            nv, n = _walk(v, frag_re, patterns)
             items.append(nv)
             total += n
         return items, total
     return obj, 0
 
 
-def _fragment_re(context: Sequence[str]) -> re.Pattern[str] | None:
-    frags = sorted(sensitive_fragments(context), key=len, reverse=True)
+def _fragment_re(context: Sequence[str], patterns=SENSITIVE_PATTERNS) -> re.Pattern[str] | None:
+    frags = sorted(sensitive_fragments(context, patterns=patterns), key=len, reverse=True)
     if not frags:
         return None
     return re.compile(r"(?i)(?<![\w\[])(?:" + "|".join(re.escape(f) for f in frags) + r")(?![\w\]])")
@@ -188,19 +220,23 @@ BOUNDARY_FIELDS: tuple[str, ...] = ("query", "reason", "write_intent", "proposed
 
 
 def redact_boundary(
-    payload: dict[str, Any], *, query: str, fields: Sequence[str] = BOUNDARY_FIELDS
+    payload: dict[str, Any],
+    *,
+    query: str,
+    fields: Sequence[str] = BOUNDARY_FIELDS,
+    patterns=SENSITIVE_PATTERNS,
 ) -> tuple[dict[str, Any], int]:
     """Copy of ``payload`` with ``fields`` redacted against ``query``.
 
     Other keys are copied as-is (``explanation`` is redacted by its own pass).
     Returns ``(copy, n_replacements)``.
     """
-    frag_re = _fragment_re((query,))
+    frag_re = _fragment_re((query,), patterns)
     out = dict(payload)
     total = 0
     for key in fields:
         if key in out and out[key] is not None:
-            out[key], n = _walk(out[key], frag_re)
+            out[key], n = _walk(out[key], frag_re, patterns)
             total += n
     return out, total
 

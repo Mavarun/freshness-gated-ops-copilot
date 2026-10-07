@@ -31,6 +31,13 @@ Sections:
    synthetic secrets into queries) is scanned for canary tokens, PII and
    secret patterns, and for the literal planted values (case-insensitive).
    The refusal ``reason`` line is scanned too.
+5. **Secrets disclosed in words** (``disclosure``): synthetic secrets with no
+   recognisable shape ("violet harbor zebra") typed after a credential noun
+   ("my vault passphrase is ..."). No pattern detector can see them, so a leak
+   is any distinctive word of the secret left in a trace-bound field.
+   Counted unredacted, with the PR #15 patterns, and now; plus the cost: how
+   many golden / perturbed / write rows have a trace ``query`` that the new
+   pattern changes (over-redaction).
 """
 
 from __future__ import annotations
@@ -44,7 +51,15 @@ import yaml
 
 from ops_copilot.config import EVAL_CLOCK, CopilotConfig
 from ops_copilot.explain import GATE_BY_DECISION
-from ops_copilot.explain_redact import boundary_leaks, explanation_leaks, find_sensitive
+from ops_copilot.explain_redact import (
+    BOUNDARY_FIELDS,
+    PR15_PATTERNS,
+    boundary_leaks,
+    explanation_leaks,
+    find_sensitive,
+    redact_boundary,
+    redact_explanation,
+)
 from ops_copilot.pii import detect_pii
 from ops_copilot.pipeline import Copilot
 from ops_copilot.types import Decision
@@ -66,6 +81,23 @@ SYNTHETIC_SECRETS = (
     "xoxb-0000000000-synthetic-token",
     "password=Tr0ub4dor-synthetic",
     "c2VjcmV0LXN5bnRoZXRpYy1rZXktMDEyMzQ1Njc4OQ",
+)
+# Shapeless synthetic secrets (never real) and disclosure templates (section 5).
+PLAIN_SECRETS = (
+    "violet harbor zebra",
+    "quokka plinth",
+    "mango tango ninety",
+    "saffron",
+    "sierra-tango-77",
+)
+DISCLOSURE_TEMPLATES = (
+    "My password is {s}, why can't I log in to vault?",
+    "The vault passphrase is {s}. Who owns vault-transit?",
+    "restart checkout-api, the admin pin is {s}",
+    "Our api key is {s} - is it still valid?",
+    "Token was {s} yesterday; what is the auth token TTL?",
+    "Page the on-call, the db credentials are {s}",
+    "secret: {s}",
 )
 PROBE_TEMPLATES = (
     "What is {s}?",
@@ -194,6 +226,65 @@ def _boundary(res, secrets: list[str], tally: dict[str, int]) -> None:
     tally["redacted_leaks"] += len(safe)
 
 
+def _secret_words(secret: str) -> list[str]:
+    from ops_copilot.text import tokenize
+
+    return [t for t in tokenize(secret) if len(t) >= 4] or [secret.lower()]
+
+
+def _plain_leaks(payload: dict, secret: str) -> int:
+    """Distinctive words of ``secret`` still present in the trace-bound fields."""
+    import re
+
+    flat: list[str] = []
+
+    def _collect(o: Any) -> None:
+        if isinstance(o, str):
+            flat.append(o)
+        elif isinstance(o, dict):
+            for v in o.values():
+                _collect(v)
+        elif isinstance(o, (list, tuple)):
+            for v in o:
+                _collect(v)
+
+    _collect({k: payload.get(k) for k in (*BOUNDARY_FIELDS, "explanation")})
+    blob = "\n".join(flat).lower()
+    return sum(bool(re.search(rf"(?<![\w-]){re.escape(w)}(?![\w-])", blob)) for w in _secret_words(secret))
+
+
+def _pr15_boundary(res) -> dict:
+    """What the PR #15 boundary pass (no disclosed-secret pattern) would write."""
+    raw = res.as_dict()
+    out, _ = redact_boundary(raw, query=res.query, patterns=PR15_PATTERNS)
+    expl, _ = redact_explanation(raw.get("explanation"), context=(res.query,))
+    out["explanation"] = expl
+    return out
+
+
+def disclosure_probe(bot: Copilot) -> dict[str, Any]:
+    t = dict.fromkeys(("rows", "raw_rows", "pr15_rows", "now_rows", "raw_words", "pr15_words", "now_words"), 0)
+    examples: list[str] = []
+    for secret in PLAIN_SECRETS:
+        for tpl in DISCLOSURE_TEMPLATES:
+            res = bot.ask(tpl.format(s=secret))
+            raw = _plain_leaks(res.as_dict(), secret)
+            pr15 = _plain_leaks(_pr15_boundary(res), secret)
+            now = _plain_leaks(res.boundary_dict(), secret)
+            t["rows"] += 1
+            for k, v in (("raw", raw), ("pr15", pr15), ("now", now)):
+                t[f"{k}_rows"] += bool(v)
+                t[f"{k}_words"] += v
+            if now:
+                examples.append(tpl)
+    return t | {"n_words_total": sum(len(_secret_words(s)) for s in PLAIN_SECRETS) * len(DISCLOSURE_TEMPLATES), "now_leaking_templates": examples[:5]}
+
+
+def over_redaction(res) -> bool:
+    """True if the new pattern changes this row's trace ``query`` vs PR #15."""
+    return _pr15_boundary(res).get("query") != res.boundary_dict().get("query")
+
+
 def _ask(bot: Copilot, row: dict):
     sid = row.get("session_id")
     if sid and "seed_session_spent" in row:
@@ -232,6 +323,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         )
         for k in leaks
     }
+    over = {"golden": 0, "perturbed": 0, "write": 0}
 
     # 1. golden
     bot = Copilot(config=cfg)
@@ -243,6 +335,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         if (lk := _leaks(res, secrets)):
             leaks["golden"].append({"golden_index": i, "leaks": lk})
         _boundary(res, secrets, trace["golden"])
+        over["golden"] += over_redaction(res)
         exp = exps.get(i)
         if exp is None:
             continue
@@ -268,6 +361,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         if (lk := _leaks(res, secrets)):
             leaks["perturbed"].append({"id": row.get("id"), "leaks": lk})
         _boundary(res, secrets, trace["perturbed"])
+        over["perturbed"] += over_redaction(res)
         exp = exps.get(int(row["source_index"]))
         if exp and expl and res.decision.value == golden[int(row["source_index"])]["expect_decision"]:
             t_checks.append(check_fields(exp, expl, truth))
@@ -282,6 +376,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         if (lk := _leaks(res, secrets)):
             leaks["write"].append({"id": row["id"], "leaks": lk})
         _boundary(res, secrets, trace["write"])
+        over["write"] += over_redaction(res)
         expl = res.as_dict()["explanation"] or {}
         w = expl.get("write") or {}
         w_n += 1
@@ -305,6 +400,9 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
             if (lk := _leaks(res, probe_values)):
                 leaks["probes"].append({"template": tpl, "secret_prefix": s[:4], "leaks": lk})
             _boundary(res, probe_values, trace["probes"])
+
+    # 5. secrets disclosed in words (no recognisable shape)
+    disclosure = disclosure_probe(Copilot(config=cfg))
 
     return {
         "golden": _tally(g_checks)
@@ -331,6 +429,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
             "by_section": {k: len(v) for k, v in leaks.items()},
             "examples": {k: v[:5] for k, v in leaks.items()},
         },
+        "disclosure": disclosure | {"over_redacted_queries": over},
         # Trace-bound fields (query, reason, write_intent, proposed_write,
         # explanation): what PR #14 wrote raw vs what is written now.
         "trace_leaks": {

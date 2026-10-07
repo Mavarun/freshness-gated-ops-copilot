@@ -66,3 +66,73 @@ def test_api_response_fields_are_redacted() -> None:
     body = client.post("/query", json={"query": f"Restart checkout-api, my key is {AWS}"}).json()
     blob = json.dumps({k: body.get(k) for k in ("reason", "write_intent", "proposed_write", "explanation")})
     assert AWS.lower() not in blob.lower()
+
+
+# --- secrets disclosed in words (no recognisable shape) ---------------------------
+
+from ops_copilot.explain_redact import (  # noqa: E402
+    DISCLOSED_SECRET_RE,
+    PR15_PATTERNS,
+    redact_explanation as _rx,
+    redact_string as _rs,
+)
+
+
+@pytest.mark.parametrize(
+    "text, value",
+    [
+        ("My password is violet harbor zebra, why can't I log in?", "violet harbor zebra"),
+        ("The vault passphrase is quokka plinth. Who owns it?", "quokka plinth"),
+        ("restart checkout-api, the admin pin is 4471 mango", "4471 mango"),
+        ("Token was blue quokka yesterday; what is the TTL?", "blue quokka yesterday"),
+        ("the db credentials are saffron and who owns them", "saffron"),
+        ("secret: violet harbor", "violet harbor"),
+    ],
+)
+def test_disclosed_secret_value_is_found_and_redacted(text: str, value: str) -> None:
+    m = DISCLOSED_SECRET_RE.search(text)
+    assert m is not None and m.group("val") == value
+    out, n = _rs(text, context=[text])
+    assert n >= 1 and value not in out and "[redacted:disclosed_secret]" in out
+    again, n2 = _rs(out, context=[text])
+    assert again == out and n2 == 0  # idempotent
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "the password is in vault",
+        "What is the password rotation policy?",
+        "Is the token TTL 24h?",
+        "What is the auth secret TTL?",
+        "Who owns the api key for checkout?",
+        "When was the password changed",
+    ],
+)
+def test_ordinary_credential_questions_are_left_alone(text: str) -> None:
+    assert DISCLOSED_SECRET_RE.search(text) is None
+    assert _rs(text, context=[text]) == (text, 0)
+
+
+def test_only_the_value_is_fragmented_not_the_cue_word() -> None:
+    q = "Token was blue quokka yesterday; what is the auth token TTL?"
+    expl, n = _rx({"missing_terms": ["quokka", "token", "blue", "ttl"]}, context=[q])
+    assert expl["missing_terms"] == ["[redacted]", "token", "[redacted]", "ttl"] and n == 2
+
+
+def test_pr15_pattern_set_is_the_old_one() -> None:
+    assert "disclosed_secret" not in {k for k, _ in PR15_PATTERNS}
+
+
+def test_disclosure_eval_pins_before_after_and_no_over_redaction() -> None:
+    import json
+    from pathlib import Path
+
+    art = json.loads(
+        (Path(__file__).resolve().parents[1] / "artifacts" / "explanation_eval.json").read_text()
+    )
+    for run in art.values():
+        d = run["disclosure"]
+        assert d["rows"] == 35 and d["n_words_total"] == 70
+        assert d["raw_words"] == 70 and d["pr15_words"] == 65 and d["now_words"] == 0
+        assert d["over_redacted_queries"] == {"golden": 0, "perturbed": 0, "write": 0}
