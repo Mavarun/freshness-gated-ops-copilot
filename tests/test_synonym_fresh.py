@@ -47,3 +47,12 @@ def test_artifact_matches_a_fresh_run(result: dict) -> None:
     assert {k: v["decisions"] for k, v in art["configs"].items()} == {
         k: v["decisions"] for k, v in result["configs"].items()
     }
+
+
+def test_ops_lexicons_are_blind_and_add_nothing_on_the_fresh_set(result: dict) -> None:
+    cfgs = result["configs"]
+    default = cfgs["default (word-vector backoff off; = PR #14)"]["decisions"]
+    for label in ("+ Stack Exchange tag synonyms (dev-chosen)", "+ Wiktionary computing senses (dev-chosen)"):
+        assert cfgs[label]["decisions"] == default, label
+    wv = cfgs["+ word-vector backoff (calibrated)"]["decisions"]
+    assert cfgs["+ tag synonyms + Wiktionary + word vectors"]["decisions"] == wv

@@ -9,6 +9,10 @@ to cover, not an unbiased benchmark. ``vocabulary_overlap`` enforces that no
 swapped-in word is a dev or held-out word of the perturbation split or any
 word of the eval's synonym map, so the 203-row set and its split stay
 untouched and the two sets share no replacement vocabulary.
+
+The two ops lexicons (``tag_synonyms.py``, ``wiktionary_senses.py``) were
+built on 2026-10-07, a day after these rows were written, so for them this
+set is blind: nobody chose a row or a lexicon entry with the other in view.
 """
 
 from __future__ import annotations
@@ -32,6 +36,25 @@ CONFIGS: dict[str, dict] = {
         "word_vector_known_words": False,
     },
     "+ corpus PPMI backoff (PR #11, for comparison)": {"use_semantic_backoff": True},
+    # Ops lexicons (2026-10-07): built after this set was written, so for them
+    # it is a blind check (dev-chosen settings, robustness.TAGSYN_ON / WIKTIONARY_ON).
+    "+ Stack Exchange tag synonyms (dev-chosen)": {
+        "use_tag_synonym_backoff": True,
+        "tag_synonym_sites": "ops",
+        "tag_synonym_min_sites": 3,
+    },
+    "+ Wiktionary computing senses (dev-chosen)": {
+        "use_wiktionary_backoff": True,
+        "wiktionary_min_score": 2,
+    },
+    "+ tag synonyms + Wiktionary + word vectors": {
+        "use_tag_synonym_backoff": True,
+        "tag_synonym_sites": "ops",
+        "tag_synonym_min_sites": 3,
+        "use_wiktionary_backoff": True,
+        "wiktionary_min_score": 2,
+        "use_word_vector_backoff": True,
+    },
 }
 
 
