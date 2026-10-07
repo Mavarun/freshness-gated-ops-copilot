@@ -980,6 +980,170 @@
    "effect": "fixed"
   }
  ],
+ "ops_lexicon_ablations": {
+  "default (external ops lexicons off)": {
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.8719,
+   "per_perturbation": {
+    "synonym": 0.5,
+    "word_order": 1.0,
+    "typo": 1.0,
+    "polite": 0.9804
+   },
+   "synonym_dev": 0.6667,
+   "synonym_heldout": 0.4286,
+   "heldout_answer_write_correct": "1/12",
+   "heldout_write_correct": "1/3",
+   "clean_safety": {
+    "n_fail_open": 0,
+    "n_spurious_write": 0,
+    "n_raw_pii_outputs": 0
+   },
+   "fail_open": [],
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0
+  },
+  "+ Stack Exchange tag synonyms (dev-chosen)": {
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.8719,
+   "per_perturbation": {
+    "synonym": 0.5,
+    "word_order": 1.0,
+    "typo": 1.0,
+    "polite": 0.9804
+   },
+   "synonym_dev": 0.6667,
+   "synonym_heldout": 0.4286,
+   "heldout_answer_write_correct": "1/12",
+   "heldout_write_correct": "1/3",
+   "clean_safety": {
+    "n_fail_open": 0,
+    "n_spurious_write": 0,
+    "n_raw_pii_outputs": 0
+   },
+   "fail_open": [],
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0
+  },
+  "+ Wiktionary computing senses (dev-chosen)": {
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.8719,
+   "per_perturbation": {
+    "synonym": 0.5,
+    "word_order": 1.0,
+    "typo": 1.0,
+    "polite": 0.9804
+   },
+   "synonym_dev": 0.6667,
+   "synonym_heldout": 0.4286,
+   "heldout_answer_write_correct": "1/12",
+   "heldout_write_correct": "1/3",
+   "clean_safety": {
+    "n_fail_open": 0,
+    "n_spurious_write": 0,
+    "n_raw_pii_outputs": 0
+   },
+   "fail_open": [],
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0
+  },
+  "+ both (dev-chosen)": {
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.8719,
+   "per_perturbation": {
+    "synonym": 0.5,
+    "word_order": 1.0,
+    "typo": 1.0,
+    "polite": 0.9804
+   },
+   "synonym_dev": 0.6667,
+   "synonym_heldout": 0.4286,
+   "heldout_answer_write_correct": "1/12",
+   "heldout_write_correct": "1/3",
+   "clean_safety": {
+    "n_fail_open": 0,
+    "n_spurious_write": 0,
+    "n_raw_pii_outputs": 0
+   },
+   "fail_open": [],
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0
+  },
+  "+ both + word vectors (all three external resources)": {
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.8719,
+   "per_perturbation": {
+    "synonym": 0.5,
+    "word_order": 1.0,
+    "typo": 1.0,
+    "polite": 0.9804
+   },
+   "synonym_dev": 0.7333,
+   "synonym_heldout": 0.4,
+   "heldout_answer_write_correct": "1/12",
+   "heldout_write_correct": "1/3",
+   "clean_safety": {
+    "n_fail_open": 0,
+    "n_spurious_write": 0,
+    "n_raw_pii_outputs": 0
+   },
+   "fail_open": [],
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0
+  },
+  "diagnostic: both at their widest feasible setting": {
+   "clean_accuracy": 1.0,
+   "perturbed_accuracy": 0.8719,
+   "per_perturbation": {
+    "synonym": 0.5,
+    "word_order": 1.0,
+    "typo": 1.0,
+    "polite": 0.9804
+   },
+   "synonym_dev": 0.6667,
+   "synonym_heldout": 0.4286,
+   "heldout_answer_write_correct": "1/12",
+   "heldout_write_correct": "1/3",
+   "clean_safety": {
+    "n_fail_open": 0,
+    "n_spurious_write": 0,
+    "n_raw_pii_outputs": 0
+   },
+   "fail_open": [],
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0
+  }
+ },
+ "ops_lexicon_changed_rows": {
+  "+ Stack Exchange tag synonyms (dev-chosen)": [],
+  "+ Wiktionary computing senses (dev-chosen)": [],
+  "+ both (dev-chosen)": [],
+  "+ both + word vectors (all three external resources)": [
+   {
+    "id": "g21-synonym",
+    "split": "heldout",
+    "expect": "REFUSE_NO_EVIDENCE",
+    "before": "REFUSE_NO_EVIDENCE",
+    "after": "REFUSE_UNGROUNDED",
+    "effect": "broke"
+   },
+   {
+    "id": "g39-synonym",
+    "split": "dev",
+    "expect": "ANSWER",
+    "before": "REFUSE_UNGROUNDED",
+    "after": "ANSWER",
+    "effect": "fixed"
+   }
+  ],
+  "diagnostic: both at their widest feasible setting": []
+ },
  "semantic_grounding_calibration": {
   "threshold": 0.45,
   "max_terms": 1,

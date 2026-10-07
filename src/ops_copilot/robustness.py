@@ -473,6 +473,53 @@ WORDVEC_ABLATIONS: dict[str, dict] = {
 }
 
 
+# Ops-lexicon slice: the two external ops-domain resources (tag_synonyms.py,
+# wiktionary_senses.py) at their dev-chosen settings (artifacts/
+# tag_synonym_calibration.md, wiktionary_calibration.md), alone and together,
+# then with the word vectors too. The "widest feasible" rows are a diagnostic
+# (the most each resource can do without failing the clean / safety bar on
+# dev), not candidates for the default.
+TAGSYN_ON: dict = {
+    "use_tag_synonym_backoff": True,
+    "tag_synonym_sites": "ops",
+    "tag_synonym_min_sites": 3,
+    "tag_synonym_max_neighbours": 1,
+    "tag_synonym_known_words": False,
+}
+WIKTIONARY_ON: dict = {
+    "use_wiktionary_backoff": True,
+    "wiktionary_min_score": 2,
+    "wiktionary_max_neighbours": 1,
+    "wiktionary_known_words": False,
+}
+TAGSYN_WIDEST: dict = {
+    "use_tag_synonym_backoff": True,
+    "tag_synonym_sites": "all",
+    "tag_synonym_min_sites": 1,
+    "tag_synonym_max_neighbours": 3,
+    "tag_synonym_known_words": True,
+}
+WIKTIONARY_WIDEST: dict = {
+    "use_wiktionary_backoff": True,
+    "wiktionary_min_score": 2,
+    "wiktionary_max_neighbours": 3,
+    "wiktionary_known_words": True,
+}
+OPS_LEXICON_ABLATIONS: dict[str, dict] = {
+    "default (external ops lexicons off)": {},
+    "+ Stack Exchange tag synonyms (dev-chosen)": dict(TAGSYN_ON),
+    "+ Wiktionary computing senses (dev-chosen)": dict(WIKTIONARY_ON),
+    "+ both (dev-chosen)": {**TAGSYN_ON, **WIKTIONARY_ON},
+    "+ both + word vectors (all three external resources)": {
+        **TAGSYN_ON,
+        **WIKTIONARY_ON,
+        "use_word_vector_backoff": True,
+    },
+    "diagnostic: both at their widest feasible setting": {**TAGSYN_WIDEST, **WIKTIONARY_WIDEST},
+}
+OPS_LEXICON_CANDIDATE = "+ both (dev-chosen)"
+
+
 def changed_rows(a: RobustnessReport, b: RobustnessReport) -> list[dict]:
     """Perturbed rows whose decision differs between two runs (a -> b)."""
     before = {c.id: c for c in a.cases}
@@ -895,6 +942,8 @@ def render_robustness_markdown(
     write_ablations: dict | None = None,
     wordvec_ablations: dict | None = None,
     wordvec_changes: list[dict] | None = None,
+    lexicon_ablations: dict | None = None,
+    lexicon_changes: dict[str, list[dict]] | None = None,
 ) -> str:
     d = report.as_dict()
     emb = embedding.as_dict(flip_detail=False) if embedding is not None else None
@@ -965,6 +1014,32 @@ def render_robustness_markdown(
             lines += [
                 f"| {r['id']} | {r['split']} | {r['expect']} | {r['before']} | {r['after']} | {r['effect']} |"
                 for r in wordvec_changes
+            ] or ["| - | - | - | - | - | - |"]
+            lines.append("")
+    if lexicon_ablations:
+        lines += _ablation_lines(
+            lexicon_ablations,
+            kinds,
+            title="## Ablation: external ops-domain lexicons (Stack Exchange tags, Wiktionary)",
+            blurb=(
+                "Default config plus the Stack Exchange tag-synonym snapshot "
+                "(`data/tagsyn/`) and / or the Wiktionary computing-sense extract "
+                "(`data/wiktionary/`). Settings were chosen on clean golden + dev rows only "
+                "(`artifacts/tag_synonym_calibration.md`, `artifacts/wiktionary_calibration.md`); "
+                "this table is their first held-out run. The diagnostic row is not a "
+                "candidate for the default."
+            ),
+        )
+        for label, rows in (lexicon_changes or {}).items():
+            lines += [
+                f"Rows whose decision changes vs the default with **{label}**:",
+                "",
+                "| row | split | expected | off | on | effect |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+            lines += [
+                f"| {r['id']} | {r['split']} | {r['expect']} | {r['before']} | {r['after']} | {r['effect']} |"
+                for r in rows
             ] or ["| - | - | - | - | - | - |"]
             lines.append("")
     if write_ablations:

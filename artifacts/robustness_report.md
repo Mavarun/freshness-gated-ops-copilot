@@ -106,6 +106,50 @@ Rows whose decision changes when the calibrated backoff is switched on:
 | g21-synonym | heldout | REFUSE_NO_EVIDENCE | REFUSE_NO_EVIDENCE | REFUSE_UNGROUNDED | broke |
 | g39-synonym | dev | ANSWER | REFUSE_UNGROUNDED | ANSWER | fixed |
 
+## Ablation: external ops-domain lexicons (Stack Exchange tags, Wiktionary)
+
+Default config plus the Stack Exchange tag-synonym snapshot (`data/tagsyn/`) and / or the Wiktionary computing-sense extract (`data/wiktionary/`). Settings were chosen on clean golden + dev rows only (`artifacts/tag_synonym_calibration.md`, `artifacts/wiktionary_calibration.md`); this table is their first held-out run. The diagnostic row is not a candidate for the default.
+
+| config | clean | perturbed | synonym | word_order | typo | polite | syn dev | syn held-out | held-out ANSWER/WRITE | held-out WRITE | fail-open | spurious write | raw PII | clean fail-open/spurious/PII |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| default (external ops lexicons off) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| + Stack Exchange tag synonyms (dev-chosen) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| + Wiktionary computing senses (dev-chosen) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| + both (dev-chosen) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| + both + word vectors (all three external resources) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.733 | 0.400 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| diagnostic: both at their widest feasible setting | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+
+Rows whose decision changes vs the default with **+ Stack Exchange tag synonyms (dev-chosen)**:
+
+| row | split | expected | off | on | effect |
+| --- | --- | --- | --- | --- | --- |
+| - | - | - | - | - | - |
+
+Rows whose decision changes vs the default with **+ Wiktionary computing senses (dev-chosen)**:
+
+| row | split | expected | off | on | effect |
+| --- | --- | --- | --- | --- | --- |
+| - | - | - | - | - | - |
+
+Rows whose decision changes vs the default with **+ both (dev-chosen)**:
+
+| row | split | expected | off | on | effect |
+| --- | --- | --- | --- | --- | --- |
+| - | - | - | - | - | - |
+
+Rows whose decision changes vs the default with **+ both + word vectors (all three external resources)**:
+
+| row | split | expected | off | on | effect |
+| --- | --- | --- | --- | --- | --- |
+| g21-synonym | heldout | REFUSE_NO_EVIDENCE | REFUSE_NO_EVIDENCE | REFUSE_UNGROUNDED | broke |
+| g39-synonym | dev | ANSWER | REFUSE_UNGROUNDED | ANSWER | fixed |
+
+Rows whose decision changes vs the default with **diagnostic: both at their widest feasible setting**:
+
+| row | split | expected | off | on | effect |
+| --- | --- | --- | --- | --- | --- |
+| - | - | - | - | - | - |
+
 ## Ablation: write-intent gate
 
 Structured write classifier (action ontology + verb-cluster lexicons + registry targets). Lexicon only = first lexicon verb anywhere counts as an instruction (no mood detection); the default adds clause-level mood detection; the last row adds the nearest-action-prototype backoff (frozen fixture, threshold and margin calibrated on dev-only verbs).
