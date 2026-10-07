@@ -91,3 +91,54 @@ def test_config_wires_the_backoff_and_defaults_off() -> None:
     assert tag_synonym_sites("all") == SITES
     with pytest.raises(ValueError):
         tag_synonym_sites("everything")
+
+
+# --- Wiktionary computing-sense backoff wiring ----------------------------------
+
+from ops_copilot.wiktionary_senses import WiktionarySenseBackoff  # noqa: E402
+
+WIKT = {
+    "senses": [
+        {"word": "bounce", "pos": "verb", "topic": "computing", "synonyms": [], "gloss": "To restart a worker."},
+        {"word": "reboot", "pos": "verb", "topic": "computing", "synonyms": ["restart"], "gloss": "To boot again."},
+        {"word": "board", "pos": "noun", "topic": "computing", "synonyms": ["dashboard"], "gloss": "A panel."},
+    ]
+}
+
+
+def _wk(**kw) -> WiktionarySenseBackoff:
+    return WiktionarySenseBackoff(TEXTS, extract=WIKT, **kw)
+
+
+def test_wiktionary_term_kind_weight_and_min_score() -> None:
+    g = Grounder(TEXTS, wiktionary=_wk())
+    t = {x.token: x for x in g.terms("bounce the worker")}["bounce"]
+    assert t.kind == "wiktionary" and t.alts == frozenset({"bounce", "restart"})
+    assert t.weight == g._weight("restart")
+    strict = Grounder(TEXTS, wiktionary=_wk(min_score=2))
+    s = {x.token: x for x in strict.terms("bounce or reboot the worker")}
+    assert s["bounce"].kind == "unknown"  # gloss head only (score 1)
+    assert s["reboot"].kind == "wiktionary"  # listed synonym (score 2)
+
+
+def test_tag_synonyms_run_before_wiktionary() -> None:
+    g = Grounder(TEXTS, tagsyn=_bk(), wiktionary=_wk())
+    assert {x.token: x for x in g.terms("reboot the worker")}["reboot"].kind == "tagsyn"
+
+
+def test_wiktionary_known_scope_is_opt_in() -> None:
+    q = "open the board"
+    off = {x.token: x for x in Grounder(TEXTS + ["board"], wiktionary=_wk()).terms(q)}["board"]
+    on = {
+        x.token: x
+        for x in Grounder(TEXTS + ["board"], wiktionary=_wk(), wiktionary_known=True).terms(q)
+    }["board"]
+    assert off.kind == on.kind == "known"
+    assert "dashboard" not in off.alts and "dashboard" in on.alts
+
+
+def test_config_wires_wiktionary_and_defaults_off() -> None:
+    assert Copilot().wiktionary is None
+    bot = Copilot(config=replace(CopilotConfig(), use_wiktionary_backoff=True, wiktionary_min_score=2))
+    assert bot.wiktionary is not None and bot.wiktionary.min_score == 2
+    assert bot.grounder.wiktionary is bot.wiktionary and bot.retriever.wiktionary is bot.wiktionary

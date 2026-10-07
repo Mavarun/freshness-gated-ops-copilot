@@ -32,6 +32,7 @@ from ops_copilot.policy import decide
 from ops_copilot.retrieve import Retriever
 from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.tag_synonyms import TagSynonymBackoff, tag_synonym_sites
+from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
 from ops_copilot.word_vectors import WordVectorBackoff
 from ops_copilot.source_slas import SourceSlaTable, load_source_slas, resolve_max_age
 from ops_copilot.types import Chunk, CopilotResult, Decision
@@ -116,6 +117,15 @@ class Copilot:
             if self.config.use_tag_synonym_backoff
             else None
         )
+        self.wiktionary = (
+            WiktionarySenseBackoff(
+                texts,
+                min_score=self.config.wiktionary_min_score,
+                max_neighbours=self.config.wiktionary_max_neighbours,
+            )
+            if self.config.use_wiktionary_backoff
+            else None
+        )
         self.embeddings = resolve_backend(
             self.config.embedding_backend,
             model_name=self.config.embedding_model,
@@ -128,6 +138,7 @@ class Copilot:
             embeddings=self.embeddings,
             wordvec=self.wordvec,
             tagsyn=self.tagsyn,
+            wiktionary=self.wiktionary,
         )
         self.grounder = Grounder(
             texts,
@@ -139,6 +150,8 @@ class Copilot:
             wordvec_known=self.config.word_vector_known_words,
             tagsyn=self.tagsyn,
             tagsyn_known=self.config.tag_synonym_known_words,
+            wiktionary=self.wiktionary,
+            wiktionary_known=self.config.wiktionary_known_words,
             embed_support=(
                 EmbeddingSupport(
                     self.embeddings,

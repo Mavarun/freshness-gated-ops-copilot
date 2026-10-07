@@ -20,8 +20,8 @@ cannot change BM25 terms, TF-IDF terms, or the dense stub's char n-grams.
 unknown plain words with their unique one-edit corpus neighbour ("checkuot"
 -> "checkout") or, failing that, with the corpus-known members of their
 ``synonyms.OPS_EQUIVALENTS`` group ("instances" -> "replicas"), or, when the
-optional tag-synonym or word-vector backoffs are on, with their corpus
-substitutes (in that order), or, when the
+optional tag-synonym, Wiktionary or word-vector backoffs are on, with their
+corpus substitutes (in that order), or, when the
 optional semantic backoff is on and nothing else matched, with its closest
 corpus words (``semantic.SemanticBackoff``). Known corpus words and
 identifiers are never rewritten.
@@ -42,6 +42,7 @@ from ops_copilot.embeddings import EmbeddingBackend, passage_text
 from ops_copilot.lexicon import CorpusVocabulary, fix_interrogative_typos
 from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.tag_synonyms import TagSynonymBackoff
+from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
 from ops_copilot.word_vectors import WordVectorBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases
 from ops_copilot.text import (
@@ -208,6 +209,7 @@ class Retriever:
         embeddings: EmbeddingBackend | None = None,
         wordvec: WordVectorBackoff | None = None,
         tagsyn: TagSynonymBackoff | None = None,
+        wiktionary: WiktionarySenseBackoff | None = None,
     ) -> None:
         if not chunks:
             raise ValueError("retriever requires at least one chunk")
@@ -216,6 +218,7 @@ class Retriever:
         self.semantic = semantic
         self.wordvec = wordvec
         self.tagsyn = tagsyn
+        self.wiktionary = wiktionary
         self._tokenized = [tokenize(f"{c.title} {c.text}") for c in chunks]
         self._bm25 = _bm25_engine(self._tokenized)
         self.vocab = CorpusVocabulary(self._tokenized, extra_words=NON_SALIENT)
@@ -263,11 +266,17 @@ class Retriever:
                 if fixed is not None:
                     words.append(fixed)
                     continue
-            if self.tagsyn is not None:
-                near = sorted(n.word for n in self.tagsyn.neighbours(word) if n.word in self.vocab)
-                if near:
-                    words.extend(near)
+            for lex in (self.tagsyn, self.wiktionary):
+                if lex is None:
                     continue
+                near = sorted(n.word for n in lex.neighbours(word) if n.word in self.vocab)
+                if near:
+                    break
+            else:
+                near = []
+            if near:
+                words.extend(near)
+                continue
             if self.wordvec is not None:
                 near = sorted(n.word for n in self.wordvec.neighbours(word) if n.word in self.vocab)
                 if near:
