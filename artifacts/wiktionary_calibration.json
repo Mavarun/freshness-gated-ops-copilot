@@ -1,0 +1,723 @@
+{
+ "calibration_rows": [
+  "clean-g00",
+  "clean-g01",
+  "clean-g02",
+  "clean-g03",
+  "clean-g04",
+  "clean-g05",
+  "clean-g06",
+  "clean-g07",
+  "clean-g08",
+  "clean-g09",
+  "clean-g10",
+  "clean-g11",
+  "clean-g12",
+  "clean-g13",
+  "clean-g14",
+  "clean-g15",
+  "clean-g16",
+  "clean-g17",
+  "clean-g18",
+  "clean-g19",
+  "clean-g20",
+  "clean-g21",
+  "clean-g22",
+  "clean-g23",
+  "clean-g24",
+  "clean-g25",
+  "clean-g26",
+  "clean-g27",
+  "clean-g28",
+  "clean-g29",
+  "clean-g30",
+  "clean-g31",
+  "clean-g32",
+  "clean-g33",
+  "clean-g34",
+  "clean-g35",
+  "clean-g36",
+  "clean-g37",
+  "clean-g38",
+  "clean-g39",
+  "clean-g40",
+  "clean-g41",
+  "clean-g42",
+  "clean-g43",
+  "clean-g44",
+  "clean-g45",
+  "clean-g46",
+  "clean-g47",
+  "clean-g48",
+  "clean-g49",
+  "clean-g50",
+  "g02-synonym",
+  "g03-synonym",
+  "g06-synonym",
+  "g10-synonym",
+  "g12-synonym",
+  "g13-synonym",
+  "g22-synonym",
+  "g24-synonym",
+  "g26-synonym",
+  "g34-synonym",
+  "g35-synonym",
+  "g39-synonym",
+  "g43-synonym",
+  "g48-synonym",
+  "g49-synonym"
+ ],
+ "n_clean": 51,
+ "n_dev": 15,
+ "baseline_off": {
+  "accuracy": 0.9242,
+  "clean_accuracy": 1.0,
+  "n_fail_open": 0,
+  "n_spurious_write": 0,
+  "n_raw_pii_outputs": 0,
+  "wrong": [
+   "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+   "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+   "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+   "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+   "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+  ]
+ },
+ "chosen": {
+  "min_score": 2,
+  "max_neighbours": 1,
+  "known_words": false,
+  "accuracy": 0.9242424242424242,
+  "n_optimal": 4
+ },
+ "default_on": false,
+ "dev_words": [
+  {
+   "pair": "page->alert",
+   "word": "alert",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "patch->update",
+   "word": "update",
+   "substitutes": [
+    "change"
+   ],
+   "scores": [
+    1
+   ],
+   "kind": "other"
+  },
+  {
+   "pair": "replicas->pods",
+   "word": "pods",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "replicas->instances",
+   "word": "instances",
+   "substitutes": [
+    "renders"
+   ],
+   "scores": [
+    1
+   ],
+   "kind": "other"
+  },
+  {
+   "pair": "enabled->switched on",
+   "word": "switched",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "utilization->usage",
+   "word": "usage",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "utilization->saturation",
+   "word": "saturation",
+   "substitutes": [
+    "point"
+   ],
+   "scores": [
+    1
+   ],
+   "kind": "other"
+  },
+  {
+   "pair": "mitigation->remediation",
+   "word": "remediation",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "recommend->suggest",
+   "word": "suggest",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "runbook->playbook",
+   "word": "playbook",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "procedure->process",
+   "word": "process",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "email->e-mail",
+   "word": "e-mail",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "token->secret",
+   "word": "secret",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "schedule->calendar",
+   "word": "calendar",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "window->timeframe",
+   "word": "timeframe",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "on-call->on-duty",
+   "word": "on-duty",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "on-call->pager",
+   "word": "pager",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "primary->lead",
+   "word": "lead",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "outage->incident",
+   "word": "incident",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "deploy->release",
+   "word": "release",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "remaining->leftover",
+   "word": "leftover",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "current->present",
+   "word": "present",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "current->latest",
+   "word": "latest",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "freeze->lockdown",
+   "word": "lockdown",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "freeze->moratorium",
+   "word": "moratorium",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "production->prod",
+   "word": "prod",
+   "substitutes": [
+    "production"
+   ],
+   "scores": [
+    2
+   ],
+   "kind": "key"
+  },
+  {
+   "pair": "maintenance->upkeep",
+   "word": "upkeep",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "maintenance->servicing",
+   "word": "servicing",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "database->datastore",
+   "word": "datastore",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "feature flag->feature toggle",
+   "word": "toggle",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "feature flag->feature switch",
+   "word": "switch",
+   "substitutes": [
+    "flag",
+    "command"
+   ],
+   "scores": [
+    2,
+    1
+   ],
+   "kind": "key"
+  },
+  {
+   "pair": "flag->toggle",
+   "word": "toggle",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "flag->switch",
+   "word": "switch",
+   "substitutes": [
+    "flag",
+    "command"
+   ],
+   "scores": [
+    2,
+    1
+   ],
+   "kind": "key"
+  },
+  {
+   "pair": "rollback->revert",
+   "word": "revert",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "rollback->undo",
+   "word": "undo",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "owns->maintains",
+   "word": "maintains",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "directory->listing",
+   "word": "listing",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "reset->clear",
+   "word": "clear",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "drain->clear",
+   "word": "clear",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "target->goal",
+   "word": "goal",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "request rate->throughput",
+   "word": "throughput",
+   "substitutes": [
+    "rate"
+   ],
+   "scores": [
+    1
+   ],
+   "kind": "key"
+  },
+  {
+   "pair": "endpoint->URL",
+   "word": "url",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "key->secret",
+   "word": "secret",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "path->route",
+   "word": "route",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "path->location",
+   "word": "location",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "route->URL",
+   "word": "url",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "gateway->proxy",
+   "word": "proxy",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "gateway->edge",
+   "word": "edge",
+   "substitutes": [
+    "point"
+   ],
+   "scores": [
+    1
+   ],
+   "kind": "other"
+  },
+  {
+   "pair": "start->begin",
+   "word": "begin",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "error budget->SLO headroom",
+   "word": "slo",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "error budget->SLO headroom",
+   "word": "headroom",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "error budget->error allowance",
+   "word": "allowance",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "service->app",
+   "word": "app",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "flush->clear",
+   "word": "clear",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "webhook->hook",
+   "word": "hook",
+   "substitutes": [
+    "endpoint"
+   ],
+   "scores": [
+    2
+   ],
+   "kind": "other"
+  },
+  {
+   "pair": "chargeback->dispute",
+   "word": "dispute",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "chargeback->refund",
+   "word": "refund",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "playbook->runbook",
+   "word": "runbook",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "checkpoint->snapshot",
+   "word": "snapshot",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "handshake->setup",
+   "word": "setup",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "setting->parameter",
+   "word": "parameter",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  },
+  {
+   "pair": "qps->throughput",
+   "word": "throughput",
+   "substitutes": [
+    "rate"
+   ],
+   "scores": [
+    1
+   ],
+   "kind": "other"
+  },
+  {
+   "pair": "stickiness->pinning",
+   "word": "pinning",
+   "substitutes": [],
+   "scores": [],
+   "kind": "none"
+  }
+ ],
+ "results": [
+  {
+   "min_score": 2,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "min_score": 2,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "min_score": 2,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "min_score": 2,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9242,
+   "clean_accuracy": 1.0,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "min_score": 1,
+   "max_neighbours": 1,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "min_score": 1,
+   "max_neighbours": 3,
+   "known_words": false,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "min_score": 1,
+   "max_neighbours": 1,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  },
+  {
+   "min_score": 1,
+   "max_neighbours": 3,
+   "known_words": true,
+   "accuracy": 0.9091,
+   "clean_accuracy": 0.9804,
+   "n_fail_open": 0,
+   "n_spurious_write": 0,
+   "n_raw_pii_outputs": 0,
+   "wrong": [
+    "clean-g21:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
+    "g02-synonym:ANSWER->REFUSE_NO_EVIDENCE",
+    "g24-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g35-synonym:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "g39-synonym:ANSWER->REFUSE_UNGROUNDED",
+    "g48-synonym:REFUSE_PII->REFUSE_UNGROUNDED"
+   ]
+  }
+ ]
+}
