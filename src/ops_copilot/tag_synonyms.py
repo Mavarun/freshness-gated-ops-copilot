@@ -46,6 +46,16 @@ SITES: tuple[str, ...] = (*OPS_SITES, "stackoverflow")
 SNAPSHOT_SHA256 = "e1cff66cc42f02967d9121b6335ce0bd1e17b8230e12dd27d2b9c2417a230c44"
 SNAPSHOT_N_PAIRS = 4560
 
+SITE_SETS: dict[str, tuple[str, ...]] = {"all": SITES, "ops": OPS_SITES}
+
+
+def tag_synonym_sites(name: str) -> tuple[str, ...]:
+    """``CopilotConfig.tag_synonym_sites`` ("all" | "ops") -> site tuple."""
+    try:
+        return SITE_SETS[name]
+    except KeyError:
+        raise ValueError(f"tag_synonym_sites must be one of {sorted(SITE_SETS)}, got {name!r}")
+
 
 def _payload(pairs: list[dict], meta: dict) -> bytes:
     rows = sorted(

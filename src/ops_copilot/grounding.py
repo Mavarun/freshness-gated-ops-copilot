@@ -23,6 +23,13 @@ supported by "utilization"), and hyphen spellings are interchangeable ("oncall" 
 like that member instead of as OOV. The eval's own perturbation map is never
 consulted (see synonyms.py for the leakage note).
 
+Tag-synonym backoff (optional, ``tag_synonyms.TagSynonymBackoff``): a word that
+is still unknown after the synonym and typo steps may be supported by corpus
+words that a Stack Exchange site's community made a tag synonym of it (an
+external ops-domain resource), weighted like the heaviest of them. With
+``tagsyn_known`` a known word's tag substitutes are also accepted as support.
+It runs before the word-vector backoff.
+
 Word-vector backoff (optional, ``word_vectors.WordVectorBackoff``): a word that
 is still unknown after the synonym and typo steps may be supported by its
 counter-fitted substitutes among the corpus words (an external PPDB/WordNet-
@@ -75,6 +82,7 @@ from ops_copilot.text import (
     normalize_text,
 )
 from ops_copilot.types import Chunk, GroundingResult
+from ops_copilot.tag_synonyms import TagSynonymBackoff
 from ops_copilot.word_vectors import WordVectorBackoff
 
 
@@ -158,6 +166,8 @@ class Grounder:
         embed_support: EmbeddingSupport | None = None,
         wordvec: WordVectorBackoff | None = None,
         wordvec_known: bool = False,
+        tagsyn: TagSynonymBackoff | None = None,
+        tagsyn_known: bool = False,
     ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
@@ -170,6 +180,8 @@ class Grounder:
         self.embed_support = embed_support
         self.wordvec = wordvec
         self.wordvec_known = bool(wordvec_known and wordvec is not None)
+        self.tagsyn = tagsyn
+        self.tagsyn_known = bool(tagsyn_known and tagsyn is not None)
         self.vocab = CorpusVocabulary(tokenized, extra_words=NON_SALIENT)
 
     def _weight(self, token: str) -> float:
@@ -189,6 +201,8 @@ class Grounder:
             return QueryTerm(tok, "identifier", self._weight(tok), self._alts(tok))
         if tok in self.idf:
             alts = self._alts(tok)
+            if self.tagsyn_known:
+                alts = alts | self._tagsyn_near(tok)
             if self.wordvec_known:
                 alts = alts | self._wordvec_near(tok)
             return QueryTerm(tok, "known", self._weight(tok), alts)
@@ -203,6 +217,11 @@ class Grounder:
                 return None
             if fixed is not None and fixed in self.idf:
                 return QueryTerm(fixed, "typo", self._weight(fixed), self._alts(fixed))
+        if self.tagsyn is not None and not is_identifier(tok):
+            ts = self._tagsyn_near(tok)
+            if ts:
+                weight = max(self._weight(w) for w in ts)
+                return QueryTerm(tok, "tagsyn", weight, frozenset({tok, *ts}))
         if self.wordvec is not None and not is_identifier(tok):
             wv = self._wordvec_near(tok)
             if wv:
@@ -214,6 +233,12 @@ class Grounder:
                 weight = max(self._weight(w) for w in near)
                 return QueryTerm(tok, "semantic", weight, frozenset({tok, *near}))
         return QueryTerm(tok, "unknown", self.oov_idf, frozenset({tok}))
+
+    def _tagsyn_near(self, tok: str) -> frozenset[str]:
+        """Tag-synonym substitutes of ``tok`` that are corpus words."""
+        if self.tagsyn is None:
+            return frozenset()
+        return frozenset(n.word for n in self.tagsyn.neighbours(tok) if n.word in self.idf)
 
     def _wordvec_near(self, tok: str) -> frozenset[str]:
         """Counter-fitted substitutes of ``tok`` that are corpus words."""

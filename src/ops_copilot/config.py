@@ -122,6 +122,19 @@ class CopilotConfig:
     word_vector_min_similarity: float = 0.88
     word_vector_max_neighbours: int = 1
     word_vector_known_words: bool = True
+    # Stack Exchange tag-synonym backoff (tag_synonyms.py): an external,
+    # ops-domain resource (community-approved tag synonyms of Server Fault,
+    # Super User, Unix & Linux, DevOps, DBA, ... and Stack Overflow) maps a
+    # query word the corpus lacks onto corpus words its tag cluster links to,
+    # for grounding and the retrieval rewrite. Runs before the word-vector
+    # backoff. Committed snapshot only (data/tagsyn/). Sites ("all" or "ops"),
+    # min_sites, neighbour count and scope from
+    # scripts/calibrate_tag_synonyms.py (clean golden + dev synonym rows only).
+    use_tag_synonym_backoff: bool = False
+    tag_synonym_sites: str = "all"
+    tag_synonym_min_sites: int = 1
+    tag_synonym_max_neighbours: int = 1
+    tag_synonym_known_words: bool = False
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
