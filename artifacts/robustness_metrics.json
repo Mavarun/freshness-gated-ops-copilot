@@ -1303,6 +1303,36 @@
    "heldout_words_with_entry": 31,
    "dev_words_at_threshold": 17,
    "heldout_words_at_threshold": 12
+  },
+  "external_lexicons": {
+   "dev": {
+    "words": 56,
+    "corpus_word": 16,
+    "domain_sense": 21,
+    "wiktionary_sub": 8,
+    "wiktionary_sub_strict": 3,
+    "tag_sub": 0,
+    "key_in_gloss": 3,
+    "key_is_head": 3,
+    "key_in_gloss_words": [
+     "prod (production->prod)",
+     "clear (reset->clear)",
+     "throughput (request rate->throughput)"
+    ]
+   },
+   "heldout": {
+    "words": 64,
+    "corpus_word": 16,
+    "domain_sense": 25,
+    "wiktionary_sub": 6,
+    "wiktionary_sub_strict": 0,
+    "tag_sub": 1,
+    "key_in_gloss": 1,
+    "key_is_head": 1,
+    "key_in_gloss_words": [
+     "passphrase (password->passphrase)"
+    ]
+   }
   }
  }
 }

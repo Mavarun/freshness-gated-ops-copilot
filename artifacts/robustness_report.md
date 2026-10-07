@@ -181,6 +181,8 @@ Normalizer, filler list, typo tolerance, position-independent write cues and the
 - corpus-side group words that also occur in the eval map: 30 of 32 (all dev words or anchors)
 - content words of the eval's polite prefixes that are in `FILLER_WORDS`: 10 of 10 (closed class; unavoidable)
 - external counter-fitted table (not authored here, not filtered by eval words): 31 of 64 held-out words and 36 of 63 dev words have a corpus substitute >= the 0.50 floor; 12 held-out / 17 dev words clear the calibrated 0.88
+- external ops lexicons, dev replacement words (56; computed after the held-out decision): already corpus words 16; with a Wiktionary computing sense 21; with a Wiktionary substitute 8 (strict 3); with a tag substitute 0; replaced key word inside a domain gloss 3 (as the gloss head 3): prod (production->prod), clear (reset->clear), throughput (request rate->throughput)
+- external ops lexicons, heldout replacement words (64; computed after the held-out decision): already corpus words 16; with a Wiktionary computing sense 25; with a Wiktionary substitute 6 (strict 0); with a tag substitute 1; replaced key word inside a domain gloss 1 (as the gloss head 1): passphrase (password->passphrase)
 - covered pairs: `replicas->pods`, `replicas->instances`, `utilization->usage`, `mitigation->remediation`, `runbook->playbook`, `procedure->process`, `email->e-mail`, `token->secret`, `outage->incident`, `deploy->release`, `production->prod`, `feature flag->feature toggle`, `flag->toggle`, `rollback->revert`, `target->goal`, `endpoint->URL`, `playbook->runbook`, `qps->throughput`
 
 ## Per perturbation type
