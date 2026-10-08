@@ -92,6 +92,9 @@ class GroundingResult:
     # because a cited sentence cleared the cosine threshold, and that cosine.
     semantic_rescued: list[str] = field(default_factory=list)
     semantic_similarity: float | None = None
+    # Answer-support model (qa_translation): "query<-evidence" word pairs the
+    # outside-trained translation model counted as support.
+    translation_rescued: list[str] = field(default_factory=list)
 
     def as_dict(self) -> dict:
         return {
@@ -104,6 +107,7 @@ class GroundingResult:
             "semantic_similarity": (
                 None if self.semantic_similarity is None else round(self.semantic_similarity, 4)
             ),
+            "translation_rescued": self.translation_rescued,
         }
 
 

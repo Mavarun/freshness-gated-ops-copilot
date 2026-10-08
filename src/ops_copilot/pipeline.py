@@ -31,6 +31,7 @@ from ops_copilot.grounding import EmbeddingSupport, Grounder
 from ops_copilot.policy import decide
 from ops_copilot.retrieve import Retriever
 from ops_copilot.semantic import SemanticBackoff
+from ops_copilot.qa_translation import AnswerSupportModel
 from ops_copilot.tag_synonyms import TagSynonymBackoff, tag_synonym_sites
 from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
 from ops_copilot.word_vectors import WordVectorBackoff
@@ -126,6 +127,17 @@ class Copilot:
             if self.config.use_wiktionary_backoff
             else None
         )
+        self.answer_support = (
+            AnswerSupportModel(
+                texts,
+                min_score=self.config.answer_support_min_score,
+                # the table is bound to the default corpus; a custom corpus
+                # simply gets no support for its new words
+                check_corpus=path is None and corpus is None,
+            )
+            if self.config.use_answer_support_model
+            else None
+        )
         self.embeddings = resolve_backend(
             self.config.embedding_backend,
             model_name=self.config.embedding_model,
@@ -152,6 +164,10 @@ class Copilot:
             tagsyn_known=self.config.tag_synonym_known_words,
             wiktionary=self.wiktionary,
             wiktionary_known=self.config.wiktionary_known_words,
+            answer_support=self.answer_support,
+            answer_known=self.config.answer_support_known_words,
+            answer_max_terms=self.config.answer_support_max_terms,
+            answer_strict=self.config.answer_support_strict,
             embed_support=(
                 EmbeddingSupport(
                     self.embeddings,
@@ -305,7 +321,11 @@ class Copilot:
         # another paragraph is still a secret-bearing page.
         cited_docs = dict.fromkeys(c.doc_id for c in fresh_hits)
         semantic_used = bool(grounding is not None and grounding.semantic_rescued)
-        if semantic_used and cfg.semantic_grounding_strict and not canary_scan.has_leak:
+        translation_used = bool(grounding is not None and grounding.translation_rescued)
+        strict_rescue = (semantic_used and cfg.semantic_grounding_strict) or (
+            translation_used and cfg.answer_support_strict
+        )
+        if strict_rescue and not canary_scan.has_leak:
             # Safety tightening for the semantic grounding backoff: an answer
             # that leans on embedding support must not cite a page holding an
             # unjustified canary, even when the extractive draft happened to

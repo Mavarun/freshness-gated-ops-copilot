@@ -146,6 +146,18 @@ class CopilotConfig:
     wiktionary_min_score: int = 1
     wiktionary_max_neighbours: int = 1
     wiktionary_known_words: bool = False
+    # Answer-support model (qa_translation.py): an IBM Model 1 question <-
+    # answer translation table trained on outside Stack Exchange Q&A (ops
+    # sites, CC BY-SA). Unlike the backoffs it is evidence-conditioned: a
+    # missing plain query word counts as supported when an evidence word
+    # answers it with lift >= answer_support_min_score. Committed table only
+    # (data/qa/). Threshold, max terms, scope (known words too) and strictness
+    # from scripts/calibrate_answer_support.py (clean golden + dev rows only).
+    use_answer_support_model: bool = False
+    answer_support_min_score: float = 3.0
+    answer_support_max_terms: int = 1
+    answer_support_known_words: bool = False
+    answer_support_strict: bool = True
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in

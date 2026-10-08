@@ -47,6 +47,17 @@ corpus words from the corpus PPMI/SVD embedding (or one char-trigram
 neighbour), weighted like the heaviest of them. It is the last step, so it never
 changes known words, identifiers, synonyms, or typo snaps.
 
+Answer-support model (optional, ``qa_translation.AnswerSupportModel``): unlike
+the backoffs above it looks at the *evidence*. A salient plain word the
+evidence does not contain may count as supported when some evidence word
+answers it under a question <- answer translation model trained on outside
+Stack Exchange data (lift ``log T(q|a) / P(q)`` >= a dev-calibrated
+threshold). It applies to unknown words and, with ``answer_known``, to known
+corpus words used in another sense. At most ``answer_max_terms`` words are
+rescued per evidence text; in strict mode (default) every missing salient
+word must be rescued (no other gap) and only wh-questions qualify, the same
+rules as the embedding rescue below.
+
 Semantic grounding (optional, ``EmbeddingSupport``, sentence embeddings): a
 salient term that is still *unknown* after all of the above (not a corpus word,
 not an identifier or number, alphabetic) may count as supported by a chunk when
@@ -74,6 +85,8 @@ import numpy as np
 
 from ops_copilot.embeddings import EmbeddingBackend, evidence_sentences
 
+from ops_copilot.qa_translation import AnswerSupportModel, Translation
+from ops_copilot.qa_translation import words as qa_words
 from ops_copilot.lexicon import WH_WORDS, CorpusVocabulary, fix_interrogative_typos
 from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases, hyphen_variants
@@ -152,9 +165,18 @@ class Support:
     lexical: frozenset[str]
     rescued: frozenset[str]
     similarity: float | None
+    translated: tuple[Translation, ...] = ()
+
+    @property
+    def translated_tokens(self) -> frozenset[str]:
+        return frozenset(t.query_word for t in self.translated)
 
     def ok(self, term: QueryTerm) -> bool:
-        return term.token in self.lexical or term.token in self.rescued
+        return (
+            term.token in self.lexical
+            or term.token in self.rescued
+            or term.token in self.translated_tokens
+        )
 
 
 class Grounder:
@@ -175,6 +197,10 @@ class Grounder:
         tagsyn_known: bool = False,
         wiktionary: WiktionarySenseBackoff | None = None,
         wiktionary_known: bool = False,
+        answer_support: AnswerSupportModel | None = None,
+        answer_known: bool = False,
+        answer_max_terms: int = 1,
+        answer_strict: bool = True,
     ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
@@ -192,6 +218,10 @@ class Grounder:
         self.wiktionary = wiktionary
         self.wiktionary_known = bool(wiktionary_known and wiktionary is not None)
         self.vocab = CorpusVocabulary(tokenized, extra_words=NON_SALIENT)
+        self.answer_support = answer_support
+        self.answer_known = bool(answer_known)
+        self.answer_max_terms = int(answer_max_terms)
+        self.answer_strict = bool(answer_strict)
 
     def _weight(self, token: str) -> float:
         return self.idf.get(token, self.oov_idf)
@@ -317,6 +347,42 @@ class Grounder:
         """Only still-unknown plain words may be supported by embeddings."""
         return term.kind == "unknown" and term.token.isalpha() and not is_identifier(term.token)
 
+    def translatable(self, term: QueryTerm) -> bool:
+        """Plain words the answer-support model may vouch for (scope-dependent)."""
+        if not term.token.isalpha() or is_identifier(term.token):
+            return False
+        if term.kind == "known":
+            return self.answer_known
+        return term.kind not in ("identifier",)
+
+    def translation_support(
+        self, query: str, terms: list[QueryTerm], lexical: frozenset[str], evidence: str
+    ) -> tuple[Translation, ...]:
+        """Missing words that some evidence word answers (all-or-nothing per evidence)."""
+        model = self.answer_support
+        if model is None:
+            return ()
+        missing = [t for t in terms if t.token not in lexical]
+        if not missing:
+            return ()
+        cands = [t for t in missing if self.translatable(t)]
+        if not cands:
+            return ()
+        if self.answer_strict and (len(cands) != len(missing) or not self.is_wh_question(query)):
+            return ()
+        ev_words = set(qa_words(evidence))
+        found: list[Translation] = []
+        for t in cands:
+            tr = model.supports(t.token, ev_words)
+            if tr is not None:
+                # keep the term's own token so ``Support.ok`` can match it
+                found.append(Translation(t.token, tr.evidence_word, tr.score))
+        if self.answer_strict and len(found) != len(cands):
+            return ()
+        if not found or len(found) > self.answer_max_terms:
+            return ()
+        return tuple(found)
+
     def support(
         self,
         query: str,
@@ -331,9 +397,16 @@ class Grounder:
         lexical = frozenset(t.token for t in terms if t.supported_by(ev))
         rescued: frozenset[str] = frozenset()
         sim: float | None = None
+        translated = (
+            self.translation_support(query, terms, lexical, evidence) if semantic else ()
+        )
+        if translated:
+            lexical_plus = lexical | frozenset(t.query_word for t in translated)
+        else:
+            lexical_plus = lexical
         es = self.embed_support if semantic else None
         if es is not None and terms:
-            missing = [t for t in terms if t.token not in lexical]
+            missing = [t for t in terms if t.token not in lexical_plus]
             candidates = [t for t in missing if self.rescuable(t)]
             # Strict mode: every other salient term must be matched lexically,
             # so a topical sentence cannot paper over a missing known word.
@@ -346,7 +419,7 @@ class Grounder:
                 sim = es.best_similarity(query, evidence_parts or [evidence])
                 if sim is not None and sim >= es.threshold:
                     rescued = frozenset(t.token for t in candidates)
-        return Support(terms, lexical, rescued, sim)
+        return Support(terms, lexical, rescued, sim, translated)
 
     def keys_supported(
         self, query: str, evidence: str, *, evidence_parts: Sequence[str] | None = None
@@ -444,4 +517,5 @@ class Grounder:
             overlap_tokens=overlap,
             semantic_rescued=sorted(sup.rescued),
             semantic_similarity=sup.similarity,
+            translation_rescued=[f"{t.query_word}<-{t.evidence_word}" for t in sup.translated],
         )
