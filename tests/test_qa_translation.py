@@ -1,14 +1,24 @@
-"""IBM Model 1 trainer, lift scores and the out-of-sample ranking eval."""
+"""IBM Model 1 trainer, out-of-sample ranking eval and the committed table."""
 
 from __future__ import annotations
 
-import numpy as np
+import gzip
+import json
 
+import numpy as np
+import pytest
+
+from ops_copilot.corpus import Corpus
 from ops_copilot.qa_translation import (
+    DEFAULT_TABLE,
+    AnswerSupportModel,
+    build_table,
     clean_markdown,
+    corpus_hash,
     is_test,
     is_valid,
     lift_scores,
+    load_table,
     pairs_from_page,
     query_log_likelihood,
     rank_eval,
@@ -105,3 +115,62 @@ def test_split_is_deterministic_disjoint_and_about_ten_percent():
     assert 0.08 < len(test) / 20000 < 0.12
     assert not set(test) & set(valid)
     assert test == [i for i in ids if is_test("serverfault", i)]
+
+
+def test_build_table_is_corpus_bound_and_sorted_by_lift():
+    m = train_model1(_toy_pairs(), iterations=3, min_q_df=1, min_a_df=1)
+    t = build_table(m, ["latency is high", "disk space"], {"source": "toy"})
+    assert set(t["table"]) <= {"latency", "high", "disk", "space"}
+    for rows in t["table"].values():
+        lifts = [r[1] for r in rows]
+        assert lifts == sorted(lifts, reverse=True)
+
+
+# --- the committed table -----------------------------------------------------------
+
+
+@pytest.fixture(scope="module")
+def table() -> dict:
+    return load_table()
+
+
+def test_committed_table_matches_the_default_corpus(table):
+    texts = [f"{c.title} {c.text}" for c in Corpus().chunks]
+    assert table["meta"]["corpus_hash"] == corpus_hash(texts), (
+        "corpus changed: rerun scripts/build_qa_translation.py"
+    )
+
+
+def test_committed_table_meta_records_source_licence_and_split(table):
+    meta = table["meta"]
+    assert all(lic.startswith("CC BY-SA") for lic in meta["licenses"])
+    assert meta["n_test_pairs"] > 1000 and meta["n_train_pairs"] > 10 * meta["n_test_pairs"] * 0.8
+    assert len(meta["raw_sha256"]) == 64
+    assert meta["em_iterations"] in (1, 2, 3, 5, 8)
+    assert set(meta["sites"]) == {
+        "serverfault", "superuser", "unix", "askubuntu", "dba", "security", "devops", "networkengineering"
+    }
+
+
+def test_committed_table_is_byte_stable(table):
+    raw = gzip.decompress(DEFAULT_TABLE.read_bytes())
+    assert raw == json.dumps(table, sort_keys=True, separators=(",", ":")).encode()
+
+
+def test_answer_support_model_excludes_self_and_respects_threshold():
+    texts = [f"{c.title} {c.text}" for c in Corpus().chunks]
+    m = AnswerSupportModel(texts, min_score=float("-inf"))
+    q, cands = next((q, c) for q, c in sorted(m._inv.items()) if len(c) >= 2)
+    best_word = max(cands, key=lambda w: (cands[w], [-ord(ch) for ch in w]))
+    got = m.best(q, list(cands))
+    assert got is not None and got.evidence_word != q and got.score == max(
+        s for w, s in cands.items() if w != q
+    )
+    strict = AnswerSupportModel(texts, min_score=got.score + 1e-6)
+    assert strict.supports(q, [got.evidence_word]) is None
+    assert best_word in cands
+
+
+def test_corpus_change_without_rebuild_is_detected():
+    with pytest.raises(ValueError, match="rerun scripts/build_qa_translation.py"):
+        AnswerSupportModel(["a completely different corpus about gardening"])

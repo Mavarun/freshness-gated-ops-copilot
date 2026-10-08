@@ -1,0 +1,105 @@
+{
+ "em_log": [
+  {
+   "iteration": 1,
+   "log_likelihood": -853524.634883946
+  },
+  {
+   "iteration": 2,
+   "log_likelihood": -353487.14692308137
+  },
+  {
+   "iteration": 3,
+   "log_likelihood": -274827.21922977205
+  }
+ ],
+ "eval_seconds": 112.6,
+ "meta": {
+  "a_vocab": 10756,
+  "attribution": "Questions and answers by the users of serverfault.com, superuser.com, unix.stackexchange.com, askubuntu.com, dba.stackexchange.com, security.stackexchange.com, devops.stackexchange.com and networkengineering.stackexchange.com; Stack Exchange Inc.",
+  "em_iterations": 3,
+  "fetched": "2026-10-08",
+  "iteration_selection": [
+   {
+    "iterations": 1,
+    "valid_mrr": 0.7658873304260815,
+    "valid_p_at_1": 0.66
+   },
+   {
+    "iterations": 2,
+    "valid_mrr": 0.8141434939275487,
+    "valid_p_at_1": 0.74
+   },
+   {
+    "iterations": 3,
+    "valid_mrr": 0.8188014691121451,
+    "valid_p_at_1": 0.754
+   },
+   {
+    "iterations": 5,
+    "valid_mrr": 0.793486168468421,
+    "valid_p_at_1": 0.716
+   },
+   {
+    "iterations": 8,
+    "valid_mrr": 0.7814125641075155,
+    "valid_p_at_1": 0.7
+   }
+  ],
+  "licenses": {
+   "CC BY-SA 2.5": 2089,
+   "CC BY-SA 3.0": 17203,
+   "CC BY-SA 4.0": 16818
+  },
+  "max_answer_tokens": 80,
+  "max_answers_per_question": 2,
+  "max_title_tokens": 12,
+  "min_a_df": 5,
+  "min_q_df": 3,
+  "n_pairs": 36110,
+  "n_questions": 20954,
+  "n_test_pairs": 3597,
+  "n_train_pairs": 32513,
+  "n_valid_pairs": 3312,
+  "q_vocab": 4963,
+  "raw_pages": 300,
+  "raw_sha256": "c44b4ebaa531db4b923bef8a1b2f22add56ffd5500701adef1d38422fbf6ec7f",
+  "sites": {
+   "askubuntu": 5037,
+   "dba": 2885,
+   "devops": 2453,
+   "networkengineering": 3015,
+   "security": 4008,
+   "serverfault": 6437,
+   "superuser": 6656,
+   "unix": 5619
+  },
+  "source": "Stack Exchange API v2.3, /questions sort=votes (most-voted questions) with answers",
+  "test_fraction": 0.1
+ },
+ "ranking": {
+  "bm25": {
+   "mrr": 0.7380767224717146,
+   "p_at_1": 0.682,
+   "p_at_1_no_overlap": 0.0
+  },
+  "combined": {
+   "mrr": 0.7592936473889949,
+   "p_at_1": 0.677,
+   "p_at_1_no_overlap": 0.020134228187919462
+  },
+  "n_candidates": 50,
+  "n_queries": 1000,
+  "seed": 42,
+  "share_no_title_overlap": 0.149,
+  "translation": {
+   "mrr": 0.786254857930594,
+   "p_at_1": 0.712,
+   "p_at_1_no_overlap": 0.1342281879194631
+  }
+ },
+ "table_entries": 32721,
+ "table_evidence_words": 374,
+ "table_sha256": "8357261f4f314f5d37a3e983ae519e6773eb3439a531bc9788deb1217227e0b6",
+ "train_seconds": 2.7
+}

@@ -367,3 +367,122 @@ def _ranks(scores: np.ndarray) -> np.ndarray:
     s = np.asarray(scores, dtype=float)
     # rank of candidate i = 1 + number of candidates with score >= s[i] except itself
     return np.array([1 + int(((s >= s[i]).sum()) - 1) for i in range(len(s))])
+
+
+# --- committed, corpus-bound table -------------------------------------------------
+
+
+def corpus_words(corpus_texts: Sequence[str]) -> list[str]:
+    return sorted({w for t in corpus_texts for w in words(t)})
+
+
+def corpus_hash(corpus_texts: Sequence[str]) -> str:
+    return hashlib.sha256("\n".join(corpus_words(corpus_texts)).encode()).hexdigest()
+
+
+def build_table(model: Model1, corpus_texts: Sequence[str], meta: dict) -> dict:
+    """For each corpus word ``a``: its top question words by T(q|a), with lift."""
+    lift = lift_scores(model)
+    vocab = corpus_words(corpus_texts)
+    a_index = {w: i for i, w in enumerate(model.a_vocab)}
+    order = np.lexsort((model.qk, -lift, model.ak))
+    starts = np.searchsorted(model.ak[order], np.arange(len(model.a_vocab) + 1))
+    table: dict[str, list[list]] = {}
+    for w in vocab:
+        i = a_index.get(w)
+        if i is None:
+            continue
+        idx = order[starts[i] : starts[i + 1]]
+        rows = [
+            [model.q_vocab[model.qk[k]], round(float(lift[k]), 4), round(float(model.prob[k]), 6), round(float(model.count[k]), 3)]
+            for k in idx
+            if lift[k] >= TABLE_MIN_LIFT
+        ][:TABLE_TOP_Q]
+        if rows:
+            table[w] = rows
+    meta = dict(meta)
+    meta["corpus_words"] = len(vocab)
+    meta["corpus_words_in_model"] = sum(1 for w in vocab if w in a_index)
+    meta["corpus_hash"] = corpus_hash(corpus_texts)
+    meta["columns"] = ["question_word", "lift_log", "t_prob", "expected_count"]
+    meta["shrink_alpha"] = SHRINK_ALPHA
+    meta["table_min_lift"] = TABLE_MIN_LIFT
+    meta["table_top_q"] = TABLE_TOP_Q
+    return {"meta": meta, "table": table}
+
+
+def _payload(table: dict) -> bytes:
+    return json.dumps(table, sort_keys=True, separators=(",", ":")).encode()
+
+
+def dump_table(table: dict, path: Path = DEFAULT_TABLE) -> str:
+    raw = _payload(table)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(gzip.compress(raw, compresslevel=9, mtime=0))
+    return hashlib.sha256(raw).hexdigest()
+
+
+def load_table(path: Path = DEFAULT_TABLE) -> dict:
+    return json.loads(gzip.decompress(Path(path).read_bytes()))
+
+
+@dataclass(frozen=True)
+class Translation:
+    """Best evidence word supporting one query word, and its lift."""
+
+    query_word: str
+    evidence_word: str
+    score: float
+
+
+class AnswerSupportModel:
+    """Score whether evidence words answer a query word (committed table only)."""
+
+    def __init__(
+        self,
+        corpus_texts: Sequence[str] | None = None,
+        *,
+        min_score: float = 3.0,
+        path: Path = DEFAULT_TABLE,
+        check_corpus: bool = True,
+    ) -> None:
+        data = load_table(path)
+        self.meta = data["meta"]
+        if check_corpus and corpus_texts is not None:
+            h = corpus_hash(corpus_texts)
+            if h != self.meta["corpus_hash"]:
+                raise ValueError(
+                    "corpus changed since the QA translation table was built; "
+                    "rerun scripts/build_qa_translation.py"
+                )
+        self.min_score = float(min_score)
+        # inverted: question word -> {evidence word: lift}
+        inv: dict[str, dict[str, float]] = {}
+        for a, rows in data["table"].items():
+            for q, lift, _p, _c in rows:
+                inv.setdefault(q, {})[a] = float(lift)
+        self._inv = inv
+
+    def candidates(self, query_word: str) -> dict[str, float]:
+        """Evidence words that answer ``query_word`` and their lifts (any score)."""
+        return dict(self._inv.get(fold_token(query_word), {}))
+
+    def best(self, query_word: str, evidence_words: Iterable[str]) -> Translation | None:
+        """Highest-lift evidence word for ``query_word`` (itself excluded), any score."""
+        q = fold_token(query_word)
+        cands = self._inv.get(q)
+        if not cands:
+            return None
+        best: Translation | None = None
+        for e in evidence_words:
+            ef = fold_token(e)
+            if ef == q:
+                continue
+            s = cands.get(ef)
+            if s is not None and (best is None or s > best.score or (s == best.score and ef < best.evidence_word)):
+                best = Translation(q, ef, s)
+        return best
+
+    def supports(self, query_word: str, evidence_words: Iterable[str]) -> Translation | None:
+        t = self.best(query_word, evidence_words)
+        return t if t is not None and t.score >= self.min_score else None
