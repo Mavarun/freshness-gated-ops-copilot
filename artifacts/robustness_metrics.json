@@ -1473,6 +1473,40 @@
      "passphrase (password->passphrase)"
     ]
    }
+  },
+  "external_answer_support": {
+   "threshold": 4.25,
+   "dev": {
+    "words": 54,
+    "in_model": 39,
+    "key_any": 8,
+    "key_at_threshold": 3,
+    "best_any": 23,
+    "key_hits": [
+     "clear<-flush 4.90",
+     "instance<-replica 2.01",
+     "pods<-replica 6.66",
+     "prod<-production 2.39",
+     "release<-deploy 2.99",
+     "secret<-token 1.64",
+     "throughput<-rate 4.38",
+     "usage<-utilization 2.51"
+    ]
+   },
+   "heldout": {
+    "words": 64,
+    "in_model": 49,
+    "key_any": 5,
+    "key_at_threshold": 0,
+    "best_any": 19,
+    "key_hits": [
+     "address<-email 2.20",
+     "configuration<-config 4.24",
+     "credential<-password 2.36",
+     "passphrase<-password 1.50",
+     "state<-status 1.16"
+    ]
+   }
   }
  }
 }

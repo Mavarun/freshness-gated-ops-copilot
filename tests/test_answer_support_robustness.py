@@ -69,3 +69,19 @@ def test_artifact_records_the_first_heldout_run() -> None:
     assert cand["synonym_heldout"] == base["synonym_heldout"]
     assert cand["heldout_answer_write_correct"] == "1/12"
     assert [r["id"] for r in m["answer_support_changed_rows"][ANSWER_SUPPORT_CANDIDATE]] == ["g48-synonym"]
+
+
+def test_leakage_report_discloses_answer_support_coverage() -> None:
+    from ops_copilot.robustness import leakage_report
+
+    ans = leakage_report()["external_answer_support"]
+    assert ans["threshold"] == CopilotConfig().answer_support_min_score
+    assert ans["heldout"]["words"] == 64
+    # computed after the decision: no held-out key word clears the threshold
+    assert ans["heldout"]["key_at_threshold"] == 0
+    # the nearest miss is a near-spelling, not a sense: configuration <- config 4.24
+    assert "configuration<-config 4.24" in ans["heldout"]["key_hits"]
+    # the report lists the key-word hits next to the count they belong to
+    lines = (METRICS.parent / "robustness_report.md").read_text().splitlines()
+    held = next(x for x in lines if x.startswith("- answer-support model, heldout"))
+    assert "at any stored lift 5 (address<-email 2.20," in held
