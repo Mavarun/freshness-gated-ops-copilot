@@ -13,6 +13,8 @@ untouched and the two sets share no replacement vocabulary.
 The two ops lexicons (``tag_synonyms.py``, ``wiktionary_senses.py``) were
 built on 2026-10-07, a day after these rows were written, so for them this
 set is blind: nobody chose a row or a lexicon entry with the other in view.
+The same holds for the answer-support model (``qa_translation.py``, trained
+and calibrated on 2026-10-08).
 """
 
 from __future__ import annotations
@@ -53,6 +55,13 @@ CONFIGS: dict[str, dict] = {
         "tag_synonym_min_sites": 3,
         "use_wiktionary_backoff": True,
         "wiktionary_min_score": 2,
+        "use_word_vector_backoff": True,
+    },
+    # Answer-support model (2026-10-08): blind for this set too (dev-chosen
+    # setting, robustness.ANSWER_SUPPORT_ON), alone and with the word vectors.
+    "+ answer-support model (dev-chosen)": {"use_answer_support_model": True},
+    "+ answer-support model + word vectors": {
+        "use_answer_support_model": True,
         "use_word_vector_backoff": True,
     },
 }

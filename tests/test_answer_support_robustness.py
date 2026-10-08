@@ -71,6 +71,25 @@ def test_artifact_records_the_first_heldout_run() -> None:
     assert [r["id"] for r in m["answer_support_changed_rows"][ANSWER_SUPPORT_CANDIDATE]] == ["g48-synonym"]
 
 
+def test_fresh_set_blind_run_fixes_one_row_and_opens_nothing() -> None:
+    from ops_copilot.fresh_synonym_eval import CONFIGS, load_fresh, score
+
+    rows = load_fresh()
+    base = replace(CopilotConfig(), use_word_vector_backoff=False)
+    off = score(base, rows)
+    on = score(replace(base, **CONFIGS["+ answer-support model (dev-chosen)"]), rows)
+    assert off["n"] - len(off["wrong"]) == 7 and on["n"] - len(on["wrong"]) == 8
+    fixed = {w.split(":")[0] for w in off["wrong"]} - {w.split(":")[0] for w in on["wrong"]}
+    assert fixed == {"f03"}
+    assert on["n_fail_open"] == 0 and on["n_spurious_write"] == 0
+    # right outcome through a topical pair, not the replaced word (primary)
+    from ops_copilot import Copilot
+
+    f03 = next(r for r in rows if r["id"] == "f03")
+    res = Copilot(config=replace(base, **CONFIGS["+ answer-support model (dev-chosen)"])).ask(f03["query"])
+    assert res.grounding.translation_rescued == ["principal<-owner"]
+
+
 def test_leakage_report_discloses_answer_support_coverage() -> None:
     from ops_copilot.robustness import leakage_report
 
