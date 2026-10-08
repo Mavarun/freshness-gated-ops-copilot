@@ -54,6 +54,16 @@ from ops_copilot.qa_translation import (  # noqa: E402
 )
 
 
+# The table holds word statistics derived from CC BY-SA posts (no post text).
+# It is shared under the inputs' terms (share-alike, latest version), with the
+# attribution in ``meta``; see data/qa/NOTICE.md.
+LICENSE = (
+    "CC BY-SA 4.0 (derived word statistics; input posts CC BY-SA 2.5 / 3.0 / 4.0 by post date, "
+    "per-licence answer counts in licenses)"
+)
+LICENSE_URL = "https://creativecommons.org/licenses/by-sa/4.0/"
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--raw-dir", type=Path, required=True)
@@ -101,12 +111,16 @@ def main() -> None:
     eval_s = time.perf_counter() - t0
     texts = [f"{c.title} {c.text}" for c in Corpus().chunks]
     meta = {
-        "source": "Stack Exchange API v2.3, /questions sort=votes (most-voted questions) with answers",
+        "source": "Stack Exchange API v2.3, /questions sort=votes and sort=activity "
+        "(most-voted and most recently active questions) with answers",
+        "source_url": "https://api.stackexchange.com/2.3/questions",
         "sites": dict(sorted(sites.items())),
         "attribution": "Questions and answers by the users of serverfault.com, superuser.com, "
         "unix.stackexchange.com, askubuntu.com, dba.stackexchange.com, security.stackexchange.com, "
         "devops.stackexchange.com and networkengineering.stackexchange.com; Stack Exchange Inc.",
         "licenses": dict(sorted(licences.items())),
+        "license": LICENSE,
+        "license_url": LICENSE_URL,
         "fetched": "2026-10-08",
         "raw_pages": len(files),
         "raw_sha256": digest.hexdigest(),
@@ -140,7 +154,8 @@ def main() -> None:
         "",
         f"Model: IBM Model 1, question <- answer, {best_it} EM iterations (picked by validation MRR "
         f"over {list(ITERATION_GRID)} on a hash slice of train), trained on "
-        f"{len(train):,} (title, answer) pairs from {len(questions):,} most-voted questions of "
+        f"{len(train):,} (title, answer) pairs from {len(questions):,} most-voted and most recently "
+        "active questions of "
         f"{len(sites)} ops Stack Exchange sites (CC BY-SA). Test: {len(test):,} pairs of the "
         f"hash-held-out {TEST_FRACTION:.0%} of questions, never seen in training.",
         "",
@@ -161,6 +176,9 @@ def main() -> None:
         f"Chance P@1 is {1 / r['n_candidates']:.3f}. Training took {train_s:.0f} s, the ranking eval "
         f"{eval_s:.0f} s (box CPU). Table: {report['table_evidence_words']} corpus words x top "
         f"question words ({report['table_entries']:,} entries), SHA-256 `{sha}`.",
+        "",
+        f"Data: {meta['attribution']} Licence of the committed table: {LICENSE} "
+        f"({LICENSE_URL}); see `data/qa/NOTICE.md`.",
         "",
     ]
     args.report.with_suffix(".md").write_text("\n".join(lines))

@@ -10,8 +10,9 @@ This is the *outside* training data for the answer-support model
 (``ops_copilot.qa_translation``): what people on Server Fault, Super User,
 Unix & Linux, Ask Ubuntu, DBA, DevOps, Network Engineering and Information
 Security wrote when *answering* a question. Nothing here is filtered by this
-repo's eval or corpus words; the pages are simply the most-voted questions of
-each site (the anonymous API serves at most 25 pages of 100 per query).
+repo's eval or corpus words; the pages are simply the most-voted and the most
+recently active questions of each site (the anonymous API serves at most 25
+pages of 100 per query).
 
 Uses the public, unauthenticated Stack Exchange API v2.3 (300 requests a day
 per IP; this needs ``2 * sum(PAGES.values())`` = 300 requests, so a re-run
@@ -20,7 +21,8 @@ id below asks for question titles plus every answer's markdown body. Responses
 are gzip-compressed and the client honours ``backoff``. Raw pages are cached in
 ``--raw-dir`` (outside the repo; about 1.4 MB a page). Content is licensed
 CC BY-SA (2.5 / 3.0 / 4.0 by post date, recorded per answer); attribution and
-the per-licence counts go into the snapshot's ``meta``.
+the per-licence counts go into the snapshot's ``meta``, and
+``data/qa/NOTICE.md`` carries the licence note for the committed table.
 """
 
 from __future__ import annotations
