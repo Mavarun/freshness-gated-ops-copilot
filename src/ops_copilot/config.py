@@ -153,10 +153,12 @@ class CopilotConfig:
     # answers it with lift >= answer_support_min_score. Committed table only
     # (data/qa/). Threshold, max terms, scope (known words too) and strictness
     # from scripts/calibrate_answer_support.py (clean golden + dev rows only).
+    # Dev choice (artifacts/answer_support_calibration.md): lift >= 4.25,
+    # strict, known words too, one rescued word.
     use_answer_support_model: bool = False
-    answer_support_min_score: float = 3.0
+    answer_support_min_score: float = 4.25
     answer_support_max_terms: int = 1
-    answer_support_known_words: bool = False
+    answer_support_known_words: bool = True
     answer_support_strict: bool = True
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
