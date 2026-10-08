@@ -520,6 +520,26 @@ OPS_LEXICON_ABLATIONS: dict[str, dict] = {
 OPS_LEXICON_CANDIDATE = "+ both (dev-chosen)"
 
 
+# Answer-support slice: the evidence-conditioned QA translation model
+# (qa_translation.py, trained on outside Stack Exchange Q&A) at its dev-chosen
+# setting (artifacts/answer_support_calibration.md), with its scope narrowed,
+# and on top of the embedding-on config. First held-out run of each.
+ANSWER_SUPPORT_ON: dict = {"use_answer_support_model": True}
+ANSWER_SUPPORT_ABLATIONS: dict[str, dict] = {
+    "default (answer-support model off)": {},
+    "+ answer-support model (dev-chosen: lift 4.25, strict, known words, 1 word)": dict(
+        ANSWER_SUPPORT_ON
+    ),
+    "+ answer-support model, unknown words only": {
+        **ANSWER_SUPPORT_ON,
+        "answer_support_known_words": False,
+    },
+    "embedding on (both)": dict(EMBEDDING_ON),
+    "embedding on + answer-support model": {**EMBEDDING_ON, **ANSWER_SUPPORT_ON},
+}
+ANSWER_SUPPORT_CANDIDATE = "+ answer-support model (dev-chosen: lift 4.25, strict, known words, 1 word)"
+
+
 def changed_rows(a: RobustnessReport, b: RobustnessReport) -> list[dict]:
     """Perturbed rows whose decision differs between two runs (a -> b)."""
     before = {c.id: c for c in a.cases}
@@ -1029,6 +1049,8 @@ def render_robustness_markdown(
     wordvec_changes: list[dict] | None = None,
     lexicon_ablations: dict | None = None,
     lexicon_changes: dict[str, list[dict]] | None = None,
+    answer_support_ablations: dict | None = None,
+    answer_support_changes: dict[str, list[dict]] | None = None,
 ) -> str:
     d = report.as_dict()
     emb = embedding.as_dict(flip_detail=False) if embedding is not None else None
@@ -1118,6 +1140,31 @@ def render_robustness_markdown(
         for label, rows in (lexicon_changes or {}).items():
             lines += [
                 f"Rows whose decision changes vs the default with **{label}**:",
+                "",
+                "| row | split | expected | off | on | effect |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+            lines += [
+                f"| {r['id']} | {r['split']} | {r['expect']} | {r['before']} | {r['after']} | {r['effect']} |"
+                for r in rows
+            ] or ["| - | - | - | - | - | - |"]
+            lines.append("")
+    if answer_support_ablations:
+        lines += _ablation_lines(
+            answer_support_ablations,
+            kinds,
+            title="## Ablation: answer-support model (QA translation, outside Stack Exchange data)",
+            blurb=(
+                "Default config plus the committed IBM Model 1 question <- answer table "
+                "(`data/qa/`, trained on 32,513 Stack Exchange title / answer pairs of 8 ops "
+                "sites). The setting was chosen on clean golden + dev rows only "
+                "(`artifacts/answer_support_calibration.md`); this table is its first "
+                "held-out run. Embedding rows use the frozen MiniLM fixture."
+            ),
+        )
+        for label, rows in (answer_support_changes or {}).items():
+            lines += [
+                f"Rows whose decision changes with **{label}**:",
                 "",
                 "| row | split | expected | off | on | effect |",
                 "| --- | --- | --- | --- | --- | --- |",
