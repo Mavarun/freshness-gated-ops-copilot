@@ -19,6 +19,7 @@ from dataclasses import replace  # noqa: E402
 
 from ops_copilot.config import CopilotConfig  # noqa: E402
 from ops_copilot.robustness import (  # noqa: E402
+    ANSWER_SUPPORT_ABLATIONS,
     EMBED_ABLATIONS,
     EMBEDDING_ON,
     EMBEDDING_ON_BACKOFF,
@@ -148,6 +149,28 @@ def main(argv: list[str] | None = None) -> int:
         for label, rep in lexicon_reports.items()
         if OPS_LEXICON_ABLATIONS[label]
     }
+    # Answer-support slice: the QA translation model at its dev-chosen setting
+    # (first held-out run), its narrower scope, and on top of embeddings.
+    answer_reports = {}
+    for label, knobs in ANSWER_SUPPORT_ABLATIONS.items():
+        if not knobs:
+            answer_reports[label] = report
+        elif knobs == EMBEDDING_ON:
+            answer_reports[label] = embedding
+        else:
+            answer_reports[label] = run_robustness(
+                golden_path=args.golden,
+                paraphrase_path=args.paraphrase,
+                config=replace(CopilotConfig(), **knobs),
+            )
+    answer_ablations = {k: ablation_row(v) for k, v in answer_reports.items()}
+    answer_changes = {}
+    for label, rep in answer_reports.items():
+        knobs = ANSWER_SUPPORT_ABLATIONS[label]
+        if not knobs.get("use_answer_support_model"):
+            continue
+        base_rep = embedding if knobs.get("embedding_backend") else report
+        answer_changes[label] = changed_rows(base_rep, rep)
     # Write-gate ablation: reuse the default and embedding-on runs above.
     write_ablations = {
         "lexicon parser only (no mood)": ablation_row(
@@ -203,6 +226,8 @@ def main(argv: list[str] | None = None) -> int:
             wordvec_changes=wordvec_changes,
             lexicon_ablations=lexicon_ablations,
             lexicon_changes=lexicon_changes,
+            answer_support_ablations=answer_ablations,
+            answer_support_changes=answer_changes,
         ),
         encoding="utf-8",
     )
@@ -230,6 +255,8 @@ def main(argv: list[str] | None = None) -> int:
     metrics["word_vector_changed_rows"] = wordvec_changes
     metrics["ops_lexicon_ablations"] = lexicon_ablations
     metrics["ops_lexicon_changed_rows"] = lexicon_changes
+    metrics["answer_support_ablations"] = answer_ablations
+    metrics["answer_support_changed_rows"] = answer_changes
     if calibration:
         metrics["semantic_grounding_calibration"] = calibration
     metrics["ablations"] = ablations
