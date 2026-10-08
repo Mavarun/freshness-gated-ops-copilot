@@ -1277,4 +1277,17 @@ session spend, injection canaries, PII/secret redaction, **and HITL for mutating
 
 ## License
 
-MIT. Author: M.Varun (`116015799+Mavarun@users.noreply.github.com`).
+MIT for the code. Author: M.Varun (`116015799+Mavarun@users.noreply.github.com`).
+
+Committed outside data keeps its own licence (raw dumps are never committed;
+each snapshot pins its source by SHA-256 or URL in its `meta`):
+
+- `data/qa/se_qa_translation.json.gz`: word statistics derived from Stack Exchange
+  questions and answers (no post text), CC BY-SA 4.0 with attribution to the users
+  of the eight sites and Stack Exchange Inc.; see `data/qa/NOTICE.md`.
+- `data/tagsyn/stackexchange_tag_synonyms.json.gz`: Stack Exchange tag synonyms,
+  CC BY-SA 4.0; see `data/tagsyn/NOTICE.md`.
+- `data/wiktionary/computing_senses.json.gz`: Wiktionary contributors via
+  Wiktextract (kaikki.org), CC BY-SA 4.0 and GFDL.
+- `data/wordvec/cf_neighbours.json.gz`: neighbours from counter-fitted vectors
+  (Mrkšić et al., NAACL 2016), Apache-2.0.

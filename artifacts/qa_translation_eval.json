@@ -46,6 +46,8 @@
     "valid_p_at_1": 0.7
    }
   ],
+  "license": "CC BY-SA 4.0 (derived word statistics; input posts CC BY-SA 2.5 / 3.0 / 4.0 by post date, per-licence answer counts in licenses)",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
   "licenses": {
    "CC BY-SA 2.5": 2089,
    "CC BY-SA 3.0": 17203,
@@ -74,7 +76,8 @@
    "superuser": 6656,
    "unix": 5619
   },
-  "source": "Stack Exchange API v2.3, /questions sort=votes (most-voted questions) with answers",
+  "source": "Stack Exchange API v2.3, /questions sort=votes and sort=activity (most-voted and most recently active questions) with answers",
+  "source_url": "https://api.stackexchange.com/2.3/questions",
   "test_fraction": 0.1
  },
  "ranking": {
@@ -100,6 +103,6 @@
  },
  "table_entries": 32721,
  "table_evidence_words": 374,
- "table_sha256": "8357261f4f314f5d37a3e983ae519e6773eb3439a531bc9788deb1217227e0b6",
+ "table_sha256": "19a9a98d4c191a7cf9fc13f6eeb1a42d65c7434e7b8307c56f183b47850bbe6a",
  "train_seconds": 2.7
 }
