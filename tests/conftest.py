@@ -1,11 +1,40 @@
 from __future__ import annotations
 
+import socket
 from datetime import datetime, timedelta, timezone
 
 import pytest
 
 from ops_copilot import Copilot, CopilotConfig, EVAL_CLOCK
 from ops_copilot.types import Chunk, Document
+
+
+_REAL_CONNECT = socket.socket.connect
+_REAL_CONNECT_EX = socket.socket.connect_ex
+
+
+def _offline_only(real):
+    def guard(self: socket.socket, address, *args, **kwargs):
+        if self.family in (socket.AF_INET, socket.AF_INET6):
+            raise RuntimeError(f"tests must stay offline: blocked connect to {address!r}")
+        return real(self, address, *args, **kwargs)
+
+    return guard
+
+
+@pytest.fixture(autouse=True, scope="session")
+def _no_network():
+    """CI never needs the network: every committed snapshot is read from disk.
+
+    Any IPv4 / IPv6 connect from a test (a fetch script, a model download, an
+    API call) fails loudly instead of quietly depending on the network.
+    Unix sockets (the event loop's self-pipe) are untouched.
+    """
+    mp = pytest.MonkeyPatch()
+    mp.setattr(socket.socket, "connect", _offline_only(_REAL_CONNECT))
+    mp.setattr(socket.socket, "connect_ex", _offline_only(_REAL_CONNECT_EX))
+    yield
+    mp.undo()
 
 
 @pytest.fixture(scope="session")
