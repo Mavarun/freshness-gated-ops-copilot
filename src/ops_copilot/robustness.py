@@ -698,6 +698,7 @@ def leakage_report() -> dict:
         "polite_prefix_words_in_filler": len(filler_hits),
         "external_wordvec": _external_wordvec_coverage(),
         "external_lexicons": _external_lexicon_coverage(),
+        "external_answer_support": _external_answer_support_coverage(),
     }
 
 
@@ -770,6 +771,57 @@ def _external_lexicon_coverage() -> dict | None:
                     key_in_gloss.append(f"{tok} ({pair})")
                     counts["key_is_head"] += any(gloss_head(g)[0] in key_toks for g in glosses)
         out[name] = counts | {"key_in_gloss_words": key_in_gloss}
+    return out
+
+
+def _external_answer_support_coverage() -> dict | None:
+    """Word-level view of the answer-support model on dev and held-out pairs.
+
+    Computed *after* the held-out go / no-go (README "Answer-support model");
+    it explains the null result and changes no setting. Per split, over the
+    distinct replacement words of its pairs (plain words, plural-folded):
+
+    - ``in_model``: the word is in the model's question vocabulary;
+    - ``key_any``: a content word of the key it replaced answers it with any
+      stored lift (>= the table floor of 1.0);
+    - ``key_at_threshold``: ... with lift >= the dev-chosen threshold;
+    - ``best_any``: *some* corpus word answers it at the threshold (the gate
+      only needs one in the evidence, so this is the ceiling of what the model
+      could ever vouch for).
+    """
+    from ops_copilot.config import CopilotConfig
+    from ops_copilot.corpus import Corpus
+    from ops_copilot.qa_translation import DEFAULT_TABLE, AnswerSupportModel, words as qa_words
+    from ops_copilot.synonym_split import DEFAULT_SPLIT_PATH, load_split
+
+    if not (DEFAULT_SPLIT_PATH.is_file() and DEFAULT_TABLE.is_file()):
+        return None
+    texts = [f"{c.title} {c.text}" for c in Corpus().chunks]
+    th = CopilotConfig().answer_support_min_score
+    model = AnswerSupportModel(texts, min_score=float("-inf"))
+    split = load_split()
+    out: dict[str, dict] = {"threshold": th}
+    for name in SPLITS:
+        split_words = {f for w in split[f"{name}_words"] for f in qa_words(w)}
+        keys_of: dict[str, set[str]] = {}
+        for pair in split[f"{name}_pairs"]:
+            key, repl = (x.strip() for x in pair.split("->", 1))
+            for tok in qa_words(repl):
+                if tok in split_words:
+                    keys_of.setdefault(tok, set()).update(qa_words(key))
+        counts = dict.fromkeys(("words", "in_model", "key_any", "key_at_threshold", "best_any"), 0)
+        hits: list[str] = []
+        for tok in sorted(keys_of):
+            counts["words"] += 1
+            cands = model.candidates(tok)
+            counts["in_model"] += bool(cands)
+            best = model.best(tok, sorted(keys_of[tok]))
+            if best is not None:
+                counts["key_any"] += 1
+                counts["key_at_threshold"] += best.score >= th
+                hits.append(f"{tok}<-{best.evidence_word} {best.score:.2f}")
+            counts["best_any"] += any(s >= th for w, s in cands.items() if w != tok)
+        out[name] = counts | {"key_hits": hits}
     return out
 
 
@@ -989,6 +1041,20 @@ def _leakage_lines(leak: dict) -> list[str]:
                 f"substitute {c['tag_sub']}; replaced key word inside a domain gloss "
                 f"{c['key_in_gloss']} (as the gloss head {c['key_is_head']})"
                 + (f": {', '.join(c['key_in_gloss_words'])}" if c["key_in_gloss_words"] else "")
+            )
+    ans = leak.get("external_answer_support")
+    if ans:
+        for name in SPLITS:
+            c = ans.get(name)
+            if not c:
+                continue
+            ext_lines.append(
+                f"- answer-support model, {name} replacement words ({c['words']}; computed after "
+                f"the held-out decision): in the model's question vocabulary {c['in_model']}; "
+                f"answered by a word of the replaced key at any stored lift {c['key_any']}"
+                + (f" ({', '.join(c['key_hits'])})" if c["key_hits"] else "")
+                + f", at the chosen {ans['threshold']} {c['key_at_threshold']}; answered by "
+                f"*some* corpus word at {ans['threshold']} {c['best_any']}"
             )
     return [
         "## Leakage check (product lexicons vs the eval's perturbation vocabulary)",
