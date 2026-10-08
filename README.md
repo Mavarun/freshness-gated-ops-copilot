@@ -22,6 +22,139 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Answer-support model from Stack Exchange Q&A (2026-10-08): held-out still 1 of 12, ships off
+
+PR #16 ended on "lexical substitution looks exhausted; the next step is a model that
+scores whether the *evidence* answers the question". This slice tries the cheapest
+version of that: a statistical translation model trained on outside question / answer
+pairs, used to decide whether an evidence page answers a query word it does not
+contain. It was calibrated on clean + dev rows only and run once on held-out under a
+rule fixed beforehand. **It changed no held-out row, so it ships off.** Labels, the
+golden file, the 203 perturbed rows and the dev / held-out split are unchanged (seed 42,
+frozen clock 2026-09-13).
+
+### What changed
+
+1. **Outside data** (`scripts/fetch_stackexchange_qa.py`). The most-voted and the most
+   recently active questions of Server Fault, Super User, Unix & Linux, Ask Ubuntu, DBA,
+   Information Security, DevOps and Network Engineering, with every answer's markdown,
+   from the anonymous Stack Exchange API. Nothing is filtered by eval or corpus words.
+   Up to two answers per question (score >= 1, accepted first): 36,110 (title, answer)
+   pairs from 20,954 questions. Train / validation / test is a salted hash of
+   (site, question id). The raw pages (about 1.4 MB each) stay outside the repo and are
+   pinned by SHA-256.
+2. **IBM Model 1, question <- answer** (`qa_translation.py`). Vectorised EM, uniform
+   start, no randomness. T(q|a) is the probability that answer word *a* explains title
+   word *q*. The score is a shrunk lift, log T~(q|a) / P(q) with
+   T~ = (c(q,a) + 5 P(q)) / (c(a) + 5), so a pair seen in part of one question cannot
+   score high by luck. The EM iteration count (3) was picked on a validation slice of
+   train.
+3. **Committed table** (`data/qa/se_qa_translation.json.gz`, 385 KB). For each of the 374
+   corpus words in the model it keeps the question words with lift >= 1 (32,721
+   entries). It holds words and numbers only, no post text, under CC BY-SA 4.0 with
+   attribution (`data/qa/NOTICE.md`).
+4. **Wiring** (`use_answer_support_model`, `Grounder.translation_support`). A salient
+   plain query word that the evidence lacks counts as supported when some evidence word
+   answers it with lift >= `answer_support_min_score`. In strict mode (the default) it
+   works like the embedding rescue: wh-questions only, every missing word must be
+   rescued, at most `answer_support_max_terms` of them, and an answer that leans on it may
+   not cite a page with an unjustified canary. Identifiers and the answer-coverage check
+   stay lexical. Traces record the `query<-evidence` pairs.
+5. **Dev-only calibration** (`answer_support_calibration.py`,
+   `artifacts/answer_support_calibration.md`). Same 51 clean + 15 dev rows and safety bar
+   as before. 232 settings: lift 1.00-8.00 by 0.25, max_terms {1, 2}, scope {unknown,
+   unknown + known words}, strict on / off. The selection and go / no-go rule were
+   written down before the held-out run.
+6. **CI hygiene.** Any test that opens an internet connection now fails
+   (`tests/conftest.py`, `tests/test_offline.py`). Licence and attribution notices for
+   both Stack Exchange snapshots are pinned by `tests/test_third_party_data.py`, which
+   also blocks raw fetch pages and data / artifact files over 512 KB.
+
+### Out-of-sample check on the outside data (`artifacts/qa_translation_eval.md`)
+
+Each of 1,000 hash-held-out test questions has to rank its own answer among 50 (chance
+P@1 0.020):
+
+| scorer | P@1 | MRR | P@1 when the answer shares no title word |
+| --- | ---: | ---: | ---: |
+| BM25 | 0.682 | 0.738 | 0.000 |
+| Model 1 | 0.712 | 0.786 | 0.134 |
+| rank average | 0.677 | 0.759 | 0.020 |
+
+So the model does learn cross-word links on Stack Exchange that BM25 cannot see.
+
+### Calibration (dev) and the held-out run (`artifacts/robustness_report.md`)
+
+Chosen on dev: lift >= 4.25, strict, known words too, 1 term. The optimal run is
+3.25-5.25. Below 3.25 a clean row breaks, and non-strict settings turn clean NO_EVIDENCE
+traps into UNGROUNDED. Calibration accuracy goes from 0.924 to 0.939, and **all of that is
+one row**: dev g48, through `secret<-vault`.
+
+| config | perturbed | syn dev | syn held-out | held-out ANSWER/WRITE | fail-open / spurious write / raw PII |
+| --- | ---: | ---: | ---: | ---: | --- |
+| default (model off) | 0.872 | 0.667 | **0.429** | **1/12** | 0 / 0 / 0 |
+| + answer-support model (dev-chosen) | 0.877 | 0.733 | **0.429** | **1/12** | 0 / 0 / 0 |
+| + model, unknown words only | 0.872 | 0.667 | 0.429 | 1/12 | 0 / 0 / 0 |
+| embedding on | 0.897 | 0.800 | 0.514 | 2/12 | 0 / 0 / 0 |
+| embedding on + model | 0.901 | 0.867 | 0.514 | 2/12 | 0 / 0 / 0 |
+
+Clean stays 1.000 everywhere. The only changed row is g48, the row it was calibrated on.
+The model passes the no-harm bar but adds nothing on held-out, so it stays opt-in.
+
+**Why it does nothing on held-out.** This word-level view was computed *after* the
+decision and changed no setting (leakage section of the report):
+
+| split | distinct replacement words | in the model | answered by the replaced key word, any lift | ... at 4.25 | answered by *some* corpus word at 4.25 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| dev | 54 | 39 | 8 | 3 | 23 |
+| held-out | 64 | 49 | 5 | **0** | 19 |
+
+No held-out word is linked to the word it replaced at the chosen threshold. The closest
+is `configuration<-config` at 4.24, which is a near-spelling, not a sense. (The
+calibration report says 59 dev words because it counts (pair, word) entries.)
+
+### Fresh general-English synonym set (`artifacts/synonym_fresh_eval.md`)
+
+The 26 hand-written rows were written before this model existed, so they are blind for
+it:
+
+| config | accuracy | ANSWER rows | fail-open / spurious write / raw PII |
+| --- | ---: | ---: | --- |
+| default | 7/26 (0.269) | 0/11 | 0 / 0 / 0 |
+| + answer-support model | 8/26 (0.308) | 1/11 | 0 / 0 / 0 |
+| + word vectors | 10/26 (0.385) | 1/11 | 0 / 0 / 0 |
+| + answer-support model + word vectors | 11/26 (0.423) | 2/11 | 0 / 0 / 0 |
+
+The one new row is f03 (`primary -> principal`). It is right, but it goes through
+`principal<-owner`, which is a topical link, not the word that was replaced.
+
+Tests: 572 -> 618, all offline.
+
+### Weaknesses
+
+- **Held-out synonym understanding is still 1 of 12** (2 of 12 with embeddings on). Four
+  outside resources have now been tried blind (word vectors, tag synonyms, Wiktionary
+  senses, and Q&A translation) and none helps. Stack Exchange title / answer statistics
+  do not link `lag` to latency or `bounce` to restart strongly enough.
+- **Both rows it does fix go through topical pairs** (`secret<-vault`, `principal<-owner`),
+  not synonyms. The model vouches for "this page is about that", which is weaker than
+  "this page answers that". Strict mode, one term and the canary guard keep it from
+  failing open here (0 everywhere), but 19 held-out words have *some* corpus word above
+  the threshold, so on other data it could ground an answer on the wrong page.
+- The threshold rests on one dev row out of 66. The plateau is wide (3.25-5.25), but
+  one row is not evidence of a real gain.
+- Model 1 is bag-of-words: no phrases (`on call`), no word sense, titles cut at 12 tokens
+  and answers at 80. Stack Exchange is general sysadmin language, not this corpus's
+  runbook phrasing.
+- The table cannot be rebuilt from the repo alone. The raw pages are not committed, and a
+  re-fetch from the live API will not match byte for byte (votes and activity drift).
+  The table's metadata was corrected in place (source now records the activity slice,
+  plus the licence fields), and its 32,721 entries are unchanged.
+- The fresh set has 26 rows, and a one-row gain on it is noise-level.
+- Next: a model that reads the whole query against the whole passage (a small
+  cross-encoder or NLI model trained on outside Q&A, threshold calibrated on dev),
+  rather than word-to-word links.
+
 ## External ops lexicons and secrets typed in words (2026-10-07): held-out still 1 of 12, 0 of 70 plain-word secret words leak
 
 This slice goes after the top weakness of PR #15, held-out synonym understanding
@@ -1267,6 +1400,7 @@ CI: `.github/workflows/eval.yml` runs pytest + `scripts/run_eval.py` on push/PR 
 - Under seeded perturbations decision_accuracy is 0.872 (default) / 0.897 (embedding on). **Held-out synonym accuracy is 0.429 / 0.514, and only 1 / 2 of 12 held-out rows that need an answer or a write succeed.** An external general-English synonym resource (counter-fitted vectors, opt-in) did not help held-out (0.429 → 0.400) and helps a fresh general-English set only from 7/26 to 10/26. Synonyms the repo has not been given are mostly not understood; they fail closed.
 - Trace and API redaction is pattern-based (plus query fragments). A secret typed as plain words is caught only after a credential noun and a copula / `:` / `=` (`my password is ...`), not in free text (`use ... to log in`).
 - Two external ops-domain lexicons (Stack Exchange tag synonyms, Wiktionary computing senses; opt-in) changed no held-out row and add nothing on the fresh general-English set. Their coverage of the eval's ops paraphrases is near zero.
+- An answer-support model trained on 32,513 Stack Exchange title / answer pairs (IBM Model 1, opt-in) changed no held-out row either. It fixes one dev row and one fresh row, both through topical pairs rather than synonyms.
 
 ## Hiring takeaway
 
