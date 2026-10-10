@@ -540,6 +540,26 @@ ANSWER_SUPPORT_ABLATIONS: dict[str, dict] = {
 ANSWER_SUPPORT_CANDIDATE = "+ answer-support model (dev-chosen: lift 4.25, strict, known words, 1 word)"
 
 
+# Passage-support slice (2026-10-10): the passage-level pair classifier
+# (passage_support.py, outside Stack Exchange pairs + ops-domain vectors) at
+# its dev-chosen setting (artifacts/passage_support_calibration.md), with its
+# scope narrowed, stacked on the answer-support model, and on top of the
+# embedding-on config. First held-out run of each.
+PASSAGE_SUPPORT_ON: dict = {"use_passage_support_model": True}
+PASSAGE_SUPPORT_CANDIDATE = "+ passage classifier (dev-chosen: P 0.40, strict, known words, 1 word)"
+PASSAGE_SUPPORT_ABLATIONS: dict[str, dict] = {
+    "default (passage classifier off)": {},
+    PASSAGE_SUPPORT_CANDIDATE: dict(PASSAGE_SUPPORT_ON),
+    "+ passage classifier, unknown words only": {
+        **PASSAGE_SUPPORT_ON,
+        "passage_support_known_words": False,
+    },
+    "+ passage classifier + answer-support model": {**PASSAGE_SUPPORT_ON, **ANSWER_SUPPORT_ON},
+    "embedding on (both)": dict(EMBEDDING_ON),
+    "embedding on + passage classifier": {**EMBEDDING_ON, **PASSAGE_SUPPORT_ON},
+}
+
+
 def changed_rows(a: RobustnessReport, b: RobustnessReport) -> list[dict]:
     """Perturbed rows whose decision differs between two runs (a -> b)."""
     before = {c.id: c for c in a.cases}
@@ -1117,6 +1137,8 @@ def render_robustness_markdown(
     lexicon_changes: dict[str, list[dict]] | None = None,
     answer_support_ablations: dict | None = None,
     answer_support_changes: dict[str, list[dict]] | None = None,
+    passage_support_ablations: dict | None = None,
+    passage_support_changes: dict[str, list[dict]] | None = None,
 ) -> str:
     d = report.as_dict()
     emb = embedding.as_dict(flip_detail=False) if embedding is not None else None
@@ -1229,6 +1251,32 @@ def render_robustness_markdown(
             ),
         )
         for label, rows in (answer_support_changes or {}).items():
+            lines += [
+                f"Rows whose decision changes with **{label}**:",
+                "",
+                "| row | split | expected | off | on | effect |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+            lines += [
+                f"| {r['id']} | {r['split']} | {r['expect']} | {r['before']} | {r['after']} | {r['effect']} |"
+                for r in rows
+            ] or ["| - | - | - | - | - | - |"]
+            lines.append("")
+    if passage_support_ablations:
+        lines += _ablation_lines(
+            passage_support_ablations,
+            kinds,
+            title="## Ablation: passage-level answer support (pair classifier, outside Stack Exchange data)",
+            blurb=(
+                "Default config plus the committed logistic pair classifier "
+                "(`data/domainvec/passage_support.json`, trained on train-split Stack Exchange "
+                "title / answer pairs with features from the ops-domain PPMI-SVD vectors in "
+                "`data/domainvec/`). The setting was chosen on clean golden + dev rows only "
+                "(`artifacts/passage_support_calibration.md`); this table is its first held-out "
+                "run. Embedding rows use the frozen MiniLM fixture."
+            ),
+        )
+        for label, rows in (passage_support_changes or {}).items():
             lines += [
                 f"Rows whose decision changes with **{label}**:",
                 "",

@@ -64,6 +64,13 @@ CONFIGS: dict[str, dict] = {
         "use_answer_support_model": True,
         "use_word_vector_backoff": True,
     },
+    # Passage classifier (2026-10-10): blind for this set (dev-chosen setting,
+    # robustness.PASSAGE_SUPPORT_ON), alone and with the word vectors.
+    "+ passage classifier (dev-chosen)": {"use_passage_support_model": True},
+    "+ passage classifier + word vectors": {
+        "use_passage_support_model": True,
+        "use_word_vector_backoff": True,
+    },
 }
 
 
