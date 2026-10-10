@@ -101,3 +101,39 @@ def test_out_of_sample_numbers():
     assert ev["n_negative_candidates"] > 250
     # the known hard family stays visibly weak (reported, not hidden)
     assert ev["families"]["pronounceable"]["detector"] < ev["families"]["pronounceable"]["n"]
+
+
+def _gate():
+    import importlib.util
+    from pathlib import Path
+
+    path = Path(__file__).resolve().parents[1] / "scripts" / "run_secret_entropy_eval.py"
+    spec = importlib.util.spec_from_file_location("run_secret_entropy_eval", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.gate_failures
+
+
+def test_ci_gate_passes_on_the_committed_artifact():
+    import json
+    from pathlib import Path
+
+    art = json.loads(
+        (Path(__file__).resolve().parents[1] / "artifacts" / "secret_entropy_eval.json").read_text()
+    )
+    assert _gate()(art["calibration"], art["eval"]) == []
+
+
+def test_ci_gate_fails_on_a_false_positive_a_missed_dev_secret_or_drift():
+    gate = _gate()
+    cal = {"threshold": se.DEFAULT_THRESHOLD}
+    fams = {
+        "hex": {"n": 3, "now": 3, "dev_family": True},
+        "pronounceable": {"n": 3, "now": 0, "dev_family": False},
+    }
+    ok = {"n_negative_flagged": 0, "families": fams}
+    assert gate(cal, ok) == []  # out-of-calibration misses are report-only
+    assert gate(cal, ok | {"n_negative_flagged": 1})
+    missed = {"n_negative_flagged": 0, "families": fams | {"hex": {"n": 3, "now": 2, "dev_family": True}}}
+    assert gate(cal, missed) == ["dev family hex: 2/3 secrets redacted"]
+    assert gate({"threshold": se.DEFAULT_THRESHOLD + 0.5}, ok)
