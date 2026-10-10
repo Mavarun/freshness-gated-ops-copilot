@@ -3,10 +3,12 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
 
+from ops_copilot import CopilotConfig
 from ops_copilot.eval import load_golden
 from ops_copilot.paraphrase_set import dump_jsonl, load_paraphrase_set
 from ops_copilot.perturb import PERTURBATION_TYPES
@@ -30,6 +32,12 @@ ROOT = Path(__file__).resolve().parents[1]
 @pytest.fixture(scope="module")
 def report():
     return run_robustness()
+
+
+@pytest.fixture(scope="module")
+def report_pre_passage():
+    # The default before the passage classifier was switched on (2026-10-10).
+    return run_robustness(config=replace(CopilotConfig(), use_passage_support_model=False))
 
 
 def test_label_drift_is_rejected(tmp_path: Path) -> None:
@@ -118,13 +126,13 @@ def test_before_is_the_frozen_pr14_run_rescored_with_the_split() -> None:
     assert before["embedding_on"]["decisions"] == pr13["embedding_on"]["decisions"]
 
 
-def test_phrasal_slice_changes_no_robustness_row(report) -> None:
+def test_phrasal_slice_changes_no_robustness_row(report_pre_passage) -> None:
     # The phrasal verbs, registry targets and page recipients move no row of
     # the 203: the perturbed set's write rows use none of the new phrasings,
     # and its held-out phrasal words (set/turn/down/flush/purge) sit in
     # question rows. Pinned so a regression shows up as a changed row.
     before = load_before(PR13_BEFORE)
-    actual = {c.id: c.perturbed_decision for c in report.cases}
+    actual = {c.id: c.perturbed_decision for c in report_pre_passage.cases}
     assert {rid: d for rid, d in actual.items() if d != before["decisions"][rid]} == {}
 
 
@@ -172,12 +180,32 @@ WRITE_PARSER_CHANGES = {
 }
 
 
-def test_default_config_matches_pr12_except_the_parsed_writes(report) -> None:
+def test_default_config_matches_pr12_except_the_parsed_writes(report_pre_passage) -> None:
     before = load_before(PR12_BEFORE)
     assert before is not None and "fcc8157" in before["source"]
-    actual = {c.id: c.perturbed_decision for c in report.cases}
+    actual = {c.id: c.perturbed_decision for c in report_pre_passage.cases}
     changed = {rid: d for rid, d in actual.items() if d != before["decisions"][rid]}
     assert changed == WRITE_PARSER_CHANGES
+
+
+# Switching the passage classifier on (dev-chosen, first held-out run on
+# 2026-10-10) changes exactly these rows of the 203, all to the gold label:
+# four dev synonym rows and one held-out row (g28, a refusal reason).
+PASSAGE_CHANGES = {
+    "g24-synonym": "ANSWER",
+    "g28-synonym": "REFUSE_DISAGREE",
+    "g35-synonym": "REFUSE_CANARY",
+    "g39-synonym": "ANSWER",
+    "g48-synonym": "REFUSE_PII",
+}
+
+
+def test_passage_default_changes_exactly_the_five_fixed_rows(report, report_pre_passage) -> None:
+    before = {c.id: c.perturbed_decision for c in report_pre_passage.cases}
+    after = {c.id: c for c in report.cases}
+    changed = {rid: c.perturbed_decision for rid, c in after.items() if c.perturbed_decision != before[rid]}
+    assert changed == PASSAGE_CHANGES
+    assert all(after[rid].expect_decision == d for rid, d in changed.items())
 
 
 def test_embedding_ablations_only_toggle_embedding_knobs() -> None:

@@ -315,37 +315,37 @@
     },
     "perturbed": {
       "n": 203,
-      "n_refusals": 146,
+      "n_refusals": 144,
       "n_schema_ok": 203,
       "transfer": {
         "by_check": {
           "bm25_doc_correct": {
-            "correct": 13,
-            "n": 13
+            "correct": 14,
+            "n": 14
           },
           "budget_correct": {
             "correct": 12,
             "n": 12
           },
           "canary_doc_correct": {
-            "correct": 13,
-            "n": 13
+            "correct": 14,
+            "n": 14
           },
           "dense_doc_correct": {
-            "correct": 13,
-            "n": 13
+            "correct": 14,
+            "n": 14
           },
           "missing_term_named": {
             "correct": 37,
             "n": 44
           },
           "pii_doc_correct": {
-            "correct": 10,
-            "n": 10
+            "correct": 11,
+            "n": 11
           },
           "pii_kind_correct": {
-            "correct": 10,
-            "n": 10
+            "correct": 11,
+            "n": 11
           },
           "projected_exceeds_budget": {
             "correct": 12,
@@ -360,20 +360,20 @@
             "n": 12
           },
           "remediation_quarantine": {
-            "correct": 13,
-            "n": 13
+            "correct": 14,
+            "n": 14
           },
           "remediation_reconcile": {
-            "correct": 13,
-            "n": 13
+            "correct": 14,
+            "n": 14
           },
           "remediation_refresh_source": {
             "correct": 28,
             "n": 28
           },
           "remediation_scrub": {
-            "correct": 10,
-            "n": 10
+            "correct": 11,
+            "n": 11
           },
           "stale_age_correct": {
             "correct": 28,
@@ -400,10 +400,10 @@
             "n": 28
           }
         },
-        "n_checks": 415,
-        "n_checks_correct": 406,
-        "n_rows": 120,
-        "rows_all_correct": 111
+        "n_checks": 423,
+        "n_checks_correct": 414,
+        "n_rows": 123,
+        "rows_all_correct": 114
       }
     },
     "random_tokens": {
@@ -828,7 +828,7 @@
     },
     "perturbed": {
       "n": 203,
-      "n_refusals": 144,
+      "n_refusals": 143,
       "n_schema_ok": 203,
       "transfer": {
         "by_check": {
@@ -853,12 +853,12 @@
             "n": 44
           },
           "pii_doc_correct": {
-            "correct": 10,
-            "n": 10
+            "correct": 11,
+            "n": 11
           },
           "pii_kind_correct": {
-            "correct": 10,
-            "n": 10
+            "correct": 11,
+            "n": 11
           },
           "projected_exceeds_budget": {
             "correct": 12,
@@ -885,8 +885,8 @@
             "n": 29
           },
           "remediation_scrub": {
-            "correct": 10,
-            "n": 10
+            "correct": 11,
+            "n": 11
           },
           "stale_age_correct": {
             "correct": 29,
@@ -913,10 +913,10 @@
             "n": 29
           }
         },
-        "n_checks": 427,
-        "n_checks_correct": 418,
-        "n_rows": 123,
-        "rows_all_correct": 114
+        "n_checks": 430,
+        "n_checks_correct": 421,
+        "n_rows": 124,
+        "rows_all_correct": 115
       }
     },
     "random_tokens": {

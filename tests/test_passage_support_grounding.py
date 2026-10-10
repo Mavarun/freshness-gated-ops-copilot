@@ -26,14 +26,20 @@ def _latency_chunk(chunks):
     return [c for c in chunks if c.doc_id == "pd_inc_4821"][:1]
 
 
-def test_off_by_default() -> None:
+def test_on_by_default_and_silent_when_lexical_grounding_suffices() -> None:
+    from dataclasses import replace
+
     from ops_copilot.pipeline import Copilot
 
-    assert CopilotConfig().use_passage_support_model is False
+    # Switched on after the dev-chosen setting's first held-out run (no
+    # held-out row lost, no unsafe outcome); see passage_support_calibration.
+    assert CopilotConfig().use_passage_support_model is True
     bot = Copilot()
-    assert bot.passage_support is None
+    assert bot.passage_support is not None
     g = bot.ask("What is the current checkout p99 latency?").as_dict()["grounding"]
     assert g["passage_rescued"] == [] and g["passage_probability"] is None
+    off = Copilot(config=replace(CopilotConfig(), use_passage_support_model=False))
+    assert off.passage_support is None
 
 
 def test_rescues_one_missing_plain_word_above_threshold(chunks) -> None:

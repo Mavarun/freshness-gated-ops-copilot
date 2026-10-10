@@ -25,17 +25,19 @@ from ops_copilot.robustness import (
     run_robustness,
 )
 
+# Measured before the passage classifier was switched on (2026-10-10).
+PRE_PASSAGE = replace(CopilotConfig(), use_passage_support_model=False)
 METRICS = Path(__file__).resolve().parents[1] / "artifacts" / "robustness_metrics.json"
 
 
 @pytest.fixture(scope="module")
 def report():
-    return run_robustness()
+    return run_robustness(config=PRE_PASSAGE)
 
 
 @pytest.fixture(scope="module")
 def on():
-    return run_robustness(config=replace(CopilotConfig(), **ANSWER_SUPPORT_ON))
+    return run_robustness(config=replace(PRE_PASSAGE, **ANSWER_SUPPORT_ON))
 
 
 def test_model_ships_off_by_default() -> None:
@@ -75,7 +77,7 @@ def test_fresh_set_blind_run_fixes_one_row_and_opens_nothing() -> None:
     from ops_copilot.fresh_synonym_eval import CONFIGS, load_fresh, score
 
     rows = load_fresh()
-    base = replace(CopilotConfig(), use_word_vector_backoff=False)
+    base = replace(PRE_PASSAGE, use_word_vector_backoff=False)
     off = score(base, rows)
     on = score(replace(base, **CONFIGS["+ answer-support model (dev-chosen)"]), rows)
     assert off["n"] - len(off["wrong"]) == 7 and on["n"] - len(on["wrong"]) == 8

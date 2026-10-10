@@ -14,7 +14,10 @@ The two ops lexicons (``tag_synonyms.py``, ``wiktionary_senses.py``) were
 built on 2026-10-07, a day after these rows were written, so for them this
 set is blind: nobody chose a row or a lexicon entry with the other in view.
 The same holds for the answer-support model (``qa_translation.py``, trained
-and calibrated on 2026-10-08).
+and calibrated on 2026-10-08) and the passage classifier
+(``passage_support.py``, 2026-10-10). Since the passage classifier is on by
+default, every row here runs on the pre-passage default (passage classifier
+off) unless its knobs switch it on, so earlier rows keep their meaning.
 """
 
 from __future__ import annotations
@@ -133,7 +136,7 @@ def score(config: CopilotConfig, rows: list[dict]) -> dict:
 
 
 def run_fresh_eval(base: CopilotConfig | None = None) -> dict:
-    base = base or CopilotConfig()
+    base = base or replace(CopilotConfig(), use_passage_support_model=False)
     rows = load_fresh()
     return {
         "n_rows": len(rows),

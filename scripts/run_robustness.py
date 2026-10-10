@@ -107,6 +107,17 @@ def main(argv: list[str] | None = None) -> int:
         config=replace(CopilotConfig(), **EMBEDDING_ON),
     )
     before = load_before(args.before, paraphrase_path=args.paraphrase)
+    # Every earlier slice's ablation was measured before the passage classifier
+    # existed. Since it is on by default (2026-10-10), those sections re-run on
+    # the pre-passage default (HIST) so their rows and changed-row lists stay
+    # the ones the README quotes; the headline report above is the new default.
+    HIST = replace(CopilotConfig(), use_passage_support_model=False)
+    report_hist = run_robustness(golden_path=args.golden, paraphrase_path=args.paraphrase, config=HIST)
+    embedding_hist = run_robustness(
+        golden_path=args.golden,
+        paraphrase_path=args.paraphrase,
+        config=replace(HIST, **EMBEDDING_ON),
+    )
     before_pr10 = load_before(PR10_BEFORE, paraphrase_path=args.paraphrase)
     before_pr11 = load_before(PR11_BEFORE, paraphrase_path=args.paraphrase)
     before_pr12 = load_before(PR12_BEFORE, paraphrase_path=args.paraphrase)
@@ -114,12 +125,12 @@ def main(argv: list[str] | None = None) -> int:
     # Word-vector slice: the counter-fitted backoff on top of the default config.
     wordvec_reports = {
         label: (
-            report
+            report_hist
             if knobs == {"use_word_vector_backoff": False}
             else run_robustness(
                 golden_path=args.golden,
                 paraphrase_path=args.paraphrase,
-                config=replace(CopilotConfig(), **knobs),
+                config=replace(HIST, **knobs),
             )
         )
         for label, knobs in WORDVEC_ABLATIONS.items()
@@ -129,24 +140,24 @@ def main(argv: list[str] | None = None) -> int:
         rep for (label, knobs), rep in zip(WORDVEC_ABLATIONS.items(), wordvec_reports.values())
         if knobs == WORDVEC_ON
     )
-    wordvec_changes = changed_rows(report, wordvec_on)
+    wordvec_changes = changed_rows(report_hist, wordvec_on)
     # Ops-lexicon slice: Stack Exchange tag synonyms and Wiktionary computing
     # senses at their dev-chosen settings (first held-out run), plus a diagnostic.
     lexicon_reports = {
         label: (
-            report
+            report_hist
             if not knobs
             else run_robustness(
                 golden_path=args.golden,
                 paraphrase_path=args.paraphrase,
-                config=replace(CopilotConfig(), **knobs),
+                config=replace(HIST, **knobs),
             )
         )
         for label, knobs in OPS_LEXICON_ABLATIONS.items()
     }
     lexicon_ablations = {k: ablation_row(v) for k, v in lexicon_reports.items()}
     lexicon_changes = {
-        label: changed_rows(report, rep)
+        label: changed_rows(report_hist, rep)
         for label, rep in lexicon_reports.items()
         if OPS_LEXICON_ABLATIONS[label]
     }
@@ -155,14 +166,14 @@ def main(argv: list[str] | None = None) -> int:
     answer_reports = {}
     for label, knobs in ANSWER_SUPPORT_ABLATIONS.items():
         if not knobs:
-            answer_reports[label] = report
+            answer_reports[label] = report_hist
         elif knobs == EMBEDDING_ON:
-            answer_reports[label] = embedding
+            answer_reports[label] = embedding_hist
         else:
             answer_reports[label] = run_robustness(
                 golden_path=args.golden,
                 paraphrase_path=args.paraphrase,
-                config=replace(CopilotConfig(), **knobs),
+                config=replace(HIST, **knobs),
             )
     answer_ablations = {k: ablation_row(v) for k, v in answer_reports.items()}
     answer_changes = {}
@@ -170,21 +181,21 @@ def main(argv: list[str] | None = None) -> int:
         knobs = ANSWER_SUPPORT_ABLATIONS[label]
         if not knobs.get("use_answer_support_model"):
             continue
-        base_rep = embedding if knobs.get("embedding_backend") else report
+        base_rep = embedding_hist if knobs.get("embedding_backend") else report_hist
         answer_changes[label] = changed_rows(base_rep, rep)
     # Passage-support slice: the pair classifier at its dev-chosen setting
     # (first held-out run), narrower scope, stacked, and on top of embeddings.
     passage_reports = {}
     for label, knobs in PASSAGE_SUPPORT_ABLATIONS.items():
         if not knobs:
-            passage_reports[label] = report
+            passage_reports[label] = report_hist
         elif knobs == EMBEDDING_ON:
-            passage_reports[label] = embedding
+            passage_reports[label] = embedding_hist
         else:
             passage_reports[label] = run_robustness(
                 golden_path=args.golden,
                 paraphrase_path=args.paraphrase,
-                config=replace(CopilotConfig(), **knobs),
+                config=replace(HIST, **knobs),
             )
     passage_ablations = {k: ablation_row(v) for k, v in passage_reports.items()}
     passage_changes = {}
@@ -192,24 +203,24 @@ def main(argv: list[str] | None = None) -> int:
         knobs = PASSAGE_SUPPORT_ABLATIONS[label]
         if not knobs.get("use_passage_support_model"):
             continue
-        base_rep = embedding if knobs.get("embedding_backend") else report
+        base_rep = embedding_hist if knobs.get("embedding_backend") else report_hist
         passage_changes[label] = changed_rows(base_rep, rep)
-    # Write-gate ablation: reuse the default and embedding-on runs above.
+    # Write-gate ablation: reuse the default and embedding-on runs (pre-passage) above.
     write_ablations = {
         "lexicon parser only (no mood)": ablation_row(
             run_robustness(
                 golden_path=args.golden,
                 paraphrase_path=args.paraphrase,
-                config=replace(CopilotConfig(), write_mood_detection=False),
+                config=replace(HIST, write_mood_detection=False),
             )
         ),
-        "+ mood detection (default)": ablation_row(report),
-        "+ mood, embedding on": ablation_row(embedding),
+        "+ mood detection (default)": ablation_row(report_hist),
+        "+ mood, embedding on": ablation_row(embedding_hist),
         "+ mood + prototype backoff (embedding on)": ablation_row(
             run_robustness(
                 golden_path=args.golden,
                 paraphrase_path=args.paraphrase,
-                config=replace(CopilotConfig(), **EMBEDDING_ON_BACKOFF),
+                config=replace(HIST, **EMBEDDING_ON_BACKOFF),
             )
         ),
     }
@@ -218,12 +229,12 @@ def main(argv: list[str] | None = None) -> int:
             run_robustness(
                 golden_path=args.golden,
                 paraphrase_path=args.paraphrase,
-                config=replace(CopilotConfig(), **knobs),
+                config=replace(HIST, **knobs),
             )
         )
-    ablations = run_ablations(golden_path=args.golden, paraphrase_path=args.paraphrase)
+    ablations = run_ablations(golden_path=args.golden, paraphrase_path=args.paraphrase, config=HIST)
     embed_ablations = run_ablations(
-        golden_path=args.golden, paraphrase_path=args.paraphrase, grid=EMBED_ABLATIONS
+        golden_path=args.golden, paraphrase_path=args.paraphrase, config=HIST, grid=EMBED_ABLATIONS
     )
     leakage = leakage_report()
     calibration = (

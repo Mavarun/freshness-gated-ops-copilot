@@ -59,7 +59,7 @@ def test_selection_prefers_safety_then_accuracy_then_narrow_scope() -> None:
 
 
 def test_calibrated_setting_is_safe_on_the_calibration_rows() -> None:
-    cfg = replace(CopilotConfig(), use_word_vector_backoff=True)
+    cfg = replace(CopilotConfig(), use_word_vector_backoff=True, use_passage_support_model=False)
     res = score(Copilot(config=cfg), calibration_rows())
     assert res["clean_accuracy"] == 1.0
     assert res["n_fail_open"] == res["n_spurious_write"] == res["n_raw_pii_outputs"] == 0
