@@ -37,7 +37,10 @@ Sections:
    is any distinctive word of the secret left in a trace-bound field.
    Counted unredacted, with the PR #15 patterns, and now; plus the cost: how
    many golden / perturbed / write rows have a trace ``query`` that the new
-   pattern changes (over-redaction).
+   pattern changes (over-redaction). Since PR #18 also: the same secrets
+   disclosed by *purpose* with no credential noun ("use {s} to log in"), and
+   eight credential-*state* statements ("the vault token is expired") that
+   must not be redacted, counted with the PR #16 pattern and now.
 6. **Random tokens with no format** (``random_tokens``): seeded synthetic
    secrets of every ``secret_entropy`` family (a different seed from the
    detector's calibration and test runs) pasted with no credential cue
@@ -119,6 +122,23 @@ RANDOM_TOKEN_TEMPLATES = (
     "curl with bearer {s} returns 403 on payments-api",
     "{s} stopped working after the rotation, who owns vault-transit?",
     "restart checkout-api with {s}",
+)
+# Section 5b: the same secrets disclosed by purpose, with no credential noun,
+# and credential *states* that are not values (over-redaction check).
+LOGIN_TEMPLATES = (
+    "use {s} to log in to vault",
+    "I tried {s} to sign in to grafana and it fails",
+    "type {s} for login on the payments bastion",
+)
+STATE_STATEMENTS = (
+    "the vault token is expired, who rotates it?",
+    "my password is wrong, how do I reset it?",
+    "the checkout api key was revoked yesterday",
+    "Our deploy token is invalid now; page the on-call",
+    "the db password is not working after the rotation",
+    "the admin pin is locked again",
+    "How do I use kubectl to authenticate to the cluster?",
+    "use the bastion to log in to payments-worker",
 )
 PROBE_TEMPLATES = (
     "What is {s}?",
@@ -298,7 +318,31 @@ def disclosure_probe(bot: Copilot) -> dict[str, Any]:
                 t[f"{k}_words"] += v
             if now:
                 examples.append(tpl)
-    return t | {"n_words_total": sum(len(_secret_words(s)) for s in PLAIN_SECRETS) * len(DISCLOSURE_TEMPLATES), "now_leaking_templates": examples[:5]}
+    login = dict.fromkeys(("rows", "pr16_rows", "now_rows", "pr16_words", "now_words"), 0)
+    for secret in PLAIN_SECRETS:
+        for tpl in LOGIN_TEMPLATES:
+            res = bot.ask(tpl.format(s=secret))
+            pr16 = _plain_leaks(_pr16_boundary(res), secret)
+            now = _plain_leaks(res.boundary_dict(), secret)
+            login["rows"] += 1
+            login["pr16_rows"] += bool(pr16)
+            login["now_rows"] += bool(now)
+            login["pr16_words"] += pr16
+            login["now_words"] += now
+    login["n_words_total"] = sum(len(_secret_words(s)) for s in PLAIN_SECRETS) * len(LOGIN_TEMPLATES)
+    states = {"n": len(STATE_STATEMENTS), "pr16_redacted": 0, "now_redacted": 0, "now_redacted_examples": []}
+    for text in STATE_STATEMENTS:
+        res = bot.ask(text)
+        states["pr16_redacted"] += _pr16_boundary(res).get("query") != res.query
+        if res.boundary_dict().get("query") != res.query:
+            states["now_redacted"] += 1
+            states["now_redacted_examples"].append(text)
+    return t | {
+        "n_words_total": sum(len(_secret_words(s)) for s in PLAIN_SECRETS) * len(DISCLOSURE_TEMPLATES),
+        "now_leaking_templates": examples[:5],
+        "login": login,
+        "states": states,
+    }
 
 
 def _pr16_boundary(res) -> dict:

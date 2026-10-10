@@ -108,6 +108,19 @@ def render_md(runs: dict[str, dict]) -> str:
                 f"Over-redaction cost: trace `query` changed by the new pattern on {ov['golden']} golden, "
                 f"{ov['perturbed']} perturbed and {ov['write']} write-refusal rows.",
             ]
+            lg, st = dc.get("login"), dc.get("states")
+            if lg and st:
+                lines += [
+                    "",
+                    f"Disclosed by purpose, no credential noun ({lg['rows']} probes, `use {{s}} to log in ...`): "
+                    f"secret words leaked PR #16 {lg['pr16_words']} / {lg['n_words_total']} -> now "
+                    f"{lg['now_words']} / {lg['n_words_total']} (rows {lg['pr16_rows']} -> {lg['now_rows']}).",
+                    "",
+                    f"Credential states that are not values ({st['n']} statements such as `the vault token is "
+                    f"expired`): trace `query` redacted PR #16 {st['pr16_redacted']} -> now {st['now_redacted']}"
+                    + (f" ({'; '.join(st['now_redacted_examples'])})" if st["now_redacted_examples"] else "")
+                    + ".",
+                ]
         rt = r.get("random_tokens")
         if rt:
             ov = rt["over_redacted_queries"]
@@ -154,6 +167,7 @@ def main() -> int:
         bad += r["leaks"]["n_leaks"] + (g["n_checks"] - g["n_checks_correct"])
         bad += r["trace_leaks"]["n_redacted_leaks"]
         bad += r["disclosure"]["now_words"]
+        bad += r["disclosure"]["login"]["now_words"]
         bad += r["random_tokens"]["gated_now"]
         rt = r["random_tokens"]
         print(
