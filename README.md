@@ -22,6 +22,76 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Passage-level answer support and format-free secrets (2026-10-10/11): classifier on by default, held-out 0.429 -> 0.457
+
+PR #17 ended on "the next step is a model that reads the whole question against the
+whole page". This slice builds it from outside data, tunes its threshold on clean + dev
+rows only, and runs it once on held-out under a go / no-go rule written down first. It
+**passed, so it is now on by default**. A second part redacts random-looking secrets
+that have no recognisable format. Labels, the golden file, the 203 perturbed rows and the
+dev / held-out split are unchanged (seed 42, frozen clock 2026-09-13).
+
+### Method
+
+1. **Ops-domain word vectors** (`scripts/build_domain_vectors.py`): PPMI-SVD on the
+   prose of train-split Stack Exchange questions (window 4, 1/distance weighting, 0.75
+   context smoothing, randomized SVD seed 0). 6,000 words x 48 int8 dims, CC BY-SA 4.0.
+2. **Passage classifier** (`scripts/build_passage_support.py`): five features
+   (IDF-weighted lexical coverage, soft coverage, weakest missing word, missing fraction,
+   centroid cosine) into an L2 logistic regression. It is trained on 18,888 train-split
+   questions, each with its own answer, a hard negative that shares words, and a random
+   answer. In the grounding gate it can vouch for a missing query word.
+3. **Calibration** (`scripts/calibrate_passage_support.py`): 296 settings on 51 clean +
+   15 dev rows. Chosen: P >= 0.40, strict, known + unknown words, 1 term (0.924 -> 0.985;
+   plateau 0.15-0.675).
+4. **Format-free secrets** (`scripts/run_secret_entropy_eval.py`): a character trigram
+   model trained on outside words scores bits per character. The threshold of 4.85 is the
+   midpoint of a dev-family range and was fixed before the test run. CI fails on any
+   repo-text false positive, any missed dev-family secret, or threshold drift.
+
+### Results
+
+Out of sample on 2,066 hash-held-out Stack Exchange questions:
+
+| scorer | AUC own vs hard negative | P@1 of 50 | P@1, answer shares no title word (n=130) |
+| --- | ---: | ---: | ---: |
+| lexical coverage only | 0.629 | 0.653 | 0.000 |
+| classifier, lexical features | 0.640 | 0.640 | 0.000 |
+| classifier + domain vectors | **0.711** | **0.679** | **0.100** |
+
+On the copilot's 203 perturbed rows (`artifacts/robustness_report.md`):
+
+| config | perturbed | syn dev | syn held-out | held-out ANSWER/WRITE | fail-open / spurious write / raw PII |
+| --- | ---: | ---: | ---: | ---: | --- |
+| previous default | 0.872 | 0.667 | 0.429 | 1/12 | 0 / 0 / 0 |
+| **+ passage classifier (new default)** | **0.897** | **0.933** | **0.457** | **1/12** | 0 / 0 / 0 |
+
+Exactly five rows change (g24, g28, g35, g39, g48), all to the gold label. On held-out,
+the one fix is g28, which is now refused for the right reason. On the fresh general-English
+set written on 2026-10-06, which this model never saw, accuracy goes from 7/26 to 18/26
+(answer rows 0/11 -> 5/11) and no row breaks.
+
+Format-free secret recall goes from 0.000 to 0.910 across 7 synthetic families (1,400
+secrets), with 0 of 293 false positives on repo text.
+
+Reproduce: `make calibrate-passage-support robustness secret-entropy` (offline; the
+classifier and vectors are committed. Rebuilding them needs the raw snapshot, see the
+Makefile).
+
+### Weaknesses
+
+- **Held-out answers / writes are still 1 of 12.** The held-out gain is a better
+  refusal, not a new answer. Post-decision diagnostic: held-out words are about as close
+  to their keys in the domain vectors as dev words are (median cosine 0.436 vs 0.461),
+  but the hard ones are not close at all (`bounce~restart` 0.08, `lag~latency` 0.33).
+- The dev gain (0.667 -> 0.933) is 4 rows out of 15. Dev is small and the threshold
+  plateau is wide, so the exact 0.40 is not meaningful.
+- The classifier only sees five hand-built features. A cross-encoder that reads the whole
+  question against the whole page would be the real version, but it needs a model
+  download that offline CI cannot do.
+- The format-free secret detector misses pronounceable secrets (76 of 200), and its
+  test secrets are synthetic.
+
 ## Answer-support model from Stack Exchange Q&A (2026-10-08): held-out still 1 of 12, ships off
 
 PR #16 ended on "lexical substitution looks exhausted; the next step is a model that
