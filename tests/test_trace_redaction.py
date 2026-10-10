@@ -155,7 +155,8 @@ def test_random_token_with_no_cue_is_redacted(copilot: Copilot, query: str) -> N
     safe = res.boundary_dict()
     blob = json.dumps({k: safe.get(k) for k in (*BOUNDARY_FIELDS, "explanation")}).lower()
     assert RANDOM not in blob
-    assert "[redacted:random_token]" in safe["query"]
+    # the cue-less detector, or the purpose pattern when "to log in" follows
+    assert "[redacted:random_token]" in safe["query"] or "[redacted:disclosed_secret]" in safe["query"]
 
 
 def test_random_token_detector_keeps_write_ids_and_targets(copilot: Copilot) -> None:
@@ -192,3 +193,61 @@ def test_random_token_eval_pins_before_after_and_no_over_redaction() -> None:
         assert rt["gated_now"] == 0
         assert rt["by_family"]["pronounceable"]["now"] == rt["total"]["now"]  # only the known hard case leaks
         assert rt["over_redacted_queries"] == {"golden": 0, "perturbed": 0, "write": 0}
+
+
+@pytest.mark.parametrize(
+    ("text", "value"),
+    [
+        ("use violet harbor zebra to log in", "violet harbor zebra"),
+        ("I tried quokka plinth to sign in to grafana", "quokka plinth"),
+        ("type mango tango ninety for login on the bastion", "mango tango ninety"),
+        ("paste sierra-tango-77 to authenticate", "sierra-tango-77"),
+    ],
+)
+def test_secret_disclosed_by_purpose_is_redacted(text: str, value: str) -> None:
+    from ops_copilot.explain_redact import LOGIN_SECRET_RE
+
+    m = LOGIN_SECRET_RE.search(text)
+    assert m is not None and m.group("val") == value
+    out, n = _rs(text, context=[text])
+    assert n >= 1 and value not in out
+    assert _rs(out, context=[text]) == (out, 0)
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "the vault token is expired, who rotates it?",
+        "my password is wrong, how do I reset it?",
+        "the checkout api key was revoked yesterday",
+        "the db password is not working after the rotation",
+        "the admin pin is locked again",
+        "How do I use kubectl to authenticate to the cluster?",
+        "use the bastion to log in to payments-worker",
+        "use sso to sign in",
+        "use vault to log in",
+    ],
+)
+def test_credential_states_and_login_methods_are_not_values(text: str) -> None:
+    assert _rs(text, context=[text]) == (text, 0)
+
+
+def test_pr16_pattern_set_keeps_the_old_disclosed_secret_form() -> None:
+    from ops_copilot.explain_redact import LOGIN_SECRET_RE, PR16_DISCLOSED_SECRET_RE, PR16_PATTERNS
+
+    pats = [p for _, p in PR16_PATTERNS]
+    assert PR16_DISCLOSED_SECRET_RE in pats and LOGIN_SECRET_RE not in pats
+    assert PR16_DISCLOSED_SECRET_RE.search("the token is expired")  # the PR #16 over-redaction
+
+
+def test_login_and_state_probes_are_pinned() -> None:
+    from pathlib import Path
+
+    art = json.loads(
+        (Path(__file__).resolve().parents[1] / "artifacts" / "explanation_eval.json").read_text()
+    )
+    for run in art.values():
+        lg, st = run["disclosure"]["login"], run["disclosure"]["states"]
+        assert lg["rows"] == 15 and lg["pr16_words"] == lg["n_words_total"] == 30
+        assert lg["now_words"] == 0
+        assert st["n"] == 8 and st["pr16_redacted"] == 6 and st["now_redacted"] == 0

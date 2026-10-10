@@ -68,11 +68,51 @@ _CUE = (
 _COPULA = r"is|was|are|were|reads|equals|(?:is |was )?set to|[:=]"
 _CLAUSE = r"and|but|so|why|what|how|who|when|where|can|could|would|please|is|does|do|did|then"
 _STOP_ALT = "|".join(sorted(STOPWORDS, key=len, reverse=True))
-DISCLOSED_SECRET_RE = re.compile(
+# The PR #16 form, kept for the before / after measurement.
+PR16_DISCLOSED_SECRET_RE = re.compile(
     rf"(?i)\b(?:{_CUE})\s*(?:{_COPULA})\s+"
     rf"(?!(?:{_STOP_ALT})\b)(?!\[redacted)"
     rf"(?P<val>[^\s,.;?!]+(?:\s+(?!(?:{_CLAUSE})\b)[^\s,.;?!]+){{0,5}})"
 )
+# A *state* of the credential is not its value: "the token is expired", "my
+# password is wrong", "the api key was revoked yesterday". A value made only of
+# state words (and fillers such as "now" / "again"), up to the end of the
+# clause, is skipped, as is a value that starts with a negation ("is not
+# working"). PR #16 redacted all of these.
+_STATE = (
+    r"expired|expiring|invalid|valid|revoked|rotated|missing|wrong|incorrect|empty|blank|"
+    r"required|leaked|compromised|correct|stale|old|new|outdated|disabled|enabled|locked|"
+    r"unlocked|working|broken|unset|changed|reset|null|none|ok|okay|fine|bad|weak|strong|"
+    r"rejected|accepted|denied|deleted|lost|forgotten|wiped"
+)
+_STATE_FILL = r"now|again|already|still|yesterday|today|too|also|and|or"
+_STATE_ONLY = rf"(?:{_STATE})(?:\s+(?:{_STATE}|{_STATE_FILL}))*\s*(?:$|[,.;?!:]|\s(?:{_CLAUSE})\b)"
+DISCLOSED_SECRET_RE = re.compile(
+    rf"(?i)\b(?:{_CUE})\s*(?:{_COPULA})\s+"
+    rf"(?!(?:{_STOP_ALT})\b)(?!\[redacted)(?!(?:not|no|never)\b)(?!{_STATE_ONLY})"
+    rf"(?P<val>[^\s,.;?!]+(?:\s+(?!(?:{_CLAUSE})\b)[^\s,.;?!]+){{0,5}})"
+)
+# A secret disclosed by its *purpose*, with no credential noun: "use violet
+# harbor zebra to log in", "I typed q7 mango for login". One to four tokens
+# between a use verb and "to / for" + a log-in verb. Determiners, pronouns and
+# the names of log-in *methods* (sso, vault, ldap, ...) are not values: "use
+# the bastion to log in" and "use sso to sign in" are instructions.
+_USE = r"use|using|try|tried|enter|entered|type|typed|paste|pasted"
+_LOGIN = r"log\s?in|login|logon|sign\s?in|signin|authenticate|auth|unlock"
+_NOT_VALUE = (
+    r"my|our|your|their|his|her|its|this|that|these|those|a|an|the|some|any|it|them|"
+    r"sso|saml|oidc|oauth|mfa|2fa|otp|ldap|okta|kerberos|vault|ssh|bastion|yubikey|"
+    r"password|passphrase|token|key|credentials?|secret|pin"
+)
+# "how do I use kubectl to authenticate?" asks how to use a tool.
+_HOW = "".join(
+    rf"(?<!{h} )" for h in ("how do i", "how can i", "how should i", "how do we", "how can we", "how to")
+)
+LOGIN_SECRET_RE = re.compile(
+    rf"(?i){_HOW}\b(?:{_USE})\s+(?!(?:{_NOT_VALUE}|{_STOP_ALT})\b)(?!\[redacted)"
+    rf"(?P<val>[^\s,.;?!]+(?:\s+[^\s,.;?!]+){{0,3}}?)\s+(?:to|for)\s+(?:{_LOGIN})\b"
+)
+DISCLOSED_RES = (DISCLOSED_SECRET_RE, LOGIN_SECRET_RE)
 # >= 32 chars of key-ish alphabet with both letters and digits; doc ids use
 # underscores/hyphens and no long digit runs, so they never match.
 HIGH_ENTROPY_RE = re.compile(r"\b(?=[A-Za-z0-9+/=]*\d)(?=[A-Za-z0-9+/=]*[A-Za-z])[A-Za-z0-9+/=]{32,}")
@@ -80,6 +120,7 @@ HIGH_ENTROPY_RE = re.compile(r"\b(?=[A-Za-z0-9+/=]*\d)(?=[A-Za-z0-9+/=]*[A-Za-z]
 SENSITIVE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("canary", CANARY_ANY_CASE_RE),
     ("disclosed_secret", DISCLOSED_SECRET_RE),
+    ("disclosed_secret", LOGIN_SECRET_RE),
     ("secret", SECRET_ASSIGNMENT_RE),
     ("aws_key", AWS_KEY_ANY_CASE_RE),
     ("slack_token", SLACK_TOKEN_ANY_CASE_RE),
@@ -96,7 +137,11 @@ SENSITIVE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 # explain_eval: PR #15 had neither the disclosed-in-words pattern nor the
 # random-token detector; PR #16 had no random-token detector.
 PR15_PATTERNS = tuple(p for p in SENSITIVE_PATTERNS if p[0] not in ("disclosed_secret", "random_token"))
-PR16_PATTERNS = tuple(p for p in SENSITIVE_PATTERNS if p[0] != "random_token")
+PR16_PATTERNS = tuple(
+    ("disclosed_secret", PR16_DISCLOSED_SECRET_RE) if p[1] is DISCLOSED_SECRET_RE else p
+    for p in SENSITIVE_PATTERNS
+    if p[0] != "random_token" and p[1] is not LOGIN_SECRET_RE
+)
 
 _MIN_FRAGMENT = 2
 
@@ -135,7 +180,7 @@ def sensitive_fragments(texts: Iterable[str], *, patterns=SENSITIVE_PATTERNS) ->
             if kind == "disclosed_secret":
                 # fragment the value only: the cue ("token", "password") is
                 # an ordinary word the explanation must keep
-                m = DISCLOSED_SECRET_RE.search(value)
+                m = next((m for r in (*DISCLOSED_RES, PR16_DISCLOSED_SECRET_RE) if (m := r.search(value))), None)
                 part = m.group("val") if m else value
             frags.update(
                 t for t in tokenize(part) if len(t) >= _MIN_FRAGMENT and t not in STOPWORDS

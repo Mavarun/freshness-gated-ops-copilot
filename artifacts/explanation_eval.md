@@ -55,6 +55,10 @@ Secrets disclosed in words (35 probes = 0 templates still leaking now; synthetic
 
 Over-redaction cost: trace `query` changed by the new pattern on 0 golden, 0 perturbed and 0 write-refusal rows.
 
+Disclosed by purpose, no credential noun (15 probes, `use {s} to log in ...`): secret words leaked PR #16 30 / 30 -> now 0 / 30 (rows 15 -> 0).
+
+Credential states that are not values (8 statements such as `the vault token is expired`): trace `query` redacted PR #16 6 -> now 0.
+
 Random tokens with no format and no credential cue (105 probes: seeded synthetic secrets of every `secret_entropy` family x 5 templates; written with the detector, so not blind): rows whose trace-bound fields still hold the secret string. The PR #16 column re-redacts the boundary fields only (explanations are redacted when built).
 
 | family | rows | none (raw) | PR #16 patterns | now (+ random-token detector) |
@@ -65,8 +69,8 @@ Random tokens with no format and no credential cue (105 probes: seeded synthetic
 | base64url | 15 | 15 | 15 | 0 |
 | password_symbols | 15 | 15 | 15 | 0 |
 | prefixed_pat | 15 | 15 | 15 | 0 |
-| pronounceable (not gating) | 15 | 15 | 15 | 5 |
-| **all** | 105 | 105 | 105 | 5 |
+| pronounceable (not gating) | 15 | 15 | 15 | 4 |
+| **all** | 105 | 105 | 105 | 4 |
 
 Over-redaction cost: trace `query` changed by the detector on 0 golden, 0 perturbed and 0 write-refusal rows.
 
@@ -118,6 +122,10 @@ Secrets disclosed in words (35 probes = 0 templates still leaking now; synthetic
 
 Over-redaction cost: trace `query` changed by the new pattern on 0 golden, 0 perturbed and 0 write-refusal rows.
 
+Disclosed by purpose, no credential noun (15 probes, `use {s} to log in ...`): secret words leaked PR #16 30 / 30 -> now 0 / 30 (rows 15 -> 0).
+
+Credential states that are not values (8 statements such as `the vault token is expired`): trace `query` redacted PR #16 6 -> now 0.
+
 Random tokens with no format and no credential cue (105 probes: seeded synthetic secrets of every `secret_entropy` family x 5 templates; written with the detector, so not blind): rows whose trace-bound fields still hold the secret string. The PR #16 column re-redacts the boundary fields only (explanations are redacted when built).
 
 | family | rows | none (raw) | PR #16 patterns | now (+ random-token detector) |
@@ -128,7 +136,7 @@ Random tokens with no format and no credential cue (105 probes: seeded synthetic
 | base64url | 15 | 15 | 15 | 0 |
 | password_symbols | 15 | 15 | 15 | 0 |
 | prefixed_pat | 15 | 15 | 15 | 0 |
-| pronounceable (not gating) | 15 | 15 | 15 | 5 |
-| **all** | 105 | 105 | 105 | 5 |
+| pronounceable (not gating) | 15 | 15 | 15 | 4 |
+| **all** | 105 | 105 | 105 | 4 |
 
 Over-redaction cost: trace `query` changed by the detector on 0 golden, 0 perturbed and 0 write-refusal rows.

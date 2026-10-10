@@ -1,6 +1,14 @@
 {
   "default": {
     "disclosure": {
+      "login": {
+        "n_words_total": 30,
+        "now_rows": 0,
+        "now_words": 0,
+        "pr16_rows": 15,
+        "pr16_words": 30,
+        "rows": 15
+      },
       "n_words_total": 70,
       "now_leaking_templates": [],
       "now_rows": 0,
@@ -14,7 +22,13 @@
       "pr15_words": 65,
       "raw_rows": 35,
       "raw_words": 70,
-      "rows": 35
+      "rows": 35,
+      "states": {
+        "n": 8,
+        "now_redacted": 0,
+        "now_redacted_examples": [],
+        "pr16_redacted": 6
+      }
     },
     "golden": {
       "by_check": {
@@ -431,7 +445,7 @@
           "rows": 15
         },
         "pronounceable": {
-          "now": 5,
+          "now": 4,
           "pr16": 15,
           "raw": 15,
           "rows": 15
@@ -444,7 +458,7 @@
         "write": 0
       },
       "total": {
-        "now": 5,
+        "now": 4,
         "pr16": 105,
         "raw": 105,
         "rows": 105
@@ -500,6 +514,14 @@
   },
   "embedding on (frozen MiniLM)": {
     "disclosure": {
+      "login": {
+        "n_words_total": 30,
+        "now_rows": 0,
+        "now_words": 0,
+        "pr16_rows": 15,
+        "pr16_words": 30,
+        "rows": 15
+      },
       "n_words_total": 70,
       "now_leaking_templates": [],
       "now_rows": 0,
@@ -513,7 +535,13 @@
       "pr15_words": 65,
       "raw_rows": 35,
       "raw_words": 70,
-      "rows": 35
+      "rows": 35,
+      "states": {
+        "n": 8,
+        "now_redacted": 0,
+        "now_redacted_examples": [],
+        "pr16_redacted": 6
+      }
     },
     "golden": {
       "by_check": {
@@ -930,7 +958,7 @@
           "rows": 15
         },
         "pronounceable": {
-          "now": 5,
+          "now": 4,
           "pr16": 15,
           "raw": 15,
           "rows": 15
@@ -943,7 +971,7 @@
         "write": 0
       },
       "total": {
-        "now": 5,
+        "now": 4,
         "pr16": 105,
         "raw": 105,
         "rows": 105
