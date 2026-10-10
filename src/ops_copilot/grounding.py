@@ -85,6 +85,7 @@ import numpy as np
 
 from ops_copilot.embeddings import EmbeddingBackend, evidence_sentences
 
+from ops_copilot.passage_support import PassageSupportModel
 from ops_copilot.qa_translation import AnswerSupportModel, Translation
 from ops_copilot.qa_translation import words as qa_words
 from ops_copilot.lexicon import WH_WORDS, CorpusVocabulary, fix_interrogative_typos
@@ -93,6 +94,7 @@ from ops_copilot.synonyms import equivalents, fold_phrases, hyphen_variants
 from ops_copilot.text import (
     NON_SALIENT,
     content_tokens,
+    fold_token,
     idf_map,
     is_identifier,
     match_tokens,
@@ -166,16 +168,23 @@ class Support:
     rescued: frozenset[str]
     similarity: float | None
     translated: tuple[Translation, ...] = ()
+    passage: tuple[Translation, ...] = ()
+    passage_prob: float | None = None
 
     @property
     def translated_tokens(self) -> frozenset[str]:
         return frozenset(t.query_word for t in self.translated)
+
+    @property
+    def passage_tokens(self) -> frozenset[str]:
+        return frozenset(t.query_word for t in self.passage)
 
     def ok(self, term: QueryTerm) -> bool:
         return (
             term.token in self.lexical
             or term.token in self.rescued
             or term.token in self.translated_tokens
+            or term.token in self.passage_tokens
         )
 
 
@@ -201,6 +210,11 @@ class Grounder:
         answer_known: bool = False,
         answer_max_terms: int = 1,
         answer_strict: bool = True,
+        passage_support: PassageSupportModel | None = None,
+        passage_min_prob: float = 0.5,
+        passage_known: bool = True,
+        passage_max_terms: int = 1,
+        passage_strict: bool = True,
     ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
@@ -222,6 +236,11 @@ class Grounder:
         self.answer_known = bool(answer_known)
         self.answer_max_terms = int(answer_max_terms)
         self.answer_strict = bool(answer_strict)
+        self.passage_support = passage_support
+        self.passage_min_prob = float(passage_min_prob)
+        self.passage_known = bool(passage_known)
+        self.passage_max_terms = int(passage_max_terms)
+        self.passage_strict = bool(passage_strict)
 
     def _weight(self, token: str) -> float:
         return self.idf.get(token, self.oov_idf)
@@ -383,6 +402,58 @@ class Grounder:
             return ()
         return tuple(found)
 
+    def passage_eligible(self, term: QueryTerm) -> bool:
+        """Plain words the passage classifier may vouch for (scope-dependent)."""
+        if not term.token.isalpha() or is_identifier(term.token):
+            return False
+        if term.kind == "known":
+            return self.passage_known
+        return term.kind != "identifier"
+
+    def _plain_weight(self, word: str) -> float:
+        return self.idf.get(word, self.idf.get(word + "s", self.oov_idf))
+
+    def passage_rescue(
+        self,
+        query: str,
+        terms: list[QueryTerm],
+        covered: frozenset[str],
+        evidence_parts: Sequence[str],
+    ) -> tuple[tuple[Translation, ...], float | None]:
+        """Missing words vouched for by the passage classifier, and its probability.
+
+        Strict mode: wh-questions only, every missing term must be an eligible
+        plain word, at most ``passage_max_terms`` of them. The classifier reads
+        the plain words of the whole query against each evidence part and the
+        best part decides (all-or-nothing).
+        """
+        model = self.passage_support
+        if model is None:
+            return (), None
+        missing = [t for t in terms if t.token not in covered]
+        if not missing:
+            return (), None
+        cands = [t for t in missing if self.passage_eligible(t)]
+        if not cands or len(cands) > self.passage_max_terms:
+            return (), None
+        if self.passage_strict and (len(cands) != len(missing) or not self.is_wh_question(query)):
+            return (), None
+        q_words = [fold_token(t.token) for t in terms if t.token.isalpha() and not is_identifier(t.token)]
+        best = None
+        for part in evidence_parts:
+            v = model.verdict(q_words, qa_words(part), self._plain_weight)
+            if v is not None and (best is None or v.prob > best.prob):
+                best = v
+        if best is None:
+            return (), None
+        if best.prob < self.passage_min_prob:
+            return (), best.prob
+        out = []
+        for t in cands:
+            word, sim = best.best.get(fold_token(t.token), (None, 0.0))
+            out.append(Translation(t.token, word or "?", round(float(sim), 4)))
+        return tuple(out), best.prob
+
     def support(
         self,
         query: str,
@@ -404,6 +475,13 @@ class Grounder:
             lexical_plus = lexical | frozenset(t.query_word for t in translated)
         else:
             lexical_plus = lexical
+        passage: tuple[Translation, ...] = ()
+        passage_prob: float | None = None
+        if semantic and self.passage_support is not None:
+            passage, passage_prob = self.passage_rescue(
+                query, terms, lexical_plus, evidence_parts or [evidence]
+            )
+            lexical_plus = lexical_plus | frozenset(t.query_word for t in passage)
         es = self.embed_support if semantic else None
         if es is not None and terms:
             missing = [t for t in terms if t.token not in lexical_plus]
@@ -419,7 +497,7 @@ class Grounder:
                 sim = es.best_similarity(query, evidence_parts or [evidence])
                 if sim is not None and sim >= es.threshold:
                     rescued = frozenset(t.token for t in candidates)
-        return Support(terms, lexical, rescued, sim, translated)
+        return Support(terms, lexical, rescued, sim, translated, passage, passage_prob)
 
     def keys_supported(
         self, query: str, evidence: str, *, evidence_parts: Sequence[str] | None = None
@@ -518,4 +596,6 @@ class Grounder:
             semantic_rescued=sorted(sup.rescued),
             semantic_similarity=sup.similarity,
             translation_rescued=[f"{t.query_word}<-{t.evidence_word}" for t in sup.translated],
+            passage_rescued=[f"{t.query_word}<-{t.evidence_word}" for t in sup.passage],
+            passage_probability=sup.passage_prob,
         )

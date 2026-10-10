@@ -160,6 +160,21 @@ class CopilotConfig:
     answer_support_max_terms: int = 1
     answer_support_known_words: bool = True
     answer_support_strict: bool = True
+    # Passage-level answer support (passage_support.py): a logistic pair
+    # classifier trained on outside Stack Exchange (title, answer) pairs, with
+    # features from ops-domain PPMI-SVD vectors (data/domainvec/). It reads the
+    # whole query against each evidence chunk and may vouch for up to
+    # passage_support_max_terms missing plain words when P(chunk answers the
+    # question) >= passage_support_min_prob. Strict (default): wh-questions
+    # only, every missing word must be eligible, identifiers stay lexical, and
+    # a rescued answer may not cite a page with an unjustified canary.
+    # Threshold, max terms and scope from scripts/calibrate_passage_support.py
+    # (clean golden + dev rows only).
+    use_passage_support_model: bool = False
+    passage_support_min_prob: float = 0.5
+    passage_support_max_terms: int = 1
+    passage_support_known_words: bool = True
+    passage_support_strict: bool = True
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
