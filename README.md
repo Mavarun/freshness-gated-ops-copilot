@@ -1421,6 +1421,9 @@ each snapshot pins its source by SHA-256 or URL in its `meta`):
   of the eight sites and Stack Exchange Inc.; see `data/qa/NOTICE.md`.
 - `data/tagsyn/stackexchange_tag_synonyms.json.gz`: Stack Exchange tag synonyms,
   CC BY-SA 4.0; see `data/tagsyn/NOTICE.md`.
+- `data/domainvec/se_ppmi_svd.json.gz`: 6,000 words x 48-dim int8 PPMI-SVD vectors
+  derived from the same Stack Exchange snapshot as the QA table (no post text),
+  CC BY-SA 4.0 with the same attribution; see `data/domainvec/NOTICE.md`.
 - `data/wiktionary/computing_senses.json.gz`: Wiktionary contributors via
   Wiktextract (kaikki.org), CC BY-SA 4.0 and GFDL.
 - `data/wordvec/cf_neighbours.json.gz`: neighbours from counter-fitted vectors
