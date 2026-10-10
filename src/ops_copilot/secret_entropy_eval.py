@@ -73,9 +73,9 @@ def _tokens(texts: list[str]) -> list[str]:
 
 
 def _pr16_patterns():
-    from ops_copilot.explain_redact import SENSITIVE_PATTERNS
+    from ops_copilot.explain_redact import PR16_PATTERNS
 
-    return tuple(p for p in SENSITIVE_PATTERNS if p[0] != "random_token")
+    return PR16_PATTERNS
 
 
 def _pr16_hits(secret: str) -> bool:

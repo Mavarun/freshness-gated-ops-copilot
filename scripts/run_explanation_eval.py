@@ -108,6 +108,29 @@ def render_md(runs: dict[str, dict]) -> str:
                 f"Over-redaction cost: trace `query` changed by the new pattern on {ov['golden']} golden, "
                 f"{ov['perturbed']} perturbed and {ov['write']} write-refusal rows.",
             ]
+        rt = r.get("random_tokens")
+        if rt:
+            ov = rt["over_redacted_queries"]
+            tot = rt["total"]
+            lines += [
+                "",
+                f"Random tokens with no format and no credential cue ({tot['rows']} probes: seeded synthetic "
+                "secrets of every `secret_entropy` family x 5 templates; written with the detector, so not "
+                "blind): rows whose trace-bound fields still hold the secret string. The PR #16 column "
+                "re-redacts the boundary fields only (explanations are redacted when built).",
+                "",
+                "| family | rows | none (raw) | PR #16 patterns | now (+ random-token detector) |",
+                "|---|---:|---:|---:|---:|",
+            ]
+            for fam, t in rt["by_family"].items():
+                tag = " (not gating)" if fam in rt["ungated_families"] else ""
+                lines.append(f"| {fam}{tag} | {t['rows']} | {t['raw']} | {t['pr16']} | {t['now']} |")
+            lines += [
+                f"| **all** | {tot['rows']} | {tot['raw']} | {tot['pr16']} | {tot['now']} |",
+                "",
+                f"Over-redaction cost: trace `query` changed by the detector on {ov['golden']} golden, "
+                f"{ov['perturbed']} perturbed and {ov['write']} write-refusal rows.",
+            ]
         failed = [x for x in r["golden"]["rows"] if x["failed"]]
         if failed:
             lines += ["", "Golden failures: " + ", ".join(f"g{x['golden_index']:02d} {x['failed']}" for x in failed)]
@@ -131,6 +154,13 @@ def main() -> int:
         bad += r["leaks"]["n_leaks"] + (g["n_checks"] - g["n_checks_correct"])
         bad += r["trace_leaks"]["n_redacted_leaks"]
         bad += r["disclosure"]["now_words"]
+        bad += r["random_tokens"]["gated_now"]
+        rt = r["random_tokens"]
+        print(
+            f"{'':30s} random-token probe rows leaking: raw={rt['total']['raw']} "
+            f"pr16={rt['total']['pr16']} now={rt['total']['now']} (of {rt['total']['rows']}; "
+            f"gating {rt['gated_now']}); over-redacted queries {rt['over_redacted_queries']}"
+        )
         print(
             f"{'':30s} disclosed-in-words secret words leaked: raw={r['disclosure']['raw_words']} "
             f"pr15={r['disclosure']['pr15_words']} now={r['disclosure']['now_words']} "

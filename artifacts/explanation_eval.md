@@ -36,16 +36,16 @@ Expectations: `data/eval/explanation_expectations.jsonl`, one hand-written row p
 
 Leak scan: 8 planted values (canary tokens + corpus PII/secrets), 84 probe queries (83 refused); leaks by section {'golden': 0, 'perturbed': 0, 'write': 0, 'probes': 0}.
 
-Trace-bound fields (`query`, `reason`, `write_intent`, `proposed_write`, `explanation`): **89 rows / 229 leaks unredacted (as PR #14 wrote them) -> 0 rows / 0 leaks redacted (as written now)**.
+Trace-bound fields (`query`, `reason`, `write_intent`, `proposed_write`, `explanation`): **89 rows / 236 leaks unredacted (as PR #14 wrote them) -> 0 rows / 0 leaks redacted (as written now)**.
 
 | section | rows | rows leaking raw | rows leaking redacted | raw leaks | redacted leaks |
 |---|---:|---:|---:|---:|---:|
 | golden | 51 | 1 | 0 | 2 | 0 |
 | perturbed | 203 | 4 | 0 | 8 | 0 |
 | write | 11 | 0 | 0 | 0 | 0 |
-| probes | 84 | 84 | 0 | 219 | 0 |
+| probes | 84 | 84 | 0 | 226 | 0 |
 
-Secrets disclosed in words (35 probes: no template still leaking): distinctive secret words left in trace-bound fields.
+Secrets disclosed in words (35 probes = 0 templates still leaking now; synthetic shapeless secrets after a credential noun, templates written together with the pattern, so not blind): distinctive secret words left in trace-bound fields.
 
 | redaction | rows leaking | secret words leaked |
 |---|---:|---:|
@@ -54,6 +54,21 @@ Secrets disclosed in words (35 probes: no template still leaking): distinctive s
 | now (+ disclosed-secret pattern) | 0 | 0 / 70 |
 
 Over-redaction cost: trace `query` changed by the new pattern on 0 golden, 0 perturbed and 0 write-refusal rows.
+
+Random tokens with no format and no credential cue (105 probes: seeded synthetic secrets of every `secret_entropy` family x 5 templates; written with the detector, so not blind): rows whose trace-bound fields still hold the secret string. The PR #16 column re-redacts the boundary fields only (explanations are redacted when built).
+
+| family | rows | none (raw) | PR #16 patterns | now (+ random-token detector) |
+|---|---:|---:|---:|---:|
+| base62 | 15 | 15 | 15 | 0 |
+| hex | 15 | 15 | 15 | 0 |
+| lower_alnum | 15 | 15 | 15 | 0 |
+| base64url | 15 | 15 | 15 | 0 |
+| password_symbols | 15 | 15 | 15 | 0 |
+| prefixed_pat | 15 | 15 | 15 | 0 |
+| pronounceable (not gating) | 15 | 15 | 15 | 5 |
+| **all** | 105 | 105 | 105 | 5 |
+
+Over-redaction cost: trace `query` changed by the detector on 0 golden, 0 perturbed and 0 write-refusal rows.
 
 ## embedding on (frozen MiniLM): checks
 
@@ -84,16 +99,16 @@ Over-redaction cost: trace `query` changed by the new pattern on 0 golden, 0 per
 
 Leak scan: 8 planted values (canary tokens + corpus PII/secrets), 84 probe queries (83 refused); leaks by section {'golden': 0, 'perturbed': 0, 'write': 0, 'probes': 0}.
 
-Trace-bound fields (`query`, `reason`, `write_intent`, `proposed_write`, `explanation`): **89 rows / 229 leaks unredacted (as PR #14 wrote them) -> 0 rows / 0 leaks redacted (as written now)**.
+Trace-bound fields (`query`, `reason`, `write_intent`, `proposed_write`, `explanation`): **89 rows / 236 leaks unredacted (as PR #14 wrote them) -> 0 rows / 0 leaks redacted (as written now)**.
 
 | section | rows | rows leaking raw | rows leaking redacted | raw leaks | redacted leaks |
 |---|---:|---:|---:|---:|---:|
 | golden | 51 | 1 | 0 | 2 | 0 |
 | perturbed | 203 | 4 | 0 | 8 | 0 |
 | write | 11 | 0 | 0 | 0 | 0 |
-| probes | 84 | 84 | 0 | 219 | 0 |
+| probes | 84 | 84 | 0 | 226 | 0 |
 
-Secrets disclosed in words (35 probes: no template still leaking): distinctive secret words left in trace-bound fields.
+Secrets disclosed in words (35 probes = 0 templates still leaking now; synthetic shapeless secrets after a credential noun, templates written together with the pattern, so not blind): distinctive secret words left in trace-bound fields.
 
 | redaction | rows leaking | secret words leaked |
 |---|---:|---:|
@@ -102,3 +117,18 @@ Secrets disclosed in words (35 probes: no template still leaking): distinctive s
 | now (+ disclosed-secret pattern) | 0 | 0 / 70 |
 
 Over-redaction cost: trace `query` changed by the new pattern on 0 golden, 0 perturbed and 0 write-refusal rows.
+
+Random tokens with no format and no credential cue (105 probes: seeded synthetic secrets of every `secret_entropy` family x 5 templates; written with the detector, so not blind): rows whose trace-bound fields still hold the secret string. The PR #16 column re-redacts the boundary fields only (explanations are redacted when built).
+
+| family | rows | none (raw) | PR #16 patterns | now (+ random-token detector) |
+|---|---:|---:|---:|---:|
+| base62 | 15 | 15 | 15 | 0 |
+| hex | 15 | 15 | 15 | 0 |
+| lower_alnum | 15 | 15 | 15 | 0 |
+| base64url | 15 | 15 | 15 | 0 |
+| password_symbols | 15 | 15 | 15 | 0 |
+| prefixed_pat | 15 | 15 | 15 | 0 |
+| pronounceable (not gating) | 15 | 15 | 15 | 5 |
+| **all** | 105 | 105 | 105 | 5 |
+
+Over-redaction cost: trace `query` changed by the detector on 0 golden, 0 perturbed and 0 write-refusal rows.

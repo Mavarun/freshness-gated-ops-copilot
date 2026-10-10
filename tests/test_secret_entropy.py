@@ -60,6 +60,14 @@ def test_short_and_shaped_tokens_are_not_candidates():
     assert not se.is_candidate("[redacted:random_token]")
 
 
+def test_system_minted_tokens_are_never_redacted():
+    # HITL write ids are what an operator approves; timestamps stamp writes.
+    assert not se.RANDOM_TOKEN.is_random("wrt_3226d392e4a1")
+    assert not se.RANDOM_TOKEN.is_random("2026-10-10T06:03:38.241432+00:00")
+    # a user secret that merely starts like one is still caught
+    assert se.RANDOM_TOKEN.is_random("wrt_3226d392e4a1q7xf2lpz")
+
+
 def test_regex_like_interface():
     text = "why does q7xf2lpz9mkw3t get a 401 on checkout-api?"
     hits = [m.group(0) for m in se.RANDOM_TOKEN.finditer(text)]

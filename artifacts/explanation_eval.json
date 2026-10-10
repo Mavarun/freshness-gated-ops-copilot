@@ -392,6 +392,67 @@
         "rows_all_correct": 111
       }
     },
+    "random_tokens": {
+      "by_family": {
+        "base62": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "base64url": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "hex": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "lower_alnum": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "password_symbols": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "prefixed_pat": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "pronounceable": {
+          "now": 5,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        }
+      },
+      "gated_now": 0,
+      "over_redacted_queries": {
+        "golden": 0,
+        "perturbed": 0,
+        "write": 0
+      },
+      "total": {
+        "now": 5,
+        "pr16": 105,
+        "raw": 105,
+        "rows": 105
+      },
+      "ungated_families": [
+        "pronounceable"
+      ]
+    },
     "trace_leaks": {
       "by_section": {
         "golden": {
@@ -409,7 +470,7 @@
           "rows_redacted_leaking": 0
         },
         "probes": {
-          "raw_leaks": 219,
+          "raw_leaks": 226,
           "redacted_leaks": 0,
           "rows": 84,
           "rows_raw_leaking": 84,
@@ -423,7 +484,7 @@
           "rows_redacted_leaking": 0
         }
       },
-      "n_raw_leaks": 229,
+      "n_raw_leaks": 236,
       "n_redacted_leaks": 0,
       "n_rows_raw_leaking": 89,
       "n_rows_redacted_leaking": 0
@@ -830,6 +891,67 @@
         "rows_all_correct": 114
       }
     },
+    "random_tokens": {
+      "by_family": {
+        "base62": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "base64url": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "hex": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "lower_alnum": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "password_symbols": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "prefixed_pat": {
+          "now": 0,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        },
+        "pronounceable": {
+          "now": 5,
+          "pr16": 15,
+          "raw": 15,
+          "rows": 15
+        }
+      },
+      "gated_now": 0,
+      "over_redacted_queries": {
+        "golden": 0,
+        "perturbed": 0,
+        "write": 0
+      },
+      "total": {
+        "now": 5,
+        "pr16": 105,
+        "raw": 105,
+        "rows": 105
+      },
+      "ungated_families": [
+        "pronounceable"
+      ]
+    },
     "trace_leaks": {
       "by_section": {
         "golden": {
@@ -847,7 +969,7 @@
           "rows_redacted_leaking": 0
         },
         "probes": {
-          "raw_leaks": 219,
+          "raw_leaks": 226,
           "redacted_leaks": 0,
           "rows": 84,
           "rows_raw_leaking": 84,
@@ -861,7 +983,7 @@
           "rows_redacted_leaking": 0
         }
       },
-      "n_raw_leaks": 229,
+      "n_raw_leaks": 236,
       "n_redacted_leaks": 0,
       "n_rows_raw_leaking": 89,
       "n_rows_redacted_leaking": 0

@@ -224,10 +224,21 @@ def _strip_span(text: str, start: int, end: int) -> tuple[int, int]:
     return start, end
 
 
+# Tokens the copilot itself mints and must hand back intact: HITL write ids
+# (``hitl.WriteLedger``: ``wrt_`` + 12 hex) are what an operator approves, and
+# ISO-8601 timestamps stamp every proposed write. Neither is user input.
+SYSTEM_TOKEN_RE = re.compile(
+    r"(?i)^(?:wrt_[0-9a-f]{12}"
+    r"|\d{4}-\d{2}-\d{2}(?:t\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:z|[+-]\d{2}:?\d{2})?)?)$"
+)
+
+
 def is_candidate(token: str) -> bool:
     if len(token) < MIN_LEN:
         return False
     if "@" in token or "[" in token or "]" in token or "://" in token:
+        return False
+    if SYSTEM_TOKEN_RE.match(token):
         return False
     return any(c.isalpha() for c in token)
 
