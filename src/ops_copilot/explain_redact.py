@@ -12,8 +12,9 @@ Two passes, applied to every string anywhere in the explanation dict:
 1. Pattern pass. Case-insensitive versions of the PII detectors (queries are
    lower-cased before parsing, so ``AKIA...`` arrives as ``akia...`` and
    ``CNRY-...`` as ``cnry-...``), plus canary tokens, ``key=value`` secret
-   assignments and long high-entropy strings. Each hit becomes
-   ``[redacted:<kind>]``.
+   assignments, long high-entropy strings and (since PR #18) shorter random
+   tokens with no format, scored by a character model
+   (``secret_entropy.RANDOM_TOKEN``). Each hit becomes ``[redacted:<kind>]``.
 2. Fragment pass. The tokenizer splits ``alice.smith@example.com`` into
    ``alice``, ``smith``, ``example``, ``com``, so a missing-terms list can hold
    the pieces of an address without any single piece matching a pattern. The
@@ -42,6 +43,7 @@ from collections.abc import Iterable, Sequence
 from typing import Any
 
 from ops_copilot.pii import EMAIL_RE, PHONE_RE
+from ops_copilot.secret_entropy import RANDOM_TOKEN
 from ops_copilot.text import STOPWORDS, tokenize
 
 CANARY_ANY_CASE_RE = re.compile(r"(?i)\bcnry-[a-z0-9]{6,}\b")
@@ -84,11 +86,17 @@ SENSITIVE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("email", EMAIL_RE),
     ("phone", PHONE_RE),
     ("high_entropy", HIGH_ENTROPY_RE),
+    # 12+ characters with no format that a character model of English / ops
+    # words finds improbable (``secret_entropy``). Runs last, so spans the
+    # shape patterns already replaced are skipped.
+    ("random_token", RANDOM_TOKEN),
 )
 
-# The PR #15 pattern set (no disclosed-in-words secrets), kept for the
-# before / after measurement in explain_eval.
-PR15_PATTERNS = tuple(p for p in SENSITIVE_PATTERNS if p[0] != "disclosed_secret")
+# Earlier pattern sets, kept for the before / after measurements in
+# explain_eval: PR #15 had neither the disclosed-in-words pattern nor the
+# random-token detector; PR #16 had no random-token detector.
+PR15_PATTERNS = tuple(p for p in SENSITIVE_PATTERNS if p[0] not in ("disclosed_secret", "random_token"))
+PR16_PATTERNS = tuple(p for p in SENSITIVE_PATTERNS if p[0] != "random_token")
 
 _MIN_FRAGMENT = 2
 
@@ -98,8 +106,17 @@ def find_sensitive(text: str, *, patterns=SENSITIVE_PATTERNS) -> list[tuple[str,
     out: list[tuple[str, str]] = []
     if not text:
         return out
+    spans: list[tuple[int, int]] = []
     for kind, pat in patterns:
-        out.extend((kind, m.group(0)) for m in pat.finditer(text))
+        for m in pat.finditer(text):
+            a, b = m.span()
+            # The random-token detector is a backstop: a span a shape pattern
+            # already reported (a canary token, an AWS key id) is one secret,
+            # not two.
+            if kind == "random_token" and any(a < y and x < b for x, y in spans):
+                continue
+            spans.append((a, b))
+            out.append((kind, m.group(0)))
     return out
 
 

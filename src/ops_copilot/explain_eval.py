@@ -38,6 +38,14 @@ Sections:
    Counted unredacted, with the PR #15 patterns, and now; plus the cost: how
    many golden / perturbed / write rows have a trace ``query`` that the new
    pattern changes (over-redaction).
+6. **Random tokens with no format** (``random_tokens``): seeded synthetic
+   secrets of every ``secret_entropy`` family (a different seed from the
+   detector's calibration and test runs) pasted with no credential cue
+   ("why does {s} get a 401 ...", "use {s} to log in to vault"). A leak is the
+   secret string left in a trace-bound field. Counted unredacted, with the
+   PR #16 patterns and now, per family; plus how many golden / perturbed /
+   write rows have a trace ``query`` the detector changes. The pronounceable
+   family is a known hard case and is reported but does not gate CI.
 """
 
 from __future__ import annotations
@@ -54,6 +62,7 @@ from ops_copilot.explain import GATE_BY_DECISION
 from ops_copilot.explain_redact import (
     BOUNDARY_FIELDS,
     PR15_PATTERNS,
+    PR16_PATTERNS,
     boundary_leaks,
     explanation_leaks,
     find_sensitive,
@@ -62,6 +71,7 @@ from ops_copilot.explain_redact import (
 )
 from ops_copilot.pii import detect_pii
 from ops_copilot.pipeline import Copilot
+from ops_copilot.secret_entropy import TEST_FAMILIES, synthetic_secrets
 from ops_copilot.types import Decision
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -98,6 +108,17 @@ DISCLOSURE_TEMPLATES = (
     "Token was {s} yesterday; what is the auth token TTL?",
     "Page the on-call, the db credentials are {s}",
     "secret: {s}",
+)
+# Section 6: random tokens with no format and no credential cue.
+RANDOM_SECRET_SEED = 31
+RANDOM_SECRETS_PER_FAMILY = 3
+UNGATED_FAMILIES = ("pronounceable",)
+RANDOM_TOKEN_TEMPLATES = (
+    "Why does {s} get a 401 from checkout-api?",
+    "use {s} to log in to vault",
+    "curl with bearer {s} returns 403 on payments-api",
+    "{s} stopped working after the rotation, who owns vault-transit?",
+    "restart checkout-api with {s}",
 )
 PROBE_TEMPLATES = (
     "What is {s}?",
@@ -280,9 +301,59 @@ def disclosure_probe(bot: Copilot) -> dict[str, Any]:
     return t | {"n_words_total": sum(len(_secret_words(s)) for s in PLAIN_SECRETS) * len(DISCLOSURE_TEMPLATES), "now_leaking_templates": examples[:5]}
 
 
+def _pr16_boundary(res) -> dict:
+    """What the PR #16 boundary pass (no random-token detector) would write.
+
+    Only the boundary fields are re-redacted; the explanation was already
+    redacted with the current patterns when it was built, so the PR #16
+    column can only under-count leaks.
+    """
+    raw = res.as_dict()
+    out, _ = redact_boundary(raw, query=res.query, patterns=PR16_PATTERNS)
+    return out
+
+
+def _literal_leak(payload: dict, secret: str) -> bool:
+    flat: list[str] = []
+
+    def _collect(o: Any) -> None:
+        if isinstance(o, str):
+            flat.append(o)
+        elif isinstance(o, dict):
+            for v in o.values():
+                _collect(v)
+        elif isinstance(o, (list, tuple)):
+            for v in o:
+                _collect(v)
+
+    _collect({k: payload.get(k) for k in (*BOUNDARY_FIELDS, "explanation")})
+    return secret.lower() in "\n".join(flat).lower()
+
+
+def random_token_probe(bot: Copilot) -> dict[str, Any]:
+    secrets = synthetic_secrets(TEST_FAMILIES, RANDOM_SECRETS_PER_FAMILY, RANDOM_SECRET_SEED)
+    fam: dict[str, dict[str, int]] = {}
+    for f, secret in secrets:
+        t = fam.setdefault(f, dict.fromkeys(("rows", "raw", "pr16", "now"), 0))
+        for tpl in RANDOM_TOKEN_TEMPLATES:
+            res = bot.ask(tpl.format(s=secret))
+            t["rows"] += 1
+            t["raw"] += _literal_leak(res.as_dict(), secret)
+            t["pr16"] += _literal_leak(_pr16_boundary(res), secret)
+            t["now"] += _literal_leak(res.boundary_dict(), secret)
+    tot = {k: sum(v[k] for v in fam.values()) for k in ("rows", "raw", "pr16", "now")}
+    gated = sum(v["now"] for f, v in fam.items() if f not in UNGATED_FAMILIES)
+    return {"by_family": fam, "total": tot, "gated_now": gated, "ungated_families": list(UNGATED_FAMILIES)}
+
+
+def random_token_over_redaction(res) -> bool:
+    """True if the random-token detector changes this row's trace ``query`` vs PR #16."""
+    return _pr16_boundary(res).get("query") != res.boundary_dict().get("query")
+
+
 def over_redaction(res) -> bool:
-    """True if the new pattern changes this row's trace ``query`` vs PR #15."""
-    return _pr15_boundary(res).get("query") != res.boundary_dict().get("query")
+    """True if the disclosed-secret pattern changes this row's trace ``query`` (PR #15 vs PR #16)."""
+    return _pr15_boundary(res).get("query") != _pr16_boundary(res).get("query")
 
 
 def _ask(bot: Copilot, row: dict):
@@ -324,6 +395,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         for k in leaks
     }
     over = {"golden": 0, "perturbed": 0, "write": 0}
+    over_rt = {"golden": 0, "perturbed": 0, "write": 0}
 
     # 1. golden
     bot = Copilot(config=cfg)
@@ -336,6 +408,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
             leaks["golden"].append({"golden_index": i, "leaks": lk})
         _boundary(res, secrets, trace["golden"])
         over["golden"] += over_redaction(res)
+        over_rt["golden"] += random_token_over_redaction(res)
         exp = exps.get(i)
         if exp is None:
             continue
@@ -362,6 +435,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
             leaks["perturbed"].append({"id": row.get("id"), "leaks": lk})
         _boundary(res, secrets, trace["perturbed"])
         over["perturbed"] += over_redaction(res)
+        over_rt["perturbed"] += random_token_over_redaction(res)
         exp = exps.get(int(row["source_index"]))
         if exp and expl and res.decision.value == golden[int(row["source_index"])]["expect_decision"]:
             t_checks.append(check_fields(exp, expl, truth))
@@ -377,6 +451,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
             leaks["write"].append({"id": row["id"], "leaks": lk})
         _boundary(res, secrets, trace["write"])
         over["write"] += over_redaction(res)
+        over_rt["write"] += random_token_over_redaction(res)
         expl = res.as_dict()["explanation"] or {}
         w = expl.get("write") or {}
         w_n += 1
@@ -404,6 +479,9 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
     # 5. secrets disclosed in words (no recognisable shape)
     disclosure = disclosure_probe(Copilot(config=cfg))
 
+    # 6. random tokens with no format and no credential cue
+    random_tokens = random_token_probe(Copilot(config=cfg))
+
     return {
         "golden": _tally(g_checks)
         | {"n": len(golden), "n_schema_ok": g_schema, "rows": g_rows},
@@ -430,6 +508,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
             "examples": {k: v[:5] for k, v in leaks.items()},
         },
         "disclosure": disclosure | {"over_redacted_queries": over},
+        "random_tokens": random_tokens | {"over_redacted_queries": over_rt},
         # Trace-bound fields (query, reason, write_intent, proposed_write,
         # explanation): what PR #14 wrote raw vs what is written now.
         "trace_leaks": {

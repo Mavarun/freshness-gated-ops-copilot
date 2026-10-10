@@ -136,3 +136,59 @@ def test_disclosure_eval_pins_before_after_and_no_over_redaction() -> None:
         assert d["rows"] == 35 and d["n_words_total"] == 70
         assert d["raw_words"] == 70 and d["pr15_words"] == 65 and d["now_words"] == 0
         assert d["over_redacted_queries"] == {"golden": 0, "perturbed": 0, "write": 0}
+
+
+RANDOM = "q7xf2lpz9mkw3tvb"  # synthetic, no format
+
+
+@pytest.mark.parametrize(
+    "query",
+    [
+        f"Why does {RANDOM} get a 401 from checkout-api?",
+        f"use {RANDOM} to log in to vault",
+        f"restart checkout-api with {RANDOM}",
+    ],
+)
+def test_random_token_with_no_cue_is_redacted(copilot: Copilot, query: str) -> None:
+    res = copilot.ask(query)
+    assert RANDOM in res.as_dict()["query"].lower()  # in-process keeps raw text
+    safe = res.boundary_dict()
+    blob = json.dumps({k: safe.get(k) for k in (*BOUNDARY_FIELDS, "explanation")}).lower()
+    assert RANDOM not in blob
+    assert "[redacted:random_token]" in safe["query"]
+
+
+def test_random_token_detector_keeps_write_ids_and_targets(copilot: Copilot) -> None:
+    res = copilot.ask("Please restart the checkout-api service now")
+    raw, safe = res.as_dict(), res.boundary_dict()
+    assert safe["proposed_write"] == raw["proposed_write"]  # write id + timestamps intact
+
+
+def test_random_token_hit_inside_a_shaped_secret_is_not_double_counted() -> None:
+    from ops_copilot.explain_redact import find_sensitive
+
+    kinds = [k for k, _ in find_sensitive("why did CNRY-VAULT7F3A leak")]
+    assert kinds == ["canary"]
+
+
+def test_pr16_pattern_set_has_no_random_token_detector() -> None:
+    from ops_copilot.explain_redact import PR16_PATTERNS, SENSITIVE_PATTERNS
+
+    assert [k for k, _ in SENSITIVE_PATTERNS][-1] == "random_token"
+    assert "random_token" not in {k for k, _ in PR16_PATTERNS}
+    assert "random_token" not in {k for k, _ in PR15_PATTERNS}
+
+
+def test_random_token_eval_pins_before_after_and_no_over_redaction() -> None:
+    from pathlib import Path
+
+    art = json.loads(
+        (Path(__file__).resolve().parents[1] / "artifacts" / "explanation_eval.json").read_text()
+    )
+    for run in art.values():
+        rt = run["random_tokens"]
+        assert rt["total"]["rows"] == 105
+        assert rt["total"]["raw"] == rt["total"]["pr16"] == 105
+        assert rt["gated_now"] == 0
+        assert rt["by_family"]["pronounceable"]["now"] == rt["total"]["now"]  # only the known hard case leaks
+        assert rt["over_redacted_queries"] == {"golden": 0, "perturbed": 0, "write": 0}
