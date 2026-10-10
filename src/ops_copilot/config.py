@@ -169,9 +169,11 @@ class CopilotConfig:
     # only, every missing word must be eligible, identifiers stay lexical, and
     # a rescued answer may not cite a page with an unjustified canary.
     # Threshold, max terms and scope from scripts/calibrate_passage_support.py
-    # (clean golden + dev rows only).
+    # (clean golden + dev rows only). Dev choice
+    # (artifacts/passage_support_calibration.md): P >= 0.40, strict, known
+    # words too, one rescued word (calibration accuracy 0.924 -> 0.985).
     use_passage_support_model: bool = False
-    passage_support_min_prob: float = 0.5
+    passage_support_min_prob: float = 0.4
     passage_support_max_terms: int = 1
     passage_support_known_words: bool = True
     passage_support_strict: bool = True

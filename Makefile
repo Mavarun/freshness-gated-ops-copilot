@@ -1,4 +1,4 @@
-.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support explain-eval
+.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -49,6 +49,16 @@ calibrate-lexicons:
 #   python scripts/build_qa_translation.py --raw-dir /tmp/se_qa_raw
 calibrate-answer-support:
 	python scripts/calibrate_answer_support.py
+
+# Passage-level answer support: dev-only calibration (committed classifier and
+# vectors only). Rebuilding them needs the same raw pages as the QA table:
+#   python scripts/build_domain_vectors.py --raw-dir /tmp/se_qa_raw
+#   python scripts/build_passage_support.py --raw-dir /tmp/se_qa_raw
+calibrate-passage-support:
+	python scripts/calibrate_passage_support.py
+
+secret-entropy:
+	python scripts/run_secret_entropy_eval.py
 
 explain-eval:
 	python scripts/run_explanation_eval.py
