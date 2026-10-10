@@ -1,0 +1,44 @@
+{
+ "classifier": {
+  "coef": [
+   1.928851,
+   -0.384696,
+   0.057277,
+   0.96117,
+   0.8801
+  ],
+  "features": [
+   "lex",
+   "soft",
+   "weakest",
+   "missing",
+   "centroid"
+  ],
+  "intercept": -0.21729,
+  "mean": [
+   0.247676,
+   0.614821,
+   0.359972,
+   0.72717,
+   0.564084
+  ],
+  "scale": [
+   0.253663,
+   0.196758,
+   0.243068,
+   0.252782,
+   0.15595
+  ]
+ },
+ "meta": {
+  "attribution": "Questions and answers by the users of serverfault.com, superuser.com, unix.stackexchange.com, askubuntu.com, dba.stackexchange.com, security.stackexchange.com, devops.stackexchange.com and networkengineering.stackexchange.com; Stack Exchange Inc.",
+  "license": "CC BY-SA 4.0 (fitted from Stack Exchange posts, CC BY-SA 2.5 / 3.0 / 4.0)",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "n_train_questions": 18888,
+  "n_train_rows": 56664,
+  "raw_sha256": "c44b4ebaa531db4b923bef8a1b2f22add56ffd5500701adef1d38422fbf6ec7f",
+  "source": "Stack Exchange API v2.3, /questions sort=votes and sort=activity (most-voted and most recently active questions) with answers",
+  "source_url": "https://api.stackexchange.com/2.3/questions",
+  "vectors": "data/domainvec/se_ppmi_svd.json.gz"
+ }
+}
