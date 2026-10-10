@@ -1,0 +1,85 @@
+{
+ "eval": {
+  "auc": {
+   "classifier": {
+    "vs_hard": 0.710947493601752,
+    "vs_random": 0.9011335980410257
+   },
+   "classifier, no vectors": {
+    "vs_hard": 0.6399357270105868,
+    "vs_random": 0.873181501261844
+   },
+   "lexical coverage only": {
+    "vs_hard": 0.6285856896659978,
+    "vs_random": 0.8877510451330676
+   }
+  },
+  "n_rank_queries": 1000,
+  "n_test_questions": 2066,
+  "rank": {
+   "classifier": {
+    "mrr": 0.7700411332466046,
+    "n": 1000,
+    "p_at_1": 0.679
+   },
+   "classifier, no vectors": {
+    "mrr": 0.7158542623116425,
+    "n": 1000,
+    "p_at_1": 0.64
+   },
+   "lexical coverage only": {
+    "mrr": 0.7285822563756388,
+    "n": 1000,
+    "p_at_1": 0.653
+   }
+  },
+  "rank_no_shared_word": {
+   "classifier": {
+    "mrr": 0.27236704883836776,
+    "n": 130,
+    "p_at_1": 0.1
+   },
+   "classifier, no vectors": {
+    "mrr": 0.039292568505381466,
+    "n": 130,
+    "p_at_1": 0.0
+   },
+   "lexical coverage only": {
+    "mrr": 0.03423997892442795,
+    "n": 130,
+    "p_at_1": 0.0
+   }
+  },
+  "rank_pool": 50
+ },
+ "lexical_classifier": {
+  "coef": [
+   2.016559,
+   0.919503
+  ],
+  "features": [
+   "lex",
+   "missing"
+  ],
+  "intercept": -0.096184,
+  "mean": [
+   0.247676,
+   0.72717
+  ],
+  "scale": [
+   0.253663,
+   0.252782
+  ]
+ },
+ "meta": {
+  "attribution": "Questions and answers by the users of serverfault.com, superuser.com, unix.stackexchange.com, askubuntu.com, dba.stackexchange.com, security.stackexchange.com, devops.stackexchange.com and networkengineering.stackexchange.com; Stack Exchange Inc.",
+  "license": "CC BY-SA 4.0 (fitted from Stack Exchange posts, CC BY-SA 2.5 / 3.0 / 4.0)",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "n_train_questions": 18888,
+  "n_train_rows": 56664,
+  "raw_sha256": "c44b4ebaa531db4b923bef8a1b2f22add56ffd5500701adef1d38422fbf6ec7f",
+  "source": "Stack Exchange API v2.3, /questions sort=votes and sort=activity (most-voted and most recently active questions) with answers",
+  "source_url": "https://api.stackexchange.com/2.3/questions",
+  "vectors": "data/domainvec/se_ppmi_svd.json.gz"
+ }
+}

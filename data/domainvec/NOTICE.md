@@ -31,3 +31,11 @@ any other snapshot.
   the attribution above. It was changed (tokenised, counted, PMI-weighted,
   reduced by SVD and quantised to int8). The repository's MIT licence covers
   the code only, not this file.
+
+## `passage_support.json`
+
+Five feature means, five scales, five logistic-regression coefficients and an
+intercept, fitted by `scripts/build_passage_support.py` on (question title,
+answer) pairs of the same snapshot's train-split questions. No words and no
+post text. As a work fitted from the posts above it carries the same
+attribution and is shared under **CC BY-SA 4.0** as well.
