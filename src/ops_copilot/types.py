@@ -95,6 +95,11 @@ class GroundingResult:
     # Answer-support model (qa_translation): "query<-evidence" word pairs the
     # outside-trained translation model counted as support.
     translation_rescued: list[str] = field(default_factory=list)
+    # Passage-level answer support (passage_support): missing query words the
+    # pair classifier vouched for, as "query<-closest evidence word", and the
+    # classifier's probability for the chunk it read.
+    passage_rescued: list[str] = field(default_factory=list)
+    passage_probability: float | None = None
 
     def as_dict(self) -> dict:
         return {
@@ -108,6 +113,10 @@ class GroundingResult:
                 None if self.semantic_similarity is None else round(self.semantic_similarity, 4)
             ),
             "translation_rescued": self.translation_rescued,
+            "passage_rescued": self.passage_rescued,
+            "passage_probability": (
+                None if self.passage_probability is None else round(self.passage_probability, 4)
+            ),
         }
 
 

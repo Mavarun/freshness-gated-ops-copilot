@@ -31,6 +31,7 @@ from ops_copilot.grounding import EmbeddingSupport, Grounder
 from ops_copilot.policy import decide
 from ops_copilot.retrieve import Retriever
 from ops_copilot.semantic import SemanticBackoff
+from ops_copilot.passage_support import PassageSupportModel
 from ops_copilot.qa_translation import AnswerSupportModel
 from ops_copilot.tag_synonyms import TagSynonymBackoff, tag_synonym_sites
 from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
@@ -138,6 +139,9 @@ class Copilot:
             if self.config.use_answer_support_model
             else None
         )
+        self.passage_support = (
+            PassageSupportModel.load() if self.config.use_passage_support_model else None
+        )
         self.embeddings = resolve_backend(
             self.config.embedding_backend,
             model_name=self.config.embedding_model,
@@ -168,6 +172,11 @@ class Copilot:
             answer_known=self.config.answer_support_known_words,
             answer_max_terms=self.config.answer_support_max_terms,
             answer_strict=self.config.answer_support_strict,
+            passage_support=self.passage_support,
+            passage_min_prob=self.config.passage_support_min_prob,
+            passage_known=self.config.passage_support_known_words,
+            passage_max_terms=self.config.passage_support_max_terms,
+            passage_strict=self.config.passage_support_strict,
             embed_support=(
                 EmbeddingSupport(
                     self.embeddings,
@@ -322,8 +331,11 @@ class Copilot:
         cited_docs = dict.fromkeys(c.doc_id for c in fresh_hits)
         semantic_used = bool(grounding is not None and grounding.semantic_rescued)
         translation_used = bool(grounding is not None and grounding.translation_rescued)
-        strict_rescue = (semantic_used and cfg.semantic_grounding_strict) or (
-            translation_used and cfg.answer_support_strict
+        passage_used = bool(grounding is not None and grounding.passage_rescued)
+        strict_rescue = (
+            (semantic_used and cfg.semantic_grounding_strict)
+            or (translation_used and cfg.answer_support_strict)
+            or (passage_used and cfg.passage_support_strict)
         )
         if strict_rescue and not canary_scan.has_leak:
             # Safety tightening for the semantic grounding backoff: an answer
