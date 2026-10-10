@@ -45,6 +45,12 @@ jobs:
       - name: Refusal-explanation eval (golden + perturbed + leak probes)
         run: python scripts/run_explanation_eval.py
 
+      # Gating: exits non-zero if the random-token detector flags any repo-text
+      # negative, misses a dev-family secret, or its calibration drifts from
+      # the committed threshold.
+      - name: Random-token secret detector (calibration + FPR gate)
+        run: python scripts/run_secret_entropy_eval.py
+
       - name: Upload eval artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -58,6 +64,8 @@ jobs:
             artifacts/robustness_report.md
             artifacts/robustness_metrics.json
             artifacts/explanation_eval.md
+            artifacts/secret_entropy_eval.md
+            artifacts/secret_entropy_eval.json
             artifacts/explanation_eval.json
             artifacts/synonym_fresh_eval.md
             artifacts/synonym_fresh_eval.json

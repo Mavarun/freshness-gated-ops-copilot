@@ -4,6 +4,10 @@
 
 Writes ``artifacts/secret_entropy_eval.{json,md}``. Offline and seeded: the
 character model is trained on committed outside word lists only.
+
+Gating (exit 1): any repo-text negative flagged, any dev-family secret missed,
+or the re-run calibration landing on a threshold other than the committed
+default. Out-of-calibration families (e.g. pronounceable) are report-only.
 """
 
 from __future__ import annotations
@@ -82,6 +86,19 @@ def render_md(cal: dict, ev: dict, n_train: int, n_calib: int) -> str:
     return "\n".join(lines)
 
 
+def gate_failures(cal: dict, ev: dict) -> list[str]:
+    """Reasons this run should fail CI (empty list = pass)."""
+    out: list[str] = []
+    if ev["n_negative_flagged"]:
+        out.append(f"{ev['n_negative_flagged']} repo-text negative(s) flagged as random tokens")
+    for fam, r in ev["families"].items():
+        if r["dev_family"] and r["now"] < r["n"]:
+            out.append(f"dev family {fam}: {r['now']}/{r['n']} secrets redacted")
+    if abs(cal["threshold"] - DEFAULT_THRESHOLD) > 1e-9:
+        out.append(f"calibrated threshold {cal['threshold']} != committed default {DEFAULT_THRESHOLD}")
+    return out
+
+
 def main() -> int:
     cal = calibrate_threshold()
     ev = run_secret_entropy_eval()
@@ -94,7 +111,10 @@ def main() -> int:
     (ART / "secret_entropy_eval.md").write_text(render_md(cal, ev, len(train), len(calib)))
     print(f"threshold {cal['threshold']} | recall {ev['recall']['pr16']:.3f} -> {ev['recall']['now']:.3f} | "
           f"FPR {ev['n_negative_flagged']}/{ev['n_negative_candidates']}")
-    return 0
+    failures = gate_failures(cal, ev)
+    for reason in failures:
+        print(f"GATE FAIL: {reason}", file=sys.stderr)
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":
