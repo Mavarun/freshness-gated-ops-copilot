@@ -21,7 +21,9 @@ from ops_copilot.text import normalize_text
 from ops_copilot.types import Decision
 
 ROOT = Path(__file__).resolve().parents[1]
-FROZEN = replace(CopilotConfig(), embedding_backend="frozen")
+# The embedding slice predates the passage classifier (on since 2026-10-10),
+# which would rescue g35 before the embedding gets to it.
+FROZEN = replace(CopilotConfig(), embedding_backend="frozen", use_passage_support_model=False)
 ROWS = {str(r["id"]): r for r in load_paraphrase_set()}
 
 

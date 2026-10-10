@@ -22,14 +22,18 @@ from ops_copilot.robustness import (
 )
 
 
+# Measured before the passage classifier was switched on (2026-10-10).
+PRE_PASSAGE = replace(CopilotConfig(), use_passage_support_model=False)
+
+
 @pytest.fixture(scope="module")
 def report():
-    return run_robustness()
+    return run_robustness(config=PRE_PASSAGE)
 
 
 @pytest.fixture(scope="module")
 def on():
-    return run_robustness(config=replace(CopilotConfig(), **WORDVEC_ON))
+    return run_robustness(config=replace(PRE_PASSAGE, **WORDVEC_ON))
 
 
 def test_backoff_ships_off_by_default() -> None:
