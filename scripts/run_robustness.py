@@ -20,6 +20,7 @@ from dataclasses import replace  # noqa: E402
 from ops_copilot.config import CopilotConfig  # noqa: E402
 from ops_copilot.robustness import (  # noqa: E402
     ANSWER_SUPPORT_ABLATIONS,
+    PASSAGE_SUPPORT_ABLATIONS,
     EMBED_ABLATIONS,
     EMBEDDING_ON,
     EMBEDDING_ON_BACKOFF,
@@ -171,6 +172,28 @@ def main(argv: list[str] | None = None) -> int:
             continue
         base_rep = embedding if knobs.get("embedding_backend") else report
         answer_changes[label] = changed_rows(base_rep, rep)
+    # Passage-support slice: the pair classifier at its dev-chosen setting
+    # (first held-out run), narrower scope, stacked, and on top of embeddings.
+    passage_reports = {}
+    for label, knobs in PASSAGE_SUPPORT_ABLATIONS.items():
+        if not knobs:
+            passage_reports[label] = report
+        elif knobs == EMBEDDING_ON:
+            passage_reports[label] = embedding
+        else:
+            passage_reports[label] = run_robustness(
+                golden_path=args.golden,
+                paraphrase_path=args.paraphrase,
+                config=replace(CopilotConfig(), **knobs),
+            )
+    passage_ablations = {k: ablation_row(v) for k, v in passage_reports.items()}
+    passage_changes = {}
+    for label, rep in passage_reports.items():
+        knobs = PASSAGE_SUPPORT_ABLATIONS[label]
+        if not knobs.get("use_passage_support_model"):
+            continue
+        base_rep = embedding if knobs.get("embedding_backend") else report
+        passage_changes[label] = changed_rows(base_rep, rep)
     # Write-gate ablation: reuse the default and embedding-on runs above.
     write_ablations = {
         "lexicon parser only (no mood)": ablation_row(
@@ -228,6 +251,8 @@ def main(argv: list[str] | None = None) -> int:
             lexicon_changes=lexicon_changes,
             answer_support_ablations=answer_ablations,
             answer_support_changes=answer_changes,
+            passage_support_ablations=passage_ablations,
+            passage_support_changes=passage_changes,
         ),
         encoding="utf-8",
     )
@@ -257,6 +282,8 @@ def main(argv: list[str] | None = None) -> int:
     metrics["ops_lexicon_changed_rows"] = lexicon_changes
     metrics["answer_support_ablations"] = answer_ablations
     metrics["answer_support_changed_rows"] = answer_changes
+    metrics["passage_support_ablations"] = passage_ablations
+    metrics["passage_support_changed_rows"] = passage_changes
     if calibration:
         metrics["semantic_grounding_calibration"] = calibration
     metrics["ablations"] = ablations
