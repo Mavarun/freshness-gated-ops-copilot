@@ -19,6 +19,7 @@ DATA = ROOT / "data"
 SE_SNAPSHOTS = [
     DATA / "qa" / "se_qa_translation.json.gz",
     DATA / "tagsyn" / "stackexchange_tag_synonyms.json.gz",
+    DATA / "domainvec" / "se_ppmi_svd.json.gz",
 ]
 # Hosts of the API site parameters used by the fetch scripts.
 SITE_HOSTS = {
