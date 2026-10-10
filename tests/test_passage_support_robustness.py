@@ -87,3 +87,21 @@ def test_fresh_set_blind_run() -> None:
     assert on["n_fail_open"] == 0 and on["n_spurious_write"] == 0
     broke = {w.split(":")[0] for w in on["wrong"]} - {w.split(":")[0] for w in off["wrong"]}
     assert broke == set()
+
+
+def test_leakage_report_discloses_domain_vector_coverage() -> None:
+    # Post-decision diagnostic: held-out replacement words sit about as close
+    # to their keys in the outside vectors as dev words do, so the 1/12 is not
+    # a vocabulary gap; it changes no setting.
+    from ops_copilot.robustness import leakage_report
+
+    dvc = leakage_report()["external_domain_vectors"]
+    assert dvc["vocab_size"] == 6000
+    for split in ("dev", "heldout"):
+        c = dvc[split]
+        assert 0 < c["with_key_vector"] <= c["in_vocab"] <= c["words"]
+        assert c["key_top10"] <= c["with_key_vector"] and c["key_cos_ge_0_4"] <= c["with_key_vector"]
+        assert len(c["examples"]) == c["with_key_vector"]
+    assert abs(dvc["dev"]["key_cos_median"] - dvc["heldout"]["key_cos_median"]) < 0.1
+    md = (Path(__file__).resolve().parents[1] / "artifacts" / "robustness_report.md").read_text()
+    assert "Stack Exchange domain vectors, heldout replacement words" in md

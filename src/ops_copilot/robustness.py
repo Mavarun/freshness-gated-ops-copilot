@@ -719,6 +719,7 @@ def leakage_report() -> dict:
         "external_wordvec": _external_wordvec_coverage(),
         "external_lexicons": _external_lexicon_coverage(),
         "external_answer_support": _external_answer_support_coverage(),
+        "external_domain_vectors": _external_domain_vector_coverage(),
     }
 
 
@@ -842,6 +843,67 @@ def _external_answer_support_coverage() -> dict | None:
                 hits.append(f"{tok}<-{best.evidence_word} {best.score:.2f}")
             counts["best_any"] += any(s >= th for w, s in cands.items() if w != tok)
         out[name] = counts | {"key_hits": hits}
+    return out
+
+
+def _external_domain_vector_coverage() -> dict | None:
+    """Word-level view of the Stack Exchange PPMI-SVD vectors on dev / held-out pairs.
+
+    Computed *after* the passage classifier's held-out go / no-go (README
+    "Passage-level answer support"); it explains why held-out ANSWER rows stay
+    at 1/12 and changes no setting. Per split, over the distinct replacement
+    words of its pairs (plain words, plural-folded):
+
+    - ``in_vocab``: the word has a vector;
+    - ``key_cos_median``: median cosine to the closest content word of the key
+      it replaced (words whose key has no vector are skipped);
+    - ``key_top10``: the replaced key word is one of the word's 10 nearest
+      neighbours in the 6,000-word table;
+    - ``key_cos_ge_0_4``: cosine to the replaced key >= 0.4 (a rough "close"
+      line; the classifier never sees this number directly).
+    """
+    import statistics
+
+    from ops_copilot.domain_vectors import DEFAULT_TABLE, load_table
+    from ops_copilot.qa_translation import words as qa_words
+    from ops_copilot.synonym_split import DEFAULT_SPLIT_PATH, load_split
+
+    if not (DEFAULT_SPLIT_PATH.is_file() and DEFAULT_TABLE.is_file()):
+        return None
+    dv, split = load_table(), load_split()
+    out: dict[str, dict] = {"vocab_size": len(dv.words)}
+    for name in SPLITS:
+        split_words = {f for w in split[f"{name}_words"] for f in qa_words(w)}
+        keys_of: dict[str, set[str]] = {}
+        for pair in split[f"{name}_pairs"]:
+            key, repl = (x.strip() for x in pair.split("->", 1))
+            for tok in qa_words(repl):
+                if tok in split_words:
+                    keys_of.setdefault(tok, set()).update(qa_words(key))
+        cos: list[float] = []
+        in_vocab = top10 = close = 0
+        examples: list[str] = []
+        for tok in sorted(keys_of):
+            if tok not in dv:
+                continue
+            in_vocab += 1
+            best, sim = dv.best(tok, sorted(keys_of[tok]))
+            if best is None:
+                continue
+            cos.append(sim)
+            close += sim >= 0.4
+            nn = {w for w, _ in dv.neighbours(tok, k=10)}
+            top10 += best in nn
+            examples.append(f"{tok}~{best} {sim:.2f}")
+        out[name] = {
+            "words": len(keys_of),
+            "in_vocab": in_vocab,
+            "with_key_vector": len(cos),
+            "key_cos_median": round(float(statistics.median(cos)), 3) if cos else None,
+            "key_top10": top10,
+            "key_cos_ge_0_4": close,
+            "examples": examples,
+        }
     return out
 
 
@@ -1075,6 +1137,20 @@ def _leakage_lines(leak: dict) -> list[str]:
                 + (f" ({', '.join(c['key_hits'])})" if c["key_hits"] else "")
                 + f", at the chosen {ans['threshold']} {c['key_at_threshold']}; answered by "
                 f"*some* corpus word at {ans['threshold']} {c['best_any']}"
+            )
+    dvc = leak.get("external_domain_vectors")
+    if dvc:
+        for name in SPLITS:
+            c = dvc.get(name)
+            if not c:
+                continue
+            ext_lines.append(
+                f"- Stack Exchange domain vectors, {name} replacement words ({c['words']}; computed "
+                f"after the held-out decision): with a vector {c['in_vocab']} of {c['words']}; "
+                f"median cosine to the replaced key {c['key_cos_median']} (n={c['with_key_vector']}); "
+                f"key among the 10 nearest neighbours {c['key_top10']}; cosine >= 0.4 "
+                f"{c['key_cos_ge_0_4']}"
+                + (f" ({', '.join(c['examples'])})" if c["examples"] else "")
             )
     return [
         "## Leakage check (product lexicons vs the eval's perturbation vocabulary)",
