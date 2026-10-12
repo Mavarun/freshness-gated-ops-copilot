@@ -22,7 +22,69 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Richer passage features and pronounceable secrets (2026-10-12): OOS AUC up, held-out answers/writes still 1 of 12
+
+PR #18 left three tractable weaknesses: five hand-built passage features, pronounceable
+secrets the char model misses (76 of 200), and held-out answers/writes at 1 of 12. This
+slice attacks the first two (offline, seeded). Labels, the golden file, the 203 perturbed
+rows and the dev / held-out split are unchanged.
+
+### What changed
+
+1. **Pronounceable (CV-alternating) secret rule** (`secret_entropy.is_pronounceable_secret`).
+   Password generators of the `ba-fi-ku-jo-...` family score close to English under the
+   character trigram model. A second structural rule flags a candidate when any alphabetic
+   piece of length `MIN_LEN` strictly alternates consonant/vowel from a leading consonant
+   *and* is absent from the outside vocabulary. Synthetic pronounceable recall goes
+   **76/200 → 200/200**; overall family recall **0.910 → 0.999**; false positives on the
+   293 repo-text candidates stay **0**. Explanation-eval random-token probes: pronounceable
+   leaking rows **4 → 0** (of 15).
+2. **Richer offline passage features** (`passage_support.FEATURES`, 5 → 11). Added
+   `jaccard`, `hit_frac`, `soft_ge_04`, `soft_ge_06`, `best_mean`, `len_ratio`. Same
+   Stack Exchange train-split pairs and domain vectors; logistic regression still
+   serialises as JSON (no model download). Rebuilt
+   `data/domainvec/passage_support.json` from the pinned raw snapshot.
+3. **Out-of-sample on SE test questions** (`artifacts/passage_support_eval.md`):
+
+   | scorer | AUC vs hard (was) | no-shared-word P@1 (was) |
+   | --- | ---: | ---: |
+   | lexical coverage only | 0.629 (0.629) | 0.000 (0.000) |
+   | classifier, lexical features | **0.715** (0.640) | 0.069 (0.000) |
+   | classifier (+ domain vectors) | **0.759** (0.711) | **0.146** (0.100) |
+
+   Richer lexical features alone close much of the old gap to the vector model on hard
+   negatives. Overall P@1 of 50 drops (0.679 → 0.573) — reported, not hidden. Domain
+   vectors remain what moves the no-shared-word ranking.
+4. **Dev-only recalibration** (`artifacts/passage_support_calibration.md`): chosen
+   P(answers) >= **0.50** (was 0.40), strict, known words, 1 term. Calibration accuracy
+   0.985 vs off 0.924. Config default updated; candidate ablation label updated.
+5. **Held-out run** (rule fixed beforehand): same five fix-only rows as PR #18
+   (g24/g28/g35/g39/g48). Held-out answers/writes still **1/12**, held-out synonym
+   accuracy still **0.457**, perturbed **0.897**. The richer scorer does not unlock the
+   hard pairs (`bounce~restart` 0.08, `lag~latency` 0.33). Ships **on**.
+
+Reproduce: `make calibrate-passage-support robustness secret-entropy` (offline; rebuilding
+the classifier needs the raw SE snapshot, see the Makefile).
+
+### Weaknesses
+
+- **Held-out answers / writes are still 1 of 12.** Richer features improve the outside SE
+  ranking check but change no held-out answer/write row. Hard pairs remain far apart in
+  the domain vectors (`bounce~restart` 0.08, `lag~latency` 0.33). An ops-specific
+  synonym/sense model that is *not* another lexical table (word vectors, tag synonyms,
+  Wiktionary, Q&A translation already failed) is still open — and held-out write verbs
+  (`bounce`, `reboot`, …) stay out of the ontology by the leakage rule.
+- The threshold moved 0.40 → 0.50 on a wide plateau; the exact value is still not very
+  meaningful on 15 dev rows.
+- Overall P@1 of 50 on SE test questions regressed (0.679 → 0.573) even as AUC vs hard
+  and no-shared-word P@1 rose. A cross-encoder would be the real version, but it needs a
+  model download offline CI cannot do.
+- Pronounceable detection is structural (CV-alternating) and vocabulary-gated; other
+  pronounceable schemes (diceware phrases, mixed-case) are untested, and test secrets
+  remain synthetic.
+
 ## Passage-level answer support and format-free secrets (2026-10-10/11): classifier on by default, held-out 0.429 -> 0.457
+
 
 PR #17 ended on "the next step is a model that reads the whole question against the
 whole page". This slice builds it from outside data, tunes its threshold on clean + dev
