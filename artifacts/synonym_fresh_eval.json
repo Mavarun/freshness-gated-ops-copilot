@@ -451,7 +451,7 @@
    ]
   },
   "+ passage classifier (dev-chosen)": {
-   "accuracy": 0.6923076923076923,
+   "accuracy": 0.7307692307692307,
    "answer_correct": "5/11",
    "by_gate": {
     "ANSWER": {
@@ -479,7 +479,7 @@
      "n": 1
     },
     "REFUSE_STALE": {
-     "correct": 2,
+     "correct": 3,
      "n": 4
     },
     "REFUSE_UNGROUNDED": {
@@ -501,7 +501,7 @@
     "f11": "ANSWER",
     "f12": "REFUSE_UNGROUNDED",
     "f13": "REFUSE_STALE",
-    "f14": "REFUSE_UNGROUNDED",
+    "f14": "REFUSE_STALE",
     "f15": "REFUSE_STALE",
     "f16": "REFUSE_NO_EVIDENCE",
     "f17": "REFUSE_NO_EVIDENCE",
@@ -526,8 +526,7 @@
     "f06:ANSWER->REFUSE_UNGROUNDED",
     "f07:ANSWER->REFUSE_UNGROUNDED",
     "f08:ANSWER->REFUSE_UNGROUNDED",
-    "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f14:REFUSE_STALE->REFUSE_UNGROUNDED"
+    "f12:REFUSE_STALE->REFUSE_UNGROUNDED"
    ]
   },
   "+ passage classifier + word vectors": {

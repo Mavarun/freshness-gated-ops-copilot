@@ -13,7 +13,7 @@
 | + tag synonyms + Wiktionary + word vectors | 10/26 (0.385) | 1/11 | 0 | 0 | 0 |
 | + answer-support model (dev-chosen) | 8/26 (0.308) | 1/11 | 0 | 0 | 0 |
 | + answer-support model + word vectors | 11/26 (0.423) | 2/11 | 0 | 0 | 0 |
-| + passage classifier (dev-chosen) | 18/26 (0.692) | 5/11 | 0 | 0 | 0 |
+| + passage classifier (dev-chosen) | 19/26 (0.731) | 5/11 | 0 | 0 | 0 |
 | + passage classifier + word vectors | 19/26 (0.731) | 5/11 | 0 | 0 | 0 |
 
 | row | swap | expected | default (word-vector backoff off; = PR #14) | + word-vector backoff (calibrated) | + word-vector backoff, unknown words only | + corpus PPMI backoff (PR #11, for comparison) | + Stack Exchange tag synonyms (dev-chosen) | + Wiktionary computing senses (dev-chosen) | + tag synonyms + Wiktionary + word vectors | + answer-support model (dev-chosen) | + answer-support model + word vectors | + passage classifier (dev-chosen) | + passage classifier + word vectors |
@@ -31,7 +31,7 @@
 | f11 | schedule -> agenda | ANSWER | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | **ok** | **ok** |
 | f12 | run -> carry out | REFUSE_STALE | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED |
 | f13 | should -> ought | REFUSE_STALE | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | **ok** | **ok** |
-| f14 | target -> aim | REFUSE_STALE | REFUSE_UNGROUNDED | **ok** | **ok** | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | **ok** | REFUSE_UNGROUNDED | **ok** | REFUSE_UNGROUNDED | **ok** |
+| f14 | target -> aim | REFUSE_STALE | REFUSE_UNGROUNDED | **ok** | **ok** | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | **ok** | REFUSE_UNGROUNDED | **ok** | **ok** | **ok** |
 | f15 | drain -> empty | REFUSE_STALE | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | REFUSE_UNGROUNDED | **ok** | **ok** |
 | f16 | payroll -> wage | REFUSE_NO_EVIDENCE | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** |
 | f17 | password -> passcode | REFUSE_NO_EVIDENCE | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** | **ok** |
