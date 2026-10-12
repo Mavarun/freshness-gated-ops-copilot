@@ -187,13 +187,13 @@ Default config plus the committed logistic pair classifier (`data/domainvec/pass
 | config | clean | perturbed | synonym | word_order | typo | polite | syn dev | syn held-out | held-out ANSWER/WRITE | held-out WRITE | fail-open | spurious write | raw PII | clean fail-open/spurious/PII |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | default (passage classifier off) | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.667 | 0.429 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
-| + passage classifier (dev-chosen: P 0.40, strict, known words, 1 word) | 1.000 | 0.897 | 0.600 | 1.000 | 1.000 | 0.980 | 0.933 | 0.457 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
+| + passage classifier (dev-chosen: P 0.50, strict, known words, 1 word) | 1.000 | 0.897 | 0.600 | 1.000 | 1.000 | 0.980 | 0.933 | 0.457 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
 | + passage classifier, unknown words only | 1.000 | 0.887 | 0.560 | 1.000 | 1.000 | 0.980 | 0.800 | 0.457 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
 | + passage classifier + answer-support model | 1.000 | 0.897 | 0.600 | 1.000 | 1.000 | 0.980 | 0.933 | 0.457 | 1/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
 | embedding on (both) | 1.000 | 0.897 | 0.600 | 1.000 | 1.000 | 0.980 | 0.800 | 0.514 | 2/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
 | embedding on + passage classifier | 1.000 | 0.906 | 0.640 | 1.000 | 1.000 | 0.980 | 0.933 | 0.514 | 2/12 | 1/3 | 0 | 0 | 0 | 0/0/0 |
 
-Rows whose decision changes with **+ passage classifier (dev-chosen: P 0.40, strict, known words, 1 word)**:
+Rows whose decision changes with **+ passage classifier (dev-chosen: P 0.50, strict, known words, 1 word)**:
 
 | row | split | expected | off | on | effect |
 | --- | --- | --- | --- | --- | --- |

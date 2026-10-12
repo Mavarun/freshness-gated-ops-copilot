@@ -1301,7 +1301,7 @@
    "n_spurious_write": 0,
    "n_raw_pii_outputs": 0
   },
-  "+ passage classifier (dev-chosen: P 0.40, strict, known words, 1 word)": {
+  "+ passage classifier (dev-chosen: P 0.50, strict, known words, 1 word)": {
    "clean_accuracy": 1.0,
    "perturbed_accuracy": 0.8966,
    "per_perturbation": {
@@ -1418,7 +1418,7 @@
   }
  },
  "passage_support_changed_rows": {
-  "+ passage classifier (dev-chosen: P 0.40, strict, known words, 1 word)": [
+  "+ passage classifier (dev-chosen: P 0.50, strict, known words, 1 word)": [
    {
     "id": "g24-synonym",
     "split": "dev",
