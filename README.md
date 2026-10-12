@@ -58,7 +58,8 @@ rows and the dev / held-out split are unchanged.
 4. **Dev-only recalibration** (`artifacts/passage_support_calibration.md`): chosen
    P(answers) >= **0.50** (was 0.40), strict, known words, 1 term. Calibration accuracy
    0.985 vs off 0.924. Config default updated; candidate ablation label updated.
-5. **Held-out run** (rule fixed beforehand): same five fix-only rows as PR #18
+5. **Fresh general-English set** (blind for this model): 7/26 → **19/26** (was 18/26 under the five-feature classifier), no fail-open.
+6. **Held-out run** (rule fixed beforehand): same five fix-only rows as PR #18
    (g24/g28/g35/g39/g48). Held-out answers/writes still **1/12**, held-out synonym
    accuracy still **0.457**, perturbed **0.897**. The richer scorer does not unlock the
    hard pairs (`bounce~restart` 0.08, `lag~latency` 0.33). Ships **on**.
