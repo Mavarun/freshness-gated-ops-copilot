@@ -29,10 +29,29 @@ def test_training_words_exclude_corpus_identifiers():
 
 @pytest.mark.parametrize(
     "token",
-    ["q7xf2lpz9mkw3t", "9f3c1ab07e4d2c88", "ZmFrZS1rZXktMDE", "deploy-key-Qm8zLx2Vt9Kp", "Xk7#mQ2!pL9zR4"],
+    [
+        "q7xf2lpz9mkw3t",
+        "9f3c1ab07e4d2c88",
+        "ZmFrZS1rZXktMDE",
+        "deploy-key-Qm8zLx2Vt9Kp",
+        "Xk7#mQ2!pL9zR4",
+        "damatavijoli",  # CV-alternating pronounceable; char model alone misses it
+        "jutofiziripasami",
+    ],
 )
 def test_flags_random_tokens(token):
     assert se.RANDOM_TOKEN.is_random(token)
+
+
+def test_cv_alternating_helper_and_vocab_exclusion():
+    assert se.is_cv_alternating("damatavijoli")
+    assert not se.is_cv_alternating("reinitialization")  # not strict C/V
+    assert not se.is_cv_alternating("checkoutretry")
+    # vocabulary words that happen to be CV-alternating must not be flagged
+    vocab_hits = [w for w in se.outside_vocabulary() if se.is_cv_alternating(w)]
+    assert vocab_hits  # at least a few exist in the outside sources
+    for w in vocab_hits:
+        assert not se.is_pronounceable_secret(w)
 
 
 @pytest.mark.parametrize(
@@ -99,8 +118,10 @@ def test_out_of_sample_numbers():
     # repo text the model never saw: no false positive
     assert ev["n_negative_flagged"] == 0
     assert ev["n_negative_candidates"] > 250
-    # the known hard family stays visibly weak (reported, not hidden)
-    assert ev["families"]["pronounceable"]["detector"] < ev["families"]["pronounceable"]["n"]
+    # pronounceable family: structural CV rule lifts recall well above the
+    # char-model-alone baseline (~76/200) without false positives above.
+    assert ev["families"]["pronounceable"]["detector"] >= 190
+    assert ev["recall"]["now"] >= 0.98
 
 
 def _gate():
