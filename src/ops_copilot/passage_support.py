@@ -9,7 +9,7 @@ looking a word up in a list.
 
 Features of a (question words Q, passage words P) pair, each query word
 weighted by its IDF ``w_q`` (Stack Exchange answers at training time, the
-corpus at run time):
+corpus at run time). The original five:
 
 ``lex``       sum of ``w_q`` over q in P / sum of ``w_q`` (lexical coverage)
 ``soft``      the same with credit ``s_q = max_{a in P} cos(q, a)`` (clipped at
@@ -18,6 +18,15 @@ corpus at run time):
 ``weakest``   the lowest ``s_q`` among missing words (1 if none is missing)
 ``missing``   fraction of query words P lacks
 ``centroid``  cosine of the IDF-weighted mean vectors of Q and P
+
+Plus six denser offline features (still no model download):
+
+``jaccard``     |Q ∩ P| / |Q ∪ P|
+``hit_frac``    unweighted |Q ∩ P| / |Q|
+``soft_ge_04``  fraction of query words with credit >= 0.4
+``soft_ge_06``  fraction of query words with credit >= 0.6
+``best_mean``   mean credit over all query words
+``len_ratio``   tanh(log((1+|P|)/(1+|Q|))) — passage vs question length
 
 Training (``build_training_pairs``): train-split questions only. Each
 question gives its own answer as a positive and two negatives: the answer of
@@ -54,8 +63,20 @@ from ops_copilot.domain_vectors import DomainVectors, default_vectors
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "domainvec"
 DEFAULT_MODEL = DATA_DIR / "passage_support.json"
-FEATURES: tuple[str, ...] = ("lex", "soft", "weakest", "missing", "centroid")
-LEXICAL_FEATURES: tuple[str, ...] = ("lex", "missing")
+FEATURES: tuple[str, ...] = (
+    "lex",
+    "soft",
+    "weakest",
+    "missing",
+    "centroid",
+    "jaccard",
+    "hit_frac",
+    "soft_ge_04",
+    "soft_ge_06",
+    "best_mean",
+    "len_ratio",
+)
+LEXICAL_FEATURES: tuple[str, ...] = ("lex", "missing", "jaccard", "hit_frac", "len_ratio")
 SIM_FLOOR = 0.0
 HARD_POOL = 30
 RANK_POOL = 50
@@ -113,12 +134,20 @@ def pair_features(
         best[w] = (plist[k], float(sims[k]))
     qv = _mean_vec(dv, q, lambda w: ws[w])
     pv = _mean_vec(dv, plist, weight) if plist else None
+    credits = [credit[w] for w in q]
+    union = len(set(q) | pset) or 1
     return {
         "lex": sum(ws[w] for w in hit) / total,
         "soft": sum(ws[w] * credit[w] for w in q) / total,
         "weakest": min((credit[w] for w in missing), default=1.0),
         "missing": len(missing) / len(q),
         "centroid": float(qv @ pv) if qv is not None and pv is not None else 0.0,
+        "jaccard": len(hit) / union,
+        "hit_frac": len(hit) / len(q),
+        "soft_ge_04": sum(c >= 0.4 for c in credits) / len(q),
+        "soft_ge_06": sum(c >= 0.6 for c in credits) / len(q),
+        "best_mean": float(sum(credits) / len(q)),
+        "len_ratio": float(math.tanh(math.log((1.0 + len(pset)) / (1.0 + len(q))))),
         "best": best,  # type: ignore[dict-item]
     }
 
