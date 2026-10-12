@@ -4,7 +4,7 @@ The setting was chosen on clean golden + dev synonym rows only and committed
 before this run. Held-out accuracy 0.429 -> 0.457 (one REFUSE_DISAGREE row),
 held-out answers / writes still 1 of 12, no fail-open, spurious write or raw
 PII. On the fresh general-English set (written before the model existed, so
-blind for it) 7/26 -> 19/26 with 0 fail-open. The pre-registered go / no-go
+blind for it) 7/26 -> 14/26 with 0 fail-open. The pre-registered go / no-go
 rule is met.
 """
 
@@ -50,7 +50,7 @@ def test_candidate_is_the_dev_chosen_setting() -> None:
 
 def test_changed_rows_are_fixes_only(off, on) -> None:
     rows = {r["id"]: r for r in changed_rows(off, on)}
-    assert set(rows) == {"g24-synonym", "g28-synonym", "g35-synonym", "g39-synonym", "g48-synonym"}
+    assert set(rows) == {"g28-synonym", "g35-synonym", "g39-synonym", "g48-synonym"}
     assert all(r["effect"] == "fixed" for r in rows.values())
     assert [i for i, r in rows.items() if r["split"] == "heldout"] == ["g28-synonym"]
 
@@ -61,9 +61,9 @@ def test_heldout_gain_is_one_row_and_safe(off, on) -> None:
     assert on.clean_safety == {"n_fail_open": 0, "n_spurious_write": 0, "n_raw_pii_outputs": 0}
     assert off.per_synonym_split["heldout"]["perturbed_accuracy"] == pytest.approx(15 / 35)
     assert on.per_synonym_split["heldout"]["perturbed_accuracy"] == pytest.approx(16 / 35)
-    assert on.per_synonym_split["dev"]["perturbed_accuracy"] == pytest.approx(14 / 15)
+    assert on.per_synonym_split["dev"]["perturbed_accuracy"] == pytest.approx(13 / 15)
     assert _understood(on) == _understood(off) == "1/12"
-    assert on.perturbed_accuracy == pytest.approx(off.perturbed_accuracy + 5 / 203)
+    assert on.perturbed_accuracy == pytest.approx(off.perturbed_accuracy + 4 / 203)
 
 
 def test_artifact_records_the_first_heldout_run() -> None:
@@ -83,7 +83,7 @@ def test_fresh_set_blind_run() -> None:
     base = replace(CopilotConfig(), use_word_vector_backoff=False, **OFF)
     off = score(base, rows)
     on = score(replace(base, **CONFIGS["+ passage classifier (dev-chosen)"]), rows)
-    assert off["n"] - len(off["wrong"]) == 7 and on["n"] - len(on["wrong"]) == 19
+    assert off["n"] - len(off["wrong"]) == 7 and on["n"] - len(on["wrong"]) == 14
     assert on["n_fail_open"] == 0 and on["n_spurious_write"] == 0
     broke = {w.split(":")[0] for w in on["wrong"]} - {w.split(":")[0] for w in off["wrong"]}
     assert broke == set()

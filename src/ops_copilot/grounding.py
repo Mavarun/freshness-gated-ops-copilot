@@ -448,10 +448,16 @@ class Grounder:
             return (), None
         if best.prob < self.passage_min_prob:
             return (), best.prob
+        # The classifier scores the whole question against the passage; a high
+        # P with zero credit for a missing word (no domain-vector neighbour)
+        # must not rescue that word — otherwise "wellness" is vouched for by
+        # Redis/checkout-pool alone.
         out = []
         for t in cands:
             word, sim = best.best.get(fold_token(t.token), (None, 0.0))
-            out.append(Translation(t.token, word or "?", round(float(sim), 4)))
+            if word is None:
+                return (), best.prob
+            out.append(Translation(t.token, word, round(float(sim), 4)))
         return tuple(out), best.prob
 
     def support(
