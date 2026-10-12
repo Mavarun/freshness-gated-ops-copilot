@@ -188,11 +188,10 @@ def test_default_config_matches_pr12_except_the_parsed_writes(report_pre_passage
     assert changed == WRITE_PARSER_CHANGES
 
 
-# Switching the passage classifier on (dev-chosen, first held-out run on
-# 2026-10-10) changes exactly these rows of the 203, all to the gold label:
-# four dev synonym rows and one held-out row (g28, a refusal reason).
+# Switching the passage classifier on (dev-chosen) changes exactly these rows
+# of the 203, all to the gold label. g24 (timeframe) dropped after the OOV
+# rescue guard: timeframe is outside the domain vectors.
 PASSAGE_CHANGES = {
-    "g24-synonym": "ANSWER",
     "g28-synonym": "REFUSE_DISAGREE",
     "g35-synonym": "REFUSE_CANARY",
     "g39-synonym": "ANSWER",
@@ -200,7 +199,7 @@ PASSAGE_CHANGES = {
 }
 
 
-def test_passage_default_changes_exactly_the_five_fixed_rows(report, report_pre_passage) -> None:
+def test_passage_default_changes_exactly_the_fixed_rows(report, report_pre_passage) -> None:
     before = {c.id: c.perturbed_decision for c in report_pre_passage.cases}
     after = {c.id: c for c in report.cases}
     changed = {rid: c.perturbed_decision for rid, c in after.items() if c.perturbed_decision != before[rid]}
