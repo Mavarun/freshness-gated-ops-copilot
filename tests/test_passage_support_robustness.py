@@ -4,7 +4,7 @@ The setting was chosen on clean golden + dev synonym rows only and committed
 before this run. Held-out accuracy 0.429 -> 0.457 (one REFUSE_DISAGREE row),
 held-out answers / writes still 1 of 12, no fail-open, spurious write or raw
 PII. On the fresh general-English set (written before the model existed, so
-blind for it) 7/26 -> 18/26 with 0 fail-open. The pre-registered go / no-go
+blind for it) 7/26 -> 19/26 with 0 fail-open. The pre-registered go / no-go
 rule is met.
 """
 
@@ -83,7 +83,7 @@ def test_fresh_set_blind_run() -> None:
     base = replace(CopilotConfig(), use_word_vector_backoff=False, **OFF)
     off = score(base, rows)
     on = score(replace(base, **CONFIGS["+ passage classifier (dev-chosen)"]), rows)
-    assert off["n"] - len(off["wrong"]) == 7 and on["n"] - len(on["wrong"]) == 18
+    assert off["n"] - len(off["wrong"]) == 7 and on["n"] - len(on["wrong"]) == 19
     assert on["n_fail_open"] == 0 and on["n_spurious_write"] == 0
     broke = {w.split(":")[0] for w in on["wrong"]} - {w.split(":")[0] for w in off["wrong"]}
     assert broke == set()
