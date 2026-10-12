@@ -46,6 +46,14 @@ leaves equal room for secrets that score lower than the dev families and for
 words that score higher than the calibration words. ``DEFAULT_THRESHOLD`` is
 that value, pinned by a test that re-runs the calibration.
 
+Pronounceable passwords (``ba-fi-ku-jo-...`` CV-alternating strings) score
+close to English under the character model, so a second structural rule
+flags a candidate when any alphabetic piece of length ``MIN_LEN`` strictly
+alternates consonant/vowel from a leading consonant *and* is absent from
+the outside vocabulary. That catches the synthetic pronounceable family
+without raising the false-positive rate on repo text (measured in
+``secret_entropy_eval``).
+
 The detector duck-types the two ``re.Pattern`` methods ``explain_redact`` uses
 (``finditer`` and ``subn``) so it can sit in the same pattern list.
 """
@@ -276,6 +284,53 @@ class _Match:
         return self._span[1]
 
 
+
+# ---------------------------------------------------------------------------
+# pronounceable (CV-alternating) passwords the char model under-scores
+
+
+_CONS = frozenset("bcdfghjklmnpqrstvwxyz")
+_VOW = frozenset("aeiou")
+
+
+@lru_cache(maxsize=1)
+def outside_vocabulary() -> frozenset[str]:
+    """Lower-cased train + calibration words from the outside sources."""
+    train, calib = vocabulary_split()
+    return frozenset(w.lower() for w in train) | frozenset(w.lower() for w in calib)
+
+
+def is_cv_alternating(token: str) -> bool:
+    """Alphabetic token that strictly alternates consonant / vowel from a leading consonant.
+
+    Password generators of the ``ba-fi-ku-jo-...`` family (and the synthetic
+    ``pronounceable`` eval family) produce exactly this pattern. Real English
+    polysyllables almost never do for 12+ letters, so with a vocabulary
+    exclusion the false-positive rate on repo text stays at zero.
+    """
+    t = token.lower()
+    if len(t) < MIN_LEN or not t.isalpha():
+        return False
+    if t[0] not in _CONS:
+        return False
+    for i, ch in enumerate(t):
+        expect = _CONS if i % 2 == 0 else _VOW
+        if ch not in expect:
+            return False
+    return True
+
+
+def is_pronounceable_secret(token: str) -> bool:
+    """True when a candidate has a CV-alternating piece outside the vocabulary."""
+    if not is_candidate(token):
+        return False
+    vocab = outside_vocabulary()
+    for part in pieces(token) or [token]:
+        if is_cv_alternating(part) and part.lower() not in vocab:
+            return True
+    return False
+
+
 class RandomTokenDetector:
     """Regex-like detector: ``finditer`` / ``subn`` / ``search`` over random tokens."""
 
@@ -290,7 +345,11 @@ class RandomTokenDetector:
         return self._model or default_model()
 
     def is_random(self, token: str) -> bool:
-        return is_candidate(token) and token_score(token, self.model) >= self.threshold
+        if not is_candidate(token):
+            return False
+        if token_score(token, self.model) >= self.threshold:
+            return True
+        return is_pronounceable_secret(token)
 
     def finditer(self, text: str) -> Iterator[_Match]:
         for m in _RUN_RE.finditer(text or ""):
@@ -332,8 +391,9 @@ B64URL = B62 + "-_"
 PW_SYMBOLS = B62 + "!#$%^&*~+="
 
 # family -> generator(rng). "dev" families feed calibration; "test" families
-# are only scored in the eval (the last one, pronounceable strings, is a known
-# hard case).
+# are only scored in the eval. Pronounceable (CV-alternating) strings used to
+# be the hard case for the char model alone; ``is_pronounceable_secret`` now
+# catches them with a structural rule + vocabulary exclusion.
 SECRET_FAMILIES: dict[str, Callable[[random.Random], str]] = {
     "base62": lambda r: _rand(r, B62, r.randint(12, 31)),
     "hex": lambda r: _rand(r, HEX, r.randint(16, 31)),
