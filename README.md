@@ -58,11 +58,15 @@ rows and the dev / held-out split are unchanged.
 4. **Dev-only recalibration** (`artifacts/passage_support_calibration.md`): chosen
    P(answers) >= **0.50** (was 0.40), strict, known words, 1 term. Calibration accuracy
    0.985 vs off 0.924. Config default updated; candidate ablation label updated.
-5. **Fresh general-English set** (blind for this model): 7/26 → **19/26** (was 18/26 under the five-feature classifier), no fail-open.
-6. **Held-out run** (rule fixed beforehand): same five fix-only rows as PR #18
-   (g24/g28/g35/g39/g48). Held-out answers/writes still **1/12**, held-out synonym
-   accuracy still **0.457**, perturbed **0.897**. The richer scorer does not unlock the
-   hard pairs (`bounce~restart` 0.08, `lag~latency` 0.33). Ships **on**.
+5. **Passage rescue requires a domain-vector neighbour** for each missing word. A high
+   whole-question probability alone no longer vouchers for OOV words like `wellness`
+   or `timeframe` (g24 was previously a false rescue with score 0). Dev synonym accuracy
+   is **0.867** (13/15; was 0.933 with the false rescue).
+6. **Fresh general-English set** (blind): 7/26 → **14/26**, no fail-open.
+7. **Held-out run** (rule fixed beforehand): four fix-only rows (g28/g35/g39/g48).
+   Held-out answers/writes still **1/12**, held-out synonym **0.457**, perturbed **0.892**.
+   The richer scorer does not unlock the hard pairs (`bounce~restart` 0.08,
+   `lag~latency` 0.33). Ships **on**.
 
 Reproduce: `make calibrate-passage-support robustness secret-entropy` (offline; rebuilding
 the classifier needs the raw SE snapshot, see the Makefile).
@@ -83,6 +87,9 @@ the classifier needs the raw SE snapshot, see the Makefile).
 - Pronounceable detection is structural (CV-alternating) and vocabulary-gated; other
   pronounceable schemes (diceware phrases, mixed-case) are untested, and test secrets
   remain synthetic.
+- Passage rescue still needs the missing word in the domain-vector table. OOV ops
+  paraphrases (`timeframe`, `wellness`) cannot be rescued no matter how high the
+  whole-question score is — correct, but it caps the fresh-set and dev gains.
 
 ## Passage-level answer support and format-free secrets (2026-10-10/11): classifier on by default, held-out 0.429 -> 0.457
 
@@ -1530,7 +1537,7 @@ CI: `.github/workflows/eval.yml` runs pytest + `scripts/run_eval.py` on push/PR 
 - Regex PII detectors (no NER); authorize allowlist is phrase-exact on normalized text; US/E.164 phone bias.
 - Secrets always refuse (no mask-and-answer path for AWS/Slack tokens).
 - Synthetic corpus / frozen clock; crafted golden set (1.000 scores are a harness, not prod claim).
-- Under seeded perturbations decision_accuracy is 0.897 (default, passage classifier on) / 0.906 (embedding on). **Held-out synonym accuracy is 0.457 / 0.514, and only 1 / 2 of 12 held-out rows that need an answer or a write succeed.** The richer passage classifier lifts a fresh general-English set from 7/26 to 19/26; held-out answers/writes stay at 1/12. Synonyms the repo has not been given are mostly not understood; they fail closed.
+- Under seeded perturbations decision_accuracy is 0.897 (default, passage classifier on) / 0.906 (embedding on). **Held-out synonym accuracy is 0.457 / 0.514, and only 1 / 2 of 12 held-out rows that need an answer or a write succeed.** The richer passage classifier lifts a fresh general-English set from 7/26 to 14/26; held-out answers/writes stay at 1/12. Synonyms the repo has not been given are mostly not understood; they fail closed.
 - Trace and API redaction is pattern-based (plus query fragments). A secret typed as plain words is caught only after a credential noun and a copula / `:` / `=` (`my password is ...`), not in free text (`use ... to log in`).
 - Two external ops-domain lexicons (Stack Exchange tag synonyms, Wiktionary computing senses; opt-in) changed no held-out row and add nothing on the fresh general-English set. Their coverage of the eval's ops paraphrases is near zero.
 - An answer-support model trained on 32,513 Stack Exchange title / answer pairs (IBM Model 1, opt-in) changed no held-out row either. It fixes one dev row and one fresh row, both through topical pairs rather than synonyms.

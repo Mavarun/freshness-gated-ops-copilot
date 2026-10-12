@@ -451,11 +451,11 @@
    ]
   },
   "+ passage classifier (dev-chosen)": {
-   "accuracy": 0.7307692307692307,
-   "answer_correct": "5/11",
+   "accuracy": 0.5384615384615384,
+   "answer_correct": "3/11",
    "by_gate": {
     "ANSWER": {
-     "correct": 5,
+     "correct": 3,
      "n": 11
     },
     "PROPOSE_WRITE": {
@@ -463,11 +463,11 @@
      "n": 2
     },
     "REFUSE_CANARY": {
-     "correct": 1,
+     "correct": 0,
      "n": 1
     },
     "REFUSE_DISAGREE": {
-     "correct": 2,
+     "correct": 0,
      "n": 2
     },
     "REFUSE_NO_EVIDENCE": {
@@ -497,8 +497,8 @@
     "f07": "REFUSE_UNGROUNDED",
     "f08": "REFUSE_UNGROUNDED",
     "f09": "ANSWER",
-    "f10": "ANSWER",
-    "f11": "ANSWER",
+    "f10": "REFUSE_UNGROUNDED",
+    "f11": "REFUSE_UNGROUNDED",
     "f12": "REFUSE_UNGROUNDED",
     "f13": "REFUSE_STALE",
     "f14": "REFUSE_STALE",
@@ -508,12 +508,12 @@
     "f18": "REFUSE_UNGROUNDED",
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
-    "f21": "REFUSE_CANARY",
+    "f21": "REFUSE_UNGROUNDED",
     "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
-    "f25": "REFUSE_DISAGREE",
-    "f26": "REFUSE_DISAGREE"
+    "f25": "REFUSE_UNGROUNDED",
+    "f26": "REFUSE_UNGROUNDED"
    },
    "n": 26,
    "n_fail_open": 0,
@@ -526,15 +526,20 @@
     "f06:ANSWER->REFUSE_UNGROUNDED",
     "f07:ANSWER->REFUSE_UNGROUNDED",
     "f08:ANSWER->REFUSE_UNGROUNDED",
-    "f12:REFUSE_STALE->REFUSE_UNGROUNDED"
+    "f10:ANSWER->REFUSE_UNGROUNDED",
+    "f11:ANSWER->REFUSE_UNGROUNDED",
+    "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
+    "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
+    "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ passage classifier + word vectors": {
-   "accuracy": 0.7307692307692307,
-   "answer_correct": "5/11",
+   "accuracy": 0.6153846153846154,
+   "answer_correct": "4/11",
    "by_gate": {
     "ANSWER": {
-     "correct": 5,
+     "correct": 4,
      "n": 11
     },
     "PROPOSE_WRITE": {
@@ -546,7 +551,7 @@
      "n": 1
     },
     "REFUSE_DISAGREE": {
-     "correct": 2,
+     "correct": 0,
      "n": 2
     },
     "REFUSE_NO_EVIDENCE": {
@@ -577,7 +582,7 @@
     "f08": "REFUSE_UNGROUNDED",
     "f09": "ANSWER",
     "f10": "ANSWER",
-    "f11": "ANSWER",
+    "f11": "REFUSE_UNGROUNDED",
     "f12": "REFUSE_UNGROUNDED",
     "f13": "REFUSE_STALE",
     "f14": "REFUSE_STALE",
@@ -591,8 +596,8 @@
     "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
-    "f25": "REFUSE_DISAGREE",
-    "f26": "REFUSE_DISAGREE"
+    "f25": "REFUSE_UNGROUNDED",
+    "f26": "REFUSE_UNGROUNDED"
    },
    "n": 26,
    "n_fail_open": 0,
@@ -605,7 +610,10 @@
     "f06:ANSWER->REFUSE_UNGROUNDED",
     "f07:ANSWER->REFUSE_UNGROUNDED",
     "f08:ANSWER->REFUSE_UNGROUNDED",
-    "f12:REFUSE_STALE->REFUSE_UNGROUNDED"
+    "f11:ANSWER->REFUSE_UNGROUNDED",
+    "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
+    "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
+    "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ tag synonyms + Wiktionary + word vectors": {
