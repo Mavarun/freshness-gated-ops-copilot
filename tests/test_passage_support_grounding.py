@@ -96,3 +96,16 @@ def test_pipeline_wires_the_config() -> None:
     assert bot.passage_support is not None
     assert bot.grounder.passage_min_prob == 0.42 and bot.grounder.passage_max_terms == 2
     assert bot.grounder.passage_strict is True
+
+def test_passage_rescue_refuses_missing_words_with_no_vector_neighbour():
+    """High passage P alone must not vouch for a word outside the domain vectors."""
+    from dataclasses import replace
+    from ops_copilot import Copilot, CopilotConfig
+
+    bot = Copilot(config=replace(CopilotConfig(), use_passage_support_model=True))
+    g = bot.grounder
+    ev = "Redis checkout-pool utilization is 98 percent of maxclients."
+    assert g.keys_supported("What is the Redis checkout-pool usage?", ev)
+    assert not g.keys_supported("What is the Redis checkout-pool wellness?", ev)
+    sup = g.support("What is the Redis checkout-pool wellness?", ev)
+    assert sup.passage == () and (sup.passage_prob is None or sup.passage_prob >= 0.5)
