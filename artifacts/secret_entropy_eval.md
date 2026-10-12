@@ -19,9 +19,9 @@ Character trigram model trained on 19,838 committed outside words (counter-fitte
 | base64url | no | 200 | 0 | 198 | 198 |
 | password_symbols | no | 200 | 0 | 200 | 200 |
 | prefixed_pat | no | 200 | 0 | 200 | 200 |
-| pronounceable | no | 200 | 0 | 76 | 76 |
+| pronounceable | no | 200 | 0 | 200 | 200 |
 
-Recall over all families: PR #16 0.000 -> now 0.910.
+Recall over all families: PR #16 0.000 -> now 0.999.
 
 ## Test: false positives on repo text the model never saw
 
