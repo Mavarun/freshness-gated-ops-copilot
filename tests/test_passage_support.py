@@ -75,7 +75,13 @@ def test_out_of_sample_numbers_are_pinned() -> None:
     ev = json.loads(EVAL.read_text())["eval"]
     auc, nos = ev["auc"], ev["rank_no_shared_word"]
     assert ev["n_test_questions"] > 2000
-    # the vectors are what helps: lexical-only classifier does not beat coverage on hard negatives by much
-    assert auc["classifier"]["vs_hard"] > auc["classifier, no vectors"]["vs_hard"] + 0.05
-    assert auc["classifier"]["vs_hard"] > auc["lexical coverage only"]["vs_hard"] + 0.05
-    assert nos["lexical coverage only"]["p_at_1"] == 0.0 and nos["classifier"]["p_at_1"] > 0.05
+    # richer lexical features alone already beat raw coverage on hard negatives;
+    # domain-vector features still add a further lift, and are what move the
+    # no-shared-word ranking off chance.
+    assert auc["classifier, no vectors"]["vs_hard"] > auc["lexical coverage only"]["vs_hard"] + 0.05
+    assert auc["classifier"]["vs_hard"] > auc["classifier, no vectors"]["vs_hard"]
+    assert auc["classifier"]["vs_hard"] > auc["lexical coverage only"]["vs_hard"] + 0.10
+    assert nos["lexical coverage only"]["p_at_1"] == 0.0 and nos["classifier"]["p_at_1"] > 0.10
+    assert len(json.loads((ROOT / "data" / "domainvec" / "passage_support.json").read_text())["classifier"]["features"]) == len(
+        __import__("ops_copilot.passage_support", fromlist=["FEATURES"]).FEATURES
+    )
