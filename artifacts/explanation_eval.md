@@ -69,8 +69,8 @@ Random tokens with no format and no credential cue (105 probes: seeded synthetic
 | base64url | 15 | 15 | 15 | 0 |
 | password_symbols | 15 | 15 | 15 | 0 |
 | prefixed_pat | 15 | 15 | 15 | 0 |
-| pronounceable (not gating) | 15 | 15 | 15 | 4 |
-| **all** | 105 | 105 | 105 | 4 |
+| pronounceable (not gating) | 15 | 15 | 15 | 0 |
+| **all** | 105 | 105 | 105 | 0 |
 
 Over-redaction cost: trace `query` changed by the detector on 0 golden, 0 perturbed and 0 write-refusal rows.
 
@@ -136,7 +136,7 @@ Random tokens with no format and no credential cue (105 probes: seeded synthetic
 | base64url | 15 | 15 | 15 | 0 |
 | password_symbols | 15 | 15 | 15 | 0 |
 | prefixed_pat | 15 | 15 | 15 | 0 |
-| pronounceable (not gating) | 15 | 15 | 15 | 4 |
-| **all** | 105 | 105 | 105 | 4 |
+| pronounceable (not gating) | 15 | 15 | 15 | 0 |
+| **all** | 105 | 105 | 105 | 0 |
 
 Over-redaction cost: trace `query` changed by the detector on 0 golden, 0 perturbed and 0 write-refusal rows.

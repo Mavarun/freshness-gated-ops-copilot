@@ -445,7 +445,7 @@
           "rows": 15
         },
         "pronounceable": {
-          "now": 4,
+          "now": 0,
           "pr16": 15,
           "raw": 15,
           "rows": 15
@@ -458,7 +458,7 @@
         "write": 0
       },
       "total": {
-        "now": 4,
+        "now": 0,
         "pr16": 105,
         "raw": 105,
         "rows": 105
@@ -958,7 +958,7 @@
           "rows": 15
         },
         "pronounceable": {
-          "now": 4,
+          "now": 0,
           "pr16": 15,
           "raw": 15,
           "rows": 15
@@ -971,7 +971,7 @@
         "write": 0
       },
       "total": {
-        "now": 4,
+        "now": 0,
         "pr16": 105,
         "raw": 105,
         "rows": 105
