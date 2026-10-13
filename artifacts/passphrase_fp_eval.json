@@ -1,0 +1,75 @@
+{
+ "test": {
+  "examples": [],
+  "flagged": 0,
+  "rate": 0.0,
+  "sentences": 306
+ },
+ "train": {
+  "examples": [
+   {
+    "flagged": [
+     "Ring networks vanished"
+    ],
+    "site": "networkengineering"
+   },
+   {
+    "flagged": [
+     "hash function always produces"
+    ],
+    "site": "security"
+   },
+   {
+    "flagged": [
+     "system expects users"
+    ],
+    "site": "security"
+   },
+   {
+    "flagged": [
+     "whenever somebody clicks"
+    ],
+    "site": "security"
+   },
+   {
+    "flagged": [
+     "managers like KeePassXC"
+    ],
+    "site": "security"
+   },
+   {
+    "flagged": [
+     "thing actually means"
+    ],
+    "site": "security"
+   },
+   {
+    "flagged": [
+     "expiration policies annoy"
+    ],
+    "site": "security"
+   },
+   {
+    "flagged": [
+     "policy actually results"
+    ],
+    "site": "security"
+   },
+   {
+    "flagged": [
+     "boxes always blanked"
+    ],
+    "site": "security"
+   },
+   {
+    "flagged": [
+     "really secret becomes paramount"
+    ],
+    "site": "security"
+   }
+  ],
+  "flagged": 17,
+  "rate": 0.005629139072847682,
+  "sentences": 3020
+ }
+}
