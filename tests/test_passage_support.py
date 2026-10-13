@@ -71,6 +71,37 @@ def test_hard_negative_shares_more_words_than_random() -> None:
     assert rows == ps.build_training_pairs(pairs, {}, seed=3)  # seeded
 
 
+def _length_pairs():
+    pairs = []
+    for i in range(12):
+        n = 4 if i % 2 else 40  # alternate short and long answers
+        pairs.append({"site": "s", "qid": i, "aid": 100 + i, "q": ["disk", "full"], "a": ["disk", "full", *[f"w{i}_{j}" for j in range(n)]]})
+    return pairs
+
+
+def test_length_matched_hard_negatives_stay_near_the_own_answer_length() -> None:
+    pairs = _length_pairs()
+
+    def within_band(mining: str) -> list[bool]:
+        rows = ps.build_training_pairs(pairs, {}, seed=5, mining=mining)
+        owns = [len(r[1]) for r in rows if r[3] == "own"]
+        hards = [len(r[1]) for r in rows if r[3] == "hard"]
+        return [o / ps.LEN_BAND <= h <= o * ps.LEN_BAND for o, h in zip(owns, hards)]
+
+    assert not all(within_band("max_lex"))  # coverage favours the long answers
+    assert all(within_band("length_matched"))
+    # same RNG stream by default: the PR #19 triples are reproduced exactly
+    assert ps.build_training_pairs(pairs, {}, seed=5) == ps.build_training_pairs(pairs, {}, seed=5, mining="max_lex", n_random=1)
+
+
+def test_extra_random_negatives_and_argument_checks() -> None:
+    rows = ps.build_training_pairs(_length_pairs(), {}, seed=5, n_random=3)
+    assert len(rows) == 12 * 5 and [r[3] for r in rows[:5]] == ["own", "hard", "random", "random", "random"]
+    for bad in ({"mining": "longest"}, {"n_random": 0}, {"band": 0.5}):
+        with pytest.raises(ValueError):
+            ps.build_training_pairs(_length_pairs(), {}, **bad)
+
+
 def test_out_of_sample_numbers_are_pinned() -> None:
     ev = json.loads(EVAL.read_text())["eval"]
     auc, nos = ev["auc"], ev["rank_no_shared_word"]
