@@ -144,6 +144,28 @@ def render_md(runs: dict[str, dict]) -> str:
                 f"Over-redaction cost: trace `query` changed by the detector on {ov['golden']} golden, "
                 f"{ov['perturbed']} perturbed and {ov['write']} write-refusal rows.",
             ]
+        pp = r.get("passphrases")
+        if pp:
+            tot = pp["total"]
+            lines += [
+                "",
+                f"Diceware-style passphrases ({tot['rows']} probes: seeded synthetic 4-5 word passphrases x 4 "
+                "separators x 5 templates in three contexts): rows / passphrase words (4+ letters) still in the "
+                "trace-bound fields. The PR #19 column re-redacts the boundary fields only.",
+                "",
+                "| slice | rows | none (raw) rows | PR #19 rows | now rows | PR #19 words | now words / total |",
+                "|---|---:|---:|---:|---:|---:|---:|",
+            ]
+            for group in ("by_separator", "by_context"):
+                for name, t in pp[group].items():
+                    lines.append(
+                        f"| {group[3:]}: {name} | {t['rows']} | {t['raw_rows']} | {t['pr19_rows']} | {t['now_rows']} | "
+                        f"{t['pr19_words']} | {t['now_words']} / {t['n_words']} |"
+                    )
+            lines.append(
+                f"| **all** | {tot['rows']} | {tot['raw_rows']} | {tot['pr19_rows']} | {tot['now_rows']} | "
+                f"{tot['pr19_words']} | {tot['now_words']} / {tot['n_words']} |"
+            )
         failed = [x for x in r["golden"]["rows"] if x["failed"]]
         if failed:
             lines += ["", "Golden failures: " + ", ".join(f"g{x['golden_index']:02d} {x['failed']}" for x in failed)]
@@ -174,6 +196,11 @@ def main() -> int:
             f"{'':30s} random-token probe rows leaking: raw={rt['total']['raw']} "
             f"pr16={rt['total']['pr16']} now={rt['total']['now']} (of {rt['total']['rows']}; "
             f"gating {rt['gated_now']}); over-redacted queries {rt['over_redacted_queries']}"
+        )
+        pt = r["passphrases"]["total"]
+        print(
+            f"{'':30s} passphrase probe rows leaking: raw={pt['raw_rows']} pr19={pt['pr19_rows']} "
+            f"now={pt['now_rows']} (of {pt['rows']}); words now={pt['now_words']} of {pt['n_words']}"
         )
         print(
             f"{'':30s} disclosed-in-words secret words leaked: raw={r['disclosure']['raw_words']} "

@@ -143,6 +143,9 @@ PR16_PATTERNS = tuple(
     if p[0] != "random_token" and p[1] is not LOGIN_SECRET_RE
 )
 
+# PR #19 (Oct 12) pattern set, for the Oct 13 passphrase before / after.
+PR19_PATTERNS = tuple(SENSITIVE_PATTERNS)
+
 _MIN_FRAGMENT = 2
 
 
