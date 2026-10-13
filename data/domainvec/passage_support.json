@@ -1,17 +1,17 @@
 {
  "classifier": {
   "coef": [
-   1.759479,
-   -0.148798,
-   0.035343,
-   0.577585,
-   0.745233,
-   0.422532,
-   -0.577585,
-   -0.154463,
-   0.383554,
-   0.021764,
-   -0.515854
+   1.91458,
+   0.028976,
+   -0.03346,
+   0.401428,
+   0.826108,
+   0.438048,
+   -0.401428,
+   -0.080384,
+   0.518091,
+   -0.391741,
+   -0.475902
   ],
   "features": [
    "lex",
@@ -26,32 +26,32 @@
    "best_mean",
    "len_ratio"
   ],
-  "intercept": -0.261174,
+  "intercept": -0.733098,
   "mean": [
-   0.247676,
-   0.614821,
-   0.359972,
-   0.72717,
-   0.564084,
-   0.032128,
-   0.27283,
-   0.81846,
-   0.518078,
-   0.640589,
-   0.875523
+   0.146226,
+   0.547223,
+   0.321348,
+   0.831915,
+   0.516294,
+   0.020755,
+   0.168085,
+   0.760811,
+   0.411628,
+   0.573456,
+   0.847097
   ],
   "scale": [
-   0.253663,
-   0.196758,
-   0.243068,
-   0.252782,
-   0.15595,
-   0.04018,
-   0.252782,
-   0.238793,
-   0.303019,
-   0.180282,
-   0.248117
+   0.220768,
+   0.189315,
+   0.224027,
+   0.225514,
+   0.158388,
+   0.034265,
+   0.225514,
+   0.267828,
+   0.303667,
+   0.176786,
+   0.278536
   ]
  },
  "meta": {
@@ -59,8 +59,14 @@
   "license": "CC BY-SA 4.0 (fitted from Stack Exchange posts, CC BY-SA 2.5 / 3.0 / 4.0)",
   "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
   "n_train_questions": 18888,
-  "n_train_rows": 56664,
+  "n_train_rows": 94440,
   "raw_sha256": "c44b4ebaa531db4b923bef8a1b2f22add56ffd5500701adef1d38422fbf6ec7f",
+  "recipe": {
+   "band": 1.5,
+   "mining": "length_matched",
+   "n_random": 3,
+   "name": "length_matched/r3/b1.5"
+  },
   "source": "Stack Exchange API v2.3, /questions sort=votes and sort=activity (most-voted and most recently active questions) with answers",
   "source_url": "https://api.stackexchange.com/2.3/questions",
   "vectors": "data/domainvec/se_ppmi_svd.json.gz"

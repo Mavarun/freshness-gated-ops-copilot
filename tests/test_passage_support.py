@@ -127,6 +127,15 @@ def test_out_of_sample_numbers_are_pinned() -> None:
     assert auc["classifier"]["vs_hard"] > auc["classifier, no vectors"]["vs_hard"]
     assert auc["classifier"]["vs_hard"] > auc["lexical coverage only"]["vs_hard"] + 0.10
     assert nos["lexical coverage only"]["p_at_1"] == 0.0 and nos["classifier"]["p_at_1"] > 0.10
+    # Oct 13: length-matched hard negatives + 3 random ones (chosen on validation)
+    # fix the PR #19 ranking regression; the cost is a little hard-negative AUC
+    # and no-shared-word P@1, pinned so it cannot grow silently.
+    rank = ev["rank"]
+    assert rank["classifier"]["p_at_1"] > rank["classifier, PR #19 recipe"]["p_at_1"] + 0.10
+    assert rank["classifier"]["p_at_1"] > rank["lexical coverage only"]["p_at_1"]
+    assert auc["classifier"]["vs_hard_len"] > auc["classifier, PR #19 recipe"]["vs_hard_len"] - 0.01
+    assert nos["classifier"]["p_at_1"] > nos["classifier, PR #19 recipe"]["p_at_1"] - 0.03
+    assert json.loads(EVAL.read_text())["meta"]["recipe"]["name"] == "length_matched/r3/b1.5"
     assert len(json.loads((ROOT / "data" / "domainvec" / "passage_support.json").read_text())["classifier"]["features"]) == len(
         __import__("ops_copilot.passage_support", fromlist=["FEATURES"]).FEATURES
     )

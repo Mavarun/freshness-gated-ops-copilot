@@ -2,30 +2,74 @@
  "eval": {
   "auc": {
    "classifier": {
+    "vs_hard": 0.7308500040765109,
+    "vs_hard_len": 0.8071299582321625,
+    "vs_random": 0.9226643700759731
+   },
+   "classifier, PR #19 recipe": {
     "vs_hard": 0.7585229535680716,
+    "vs_hard_len": 0.8142247272720458,
     "vs_random": 0.9104772422918802
    },
    "classifier, no vectors": {
-    "vs_hard": 0.7147420458837079,
-    "vs_random": 0.8918993635957263
+    "vs_hard": 0.6887503057383217,
+    "vs_hard_len": 0.7664920639234403,
+    "vs_random": 0.9054233058348461
    },
    "lexical coverage only": {
     "vs_hard": 0.6285856896659978,
+    "vs_hard_len": 0.7338990702743633,
     "vs_random": 0.8877510451330676
    }
   },
   "n_rank_queries": 1000,
   "n_test_questions": 2066,
+  "passage_length": {
+   "length_matched": {
+    "hard": {
+     "mean": 45.79090029041626,
+     "median": 43.0,
+     "n": 2066
+    },
+    "own": {
+     "mean": 43.86544046466602,
+     "median": 41.0,
+     "n": 2066
+    }
+   },
+   "max_lex": {
+    "hard": {
+     "mean": 57.478218780251694,
+     "median": 61.0,
+     "n": 2066
+    },
+    "own": {
+     "mean": 43.86544046466602,
+     "median": 41.0,
+     "n": 2066
+    },
+    "random": {
+     "mean": 43.7918683446273,
+     "median": 41.0,
+     "n": 2066
+    }
+   }
+  },
   "rank": {
    "classifier": {
+    "mrr": 0.7769066903084438,
+    "n": 1000,
+    "p_at_1": 0.692
+   },
+   "classifier, PR #19 recipe": {
     "mrr": 0.6956277207283728,
     "n": 1000,
     "p_at_1": 0.573
    },
    "classifier, no vectors": {
-    "mrr": 0.6319359030633466,
+    "mrr": 0.7245094647175808,
     "n": 1000,
-    "p_at_1": 0.519
+    "p_at_1": 0.641
    },
    "lexical coverage only": {
     "mrr": 0.7285822563756388,
@@ -35,14 +79,19 @@
   },
   "rank_no_shared_word": {
    "classifier": {
+    "mrr": 0.2721903242106592,
+    "n": 130,
+    "p_at_1": 0.13076923076923078
+   },
+   "classifier, PR #19 recipe": {
     "mrr": 0.3156158794028989,
     "n": 130,
     "p_at_1": 0.14615384615384616
    },
    "classifier, no vectors": {
-    "mrr": 0.1698397546803613,
+    "mrr": 0.12748124189441148,
     "n": 130,
-    "p_at_1": 0.06923076923076923
+    "p_at_1": 0.038461538461538464
    },
    "lexical coverage only": {
     "mrr": 0.03423997892442795,
@@ -54,11 +103,11 @@
  },
  "lexical_classifier": {
   "coef": [
-   2.004697,
-   0.591254,
-   0.747371,
-   -0.591254,
-   -0.378913
+   2.323712,
+   0.509897,
+   0.717194,
+   -0.509897,
+   -0.347336
   ],
   "features": [
    "lex",
@@ -67,20 +116,20 @@
    "hit_frac",
    "len_ratio"
   ],
-  "intercept": -0.120713,
+  "intercept": -0.484123,
   "mean": [
-   0.247676,
-   0.72717,
-   0.032128,
-   0.27283,
-   0.875523
+   0.146226,
+   0.831915,
+   0.020755,
+   0.168085,
+   0.847097
   ],
   "scale": [
-   0.253663,
-   0.252782,
-   0.04018,
-   0.252782,
-   0.248117
+   0.220768,
+   0.225514,
+   0.034265,
+   0.225514,
+   0.278536
   ]
  },
  "meta": {
@@ -88,10 +137,71 @@
   "license": "CC BY-SA 4.0 (fitted from Stack Exchange posts, CC BY-SA 2.5 / 3.0 / 4.0)",
   "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
   "n_train_questions": 18888,
-  "n_train_rows": 56664,
+  "n_train_rows": 94440,
   "raw_sha256": "c44b4ebaa531db4b923bef8a1b2f22add56ffd5500701adef1d38422fbf6ec7f",
+  "recipe": {
+   "band": 1.5,
+   "mining": "length_matched",
+   "n_random": 3,
+   "name": "length_matched/r3/b1.5"
+  },
   "source": "Stack Exchange API v2.3, /questions sort=votes and sort=activity (most-voted and most recently active questions) with answers",
   "source_url": "https://api.stackexchange.com/2.3/questions",
   "vectors": "data/domainvec/se_ppmi_svd.json.gz"
+ },
+ "pr19_recipe_classifier": {
+  "coef": [
+   1.759479,
+   -0.148798,
+   0.035343,
+   0.577585,
+   0.745233,
+   0.422532,
+   -0.577585,
+   -0.154463,
+   0.383554,
+   0.021764,
+   -0.515854
+  ],
+  "features": [
+   "lex",
+   "soft",
+   "weakest",
+   "missing",
+   "centroid",
+   "jaccard",
+   "hit_frac",
+   "soft_ge_04",
+   "soft_ge_06",
+   "best_mean",
+   "len_ratio"
+  ],
+  "intercept": -0.261174,
+  "mean": [
+   0.247676,
+   0.614821,
+   0.359972,
+   0.72717,
+   0.564084,
+   0.032128,
+   0.27283,
+   0.81846,
+   0.518078,
+   0.640589,
+   0.875523
+  ],
+  "scale": [
+   0.253663,
+   0.196758,
+   0.243068,
+   0.252782,
+   0.15595,
+   0.04018,
+   0.252782,
+   0.238793,
+   0.303019,
+   0.180282,
+   0.248117
+  ]
  }
 }
