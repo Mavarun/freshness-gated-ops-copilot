@@ -251,3 +251,20 @@ def test_login_and_state_probes_are_pinned() -> None:
         assert lg["rows"] == 15 and lg["pr16_words"] == lg["n_words_total"] == 30
         assert lg["now_words"] == 0
         assert st["n"] == 8 and st["pr16_redacted"] == 6 and st["now_redacted"] == 0
+
+
+def test_passphrase_probe_is_seeded_and_covers_every_separator_and_context() -> None:
+    from ops_copilot.explain_eval import PASSPHRASE_TEMPLATES, synthetic_passphrases
+
+    a, b = synthetic_passphrases(), synthetic_passphrases()
+    assert a == b and len(a) == 16
+    assert {s for s, _ in a} == {"space", "hyphen", "dot", "underscore"}
+    assert any(p[-1].isdigit() and p[0].isupper() for _, p in a)
+    assert set(PASSPHRASE_TEMPLATES) == {"copula", "purpose", "no_copula"}
+    from pathlib import Path
+
+    art = Path(__file__).resolve().parents[1] / "artifacts" / "explanation_eval.json"
+    run = json.loads(art.read_text())["default"]["passphrases"]
+    tot = run["total"]
+    assert tot["rows"] == 80 and tot["raw_rows"] == 80  # raw traces keep every passphrase
+    assert tot["now_rows"] <= tot["pr19_rows"]

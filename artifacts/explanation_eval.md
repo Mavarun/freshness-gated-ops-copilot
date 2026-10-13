@@ -74,6 +74,19 @@ Random tokens with no format and no credential cue (105 probes: seeded synthetic
 
 Over-redaction cost: trace `query` changed by the detector on 0 golden, 0 perturbed and 0 write-refusal rows.
 
+Diceware-style passphrases (80 probes: seeded synthetic 4-5 word passphrases x 4 separators x 5 templates in three contexts): rows / passphrase words (4+ letters) still in the trace-bound fields. The PR #19 column re-redacts the boundary fields only.
+
+| slice | rows | none (raw) rows | PR #19 rows | now rows | PR #19 words | now words / total |
+|---|---:|---:|---:|---:|---:|---:|
+| separator: space | 20 | 20 | 11 | 11 | 47 | 47 / 85 |
+| separator: hyphen | 20 | 20 | 8 | 8 | 36 | 36 / 90 |
+| separator: dot | 20 | 20 | 20 | 20 | 87 | 87 / 95 |
+| separator: underscore | 20 | 20 | 8 | 8 | 32 | 32 / 80 |
+| context: copula | 32 | 32 | 8 | 8 | 30 | 30 / 140 |
+| context: purpose | 16 | 16 | 7 | 7 | 32 | 32 / 70 |
+| context: no_copula | 32 | 32 | 32 | 32 | 140 | 140 / 140 |
+| **all** | 80 | 80 | 47 | 47 | 202 | 202 / 350 |
+
 ## embedding on (frozen MiniLM): checks
 
 | check | golden | perturbed transfer |
@@ -140,3 +153,16 @@ Random tokens with no format and no credential cue (105 probes: seeded synthetic
 | **all** | 105 | 105 | 105 | 0 |
 
 Over-redaction cost: trace `query` changed by the detector on 0 golden, 0 perturbed and 0 write-refusal rows.
+
+Diceware-style passphrases (80 probes: seeded synthetic 4-5 word passphrases x 4 separators x 5 templates in three contexts): rows / passphrase words (4+ letters) still in the trace-bound fields. The PR #19 column re-redacts the boundary fields only.
+
+| slice | rows | none (raw) rows | PR #19 rows | now rows | PR #19 words | now words / total |
+|---|---:|---:|---:|---:|---:|---:|
+| separator: space | 20 | 20 | 11 | 11 | 47 | 47 / 85 |
+| separator: hyphen | 20 | 20 | 8 | 8 | 36 | 36 / 90 |
+| separator: dot | 20 | 20 | 20 | 20 | 87 | 87 / 95 |
+| separator: underscore | 20 | 20 | 8 | 8 | 32 | 32 / 80 |
+| context: copula | 32 | 32 | 8 | 8 | 30 | 30 / 140 |
+| context: purpose | 16 | 16 | 7 | 7 | 32 | 32 / 70 |
+| context: no_copula | 32 | 32 | 32 | 32 | 140 | 140 / 140 |
+| **all** | 80 | 80 | 47 | 47 | 202 | 202 / 350 |

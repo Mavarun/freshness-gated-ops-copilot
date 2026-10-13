@@ -49,6 +49,15 @@ Sections:
    PR #16 patterns and now, per family; plus how many golden / perturbed /
    write rows have a trace ``query`` the detector changes. The pronounceable
    family is a known hard case and is reported but does not gate CI.
+7. **Diceware-style passphrases** (``passphrases``, since Oct 13): seeded
+   synthetic passphrases of four or five plain words (never real) joined by a
+   space, ``-``, ``.`` or ``_``, lower-case or Title-Case with an optional
+   trailing number, in three contexts: after a credential noun and a copula
+   ("the vault passphrase is {s}."), by purpose ("use {s} to log in"), and
+   right after a credential noun with no copula ("the deploy token {s}
+   stopped working"). A leak is any word of the passphrase (4+ letters) left
+   in a trace-bound field. Counted unredacted, with the PR #19 patterns and
+   now, per separator and per context.
 """
 
 from __future__ import annotations
@@ -66,6 +75,7 @@ from ops_copilot.explain_redact import (
     BOUNDARY_FIELDS,
     PR15_PATTERNS,
     PR16_PATTERNS,
+    PR19_PATTERNS,
     boundary_leaks,
     explanation_leaks,
     find_sensitive,
@@ -140,6 +150,28 @@ STATE_STATEMENTS = (
     "How do I use kubectl to authenticate to the cluster?",
     "use the bastion to log in to payments-worker",
 )
+# Section 7: diceware-style passphrases (synthetic; words chosen to be absent
+# from the templates, the corpus page titles and the ops glossary cues).
+PASSPHRASE_WORDS = (
+    "tundra", "velvet", "orbit", "canyon", "maple", "lantern", "pebble", "walnut",
+    "copper", "meadow", "falcon", "cobalt", "juniper", "saddle", "ember", "quartz",
+    "willow", "thistle", "marble", "glacier", "nectar", "raven", "tulip", "badger",
+    "cactus", "otter", "prism", "sonnet", "parsnip", "lagoon", "bramble", "mosaic",
+)
+PASSPHRASE_SEPARATORS = (" ", "-", ".", "_")
+PASSPHRASE_SEED = 43
+PASSPHRASES_PER_SEPARATOR = 4
+PASSPHRASE_TEMPLATES = {
+    "copula": (
+        "The vault passphrase is {s}. Who owns vault-transit?",
+        "my password is {s}, why can't I log in?",
+    ),
+    "purpose": ("use {s} to log in to vault",),
+    "no_copula": (
+        "the deploy token {s} stopped working, who rotates it?",
+        "log in to grafana with passphrase {s} please",
+    ),
+}
 PROBE_TEMPLATES = (
     "What is {s}?",
     "Who owns {s} in the vault transit directory?",
@@ -390,6 +422,79 @@ def random_token_probe(bot: Copilot) -> dict[str, Any]:
     return {"by_family": fam, "total": tot, "gated_now": gated, "ungated_families": list(UNGATED_FAMILIES)}
 
 
+def synthetic_passphrases(seed: int = PASSPHRASE_SEED) -> list[tuple[str, str]]:
+    """(separator name, passphrase): seeded, half Title-Case with a number."""
+    import random
+
+    rng = random.Random(seed)
+    names = {" ": "space", "-": "hyphen", ".": "dot", "_": "underscore"}
+    out: list[tuple[str, str]] = []
+    for sep in PASSPHRASE_SEPARATORS:
+        for i in range(PASSPHRASES_PER_SEPARATOR):
+            words = rng.sample(PASSPHRASE_WORDS, rng.choice((4, 5)))
+            if i % 2:
+                words = [w.title() for w in words] + [str(rng.randint(10, 99))]
+            out.append((names[sep], sep.join(words)))
+    return out
+
+
+def _passphrase_words(secret: str) -> list[str]:
+    import re
+
+    return [w.lower() for w in re.split(r"[\s\-._]+", secret) if len(w) >= 4 and w.isalpha()]
+
+
+def _word_leaks(payload: dict, words: list[str]) -> int:
+    import re
+
+    flat: list[str] = []
+
+    def _collect(o: Any) -> None:
+        if isinstance(o, str):
+            flat.append(o)
+        elif isinstance(o, dict):
+            for v in o.values():
+                _collect(v)
+        elif isinstance(o, (list, tuple)):
+            for v in o:
+                _collect(v)
+
+    _collect({k: payload.get(k) for k in (*BOUNDARY_FIELDS, "explanation")})
+    blob = "\n".join(flat).lower()
+    return sum(bool(re.search(rf"(?<![a-z]){re.escape(w)}(?![a-z])", blob)) for w in words)
+
+
+def _pr19_boundary(res) -> dict:
+    """What the PR #19 boundary pass would write (patterns before Oct 13)."""
+    raw = res.as_dict()
+    out, _ = redact_boundary(raw, query=res.query, patterns=PR19_PATTERNS)
+    return out
+
+
+def passphrase_probe(bot: Copilot) -> dict[str, Any]:
+    keys = ("rows", "raw_rows", "pr19_rows", "now_rows", "raw_words", "pr19_words", "now_words", "n_words")
+    by_sep: dict[str, dict[str, int]] = {}
+    by_ctx: dict[str, dict[str, int]] = {}
+    examples: list[str] = []
+    for sep, secret in synthetic_passphrases():
+        words = _passphrase_words(secret)
+        for ctx, tpls in PASSPHRASE_TEMPLATES.items():
+            for tpl in tpls:
+                res = bot.ask(tpl.format(s=secret))
+                v = {"raw": _word_leaks(res.as_dict(), words), "pr19": _word_leaks(_pr19_boundary(res), words),
+                     "now": _word_leaks(res.boundary_dict(), words)}
+                for t in (by_sep.setdefault(sep, dict.fromkeys(keys, 0)), by_ctx.setdefault(ctx, dict.fromkeys(keys, 0))):
+                    t["rows"] += 1
+                    t["n_words"] += len(words)
+                    for k, n in v.items():
+                        t[f"{k}_rows"] += bool(n)
+                        t[f"{k}_words"] += n
+                if v["now"] and len(examples) < 5:
+                    examples.append(f"{ctx}/{sep}: {tpl}")
+    total = {k: sum(t[k] for t in by_sep.values()) for k in keys}
+    return {"by_separator": by_sep, "by_context": by_ctx, "total": total, "now_leaking_examples": examples}
+
+
 def random_token_over_redaction(res) -> bool:
     """True if the random-token detector changes this row's trace ``query`` vs PR #16."""
     return _pr16_boundary(res).get("query") != res.boundary_dict().get("query")
@@ -526,6 +631,9 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
     # 6. random tokens with no format and no credential cue
     random_tokens = random_token_probe(Copilot(config=cfg))
 
+    # 7. diceware-style passphrases (separator-joined plain words)
+    passphrases = passphrase_probe(Copilot(config=cfg))
+
     return {
         "golden": _tally(g_checks)
         | {"n": len(golden), "n_schema_ok": g_schema, "rows": g_rows},
@@ -553,6 +661,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         },
         "disclosure": disclosure | {"over_redacted_queries": over},
         "random_tokens": random_tokens | {"over_redacted_queries": over_rt},
+        "passphrases": passphrases,
         # Trace-bound fields (query, reason, write_intent, proposed_write,
         # explanation): what PR #14 wrote raw vs what is written now.
         "trace_leaks": {

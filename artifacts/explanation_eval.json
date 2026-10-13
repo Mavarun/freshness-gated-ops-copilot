@@ -313,6 +313,99 @@
       "n_probe_refusals": 83,
       "n_secrets_planted": 8
     },
+    "passphrases": {
+      "by_context": {
+        "copula": {
+          "n_words": 140,
+          "now_rows": 8,
+          "now_words": 30,
+          "pr19_rows": 8,
+          "pr19_words": 30,
+          "raw_rows": 32,
+          "raw_words": 140,
+          "rows": 32
+        },
+        "no_copula": {
+          "n_words": 140,
+          "now_rows": 32,
+          "now_words": 140,
+          "pr19_rows": 32,
+          "pr19_words": 140,
+          "raw_rows": 32,
+          "raw_words": 140,
+          "rows": 32
+        },
+        "purpose": {
+          "n_words": 70,
+          "now_rows": 7,
+          "now_words": 32,
+          "pr19_rows": 7,
+          "pr19_words": 32,
+          "raw_rows": 16,
+          "raw_words": 70,
+          "rows": 16
+        }
+      },
+      "by_separator": {
+        "dot": {
+          "n_words": 95,
+          "now_rows": 20,
+          "now_words": 87,
+          "pr19_rows": 20,
+          "pr19_words": 87,
+          "raw_rows": 20,
+          "raw_words": 95,
+          "rows": 20
+        },
+        "hyphen": {
+          "n_words": 90,
+          "now_rows": 8,
+          "now_words": 36,
+          "pr19_rows": 8,
+          "pr19_words": 36,
+          "raw_rows": 20,
+          "raw_words": 90,
+          "rows": 20
+        },
+        "space": {
+          "n_words": 85,
+          "now_rows": 11,
+          "now_words": 47,
+          "pr19_rows": 11,
+          "pr19_words": 47,
+          "raw_rows": 20,
+          "raw_words": 85,
+          "rows": 20
+        },
+        "underscore": {
+          "n_words": 80,
+          "now_rows": 8,
+          "now_words": 32,
+          "pr19_rows": 8,
+          "pr19_words": 32,
+          "raw_rows": 20,
+          "raw_words": 80,
+          "rows": 20
+        }
+      },
+      "now_leaking_examples": [
+        "no_copula/space: the deploy token {s} stopped working, who rotates it?",
+        "no_copula/space: log in to grafana with passphrase {s} please",
+        "purpose/space: use {s} to log in to vault",
+        "no_copula/space: the deploy token {s} stopped working, who rotates it?",
+        "no_copula/space: log in to grafana with passphrase {s} please"
+      ],
+      "total": {
+        "n_words": 350,
+        "now_rows": 47,
+        "now_words": 202,
+        "pr19_rows": 47,
+        "pr19_words": 202,
+        "raw_rows": 80,
+        "raw_words": 350,
+        "rows": 80
+      }
+    },
     "perturbed": {
       "n": 203,
       "n_refusals": 145,
@@ -825,6 +918,99 @@
       "n_probe_queries": 84,
       "n_probe_refusals": 83,
       "n_secrets_planted": 8
+    },
+    "passphrases": {
+      "by_context": {
+        "copula": {
+          "n_words": 140,
+          "now_rows": 8,
+          "now_words": 30,
+          "pr19_rows": 8,
+          "pr19_words": 30,
+          "raw_rows": 32,
+          "raw_words": 140,
+          "rows": 32
+        },
+        "no_copula": {
+          "n_words": 140,
+          "now_rows": 32,
+          "now_words": 140,
+          "pr19_rows": 32,
+          "pr19_words": 140,
+          "raw_rows": 32,
+          "raw_words": 140,
+          "rows": 32
+        },
+        "purpose": {
+          "n_words": 70,
+          "now_rows": 7,
+          "now_words": 32,
+          "pr19_rows": 7,
+          "pr19_words": 32,
+          "raw_rows": 16,
+          "raw_words": 70,
+          "rows": 16
+        }
+      },
+      "by_separator": {
+        "dot": {
+          "n_words": 95,
+          "now_rows": 20,
+          "now_words": 87,
+          "pr19_rows": 20,
+          "pr19_words": 87,
+          "raw_rows": 20,
+          "raw_words": 95,
+          "rows": 20
+        },
+        "hyphen": {
+          "n_words": 90,
+          "now_rows": 8,
+          "now_words": 36,
+          "pr19_rows": 8,
+          "pr19_words": 36,
+          "raw_rows": 20,
+          "raw_words": 90,
+          "rows": 20
+        },
+        "space": {
+          "n_words": 85,
+          "now_rows": 11,
+          "now_words": 47,
+          "pr19_rows": 11,
+          "pr19_words": 47,
+          "raw_rows": 20,
+          "raw_words": 85,
+          "rows": 20
+        },
+        "underscore": {
+          "n_words": 80,
+          "now_rows": 8,
+          "now_words": 32,
+          "pr19_rows": 8,
+          "pr19_words": 32,
+          "raw_rows": 20,
+          "raw_words": 80,
+          "rows": 20
+        }
+      },
+      "now_leaking_examples": [
+        "no_copula/space: the deploy token {s} stopped working, who rotates it?",
+        "no_copula/space: log in to grafana with passphrase {s} please",
+        "purpose/space: use {s} to log in to vault",
+        "no_copula/space: the deploy token {s} stopped working, who rotates it?",
+        "no_copula/space: log in to grafana with passphrase {s} please"
+      ],
+      "total": {
+        "n_words": 350,
+        "now_rows": 47,
+        "now_words": 202,
+        "pr19_rows": 47,
+        "pr19_words": 202,
+        "raw_rows": 80,
+        "raw_words": 350,
+        "rows": 80
+      }
     },
     "perturbed": {
       "n": 203,
