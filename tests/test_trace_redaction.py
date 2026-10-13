@@ -268,3 +268,17 @@ def test_passphrase_probe_is_seeded_and_covers_every_separator_and_context() -> 
     tot = run["total"]
     assert tot["rows"] == 80 and tot["raw_rows"] == 80  # raw traces keep every passphrase
     assert tot["now_rows"] <= tot["pr19_rows"]
+
+
+def test_dot_joined_and_long_passphrases_are_redacted_whole() -> None:
+    from ops_copilot.explain_redact import DISCLOSED_SECRET_RE, LOGIN_SECRET_RE, PR19_DISCLOSED_SECRET_RE, redact_string
+
+    text = "The vault passphrase is tundra.velvet.orbit.canyon. Who owns vault-transit?"
+    assert PR19_DISCLOSED_SECRET_RE.search(text).group("val") == "tundra"  # the PR #19 leak
+    assert DISCLOSED_SECRET_RE.search(text).group("val") == "tundra.velvet.orbit.canyon"
+    out, _ = redact_string(text)
+    assert "velvet" not in out and "orbit" not in out and "Who owns vault-transit?" in out
+    m = LOGIN_SECRET_RE.search("use Lagoon Mosaic Velvet Sonnet 83 to log in to vault")
+    assert m and m.group("val") == "Lagoon Mosaic Velvet Sonnet 83"
+    for keep in ("use the bastion to log in to payments-worker", "the vault token is expired, who rotates it?"):
+        assert redact_string(keep)[0] == keep

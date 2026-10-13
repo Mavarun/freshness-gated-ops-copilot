@@ -78,14 +78,16 @@ Diceware-style passphrases (80 probes: seeded synthetic 4-5 word passphrases x 4
 
 | slice | rows | none (raw) rows | PR #19 rows | now rows | PR #19 words | now words / total |
 |---|---:|---:|---:|---:|---:|---:|
-| separator: space | 20 | 20 | 11 | 11 | 47 | 47 / 85 |
+| separator: space | 20 | 20 | 11 | 8 | 47 | 34 / 85 |
 | separator: hyphen | 20 | 20 | 8 | 8 | 36 | 36 / 90 |
-| separator: dot | 20 | 20 | 20 | 20 | 87 | 87 / 95 |
+| separator: dot | 20 | 20 | 20 | 8 | 87 | 38 / 95 |
 | separator: underscore | 20 | 20 | 8 | 8 | 32 | 32 / 80 |
-| context: copula | 32 | 32 | 8 | 8 | 30 | 30 / 140 |
-| context: purpose | 16 | 16 | 7 | 7 | 32 | 32 / 70 |
+| context: copula | 32 | 32 | 8 | 0 | 30 | 0 / 140 |
+| context: purpose | 16 | 16 | 7 | 0 | 32 | 0 / 70 |
 | context: no_copula | 32 | 32 | 32 | 32 | 140 | 140 / 140 |
-| **all** | 80 | 80 | 47 | 47 | 202 | 202 / 350 |
+| **all** | 80 | 80 | 47 | 32 | 202 | 140 / 350 |
+
+Over-redaction cost vs PR #19: trace `query` changed on 0 golden, 0 perturbed and 0 write-refusal rows.
 
 ## embedding on (frozen MiniLM): checks
 
@@ -158,11 +160,13 @@ Diceware-style passphrases (80 probes: seeded synthetic 4-5 word passphrases x 4
 
 | slice | rows | none (raw) rows | PR #19 rows | now rows | PR #19 words | now words / total |
 |---|---:|---:|---:|---:|---:|---:|
-| separator: space | 20 | 20 | 11 | 11 | 47 | 47 / 85 |
+| separator: space | 20 | 20 | 11 | 8 | 47 | 34 / 85 |
 | separator: hyphen | 20 | 20 | 8 | 8 | 36 | 36 / 90 |
-| separator: dot | 20 | 20 | 20 | 20 | 87 | 87 / 95 |
+| separator: dot | 20 | 20 | 20 | 8 | 87 | 38 / 95 |
 | separator: underscore | 20 | 20 | 8 | 8 | 32 | 32 / 80 |
-| context: copula | 32 | 32 | 8 | 8 | 30 | 30 / 140 |
-| context: purpose | 16 | 16 | 7 | 7 | 32 | 32 / 70 |
+| context: copula | 32 | 32 | 8 | 0 | 30 | 0 / 140 |
+| context: purpose | 16 | 16 | 7 | 0 | 32 | 0 / 70 |
 | context: no_copula | 32 | 32 | 32 | 32 | 140 | 140 / 140 |
-| **all** | 80 | 80 | 47 | 47 | 202 | 202 / 350 |
+| **all** | 80 | 80 | 47 | 32 | 202 | 140 / 350 |
+
+Over-redaction cost vs PR #19: trace `query` changed on 0 golden, 0 perturbed and 0 write-refusal rows.
