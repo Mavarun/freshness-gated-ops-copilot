@@ -87,10 +87,21 @@ _STATE = (
 )
 _STATE_FILL = r"now|again|already|still|yesterday|today|too|also|and|or"
 _STATE_ONLY = rf"(?:{_STATE})(?:\s+(?:{_STATE}|{_STATE_FILL}))*\s*(?:$|[,.;?!:]|\s(?:{_CLAUSE})\b)"
-DISCLOSED_SECRET_RE = re.compile(
+# PR #19 form: a value token stopped at any ".", so a dot-joined passphrase
+# ("tundra.velvet.orbit.canyon") lost only its first word. Kept for the
+# Oct 13 before / after.
+PR19_DISCLOSED_SECRET_RE = re.compile(
     rf"(?i)\b(?:{_CUE})\s*(?:{_COPULA})\s+"
     rf"(?!(?:{_STOP_ALT})\b)(?!\[redacted)(?!(?:not|no|never)\b)(?!{_STATE_ONLY})"
     rf"(?P<val>[^\s,.;?!]+(?:\s+(?!(?:{_CLAUSE})\b)[^\s,.;?!]+){{0,5}})"
+)
+# One value token: a "." only ends it when it ends the sentence (followed by
+# a space or the end), so "a.b.c" stays one token and "is x. Who" stops at x.
+_VTOK = r"[^\s,.;?!]+(?:\.[^\s,.;?!]+)*"
+DISCLOSED_SECRET_RE = re.compile(
+    rf"(?i)\b(?:{_CUE})\s*(?:{_COPULA})\s+"
+    rf"(?!(?:{_STOP_ALT})\b)(?!\[redacted)(?!(?:not|no|never)\b)(?!{_STATE_ONLY})"
+    rf"(?P<val>{_VTOK}(?:\s+(?!(?:{_CLAUSE})\b){_VTOK}){{0,5}})"
 )
 # A secret disclosed by its *purpose*, with no credential noun: "use violet
 # harbor zebra to log in", "I typed q7 mango for login". One to four tokens
@@ -108,9 +119,16 @@ _NOT_VALUE = (
 _HOW = "".join(
     rf"(?<!{h} )" for h in ("how do i", "how can i", "how should i", "how do we", "how can we", "how to")
 )
-LOGIN_SECRET_RE = re.compile(
+# PR #19 form: at most four value tokens and no dots inside a token, so a
+# five-word or dot-joined passphrase leaked. Kept for the before / after.
+PR19_LOGIN_SECRET_RE = re.compile(
     rf"(?i){_HOW}\b(?:{_USE})\s+(?!(?:{_NOT_VALUE}|{_STOP_ALT})\b)(?!\[redacted)"
     rf"(?P<val>[^\s,.;?!]+(?:\s+[^\s,.;?!]+){{0,3}}?)\s+(?:to|for)\s+(?:{_LOGIN})\b"
+)
+# Now: up to six value tokens (as for the credential-noun form), dots allowed.
+LOGIN_SECRET_RE = re.compile(
+    rf"(?i){_HOW}\b(?:{_USE})\s+(?!(?:{_NOT_VALUE}|{_STOP_ALT})\b)(?!\[redacted)"
+    rf"(?P<val>{_VTOK}(?:\s+{_VTOK}){{0,5}}?)\s+(?:to|for)\s+(?:{_LOGIN})\b"
 )
 DISCLOSED_RES = (DISCLOSED_SECRET_RE, LOGIN_SECRET_RE)
 # >= 32 chars of key-ish alphabet with both letters and digits; doc ids use
@@ -144,7 +162,8 @@ PR16_PATTERNS = tuple(
 )
 
 # PR #19 (Oct 12) pattern set, for the Oct 13 passphrase before / after.
-PR19_PATTERNS = tuple(SENSITIVE_PATTERNS)
+_PR19_SWAP = {id(DISCLOSED_SECRET_RE): PR19_DISCLOSED_SECRET_RE, id(LOGIN_SECRET_RE): PR19_LOGIN_SECRET_RE}
+PR19_PATTERNS = tuple((k, _PR19_SWAP.get(id(p), p)) for k, p in SENSITIVE_PATTERNS)
 
 _MIN_FRAGMENT = 2
 
@@ -183,7 +202,7 @@ def sensitive_fragments(texts: Iterable[str], *, patterns=SENSITIVE_PATTERNS) ->
             if kind == "disclosed_secret":
                 # fragment the value only: the cue ("token", "password") is
                 # an ordinary word the explanation must keep
-                m = next((m for r in (*DISCLOSED_RES, PR16_DISCLOSED_SECRET_RE) if (m := r.search(value))), None)
+                m = next((m for r in (*DISCLOSED_RES, PR19_DISCLOSED_SECRET_RE, PR19_LOGIN_SECRET_RE, PR16_DISCLOSED_SECRET_RE) if (m := r.search(value))), None)
                 part = m.group("val") if m else value
             frags.update(
                 t for t in tokenize(part) if len(t) >= _MIN_FRAGMENT and t not in STOPWORDS

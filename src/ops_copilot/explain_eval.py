@@ -495,6 +495,11 @@ def passphrase_probe(bot: Copilot) -> dict[str, Any]:
     return {"by_separator": by_sep, "by_context": by_ctx, "total": total, "now_leaking_examples": examples}
 
 
+def passphrase_over_redaction(res) -> bool:
+    """True if the Oct 13 pattern changes this row's trace ``query`` vs PR #19."""
+    return _pr19_boundary(res).get("query") != res.boundary_dict().get("query")
+
+
 def random_token_over_redaction(res) -> bool:
     """True if the random-token detector changes this row's trace ``query`` vs PR #16."""
     return _pr16_boundary(res).get("query") != res.boundary_dict().get("query")
@@ -545,6 +550,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
     }
     over = {"golden": 0, "perturbed": 0, "write": 0}
     over_rt = {"golden": 0, "perturbed": 0, "write": 0}
+    over_pp = {"golden": 0, "perturbed": 0, "write": 0}
 
     # 1. golden
     bot = Copilot(config=cfg)
@@ -558,6 +564,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         _boundary(res, secrets, trace["golden"])
         over["golden"] += over_redaction(res)
         over_rt["golden"] += random_token_over_redaction(res)
+        over_pp["golden"] += passphrase_over_redaction(res)
         exp = exps.get(i)
         if exp is None:
             continue
@@ -585,6 +592,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         _boundary(res, secrets, trace["perturbed"])
         over["perturbed"] += over_redaction(res)
         over_rt["perturbed"] += random_token_over_redaction(res)
+        over_pp["perturbed"] += passphrase_over_redaction(res)
         exp = exps.get(int(row["source_index"]))
         if exp and expl and res.decision.value == golden[int(row["source_index"])]["expect_decision"]:
             t_checks.append(check_fields(exp, expl, truth))
@@ -601,6 +609,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         _boundary(res, secrets, trace["write"])
         over["write"] += over_redaction(res)
         over_rt["write"] += random_token_over_redaction(res)
+        over_pp["write"] += passphrase_over_redaction(res)
         expl = res.as_dict()["explanation"] or {}
         w = expl.get("write") or {}
         w_n += 1
@@ -661,7 +670,7 @@ def run_explanation_eval(config: CopilotConfig | None = None) -> dict[str, Any]:
         },
         "disclosure": disclosure | {"over_redacted_queries": over},
         "random_tokens": random_tokens | {"over_redacted_queries": over_rt},
-        "passphrases": passphrases,
+        "passphrases": passphrases | {"over_redacted_queries": over_pp},
         # Trace-bound fields (query, reason, write_intent, proposed_write,
         # explanation): what PR #14 wrote raw vs what is written now.
         "trace_leaks": {

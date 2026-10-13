@@ -317,8 +317,8 @@
       "by_context": {
         "copula": {
           "n_words": 140,
-          "now_rows": 8,
-          "now_words": 30,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 8,
           "pr19_words": 30,
           "raw_rows": 32,
@@ -337,8 +337,8 @@
         },
         "purpose": {
           "n_words": 70,
-          "now_rows": 7,
-          "now_words": 32,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 7,
           "pr19_words": 32,
           "raw_rows": 16,
@@ -349,8 +349,8 @@
       "by_separator": {
         "dot": {
           "n_words": 95,
-          "now_rows": 20,
-          "now_words": 87,
+          "now_rows": 8,
+          "now_words": 38,
           "pr19_rows": 20,
           "pr19_words": 87,
           "raw_rows": 20,
@@ -369,8 +369,8 @@
         },
         "space": {
           "n_words": 85,
-          "now_rows": 11,
-          "now_words": 47,
+          "now_rows": 8,
+          "now_words": 34,
           "pr19_rows": 11,
           "pr19_words": 47,
           "raw_rows": 20,
@@ -391,14 +391,19 @@
       "now_leaking_examples": [
         "no_copula/space: the deploy token {s} stopped working, who rotates it?",
         "no_copula/space: log in to grafana with passphrase {s} please",
-        "purpose/space: use {s} to log in to vault",
         "no_copula/space: the deploy token {s} stopped working, who rotates it?",
-        "no_copula/space: log in to grafana with passphrase {s} please"
+        "no_copula/space: log in to grafana with passphrase {s} please",
+        "no_copula/space: the deploy token {s} stopped working, who rotates it?"
       ],
+      "over_redacted_queries": {
+        "golden": 0,
+        "perturbed": 0,
+        "write": 0
+      },
       "total": {
         "n_words": 350,
-        "now_rows": 47,
-        "now_words": 202,
+        "now_rows": 32,
+        "now_words": 140,
         "pr19_rows": 47,
         "pr19_words": 202,
         "raw_rows": 80,
@@ -923,8 +928,8 @@
       "by_context": {
         "copula": {
           "n_words": 140,
-          "now_rows": 8,
-          "now_words": 30,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 8,
           "pr19_words": 30,
           "raw_rows": 32,
@@ -943,8 +948,8 @@
         },
         "purpose": {
           "n_words": 70,
-          "now_rows": 7,
-          "now_words": 32,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 7,
           "pr19_words": 32,
           "raw_rows": 16,
@@ -955,8 +960,8 @@
       "by_separator": {
         "dot": {
           "n_words": 95,
-          "now_rows": 20,
-          "now_words": 87,
+          "now_rows": 8,
+          "now_words": 38,
           "pr19_rows": 20,
           "pr19_words": 87,
           "raw_rows": 20,
@@ -975,8 +980,8 @@
         },
         "space": {
           "n_words": 85,
-          "now_rows": 11,
-          "now_words": 47,
+          "now_rows": 8,
+          "now_words": 34,
           "pr19_rows": 11,
           "pr19_words": 47,
           "raw_rows": 20,
@@ -997,14 +1002,19 @@
       "now_leaking_examples": [
         "no_copula/space: the deploy token {s} stopped working, who rotates it?",
         "no_copula/space: log in to grafana with passphrase {s} please",
-        "purpose/space: use {s} to log in to vault",
         "no_copula/space: the deploy token {s} stopped working, who rotates it?",
-        "no_copula/space: log in to grafana with passphrase {s} please"
+        "no_copula/space: log in to grafana with passphrase {s} please",
+        "no_copula/space: the deploy token {s} stopped working, who rotates it?"
       ],
+      "over_redacted_queries": {
+        "golden": 0,
+        "perturbed": 0,
+        "write": 0
+      },
       "total": {
         "n_words": 350,
-        "now_rows": 47,
-        "now_words": 202,
+        "now_rows": 32,
+        "now_words": 140,
         "pr19_rows": 47,
         "pr19_words": 202,
         "raw_rows": 80,

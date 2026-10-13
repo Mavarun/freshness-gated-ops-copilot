@@ -162,10 +162,14 @@ def render_md(runs: dict[str, dict]) -> str:
                         f"| {group[3:]}: {name} | {t['rows']} | {t['raw_rows']} | {t['pr19_rows']} | {t['now_rows']} | "
                         f"{t['pr19_words']} | {t['now_words']} / {t['n_words']} |"
                     )
-            lines.append(
+            ov = pp["over_redacted_queries"]
+            lines += [
                 f"| **all** | {tot['rows']} | {tot['raw_rows']} | {tot['pr19_rows']} | {tot['now_rows']} | "
-                f"{tot['pr19_words']} | {tot['now_words']} / {tot['n_words']} |"
-            )
+                f"{tot['pr19_words']} | {tot['now_words']} / {tot['n_words']} |",
+                "",
+                f"Over-redaction cost vs PR #19: trace `query` changed on {ov['golden']} golden, "
+                f"{ov['perturbed']} perturbed and {ov['write']} write-refusal rows.",
+            ]
         failed = [x for x in r["golden"]["rows"] if x["failed"]]
         if failed:
             lines += ["", "Golden failures: " + ", ".join(f"g{x['golden_index']:02d} {x['failed']}" for x in failed)]
