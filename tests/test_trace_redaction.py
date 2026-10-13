@@ -282,3 +282,17 @@ def test_dot_joined_and_long_passphrases_are_redacted_whole() -> None:
     assert m and m.group("val") == "Lagoon Mosaic Velvet Sonnet 83"
     for keep in ("use the bastion to log in to payments-worker", "the vault token is expired, who rotates it?"):
         assert redact_string(keep)[0] == keep
+
+
+def test_passphrase_eval_pins_before_after_and_no_over_redaction() -> None:
+    from pathlib import Path
+
+    art = json.loads((Path(__file__).resolve().parents[1] / "artifacts" / "explanation_eval.json").read_text())
+    for run in art.values():
+        pp = run["passphrases"]
+        tot, ctx = pp["total"], pp["by_context"]
+        assert tot["pr19_rows"] == 47 and tot["pr19_words"] == 202 and tot["n_words"] == 350
+        assert tot["now_rows"] == 0 and tot["now_words"] == 0
+        assert ctx["no_copula"]["pr19_rows"] == ctx["no_copula"]["rows"] == 32  # PR #19 saw none of these
+        assert pp["by_separator"]["dot"]["pr19_rows"] == 20
+        assert pp["over_redacted_queries"] == {"golden": 0, "perturbed": 0, "write": 0}

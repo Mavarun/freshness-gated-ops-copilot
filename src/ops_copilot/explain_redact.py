@@ -43,6 +43,7 @@ from collections.abc import Iterable, Sequence
 from typing import Any
 
 from ops_copilot.pii import EMAIL_RE, PHONE_RE
+from ops_copilot.passphrase import CUED_PASSPHRASE
 from ops_copilot.secret_entropy import RANDOM_TOKEN
 from ops_copilot.text import STOPWORDS, tokenize
 
@@ -145,6 +146,9 @@ SENSITIVE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("email", EMAIL_RE),
     ("phone", PHONE_RE),
     ("high_entropy", HIGH_ENTROPY_RE),
+    # Diceware-style passphrase right after a credential noun, no copula
+    # (``passphrase``; Oct 13).
+    ("passphrase", CUED_PASSPHRASE),
     # 12+ characters with no format that a character model of English / ops
     # words finds improbable (``secret_entropy``). Runs last, so spans the
     # shape patterns already replaced are skipped.
@@ -154,16 +158,16 @@ SENSITIVE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 # Earlier pattern sets, kept for the before / after measurements in
 # explain_eval: PR #15 had neither the disclosed-in-words pattern nor the
 # random-token detector; PR #16 had no random-token detector.
-PR15_PATTERNS = tuple(p for p in SENSITIVE_PATTERNS if p[0] not in ("disclosed_secret", "random_token"))
+PR15_PATTERNS = tuple(p for p in SENSITIVE_PATTERNS if p[0] not in ("disclosed_secret", "random_token", "passphrase"))
 PR16_PATTERNS = tuple(
     ("disclosed_secret", PR16_DISCLOSED_SECRET_RE) if p[1] is DISCLOSED_SECRET_RE else p
     for p in SENSITIVE_PATTERNS
-    if p[0] != "random_token" and p[1] is not LOGIN_SECRET_RE
+    if p[0] not in ("random_token", "passphrase") and p[1] is not LOGIN_SECRET_RE
 )
 
 # PR #19 (Oct 12) pattern set, for the Oct 13 passphrase before / after.
 _PR19_SWAP = {id(DISCLOSED_SECRET_RE): PR19_DISCLOSED_SECRET_RE, id(LOGIN_SECRET_RE): PR19_LOGIN_SECRET_RE}
-PR19_PATTERNS = tuple((k, _PR19_SWAP.get(id(p), p)) for k, p in SENSITIVE_PATTERNS)
+PR19_PATTERNS = tuple((k, _PR19_SWAP.get(id(p), p)) for k, p in SENSITIVE_PATTERNS if k != "passphrase")
 
 _MIN_FRAGMENT = 2
 
@@ -180,7 +184,7 @@ def find_sensitive(text: str, *, patterns=SENSITIVE_PATTERNS) -> list[tuple[str,
             # The random-token detector is a backstop: a span a shape pattern
             # already reported (a canary token, an AWS key id) is one secret,
             # not two.
-            if kind == "random_token" and any(a < y and x < b for x, y in spans):
+            if kind in ("random_token", "passphrase") and any(a < y and x < b for x, y in spans):
                 continue
             spans.append((a, b))
             out.append((kind, m.group(0)))
