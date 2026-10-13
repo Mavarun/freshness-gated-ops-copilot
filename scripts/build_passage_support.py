@@ -3,7 +3,10 @@
     python scripts/build_passage_support.py --raw-dir /tmp/se_qa_raw
 
 Needs the raw Stack Exchange pages of the QA snapshot (checked by SHA-256)
-and the committed domain vectors. Writes ``data/domainvec/passage_support.json``
+and the committed domain vectors. The hard-negative recipe is the one chosen
+on validation questions by ``select_passage_support.py``
+(``artifacts/passage_support_selection.json``); the PR #19 recipe is refitted
+alongside it only as a before / after row. Writes ``data/domainvec/passage_support.json``
 (feature scaling + logistic coefficients) and
 ``artifacts/passage_support_eval.{json,md}`` (out-of-sample, test questions).
 """
@@ -39,22 +42,29 @@ ART = ROOT / "artifacts"
 
 def render_md(ev: dict, meta: dict, coef: dict) -> str:
     names = {"lexical coverage only": "lexical coverage only", "classifier, no vectors": "classifier, lexical features",
-             "classifier": "classifier (+ domain vectors)"}
+             "classifier, PR #19 recipe": "classifier (+ vectors), PR #19 max-coverage negatives",
+             "classifier": "classifier (+ vectors), " + meta["recipe"]["name"]}
     lines = [
         "# Passage-level answer support: out-of-sample check (Stack Exchange test questions)",
         "",
         f"Trained on {meta['n_train_questions']:,} train-split questions ({meta['n_train_rows']:,} rows: own answer, "
-        f"a hard negative sharing words, a random answer); evaluated on {ev['n_test_questions']:,} hash-held-out "
+        f"a {meta['recipe']['mining'].replace('_', '-')} hard negative sharing words, {meta['recipe']['n_random']} random "
+        f"answer(s); recipe chosen on validation questions only); evaluated on {ev['n_test_questions']:,} hash-held-out "
         "test questions the vectors and the classifier never saw.",
         "",
-        "| scorer | AUC own vs hard negative | AUC own vs random | P@1 of 50 | MRR | P@1, own answer shares no title word (n) |",
-        "| --- | ---: | ---: | ---: | ---: | ---: |",
+        "`vs hard` uses the PR #19 max-coverage hard negatives (median "
+        f"{ev['passage_length']['max_lex']['hard']['median']:.0f} distinct words vs "
+        f"{ev['passage_length']['max_lex']['own']['median']:.0f} for real answers); `vs hard (len)` uses "
+        "length-matched ones, where length carries no signal.",
+        "",
+        "| scorer | AUC vs hard | AUC vs hard (len) | AUC vs random | P@1 of 50 | MRR | P@1, own answer shares no title word (n) |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for k, label in names.items():
         a, r, m = ev["auc"][k], ev["rank"][k], ev["rank_no_shared_word"][k]
         lines.append(
-            f"| {label} | {a['vs_hard']:.3f} | {a['vs_random']:.3f} | {r['p_at_1']:.3f} | {r['mrr']:.3f} | "
-            f"{m['p_at_1']:.3f} ({m['n']}) |"
+            f"| {label} | {a['vs_hard']:.3f} | {a['vs_hard_len']:.3f} | {a['vs_random']:.3f} | {r['p_at_1']:.3f} | "
+            f"{r['mrr']:.3f} | {m['p_at_1']:.3f} ({m['n']}) |"
         )
     lines += [
         "",
@@ -90,12 +100,19 @@ def main() -> None:
     idf = idf_from(p["a"] for p in train)
     dv = default_vectors()
     weight = lambda w: idf.get(w, 1.0)  # noqa: E731
-    rows = build_training_pairs(train, idf)
+    chosen = json.loads((ART / "passage_support_selection.json").read_text())
+    c = chosen["candidates"][chosen["chosen"]]
+    recipe = {"name": chosen["chosen"], "mining": c["mining"], "n_random": c["n_random"], "band": c["band"]}
+    rows = build_training_pairs(train, idf, mining=c["mining"], n_random=c["n_random"], band=c["band"])
     feats = [pair_features(q, a, weight, dv) for q, a, _, _ in rows]
     labels = [y for _, _, y, _ in rows]
     full = fit_classifier(feats, labels, FEATURES)
     lexical = fit_classifier(feats, labels, LEXICAL_FEATURES)
-    ev = evaluate(test, {"lexical coverage only": None, "classifier, no vectors": lexical, "classifier": full}, idf, dv)
+    old_rows = build_training_pairs(train, idf)
+    old = fit_classifier([pair_features(q, a, weight, dv) for q, a, _, _ in old_rows], [y for *_, y, _ in old_rows], FEATURES)
+    models = {"lexical coverage only": None, "classifier, no vectors": lexical, "classifier, PR #19 recipe": old,
+              "classifier": full}
+    ev = evaluate(test, models, idf, dv)
     meta = {
         "source": qa_meta["source"],
         "source_url": qa_meta["source_url"],
@@ -103,6 +120,7 @@ def main() -> None:
         "license": "CC BY-SA 4.0 (fitted from Stack Exchange posts, CC BY-SA 2.5 / 3.0 / 4.0)",
         "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
         "raw_sha256": digest.hexdigest(),
+        "recipe": recipe,
         "n_train_questions": sum(1 for _, _, _, k in rows if k == "own"),
         "n_train_rows": len(rows),
         "vectors": "data/domainvec/se_ppmi_svd.json.gz",
@@ -110,7 +128,8 @@ def main() -> None:
     DEFAULT_MODEL.write_text(json.dumps({"meta": meta, "classifier": full.as_dict()}, indent=1, sort_keys=True) + "\n")
     ART.mkdir(exist_ok=True)
     (ART / "passage_support_eval.json").write_text(
-        json.dumps({"meta": meta, "eval": ev, "lexical_classifier": lexical.as_dict()}, indent=1, sort_keys=True) + "\n"
+        json.dumps({"meta": meta, "eval": ev, "lexical_classifier": lexical.as_dict(), "pr19_recipe_classifier": old.as_dict()},
+                   indent=1, sort_keys=True) + "\n"
     )
     (ART / "passage_support_eval.md").write_text(render_md(ev, meta, full.as_dict()))
     for k in ev["auc"]:
