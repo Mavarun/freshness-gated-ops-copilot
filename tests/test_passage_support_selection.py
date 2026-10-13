@@ -32,3 +32,17 @@ def test_rule_breaks_ties_towards_fewer_random_negatives_then_narrow_band() -> N
     sel = _script().select
     rows = {"base": _row(0.80, 0.70), "a": _row(0.80, 0.75, r=3), "b": _row(0.80, 0.75, r=2, b=2.0), "c": _row(0.80, 0.75, r=2, b=1.25)}
     assert sel(rows, baseline="base") == "c"
+
+
+def test_committed_selection_is_consistent() -> None:
+    out = json.loads(SEL.read_text())
+    c = out["candidates"]
+    assert out["baseline"] == "max_lex/r1/b1.5" and out["chosen"] in c and c[out["chosen"]]["kept"]
+    assert _script().select(c) == out["chosen"]
+    # the PR #19 recipe's hard negatives are much longer than real answers
+    ln = out["length"]
+    assert ln["max_lex"]["hard"]["median"] > 1.3 * ln["max_lex"]["own"]["median"]
+    assert ln["length_matched"]["hard"]["median"] < 1.2 * ln["length_matched"]["own"]["median"]
+    # chosen recipe ranks better on validation; cost on no-shared-word queries is recorded, not hidden
+    assert c[out["chosen"]]["mrr"] > c[out["baseline"]]["mrr"]
+    assert out["n_valid_questions"] < out["n_fit_questions"] / 5
