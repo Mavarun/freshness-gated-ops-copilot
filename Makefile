@@ -1,4 +1,4 @@
-.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support secret-entropy explain-eval
+.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -56,6 +56,15 @@ calibrate-answer-support:
 #   python scripts/build_passage_support.py --raw-dir /tmp/se_qa_raw
 calibrate-passage-support:
 	python scripts/calibrate_passage_support.py
+
+# Training-recipe selection (validation questions only) and the cued-passphrase
+# false-positive check; both need the raw pages (RAW=/tmp/se_qa_raw).
+RAW ?= /tmp/se_qa_raw
+select-passage-support:
+	python scripts/select_passage_support.py --raw-dir $(RAW)
+
+passphrase-fp:
+	python scripts/run_passphrase_fp_eval.py --raw-dir $(RAW)
 
 secret-entropy:
 	python scripts/run_secret_entropy_eval.py
