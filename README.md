@@ -18,9 +18,93 @@ behind a **HITL approve** gate. Offline CI, frozen clock.
 | `PROPOSE_WRITE` | Imperative/request write parsed (action + target + confidence); pending HITL approve (never auto-executes) |
 | `REFUSE_AMBIGUOUS_WRITE` | Looks like a write but no target, an unregistered target (did-you-mean), no page recipient, several targets/actions, conditional, unsupported, or low confidence: asks to clarify |
 
-Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15).
+Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19).
 
 
+
+## Length-matched negatives and diceware passphrases (2026-10-13): ranking regression fixed, passphrase leaks 47 -> 0 of 80, held-out still 1 of 12
+
+PR #19 left a regression and an untested secret family: the passage classifier's
+overall P@1 of 50 on Stack Exchange test questions had fallen 0.679 -> 0.573, and
+diceware-style passphrases ("tundra.velvet.orbit.canyon") had never been probed.
+Labels, the golden file, the 203 perturbed rows and the dev / held-out split are
+unchanged (seed 42, frozen clock 2026-09-13).
+
+### What changed
+
+1. **Diagnosis: the hard negatives were long.** They were picked by maximum
+   lexical coverage among 30 same-site answers, and coverage grows with length:
+   median 66 distinct words vs 41 for real answers (fit split). The classifier
+   learned "long passage = wrong answer" (`len_ratio` -0.52), which hurts ranking
+   against random answers.
+2. **Length-matched hard negatives and more random ones**
+   (`passage_support.build_training_pairs(mining=..., n_random=..., band=...)`;
+   defaults reproduce PR #19 exactly). A hard negative must be within 1.5x of
+   the own answer's length (median 44 vs 41).
+3. **Recipe chosen on validation questions only** (`scripts/select_passage_support.py`,
+   `artifacts/passage_support_selection.md`). Twelve recipes are fitted on
+   train-minus-validation and scored on 1,910 validation questions. The rule
+   keeps those within 0.005 AUC of PR #19 on length-matched hard negatives, then
+   takes the best MRR. Chosen: `length_matched/r3/b1.5`, with validation MRR
+   0.746 -> 0.803. The rule was written after one exploratory validation pass,
+   and test questions were not loaded.
+4. **Out-of-sample on test questions** (`artifacts/passage_support_eval.md`; the
+   PR #19 recipe is refitted in the same run and reproduces its numbers):
+
+   | classifier (+ vectors) | AUC vs hard | AUC vs hard (len-matched) | P@1 of 50 | MRR | no-shared-word P@1 |
+   | --- | ---: | ---: | ---: | ---: | ---: |
+   | PR #19 recipe | 0.759 | 0.814 | 0.573 | 0.696 | 0.146 |
+   | length-matched, 3 random | 0.731 | 0.807 | **0.692** | **0.777** | 0.131 |
+
+   The regression is fixed: P@1 is above PR #18's 0.679 and above lexical coverage
+   (0.653). The cost is reported, not hidden: AUC vs the old (length-biased) hard
+   negatives falls 0.028, AUC vs length-matched ones falls 0.007, and no-shared-word
+   P@1 drops 19 -> 17 of 130.
+5. **Dev-only recalibration**: P(answers) >= **0.575** (was 0.50), strict, known
+   words, 1 term. Calibration accuracy is 0.970, the same as before, on a plateau
+   of 0.20-0.95.
+6. **Held-out run with the new classifier**: the same rows change. Perturbed is
+   **0.892**, dev synonym **0.867**, held-out synonym **0.457**, held-out
+   answers/writes **1/12**, and the fresh blind set stays at 14/26. The better
+   outside ranking does not reach the repo's eval.
+7. **Diceware passphrase probe** (`explain_eval` section 7): 16 seeded synthetic
+   passphrases of 4-5 words, joined by space, `-`, `.` or `_`, half Title-Case
+   with a number, in 5 templates and 3 contexts (80 rows). Under the PR #19
+   patterns **47 of 80 rows leak** (202 of 350 words). Every dot-joined row leaks,
+   because a value token stopped at ".", and every row with no copula leaks
+   ("the deploy token {s} stopped working").
+8. **Fixes.** Dot-joined values now stay one token, and purpose values ("use {s}
+   to log in") can be six tokens instead of four. A new cued-passphrase detector
+   (`passphrase.py`) looks at a credential noun followed directly by a run of
+   3-6 plain words. Those words are space-joined or joined by one consistent
+   separator, and the run may end in a number. A run counts as a passphrase when
+   at least half of its words (at least 2) are outside the ops vocabulary, which
+   is the 6,000-word domain-vector table plus the corpus words. Trailing ops
+   words are trimmed off, and separator-joined compounds are redacted whole or
+   not at all. Result: **0 of 80** rows leak, and 0 golden / perturbed / write
+   trace queries change. Both numbers now gate CI.
+9. **False positives on outside text** (`scripts/run_passphrase_fp_eval.py`,
+   `artifacts/passphrase_fp_eval.md`): sentences in public Stack Exchange titles
+   and answers with a credential noun followed by a word run. Train flags 17 of
+   3,020 (0.6%) and test flags 0 of 306. Neither split is blind, because one
+   earlier look at test (7 of 269) prompted adding the shared stopword list.
+
+### Weaknesses
+
+- **Held-out answers / writes are still 1 of 12.** The ranking fix is real on
+  outside data but changes no repo eval row. The hard pairs (`bounce~restart`
+  0.08, `lag~latency` 0.33 in the domain vectors) still need an ops-specific
+  sense model that is not another lexical table.
+- The new classifier is slightly worse at telling an answer from a same-length
+  near-miss (-0.007 AUC) and at no-shared-word queries (-2 of 130). The
+  selection rule allowed that trade.
+- The passphrase probe is synthetic and was written together with the detector,
+  so 0 of 80 is not a blind number. A passphrase built mostly from ops-vocabulary
+  words ("juniper orbit copper tundra") still leaks, and this is pinned as a
+  known gap. Off-domain phrases after a credential noun ("secret santa party
+  planning") get redacted.
+- Space-joined passphrases with no credential noun and no log-in purpose (just
+  pasted into a question) are still invisible to every rule.
 
 ## Richer passage features and pronounceable secrets (2026-10-12): OOS AUC up, held-out answers/writes still 1 of 12
 
