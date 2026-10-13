@@ -265,6 +265,16 @@ def fit_classifier(feats: Sequence[Mapping[str, float]], labels: Sequence[int], 
     return PairClassifier(tuple(names), mean, scale, lr.coef_[0], float(lr.intercept_[0]))
 
 
+def length_profile(rows: Sequence[tuple[list[str], list[str], int, str]]) -> dict[str, dict[str, float]]:
+    """Median / mean distinct passage words per row kind (own, hard, random)."""
+    out: dict[str, dict[str, float]] = {}
+    for kind in ("own", "hard", "random"):
+        n = [len(set(a)) for _, a, _, k in rows if k == kind]
+        if n:
+            out[kind] = {"n": len(n), "median": float(np.median(n)), "mean": float(np.mean(n))}
+    return out
+
+
 def _auc(pos: Sequence[float], neg: Sequence[float]) -> float:
     from sklearn.metrics import roc_auc_score
 
@@ -278,11 +288,20 @@ def evaluate(
     dv: DomainVectors,
     seed: int = SAMPLE_SEED,
 ) -> dict:
-    """AUC (own vs hard / random) and rank of the own answer among ``RANK_POOL``."""
+    """AUC (own vs hard / random) and rank of the own answer among ``RANK_POOL``.
+
+    ``vs_hard`` uses the PR #19 max-coverage hard negatives (comparable across
+    PRs, but longer than real answers, so a length cue scores well on it);
+    ``vs_hard_len`` uses length-matched hard negatives, where length carries
+    no signal.
+    """
     weight = lambda w: idf.get(w, 1.0)  # noqa: E731
     triples = build_training_pairs(test_pairs, idf, seed)
     feats = [pair_features(q, a, weight, dv) for q, a, _, _ in triples]
     kinds = [k for _, _, _, k in triples]
+    lm = [t for t in build_training_pairs(test_pairs, idf, seed, mining="length_matched") if t[3] != "random"]
+    lm_feats = [pair_features(q, a, weight, dv) for q, a, _, _ in lm]
+    lm_kinds = [k for _, _, _, k in lm]
 
     def score(name: str, f) -> float:
         m = models[name]
@@ -292,8 +311,12 @@ def evaluate(
     for name in models:
         s = [score(name, f) for f in feats]
         pos = [x for x, k in zip(s, kinds) if k == "own"]
+        s_lm = [score(name, f) for f in lm_feats]
         auc[name] = {
             "vs_hard": _auc(pos, [x for x, k in zip(s, kinds) if k == "hard"]),
+            "vs_hard_len": _auc(
+                [x for x, k in zip(s_lm, lm_kinds) if k == "own"], [x for x, k in zip(s_lm, lm_kinds) if k == "hard"]
+            ),
             "vs_random": _auc(pos, [x for x, k in zip(s, kinds) if k == "random"]),
         }
     # ranking: own answer among RANK_POOL - 1 random others
@@ -325,6 +348,7 @@ def evaluate(
 
     return {
         "n_test_questions": len(items),
+        "passage_length": {"max_lex": length_profile(triples), "length_matched": length_profile(lm)},
         "n_rank_queries": len(queries),
         "rank_pool": RANK_POOL,
         "auc": auc,

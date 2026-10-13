@@ -102,6 +102,20 @@ def test_extra_random_negatives_and_argument_checks() -> None:
             ps.build_training_pairs(_length_pairs(), {}, **bad)
 
 
+def test_length_profile_and_evaluate_report_both_hard_negative_kinds() -> None:
+    rows = ps.build_training_pairs(_length_pairs(), {}, seed=5)
+    prof = ps.length_profile(rows)
+    assert set(prof) == {"own", "hard", "random"} and prof["own"]["n"] == 12
+    assert prof["hard"]["median"] >= prof["own"]["median"]
+    pairs = _length_pairs() + [
+        {"site": "s", "qid": 50 + i, "aid": 500 + i, "q": ["cpu", f"k{i}"], "a": ["cpu", f"k{i}", "load"]} for i in range(60)
+    ]
+    ev = ps.evaluate(pairs, {"lexical coverage only": None}, {}, default_vectors())
+    a = ev["auc"]["lexical coverage only"]
+    assert {"vs_hard", "vs_hard_len", "vs_random"} <= set(a)
+    assert set(ev["passage_length"]) == {"max_lex", "length_matched"}
+
+
 def test_out_of_sample_numbers_are_pinned() -> None:
     ev = json.loads(EVAL.read_text())["eval"]
     auc, nos = ev["auc"], ev["rank_no_shared_word"]
