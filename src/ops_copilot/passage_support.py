@@ -29,10 +29,16 @@ Plus six denser offline features (still no model download):
 ``len_ratio``   tanh(log((1+|P|)/(1+|Q|))) — passage vs question length
 
 Training (``build_training_pairs``): train-split questions only. Each
-question gives its own answer as a positive and two negatives: the answer of
+question gives its own answer as a positive and negatives: the answer of
 another question (same site) with the highest lexical coverage among
-``HARD_POOL`` random ones (a *hard* negative that shares words) and one
-random answer. ``LogisticRegression`` (L2, C=1, balanced classes) on
+``HARD_POOL`` random ones (a *hard* negative that shares words) and
+``n_random`` random answers. With ``mining="max_lex"`` (the PR #19 recipe)
+the hard negative is picked from the whole pool; because coverage grows with
+length, those negatives are much longer than real answers (median 66 vs 41
+distinct words on the train split) and the classifier learns "long passage =
+wrong answer". ``mining="length_matched"`` only considers pool answers whose
+distinct-word count is within a factor ``LEN_BAND`` of the own answer
+(falling back to the whole pool when none is). ``LogisticRegression`` (L2, C=1, balanced classes) on
 standardised features; nothing here looks at this repo's corpus or eval.
 
 Out-of-sample check (``evaluate``): hash-held-out test questions. ROC AUC of
@@ -81,6 +87,8 @@ SIM_FLOOR = 0.0
 HARD_POOL = 30
 RANK_POOL = 50
 SAMPLE_SEED = 17
+LEN_BAND = 1.5
+MINING = ("max_lex", "length_matched")
 MAX_TEST_QUERIES = 1000
 
 
@@ -161,9 +169,23 @@ def _row(f: Mapping[str, float], names: Sequence[str]) -> list[float]:
 
 
 def build_training_pairs(
-    pairs: Sequence[dict], idf: Mapping[str, float], seed: int = SAMPLE_SEED
+    pairs: Sequence[dict],
+    idf: Mapping[str, float],
+    seed: int = SAMPLE_SEED,
+    *,
+    mining: str = "max_lex",
+    n_random: int = 1,
+    band: float = LEN_BAND,
 ) -> list[tuple[list[str], list[str], int, str]]:
-    """(q, passage, label, kind) with one positive and two negatives per question."""
+    """(q, passage, label, kind): one positive, one hard and ``n_random`` random negatives.
+
+    The defaults reproduce the PR #19 sampling exactly (same RNG stream), so
+    the out-of-sample triples in ``evaluate`` stay comparable across PRs.
+    """
+    if mining not in MINING:
+        raise ValueError(f"mining must be one of {MINING}")
+    if n_random < 1 or band < 1.0:
+        raise ValueError("n_random >= 1 and band >= 1 required")
     rng = random.Random(seed)
     by_q: dict[tuple[str, int], dict] = {}
     for p in pairs:
@@ -185,10 +207,14 @@ def build_training_pairs(
             continue
         out.append((p["q"], p["a"], 1, "own"))
         pool = [o for o in rng.sample(site, min(HARD_POOL + 1, len(site))) if o is not p][:HARD_POOL]
+        if mining == "length_matched":
+            n = len(set(p["a"]))
+            pool = [o for o in pool if n / band <= len(set(o["a"])) <= n * band] or pool
         hard = max(pool, key=lambda o: (lex(p["q"], o["a"]), -o["aid"]))
         out.append((p["q"], hard["a"], 0, "hard"))
-        rand = rng.choice([o for o in site if o is not p])
-        out.append((p["q"], rand["a"], 0, "random"))
+        others = [o for o in site if o is not p]
+        for _ in range(n_random):
+            out.append((p["q"], rng.choice(others)["a"], 0, "random"))
     return out
 
 
