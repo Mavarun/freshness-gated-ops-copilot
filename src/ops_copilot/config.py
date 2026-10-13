@@ -170,13 +170,14 @@ class CopilotConfig:
     # a rescued answer may not cite a page with an unjustified canary.
     # Threshold, max terms and scope from scripts/calibrate_passage_support.py
     # (clean golden + dev rows only). Dev choice
-    # (artifacts/passage_support_calibration.md): P >= 0.50, strict, known
-    # words too, one rescued word (calibration accuracy 0.924 -> 0.985).
+    # (artifacts/passage_support_calibration.md): P >= 0.575, strict, known
+    # words too, one rescued word (calibration accuracy 0.924 -> 0.970;
+    # Oct 13 retune for the length-matched classifier, plateau 0.20-0.95).
     # On by default since its one held-out run (artifacts/robustness_report.md)
     # met the pre-registered go / no-go rule: held-out 0.429 -> 0.457, no
     # fail-open, spurious write or raw PII; fresh blind set 7/26 -> 18/26.
     use_passage_support_model: bool = True
-    passage_support_min_prob: float = 0.5
+    passage_support_min_prob: float = 0.575
     passage_support_max_terms: int = 1
     passage_support_known_words: bool = True
     passage_support_strict: bool = True
