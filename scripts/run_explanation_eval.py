@@ -6,7 +6,10 @@ Writes ``artifacts/explanation_eval.{json,md}`` for the default config and
 the embedding-on config (frozen MiniLM fixture), both deterministic. Exits
 non-zero if any explanation leaks a canary token, PII or a secret, if a
 redacted trace line (query, reason, write parse, explanation) still holds one,
-or if a golden explanation check fails.
+or if a golden explanation check fails. Since Oct 13 it also fails if any
+word of a synthetic diceware-style passphrase reaches a trace-bound field, or
+if the passphrase rules change the trace query of any golden / perturbed /
+write row.
 """
 
 from __future__ import annotations
@@ -195,6 +198,8 @@ def main() -> int:
         bad += r["disclosure"]["now_words"]
         bad += r["disclosure"]["login"]["now_words"]
         bad += r["random_tokens"]["gated_now"]
+        bad += r["passphrases"]["total"]["now_words"]
+        bad += sum(r["passphrases"]["over_redacted_queries"].values())
         rt = r["random_tokens"]
         print(
             f"{'':30s} random-token probe rows leaking: raw={rt['total']['raw']} "

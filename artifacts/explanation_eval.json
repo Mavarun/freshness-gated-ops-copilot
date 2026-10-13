@@ -327,8 +327,8 @@
         },
         "no_copula": {
           "n_words": 140,
-          "now_rows": 32,
-          "now_words": 140,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 32,
           "pr19_words": 140,
           "raw_rows": 32,
@@ -349,8 +349,8 @@
       "by_separator": {
         "dot": {
           "n_words": 95,
-          "now_rows": 8,
-          "now_words": 38,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 20,
           "pr19_words": 87,
           "raw_rows": 20,
@@ -359,8 +359,8 @@
         },
         "hyphen": {
           "n_words": 90,
-          "now_rows": 8,
-          "now_words": 36,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 8,
           "pr19_words": 36,
           "raw_rows": 20,
@@ -369,8 +369,8 @@
         },
         "space": {
           "n_words": 85,
-          "now_rows": 8,
-          "now_words": 34,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 11,
           "pr19_words": 47,
           "raw_rows": 20,
@@ -379,8 +379,8 @@
         },
         "underscore": {
           "n_words": 80,
-          "now_rows": 8,
-          "now_words": 32,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 8,
           "pr19_words": 32,
           "raw_rows": 20,
@@ -388,13 +388,7 @@
           "rows": 20
         }
       },
-      "now_leaking_examples": [
-        "no_copula/space: the deploy token {s} stopped working, who rotates it?",
-        "no_copula/space: log in to grafana with passphrase {s} please",
-        "no_copula/space: the deploy token {s} stopped working, who rotates it?",
-        "no_copula/space: log in to grafana with passphrase {s} please",
-        "no_copula/space: the deploy token {s} stopped working, who rotates it?"
-      ],
+      "now_leaking_examples": [],
       "over_redacted_queries": {
         "golden": 0,
         "perturbed": 0,
@@ -402,8 +396,8 @@
       },
       "total": {
         "n_words": 350,
-        "now_rows": 32,
-        "now_words": 140,
+        "now_rows": 0,
+        "now_words": 0,
         "pr19_rows": 47,
         "pr19_words": 202,
         "raw_rows": 80,
@@ -938,8 +932,8 @@
         },
         "no_copula": {
           "n_words": 140,
-          "now_rows": 32,
-          "now_words": 140,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 32,
           "pr19_words": 140,
           "raw_rows": 32,
@@ -960,8 +954,8 @@
       "by_separator": {
         "dot": {
           "n_words": 95,
-          "now_rows": 8,
-          "now_words": 38,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 20,
           "pr19_words": 87,
           "raw_rows": 20,
@@ -970,8 +964,8 @@
         },
         "hyphen": {
           "n_words": 90,
-          "now_rows": 8,
-          "now_words": 36,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 8,
           "pr19_words": 36,
           "raw_rows": 20,
@@ -980,8 +974,8 @@
         },
         "space": {
           "n_words": 85,
-          "now_rows": 8,
-          "now_words": 34,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 11,
           "pr19_words": 47,
           "raw_rows": 20,
@@ -990,8 +984,8 @@
         },
         "underscore": {
           "n_words": 80,
-          "now_rows": 8,
-          "now_words": 32,
+          "now_rows": 0,
+          "now_words": 0,
           "pr19_rows": 8,
           "pr19_words": 32,
           "raw_rows": 20,
@@ -999,13 +993,7 @@
           "rows": 20
         }
       },
-      "now_leaking_examples": [
-        "no_copula/space: the deploy token {s} stopped working, who rotates it?",
-        "no_copula/space: log in to grafana with passphrase {s} please",
-        "no_copula/space: the deploy token {s} stopped working, who rotates it?",
-        "no_copula/space: log in to grafana with passphrase {s} please",
-        "no_copula/space: the deploy token {s} stopped working, who rotates it?"
-      ],
+      "now_leaking_examples": [],
       "over_redacted_queries": {
         "golden": 0,
         "perturbed": 0,
@@ -1013,8 +1001,8 @@
       },
       "total": {
         "n_words": 350,
-        "now_rows": 32,
-        "now_words": 140,
+        "now_rows": 0,
+        "now_words": 0,
         "pr19_rows": 47,
         "pr19_words": 202,
         "raw_rows": 80,
