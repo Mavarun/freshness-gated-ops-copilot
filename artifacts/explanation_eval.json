@@ -407,7 +407,7 @@
     },
     "perturbed": {
       "n": 203,
-      "n_refusals": 145,
+      "n_refusals": 143,
       "n_schema_ok": 203,
       "transfer": {
         "by_check": {
@@ -1012,7 +1012,7 @@
     },
     "perturbed": {
       "n": 203,
-      "n_refusals": 143,
+      "n_refusals": 141,
       "n_schema_ok": 203,
       "transfer": {
         "by_check": {
