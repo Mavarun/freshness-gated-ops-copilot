@@ -22,6 +22,69 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Ops gloss-sense write backoff (2026-10-15): held-out writes 1/3 → 3/3, ANSWER/WRITE 1/12 → 3/12
+
+PR #20 left the top weakness unchanged: held-out answers/writes at **1 of 12**,
+with hard pairs like `bounce~restart` (domain-vector cosine **0.08**, email
+sense) and `lag~latency` (0.33, LACP sense) needing an ops-specific *sense*
+model that is not another lexical table. This slice builds that model from
+Wiktionary computing *verb* glosses and ships it **on by default** for the
+write path. Labels, the golden file, the 203 perturbed rows and the
+dev / held-out split are unchanged (seed 42, frozen clock 2026-09-13).
+
+### What changed
+
+1. **Definitional gloss graph** (`gloss_sense.py`). Over Wiktionary computing
+   *verb* senses only (committed extract `data/wiktionary/`): synonym and
+   pointer edges (weight 2) plus gloss-content edges to other verb headwords
+   (weight 1). Undirected. `bounce` reaches `reboot` in one hop and
+   `restart` in two via restart's "Synonym of reboot" pointer — the ops sense
+   the global domain vector missed (email bounce dominated cosine 0.08;
+   gloss-centroid cosine bounce~restart **0.65**).
+2. **Write-intent backoff** (`match_action`). For an instruction shaped
+   `<unknown verb> [the] <entity>`, BFS up to 2 hops, score by hops + edge
+   weight + gloss-centroid cosine, gate by target kind, accept when score and
+   margin clear the calibrated floor. Prototypes (MiniLM) still run first when
+   enabled; gloss-sense needs no embedding backend.
+3. **Dev-only calibration** (`scripts/calibrate_gloss_sense.py`,
+   `data/write/gloss_sense_dev.jsonl`, `artifacts/gloss_sense_calibration.md`).
+   Hand-written verbs that are in no ontology lexicon and no held-out list
+   (reload → restart_service, activate → toggle_flag, tweak → patch_config,
+   plus contrast none-labels). Chosen: min_score **3.0**, margin **0.4**,
+   min_gloss_cosine **0.5** (verb-list **1.000**, clean golden **1.000**).
+   `gloss_sense_grounding` stays **off** (read-path gloss bridges broke two
+   clean REFUSE_NO_EVIDENCE rows in an early trial).
+4. **Held-out run** (pre-registered go / no-go: held-out ANSWER/WRITE must not
+   fall; no fail-open / spurious write / raw PII; clean stays 1.000):
+
+   | metric | before (default) | after (gloss-sense on) |
+   | --- | ---: | ---: |
+   | clean decision_accuracy | 1.000 | 1.000 |
+   | perturbed (203) | 0.892 | **0.901** |
+   | synonym, held-out (35) | 0.457 | **0.514** |
+   | held-out ANSWER/WRITE | 1/12 | **3/12** |
+   | held-out PROPOSE_WRITE | 1/3 | **3/3** |
+   | fail-open / spurious write / raw PII | 0 / 0 / 0 | 0 / 0 / 0 |
+
+   Fixed rows: `g41-synonym` (bounce → restart_service) and `g44-synonym`
+   (reboot → restart_service). Held-out ANSWER rows are unchanged (lag/health
+   still over-refuse; Wiktionary has no useful bridge to `latency` / `status`).
+5. **Ships on by default** (`use_gloss_sense_backoff=True`). Grounding /
+   retrieve wiring exists but stays off (`gloss_sense_grounding=False`).
+
+### Weaknesses
+
+- **Held-out answers are still 0 of 9** (ANSWER/WRITE 3/12 is all write-side).
+  `lag~latency` and `health~status` need a *noun/sense* model; verb glosses
+  do not cover them, and global domain vectors still lock onto the wrong sense
+  (LACP / wellness).
+- `recycle` (held-out restart synonym) has no Wiktionary computing verb sense,
+  so it still misses. Refresh needs 3 hops and stays out of range at max_hops=2.
+- Gloss-sense grounding (read path) is off: early trials flipped two clean
+  no-evidence traps to ungrounded. Turning it on needs its own calibration.
+- Space-joined passphrases with no credential noun, and ops-vocabulary
+  passphrases ("juniper orbit copper tundra"), remain open from PR #20.
+
 ## Length-matched negatives and diceware passphrases (2026-10-13): ranking regression fixed, passphrase leaks 47 -> 0 of 80, held-out still 1 of 12
 
 PR #19 left a regression and an untested secret family: the passage classifier's
