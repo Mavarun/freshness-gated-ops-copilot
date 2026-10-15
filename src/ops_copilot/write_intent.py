@@ -34,6 +34,11 @@ The optional prototype backoff (``write_prototypes``) is consulted only for
 an instruction clause shaped ``<unknown verb> [the] <entity>`` and can only
 upgrade that clause from ``ambiguous`` to ``propose`` when the nearest
 dev-built action prototype clears the calibrated similarity and margin.
+
+The optional gloss-sense backoff (``gloss_sense.GlossSenseBackoff``) runs
+after prototypes (or alone) for the same shape: it walks a definitional
+graph over Wiktionary computing verb senses and proposes an ontology
+action when a short bridge clears the calibrated score and margin.
 """
 
 from __future__ import annotations
@@ -97,12 +102,16 @@ class PrototypeMatcher(Protocol):
     def match(self, verb: str, target_kind: str) -> dict | None: ...
 
 
+class GlossSenseMatcher(Protocol):
+    def match_action(self, verb: str, target_kind: str) -> dict | None: ...
+
+
 @dataclass
 class ActionParse:
     action: WriteActionType | None
     verb: str
     # lexicon | phrasal | ops_cli | particle | frame | typo | quantity |
-    # unsupported | unknown | nominal | prototype
+    # unsupported | unknown | nominal | prototype | gloss_sense
     verb_source: str
     verb_confidence: float
     object_start: int
@@ -393,6 +402,7 @@ def classify_write_intent(
     typo_tolerance: bool = True,
     mood_detection: bool = True,
     prototypes: PrototypeMatcher | None = None,
+    gloss_sense: GlossSenseMatcher | None = None,
     min_confidence: float = DEFAULT_MIN_CONFIDENCE,
     phrasal: bool = True,
     cli_verbs: bool = True,
@@ -446,6 +456,7 @@ def classify_write_intent(
         return _no_lexicon_action(
             q, mood.mood, parses, prototypes, mood_detection, min_confidence, reg, require_registered,
             rotation,  # type: ignore[arg-type]
+            gloss_sense=gloss_sense,
         )
     distinct = {(p.action, p.target.name if p.target else None) for _, p in actions}
     if len(distinct) > 1:
@@ -549,6 +560,7 @@ def _no_lexicon_action(
     registry: EntityRegistry,
     require_registered: bool = True,
     rotation: OncallRotation | None = None,
+    gloss_sense: GlossSenseMatcher | None = None,
 ) -> WriteIntent:
     if not mood_detection:
         return WriteIntent(NONE, q, "no ontology verb", overall.value)
@@ -564,6 +576,11 @@ def _no_lexicon_action(
         target = parse.target
         assert target is not None
         match = prototypes.match(parse.verb, target.kind) if prototypes is not None else None
+        sense = (
+            gloss_sense.match_action(parse.verb, target.kind)
+            if gloss_sense is not None and not (match and match.get("accepted"))
+            else None
+        )
         common = dict(
             query=q, mood=clause.mood.value, verb=parse.verb, target=target,
             clause=" ".join(clause.tokens), prototype=match,
@@ -579,9 +596,27 @@ def _no_lexicon_action(
             if proto_parse.target is None:
                 proto_parse.target = target
             return _finish(q, clause, proto_parse, min_confidence, registry if require_registered else None)
+        if sense and sense.get("accepted"):
+            action = WriteActionType(sense["action"])
+            sense_parse = ActionParse(
+                action, parse.verb, "gloss_sense", float(sense["confidence"]), parse.object_start
+            )
+            attach_reg = registry if require_registered else _with_target(registry, target)
+            _attach_target(sense_parse, clause.tokens, attach_reg, rotation)
+            sense_parse.prototype = sense  # reuse field for the match trace
+            if sense_parse.target is None:
+                sense_parse.target = target
+            return _finish(q, clause, sense_parse, min_confidence, registry if require_registered else None)
         why = "unrecognised action verb {!r} aimed at {!r}".format(parse.verb, target.name)
         if match:
             why += f" (nearest prototype {match['action']} cos={match['cosine']:.2f} rejected: {match['why']})"
+        if sense and sense.get("action"):
+            why += (
+                f" (gloss-sense {sense['action']} score={sense['score']:.2f}"
+                f" rejected: {sense['why']})"
+            )
+        elif sense:
+            why += f" (gloss-sense: {sense['why']})"
         return WriteIntent(AMBIGUOUS, reason=why, verb_source="unknown", reason_code="unknown_verb", **common)
     return WriteIntent(NONE, q, "no instruction with a write verb", overall.value)
 
