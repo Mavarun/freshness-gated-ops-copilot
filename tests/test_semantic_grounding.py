@@ -165,7 +165,7 @@ def test_embedding_on_keeps_clean_perfect_and_safety_at_zero(report_on) -> None:
 
 def test_embedding_on_numbers_quoted_in_readme(report_on) -> None:
     sp = report_on.per_synonym_split
-    assert round(sp["heldout"]["perturbed_accuracy"] * 35) == 18
+    assert round(sp["heldout"]["perturbed_accuracy"] * 35) == 20
     assert round(sp["dev"]["perturbed_accuracy"] * 15) == 12
     understood = [
         c.id
@@ -174,10 +174,9 @@ def test_embedding_on_numbers_quoted_in_readme(report_on) -> None:
         and c.expect_decision in {"ANSWER", "PROPOSE_WRITE"}
         and c.perturbed_match
     ]
-    # 2 of 12 held-out ANSWER / PROPOSE_WRITE rows: g42 ('page the on-duty
-    # engineer') is parsed by the structured write gate since the write slice.
-    assert understood == ["g07-synonym", "g42-synonym"]
-    assert report_on.perturbed_accuracy == pytest.approx(182 / 203)
+    # 4 of 12: g07 (embedding), g42 (lexicon page), g41/g44 (gloss-sense bounce/reboot).
+    assert understood == ["g07-synonym", "g41-synonym", "g42-synonym", "g44-synonym"]
+    assert report_on.perturbed_accuracy == pytest.approx(184 / 203)
 
 
 def test_g19_rollback_steps_trap_needs_strict_mode() -> None:

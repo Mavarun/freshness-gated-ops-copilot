@@ -1,8 +1,9 @@
 """Corpus-side synonym/lemma map: anchored, separate from the eval's map, measured.
 
-Since the held-out split the map holds dev words only; queries that used to
-pass through held-out words (health ~ status, bounce/reboot ~ restart) are now
-asserted to *refuse*, never to answer or propose a write.
+Since the held-out split the map holds dev words only. Queries that need a
+held-out *answer* word (health ~ status) still refuse. Held-out *write* verbs
+(bounce/reboot ~ restart) are proposed by the gloss-sense backoff (default on),
+not by this map.
 """
 
 from __future__ import annotations
@@ -100,18 +101,35 @@ def test_synonym_queries_reach_the_right_gate(copilot: Copilot, query: str, expe
     assert copilot.ask(query).decision is expected
 
 
+def test_heldout_answer_synonyms_refuse_instead_of_guessing(copilot: Copilot) -> None:
+    result = copilot.ask("What is the health of the payments-api?")
+    assert result.decision not in {Decision.ANSWER, Decision.PROPOSE_WRITE}
+    assert result.proposed_write is None
+
+
 @pytest.mark.parametrize(
     "query",
     [
-        "What is the health of the payments-api?",
         "Please bounce the checkout-api app now",
         "Can you reboot payments-worker?",
     ],
 )
-def test_heldout_synonyms_refuse_instead_of_guessing(copilot: Copilot, query: str) -> None:
+def test_heldout_write_verbs_are_proposed_by_gloss_sense(copilot: Copilot, query: str) -> None:
     result = copilot.ask(query)
-    assert result.decision not in {Decision.ANSWER, Decision.PROPOSE_WRITE}
-    assert result.proposed_write is None
+    assert result.decision is Decision.PROPOSE_WRITE
+    assert result.proposed_write is not None
+    assert result.proposed_write["proposal"]["action_type"] == "restart_service"
+    assert result.proposed_write["proposal"]["parse"]["verb_source"] == "gloss_sense"
+
+
+def test_heldout_write_verbs_refuse_when_gloss_sense_off() -> None:
+    bot = Copilot(config=CopilotConfig(use_gloss_sense_backoff=False))
+    for query in (
+        "Please bounce the checkout-api app now",
+        "Can you reboot payments-worker?",
+    ):
+        result = bot.ask(query)
+        assert result.decision not in {Decision.ANSWER, Decision.PROPOSE_WRITE}
 
 
 def test_synonym_map_off_is_the_ablation() -> None:

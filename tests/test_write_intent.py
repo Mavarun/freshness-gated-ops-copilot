@@ -14,7 +14,7 @@ from ops_copilot.write_mood import Mood, analyze_mood
 from ops_copilot.write_ontology import WriteActionType as A
 
 FROZEN = CopilotConfig(embedding_backend="frozen")
-BACKOFF = replace(FROZEN, write_prototype_backoff=True)
+BACKOFF = replace(FROZEN, write_prototype_backoff=True, use_gloss_sense_backoff=False)
 
 
 @pytest.mark.parametrize(

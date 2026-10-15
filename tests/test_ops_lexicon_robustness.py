@@ -58,7 +58,7 @@ def test_ablation_settings_are_the_dev_chosen_ones() -> None:
 
 def test_dev_chosen_lexicons_change_no_row(report, both) -> None:
     assert changed_rows(report, both) == []
-    assert _understood(both) == _understood(report) == "1/12"
+    assert _understood(both) == _understood(report) == "3/12"
     assert both.clean_safety == {"n_fail_open": 0, "n_spurious_write": 0, "n_raw_pii_outputs": 0}
 
 
@@ -73,7 +73,7 @@ def test_committed_report_matches_the_pinned_outcome() -> None:
         else:
             assert rows == [], label
     rows = m["ops_lexicon_ablations"]
-    assert {r["heldout_answer_write_correct"] for r in rows.values()} == {"1/12"}
+    assert {r["heldout_answer_write_correct"] for r in rows.values()} == {"3/12"}
     assert all(r["n_fail_open"] == r["n_spurious_write"] == 0 for r in rows.values())
 
 

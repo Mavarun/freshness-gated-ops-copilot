@@ -55,7 +55,7 @@ def test_backoff_on_is_safe_but_does_not_help_heldout(report, on) -> None:
     held_off = report.per_synonym_split["heldout"]["perturbed_accuracy"]
     held_on = on.per_synonym_split["heldout"]["perturbed_accuracy"]
     assert held_on == pytest.approx(held_off - 1 / 35)
-    assert _understood(on) == _understood(report) == "1/12"
+    assert _understood(on) == _understood(report) == "3/12"
     assert on.perturbed_accuracy == pytest.approx(report.perturbed_accuracy)
 
 
