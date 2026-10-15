@@ -59,10 +59,10 @@ def test_heldout_gain_is_one_row_and_safe(off, on) -> None:
     assert on.clean_accuracy == 1.0
     assert len(on.fail_open) == 0
     assert on.clean_safety == {"n_fail_open": 0, "n_spurious_write": 0, "n_raw_pii_outputs": 0}
-    assert off.per_synonym_split["heldout"]["perturbed_accuracy"] == pytest.approx(15 / 35)
-    assert on.per_synonym_split["heldout"]["perturbed_accuracy"] == pytest.approx(16 / 35)
+    assert off.per_synonym_split["heldout"]["perturbed_accuracy"] == pytest.approx(17 / 35)
+    assert on.per_synonym_split["heldout"]["perturbed_accuracy"] == pytest.approx(18 / 35)
     assert on.per_synonym_split["dev"]["perturbed_accuracy"] == pytest.approx(13 / 15)
-    assert _understood(on) == _understood(off) == "1/12"
+    assert _understood(on) == _understood(off) == "3/12"
     assert on.perturbed_accuracy == pytest.approx(off.perturbed_accuracy + 4 / 203)
 
 
@@ -71,7 +71,7 @@ def test_artifact_records_the_first_heldout_run() -> None:
     rows = m["passage_support_ablations"]
     cand, base = rows[PASSAGE_SUPPORT_CANDIDATE], rows["default (passage classifier off)"]
     assert cand["synonym_heldout"] > base["synonym_heldout"]
-    assert cand["heldout_answer_write_correct"] == "1/12"
+    assert cand["heldout_answer_write_correct"] == "3/12"
     assert cand["n_fail_open"] == cand["n_spurious_write"] == cand["n_raw_pii_outputs"] == 0
     assert cand["clean_safety"] == {"n_fail_open": 0, "n_spurious_write": 0, "n_raw_pii_outputs": 0}
 

@@ -156,7 +156,7 @@ def test_report_renders_the_embedding_columns_and_ablation(report) -> None:
         "| metric | PR #14 (default) | after (default) | PR #14 (embedding on) | after (embedding on) |"
         in md
     )
-    assert "| held-out PROPOSE_WRITE rows correct | 1/3 | 1/3 | 1/3 | 1/3 |" in md
+    assert "| held-out PROPOSE_WRITE rows correct | 1/3 | 3/3 | 1/3 | 3/3 |" in md
     assert "## Embedding on: held-out rows by expected decision" in md
     assert "## Ablation: real embeddings" in md
     assert "| heldout | ANSWER | 9 |" in md

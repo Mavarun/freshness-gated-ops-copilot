@@ -37,7 +37,7 @@ def report():
 @pytest.fixture(scope="module")
 def report_pre_passage():
     # The default before the passage classifier was switched on (2026-10-10).
-    return run_robustness(config=replace(CopilotConfig(), use_passage_support_model=False))
+    return run_robustness(config=replace(CopilotConfig(), use_passage_support_model=False, use_gloss_sense_backoff=False))
 
 
 def test_label_drift_is_rejected(tmp_path: Path) -> None:
@@ -171,7 +171,7 @@ def test_pr10_run_stays_loadable_for_history() -> None:
 # The structured write parser changes exactly these rows of the PR #12 run:
 # the dev 'update ... setting' and held-out 'page the on-duty engineer' rows
 # are now proposed; 'bounce' / 'reboot' (held-out verbs, not in any lexicon)
-# become a clarifying refusal instead of REFUSE_UNGROUNDED.
+# become a clarifying refusal instead of REFUSE_UNGROUNDED when gloss-sense is off.
 WRITE_PARSER_CHANGES = {
     "g41-synonym": "REFUSE_AMBIGUOUS_WRITE",
     "g42-synonym": "PROPOSE_WRITE",
@@ -188,13 +188,15 @@ def test_default_config_matches_pr12_except_the_parsed_writes(report_pre_passage
     assert changed == WRITE_PARSER_CHANGES
 
 
-# Switching the passage classifier on (dev-chosen) changes exactly these rows
-# of the 203, all to the gold label. g24 (timeframe) dropped after the OOV
-# rescue guard: timeframe is outside the domain vectors.
-PASSAGE_CHANGES = {
+# Default config (passage classifier + gloss-sense write backoff) vs the
+# pre-passage baseline (both off). Passage rows stay the gold-label fixes
+# from 2026-10-10/11; gloss-sense adds the held-out write verbs bounce/reboot.
+PASSAGE_AND_GLOSS_CHANGES = {
     "g28-synonym": "REFUSE_DISAGREE",
     "g35-synonym": "REFUSE_CANARY",
     "g39-synonym": "ANSWER",
+    "g41-synonym": "PROPOSE_WRITE",
+    "g44-synonym": "PROPOSE_WRITE",
     "g48-synonym": "REFUSE_PII",
 }
 
@@ -203,7 +205,7 @@ def test_passage_default_changes_exactly_the_fixed_rows(report, report_pre_passa
     before = {c.id: c.perturbed_decision for c in report_pre_passage.cases}
     after = {c.id: c for c in report.cases}
     changed = {rid: c.perturbed_decision for rid, c in after.items() if c.perturbed_decision != before[rid]}
-    assert changed == PASSAGE_CHANGES
+    assert changed == PASSAGE_AND_GLOSS_CHANGES
     assert all(after[rid].expect_decision == d for rid, d in changed.items())
 
 
@@ -259,4 +261,4 @@ def test_committed_write_ablation_safety() -> None:
         assert row["n_fail_open"] == row["n_spurious_write"] == row["n_raw_pii_outputs"] == 0
         assert row["clean_safety"] == {"n_fail_open": 0, "n_spurious_write": 0, "n_raw_pii_outputs": 0}
     backoff = rows["+ mood + prototype backoff (embedding on)"]
-    assert backoff["heldout_write_correct"] == "2/3"  # page (lexicon) + reboot (backoff)
+    assert backoff["heldout_write_correct"] == "3/3"  # page (lexicon) + reboot (backoff)

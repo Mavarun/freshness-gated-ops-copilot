@@ -58,8 +58,8 @@ def test_model_on_is_safe_and_neutral_on_heldout(report, on) -> None:
     assert on.clean_safety == {"n_fail_open": 0, "n_spurious_write": 0, "n_raw_pii_outputs": 0}
     held_off = report.per_synonym_split["heldout"]["perturbed_accuracy"]
     held_on = on.per_synonym_split["heldout"]["perturbed_accuracy"]
-    assert held_on == pytest.approx(held_off) == pytest.approx(15 / 35)
-    assert _understood(on) == _understood(report) == "1/12"
+    assert held_on == pytest.approx(held_off) == pytest.approx(17 / 35)
+    assert _understood(on) == _understood(report) == "3/12"
     assert on.perturbed_accuracy == pytest.approx(report.perturbed_accuracy + 1 / 203)
 
 
@@ -69,7 +69,7 @@ def test_artifact_records_the_first_heldout_run() -> None:
     cand = rows[ANSWER_SUPPORT_CANDIDATE]
     base = rows["default (answer-support model off)"]
     assert cand["synonym_heldout"] == base["synonym_heldout"]
-    assert cand["heldout_answer_write_correct"] == "1/12"
+    assert cand["heldout_answer_write_correct"] == "3/12"
     assert [r["id"] for r in m["answer_support_changed_rows"][ANSWER_SUPPORT_CANDIDATE]] == ["g48-synonym"]
 
 
