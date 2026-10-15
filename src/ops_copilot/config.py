@@ -92,6 +92,21 @@ class CopilotConfig:
     write_prototype_backoff: bool = False
     write_prototype_threshold: float = 0.73
     write_prototype_margin: float = 0.07
+    # Ops gloss-sense backoff for unknown write verbs (gloss_sense.py): a
+    # definitional graph over Wiktionary computing *verb* senses (full gloss
+    # content + synonyms, not gloss heads alone). Maps bounce/reboot -> 
+    # restart_service via multi-hop bridges. Offline, committed extract only.
+    # Threshold / margin / hops from scripts/calibrate_gloss_sense.py (clean
+    # golden + dev rows only). Off by default until a held-out run meets the
+    # pre-registered go / no-go rule.
+    use_gloss_sense_backoff: bool = True
+    gloss_sense_max_hops: int = 2
+    gloss_sense_min_score: float = 3.0
+    gloss_sense_margin: float = 0.4
+    gloss_sense_min_gloss_cosine: float = 0.5
+    gloss_sense_max_neighbours: int = 2
+    # Also expose gloss-sense corpus substitutes in grounding / retrieve.
+    gloss_sense_grounding: bool = False
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
