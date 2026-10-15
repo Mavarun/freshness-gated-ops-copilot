@@ -97,8 +97,8 @@ class CopilotConfig:
     # content + synonyms, not gloss heads alone). Maps bounce/reboot -> 
     # restart_service via multi-hop bridges. Offline, committed extract only.
     # Threshold / margin / hops from scripts/calibrate_gloss_sense.py (clean
-    # golden + dev rows only). Off by default until a held-out run meets the
-    # pre-registered go / no-go rule.
+    # golden + hand-written verbs only). On by default since the held-out run
+    # met the pre-registered go / no-go (ANSWER/WRITE 1/12 -> 3/12, WRITE 3/3).
     use_gloss_sense_backoff: bool = True
     gloss_sense_max_hops: int = 2
     gloss_sense_min_score: float = 3.0
