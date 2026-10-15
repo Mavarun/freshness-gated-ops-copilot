@@ -47,6 +47,12 @@ corpus words from the corpus PPMI/SVD embedding (or one char-trigram
 neighbour), weighted like the heaviest of them. It is the last step, so it never
 changes known words, identifiers, synonyms, or typo snaps.
 
+Gloss-sense backoff (optional, ``gloss_sense.GlossSenseBackoff``): a word that
+is still unknown after the synonym and typo steps may be supported by corpus
+words reachable through a definitional bridge over Wiktionary computing *verb*
+senses (full gloss content, not gloss heads alone). It runs after Wiktionary
+heads and before the word-vector backoff.
+
 Answer-support model (optional, ``qa_translation.AnswerSupportModel``): unlike
 the backoffs above it looks at the *evidence*. A salient plain word the
 evidence does not contain may count as supported when some evidence word
@@ -103,6 +109,7 @@ from ops_copilot.text import (
 from ops_copilot.types import Chunk, GroundingResult
 from ops_copilot.tag_synonyms import TagSynonymBackoff
 from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
+from ops_copilot.gloss_sense import GlossSenseBackoff
 from ops_copilot.word_vectors import WordVectorBackoff
 
 
@@ -215,6 +222,7 @@ class Grounder:
         passage_known: bool = True,
         passage_max_terms: int = 1,
         passage_strict: bool = True,
+        gloss_sense: GlossSenseBackoff | None = None,
     ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
@@ -241,6 +249,7 @@ class Grounder:
         self.passage_known = bool(passage_known)
         self.passage_max_terms = int(passage_max_terms)
         self.passage_strict = bool(passage_strict)
+        self.gloss_sense = gloss_sense
 
     def _weight(self, token: str) -> float:
         return self.idf.get(token, self.oov_idf)
@@ -287,6 +296,11 @@ class Grounder:
             if wk:
                 weight = max(self._weight(w) for w in wk)
                 return QueryTerm(tok, "wiktionary", weight, frozenset({tok, *wk}))
+        if self.gloss_sense is not None and not is_identifier(tok):
+            gs = self._gloss_sense_near(tok)
+            if gs:
+                weight = max(self._weight(w) for w in gs)
+                return QueryTerm(tok, "gloss_sense", weight, frozenset({tok, *gs}))
         if self.wordvec is not None and not is_identifier(tok):
             wv = self._wordvec_near(tok)
             if wv:
@@ -310,6 +324,12 @@ class Grounder:
         if self.wiktionary is None:
             return frozenset()
         return frozenset(n.word for n in self.wiktionary.neighbours(tok) if n.word in self.idf)
+
+    def _gloss_sense_near(self, tok: str) -> frozenset[str]:
+        """Definitional-bridge substitutes of ``tok`` that are corpus words."""
+        if self.gloss_sense is None:
+            return frozenset()
+        return frozenset(n.word for n in self.gloss_sense.neighbours(tok) if n.word in self.idf)
 
     def _wordvec_near(self, tok: str) -> frozenset[str]:
         """Counter-fitted substitutes of ``tok`` that are corpus words."""

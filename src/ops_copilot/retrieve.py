@@ -43,6 +43,7 @@ from ops_copilot.lexicon import CorpusVocabulary, fix_interrogative_typos
 from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.tag_synonyms import TagSynonymBackoff
 from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
+from ops_copilot.gloss_sense import GlossSenseBackoff
 from ops_copilot.word_vectors import WordVectorBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases
 from ops_copilot.text import (
@@ -210,6 +211,7 @@ class Retriever:
         wordvec: WordVectorBackoff | None = None,
         tagsyn: TagSynonymBackoff | None = None,
         wiktionary: WiktionarySenseBackoff | None = None,
+        gloss_sense: GlossSenseBackoff | None = None,
     ) -> None:
         if not chunks:
             raise ValueError("retriever requires at least one chunk")
@@ -219,6 +221,7 @@ class Retriever:
         self.wordvec = wordvec
         self.tagsyn = tagsyn
         self.wiktionary = wiktionary
+        self.gloss_sense = gloss_sense
         self._tokenized = [tokenize(f"{c.title} {c.text}") for c in chunks]
         self._bm25 = _bm25_engine(self._tokenized)
         self.vocab = CorpusVocabulary(self._tokenized, extra_words=NON_SALIENT)
@@ -266,7 +269,7 @@ class Retriever:
                 if fixed is not None:
                     words.append(fixed)
                     continue
-            for lex in (self.tagsyn, self.wiktionary):
+            for lex in (self.tagsyn, self.wiktionary, self.gloss_sense):
                 if lex is None:
                     continue
                 near = sorted(n.word for n in lex.neighbours(word) if n.word in self.vocab)
