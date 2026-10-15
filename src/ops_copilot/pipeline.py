@@ -41,6 +41,7 @@ from ops_copilot.types import Chunk, CopilotResult, Decision
 from ops_copilot.write_actions import proposal_from_intent
 from ops_copilot.write_intent import AMBIGUOUS, classify_write_intent
 from ops_copilot.write_prototypes import PrototypeBackoff
+from ops_copilot.gloss_sense import GlossSenseBackoff
 from ops_copilot.write_targets import EntityRegistry, default_registry
 
 
@@ -147,6 +148,17 @@ class Copilot:
             model_name=self.config.embedding_model,
             allow_download=self.config.embedding_allow_download,
         )
+        self.gloss_sense = (
+            GlossSenseBackoff(
+                max_hops=self.config.gloss_sense_max_hops,
+                min_score=self.config.gloss_sense_min_score,
+                margin=self.config.gloss_sense_margin,
+                min_gloss_cosine=self.config.gloss_sense_min_gloss_cosine,
+                max_neighbours=self.config.gloss_sense_max_neighbours,
+            )
+            if self.config.use_gloss_sense_backoff
+            else None
+        )
         self.retriever = Retriever(
             self.corpus.chunks,
             self.config,
@@ -155,6 +167,11 @@ class Copilot:
             wordvec=self.wordvec,
             tagsyn=self.tagsyn,
             wiktionary=self.wiktionary,
+            gloss_sense=(
+                self.gloss_sense
+                if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
+                else None
+            ),
         )
         self.grounder = Grounder(
             texts,
@@ -177,6 +194,11 @@ class Copilot:
             passage_known=self.config.passage_support_known_words,
             passage_max_terms=self.config.passage_support_max_terms,
             passage_strict=self.config.passage_support_strict,
+            gloss_sense=(
+                self.gloss_sense
+                if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
+                else None
+            ),
             embed_support=(
                 EmbeddingSupport(
                     self.embeddings,
@@ -189,7 +211,10 @@ class Copilot:
                 else None
             ),
         )
+        if self.gloss_sense is not None:
+            self.gloss_sense.corpus_words = frozenset(self.grounder.idf)
         if sla_table is not None:
+
             self.sla_table = sla_table
         elif self.config.use_source_slas:
             self.sla_table = load_source_slas(self.config.source_sla_path)
@@ -361,6 +386,7 @@ class Copilot:
                 typo_tolerance=cfg.typo_tolerance,
                 mood_detection=cfg.write_mood_detection,
                 prototypes=self.write_prototypes,
+                gloss_sense=self.gloss_sense,
                 min_confidence=cfg.write_min_confidence,
                 phrasal=cfg.write_phrasal_parser,
                 cli_verbs=cfg.write_ops_cli_verbs,
