@@ -1,0 +1,628 @@
+{
+ "baseline_off": {
+  "setting": "off",
+  "clean_accuracy": 1.0,
+  "n_clean": 51,
+  "n_fail_open": 0,
+  "n_spurious_write": 0,
+  "verb_accuracy": 0.85,
+  "n_verbs": 20
+ },
+ "chosen": {
+  "min_score": 3.0,
+  "margin": 0.4,
+  "min_gloss_cosine": 0.5,
+  "verb_accuracy": 1.0,
+  "n_verbs": 20,
+  "clean_accuracy": 1.0,
+  "n_clean": 51,
+  "n_fail_open": 0,
+  "n_spurious_write": 0,
+  "per_row": [
+   {
+    "verb": "reload",
+    "kind": "service",
+    "label": "restart_service",
+    "predicted": "restart_service",
+    "accepted": true,
+    "score": 3.0635,
+    "ok": true
+   },
+   {
+    "verb": "activate",
+    "kind": "flag",
+    "label": "toggle_flag",
+    "predicted": "toggle_flag",
+    "accepted": true,
+    "score": 3.607,
+    "ok": true
+   },
+   {
+    "verb": "tweak",
+    "kind": "config_key",
+    "label": "patch_config",
+    "predicted": "patch_config",
+    "accepted": true,
+    "score": 3.0162,
+    "ok": true
+   },
+   {
+    "verb": "rerun",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "refresh",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "trace",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "audit",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "grep",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "query",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "debug",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "profile",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "nuke",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "zap",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "love",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "thank",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "delete",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "destroy",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "upscale",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "shrink",
+    "kind": "service",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   },
+   {
+    "verb": "summon",
+    "kind": "recipient",
+    "label": "none",
+    "predicted": "none",
+    "accepted": false,
+    "score": 0.0,
+    "ok": true
+   }
+  ]
+ },
+ "results": [
+  {
+   "min_score": 3.0,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 3.0,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.5,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 2.0,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.5,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.4,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.25,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.15,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.5,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.35,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  },
+  {
+   "min_score": 1.0,
+   "margin": 0.0,
+   "min_gloss_cosine": 0.25,
+   "verb_accuracy": 1.0,
+   "n_verbs": 20
+  }
+ ],
+ "n_safe": 60,
+ "default_on_candidate": true
+}
