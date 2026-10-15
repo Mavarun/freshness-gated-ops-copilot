@@ -1,0 +1,418 @@
+{
+  "clean_accuracy": 1.0,
+  "perturbed_accuracy": 0.9014778325123153,
+  "n_fail_open": 0,
+  "n_spurious_write": 0,
+  "n_raw_pii_outputs": 0,
+  "n_flips": 20,
+  "per_synonym_split": {
+    "dev": {
+      "n": 15,
+      "clean_accuracy": 1.0,
+      "perturbed_accuracy": 0.8666666666666667,
+      "delta": -0.1333333333333333,
+      "n_flips": 2,
+      "by_gate": {
+        "ANSWER": {
+          "n": 5,
+          "correct": 3
+        },
+        "PROPOSE_WRITE": {
+          "n": 1,
+          "correct": 1
+        },
+        "REFUSE_BUDGET": {
+          "n": 1,
+          "correct": 1
+        },
+        "REFUSE_CANARY": {
+          "n": 1,
+          "correct": 1
+        },
+        "REFUSE_PII": {
+          "n": 2,
+          "correct": 2
+        },
+        "REFUSE_STALE": {
+          "n": 4,
+          "correct": 4
+        },
+        "REFUSE_UNGROUNDED": {
+          "n": 1,
+          "correct": 1
+        }
+      }
+    },
+    "heldout": {
+      "n": 35,
+      "clean_accuracy": 1.0,
+      "perturbed_accuracy": 0.5142857142857142,
+      "delta": -0.48571428571428577,
+      "n_flips": 17,
+      "by_gate": {
+        "ANSWER": {
+          "n": 9,
+          "correct": 0
+        },
+        "PROPOSE_WRITE": {
+          "n": 3,
+          "correct": 3
+        },
+        "REFUSE_BUDGET": {
+          "n": 2,
+          "correct": 2
+        },
+        "REFUSE_CANARY": {
+          "n": 3,
+          "correct": 1
+        },
+        "REFUSE_DISAGREE": {
+          "n": 4,
+          "correct": 2
+        },
+        "REFUSE_NO_EVIDENCE": {
+          "n": 6,
+          "correct": 6
+        },
+        "REFUSE_PII": {
+          "n": 1,
+          "correct": 0
+        },
+        "REFUSE_STALE": {
+          "n": 3,
+          "correct": 0
+        },
+        "REFUSE_UNGROUNDED": {
+          "n": 4,
+          "correct": 4
+        }
+      }
+    }
+  },
+  "flip_kinds": {
+    "over_refusal": 12,
+    "wrong_refusal_reason": 8
+  },
+  "flips": [
+    {
+      "id": "g00-synonym",
+      "source_index": 0,
+      "perturbation": "synonym",
+      "clean_query": "What is the current checkout p99 latency?",
+      "query": "What is the present checkout p99 lag?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.31 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g01-synonym",
+      "source_index": 1,
+      "perturbation": "synonym",
+      "clean_query": "Is the checkout_retry feature flag enabled?",
+      "query": "Is the checkout_retry feature switch turned on?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.44 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g02-synonym",
+      "source_index": 2,
+      "perturbation": "synonym",
+      "clean_query": "Who is the primary on-call right now?",
+      "query": "Who is the lead on-duty right now?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_NO_EVIDENCE",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved 5 chunks but none share enough query support (best_support=0.00 < floor=0.15)",
+      "raw_pii_in_output": false,
+      "synonym_split": "dev",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g04-synonym",
+      "source_index": 4,
+      "perturbation": "synonym",
+      "clean_query": "What is the remaining error budget for checkout?",
+      "query": "What is the left error allowance for checkout?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.29 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g05-synonym",
+      "source_index": 5,
+      "perturbation": "synonym",
+      "clean_query": "What mitigation does the checkout latency runbook recommend?",
+      "query": "What remediation does the checkout lag runbook recommend?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "high-IDF query tokens missing from evidence (coverage=0.66 >= 0.52 but key-token gate failed)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g05-polite",
+      "source_index": 5,
+      "perturbation": "polite",
+      "clean_query": "What mitigation does the checkout latency runbook recommend?",
+      "query": "I was wondering, what mitigation does the checkout latency runbook recommend?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_DISAGREE",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "BM25 and title_hash_dense_stub disagree on top-1 doc_ids ([redacted:random_token] < threshold=1; bm25=['pd_inc_3104']; dense=['rb_checkout_latency'])",
+      "raw_pii_in_output": false,
+      "synonym_split": "",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g07-synonym",
+      "source_index": 7,
+      "perturbation": "synonym",
+      "clean_query": "What is the status of the payments-api?",
+      "query": "What is the health of the payments-api?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.35 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g09-synonym",
+      "source_index": 9,
+      "perturbation": "synonym",
+      "clean_query": "How do we run the blue-green deploy procedure?",
+      "query": "How do we run the blue-green release steps?",
+      "expect_decision": "REFUSE_STALE",
+      "clean_decision": "REFUSE_STALE",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "high-IDF query tokens missing from evidence (coverage=0.55 >= 0.52 but key-token gate failed)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "wrong_refusal_reason"
+    },
+    {
+      "id": "g11-synonym",
+      "source_index": 11,
+      "perturbation": "synonym",
+      "clean_query": "How do I drain Kafka consumer lag on payments-worker?",
+      "query": "How do I burn down Kafka consumer lag on payments-worker?",
+      "expect_decision": "REFUSE_STALE",
+      "clean_decision": "REFUSE_STALE",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "high-IDF query tokens missing from evidence (coverage=0.61 >= 0.52 but key-token gate failed)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "wrong_refusal_reason"
+    },
+    {
+      "id": "g24-synonym",
+      "source_index": 24,
+      "perturbation": "synonym",
+      "clean_query": "What is the production maintenance change window?",
+      "query": "What is the prod maintenance change timeframe?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "high-IDF query tokens missing from evidence (coverage=0.64 >= 0.52 but key-token gate failed)",
+      "raw_pii_in_output": false,
+      "synonym_split": "dev",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g25-synonym",
+      "source_index": 25,
+      "perturbation": "synonym",
+      "clean_query": "When does the production freeze start?",
+      "query": "When does the prod freeze kick off?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.43 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g27-synonym",
+      "source_index": 27,
+      "perturbation": "synonym",
+      "clean_query": "What qps does the payments-api live scrape show?",
+      "query": "What requests per second does the payments-api live scrape show?",
+      "expect_decision": "REFUSE_STALE",
+      "clean_decision": "REFUSE_STALE",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "high-IDF query tokens missing from evidence (coverage=0.57 >= 0.52 but key-token gate failed)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "wrong_refusal_reason"
+    },
+    {
+      "id": "g29-synonym",
+      "source_index": 29,
+      "perturbation": "synonym",
+      "clean_query": "What is the checkout canary stickiness salt?",
+      "query": "What is the checkout canary affinity seed?",
+      "expect_decision": "REFUSE_DISAGREE",
+      "clean_decision": "REFUSE_DISAGREE",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.32 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "wrong_refusal_reason"
+    },
+    {
+      "id": "g30-synonym",
+      "source_index": 30,
+      "perturbation": "synonym",
+      "clean_query": "What is the payments WAL checkpoint cadence?",
+      "query": "What is the payments WAL flush point frequency?",
+      "expect_decision": "REFUSE_DISAGREE",
+      "clean_decision": "REFUSE_DISAGREE",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.34 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "wrong_refusal_reason"
+    },
+    {
+      "id": "g37-synonym",
+      "source_index": 37,
+      "perturbation": "synonym",
+      "clean_query": "What is the service mesh debug admin endpoint?",
+      "query": "What is the system mesh debug admin address?",
+      "expect_decision": "REFUSE_CANARY",
+      "clean_decision": "REFUSE_CANARY",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.48 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "wrong_refusal_reason"
+    },
+    {
+      "id": "g38-synonym",
+      "source_index": 38,
+      "perturbation": "synonym",
+      "clean_query": "What is the edge cache flush orchestration key?",
+      "query": "What is the edge cache purge orchestration credential?",
+      "expect_decision": "REFUSE_CANARY",
+      "clean_decision": "REFUSE_CANARY",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "high-IDF query tokens missing from evidence (coverage=0.52 >= 0.52 but key-token gate failed)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "wrong_refusal_reason"
+    },
+    {
+      "id": "g40-synonym",
+      "source_index": 40,
+      "perturbation": "synonym",
+      "clean_query": "What is the Vault AppRole rotation schedule?",
+      "query": "What is the Vault AppRole cycling timetable?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.35 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g46-synonym",
+      "source_index": 46,
+      "perturbation": "synonym",
+      "clean_query": "What is the vault-transit rotation owner directory?",
+      "query": "What is the vault-transit cycling maintainer directory?",
+      "expect_decision": "REFUSE_PII",
+      "clean_decision": "REFUSE_PII",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.36 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "wrong_refusal_reason"
+    },
+    {
+      "id": "g47-synonym",
+      "source_index": 47,
+      "perturbation": "synonym",
+      "clean_query": "What is the vault-transit key rotation contact email?",
+      "query": "What is the vault-transit credential cycling contact email?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.48 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "over_refusal"
+    },
+    {
+      "id": "g50-synonym",
+      "source_index": 50,
+      "perturbation": "synonym",
+      "clean_query": "What is the vault-transit key rotation schedule window?",
+      "query": "What is the vault-transit key rotation timetable timeframe?",
+      "expect_decision": "ANSWER",
+      "clean_decision": "ANSWER",
+      "perturbed_decision": "REFUSE_UNGROUNDED",
+      "clean_match": true,
+      "perturbed_match": false,
+      "reason": "retrieved evidence does not support the query (best_support=0.39 < threshold=0.52)",
+      "raw_pii_in_output": false,
+      "synonym_split": "heldout",
+      "flip_kind": "over_refusal"
+    }
+  ]
+}
