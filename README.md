@@ -22,6 +22,71 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Noun gloss-sense: a contaminated +0.057 caught and removed (2026-10-16): held-out still 0 of 9 answers
+
+This morning's interrupted run left a noun gloss-sense backoff (read path) that looked
+like a win: held-out accuracy 0.514 -> 0.571 and held-out ANSWER rows 0/9 -> 2/9, with
+no fail-open, no spurious write, no raw PII. Reviewing it before landing, the gain was
+not real: the hand-written ops noun seed contained glosses for **lag**, **health** and
+**state**, which are held-out words, and a test asserted they were there. The two rows
+it fixed (`g05-synonym` lag -> latency, `g07-synonym` health -> status) were fixed by
+text written knowing the answer. Labels, golden file, 203 perturbed rows and the
+dev / held-out split are unchanged (seed 42, frozen clock 2026-09-13).
+
+### What changed
+
+1. **Seed cleaned.** `data/wiktionary/ops_noun_senses.json` now holds only the ontology
+   target nouns `status` and `latency`, with glosses that contain no held-out word.
+   The old seed is kept as `ops_noun_senses_leaky_reference.json`, labelled, never loaded
+   by default.
+2. **Guards.** `tests/test_noun_gloss_sense.py` fails if the product seed has a held-out
+   headword or a held-out word in a gloss. `ops_copilot/resource_audit.py` plus
+   `tests/test_resource_audit.py` scan every hand-written resource (noun seed, both
+   write dev files, the glossary) and fail CI if any authors a held-out word
+   (`make audit-heldout`). The schema token `config` (as in `patch_config`) is
+   allow-listed.
+3. **Re-calibration** on clean golden plus dev rows only (`make calibrate-noun-gloss-sense`):
+   gate min_gloss_cosine 0.85, 2 neighbours, min_score 1.1. Clean 1.000; dev synonym 0.800,
+   which equals the off baseline, so the clean seed buys nothing on dev either. The tie-break
+   now prefers the lowest *safe* cosine gate.
+4. **One-shot held-out run** (`make noun-heldout`, `artifacts/noun_gloss_sense_heldout.json`).
+   Pre-registered rule: default-on only if held-out accuracy and held-out ANSWER rows
+   do not fall, nothing fails open, clean stays 1.000, **and** the gain survives the
+   clean seed.
+
+| arm | clean | perturbed (203) | held-out acc (35) | held-out ANSWER | fail-open / spurious write / raw PII |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| off (default) | 1.000 | 0.9015 | 0.514 | 0/9 | 0 / 0 / 0 |
+| **on, clean seed** | 1.000 | 0.9015 | **0.514** | **0/9** | 0 / 0 / 0 |
+| on, leaky seed (reference only) | 1.000 | 0.9113 | 0.571 | 2/9 | 0 / 0 / 0 |
+
+Decision: **no-go**. `use_noun_gloss_sense` stays `False`. The only arm that moves
+held-out is the one that wrote the answer into the seed.
+
+A useful detail from the clean arm: Wiktionary alone does reach `latency` from `lag`
+in two hops (lag -> laggy -> latency), but the gloss-centroid cosine is 0.49, below the
+0.85 gate, so the safety gate correctly refuses the weak bridge. `health` has no path to
+`status` at all.
+
+### Reproduce
+
+    make audit-heldout          # hand-written resources: no held-out word
+    make calibrate-noun-gloss-sense   # dev-only (slow: ~12 min)
+    make noun-heldout           # off vs clean seed vs leaky reference
+    pytest tests/test_noun_gloss_sense.py tests/test_resource_audit.py
+
+### Weaknesses
+
+- Held-out ANSWER rows are still **0 of 9**; `lag~latency` and `health~status` have no honest
+  external bridge here. Passing them needs a source not written by us (a larger public
+  noun-sense or ops glossary resource) judged by the same one-shot rule.
+- The audit only covers the listed hand-written files and exact folded tokens; it cannot
+  detect a paraphrase of a held-out word or contamination inside external extracts.
+- The calibration grid is small (24 settings) and the dev split has 15 rows, so the gate
+  choice is weakly identified; calibration takes ~12 minutes.
+- The first (contaminated) seed was committed on this branch before being fixed; the
+  history shows it. The product seed on main never contained it.
+
 ## Ops gloss-sense write backoff (2026-10-15): held-out writes 1/3 → 3/3, ANSWER/WRITE 1/12 → 3/12
 
 PR #20 left the top weakness unchanged: held-out answers/writes at **1 of 12**,
