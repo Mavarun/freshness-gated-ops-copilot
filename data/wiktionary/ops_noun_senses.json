@@ -1,26 +1,12 @@
 {
   "meta": {
     "built": "2026-10-16",
-    "purpose": "Ops noun senses that Wiktionary computing topics omit. Same schema as computing_senses.json.gz rows. Definitional glosses only — bridges emerge from shared genus words in the gloss graph, not from a synonym list. Held-out words may appear here the same way they appear in the external Wiktionary extract; they are never written into product synonym maps.",
-    "n_senses": 5
+    "purpose": "Ops noun senses that Wiktionary computing topics omit. Headwords are ontology target words only (status, latency); no held-out word (lag, health, state, response, time, ...) is authored here and no gloss mentions one (enforced by tests/test_noun_gloss_sense.py). Definitional glosses only.",
+    "n_senses": 2
   },
   "senses": [
     {
-      "word": "health",
-      "pos": "noun",
-      "topic": "ops",
-      "synonyms": [],
-      "gloss": "The operational condition of a service or component."
-    },
-    {
       "word": "status",
-      "pos": "noun",
-      "topic": "ops",
-      "synonyms": [],
-      "gloss": "The current operational condition of a system or component."
-    },
-    {
-      "word": "state",
       "pos": "noun",
       "topic": "ops",
       "synonyms": [],
@@ -31,14 +17,7 @@
       "pos": "noun",
       "topic": "ops",
       "synonyms": [],
-      "gloss": "The delay between a request and its response; response time of a call."
-    },
-    {
-      "word": "lag",
-      "pos": "noun",
-      "topic": "ops",
-      "synonyms": [],
-      "gloss": "Delay in response or processing; network response time."
+      "gloss": "The delay between sending a call and receiving the answer."
     }
   ]
 }
