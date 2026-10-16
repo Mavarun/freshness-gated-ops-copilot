@@ -84,3 +84,13 @@ def test_pci_dss_no_evidence_trap_stays_no_evidence() -> None:
 
 def test_noun_sense_is_off_by_default() -> None:
     assert CopilotConfig().use_noun_gloss_sense is False
+
+
+def test_noun_sense_on_keeps_clean_golden_perfect_and_safe() -> None:
+    from dataclasses import replace
+
+    from ops_copilot.eval import run_eval
+
+    cfg = replace(CopilotConfig(), use_noun_gloss_sense=True)
+    rep = run_eval(Copilot(config=cfg))
+    assert rep.decision_accuracy == 1.0
