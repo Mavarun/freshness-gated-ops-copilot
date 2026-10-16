@@ -1,4 +1,4 @@
-.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -71,6 +71,10 @@ secret-entropy:
 
 explain-eval:
 	python scripts/run_explanation_eval.py
+
+# Noun gloss-sense (ops noun + Wiktionary all-POS bridges): clean + dev only.
+calibrate-noun-gloss-sense:
+	python scripts/calibrate_noun_gloss_sense.py
 
 # Gloss-sense (Wiktionary computing verb gloss bridges): dev-only calibration
 # on clean golden + data/write/gloss_sense_dev.jsonl (no held-out rows).

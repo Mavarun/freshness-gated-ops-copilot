@@ -106,7 +106,22 @@ class CopilotConfig:
     gloss_sense_min_gloss_cosine: float = 0.5
     gloss_sense_max_neighbours: int = 2
     # Also expose gloss-sense corpus substitutes in grounding / retrieve.
+    # Stays off: the verb graph rewrote scan->image and broke a clean
+    # no-evidence trap. Noun read-path uses use_noun_gloss_sense instead.
     gloss_sense_grounding: bool = False
+    # Ops *noun* gloss-sense backoff (noun_gloss_sense.py): all-POS Wiktionary
+    # computing glosses plus a small ops-noun seed build definitional bridges
+    # for read-path paraphrases (lag~latency, health~status). High
+    # min_gloss_cosine (max over sense-pair centroids) rejects false bridges.
+    # Thresholds from scripts/calibrate_noun_gloss_sense.py (clean + dev only).
+    use_noun_gloss_sense: bool = False
+    noun_gloss_sense_max_hops: int = 2
+    noun_gloss_sense_min_score: float = 0.9
+    noun_gloss_sense_min_gloss_cosine: float = 0.85
+    noun_gloss_sense_max_neighbours: int = 2
+    # Known corpus words (e.g. lag) also accept noun-sense substitutes as
+    # grounding support and get them appended in the retrieval rewrite.
+    noun_gloss_sense_known_words: bool = True
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
