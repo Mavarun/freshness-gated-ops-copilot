@@ -98,14 +98,17 @@ def calibrate() -> dict:
 
     # Prefer safe settings; among them higher min_cos, then higher min_score,
     # then more neighbours (helps health->status when state also ranks).
+    # Among equally safe / equal-DEV settings, prefer the lowest cosine gate
+    # (max recall under the safety constraint). This keeps health~status
+    # (cos ~0.89) while still rejecting scan~image (~0.69).
     grid.sort(
         key=lambda r: (
             -int(r["safe"]),
             -r["dev_synonym_accuracy"],
             -r["dev_answer_correct"],
-            -r["min_gloss_cosine"],
-            -r["min_score"],
+            r["min_gloss_cosine"],
             -r["max_neighbours"],
+            -r["min_score"],
         )
     )
     chosen = grid[0]
