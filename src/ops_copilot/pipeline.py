@@ -42,6 +42,7 @@ from ops_copilot.write_actions import proposal_from_intent
 from ops_copilot.write_intent import AMBIGUOUS, classify_write_intent
 from ops_copilot.write_prototypes import PrototypeBackoff
 from ops_copilot.gloss_sense import GlossSenseBackoff
+from ops_copilot.noun_gloss_sense import NounGlossSenseBackoff
 from ops_copilot.write_targets import EntityRegistry, default_registry
 
 
@@ -159,6 +160,16 @@ class Copilot:
             if self.config.use_gloss_sense_backoff
             else None
         )
+        self.noun_gloss = (
+            NounGlossSenseBackoff(
+                max_hops=self.config.noun_gloss_sense_max_hops,
+                min_score=self.config.noun_gloss_sense_min_score,
+                min_gloss_cosine=self.config.noun_gloss_sense_min_gloss_cosine,
+                max_neighbours=self.config.noun_gloss_sense_max_neighbours,
+            )
+            if self.config.use_noun_gloss_sense
+            else None
+        )
         self.retriever = Retriever(
             self.corpus.chunks,
             self.config,
@@ -172,6 +183,8 @@ class Copilot:
                 if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
                 else None
             ),
+            noun_gloss=self.noun_gloss,
+            noun_gloss_known=self.config.noun_gloss_sense_known_words,
         )
         self.grounder = Grounder(
             texts,
@@ -199,6 +212,8 @@ class Copilot:
                 if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
                 else None
             ),
+            noun_gloss=self.noun_gloss,
+            noun_gloss_known=self.config.noun_gloss_sense_known_words,
             embed_support=(
                 EmbeddingSupport(
                     self.embeddings,
@@ -213,6 +228,8 @@ class Copilot:
         )
         if self.gloss_sense is not None:
             self.gloss_sense.corpus_words = frozenset(self.grounder.idf)
+        if self.noun_gloss is not None:
+            self.noun_gloss.corpus_words = frozenset(self.grounder.idf)
         if sla_table is not None:
 
             self.sla_table = sla_table
