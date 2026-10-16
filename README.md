@@ -84,8 +84,8 @@ in two hops (lag -> laggy -> latency), but the gloss-centroid cosine is 0.49, be
   detect a paraphrase of a held-out word or contamination inside external extracts.
 - The calibration grid is small (24 settings) and the dev split has 15 rows, so the gate
   choice is weakly identified; calibration takes ~12 minutes.
-- The first (contaminated) seed was committed on this branch before being fixed; the
-  history shows it. The product seed on main never contained it.
+- The contaminated seed is in this PR's commit history (first commits) and only the final
+  tree is clean; the seed on main before this PR never existed. Read the diff of the final tree.
 
 ## Ops gloss-sense write backoff (2026-10-15): held-out writes 1/3 → 3/3, ANSWER/WRITE 1/12 → 3/12
 
