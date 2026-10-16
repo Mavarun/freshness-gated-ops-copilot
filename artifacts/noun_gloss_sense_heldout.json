@@ -1,0 +1,275 @@
+{
+  "off": {
+    "clean_accuracy": 1.0,
+    "n_fail_open": 0,
+    "n_raw_pii_outputs": 0,
+    "n_spurious_write": 0,
+    "per_synonym_split": {
+      "dev": {
+        "by_gate": {
+          "ANSWER": {
+            "correct": 3,
+            "n": 5
+          },
+          "PROPOSE_WRITE": {
+            "correct": 1,
+            "n": 1
+          },
+          "REFUSE_BUDGET": {
+            "correct": 1,
+            "n": 1
+          },
+          "REFUSE_CANARY": {
+            "correct": 1,
+            "n": 1
+          },
+          "REFUSE_PII": {
+            "correct": 2,
+            "n": 2
+          },
+          "REFUSE_STALE": {
+            "correct": 4,
+            "n": 4
+          },
+          "REFUSE_UNGROUNDED": {
+            "correct": 1,
+            "n": 1
+          }
+        },
+        "clean_accuracy": 1.0,
+        "delta": -0.1333333333333333,
+        "n": 15,
+        "n_flips": 2,
+        "perturbed_accuracy": 0.8666666666666667
+      },
+      "heldout": {
+        "by_gate": {
+          "ANSWER": {
+            "correct": 0,
+            "n": 9
+          },
+          "PROPOSE_WRITE": {
+            "correct": 3,
+            "n": 3
+          },
+          "REFUSE_BUDGET": {
+            "correct": 2,
+            "n": 2
+          },
+          "REFUSE_CANARY": {
+            "correct": 1,
+            "n": 3
+          },
+          "REFUSE_DISAGREE": {
+            "correct": 2,
+            "n": 4
+          },
+          "REFUSE_NO_EVIDENCE": {
+            "correct": 6,
+            "n": 6
+          },
+          "REFUSE_PII": {
+            "correct": 0,
+            "n": 1
+          },
+          "REFUSE_STALE": {
+            "correct": 0,
+            "n": 3
+          },
+          "REFUSE_UNGROUNDED": {
+            "correct": 4,
+            "n": 4
+          }
+        },
+        "clean_accuracy": 1.0,
+        "delta": -0.48571428571428577,
+        "n": 35,
+        "n_flips": 17,
+        "perturbed_accuracy": 0.5142857142857142
+      }
+    },
+    "perturbed_accuracy": 0.9014778325123153
+  },
+  "on_clean_seed": {
+    "clean_accuracy": 1.0,
+    "n_fail_open": 0,
+    "n_raw_pii_outputs": 0,
+    "n_spurious_write": 0,
+    "per_synonym_split": {
+      "dev": {
+        "by_gate": {
+          "ANSWER": {
+            "correct": 3,
+            "n": 5
+          },
+          "PROPOSE_WRITE": {
+            "correct": 1,
+            "n": 1
+          },
+          "REFUSE_BUDGET": {
+            "correct": 1,
+            "n": 1
+          },
+          "REFUSE_CANARY": {
+            "correct": 1,
+            "n": 1
+          },
+          "REFUSE_PII": {
+            "correct": 2,
+            "n": 2
+          },
+          "REFUSE_STALE": {
+            "correct": 4,
+            "n": 4
+          },
+          "REFUSE_UNGROUNDED": {
+            "correct": 1,
+            "n": 1
+          }
+        },
+        "clean_accuracy": 1.0,
+        "delta": -0.1333333333333333,
+        "n": 15,
+        "n_flips": 2,
+        "perturbed_accuracy": 0.8666666666666667
+      },
+      "heldout": {
+        "by_gate": {
+          "ANSWER": {
+            "correct": 0,
+            "n": 9
+          },
+          "PROPOSE_WRITE": {
+            "correct": 3,
+            "n": 3
+          },
+          "REFUSE_BUDGET": {
+            "correct": 2,
+            "n": 2
+          },
+          "REFUSE_CANARY": {
+            "correct": 1,
+            "n": 3
+          },
+          "REFUSE_DISAGREE": {
+            "correct": 2,
+            "n": 4
+          },
+          "REFUSE_NO_EVIDENCE": {
+            "correct": 6,
+            "n": 6
+          },
+          "REFUSE_PII": {
+            "correct": 0,
+            "n": 1
+          },
+          "REFUSE_STALE": {
+            "correct": 0,
+            "n": 3
+          },
+          "REFUSE_UNGROUNDED": {
+            "correct": 4,
+            "n": 4
+          }
+        },
+        "clean_accuracy": 1.0,
+        "delta": -0.48571428571428577,
+        "n": 35,
+        "n_flips": 17,
+        "perturbed_accuracy": 0.5142857142857142
+      }
+    },
+    "perturbed_accuracy": 0.9014778325123153
+  },
+  "on_leaky_seed_reference_only": {
+    "clean_accuracy": 1.0,
+    "n_fail_open": 0,
+    "n_raw_pii_outputs": 0,
+    "n_spurious_write": 0,
+    "per_synonym_split": {
+      "dev": {
+        "by_gate": {
+          "ANSWER": {
+            "correct": 3,
+            "n": 5
+          },
+          "PROPOSE_WRITE": {
+            "correct": 1,
+            "n": 1
+          },
+          "REFUSE_BUDGET": {
+            "correct": 1,
+            "n": 1
+          },
+          "REFUSE_CANARY": {
+            "correct": 1,
+            "n": 1
+          },
+          "REFUSE_PII": {
+            "correct": 2,
+            "n": 2
+          },
+          "REFUSE_STALE": {
+            "correct": 4,
+            "n": 4
+          },
+          "REFUSE_UNGROUNDED": {
+            "correct": 1,
+            "n": 1
+          }
+        },
+        "clean_accuracy": 1.0,
+        "delta": -0.1333333333333333,
+        "n": 15,
+        "n_flips": 2,
+        "perturbed_accuracy": 0.8666666666666667
+      },
+      "heldout": {
+        "by_gate": {
+          "ANSWER": {
+            "correct": 2,
+            "n": 9
+          },
+          "PROPOSE_WRITE": {
+            "correct": 3,
+            "n": 3
+          },
+          "REFUSE_BUDGET": {
+            "correct": 2,
+            "n": 2
+          },
+          "REFUSE_CANARY": {
+            "correct": 1,
+            "n": 3
+          },
+          "REFUSE_DISAGREE": {
+            "correct": 2,
+            "n": 4
+          },
+          "REFUSE_NO_EVIDENCE": {
+            "correct": 6,
+            "n": 6
+          },
+          "REFUSE_PII": {
+            "correct": 0,
+            "n": 1
+          },
+          "REFUSE_STALE": {
+            "correct": 0,
+            "n": 3
+          },
+          "REFUSE_UNGROUNDED": {
+            "correct": 4,
+            "n": 4
+          }
+        },
+        "clean_accuracy": 1.0,
+        "delta": -0.4285714285714286,
+        "n": 35,
+        "n_flips": 15,
+        "perturbed_accuracy": 0.5714285714285714
+      }
+    },
+    "perturbed_accuracy": 0.9113300492610837
+  }
+}
