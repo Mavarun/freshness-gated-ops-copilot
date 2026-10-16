@@ -116,7 +116,7 @@ class CopilotConfig:
     # Thresholds from scripts/calibrate_noun_gloss_sense.py (clean + dev only).
     use_noun_gloss_sense: bool = False
     noun_gloss_sense_max_hops: int = 2
-    noun_gloss_sense_min_score: float = 0.9
+    noun_gloss_sense_min_score: float = 1.1
     noun_gloss_sense_min_gloss_cosine: float = 0.85
     noun_gloss_sense_max_neighbours: int = 2
     # Known corpus words (e.g. lag) also accept noun-sense substitutes as

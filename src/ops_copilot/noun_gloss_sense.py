@@ -64,7 +64,7 @@ DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "wiktionary"
 DEFAULT_OPS_NOUN_SEED = DATA_DIR / "ops_noun_senses.json"
 DEFAULT_MIN_GLOSS_COSINE = 0.85
 DEFAULT_MAX_NEIGHBOURS = 2
-DEFAULT_MIN_SCORE = 0.9
+DEFAULT_MIN_SCORE = 1.1
 
 
 def load_ops_noun_senses(path: Path | None = None) -> list[dict]:
