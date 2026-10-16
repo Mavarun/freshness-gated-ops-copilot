@@ -44,6 +44,7 @@ from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.tag_synonyms import TagSynonymBackoff
 from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
 from ops_copilot.gloss_sense import GlossSenseBackoff
+from ops_copilot.noun_gloss_sense import NounGlossSenseBackoff
 from ops_copilot.word_vectors import WordVectorBackoff
 from ops_copilot.synonyms import equivalents, fold_phrases
 from ops_copilot.text import (
@@ -212,6 +213,8 @@ class Retriever:
         tagsyn: TagSynonymBackoff | None = None,
         wiktionary: WiktionarySenseBackoff | None = None,
         gloss_sense: GlossSenseBackoff | None = None,
+        noun_gloss: NounGlossSenseBackoff | None = None,
+        noun_gloss_known: bool = False,
     ) -> None:
         if not chunks:
             raise ValueError("retriever requires at least one chunk")
@@ -222,6 +225,8 @@ class Retriever:
         self.tagsyn = tagsyn
         self.wiktionary = wiktionary
         self.gloss_sense = gloss_sense
+        self.noun_gloss = noun_gloss
+        self.noun_gloss_known = bool(noun_gloss_known and noun_gloss is not None)
         self._tokenized = [tokenize(f"{c.title} {c.text}") for c in chunks]
         self._bm25 = _bm25_engine(self._tokenized)
         self.vocab = CorpusVocabulary(self._tokenized, extra_words=NON_SALIENT)
@@ -269,7 +274,7 @@ class Retriever:
                 if fixed is not None:
                     words.append(fixed)
                     continue
-            for lex in (self.tagsyn, self.wiktionary, self.gloss_sense):
+            for lex in (self.tagsyn, self.wiktionary, self.gloss_sense, self.noun_gloss):
                 if lex is None:
                     continue
                 near = sorted(n.word for n in lex.neighbours(word) if n.word in self.vocab)
@@ -291,6 +296,17 @@ class Retriever:
                     words.extend(near)
                     continue
             words.append(word)
+        if self.noun_gloss is not None and self.noun_gloss_known:
+            seen = set(words)
+            extra: list[str] = []
+            for word in list(words):
+                if not word.isalpha() or is_identifier(word):
+                    continue
+                for n in self.noun_gloss.neighbours(word):
+                    if n.word in self.vocab and n.word not in seen:
+                        extra.append(n.word)
+                        seen.add(n.word)
+            words.extend(extra)
         return " ".join(words)
 
     def _bm25_scores(self, query: str) -> np.ndarray:
