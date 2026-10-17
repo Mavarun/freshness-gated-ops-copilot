@@ -54,3 +54,24 @@ def test_dev_usage_row_maps_to_utilization_and_tags_term_kind():
     term = bot.grounder._term("usage")
     assert term is not None
     assert "utilization" in term.alts
+
+
+def test_lone_scope_maps_only_a_single_unknown_word():
+    bot = Copilot(
+        config=CopilotConfig(use_wordnet_noun_sense=True, wordnet_scope="lone", wordnet_max_path=1)
+    )
+    assert bot.retriever.noun_gloss is None
+    one = {t.token: t for t in bot.grounder.terms("What is the upkeep window?")}
+    assert one["upkeep"].kind == "wordnet_sense"
+    assert "maintenance" in one["upkeep"].alts
+    many = {t.token: t for t in bot.grounder.terms("What is the upkeep payroll connector?")}
+    assert many["upkeep"].kind == "unknown"
+    assert many["payroll"].kind == "unknown"
+    # the suspend toggle is always released
+    assert bot.wordnet_noun.suspend_unknown is False
+
+
+def test_known_scope_never_maps_a_lone_unknown():
+    bot = Copilot(config=CopilotConfig(use_wordnet_noun_sense=True, wordnet_max_path=1))
+    one = {t.token: t for t in bot.grounder.terms("What is the upkeep window?")}
+    assert one["upkeep"].kind == "unknown"

@@ -225,7 +225,9 @@ class WordNetNounSense:
     and, for siblings, the shared hypernym's fan-out <= ``max_fanout`` (a
     crowded genus such as {time period} relates everything to everything).
     With ``known_only`` only corpus words are expanded (grounding alts for a
-    known word missing from the evidence); unknown words get nothing.
+    known word missing from the evidence); unknown words get nothing. With
+    ``lone_unknown`` an unknown word is also expanded, but only when the
+    grounder finds it is the query's only unknown content word.
     """
 
     term_kind = "wordnet_sense"
@@ -234,6 +236,11 @@ class WordNetNounSense:
     max_fanout: int = 25
     max_neighbours: int = 1
     known_only: bool = False
+    # "lone unknown" scope: the grounder maps an unknown word only when it is
+    # the query's single unknown content word (several unknown words mean the
+    # topic itself is absent). The grounder toggles suspend_unknown.
+    lone_unknown: bool = False
+    suspend_unknown: bool = False
     corpus_words: frozenset[str] | None = None
     table: WordNetTable | None = None
     _cache: dict[str, tuple[Neighbour, ...]] = field(default_factory=dict, repr=False)
@@ -261,13 +268,12 @@ class WordNetNounSense:
         if not self.lookupable(token):
             return ()
         tok = token.lower()
-        if tok in self._cache:
-            return self._cache[tok]
-        if self.known_only and tok not in self.source_vocab:
+        if tok not in self.source_vocab and (self.known_only or self.suspend_unknown):
             # An unknown word stays unknown: mapping it onto corpus words is
             # what turns clean NO_EVIDENCE traps into UNGROUNDED.
-            self._cache[tok] = ()
             return ()
+        if tok in self._cache:
+            return self._cache[tok]
         out: list[Neighbour] = []
         for word, rel, path, fan, _rank in self._rows(tok):
             if word == tok or path > self.max_path:
@@ -282,6 +288,9 @@ class WordNetNounSense:
                 break
         self._cache[tok] = tuple(out)
         return self._cache[tok]
+
+    def set_suspend_unknown(self, value: bool) -> None:
+        self.suspend_unknown = bool(value)
 
 
 @dataclass
@@ -302,6 +311,15 @@ class ChainedNounSense:
     @property
     def term_kind(self) -> str:
         return "noun_sense"
+
+    @property
+    def lone_unknown(self) -> bool:
+        return any(getattr(p, "lone_unknown", False) for p in self.parts)
+
+    def set_suspend_unknown(self, value: bool) -> None:
+        for p in self.parts:
+            if hasattr(p, "suspend_unknown"):
+                p.suspend_unknown = value
 
     def neighbours(self, token: str) -> tuple[Neighbour, ...]:
         for part in self.parts:

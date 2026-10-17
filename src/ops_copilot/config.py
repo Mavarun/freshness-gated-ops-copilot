@@ -133,7 +133,9 @@ class CopilotConfig:
     wordnet_max_fanout: int = 25
     wordnet_max_neighbours: int = 1
     # "known": only corpus words get WordNet alts, in grounding only (no
-    # unknown-word mapping, no retrieval rewrite). "all": unknown words are
+    # unknown-word mapping, no retrieval rewrite). "lone": as "known", plus an
+    # unknown word is mapped when it is the query's only unknown content word
+    # (grounding only). "all": unknown words are
     # mapped too and substitutes enter the retrieval rewrite.
     wordnet_scope: str = "known"
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.

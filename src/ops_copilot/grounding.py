@@ -378,14 +378,28 @@ class Grounder:
 
     def terms(self, query: str) -> list[QueryTerm]:
         """Unique salient terms of ``query`` in first-seen order."""
-        seen: set[str] = set()
-        out: list[QueryTerm] = []
-        for tok in self._query_tokens(query):
-            term = self._term(tok)
-            if term is None or term.token in seen:
-                continue
-            seen.add(term.token)
-            out.append(term)
+        lone = bool(getattr(self.noun_gloss, "lone_unknown", False))
+        if lone:
+            self.noun_gloss.set_suspend_unknown(True)
+        try:
+            seen: set[str] = set()
+            out: list[QueryTerm] = []
+            for tok in self._query_tokens(query):
+                term = self._term(tok)
+                if term is None or term.token in seen:
+                    continue
+                seen.add(term.token)
+                out.append(term)
+        finally:
+            if lone:
+                self.noun_gloss.set_suspend_unknown(False)
+        if lone:
+            unknown = [i for i, t in enumerate(out) if t.kind == "unknown"]
+            if len(unknown) == 1:
+                # The single unknown content word may take a noun-sense substitute.
+                redo = self._term(out[unknown[0]].token)
+                if redo is not None:
+                    out[unknown[0]] = redo
         return out
 
     def _unique(self, text: str) -> list[str]:
