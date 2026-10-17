@@ -5,9 +5,9 @@ from ops_copilot import wordnet_sense_calibration as cal
 
 def test_grid_is_fixed_and_fanout_only_varies_for_siblings():
     grid = cal.grid_settings()
-    assert len(grid) == 20
+    assert len(grid) == 30
     assert {g["max_fanout"] for g in grid if g["max_path"] < 2} == {0}
-    assert {g["scope"] for g in grid} == {"known", "all"}
+    assert {g["scope"] for g in grid} == {"known", "lone", "all"}
 
 
 def test_selection_prefers_safe_then_dev_then_most_conservative():
