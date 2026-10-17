@@ -22,6 +22,89 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## WordNet noun senses (2026-10-17): an external sense inventory, held-out still 0 of 9 answers, ships off
+
+The last slice ended with "passing `lag~latency` / `health~status` needs a source not
+written by us". This slice uses the largest such source available offline: **Princeton
+WordNet 3.0** noun synsets (82,115 synsets, 117,798 lemmas, BSD-style WordNet license).
+WordNet *does* hold both senses: `health` (sense 1) has the hypernym synset
+{condition, status}, and `lag` ({interim, meantime, lag}) and `latency` ({reaction time,
+response time, latency}) are both direct hyponyms of {time interval}. Labels, the golden
+file, the 203 perturbed rows and the dev / held-out split are unchanged (seed 42, frozen
+clock 2026-09-13). No hand-written resource was added, so `make audit-heldout` is unchanged
+and passing.
+
+### What changed
+
+1. **Parser and table** (`wordnet_senses.py`, `scripts/build_wordnet_neighbours.py`,
+   `data/wordnet/wn_noun_neighbours.json.gz`, 130 KB). `data.noun` / `index.noun` are read
+   directly (no nltk dependency). For *every* single-word noun lemma the table keeps its best
+   relation to each corpus word: same synset (path 0), direct hypernym / hyponym (path 1),
+   or co-hyponym (path 2, with the shared hypernym's fan-out). The archive's SHA-256 is
+   checked, rebuilds are byte-identical, and a test fails if the corpus changes without a
+   rebuild. 260 of 440 corpus words are WordNet nouns; the ops jargon (`runbook`, `redis`,
+   `config`, `ttl`) is not. The build reads no eval file.
+2. **Wiring** (`use_wordnet_noun_sense`, off). WordNet fills the noun read-path slot that
+   the Wiktionary noun gloss sense uses; with both on, Wiktionary is asked first.
+3. **Scope fix found on clean rows.** Mapping *unknown* words onto corpus words (`SAP payroll
+   connector`, `Snowflake warehouse`) made unrelated docs count as related and turned clean
+   REFUSE_NO_EVIDENCE traps into REFUSE_UNGROUNDED: clean 0.98 at path 0, 0.86-0.90 at
+   paths 1-2. `wordnet_scope="known"` (default) only adds WordNet alts to *corpus* words,
+   in grounding only, and stays out of the retrieval rewrite.
+4. **Dev-only calibration** (`make calibrate-wordnet`, `artifacts/wordnet_sense_calibration.md`).
+   20 settings (scope x path x fan-out {10, 25, 50} x neighbours {1, 2}) on 51 clean + 15 dev
+   rows. Scope `all` is never safe. Seven known-scope settings are safe and **all score dev
+   0.800, the same as off**: dev cannot identify the gate. The rule fixed in the
+   calibration module picks the most conservative tie: known scope, path 0, 1 neighbour.
+5. **One-shot held-out run** (`make wordnet-heldout`, `artifacts/wordnet_sense_heldout.json`).
+   Decision on the chosen arm only. The two looser safe settings are reported as
+   reference arms, fixed before the run, and are **not** candidates.
+
+| arm | clean | perturbed (203) | dev (15) | held-out acc (35) | held-out ANSWER | fail-open / spurious write / raw PII |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| off (default) | 1.000 | 0.9015 | 0.867 | 0.514 | 0/9 | 0 / 0 / 0 |
+| **on, dev-chosen (known, path 0)** | 1.000 | 0.9015 | 0.867 | **0.514** | **0/9** | 0 / 0 / 0 |
+| reference: known, path 1 | 1.000 | 0.9015 | 0.867 | 0.514 | 0/9 | 0 / 0 / 0 |
+| reference: known, path 2, fan-out <= 25 | 1.000 | 0.9064 | 0.867 | 0.543 | 1/9 | 0 / 0 / 0 |
+
+Decision: **ships off**. The chosen arm passes the no-harm rule but changes **zero** rows,
+and a flag that does not help held-out ships off. The only arm that moves held-out is the
+sibling arm (`g05-synonym`, lag -> latency via {time interval}, REFUSE_UNGROUNDED -> ANSWER).
+Dev gave no reason to prefer it, so picking it now would be choosing on held-out; that
+number is not a result.
+
+Disclosure: while wiring the flag I ran a smoke test on the two README-named rows (`g05`,
+`g07`) with path 2. No parameter, grid value or tie-break was changed after it; the grid
+and rule were written before the held-out run, and the scope fix came from clean rows.
+
+Why `health~status` still fails even though WordNet links them at path 1: `health` is not a
+corpus word, so the known-only scope never expands it, and the scope that would (`all`) is
+the one that breaks clean NO_EVIDENCE traps.
+
+### Reproduce
+
+    make wordnet-table WORDNET=/path/to/wordnet.zip   # optional: rebuild, SHA-checked
+    make calibrate-wordnet                            # dev-only, ~10 s
+    make wordnet-heldout                              # off vs chosen vs reference arms
+    pytest tests/test_wordnet_*.py
+
+### Weaknesses
+
+- Held-out ANSWER rows are still **0 of 9** in every shipped config. An external sense
+  inventory has the right senses, but the read path cannot use them safely: expanding
+  unknown words breaks clean traps, and expanding only known words never reaches `health`.
+  The next step is a *precision* signal for an unknown-word substitute, for example
+  checking that the substitute also co-occurs with the query's other words in the cited
+  passage, calibrated on clean traps.
+- The dev split (15 rows, 5 ANSWER) cannot tell seven safe gates apart; any choice among
+  them is a prior, not a measurement. A larger dev set written before any new resource is
+  built would fix that.
+- Sibling relations under a crowded genus are noisy (`lag` -> `pause` ties with `latency`
+  at fan-out 20). Fan-out is a crude specificity measure; WordNet sense frequencies
+  (`cntlist`) are not used.
+- Inflected forms are not lemmatised (no WordNet morphy), so `secrets` / `passwords` are
+  not keys.
+
 ## Noun gloss-sense: a contaminated +0.057 caught and removed (2026-10-16): held-out still 0 of 9 answers
 
 This morning's interrupted run left a noun gloss-sense backoff (read path) that looked

@@ -129,7 +129,7 @@ class CopilotConfig:
     # alts for known words + retrieval rewrite). Gate from
     # scripts/calibrate_wordnet_sense.py (clean + dev only).
     use_wordnet_noun_sense: bool = False
-    wordnet_max_path: int = 1
+    wordnet_max_path: int = 0
     wordnet_max_fanout: int = 25
     wordnet_max_neighbours: int = 1
     # "known": only corpus words get WordNet alts, in grounding only (no

@@ -1,4 +1,4 @@
-.PHONY: wordnet-table calibrate-wordnet audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -95,3 +95,7 @@ wordnet-table:
 # WordNet noun sense: dev-only gate calibration (clean golden + dev rows).
 calibrate-wordnet:
 	python scripts/calibrate_wordnet_sense.py
+
+# WordNet noun sense: one-shot held-out arms (decision on the dev-chosen arm).
+wordnet-heldout:
+	python scripts/run_wordnet_heldout.py
