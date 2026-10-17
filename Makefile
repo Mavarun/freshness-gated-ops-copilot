@@ -1,4 +1,4 @@
-.PHONY: audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: wordnet-table audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -86,3 +86,8 @@ audit-heldout:
 
 noun-heldout:
 	python scripts/run_noun_gloss_sense_heldout.py
+
+# WordNet 3.0 noun neighbour table (needs the nltk_data wordnet.zip, SHA-checked).
+WORDNET ?= /tmp/wordnet.zip
+wordnet-table:
+	python scripts/build_wordnet_neighbours.py --source $(WORDNET)
