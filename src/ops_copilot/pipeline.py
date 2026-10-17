@@ -43,6 +43,7 @@ from ops_copilot.write_intent import AMBIGUOUS, classify_write_intent
 from ops_copilot.write_prototypes import PrototypeBackoff
 from ops_copilot.gloss_sense import GlossSenseBackoff
 from ops_copilot.noun_gloss_sense import NounGlossSenseBackoff
+from ops_copilot.wordnet_senses import ChainedNounSense, WordNetNounSense
 from ops_copilot.write_targets import EntityRegistry, default_registry
 
 
@@ -170,6 +171,22 @@ class Copilot:
             if self.config.use_noun_gloss_sense
             else None
         )
+        self.wordnet_noun = (
+            WordNetNounSense(
+                max_path=self.config.wordnet_max_path,
+                max_fanout=self.config.wordnet_max_fanout,
+                max_neighbours=self.config.wordnet_max_neighbours,
+            )
+            if self.config.use_wordnet_noun_sense
+            else None
+        )
+        # One noun read-path slot: Wiktionary gloss sense first, then WordNet.
+        self.noun_sense = ChainedNounSense.of(self.noun_gloss, self.wordnet_noun)
+        noun_known = (
+            self.config.noun_gloss_sense_known_words
+            if self.noun_gloss is not None
+            else self.wordnet_noun is not None
+        )
         self.retriever = Retriever(
             self.corpus.chunks,
             self.config,
@@ -183,8 +200,8 @@ class Copilot:
                 if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
                 else None
             ),
-            noun_gloss=self.noun_gloss,
-            noun_gloss_known=self.config.noun_gloss_sense_known_words,
+            noun_gloss=self.noun_sense,
+            noun_gloss_known=noun_known,
         )
         self.grounder = Grounder(
             texts,
@@ -212,8 +229,8 @@ class Copilot:
                 if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
                 else None
             ),
-            noun_gloss=self.noun_gloss,
-            noun_gloss_known=self.config.noun_gloss_sense_known_words,
+            noun_gloss=self.noun_sense,
+            noun_gloss_known=noun_known,
             embed_support=(
                 EmbeddingSupport(
                     self.embeddings,

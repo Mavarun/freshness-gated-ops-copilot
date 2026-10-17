@@ -226,6 +226,8 @@ class WordNetNounSense:
     crowded genus such as {time period} relates everything to everything).
     """
 
+    term_kind = "wordnet_sense"
+
     max_path: int = 1
     max_fanout: int = 25
     max_neighbours: int = 1
@@ -270,3 +272,30 @@ class WordNetNounSense:
                 break
         self._cache[tok] = tuple(out)
         return self._cache[tok]
+
+
+@dataclass
+class ChainedNounSense:
+    """First non-empty answer from several noun-sense backoffs (or ``None``)."""
+
+    parts: tuple
+
+    @classmethod
+    def of(cls, *backoffs):
+        live = tuple(b for b in backoffs if b is not None)
+        if not live:
+            return None
+        if len(live) == 1:
+            return live[0]
+        return cls(live)
+
+    @property
+    def term_kind(self) -> str:
+        return "noun_sense"
+
+    def neighbours(self, token: str) -> tuple[Neighbour, ...]:
+        for part in self.parts:
+            got = part.neighbours(token)
+            if got:
+                return got
+        return ()
