@@ -15,11 +15,29 @@ def test_off_by_default():
 
 
 def test_on_fills_the_noun_read_path_slot():
-    bot = Copilot(config=CopilotConfig(use_wordnet_noun_sense=True))
+    bot = Copilot(config=CopilotConfig(use_wordnet_noun_sense=True, wordnet_scope="all"))
     assert isinstance(bot.wordnet_noun, WordNetNounSense)
+    assert bot.wordnet_noun.known_only is False
     assert bot.grounder.noun_gloss is bot.wordnet_noun
     assert bot.retriever.noun_gloss is bot.wordnet_noun
     assert bot.grounder.noun_gloss_known is True
+
+
+def test_known_scope_is_grounding_only_and_skips_unknown_words():
+    bot = Copilot(config=CopilotConfig(use_wordnet_noun_sense=True))
+    assert bot.config.wordnet_scope == "known"
+    assert bot.grounder.noun_gloss is bot.wordnet_noun
+    assert bot.retriever.noun_gloss is None
+    # "payroll" is not a corpus word: never mapped (keeps NO_EVIDENCE traps)
+    assert bot.wordnet_noun.neighbours("payroll") == ()
+    assert bot.grounder._term("payroll").kind == "unknown"
+
+
+def test_bad_scope_rejected():
+    import pytest
+
+    with pytest.raises(ValueError):
+        Copilot(config=CopilotConfig(use_wordnet_noun_sense=True, wordnet_scope="every"))
 
 
 def test_chain_prefers_wiktionary_gloss_then_wordnet():

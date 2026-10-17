@@ -224,6 +224,8 @@ class WordNetNounSense:
     Gate: relation path <= ``max_path`` (0 synonym, 1 hyper/hyponym, 2 sibling)
     and, for siblings, the shared hypernym's fan-out <= ``max_fanout`` (a
     crowded genus such as {time period} relates everything to everything).
+    With ``known_only`` only corpus words are expanded (grounding alts for a
+    known word missing from the evidence); unknown words get nothing.
     """
 
     term_kind = "wordnet_sense"
@@ -231,6 +233,7 @@ class WordNetNounSense:
     max_path: int = 1
     max_fanout: int = 25
     max_neighbours: int = 1
+    known_only: bool = False
     corpus_words: frozenset[str] | None = None
     table: WordNetTable | None = None
     _cache: dict[str, tuple[Neighbour, ...]] = field(default_factory=dict, repr=False)
@@ -240,6 +243,8 @@ class WordNetNounSense:
             self.table = load_table()
         if self.max_path not in (0, 1, 2):
             raise ValueError("max_path must be 0, 1 or 2")
+        # Words the table was built against (the corpus vocabulary).
+        self.source_vocab: frozenset[str] = frozenset(self.table.meta.get("corpus_words") or ())
 
     @staticmethod
     def lookupable(token: str) -> bool:
@@ -258,6 +263,11 @@ class WordNetNounSense:
         tok = token.lower()
         if tok in self._cache:
             return self._cache[tok]
+        if self.known_only and tok not in self.source_vocab:
+            # An unknown word stays unknown: mapping it onto corpus words is
+            # what turns clean NO_EVIDENCE traps into UNGROUNDED.
+            self._cache[tok] = ()
+            return ()
         out: list[Neighbour] = []
         for word, rel, path, fan, _rank in self._rows(tok):
             if word == tok or path > self.max_path:
