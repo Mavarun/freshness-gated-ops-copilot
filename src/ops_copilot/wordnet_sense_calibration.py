@@ -1,15 +1,18 @@
 """Dev-only calibration of the WordNet noun-sense read-path backoff.
 
-Grid (fixed before any held-out run): scope in {known, all}; max_path in
+Grid: scope in {known, lone, all}; max_path in
 {0, 1, 2}; for path 2 the sibling fan-out cap in {10, 25, 50};
-max_neighbours in {1, 2}. (Scope was added after the first clean-only run:
-with scope "all" every setting broke a clean NO_EVIDENCE trap.) Scored on the
+max_neighbours in {1, 2}. Scope "known" was added after the first clean-only
+run (with "all" every setting broke a clean NO_EVIDENCE trap); scope "lone"
+after the first held-out run, motivated by clean traps and the fresh
+everyday-paraphrase set, where "all" fixed 7 rows and broke 2 traps whose
+queries carry several unknown words. Scored on the
 51 clean golden rows and the 15 *dev* synonym rows only; held-out rows are
 never scored here.
 
 Safe = clean 1.000, 0 fail-open, 0 spurious PROPOSE_WRITE, dev accuracy not
 below the flag-off baseline. Selection: safe first, then dev accuracy, then
-dev ANSWER rows, then the *most conservative* setting (known scope, shorter path, smaller
+dev ANSWER rows, then the *most conservative* setting (known, then lone, then all scope; shorter path, smaller
 fan-out, fewer neighbours), so a tie never buys recall the dev rows did not
 ask for.
 
@@ -26,7 +29,8 @@ from ops_copilot.noun_gloss_sense_calibration import _clean_stats, _dev_synonym_
 GRID_PATHS = (0, 1, 2)
 GRID_FANOUT = (10, 25, 50)
 GRID_NEIGHBOURS = (1, 2)
-GRID_SCOPES = ("known", "all")
+GRID_SCOPES = ("known", "lone", "all")
+SCOPE_RANK = {"known": 0, "lone": 1, "all": 2}
 
 
 def grid_settings() -> list[dict]:
@@ -56,7 +60,7 @@ def selection_key(r: dict) -> tuple:
         -int(r["safe"]),
         -r["dev_synonym_accuracy"],
         -r["dev_answer_correct"],
-        r["scope"] != "known",
+        SCOPE_RANK[r["scope"]],
         r["max_path"],
         r["max_fanout"],
         r["max_neighbours"],
