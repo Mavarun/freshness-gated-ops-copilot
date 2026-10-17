@@ -74,6 +74,27 @@ CONFIGS: dict[str, dict] = {
         "use_passage_support_model": True,
         "use_word_vector_backoff": True,
     },
+    # WordNet noun senses (2026-10-17): blind for this set (written long
+    # before). Dev-chosen gate, and the scope="all" variant for comparison.
+    "+ WordNet noun senses (dev-chosen, known scope)": {"use_wordnet_noun_sense": True},
+    "+ WordNet noun senses, scope all, path 1": {
+        "use_wordnet_noun_sense": True,
+        "wordnet_scope": "all",
+        "wordnet_max_path": 1,
+    },
+    # The lone-unknown scope was designed after seeing the scope-all row
+    # above (7 fixes, 2 broken traps), so for it this set is NOT blind.
+    "+ WordNet noun senses, lone scope, path 1 (not blind)": {
+        "use_wordnet_noun_sense": True,
+        "wordnet_scope": "lone",
+        "wordnet_max_path": 1,
+    },
+    "+ WordNet noun senses, lone scope, path 2 fan-out 25 (not blind)": {
+        "use_wordnet_noun_sense": True,
+        "wordnet_scope": "lone",
+        "wordnet_max_path": 2,
+        "wordnet_max_fanout": 25,
+    },
 }
 
 
