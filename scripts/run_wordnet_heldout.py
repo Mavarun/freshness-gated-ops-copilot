@@ -5,7 +5,8 @@ Arms (fixed before this run):
 - ``off``: the default config;
 - ``chosen``: the dev-calibrated gate (artifacts/wordnet_sense_calibration.json),
   the only arm the decision is taken on;
-- ``reference_*``: the two looser safe settings (path 1; path 2, fan-out 25).
+- ``reference_*``: looser safe settings (known scope path 1 / path 2 fan-out
+  25; lone-unknown scope path 1 / path 2 fan-out 25, added after the first run).
   Dev could not tell the safe settings apart, so these are reported to show
   what the resource can reach. They are *not* candidates: picking one because
   of this run would be selection on held-out.
@@ -63,6 +64,11 @@ def main() -> int:
                        n=chosen["max_neighbours"]),
         "reference_path1": dict(scope="known", path=1, fan=0, n=1),
         "reference_path2_fan25": dict(scope="known", path=2, fan=25, n=1),
+        # Added after the first held-out run (second look at held-out in this
+        # slice): the lone-unknown scope, motivated by clean traps and the
+        # fresh set. Reference only, like the arms above.
+        "reference_lone_path1": dict(scope="lone", path=1, fan=0, n=1),
+        "reference_lone_path2_fan25": dict(scope="lone", path=2, fan=25, n=1),
     }
     out = {"off": summarise(replace(base, use_wordnet_noun_sense=False))}
     for name, a in arms.items():

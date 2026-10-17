@@ -22,7 +22,7 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
-## WordNet noun senses (2026-10-17): an external sense inventory, held-out still 0 of 9 answers, ships off
+## WordNet noun senses (2026-10-17): an external sense inventory, shipped config still 0 of 9 held-out answers, ships off
 
 The last slice ended with "passing `lag~latency` / `health~status` needs a source not
 written by us". This slice uses the largest such source available offline: **Princeton
@@ -48,13 +48,17 @@ and passing.
    the Wiktionary noun gloss sense uses; with both on, Wiktionary is asked first.
 3. **Scope fix found on clean rows.** Mapping *unknown* words onto corpus words (`SAP payroll
    connector`, `Snowflake warehouse`) made unrelated docs count as related and turned clean
-   REFUSE_NO_EVIDENCE traps into REFUSE_UNGROUNDED: clean 0.98 at path 0, 0.86-0.90 at
+   REFUSE_NO_EVIDENCE traps into REFUSE_UNGROUNDED: clean 0.98 at path 0, 0.86-0.92 at
    paths 1-2. `wordnet_scope="known"` (default) only adds WordNet alts to *corpus* words,
    in grounding only, and stays out of the retrieval rewrite.
+   `wordnet_scope="lone"` (added after the first held-out run, see below) also maps an
+   unknown word, but only when it is the query's **single** unknown content word: the
+   traps that broke carry several unknown words (the topic itself is absent).
 4. **Dev-only calibration** (`make calibrate-wordnet`, `artifacts/wordnet_sense_calibration.md`).
-   20 settings (scope x path x fan-out {10, 25, 50} x neighbours {1, 2}) on 51 clean + 15 dev
-   rows. Scope `all` is never safe. Seven known-scope settings are safe and **all score dev
-   0.800, the same as off**: dev cannot identify the gate. The rule fixed in the
+   30 settings (scope {known, lone, all} x path x fan-out {10, 25, 50} x neighbours {1, 2})
+   on 51 clean + 15 dev rows. Scope `all` is never safe. Fourteen known / lone settings are
+   safe (clean 1.000) and **all score dev 0.800, the same as off**: dev cannot identify
+   the gate. The rule fixed in the
    calibration module picks the most conservative tie: known scope, path 0, 1 neighbour.
 5. **One-shot held-out run** (`make wordnet-heldout`, `artifacts/wordnet_sense_heldout.json`).
    Decision on the chosen arm only. The two looser safe settings are reported as
@@ -66,12 +70,27 @@ and passing.
 | **on, dev-chosen (known, path 0)** | 1.000 | 0.9015 | 0.867 | **0.514** | **0/9** | 0 / 0 / 0 |
 | reference: known, path 1 | 1.000 | 0.9015 | 0.867 | 0.514 | 0/9 | 0 / 0 / 0 |
 | reference: known, path 2, fan-out <= 25 | 1.000 | 0.9064 | 0.867 | 0.543 | 1/9 | 0 / 0 / 0 |
+| reference (2nd look): lone, path 1 | 1.000 | 0.9113 | 0.867 | 0.571 | 1/9 | 0 / 0 / 0 |
+| reference (2nd look): lone, path 2, fan-out <= 25 | 1.000 | 0.9163 | 0.867 | 0.600 | 2/9 | 0 / 0 / 0 |
 
 Decision: **ships off**. The chosen arm passes the no-harm rule but changes **zero** rows,
-and a flag that does not help held-out ships off. The only arm that moves held-out is the
-sibling arm (`g05-synonym`, lag -> latency via {time interval}, REFUSE_UNGROUNDED -> ANSWER).
-Dev gave no reason to prefer it, so picking it now would be choosing on held-out; that
-number is not a result.
+and a flag that does not help held-out ships off. The reference arms are what the resource
+*can* reach, not results: dev gave no reason to prefer any of them, so turning one on now
+would be choosing on held-out.
+
+- known, path 2 fixes `g05` (lag -> latency via {time interval}).
+- The lone scope was designed after the first held-out run, from the clean traps and the
+  fresh everyday set (below), and then run once on held-out as a second look. Lone, path 1
+  fixes `g07` (health -> {condition, status}) and `g09` (steps -> path, a REFUSE_STALE row);
+  lone, path 2 adds `g05` and moves `g00` from REFUSE_UNGROUNDED to REFUSE_STALE (still
+  wrong): held-out 0.514 -> 0.600, ANSWER 0/9 -> 2/9, nothing fails open, clean 1.000.
+  Held-out has now been seen twice for this family, so the next slice must confirm it on
+  rows written before looking (a larger dev set), not on these 35.
+
+Fresh everyday-paraphrase set (`artifacts/synonym_fresh_eval.md`, 26 rows, blind for
+WordNet): known scope 0.269 (= off); scope `all`, path 1 **0.462, ANSWER 5/11** but breaks
+2 NO_EVIDENCE traps (`f16` wage, `f17` passcode). Lone scope (not blind, designed after
+that): path 1 0.462, ANSWER 3/11, both traps kept; path 2 0.500. 0 fail-open everywhere.
 
 Disclosure: while wiring the flag I ran a smoke test on the two README-named rows (`g05`,
 `g07`) with path 2. No parameter, grid value or tie-break was changed after it; the grid
@@ -90,12 +109,13 @@ the one that breaks clean NO_EVIDENCE traps.
 
 ### Weaknesses
 
-- Held-out ANSWER rows are still **0 of 9** in every shipped config. An external sense
-  inventory has the right senses, but the read path cannot use them safely: expanding
-  unknown words breaks clean traps, and expanding only known words never reaches `health`.
-  The next step is a *precision* signal for an unknown-word substitute, for example
-  checking that the substitute also co-occurs with the query's other words in the cited
-  passage, calibrated on clean traps.
+- Held-out ANSWER rows are still **0 of 9** in every shipped config. WordNet has the right
+  senses and the lone-unknown rule keeps clean traps safe, but the 15-row dev split cannot
+  select it, and the only evidence for it is a second look at held-out plus a set it was
+  designed on. Turning it on needs fresh calibration rows written before the run.
+- The lone-unknown rule is a heuristic: a one-unknown-word query about an absent topic
+  ("What is the payroll window?") can still be mapped and refused as UNGROUNDED instead
+  of NO_EVIDENCE (a refusal either way, never a fail-open).
 - The dev split (15 rows, 5 ANSWER) cannot tell seven safe gates apart; any choice among
   them is a prior, not a measurement. A larger dev set written before any new resource is
   built would fix that.
