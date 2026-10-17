@@ -318,7 +318,8 @@ class Grounder:
             ng = self._noun_gloss_near(tok)
             if ng:
                 weight = max(self._weight(w) for w in ng)
-                return QueryTerm(tok, "noun_gloss_sense", weight, frozenset({tok, *ng}))
+                kind = getattr(self.noun_gloss, "term_kind", "noun_gloss_sense")
+                return QueryTerm(tok, kind, weight, frozenset({tok, *ng}))
         if self.wordvec is not None and not is_identifier(tok):
             wv = self._wordvec_near(tok)
             if wv:

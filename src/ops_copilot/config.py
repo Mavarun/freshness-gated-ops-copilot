@@ -122,6 +122,16 @@ class CopilotConfig:
     # Known corpus words (e.g. lag) also accept noun-sense substitutes as
     # grounding support and get them appended in the retrieval rewrite.
     noun_gloss_sense_known_words: bool = True
+    # WordNet 3.0 noun-sense backoff (wordnet_senses.py): an external sense
+    # inventory maps a query noun onto corpus words in the same synset, a
+    # direct hyper/hyponym, or (path 2) a co-hyponym under a hypernym with at
+    # most wordnet_max_fanout hyponyms. Uses the noun read-path slot (grounding
+    # alts for known words + retrieval rewrite). Gate from
+    # scripts/calibrate_wordnet_sense.py (clean + dev only).
+    use_wordnet_noun_sense: bool = False
+    wordnet_max_path: int = 1
+    wordnet_max_fanout: int = 25
+    wordnet_max_neighbours: int = 1
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
