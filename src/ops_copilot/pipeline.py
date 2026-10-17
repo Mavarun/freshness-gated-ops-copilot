@@ -176,12 +176,21 @@ class Copilot:
                 max_path=self.config.wordnet_max_path,
                 max_fanout=self.config.wordnet_max_fanout,
                 max_neighbours=self.config.wordnet_max_neighbours,
+                known_only=self.config.wordnet_scope == "known",
             )
             if self.config.use_wordnet_noun_sense
             else None
         )
         # One noun read-path slot: Wiktionary gloss sense first, then WordNet.
+        if self.config.wordnet_scope not in ("known", "all"):
+            raise ValueError(f"wordnet_scope must be 'known' or 'all', got {self.config.wordnet_scope!r}")
         self.noun_sense = ChainedNounSense.of(self.noun_gloss, self.wordnet_noun)
+        # Known-only WordNet stays out of the retrieval rewrite.
+        retrieve_noun = (
+            self.noun_gloss
+            if self.config.wordnet_scope == "known"
+            else self.noun_sense
+        )
         noun_known = (
             self.config.noun_gloss_sense_known_words
             if self.noun_gloss is not None
@@ -200,7 +209,7 @@ class Copilot:
                 if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
                 else None
             ),
-            noun_gloss=self.noun_sense,
+            noun_gloss=retrieve_noun,
             noun_gloss_known=noun_known,
         )
         self.grounder = Grounder(
