@@ -87,3 +87,26 @@ def test_confirm_rule_needs_a_confirm_gain_and_no_heldout_harm():
     broke = _stats({"a": False, "b": True}, answer_correct=1)
     d = p.confirm_decision(off, broke, _rob(), _rob())
     assert not d["checks"]["confirm_no_new_error"] and not d["default_on"]
+
+
+def test_committed_calibration_artifact_matches_the_protocol():
+    import json
+    from pathlib import Path
+
+    rep = json.loads((Path(__file__).resolve().parents[1] / "artifacts/wordnet_dev2_calibration.json").read_text())
+    assert rep["n_settings"] == 144 and rep["n_rows"] == 37
+    c = rep["chosen"]
+    assert (c["scope"], c["max_path"], c["max_neighbours"], c["morphy"], c["max_sense_rank"]) == (
+        "lone", 1, 1, False, 1)
+    assert c["safe"] and not c["new_errors"] and rep["candidate"]
+    assert c["calib_correct"] == 28 and rep["baseline_off"]["correct"] == 26
+    # The chosen row is the first under the fixed key (no hand edits).
+    assert sorted(rep["results"], key=p.selection_key)[0] == c
+    # No calibration row id is a held-out or dev2 confirm row.
+    from ops_copilot.synonym_split import load_split
+
+    split = load_split()
+    confirm = {r["id"] for r in half("confirm")}
+    for rid in rep["baseline_off"]["decisions"]:
+        assert rid not in confirm
+        assert rid.startswith("d2-") or split["rows"][rid]["split"] == "dev"
