@@ -22,6 +22,7 @@ HAND_WRITTEN = (
     "data/write/gloss_sense_dev.jsonl",
     "data/write/prototype_dev.jsonl",
     "data/glossary/ops_glossary.txt",
+    "data/eval/synonym_dev2.jsonl",
 )
 # Ontology schema names (kind "config_key", label "patch_config"), not synonym
 # material: the held-out word "config" is only present as part of these.
