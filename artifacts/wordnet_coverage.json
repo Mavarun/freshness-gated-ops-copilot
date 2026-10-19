@@ -1,0 +1,559 @@
+{
+  "arm": {
+    "max_fanout": 0,
+    "max_neighbours": 1,
+    "max_path": 1,
+    "max_sense_rank": 1,
+    "morphy": false,
+    "scope": "lone"
+  },
+  "dev2": {
+    "counts": {
+      "correct": 23,
+      "mapped_still_wrong": 0,
+      "no_link": 7,
+      "not_applicable": 1,
+      "outside_gate": 4
+    },
+    "rows": {
+      "d2-01": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "latency",
+            "delay"
+          ]
+        ]
+      },
+      "d2-02": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "d2-03": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "feature",
+            "capability"
+          ]
+        ]
+      },
+      "d2-04": {
+        "bucket": "not_applicable",
+        "pairs": []
+      },
+      "d2-05": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [],
+        "link": {
+          "fan_out": 0,
+          "lemma": "copy",
+          "path": 1,
+          "relation": "hypo",
+          "sense_rank": 1
+        },
+        "pairs": [
+          [
+            "replicas",
+            "copies"
+          ]
+        ]
+      },
+      "d2-06": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "budget",
+            "margin"
+          ]
+        ]
+      },
+      "d2-07": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "error",
+            "fault"
+          ]
+        ]
+      },
+      "d2-08": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "mitigation",
+            "countermeasure"
+          ]
+        ]
+      },
+      "d2-09": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "runbook",
+            "manual"
+          ]
+        ]
+      },
+      "d2-10": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "utilization",
+            "occupancy"
+          ]
+        ]
+      },
+      "d2-11": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "utilization",
+            "load"
+          ]
+        ]
+      },
+      "d2-12": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "status",
+            "standing"
+          ]
+        ]
+      },
+      "d2-13": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "status",
+            "situation"
+          ]
+        ]
+      },
+      "d2-14": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "d2-15": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "maintenance",
+            "repair"
+          ]
+        ]
+      },
+      "d2-16": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "freeze",
+            "halt"
+          ]
+        ]
+      },
+      "d2-17": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "schedule",
+            "plan"
+          ]
+        ]
+      },
+      "d2-18": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "rotation",
+            "turnover"
+          ]
+        ]
+      },
+      "d2-19": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "rotation",
+            "changeover"
+          ]
+        ]
+      },
+      "d2-20": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [],
+        "link": {
+          "fan_out": 0,
+          "lemma": "liaison",
+          "path": 0,
+          "relation": "syn",
+          "sense_rank": 1
+        },
+        "pairs": [
+          [
+            "contact",
+            "liaison"
+          ]
+        ]
+      },
+      "d2-21": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [],
+        "link": {
+          "fan_out": 0,
+          "lemma": "routine",
+          "path": 0,
+          "relation": "syn",
+          "sense_rank": 2
+        },
+        "pairs": [
+          [
+            "procedure",
+            "routine"
+          ]
+        ]
+      },
+      "d2-22": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "d2-23": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "ttl",
+            "lifetime"
+          ]
+        ]
+      },
+      "d2-24": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "ttl",
+            "expiry"
+          ]
+        ]
+      },
+      "d2-25": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "target",
+            "benchmark"
+          ]
+        ]
+      },
+      "d2-26": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [],
+        "link": {
+          "fan_out": 0,
+          "lemma": "copy",
+          "path": 1,
+          "relation": "hypo",
+          "sense_rank": 1
+        },
+        "pairs": [
+          [
+            "replicas",
+            "copies"
+          ]
+        ]
+      },
+      "d2-27": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "procedure",
+            "routine"
+          ]
+        ]
+      },
+      "d2-28": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "playbook",
+            "manual"
+          ]
+        ]
+      },
+      "d2-29": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "feature",
+            "capability"
+          ]
+        ]
+      },
+      "d2-38": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "route",
+            "destination"
+          ]
+        ]
+      },
+      "d2-39": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "admin",
+            "administrator"
+          ]
+        ]
+      },
+      "d2-40": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "d2-41": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "d2-42": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "service",
+            "application"
+          ]
+        ]
+      },
+      "d2-43": {
+        "bucket": "correct",
+        "pairs": []
+      }
+    }
+  },
+  "fresh": {
+    "counts": {
+      "correct": 15,
+      "mapped_still_wrong": 1,
+      "no_link": 6,
+      "not_applicable": 3,
+      "outside_gate": 1
+    },
+    "rows": {
+      "f01": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "f02": {
+        "bucket": "not_applicable",
+        "pairs": []
+      },
+      "f03": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "primary",
+            "principal"
+          ]
+        ]
+      },
+      "f04": {
+        "bucket": "not_applicable",
+        "pairs": []
+      },
+      "f05": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "remaining",
+            "residual"
+          ]
+        ]
+      },
+      "f06": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "mitigation",
+            "remedy"
+          ]
+        ]
+      },
+      "f07": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "utilization",
+            "consumption"
+          ]
+        ]
+      },
+      "f08": {
+        "bucket": "mapped_still_wrong",
+        "gate_maps_to": [
+          "status"
+        ],
+        "link": {
+          "fan_out": 0,
+          "lemma": "condition",
+          "path": 0,
+          "relation": "syn",
+          "sense_rank": 0
+        },
+        "pairs": [
+          [
+            "status",
+            "condition"
+          ]
+        ]
+      },
+      "f09": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "window",
+            "slot"
+          ]
+        ]
+      },
+      "f10": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "start",
+            "commence"
+          ]
+        ]
+      },
+      "f11": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "schedule",
+            "agenda"
+          ]
+        ]
+      },
+      "f12": {
+        "bucket": "not_applicable",
+        "pairs": []
+      },
+      "f13": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "f14": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "target",
+            "aim"
+          ]
+        ]
+      },
+      "f15": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "drain",
+            "empty"
+          ]
+        ]
+      },
+      "f16": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "f17": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "password",
+            "passcode"
+          ]
+        ]
+      },
+      "f18": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "procedure",
+            "method"
+          ]
+        ]
+      },
+      "f19": {
+        "bucket": "correct",
+        "pairs": [
+          [
+            "playbook",
+            "handbook"
+          ]
+        ]
+      },
+      "f20": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "f21": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [],
+        "link": {
+          "fan_out": 0,
+          "lemma": "pathway",
+          "path": 1,
+          "relation": "hyper",
+          "sense_rank": 1
+        },
+        "pairs": [
+          [
+            "path",
+            "pathway"
+          ]
+        ]
+      },
+      "f22": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "f23": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "f24": {
+        "bucket": "correct",
+        "pairs": []
+      },
+      "f25": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "budget",
+            "allotment"
+          ]
+        ]
+      },
+      "f26": {
+        "bucket": "no_link",
+        "link": null,
+        "pairs": [
+          [
+            "cadence",
+            "periodicity"
+          ]
+        ]
+      }
+    }
+  }
+}
