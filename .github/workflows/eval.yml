@@ -39,6 +39,11 @@ jobs:
       - name: Fresh synonym set (word-vector backoff on/off, non-gating on accuracy)
         run: python scripts/run_fresh_synonym_eval.py
 
+      # Report-only: the dev2 calibration set (fails only if it gains a
+      # held-out word, shares swap vocabulary, or its frozen split moves).
+      - name: dev2 calibration set (default vs WordNet dev2-chosen, non-gating on accuracy)
+        run: python scripts/run_dev2_eval.py
+
       # Gating: exits non-zero if any refusal explanation, or any redacted trace
       # line (query / reason / write parse), leaks a canary token, PII or a
       # secret, or a golden explanation check fails.
@@ -69,3 +74,5 @@ jobs:
             artifacts/explanation_eval.json
             artifacts/synonym_fresh_eval.md
             artifacts/synonym_fresh_eval.json
+            artifacts/synonym_dev2_eval.md
+            artifacts/synonym_dev2_eval.json

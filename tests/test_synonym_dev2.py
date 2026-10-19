@@ -75,3 +75,14 @@ def test_split_is_frozen_stratified_and_complete() -> None:
 
 def test_dev2_is_covered_by_the_heldout_resource_audit() -> None:
     assert "data/eval/synonym_dev2.jsonl" in HAND_WRITTEN
+
+
+def test_ci_report_script_freezes_the_same_split_sizes() -> None:
+    import importlib.util
+    from pathlib import Path
+
+    path = Path(__file__).resolve().parents[1] / "scripts" / "run_dev2_eval.py"
+    spec = importlib.util.spec_from_file_location("run_dev2_eval", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    assert mod.FROZEN == {"calib": len(half("calib")), "confirm": len(half("confirm"))}
