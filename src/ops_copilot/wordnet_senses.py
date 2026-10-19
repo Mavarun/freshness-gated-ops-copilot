@@ -60,6 +60,35 @@ SOURCE_LICENSE = "WordNet 3.0 license (Princeton University, BSD-style)"
 MIN_WORD_LEN = 3
 HYPERNYM_PTRS = ("@", "@i")
 REL_ORDER = {"syn": 0, "hyper": 1, "hypo": 1, "sib": 2}
+# WordNet's noun detachment rules (morphy, ``morph.c``), in WordNet's order.
+# The exception list (``noun.exc``: mice -> mouse) is not used; irregular
+# plurals stay unlemmatised.
+NOUN_DETACHMENTS = (
+    ("s", ""),
+    ("ses", "s"),
+    ("xes", "x"),
+    ("zes", "z"),
+    ("ches", "ch"),
+    ("shes", "sh"),
+    ("men", "man"),
+    ("ies", "y"),
+)
+
+
+def noun_base_forms(token: str, known) -> tuple[str, ...]:
+    """Base forms of an inflected noun that ``known`` contains (morphy rules).
+
+    ``known`` is any container of lemmas (the neighbour table's keys). The
+    token itself is not returned; order follows ``NOUN_DETACHMENTS`` and
+    duplicates are dropped. A base shorter than ``MIN_WORD_LEN`` is skipped.
+    """
+    out: list[str] = []
+    for suffix, repl in NOUN_DETACHMENTS:
+        if token.endswith(suffix) and len(token) > len(suffix):
+            base = token[: len(token) - len(suffix)] + repl
+            if base != token and len(base) >= MIN_WORD_LEN and base in known and base not in out:
+                out.append(base)
+    return tuple(out)
 
 
 @dataclass(frozen=True)
@@ -242,6 +271,9 @@ class WordNetNounSense:
     lone_unknown: bool = False
     suspend_unknown: bool = False
     corpus_words: frozenset[str] | None = None
+    # Lemmatise inflected query nouns with WordNet's detachment rules before
+    # the table lookup (copies -> copy, deployments -> deployment).
+    morphy: bool = False
     table: WordNetTable | None = None
     _cache: dict[str, tuple[Neighbour, ...]] = field(default_factory=dict, repr=False)
 
@@ -261,8 +293,12 @@ class WordNetNounSense:
         tok = token.lower()
         rows = self.table.neighbours.get(tok)
         if rows is None:
-            rows = self.table.neighbours.get(fold_token(tok), ())
-        return rows
+            rows = self.table.neighbours.get(fold_token(tok))
+        if rows is None and self.morphy:
+            for base in noun_base_forms(tok, self.table.neighbours):
+                rows = self.table.neighbours[base]
+                break
+        return rows or ()
 
     def neighbours(self, token: str) -> tuple[Neighbour, ...]:
         if not self.lookupable(token):

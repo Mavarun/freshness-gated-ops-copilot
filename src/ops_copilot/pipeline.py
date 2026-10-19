@@ -178,6 +178,7 @@ class Copilot:
                 max_neighbours=self.config.wordnet_max_neighbours,
                 known_only=self.config.wordnet_scope == "known",
                 lone_unknown=self.config.wordnet_scope == "lone",
+                morphy=self.config.wordnet_morphy,
             )
             if self.config.use_wordnet_noun_sense
             else None
