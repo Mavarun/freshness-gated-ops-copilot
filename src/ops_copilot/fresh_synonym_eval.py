@@ -95,6 +95,17 @@ CONFIGS: dict[str, dict] = {
         "wordnet_max_path": 2,
         "wordnet_max_fanout": 25,
     },
+    # dev2 re-calibration (2026-10-19, wordnet_dev2.py): the pre-registered
+    # choice; ships off (no gain on the dev2 confirm half). Not blind: the
+    # lone scope was designed with this set in view (PR #23).
+    "+ WordNet noun senses, dev2-chosen (lone, path 1, first sense; ships off)": {
+        "use_wordnet_noun_sense": True,
+        "wordnet_scope": "lone",
+        "wordnet_max_path": 1,
+        "wordnet_max_neighbours": 1,
+        "wordnet_morphy": False,
+        "wordnet_max_sense_rank": 1,
+    },
 }
 
 

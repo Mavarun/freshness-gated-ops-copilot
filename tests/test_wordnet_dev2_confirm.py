@@ -42,3 +42,10 @@ def test_heldout_unchanged_and_safe():
         assert h["by_gate"]["ANSWER"]["correct"] == 0
         assert rob[arm]["clean_accuracy"] == 1.0
         assert rob[arm]["n_fail_open"] == rob[arm]["n_spurious_write"] == rob[arm]["n_raw_pii_outputs"] == 0
+
+
+def test_fresh_set_arm_for_the_dev2_choice_is_recorded_and_safe():
+    out = json.loads((ART / "synonym_fresh_eval.json").read_text())
+    arm = out["configs"]["+ WordNet noun senses, dev2-chosen (lone, path 1, first sense; ships off)"]
+    assert arm["n"] - len(arm["wrong"]) == 8 and arm["answer_correct"] == "1/11"
+    assert arm["n_fail_open"] == 0 and arm["n_spurious_write"] == 0
