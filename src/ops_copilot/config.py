@@ -138,6 +138,9 @@ class CopilotConfig:
     # (grounding only). "all": unknown words are
     # mapped too and substitutes enter the retrieval rewrite.
     wordnet_scope: str = "known"
+    # Lemmatise inflected query nouns with WordNet's morphy detachment rules
+    # before the WordNet lookup (copies -> copy). Off until calibrated.
+    wordnet_morphy: bool = False
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
