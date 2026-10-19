@@ -274,6 +274,11 @@ class WordNetNounSense:
     # Lemmatise inflected query nouns with WordNet's detachment rules before
     # the table lookup (copies -> copy, deployments -> deployment).
     morphy: bool = False
+    # Keep only relations reached from the query word's first k WordNet
+    # senses (index.noun order is by tagged frequency; rank 0 = most common).
+    # ``None`` keeps every sense. The rank is that of the sense behind the
+    # kept (best) relation to each corpus word.
+    max_sense_rank: int | None = None
     table: WordNetTable | None = None
     _cache: dict[str, tuple[Neighbour, ...]] = field(default_factory=dict, repr=False)
 
@@ -282,6 +287,8 @@ class WordNetNounSense:
             self.table = load_table()
         if self.max_path not in (0, 1, 2):
             raise ValueError("max_path must be 0, 1 or 2")
+        if self.max_sense_rank is not None and self.max_sense_rank < 1:
+            raise ValueError("max_sense_rank must be None or >= 1")
         # Words the table was built against (the corpus vocabulary).
         self.source_vocab: frozenset[str] = frozenset(self.table.meta.get("corpus_words") or ())
 
@@ -311,8 +318,10 @@ class WordNetNounSense:
         if tok in self._cache:
             return self._cache[tok]
         out: list[Neighbour] = []
-        for word, rel, path, fan, _rank in self._rows(tok):
+        for word, rel, path, fan, rank in self._rows(tok):
             if word == tok or path > self.max_path:
+                continue
+            if self.max_sense_rank is not None and rank >= self.max_sense_rank:
                 continue
             if rel == "sib" and fan > self.max_fanout:
                 continue

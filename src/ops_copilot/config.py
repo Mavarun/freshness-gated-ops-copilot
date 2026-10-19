@@ -141,6 +141,9 @@ class CopilotConfig:
     # Lemmatise inflected query nouns with WordNet's morphy detachment rules
     # before the WordNet lookup (copies -> copy). Off until calibrated.
     wordnet_morphy: bool = False
+    # Sense-frequency gate: only relations reached from the query word's first
+    # k WordNet senses (index.noun order, most frequent first). 0 = all senses.
+    wordnet_max_sense_rank: int = 0
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
