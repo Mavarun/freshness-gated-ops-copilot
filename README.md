@@ -22,6 +22,110 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## WordNet gate on a pre-registered second calibration set (2026-10-19): no gain on the confirm half, ships off; held-out still 0 of 9
+
+PR #23 ended with "turning it on needs fresh calibration rows written before the run": the
+15-row dev split tied fourteen safe WordNet gates, and held-out had been looked at twice.
+This slice writes those rows, fixes the whole protocol in code before running anything on
+them, and runs it once. Labels, golden file, the 203 perturbed rows and the dev / held-out
+split are unchanged (seed 42, frozen clock 2026-09-13). Held-out enters only as a no-harm
+check.
+
+### What changed
+
+1. **dev2 set** (`data/eval/synonym_dev2.jsonl`, `synonym_dev2.py`, 43 rows, written by hand
+   before the WordNet table was queried for any of its words): 29 one-swap paraphrases of
+   golden queries, mostly noun swaps (`latency -> delay`, `status -> standing`,
+   `replicas -> copies`, golden labels kept), 8 new absent-topic traps (most with a single
+   unknown word, e.g. `What is the checkout invoice latency?`), and 6 canary / PII / write
+   paraphrases. CI guards: no query contains a held-out word (folded as the audit folds;
+   one row was rewritten before any run because `request` folds onto held-out `requests`),
+   no swapped-in word is shared with the dev / held-out words, the perturbation synonym map
+   or the fresh set, and the file is in `make audit-heldout`. A frozen, label-stratified,
+   salted-hash split gives 22 `calib` and 21 `confirm` rows.
+2. **Two new WordNet knobs, both off by default**: `wordnet_morphy` (WordNet's noun
+   detachment rules, `copies -> copy`, before the table lookup) and `wordnet_max_sense_rank`
+   (keep relations from a word's first k WordNet senses; 0 = all).
+3. **Pre-registered protocol** (`wordnet_dev2.py`, committed before the first run): 144
+   settings (scope x path x fan-out x neighbours x morphy x senses); safe = clean 1.000, no
+   fail-open / spurious write / raw PII, and *no new error* on any calibration row;
+   selection = safe, then calibration rows correct (15 dev + 22 calib), then ANSWER rows,
+   then most conservative; the choice must strictly beat flag-off on calibration to reach
+   the confirm run. Confirm rule: confirm accuracy strictly up, confirm ANSWER not down, no
+   new error, no fail-open / write / PII, clean 1.000, held-out accuracy and ANSWER not down.
+4. **Calibration** (`make calibrate-wordnet-dev2`, `artifacts/wordnet_dev2_calibration.md`):
+   72 of 144 settings safe. Flag off 26/37; the best safe settings reach **28/37** by fixing
+   two `status` swaps (`standing`, `situation`). Every `all`-scope setting is unsafe (clean
+   0.86-0.98, and new calibration errors such as the `Okta federation` trap or the
+   `production halt` row); the 24 unsafe known / lone settings are path 2 with two
+   neighbours (clean 0.98). Morphy and sense rank never change a
+   calibration row, so the conservative tie-break picked **lone scope, path 1, one
+   neighbour, morphy off, first sense only**.
+5. **One-shot confirm** (`make wordnet-dev2-confirm`, `artifacts/wordnet_dev2_confirm.json`):
+
+| arm | dev2 confirm (21) | confirm ANSWER | clean | perturbed (203) | held-out acc (35) | held-out ANSWER | fresh (26, own default) | fail-open / spurious write / raw PII |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| off (default) | 12/21 | 5/10 | 1.000 | 0.9015 | 0.514 | 0/9 | 0.538, 3/11 | 0 / 0 / 0 |
+| dev2-chosen | 12/21 | 5/10 | 1.000 | 0.9015 | 0.514 | 0/9 | 0.577, 4/11 | 0 / 0 / 0 |
+
+Decision: **ships off** (`use_wordnet_noun_sense=False`). Every no-harm check passes; the
+only failed check is the gain. The chosen gate changes no confirm row and no robustness row.
+On the fresh set's own pre-passage default (`artifacts/synonym_fresh_eval.md`) the dev2 arm
+scores 8/26 (0.308, ANSWER 1/11) vs 7/26 off and 12/26 for PR #23's lone path-1 reference
+arm; that set is not blind for the lone scope.
+
+### Why it did not move: a coverage diagnostic (post-hoc, `make wordnet-coverage`)
+
+`artifacts/wordnet_coverage.md` buckets every missed single-word noun swap by the WordNet
+link from the swapped-in word back to the original corpus word (ungated):
+
+| set | no WordNet link (path <= 2) | link dropped by the gate | gate maps it, still wrong |
+| --- | ---: | ---: | ---: |
+| dev2 (11 missed) | 7 | 4 | 0 |
+| fresh (8 missed) | 6 | 1 | 1 |
+
+- **Resource gap first.** `delay~latency`, `occupancy` / `load~utilization`,
+  `countermeasure~mitigation`, `turnover` / `changeover~rotation`, `capability~feature` have
+  no WordNet noun path <= 2 to the corpus word. A stricter or looser gate cannot fix these.
+- **The tie-break cost recall it could not see.** `copies -> replicas` needs morphy plus the
+  second sense (path 1, sense rank 1); `liaison -> contact` and `routine -> procedure` are
+  same-synset links at sense ranks 1 and 2. All four rows sat in the confirm half, so the
+  calibration rows never exercised those knobs and the rule fell back to the most
+  conservative values. Turning them on now would be choosing on the confirm half; it is
+  recorded here as a protocol weakness instead.
+- The first-sense restriction also drops `health -> status` (sense rank 1 in WordNet's
+  index), which is why the held-out row PR #23's reference arm fixed stays wrong here.
+
+The default config's dev2 numbers (calib 14/22, confirm 12/21) are now a CI report step
+(`scripts/run_dev2_eval.py`, fails only on vocabulary or split drift).
+
+### Reproduce
+
+    make calibrate-wordnet-dev2   # clean + dev + dev2 calib only, ~70 s
+    make wordnet-dev2-confirm     # one shot: off vs the chosen arm
+    make wordnet-coverage         # post-hoc buckets, selects nothing
+    make dev2-eval                # CI report step
+    pytest tests/test_synonym_dev2.py tests/test_wordnet_dev2_*.py tests/test_wordnet_coverage.py tests/test_wordnet_morphy.py tests/test_wordnet_sense_rank.py
+
+### Weaknesses
+
+- Held-out ANSWER rows are still **0 of 9** and held-out accuracy 0.514 in every shipped config.
+- WordNet's noun graph does not hold most ops paraphrases (7 of 11 missed dev2 swaps have no
+  link). The next resource has to cover *usage* synonymy (`delay~latency`, `load~utilization`),
+  not taxonomy; a co-occurrence model on ops text has already failed on sense (PR #20), so
+  this likely needs a paraphrase resource or a sense-tagged ops corpus.
+- The split was stratified by label only, so both paraphrases of the same golden row
+  (`standing`, `situation`) landed in `calib` and the confirm half had no `status` row.
+  The next fresh set should split by golden source row, and the tie-break should leave a
+  knob the calibration rows never exercise at its existing default instead of the most
+  restrictive value. Both are fixed-before-run changes for the *next* set, not this one.
+- dev2 is 43 rows written by one author, who knows English synonymy (and so WordNet's
+  general shape) even without querying the table; it is a better-identified dev set, not
+  an unbiased benchmark.
+- Single-unknown absent-topic traps (`cafeteria schedule`, `parking policy`,
+  `vending contract`) come back REFUSE_UNGROUNDED instead of REFUSE_NO_EVIDENCE under the
+  default config too (a refusal either way, never a fail-open).
+
 ## WordNet noun senses (2026-10-17): an external sense inventory, shipped config still 0 of 9 held-out answers, ships off
 
 The last slice ended with "passing `lag~latency` / `health~status` needs a source not
