@@ -179,6 +179,7 @@ class Copilot:
                 known_only=self.config.wordnet_scope == "known",
                 lone_unknown=self.config.wordnet_scope == "lone",
                 morphy=self.config.wordnet_morphy,
+                max_sense_rank=self.config.wordnet_max_sense_rank or None,
             )
             if self.config.use_wordnet_noun_sense
             else None
