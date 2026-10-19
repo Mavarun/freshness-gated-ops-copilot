@@ -1,4 +1,4 @@
-.PHONY: wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -111,3 +111,7 @@ wordnet-dev2-confirm:
 # Post-hoc: missed noun swaps bucketed as WordNet coverage gap vs gate vs pipeline.
 wordnet-coverage:
 	python scripts/run_wordnet_coverage.py
+
+# dev2 calibration set, report-only (CI step; fails only on vocabulary / split drift).
+dev2-eval:
+	python scripts/run_dev2_eval.py
