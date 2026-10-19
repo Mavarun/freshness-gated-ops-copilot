@@ -1,4 +1,4 @@
-.PHONY: wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -99,3 +99,11 @@ calibrate-wordnet:
 # WordNet noun sense: one-shot held-out arms (decision on the dev-chosen arm).
 wordnet-heldout:
 	python scripts/run_wordnet_heldout.py
+
+# WordNet gate on the dev2 set (pre-registered, ops_copilot/wordnet_dev2.py):
+# calibration on clean + dev + dev2 calib, then one confirm run.
+calibrate-wordnet-dev2:
+	python scripts/calibrate_wordnet_dev2.py
+
+wordnet-dev2-confirm:
+	python scripts/run_wordnet_dev2_confirm.py
