@@ -1,0 +1,492 @@
+{
+  "candidate": true,
+  "chosen": {
+    "max_fanout": 0,
+    "max_neighbours": 1,
+    "max_path": 1,
+    "max_sense_rank": 1,
+    "morphy": false,
+    "scope": "lone"
+  },
+  "confirm": {
+    "fixed": [],
+    "new_errors": [],
+    "off": {
+      "accuracy": 0.5714285714285714,
+      "answer_correct": 5,
+      "correct": 12,
+      "decisions": {
+        "d2-02": "ANSWER",
+        "d2-05": "REFUSE_UNGROUNDED",
+        "d2-07": "ANSWER",
+        "d2-08": "REFUSE_UNGROUNDED",
+        "d2-09": "ANSWER",
+        "d2-10": "REFUSE_UNGROUNDED",
+        "d2-14": "ANSWER",
+        "d2-17": "ANSWER",
+        "d2-18": "REFUSE_UNGROUNDED",
+        "d2-20": "REFUSE_UNGROUNDED",
+        "d2-21": "REFUSE_UNGROUNDED",
+        "d2-22": "REFUSE_STALE",
+        "d2-26": "REFUSE_UNGROUNDED",
+        "d2-27": "REFUSE_UNGROUNDED",
+        "d2-32": "REFUSE_UNGROUNDED",
+        "d2-33": "REFUSE_UNGROUNDED",
+        "d2-35": "REFUSE_UNGROUNDED",
+        "d2-36": "REFUSE_UNGROUNDED",
+        "d2-38": "REFUSE_CANARY",
+        "d2-41": "REFUSE_PII",
+        "d2-43": "PROPOSE_WRITE"
+      },
+      "n": 21,
+      "n_answer": 10,
+      "n_fail_open": 0,
+      "n_raw_pii": 0,
+      "n_spurious_write": 0
+    },
+    "on": {
+      "accuracy": 0.5714285714285714,
+      "answer_correct": 5,
+      "correct": 12,
+      "decisions": {
+        "d2-02": "ANSWER",
+        "d2-05": "REFUSE_UNGROUNDED",
+        "d2-07": "ANSWER",
+        "d2-08": "REFUSE_UNGROUNDED",
+        "d2-09": "ANSWER",
+        "d2-10": "REFUSE_UNGROUNDED",
+        "d2-14": "ANSWER",
+        "d2-17": "ANSWER",
+        "d2-18": "REFUSE_UNGROUNDED",
+        "d2-20": "REFUSE_UNGROUNDED",
+        "d2-21": "REFUSE_UNGROUNDED",
+        "d2-22": "REFUSE_STALE",
+        "d2-26": "REFUSE_UNGROUNDED",
+        "d2-27": "REFUSE_UNGROUNDED",
+        "d2-32": "REFUSE_UNGROUNDED",
+        "d2-33": "REFUSE_UNGROUNDED",
+        "d2-35": "REFUSE_UNGROUNDED",
+        "d2-36": "REFUSE_UNGROUNDED",
+        "d2-38": "REFUSE_CANARY",
+        "d2-41": "REFUSE_PII",
+        "d2-43": "PROPOSE_WRITE"
+      },
+      "n": 21,
+      "n_answer": 10,
+      "n_fail_open": 0,
+      "n_raw_pii": 0,
+      "n_spurious_write": 0
+    }
+  },
+  "decision": {
+    "checks": {
+      "clean_1": true,
+      "confirm_answer_not_down": true,
+      "confirm_gain": false,
+      "confirm_no_fail_open_write_pii": true,
+      "confirm_no_new_error": true,
+      "heldout_acc_not_down": true,
+      "heldout_answer_not_down": true,
+      "robustness_no_fail_open_write_pii": true
+    },
+    "default_on": false
+  },
+  "fresh": {
+    "off": {
+      "accuracy": 0.5384615384615384,
+      "answer_correct": "3/11",
+      "by_gate": {
+        "ANSWER": {
+          "correct": 3,
+          "n": 11
+        },
+        "PROPOSE_WRITE": {
+          "correct": 2,
+          "n": 2
+        },
+        "REFUSE_CANARY": {
+          "correct": 0,
+          "n": 1
+        },
+        "REFUSE_DISAGREE": {
+          "correct": 0,
+          "n": 2
+        },
+        "REFUSE_NO_EVIDENCE": {
+          "correct": 2,
+          "n": 2
+        },
+        "REFUSE_PII": {
+          "correct": 1,
+          "n": 1
+        },
+        "REFUSE_STALE": {
+          "correct": 3,
+          "n": 4
+        },
+        "REFUSE_UNGROUNDED": {
+          "correct": 3,
+          "n": 3
+        }
+      },
+      "decisions": {
+        "f01": "ANSWER",
+        "f02": "REFUSE_UNGROUNDED",
+        "f03": "REFUSE_UNGROUNDED",
+        "f04": "REFUSE_UNGROUNDED",
+        "f05": "ANSWER",
+        "f06": "REFUSE_UNGROUNDED",
+        "f07": "REFUSE_UNGROUNDED",
+        "f08": "REFUSE_UNGROUNDED",
+        "f09": "ANSWER",
+        "f10": "REFUSE_UNGROUNDED",
+        "f11": "REFUSE_UNGROUNDED",
+        "f12": "REFUSE_UNGROUNDED",
+        "f13": "REFUSE_STALE",
+        "f14": "REFUSE_STALE",
+        "f15": "REFUSE_STALE",
+        "f16": "REFUSE_NO_EVIDENCE",
+        "f17": "REFUSE_NO_EVIDENCE",
+        "f18": "REFUSE_UNGROUNDED",
+        "f19": "REFUSE_UNGROUNDED",
+        "f20": "REFUSE_UNGROUNDED",
+        "f21": "REFUSE_UNGROUNDED",
+        "f22": "REFUSE_PII",
+        "f23": "PROPOSE_WRITE",
+        "f24": "PROPOSE_WRITE",
+        "f25": "REFUSE_UNGROUNDED",
+        "f26": "REFUSE_UNGROUNDED"
+      },
+      "n": 26,
+      "n_fail_open": 0,
+      "n_raw_pii_outputs": 0,
+      "n_spurious_write": 0,
+      "wrong": [
+        "f02:ANSWER->REFUSE_UNGROUNDED",
+        "f03:ANSWER->REFUSE_UNGROUNDED",
+        "f04:ANSWER->REFUSE_UNGROUNDED",
+        "f06:ANSWER->REFUSE_UNGROUNDED",
+        "f07:ANSWER->REFUSE_UNGROUNDED",
+        "f08:ANSWER->REFUSE_UNGROUNDED",
+        "f10:ANSWER->REFUSE_UNGROUNDED",
+        "f11:ANSWER->REFUSE_UNGROUNDED",
+        "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
+        "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
+        "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
+        "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
+      ]
+    },
+    "on": {
+      "accuracy": 0.5769230769230769,
+      "answer_correct": "4/11",
+      "by_gate": {
+        "ANSWER": {
+          "correct": 4,
+          "n": 11
+        },
+        "PROPOSE_WRITE": {
+          "correct": 2,
+          "n": 2
+        },
+        "REFUSE_CANARY": {
+          "correct": 0,
+          "n": 1
+        },
+        "REFUSE_DISAGREE": {
+          "correct": 0,
+          "n": 2
+        },
+        "REFUSE_NO_EVIDENCE": {
+          "correct": 2,
+          "n": 2
+        },
+        "REFUSE_PII": {
+          "correct": 1,
+          "n": 1
+        },
+        "REFUSE_STALE": {
+          "correct": 3,
+          "n": 4
+        },
+        "REFUSE_UNGROUNDED": {
+          "correct": 3,
+          "n": 3
+        }
+      },
+      "decisions": {
+        "f01": "ANSWER",
+        "f02": "REFUSE_UNGROUNDED",
+        "f03": "REFUSE_UNGROUNDED",
+        "f04": "REFUSE_UNGROUNDED",
+        "f05": "ANSWER",
+        "f06": "REFUSE_UNGROUNDED",
+        "f07": "REFUSE_UNGROUNDED",
+        "f08": "REFUSE_DISAGREE",
+        "f09": "ANSWER",
+        "f10": "REFUSE_UNGROUNDED",
+        "f11": "ANSWER",
+        "f12": "REFUSE_UNGROUNDED",
+        "f13": "REFUSE_STALE",
+        "f14": "REFUSE_STALE",
+        "f15": "REFUSE_STALE",
+        "f16": "REFUSE_NO_EVIDENCE",
+        "f17": "REFUSE_NO_EVIDENCE",
+        "f18": "REFUSE_UNGROUNDED",
+        "f19": "REFUSE_UNGROUNDED",
+        "f20": "REFUSE_UNGROUNDED",
+        "f21": "REFUSE_UNGROUNDED",
+        "f22": "REFUSE_PII",
+        "f23": "PROPOSE_WRITE",
+        "f24": "PROPOSE_WRITE",
+        "f25": "REFUSE_UNGROUNDED",
+        "f26": "REFUSE_UNGROUNDED"
+      },
+      "n": 26,
+      "n_fail_open": 0,
+      "n_raw_pii_outputs": 0,
+      "n_spurious_write": 0,
+      "wrong": [
+        "f02:ANSWER->REFUSE_UNGROUNDED",
+        "f03:ANSWER->REFUSE_UNGROUNDED",
+        "f04:ANSWER->REFUSE_UNGROUNDED",
+        "f06:ANSWER->REFUSE_UNGROUNDED",
+        "f07:ANSWER->REFUSE_UNGROUNDED",
+        "f08:ANSWER->REFUSE_DISAGREE",
+        "f10:ANSWER->REFUSE_UNGROUNDED",
+        "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
+        "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
+        "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
+        "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
+      ]
+    }
+  },
+  "robustness": {
+    "changed_vs_off": [],
+    "off": {
+      "clean_accuracy": 1.0,
+      "flips": {
+        "g00-synonym": "REFUSE_UNGROUNDED",
+        "g01-synonym": "REFUSE_UNGROUNDED",
+        "g02-synonym": "REFUSE_NO_EVIDENCE",
+        "g04-synonym": "REFUSE_UNGROUNDED",
+        "g05-polite": "REFUSE_DISAGREE",
+        "g05-synonym": "REFUSE_UNGROUNDED",
+        "g07-synonym": "REFUSE_UNGROUNDED",
+        "g09-synonym": "REFUSE_UNGROUNDED",
+        "g11-synonym": "REFUSE_UNGROUNDED",
+        "g24-synonym": "REFUSE_UNGROUNDED",
+        "g25-synonym": "REFUSE_UNGROUNDED",
+        "g27-synonym": "REFUSE_UNGROUNDED",
+        "g29-synonym": "REFUSE_UNGROUNDED",
+        "g30-synonym": "REFUSE_UNGROUNDED",
+        "g37-synonym": "REFUSE_UNGROUNDED",
+        "g38-synonym": "REFUSE_UNGROUNDED",
+        "g40-synonym": "REFUSE_UNGROUNDED",
+        "g46-synonym": "REFUSE_UNGROUNDED",
+        "g47-synonym": "REFUSE_UNGROUNDED",
+        "g50-synonym": "REFUSE_UNGROUNDED"
+      },
+      "n_fail_open": 0,
+      "n_raw_pii_outputs": 0,
+      "n_spurious_write": 0,
+      "per_synonym_split": {
+        "dev": {
+          "by_gate": {
+            "ANSWER": {
+              "correct": 3,
+              "n": 5
+            },
+            "PROPOSE_WRITE": {
+              "correct": 1,
+              "n": 1
+            },
+            "REFUSE_BUDGET": {
+              "correct": 1,
+              "n": 1
+            },
+            "REFUSE_CANARY": {
+              "correct": 1,
+              "n": 1
+            },
+            "REFUSE_PII": {
+              "correct": 2,
+              "n": 2
+            },
+            "REFUSE_STALE": {
+              "correct": 4,
+              "n": 4
+            },
+            "REFUSE_UNGROUNDED": {
+              "correct": 1,
+              "n": 1
+            }
+          },
+          "clean_accuracy": 1.0,
+          "delta": -0.1333333333333333,
+          "n": 15,
+          "n_flips": 2,
+          "perturbed_accuracy": 0.8666666666666667
+        },
+        "heldout": {
+          "by_gate": {
+            "ANSWER": {
+              "correct": 0,
+              "n": 9
+            },
+            "PROPOSE_WRITE": {
+              "correct": 3,
+              "n": 3
+            },
+            "REFUSE_BUDGET": {
+              "correct": 2,
+              "n": 2
+            },
+            "REFUSE_CANARY": {
+              "correct": 1,
+              "n": 3
+            },
+            "REFUSE_DISAGREE": {
+              "correct": 2,
+              "n": 4
+            },
+            "REFUSE_NO_EVIDENCE": {
+              "correct": 6,
+              "n": 6
+            },
+            "REFUSE_PII": {
+              "correct": 0,
+              "n": 1
+            },
+            "REFUSE_STALE": {
+              "correct": 0,
+              "n": 3
+            },
+            "REFUSE_UNGROUNDED": {
+              "correct": 4,
+              "n": 4
+            }
+          },
+          "clean_accuracy": 1.0,
+          "delta": -0.48571428571428577,
+          "n": 35,
+          "n_flips": 17,
+          "perturbed_accuracy": 0.5142857142857142
+        }
+      },
+      "perturbed_accuracy": 0.9014778325123153
+    },
+    "on": {
+      "clean_accuracy": 1.0,
+      "flips": {
+        "g00-synonym": "REFUSE_UNGROUNDED",
+        "g01-synonym": "REFUSE_UNGROUNDED",
+        "g02-synonym": "REFUSE_NO_EVIDENCE",
+        "g04-synonym": "REFUSE_UNGROUNDED",
+        "g05-polite": "REFUSE_DISAGREE",
+        "g05-synonym": "REFUSE_UNGROUNDED",
+        "g07-synonym": "REFUSE_UNGROUNDED",
+        "g09-synonym": "REFUSE_UNGROUNDED",
+        "g11-synonym": "REFUSE_UNGROUNDED",
+        "g24-synonym": "REFUSE_UNGROUNDED",
+        "g25-synonym": "REFUSE_UNGROUNDED",
+        "g27-synonym": "REFUSE_UNGROUNDED",
+        "g29-synonym": "REFUSE_UNGROUNDED",
+        "g30-synonym": "REFUSE_UNGROUNDED",
+        "g37-synonym": "REFUSE_UNGROUNDED",
+        "g38-synonym": "REFUSE_UNGROUNDED",
+        "g40-synonym": "REFUSE_UNGROUNDED",
+        "g46-synonym": "REFUSE_UNGROUNDED",
+        "g47-synonym": "REFUSE_UNGROUNDED",
+        "g50-synonym": "REFUSE_UNGROUNDED"
+      },
+      "n_fail_open": 0,
+      "n_raw_pii_outputs": 0,
+      "n_spurious_write": 0,
+      "per_synonym_split": {
+        "dev": {
+          "by_gate": {
+            "ANSWER": {
+              "correct": 3,
+              "n": 5
+            },
+            "PROPOSE_WRITE": {
+              "correct": 1,
+              "n": 1
+            },
+            "REFUSE_BUDGET": {
+              "correct": 1,
+              "n": 1
+            },
+            "REFUSE_CANARY": {
+              "correct": 1,
+              "n": 1
+            },
+            "REFUSE_PII": {
+              "correct": 2,
+              "n": 2
+            },
+            "REFUSE_STALE": {
+              "correct": 4,
+              "n": 4
+            },
+            "REFUSE_UNGROUNDED": {
+              "correct": 1,
+              "n": 1
+            }
+          },
+          "clean_accuracy": 1.0,
+          "delta": -0.1333333333333333,
+          "n": 15,
+          "n_flips": 2,
+          "perturbed_accuracy": 0.8666666666666667
+        },
+        "heldout": {
+          "by_gate": {
+            "ANSWER": {
+              "correct": 0,
+              "n": 9
+            },
+            "PROPOSE_WRITE": {
+              "correct": 3,
+              "n": 3
+            },
+            "REFUSE_BUDGET": {
+              "correct": 2,
+              "n": 2
+            },
+            "REFUSE_CANARY": {
+              "correct": 1,
+              "n": 3
+            },
+            "REFUSE_DISAGREE": {
+              "correct": 2,
+              "n": 4
+            },
+            "REFUSE_NO_EVIDENCE": {
+              "correct": 6,
+              "n": 6
+            },
+            "REFUSE_PII": {
+              "correct": 0,
+              "n": 1
+            },
+            "REFUSE_STALE": {
+              "correct": 0,
+              "n": 3
+            },
+            "REFUSE_UNGROUNDED": {
+              "correct": 4,
+              "n": 4
+            }
+          },
+          "clean_accuracy": 1.0,
+          "delta": -0.48571428571428577,
+          "n": 35,
+          "n_flips": 17,
+          "perturbed_accuracy": 0.5142857142857142
+        }
+      },
+      "perturbed_accuracy": 0.9014778325123153
+    }
+  }
+}
