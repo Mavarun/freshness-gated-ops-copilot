@@ -1,0 +1,778 @@
+{
+  "arm": {
+    "max_neighbours": 2,
+    "max_rank": 10,
+    "noun_only": false,
+    "scope": "lone"
+  },
+  "dev2": {
+    "counts": {
+      "correct": 25,
+      "mapped_still_wrong": 1,
+      "no_link": 4,
+      "not_applicable": 1,
+      "outside_gate": 4
+    },
+    "n_linked_rank_le": {
+      "10": 11,
+      "20": 12,
+      "50": 16,
+      "100": 18
+    },
+    "n_right_without_link": 2,
+    "n_single_swaps": 28,
+    "rows": {
+      "d2-01": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "wait",
+          "latency"
+        ],
+        "pairs": [
+          [
+            "latency",
+            "delay"
+          ]
+        ],
+        "rank": 9,
+        "right_without_link": false,
+        "wordnet_bucket": "no_link"
+      },
+      "d2-02": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "d2-03": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [
+          "capacity"
+        ],
+        "pairs": [
+          [
+            "feature",
+            "capability"
+          ]
+        ],
+        "rank": 26,
+        "wordnet_bucket": "no_link"
+      },
+      "d2-04": {
+        "bucket": "not_applicable",
+        "pairs": [],
+        "wordnet_bucket": "not_applicable"
+      },
+      "d2-05": {
+        "bucket": "mapped_still_wrong",
+        "gate_maps_to": [
+          "replicas",
+          "superseded"
+        ],
+        "pairs": [
+          [
+            "replicas",
+            "copies"
+          ]
+        ],
+        "rank": 3,
+        "wordnet_bucket": "outside_gate"
+      },
+      "d2-06": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "edge"
+        ],
+        "pairs": [
+          [
+            "budget",
+            "margin"
+          ]
+        ],
+        "rank": null,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-07": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "error"
+        ],
+        "pairs": [
+          [
+            "error",
+            "fault"
+          ]
+        ],
+        "rank": 5,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-08": {
+        "bucket": "no_link",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "mitigation",
+            "countermeasure"
+          ]
+        ],
+        "rank": null,
+        "wordnet_bucket": "no_link"
+      },
+      "d2-09": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "playbook"
+        ],
+        "pairs": [
+          [
+            "runbook",
+            "manual"
+          ]
+        ],
+        "rank": null,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-10": {
+        "bucket": "no_link",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "utilization",
+            "occupancy"
+          ]
+        ],
+        "rank": null,
+        "wordnet_bucket": "no_link"
+      },
+      "d2-11": {
+        "bucket": "no_link",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "utilization",
+            "load"
+          ]
+        ],
+        "rank": null,
+        "wordnet_bucket": "no_link"
+      },
+      "d2-12": {
+        "bucket": "no_link",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "status",
+            "standing"
+          ]
+        ],
+        "rank": null,
+        "wordnet_bucket": "correct"
+      },
+      "d2-13": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "posted",
+          "posts"
+        ],
+        "pairs": [
+          [
+            "status",
+            "situation"
+          ]
+        ],
+        "rank": 13,
+        "right_without_link": true,
+        "wordnet_bucket": "correct"
+      },
+      "d2-14": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "d2-15": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "maintenance"
+        ],
+        "pairs": [
+          [
+            "maintenance",
+            "repair"
+          ]
+        ],
+        "rank": 10,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-16": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "freeze"
+        ],
+        "pairs": [
+          [
+            "freeze",
+            "halt"
+          ]
+        ],
+        "rank": 7,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-17": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [
+          "chart"
+        ],
+        "pairs": [
+          [
+            "schedule",
+            "plan"
+          ]
+        ],
+        "rank": 35,
+        "wordnet_bucket": "correct"
+      },
+      "d2-18": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "size"
+        ],
+        "pairs": [
+          [
+            "rotation",
+            "turnover"
+          ]
+        ],
+        "rank": 57,
+        "right_without_link": true,
+        "wordnet_bucket": "no_link"
+      },
+      "d2-19": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [
+          "changing"
+        ],
+        "pairs": [
+          [
+            "rotation",
+            "changeover"
+          ]
+        ],
+        "rank": 23,
+        "wordnet_bucket": "no_link"
+      },
+      "d2-20": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [
+          "handshake",
+          "coordinating"
+        ],
+        "pairs": [
+          [
+            "contact",
+            "liaison"
+          ]
+        ],
+        "rank": 9,
+        "wordnet_bucket": "outside_gate"
+      },
+      "d2-21": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "runbook",
+          "procedure"
+        ],
+        "pairs": [
+          [
+            "procedure",
+            "routine"
+          ]
+        ],
+        "rank": 4,
+        "right_without_link": false,
+        "wordnet_bucket": "outside_gate"
+      },
+      "d2-22": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "d2-23": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "omar"
+        ],
+        "pairs": [
+          [
+            "ttl",
+            "lifetime"
+          ]
+        ],
+        "rank": null,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-24": {
+        "bucket": "correct",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "ttl",
+            "expiry"
+          ]
+        ],
+        "rank": null,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-25": {
+        "bucket": "correct",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "target",
+            "benchmark"
+          ]
+        ],
+        "rank": 51,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-26": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "replicas",
+          "superseded"
+        ],
+        "pairs": [
+          [
+            "replicas",
+            "copies"
+          ]
+        ],
+        "rank": 3,
+        "right_without_link": false,
+        "wordnet_bucket": "outside_gate"
+      },
+      "d2-27": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "runbook",
+          "procedure"
+        ],
+        "pairs": [
+          [
+            "procedure",
+            "routine"
+          ]
+        ],
+        "rank": 4,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-28": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "playbook"
+        ],
+        "pairs": [
+          [
+            "playbook",
+            "manual"
+          ]
+        ],
+        "rank": 1,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-29": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "capacity"
+        ],
+        "pairs": [
+          [
+            "feature",
+            "capability"
+          ]
+        ],
+        "rank": 26,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-38": {
+        "bucket": "correct",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "route",
+            "destination"
+          ]
+        ],
+        "rank": null,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-39": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "executive",
+          "admin"
+        ],
+        "pairs": [
+          [
+            "admin",
+            "administrator"
+          ]
+        ],
+        "rank": 2,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-40": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "d2-41": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "d2-42": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "executive"
+        ],
+        "pairs": [
+          [
+            "service",
+            "application"
+          ]
+        ],
+        "rank": null,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "d2-43": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      }
+    },
+    "wordnet_no_link": {
+      "correct_under_arm": 2,
+      "datamuse_rank_le_10": 1,
+      "datamuse_rank_le_100": 4,
+      "n": 7
+    }
+  },
+  "fresh": {
+    "counts": {
+      "correct": 19,
+      "mapped_still_wrong": 1,
+      "no_link": 2,
+      "not_applicable": 2,
+      "outside_gate": 2
+    },
+    "n_linked_rank_le": {
+      "10": 10,
+      "20": 10,
+      "50": 11,
+      "100": 12
+    },
+    "n_right_without_link": 0,
+    "n_single_swaps": 16,
+    "rows": {
+      "f01": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "f02": {
+        "bucket": "not_applicable",
+        "pairs": [],
+        "wordnet_bucket": "not_applicable"
+      },
+      "f03": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "corpus",
+          "primary"
+        ],
+        "pairs": [
+          [
+            "primary",
+            "principal"
+          ]
+        ],
+        "rank": 1,
+        "right_without_link": false,
+        "wordnet_bucket": "no_link"
+      },
+      "f04": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "not_applicable"
+      },
+      "f05": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "remainder",
+          "remaining"
+        ],
+        "pairs": [
+          [
+            "remaining",
+            "residual"
+          ]
+        ],
+        "rank": 10,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "f06": {
+        "bucket": "no_link",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "mitigation",
+            "remedy"
+          ]
+        ],
+        "rank": null,
+        "wordnet_bucket": "no_link"
+      },
+      "f07": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "utilization",
+            "consumption"
+          ]
+        ],
+        "rank": 39,
+        "wordnet_bucket": "no_link"
+      },
+      "f08": {
+        "bucket": "mapped_still_wrong",
+        "gate_maps_to": [
+          "status"
+        ],
+        "pairs": [
+          [
+            "status",
+            "condition"
+          ]
+        ],
+        "rank": 2,
+        "wordnet_bucket": "mapped_still_wrong"
+      },
+      "f09": {
+        "bucket": "correct",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "window",
+            "slot"
+          ]
+        ],
+        "rank": null,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "f10": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "start",
+          "starts"
+        ],
+        "pairs": [
+          [
+            "start",
+            "commence"
+          ]
+        ],
+        "rank": 2,
+        "right_without_link": false,
+        "wordnet_bucket": "no_link"
+      },
+      "f11": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "schedule"
+        ],
+        "pairs": [
+          [
+            "schedule",
+            "agenda"
+          ]
+        ],
+        "rank": 1,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "f12": {
+        "bucket": "not_applicable",
+        "pairs": [],
+        "wordnet_bucket": "not_applicable"
+      },
+      "f13": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "f14": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "target",
+          "targeting"
+        ],
+        "pairs": [
+          [
+            "target",
+            "aim"
+          ]
+        ],
+        "rank": 1,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "f15": {
+        "bucket": "correct",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "drain",
+            "empty"
+          ]
+        ],
+        "rank": null,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "f16": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "f17": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "password"
+        ],
+        "pairs": [
+          [
+            "password",
+            "passcode"
+          ]
+        ],
+        "rank": 5,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "f18": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "procedure",
+          "modulo"
+        ],
+        "pairs": [
+          [
+            "procedure",
+            "method"
+          ]
+        ],
+        "rank": 7,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "f19": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "playbook",
+          "document"
+        ],
+        "pairs": [
+          [
+            "playbook",
+            "handbook"
+          ]
+        ],
+        "rank": 3,
+        "right_without_link": false,
+        "wordnet_bucket": "correct"
+      },
+      "f20": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "f21": {
+        "bucket": "correct",
+        "gate_maps_to": [
+          "via",
+          "path"
+        ],
+        "pairs": [
+          [
+            "path",
+            "pathway"
+          ]
+        ],
+        "rank": 6,
+        "right_without_link": false,
+        "wordnet_bucket": "outside_gate"
+      },
+      "f22": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "f23": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "f24": {
+        "bucket": "correct",
+        "pairs": [],
+        "wordnet_bucket": "correct"
+      },
+      "f25": {
+        "bucket": "outside_gate",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "budget",
+            "allotment"
+          ]
+        ],
+        "rank": 52,
+        "wordnet_bucket": "no_link"
+      },
+      "f26": {
+        "bucket": "no_link",
+        "gate_maps_to": [],
+        "pairs": [
+          [
+            "cadence",
+            "periodicity"
+          ]
+        ],
+        "rank": null,
+        "wordnet_bucket": "no_link"
+      }
+    },
+    "wordnet_no_link": {
+      "correct_under_arm": 2,
+      "datamuse_rank_le_10": 2,
+      "datamuse_rank_le_100": 4,
+      "n": 6
+    }
+  }
+}

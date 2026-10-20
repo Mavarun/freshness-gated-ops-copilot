@@ -130,3 +130,7 @@ calibrate-datamuse-dev2:
 # One shot: off vs the dev2-chosen Datamuse arm (confirm half, robustness, fresh).
 datamuse-dev2-confirm:
 	python scripts/run_datamuse_dev2_confirm.py
+
+# Post-hoc: Datamuse link rank of every dev2 / fresh noun swap vs the WordNet bucket.
+datamuse-coverage:
+	python scripts/run_datamuse_coverage.py
