@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """dev2 calibration set, report-only -> artifacts/synonym_dev2_eval.{json,md}.
 
-Scores the shipped default config and the dev2-chosen WordNet arm (which
-ships off) on both halves of ``data/eval/synonym_dev2.jsonl``, so later
+Scores the shipped default config and the dev2-chosen WordNet and Datamuse
+arms (both ship off) on both halves of ``data/eval/synonym_dev2.jsonl``, so later
 slices start from a recorded baseline. Never fails on accuracy. Exits 1 if
 the set gains a held-out word or shares swap vocabulary with the other sets
 (``synonym_dev2.vocabulary_problems``), or if the frozen split moves.
@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from ops_copilot.config import CopilotConfig  # noqa: E402
 from ops_copilot.synonym_dev2 import half, vocabulary_problems  # noqa: E402
+from ops_copilot.datamuse_dev2 import config_for as datamuse_config  # noqa: E402
 from ops_copilot.wordnet_dev2 import config_for, score_rows  # noqa: E402
 
 FROZEN = {"calib": 22, "confirm": 21}
@@ -26,7 +27,12 @@ FROZEN = {"calib": 22, "confirm": 21}
 
 def main() -> int:
     chosen = json.loads((ROOT / "artifacts" / "wordnet_dev2_confirm.json").read_text())["chosen"]
-    arms = {"default (shipped)": CopilotConfig(), "WordNet, dev2-chosen (ships off)": config_for(chosen)}
+    dm = json.loads((ROOT / "artifacts" / "datamuse_dev2_confirm.json").read_text())["chosen"]
+    arms = {
+        "default (shipped)": CopilotConfig(),
+        "WordNet, dev2-chosen (ships off)": config_for(chosen),
+        "Datamuse means-like, dev2-chosen (ships off)": datamuse_config(dm),
+    }
     problems = vocabulary_problems()
     out: dict = {"vocabulary_problems": problems, "halves": {}}
     sizes = {}

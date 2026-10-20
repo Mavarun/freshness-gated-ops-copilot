@@ -49,3 +49,18 @@ def test_heldout_no_harm_check_and_safety():
         assert rob[arm]["n_fail_open"] == rob[arm]["n_spurious_write"] == rob[arm]["n_raw_pii_outputs"] == 0
     # the arm only removes flips (fixes rows); it adds none
     assert all(rid not in rob["on"]["flips"] for rid, _ in rob["changed_vs_off"])
+
+
+def test_fresh_set_arm_is_recorded_and_safe():
+    out = json.loads((ART / "synonym_fresh_eval.json").read_text())
+    arm = out["configs"]["+ Datamuse means-like, dev2-chosen (lone, rank<=10, 2 neighbours; ships off)"]
+    assert arm["n"] - len(arm["wrong"]) == 15 and arm["answer_correct"] == "5/11"
+    assert arm["n_fail_open"] == 0 and arm["n_spurious_write"] == 0
+
+
+def test_dev2_report_carries_the_datamuse_arm():
+    out = json.loads((ART / "synonym_dev2_eval.json").read_text())
+    arm = "Datamuse means-like, dev2-chosen (ships off)"
+    assert out["halves"]["calib"][arm]["correct"] == 16
+    assert out["halves"]["confirm"][arm]["correct"] == 14
+    assert out["halves"]["confirm"]["default (shipped)"]["correct"] == 12
