@@ -106,6 +106,17 @@ CONFIGS: dict[str, dict] = {
         "wordnet_morphy": False,
         "wordnet_max_sense_rank": 1,
     },
+    # Datamuse means-like (2026-10-20, datamuse_dev2.py): the pre-registered
+    # dev2 choice; ships off (one new dev2 confirm error). Built after this
+    # set was written and chosen on dev2 calib rows only, but the lone scope
+    # was designed with this set in view (PR #23), so it is not fully blind.
+    "+ Datamuse means-like, dev2-chosen (lone, rank<=10, 2 neighbours; ships off)": {
+        "use_datamuse_ml": True,
+        "datamuse_scope": "lone",
+        "datamuse_max_rank": 10,
+        "datamuse_max_neighbours": 2,
+        "datamuse_noun_only": False,
+    },
 }
 
 

@@ -6,5 +6,7 @@ Vocabulary problems: none. Split sizes: {'calib': 22, 'confirm': 21}.
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | calib | default (shipped) | 14/22 | 3/10 | 0 | 0 | 0 |
 | calib | WordNet, dev2-chosen (ships off) | 16/22 | 5/10 | 0 | 0 | 0 |
+| calib | Datamuse means-like, dev2-chosen (ships off) | 16/22 | 5/10 | 0 | 0 | 0 |
 | confirm | default (shipped) | 12/21 | 5/10 | 0 | 0 | 0 |
 | confirm | WordNet, dev2-chosen (ships off) | 12/21 | 5/10 | 0 | 0 | 0 |
+| confirm | Datamuse means-like, dev2-chosen (ships off) | 14/21 | 5/10 | 0 | 0 | 0 |

@@ -22,6 +22,102 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Datamuse means-like usage synonyms (2026-10-20): +2 on the dev2 confirm half but one new error, ships off; held-out ANSWER 1 of 9 in the off-by-default arm
+
+The 2026-10-19 coverage diagnostic said WordNet's noun graph is a taxonomy and 7 of 11
+missed dev2 swaps have no WordNet link at all, so the next source has to cover *usage*
+synonymy. The PPDB download host no longer answers; the closest stand-in is the
+[Datamuse API](https://www.datamuse.com/api/) `ml` ("means like") constraint, which per
+its documentation combines WordNet 3.0, OneLook dictionaries, PPDB "XXL" lexical
+paraphrases and word2vec. Labels, golden file, the 203 perturbed rows, the dev / held-out
+split and the dev2 split are unchanged (seed 42, frozen clock 2026-09-13). Held-out enters
+only as a no-harm check.
+
+### What changed
+
+1. **Snapshot built without eval input** (`data/datamuse/ml_neighbours.json.gz`, 255 KB,
+   `make datamuse-table`): the API was queried with the 440 plain corpus content words
+   and nothing else (top 100 results each, fetched 2026-10-20; 43,148 results). The table
+   inverts those lists into 21,561 word -> corpus-word rows (source rank, noun tag). Raw
+   lists are not committed; `meta.raw_sha256` pins them. `make audit-heldout` now also
+   fails if a query-built snapshot was queried with anything but exactly the corpus
+   vocabulary, and a test checks the fetch / build scripts read no eval file. Answers
+   may contain held-out words (the service was not written for this eval); queries
+   cannot.
+2. **`DatamuseSense`** (`datamuse_senses.py`, off by default: `use_datamuse_ml=False`):
+   same noun read-path slot and known / lone / all scopes as WordNet, chained after it;
+   gate = rank cut-off in the corpus word's list, neighbour count, optional noun tag.
+3. **Pre-registered protocol** (`datamuse_dev2.py`, committed before the first run): 60
+   settings; the same calibration rows (51 clean + 15 dev + 22 dev2 calib), safety rule
+   and one-shot confirm rule as PR #24. One fix carried over from PR #24's weaknesses:
+   among tied settings, knobs the calibration rows never exercise stay at their config
+   defaults instead of the most restrictive value.
+4. **Calibration** (`make calibrate-datamuse-dev2`, `artifacts/datamuse_dev2_calibration.md`):
+   28 of 60 settings safe. Known scope changes nothing; ranks 20 / 50 drop clean to 0.98;
+   every all-scope setting is unsafe (clean 0.82-0.98, new errors, one fail-open). Chosen:
+   **lone scope, rank <= 10, two neighbours, noun tag off** (28/37 vs 26/37 off).
+5. **One-shot confirm** (`make datamuse-dev2-confirm`, `artifacts/datamuse_dev2_confirm.json`):
+
+| arm | dev2 confirm (21) | confirm ANSWER | new errors | clean | perturbed (203) | held-out acc (35) | held-out ANSWER | fresh (26, current default) | fail-open / spurious write / raw PII |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| off (default) | 12/21 | 5/10 | - | 1.000 | 0.9015 | 0.514 | 0/9 | 0.538, 3/11 | 0 / 0 / 0 |
+| dev2-chosen | **14/21** | 5/10 | **1 (d2-17)** | 1.000 | 0.9113 | 0.571 | **1/9** | 0.731, 7/11 | 0 / 0 / 0 |
+
+Decision: **ships off** (`use_datamuse_ml=False`). Seven of eight checks pass; the
+pre-registered "no new error" check fails. d2-17 (`rotation plan`) maps `plan -> chart`,
+the extractive draft then echoes a canary and the row becomes `REFUSE_CANARY`: a refusal,
+not a fail-open, but a regression the rule exists to block. It is the first arm in this
+repo to answer a held-out ANSWER row, and that cannot be used to overrule the rule:
+held-out is a no-harm check here. On the fresh set's own pre-passage default
+(`artifacts/synonym_fresh_eval.md`) the arm scores 15/26 (ANSWER 5/11) vs 7/26 off.
+
+### Where the gain and the error come from (post-hoc, `make datamuse-coverage`)
+
+`artifacts/datamuse_coverage.md` gives, per single-word swap, the ungated rank of the
+swapped-in word in the original's list and the gate's picks:
+
+| set | WordNet no-link swaps | Datamuse link rank <= 10 | rank <= 100 | right under the arm |
+| --- | ---: | ---: | ---: | ---: |
+| dev2 | 7 | 1 | 4 | 2 |
+| fresh | 6 | 2 | 4 | 2 |
+
+- **Coverage is better, not solved.** `delay~latency` is rank 9; `capability~feature` (26),
+  `changeover~rotation` (23), `turnover~rotation` (57) are linked but outside the gate;
+  `load` / `occupancy~utilization` and `countermeasure~mitigation` have no link in either
+  resource.
+- **Precision is the limit.** Neighbours are ordered by source rank, so noisy words come
+  first (`delay -> wait` before `latency`, `situation -> posted`, `plan -> chart`). 2 of
+  the 25 correct dev2 rows were fixed through a wrong-sense word (d2-18 `turnover -> size`,
+  d2-13 `situation -> posted`); grounding was lenient enough to pass them.
+
+### Reproduce
+
+    make datamuse-table            # network, once; CI reads the committed table
+    make calibrate-datamuse-dev2   # clean + dev + dev2 calib only, ~30 s
+    make datamuse-dev2-confirm     # one shot: off vs the chosen arm
+    make datamuse-coverage         # post-hoc, selects nothing
+    make audit-heldout
+    pytest tests/test_datamuse_*.py tests/test_resource_audit.py
+
+### Weaknesses
+
+- Held-out accuracy 0.514 and held-out ANSWER **0 of 9** in the shipped default; the
+  1 of 9 exists only in an arm that ships off.
+- The neighbour order is the source's rank for the *corpus* word, not how well the query
+  word means the corpus word; a reciprocal-rank check (does the corpus word also rank the
+  query word?) needs the query word's own list, which cannot be fetched offline at query
+  time. A sense filter on top of Datamuse is the next step, tuned on a fresh set.
+- This was the second scored use of the dev2 confirm half (the WordNet arm was the
+  first). Its 21 rows are no longer a clean confirm set for this family; the next gate
+  needs a new set, split by golden source row (still open from PR #24).
+- Before writing the protocol, Datamuse was probed by hand for five corpus words named in
+  PR #24's coverage diagnostic (`latency`, `utilization`, `mitigation`, `rotation`,
+  `feature`), and the default rank 10 was set after that probe. The table rows of about a
+  dozen dev2 swap words were also printed while writing a wiring test, after the grid was
+  written. The grid and rules were not changed and were committed before any calibration
+  run, but both are a mild look at dev2 words.
+- The snapshot depends on a live service fetched on one day; a rebuild may differ.
+
 ## WordNet gate on a pre-registered second calibration set (2026-10-19): no gain on the confirm half, ships off; held-out still 0 of 9
 
 PR #23 ended with "turning it on needs fresh calibration rows written before the run": the
@@ -1958,6 +2054,7 @@ CI: `.github/workflows/eval.yml` runs pytest + `scripts/run_eval.py` on push/PR 
 - Synthetic corpus / frozen clock; crafted golden set (1.000 scores are a harness, not prod claim).
 - Under seeded perturbations decision_accuracy is 0.897 (default, passage classifier on) / 0.906 (embedding on). **Held-out synonym accuracy is 0.457 / 0.514, and only 1 / 2 of 12 held-out rows that need an answer or a write succeed.** The richer passage classifier lifts a fresh general-English set from 7/26 to 14/26; held-out answers/writes stay at 1/12. Synonyms the repo has not been given are mostly not understood; they fail closed.
 - Trace and API redaction is pattern-based (plus query fragments). A secret typed as plain words is caught only after a credential noun and a copula / `:` / `=` (`my password is ...`), not in free text (`use ... to log in`).
+- A usage-synonymy source (Datamuse means-like, opt-in, 2026-10-20) lifts dev2 confirm 12 to 14 of 21 and held-out ANSWER 0 to 1 of 9 but adds one new error (a canary refusal), so it ships off.
 - Two external ops-domain lexicons (Stack Exchange tag synonyms, Wiktionary computing senses; opt-in) changed no held-out row and add nothing on the fresh general-English set. Their coverage of the eval's ops paraphrases is near zero.
 - An answer-support model trained on 32,513 Stack Exchange title / answer pairs (IBM Model 1, opt-in) changed no held-out row either. It fixes one dev row and one fresh row, both through topical pairs rather than synonyms.
 
