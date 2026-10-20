@@ -144,6 +144,18 @@ class CopilotConfig:
     # Sense-frequency gate: only relations reached from the query word's first
     # k WordNet senses (index.noun order, most frequent first). 0 = all senses.
     wordnet_max_sense_rank: int = 0
+    # Datamuse "means like" backoff (datamuse_senses.py): usage synonymy from
+    # a snapshot of Datamuse ml lists queried with corpus words only (WordNet,
+    # OneLook dictionaries, PPDB XXL lexical paraphrases, word2vec). A query
+    # word maps onto corpus words whose list ranks it <= datamuse_max_rank.
+    # Same noun read-path slot and scopes as WordNet (chained after it).
+    # Gate from scripts/calibrate_datamuse_dev2.py (clean + dev + dev2 calib).
+    use_datamuse_ml: bool = False
+    datamuse_scope: str = "known"
+    datamuse_max_rank: int = 10
+    datamuse_max_neighbours: int = 1
+    # Keep only results Datamuse tagged as nouns in the corpus word's list.
+    datamuse_noun_only: bool = False
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
