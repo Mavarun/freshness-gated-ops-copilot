@@ -63,3 +63,29 @@ def audit(paths: tuple[str, ...] = HAND_WRITTEN, root: Path = ROOT) -> dict[str,
         toks = {fold_token(t) for t in _TOKEN.findall(_text_of(root / rel))}
         out[rel] = sorted((toks & held) - SCHEMA_TOKENS)
     return out
+
+
+# External snapshots built by querying a live service: held-out words may
+# appear in the *answers* (the service was not written for this eval), but the
+# *queries* must be exactly the corpus vocabulary, so no eval word chose what
+# was fetched. Path -> meta key holding the query list.
+QUERIED_EXTERNAL = {"data/datamuse/ml_neighbours.json.gz": "queried_words"}
+
+
+def query_problems(paths: dict[str, str] | None = None, root: Path = ROOT) -> dict[str, dict[str, list[str]]]:
+    """Map snapshot path -> queries that are not corpus words / corpus words not queried."""
+    import gzip
+
+    from ops_copilot.corpus import Corpus
+    from ops_copilot.word_vectors import corpus_words
+
+    vocab = set(corpus_words(f"{c.title} {c.text}" for c in Corpus().chunks))
+    out: dict[str, dict[str, list[str]]] = {}
+    for rel, key in (QUERIED_EXTERNAL if paths is None else paths).items():
+        with gzip.open(root / rel, "rt", encoding="utf-8") as fh:
+            queried = set(json.load(fh)["meta"].get(key) or ())
+        out[rel] = {
+            "not_corpus_words": sorted(queried - vocab),
+            "missing_corpus_words": sorted(vocab - queried),
+        }
+    return out
