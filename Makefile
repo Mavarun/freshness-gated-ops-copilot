@@ -1,4 +1,4 @@
-.PHONY: dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -115,3 +115,14 @@ wordnet-coverage:
 # dev2 calibration set, report-only (CI step; fails only on vocabulary / split drift).
 dev2-eval:
 	python scripts/run_dev2_eval.py
+
+# Datamuse means-like snapshot (corpus-word queries only; raw lists not committed).
+DATAMUSE_RAW ?= /tmp/datamuse_raw
+datamuse-table:
+	python scripts/fetch_datamuse_ml.py --raw-dir $(DATAMUSE_RAW)
+	python scripts/build_datamuse_neighbours.py --raw-dir $(DATAMUSE_RAW) --fetched-on 2026-10-20
+
+# Datamuse gate on dev2 (pre-registered, ops_copilot/datamuse_dev2.py):
+# calibration on clean + dev + dev2 calib only.
+calibrate-datamuse-dev2:
+	python scripts/calibrate_datamuse_dev2.py
