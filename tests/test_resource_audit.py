@@ -35,3 +35,24 @@ def test_every_audited_path_exists() -> None:
     root = Path(__file__).resolve().parents[1]
     for rel in HAND_WRITTEN:
         assert (root / rel).exists(), rel
+
+
+def test_query_built_snapshots_were_queried_with_corpus_words_only() -> None:
+    from ops_copilot.resource_audit import query_problems
+
+    probs = query_problems()
+    assert probs and all(not v for q in probs.values() for v in q.values()), probs
+
+
+def test_query_audit_flags_an_eval_word_query(tmp_path: Path) -> None:
+    import gzip
+
+    from ops_copilot.resource_audit import query_problems
+
+    snap = tmp_path / "snap.json.gz"
+    with gzip.open(snap, "wt", encoding="utf-8") as fh:
+        json.dump({"meta": {"queried_words": ["latency", "zzqueryword"]}, "neighbours": {}}, fh)
+    got = query_problems({"snap.json.gz": "queried_words"}, root=tmp_path)["snap.json.gz"]
+    assert got["not_corpus_words"] == ["zzqueryword"]
+    assert "latency" not in got["missing_corpus_words"]
+    assert got["missing_corpus_words"]
