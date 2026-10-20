@@ -126,3 +126,7 @@ datamuse-table:
 # calibration on clean + dev + dev2 calib only.
 calibrate-datamuse-dev2:
 	python scripts/calibrate_datamuse_dev2.py
+
+# One shot: off vs the dev2-chosen Datamuse arm (confirm half, robustness, fresh).
+datamuse-dev2-confirm:
+	python scripts/run_datamuse_dev2_confirm.py
