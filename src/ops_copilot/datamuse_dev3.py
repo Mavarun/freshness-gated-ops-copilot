@@ -54,12 +54,8 @@ GRID_MAX_RANK = (10, 20, 50, 100)
 GRID_NEIGHBOURS = (1, 2)
 GRID_CONTEXT = (0, 1, 2)
 SCOPE_RANK = {"known": 0, "lone": 1}
-_D = CopilotConfig()
-DEFAULTS = {
-    "max_rank": _D.datamuse_max_rank,
-    "max_neighbours": _D.datamuse_max_neighbours,
-    "context_min": _D.datamuse_context_min,
-}
+# Config defaults as registered on 2026-10-21, frozen (see datamuse_dev2.DEFAULTS).
+DEFAULTS = {"max_rank": 10, "max_neighbours": 1, "context_min": 0}
 
 
 def grid_settings() -> list[dict]:

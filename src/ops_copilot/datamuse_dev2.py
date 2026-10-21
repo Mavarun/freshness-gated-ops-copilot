@@ -58,12 +58,10 @@ GRID_MAX_RANK = (3, 5, 10, 20, 50)
 GRID_NEIGHBOURS = (1, 2)
 GRID_NOUN_ONLY = (False, True)
 SCOPE_RANK = {"known": 0, "lone": 1, "all": 2}
-_DEFAULTS = CopilotConfig()
-DEFAULTS = {
-    "max_rank": _DEFAULTS.datamuse_max_rank,
-    "max_neighbours": _DEFAULTS.datamuse_max_neighbours,
-    "noun_only": _DEFAULTS.datamuse_noun_only,
-}
+# Config defaults as registered on 2026-10-20, frozen: read from the live
+# config, a later change to the shipped defaults would silently re-rank this
+# committed grid's tie-break.
+DEFAULTS = {"max_rank": 10, "max_neighbours": 1, "noun_only": False}
 
 
 def grid_settings() -> list[dict]:
