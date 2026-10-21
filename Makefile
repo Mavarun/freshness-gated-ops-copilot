@@ -139,3 +139,8 @@ datamuse-coverage:
 # calibration on dev + all dev2 + dev3 calib, plus clean golden.
 calibrate-datamuse-dev3:
 	python scripts/calibrate_datamuse_dev3.py
+
+# One shot: off vs the dev3-chosen context-gated arm (dev3 confirm, robustness, fresh);
+# the shelved dev2-chosen WordNet / Datamuse arms are scored for the record only.
+datamuse-dev3-confirm:
+	python scripts/run_datamuse_dev3_confirm.py
