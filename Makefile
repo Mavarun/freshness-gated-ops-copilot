@@ -1,4 +1,4 @@
-.PHONY: datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -134,3 +134,8 @@ datamuse-dev2-confirm:
 # Post-hoc: Datamuse link rank of every dev2 / fresh noun swap vs the WordNet bucket.
 datamuse-coverage:
 	python scripts/run_datamuse_coverage.py
+
+# Context-gated Datamuse on dev3 (pre-registered, ops_copilot/datamuse_dev3.py):
+# calibration on dev + all dev2 + dev3 calib, plus clean golden.
+calibrate-datamuse-dev3:
+	python scripts/calibrate_datamuse_dev3.py
