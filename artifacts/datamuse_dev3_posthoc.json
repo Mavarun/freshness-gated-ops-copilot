@@ -1,0 +1,58 @@
+{
+  "arms": {
+    "dev3-chosen": {
+      "calib": "62/83",
+      "calib_new_errors": [],
+      "clean": 1.0,
+      "confirm": "14/20",
+      "confirm_answer": "7/12",
+      "confirm_new_errors": [],
+      "fail_open": 0,
+      "fresh": 0.7307692307692307,
+      "heldout": 0.6,
+      "heldout_answer": 1,
+      "perturbed": 0.9163,
+      "sweep_labelled_trap_opened": [
+        "What is the revert procedure for the checkout_retry feature toggle?"
+      ],
+      "sweep_opened": 4
+    },
+    "dev3-chosen, unknown words only": {
+      "calib": "60/83",
+      "calib_new_errors": [],
+      "clean": 1.0,
+      "confirm": "13/20",
+      "confirm_answer": "6/12",
+      "confirm_new_errors": [],
+      "fail_open": 0,
+      "fresh": 0.7307692307692307,
+      "heldout": 0.571,
+      "heldout_answer": 0,
+      "perturbed": 0.9113,
+      "sweep_labelled_trap_opened": [],
+      "sweep_opened": 2
+    },
+    "off": {
+      "calib": "55/83",
+      "calib_new_errors": [],
+      "clean": 1.0,
+      "confirm": "11/20",
+      "confirm_answer": "4/12",
+      "confirm_new_errors": [],
+      "fail_open": 0,
+      "fresh": 0.5384615384615384,
+      "heldout": 0.514,
+      "heldout_answer": 0,
+      "perturbed": 0.9015,
+      "sweep_labelled_trap_opened": null,
+      "sweep_opened": null
+    }
+  },
+  "chosen": {
+    "context_min": 2,
+    "max_neighbours": 2,
+    "max_rank": 50,
+    "scope": "lone"
+  },
+  "post_hoc": true
+}

@@ -199,6 +199,10 @@ class DatamuseSense:
     context_min: int = 0
     doc_words: tuple[frozenset[str], ...] | None = None
     context: frozenset[str] | None = None
+    # False: corpus words get no Datamuse alternatives (only unknown words are
+    # mapped). Added after the 2026-10-21 sweep found revert -> returning
+    # opening an ungrounded trap; True keeps the original behaviour.
+    expand_known: bool = True
     _cache: dict[tuple, tuple[Neighbour, ...]] = field(default_factory=dict, repr=False)
 
     def __post_init__(self) -> None:
@@ -240,6 +244,8 @@ class DatamuseSense:
             return ()
         tok = token.lower()
         if tok not in self.source_vocab and (self.known_only or self.suspend_unknown):
+            return ()
+        if tok in self.source_vocab and not self.expand_known:
             return ()
         if self.context_min and self.context is None:
             return ()
