@@ -1,0 +1,72 @@
+{
+  "changed": [
+    {
+      "asserted_in": null,
+      "base": "REFUSE_UNGROUNDED",
+      "candidate": "ANSWER",
+      "expected": null,
+      "opened": true,
+      "query": "Is the checkout tardiness flag enabled?"
+    },
+    {
+      "asserted_in": null,
+      "base": "REFUSE_STALE",
+      "candidate": "REFUSE_DISAGREE",
+      "expected": null,
+      "opened": false,
+      "query": "What is the checkout p99 delay?"
+    },
+    {
+      "asserted_in": null,
+      "base": "REFUSE_UNGROUNDED",
+      "candidate": "ANSWER",
+      "expected": null,
+      "opened": true,
+      "query": "What is the checkout p99 lag?"
+    },
+    {
+      "asserted_in": null,
+      "base": "REFUSE_STALE",
+      "candidate": "ANSWER",
+      "expected": null,
+      "opened": true,
+      "query": "What is the current checkout p99 delay?"
+    },
+    {
+      "asserted_in": null,
+      "base": "REFUSE_UNGROUNDED",
+      "candidate": "REFUSE_DISAGREE",
+      "expected": null,
+      "opened": false,
+      "query": "What is the current checkout p99 lag?"
+    },
+    {
+      "asserted_in": "tests/test_synonyms.py::test_synonyms_do_not_open_ungrounded_traps",
+      "base": "REFUSE_UNGROUNDED",
+      "candidate": "ANSWER",
+      "expected": "REFUSE_UNGROUNDED",
+      "opened": true,
+      "query": "What is the revert procedure for the checkout_retry feature toggle?"
+    }
+  ],
+  "chosen": {
+    "context_min": 2,
+    "max_neighbours": 2,
+    "max_rank": 50,
+    "scope": "lone"
+  },
+  "labelled_trap_opened": [
+    {
+      "asserted_in": "tests/test_synonyms.py::test_synonyms_do_not_open_ungrounded_traps",
+      "base": "REFUSE_UNGROUNDED",
+      "candidate": "ANSWER",
+      "expected": "REFUSE_UNGROUNDED",
+      "opened": true,
+      "query": "What is the revert procedure for the checkout_retry feature toggle?"
+    }
+  ],
+  "n_opened": 4,
+  "n_queries": 140,
+  "safe": false,
+  "ships": "off (a labelled unit-test trap opens)"
+}

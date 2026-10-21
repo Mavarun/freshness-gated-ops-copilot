@@ -1,4 +1,4 @@
-.PHONY: calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -144,3 +144,8 @@ calibrate-datamuse-dev3:
 # the shelved dev2-chosen WordNet / Datamuse arms are scored for the record only.
 datamuse-dev3-confirm:
 	python scripts/run_datamuse_dev3_confirm.py
+
+# Changed decisions of the dev3-chosen arm on every query literal in tests/
+# (a labelled trap that opens keeps the flag off).
+datamuse-dev3-sweep:
+	python scripts/run_datamuse_dev3_safety_sweep.py
