@@ -160,6 +160,9 @@ class CopilotConfig:
     # corpus chunk holds it with >= k of the query's other corpus words, and
     # rank candidates by that count first. Calibrated on dev3 calib.
     datamuse_context_min: int = 0
+    # Map corpus (known) words too (original behaviour). False maps only
+    # unknown words; post-hoc evidence only so far (artifacts/datamuse_dev3_posthoc.json).
+    datamuse_expand_known: bool = True
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
