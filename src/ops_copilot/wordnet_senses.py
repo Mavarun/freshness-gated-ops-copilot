@@ -366,6 +366,11 @@ class ChainedNounSense:
             if hasattr(p, "suspend_unknown"):
                 p.suspend_unknown = value
 
+    def set_context(self, words: frozenset[str] | None) -> None:
+        for p in self.parts:
+            if hasattr(p, "set_context"):
+                p.set_context(words)
+
     def neighbours(self, token: str) -> tuple[Neighbour, ...]:
         for part in self.parts:
             got = part.neighbours(token)
