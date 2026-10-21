@@ -44,6 +44,11 @@ jobs:
       - name: dev2 calibration set (default vs WordNet dev2-chosen, non-gating on accuracy)
         run: python scripts/run_dev2_eval.py
 
+      # Report-only: the dev3 set (fails only if it gains a held-out word,
+      # shares or repeats swap vocabulary, or its source-grouped split moves).
+      - name: dev3 set (default vs context-gated Datamuse arms, non-gating on accuracy)
+        run: python scripts/run_dev3_eval.py
+
       # Gating: exits non-zero if any refusal explanation, or any redacted trace
       # line (query / reason / write parse), leaks a canary token, PII or a
       # secret, or a golden explanation check fails.
@@ -76,3 +81,5 @@ jobs:
             artifacts/synonym_fresh_eval.json
             artifacts/synonym_dev2_eval.md
             artifacts/synonym_dev2_eval.json
+            artifacts/synonym_dev3_eval.md
+            artifacts/synonym_dev3_eval.json

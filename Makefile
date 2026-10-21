@@ -153,3 +153,7 @@ datamuse-dev3-sweep:
 # Post-hoc (selects nothing): the dev3-chosen arm with unknown words only.
 datamuse-dev3-posthoc:
 	python scripts/run_datamuse_dev3_posthoc.py
+
+# dev3 set, report-only (CI step; fails only on vocabulary / split drift).
+dev3-eval:
+	python scripts/run_dev3_eval.py
