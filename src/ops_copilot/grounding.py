@@ -379,27 +379,36 @@ class Grounder:
     def terms(self, query: str) -> list[QueryTerm]:
         """Unique salient terms of ``query`` in first-seen order."""
         lone = bool(getattr(self.noun_gloss, "lone_unknown", False))
-        if lone:
-            self.noun_gloss.set_suspend_unknown(True)
+        contextual = hasattr(self.noun_gloss, "set_context")
+        toks = self._query_tokens(query)
+        if contextual:
+            # Corpus words of this query, for context-gated noun backoffs.
+            self.noun_gloss.set_context(frozenset(t for t in toks if t in self.idf))
         try:
-            seen: set[str] = set()
-            out: list[QueryTerm] = []
-            for tok in self._query_tokens(query):
-                term = self._term(tok)
-                if term is None or term.token in seen:
-                    continue
-                seen.add(term.token)
-                out.append(term)
-        finally:
             if lone:
-                self.noun_gloss.set_suspend_unknown(False)
-        if lone:
-            unknown = [i for i, t in enumerate(out) if t.kind == "unknown"]
-            if len(unknown) == 1:
-                # The single unknown content word may take a noun-sense substitute.
-                redo = self._term(out[unknown[0]].token)
-                if redo is not None:
-                    out[unknown[0]] = redo
+                self.noun_gloss.set_suspend_unknown(True)
+            try:
+                seen: set[str] = set()
+                out: list[QueryTerm] = []
+                for tok in toks:
+                    term = self._term(tok)
+                    if term is None or term.token in seen:
+                        continue
+                    seen.add(term.token)
+                    out.append(term)
+            finally:
+                if lone:
+                    self.noun_gloss.set_suspend_unknown(False)
+            if lone:
+                unknown = [i for i, t in enumerate(out) if t.kind == "unknown"]
+                if len(unknown) == 1:
+                    # The single unknown content word may take a noun-sense substitute.
+                    redo = self._term(out[unknown[0]].token)
+                    if redo is not None:
+                        out[unknown[0]] = redo
+        finally:
+            if contextual:
+                self.noun_gloss.set_context(None)
         return out
 
     def _unique(self, text: str) -> list[str]:

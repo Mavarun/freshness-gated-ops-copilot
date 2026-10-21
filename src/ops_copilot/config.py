@@ -156,6 +156,10 @@ class CopilotConfig:
     datamuse_max_neighbours: int = 1
     # Keep only results Datamuse tagged as nouns in the corpus word's list.
     datamuse_noun_only: bool = False
+    # Corpus-context gate (0 = off): keep a Datamuse candidate only if one
+    # corpus chunk holds it with >= k of the query's other corpus words, and
+    # rank candidates by that count first. Calibrated on dev3 calib.
+    datamuse_context_min: int = 0
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within

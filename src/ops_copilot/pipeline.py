@@ -36,6 +36,7 @@ from ops_copilot.qa_translation import AnswerSupportModel
 from ops_copilot.tag_synonyms import TagSynonymBackoff, tag_synonym_sites
 from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
 from ops_copilot.word_vectors import WordVectorBackoff
+from ops_copilot.text import content_tokens
 from ops_copilot.source_slas import SourceSlaTable, load_source_slas, resolve_max_age
 from ops_copilot.types import Chunk, CopilotResult, Decision
 from ops_copilot.write_actions import proposal_from_intent
@@ -192,6 +193,12 @@ class Copilot:
                 noun_only=self.config.datamuse_noun_only,
                 known_only=self.config.datamuse_scope == "known",
                 lone_unknown=self.config.datamuse_scope == "lone",
+                context_min=self.config.datamuse_context_min,
+                doc_words=(
+                    tuple(frozenset(content_tokens(t)) for t in texts)
+                    if self.config.datamuse_context_min
+                    else None
+                ),
             )
             if self.config.use_datamuse_ml
             else None

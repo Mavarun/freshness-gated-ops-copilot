@@ -28,6 +28,17 @@ added by hand, so the table's contents depend only on Datamuse and the corpus.
 cut-off, neighbour count, noun-tag filter, scope) is calibrated on clean +
 dev + dev2 ``calib`` rows only (``datamuse_dev2.py``). Returning nothing is
 the safe answer.
+
+**Corpus-context gate** (``context_min``, off at 0; added 2026-10-21). The
+2026-10-20 coverage diagnostic found precision, not coverage, was the limit:
+neighbours come in the source's rank order for the *corpus* word, so noisy
+words win (``delay -> wait`` before ``latency``, ``plan -> chart``). With
+``context_min = k > 0`` a candidate corpus word ``c`` for query word ``q`` is
+kept only if some corpus chunk contains ``c`` together with at least ``k`` of
+the query's *other* corpus words (``set_context``), and candidates are
+re-ranked by that co-occurrence count before the source rank. It uses only
+the corpus and the query, so it needs no eval input; with no context set
+(e.g. the retrieval rewrite) a gated backoff returns nothing.
 """
 
 from __future__ import annotations
@@ -183,7 +194,12 @@ class DatamuseSense:
     suspend_unknown: bool = False
     corpus_words: frozenset[str] | None = None
     table: DatamuseTable | None = None
-    _cache: dict[str, tuple[Neighbour, ...]] = field(default_factory=dict, repr=False)
+    # Corpus-context gate: 0 = off; k > 0 needs a chunk holding the candidate
+    # and >= k other query words. ``doc_words`` = content tokens per chunk.
+    context_min: int = 0
+    doc_words: tuple[frozenset[str], ...] | None = None
+    context: frozenset[str] | None = None
+    _cache: dict[tuple, tuple[Neighbour, ...]] = field(default_factory=dict, repr=False)
 
     def __post_init__(self) -> None:
         if self.table is None:
@@ -192,6 +208,14 @@ class DatamuseSense:
             raise ValueError("max_rank must be >= 1")
         if self.max_neighbours < 1:
             raise ValueError("max_neighbours must be >= 1")
+        if self.context_min < 0:
+            raise ValueError("context_min must be >= 0")
+        if self.context_min and self.doc_words is None:
+            raise ValueError("context_min > 0 needs doc_words (content tokens per corpus chunk)")
+        self._docs_of: dict[str, list[int]] = {}
+        for i, words in enumerate(self.doc_words or ()):
+            for w in words:
+                self._docs_of.setdefault(w, []).append(i)
         self.source_vocab: frozenset[str] = frozenset(self.table.meta.get("corpus_words") or ())
 
     @staticmethod
@@ -204,15 +228,25 @@ class DatamuseSense:
             rows = self.table.neighbours.get(fold_token(tok))
         return rows or ()
 
+    def context_support(self, word: str, query_token: str) -> int:
+        """Most other query corpus words sharing one chunk with ``word`` (0 if none)."""
+        others = (self.context or frozenset()) - {query_token, word}
+        if not others or self.doc_words is None:
+            return 0
+        return max((len(self.doc_words[i] & others) for i in self._docs_of.get(word, ())), default=0)
+
     def neighbours(self, token: str) -> tuple[Neighbour, ...]:
         if not self.lookupable(token):
             return ()
         tok = token.lower()
         if tok not in self.source_vocab and (self.known_only or self.suspend_unknown):
             return ()
-        if tok in self._cache:
-            return self._cache[tok]
-        out: list[Neighbour] = []
+        if self.context_min and self.context is None:
+            return ()
+        key = (tok, self.context) if self.context_min else (tok,)
+        if key in self._cache:
+            return self._cache[key]
+        cands: list[tuple[int, int, str]] = []
         for word, rank, noun, _d in self._rows(tok):
             if word == tok or rank > self.max_rank:
                 continue
@@ -220,11 +254,21 @@ class DatamuseSense:
                 continue
             if self.corpus_words is not None and word not in self.corpus_words:
                 continue
-            out.append(Neighbour(word, 1.0 / rank, "datamuse_ml"))
-            if len(out) >= self.max_neighbours:
-                break
-        self._cache[tok] = tuple(out)
-        return self._cache[tok]
+            if self.context_min:
+                sup = self.context_support(word, tok)
+                if sup < self.context_min:
+                    continue
+                cands.append((-sup, rank, word))
+            else:
+                cands.append((0, rank, word))
+        if self.context_min:
+            cands.sort()
+        out = tuple(Neighbour(w, 1.0 / r, "datamuse_ml") for _s, r, w in cands[: self.max_neighbours])
+        self._cache[key] = out
+        return out
+
+    def set_context(self, words: frozenset[str] | None) -> None:
+        self.context = None if words is None else frozenset(words)
 
     def set_suspend_unknown(self, value: bool) -> None:
         self.suspend_unknown = bool(value)
