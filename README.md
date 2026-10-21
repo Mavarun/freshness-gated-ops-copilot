@@ -22,6 +22,106 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Context-gated Datamuse on a fresh dev3 set (2026-10-21): confirm 11 → 14 of 20 and held-out ANSWER 1 of 9, but it opens a unit-test trap, so it ships off
+
+PR #25 left two open items: Datamuse's precision (neighbours come in the source's rank
+order for the corpus word, so `delay -> wait` beats `latency` and `plan -> chart` broke
+d2-17), and a dev2 confirm half already scored twice. This slice writes a fresh set,
+adds a corpus-context gate, pre-registers the protocol, runs the confirm once, and then
+finds a fail-open the protocol rows did not contain. Labels, golden file, the 203
+perturbed rows and every split before dev3 are unchanged (seed 42, frozen clock
+2026-09-13). Held-out enters only as a no-harm check.
+
+### What changed
+
+1. **dev3 set** (`data/eval/synonym_dev3.jsonl`, `synonym_dev3.py`, 45 rows, written by
+   hand before either table was queried for its words or any config was run on it): 35
+   one-swap ops / everyday paraphrases (`latency -> slowness`, `status -> uptime`,
+   `freeze -> blackout`, `utilization -> fullness`), 6 absent-topic traps, 4 canary / PII
+   / write rows. Both PR #24 fixes are built in: the split moves **whole golden-source
+   groups** (25 `calib` / 20 `confirm`), and no held-out word appears anywhere in the
+   file (`make audit-heldout`), no swap word is shared with dev / held-out /
+   perturbation / fresh / dev2, none repeats inside dev3.
+2. **Corpus-context gate** (`datamuse_context_min`, off at 0): a Datamuse candidate is
+   kept only if one corpus chunk holds it together with at least *k* of the query's other
+   corpus words, and candidates sort by that count before source rank. It uses only the
+   corpus and the query.
+3. **Pre-registered protocol** (`datamuse_dev3.py`, committed before the first run):
+   48 settings (scope known / lone × rank 10 / 20 / 50 / 100 × 1 / 2 neighbours ×
+   context 0 / 1 / 2). Calibration = 15 dev + **all 43 dev2 rows** (the burned confirm
+   half included, disclosed) + 25 dev3 calib, plus clean golden. Safety, candidate and
+   one-shot confirm rules are PR #24's, unchanged. The shelved dev2 arm (lone / 10 / 2 /
+   gate off) is in the grid.
+4. **Calibration** (`make calibrate-datamuse-dev3`): 5 of 48 safe. The shelved dev2 arm is
+   now unsafe (new errors d2-17 and the `headcount` trap d3-39). Without the gate every
+   widened lone setting is unsafe; context ≥ 1 reaches 64/83 but clean drops to 0.98.
+   Chosen: **lone, rank ≤ 50, two neighbours, context ≥ 2** (62/83 vs 55/83 off).
+5. **One-shot confirm** (`make datamuse-dev3-confirm`, `artifacts/datamuse_dev3_confirm.json`):
+
+| arm | dev3 confirm (20) | confirm ANSWER | new errors | clean | perturbed (203) | held-out acc (35) | held-out ANSWER | fresh (26) | fail-open / spurious write / raw PII |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| off (shipped) | 11/20 | 4/12 | - | 1.000 | 0.9015 | 0.514 | 0/9 | 0.538 | 0 / 0 / 0 |
+| dev3-chosen | **14/20** | **7/12** | 0 | 1.000 | 0.9163 | 0.600 | **1/9** | 0.731 | 0 / 0 / 0 |
+| dev2 WordNet arm (record only) | 11/20 | 4/12 | 0 | | | | | 0.577 | |
+| dev2 Datamuse arm (record only) | 12/20 | 5/12 | 0 | | | | | 0.731 | |
+
+   All eight pre-registered checks pass, so the rule said **on**.
+6. **Then a fail-open** (`safety_sweep.py`, `make datamuse-dev3-sweep`): switching the
+   default on locally broke `tests/test_synonyms.py`. The new sweep runs the default
+   and the arm on all 140 query literals in `tests/`: 6 decisions change, 4 go from a
+   refusal to ANSWER, and one is an asserted trap. `What is the revert procedure for
+   the checkout_retry feature toggle?` (REFUSE_UNGROUNDED) answers because the
+   *known* word `revert` picks up the Datamuse neighbour `returning`, which the flag
+   page contains. A fail-open outranks the confirm gain: **`use_datamuse_ml` stays
+   False**. The confirm artifact keeps its rule outcome, and the sweep records why it
+   was overridden.
+7. **Post-hoc, selects nothing** (`datamuse_expand_known`, `make datamuse-dev3-posthoc`):
+   mapping unknown words only closes the trap (no labelled trap opens; 2 unlabelled
+   p99-latency paraphrases change). It scores 60/83 on calibration and 13/20 (ANSWER 6/12)
+   on confirm, held-out 0.571 but ANSWER **0/9**, with clean 1.000 and 0 fail-open. The
+   g05 held-out answer came from expanding the known word `lag`. This is the next
+   pre-registered hypothesis, not a result.
+8. **Protocol fix**: the dev2 / dev3 tie-break defaults are frozen literals, so a later
+   change to the shipped config cannot re-rank a committed grid. dev3 is a CI report
+   step (`scripts/run_dev3_eval.py`).
+
+### Where the rows came from (post-hoc)
+
+- Right-sense fixes: `delay -> latency` (d2-01, `wait` is the second neighbour),
+  `capability -> feature`, `changeover -> rotation`, `functionality -> feature`,
+  `purge -> flush` (held-out g38), and `timeline` / `recipe` known-word expansions to
+  `schedule` / `procedure`.
+- Lucky or loose fixes: `prescribe -> order` (d3-13) and held-out g11 `down -> set, under`
+  reach the gold label through a wrong sense. `fullness -> saturation` (d3-14) is close but
+  not exact.
+
+### Reproduce
+
+    make calibrate-datamuse-dev3   # dev + dev2 + dev3 calib + clean, ~35 s
+    make datamuse-dev3-confirm     # one shot (already run; re-running reproduces it)
+    make datamuse-dev3-sweep       # unit-test literal sweep
+    make datamuse-dev3-posthoc     # unknown-words-only variant, selects nothing
+    make dev3-eval audit-heldout
+    pytest tests/test_synonym_dev3.py tests/test_datamuse_dev3_*.py tests/test_datamuse_context_gate.py tests/test_safety_sweep.py tests/test_datamuse_expand_known.py
+
+### Weaknesses
+
+- Held-out accuracy 0.514 and held-out ANSWER **0 of 9** in the shipped default. The
+  1 of 9 exists only in an arm that opens a trap.
+- The pre-registered safety rows (clean golden, dev, dev2, dev3 calib) did not hold a
+  trap like the revert / toggle row. The sweep was run *after* the confirm. The next
+  protocol should run the sweep as a safety check before any confirm row is scored.
+- The dev3 confirm half has now been scored once by the chosen arm and once post-hoc by
+  the unknown-only variant, so it is no longer clean for this family. Shipping the
+  unknown-only variant needs a dev4 set.
+- Precision is still loose: two fixes go through wrong senses, and the sweep shows the
+  nonsense `checkout tardiness flag` answering under the arm.
+- Before the grid was written, one smoke run of context 0 / 1 / 2 at lone / 10 / 2 was
+  made on dev2 rows (calibration data here, never dev3) to check the wiring. dev3 was
+  written by the author of the earlier coverage diagnostics, so it is a better-identified
+  dev set, not an unbiased benchmark.
+- The Datamuse snapshot is from one day of a live service (2026-10-20).
+
 ## Datamuse means-like usage synonyms (2026-10-20): +2 on the dev2 confirm half but one new error, ships off; held-out ANSWER 1 of 9 in the off-by-default arm
 
 The 2026-10-19 coverage diagnostic said WordNet's noun graph is a taxonomy and 7 of 11
