@@ -49,6 +49,12 @@ jobs:
       - name: dev3 set (default vs context-gated Datamuse arms, non-gating on accuracy)
         run: python scripts/run_dev3_eval.py
 
+      # Report-only on accuracy: the dev4 set (fails if it gains a held-out
+      # word anywhere in the file, shares or repeats swap vocabulary, its
+      # source-grouped split moves, or the shipped default opens a must-refuse row).
+      - name: dev4 set (default vs unknown-words-only Datamuse arm, non-gating on accuracy)
+        run: python scripts/run_dev4_eval.py
+
       # Gating: exits non-zero if any refusal explanation, or any redacted trace
       # line (query / reason / write parse), leaks a canary token, PII or a
       # secret, or a golden explanation check fails.
@@ -83,3 +89,5 @@ jobs:
             artifacts/synonym_dev2_eval.json
             artifacts/synonym_dev3_eval.md
             artifacts/synonym_dev3_eval.json
+            artifacts/synonym_dev4_eval.md
+            artifacts/synonym_dev4_eval.json
