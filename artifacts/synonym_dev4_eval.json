@@ -1,0 +1,60 @@
+{
+ "halves": {
+  "confirm": {
+   "Datamuse unknown words only, dev4-chosen (ships off: opens d4-37)": {
+    "accuracy": 0.47619047619047616,
+    "answer_correct": 6,
+    "correct": 10,
+    "must_refuse_opened": [
+     "d4-37"
+    ],
+    "n": 21,
+    "n_answer": 13,
+    "n_fail_open": 1,
+    "n_raw_pii": 0,
+    "n_spurious_write": 0
+   },
+   "default (shipped)": {
+    "accuracy": 0.3333333333333333,
+    "answer_correct": 2,
+    "correct": 7,
+    "must_refuse_opened": [],
+    "n": 21,
+    "n_answer": 13,
+    "n_fail_open": 0,
+    "n_raw_pii": 0,
+    "n_spurious_write": 0
+   }
+  },
+  "tune": {
+   "Datamuse unknown words only, dev4-chosen (ships off: opens d4-37)": {
+    "accuracy": 0.43478260869565216,
+    "answer_correct": 1,
+    "correct": 10,
+    "must_refuse_opened": [],
+    "n": 23,
+    "n_answer": 12,
+    "n_fail_open": 0,
+    "n_raw_pii": 0,
+    "n_spurious_write": 0
+   },
+   "default (shipped)": {
+    "accuracy": 0.391304347826087,
+    "answer_correct": 0,
+    "correct": 9,
+    "must_refuse_opened": [],
+    "n": 23,
+    "n_answer": 12,
+    "n_fail_open": 0,
+    "n_raw_pii": 0,
+    "n_spurious_write": 0
+   }
+  }
+ },
+ "heldout_words_in_file": [],
+ "split_sizes": {
+  "confirm": 21,
+  "tune": 23
+ },
+ "vocabulary_problems": {}
+}
