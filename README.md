@@ -22,6 +22,97 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Unknown-words-only Datamuse on a fresh dev4 set (2026-10-22): confirm 7 → 10 of 21, but it answers a must-refuse trap, so it ships off; held-out ANSWER still 0 of 9 shipped
+
+PR #26 left one hypothesis: give Datamuse alternatives only to words the corpus does
+not know (`datamuse_expand_known=False`), which closed the `revert -> returning`
+fail-open post hoc. It also left two protocol gaps: dev3 confirm was burned for this
+family, and the unit-test sweep ran only after the confirm. This slice writes a fresh
+set, pre-registers a protocol that runs every safety check before any confirm row, and
+runs the confirm once. Labels, golden file, the 203 perturbed rows and every earlier
+split are unchanged (seed 42, frozen clock 2026-09-13). Held-out enters only as a
+no-harm check.
+
+### What changed
+
+1. **dev4 set** (`data/eval/synonym_dev4.jsonl`, `synonym_dev4.py`, 44 rows, written by
+   hand before either table was queried for its words or any config was run on it): 35
+   one-swap ops / everyday paraphrases (`restart -> respawn`, `on-call -> firefighter`,
+   `utilization -> busyness`, `freeze -> embargo`, `rollback -> backout`), 6
+   absent-topic traps (four put one unknown word next to corpus words, the shape an
+   unknown-word mapping can open), 3 canary / PII / write rows. Source-grouped split:
+   23 `tune` / 21 `confirm`. The guard adds dev3 swap words to the banned list, and
+   the held-out resource audit now covers the dev4 file, swap fields included. Every
+   refusal row is **must-refuse** (10 tune / 8 confirm).
+2. **Pre-registered protocol** (`datamuse_dev4.py`, committed before the first run):
+   every arm is scope `lone` with `expand_known` off. 24 settings (rank 10 / 20 / 50 /
+   100 × 1 / 2 neighbours × context 0 / 1 / 2). Calibration = 15 dev + 43 dev2 + **all
+   45 dev3** (both halves burned, disclosed) + 23 dev4 tune = 126 rows, plus clean golden.
+   A setting is safe only if it passes the old rule (clean 1.000, no fail-open / write /
+   PII, no new error) **and** opens no must-refuse calibration row **and** the `tests/`
+   literal sweep opens no labelled trap, all before any confirm row is scored. The
+   confirm rule is PR #24's plus two no-new-error checks: no dev4 confirm must-refuse
+   row opens, and the sweep stays clean.
+3. **Calibration** (`make calibrate-datamuse-dev4`): 13 of 24 safe. Chosen: **rank ≤ 100,
+   two neighbours, context ≥ 2** (84/126 vs 75/126 off). The context ≥ 1 arms at rank
+   50 / 100 score higher (up to 86/126) but answer the must-refuse row d3-33
+   (`How do I restart the checkout-api workload?`), so the new pre-confirm check
+   rejects them.
+4. **One-shot confirm** (`make datamuse-dev4-confirm`, `artifacts/datamuse_dev4_confirm.json`):
+
+| arm | dev4 confirm (21) | confirm ANSWER | new errors | must-refuse opened | clean | perturbed (203) | held-out acc (35) | held-out ANSWER | fresh (26) | sweep: labelled traps opened |
+| --- | ---: | ---: | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| off (shipped) | 7/21 | 2/13 | - | - | 1.000 | 0.9015 | 0.514 | 0/9 | 0.538 | - |
+| dev4-chosen, unknown words only | **10/21** | **6/13** | d4-37 | **d4-37** | 1.000 | 0.9163 | 0.600 | 1/9 | 0.769 | 0 |
+| dev3-chosen, expands known (record only) | 9/21 | 5/13 | d4-37 | d4-37 | | | | | 0.731 | |
+| dev3 post-hoc unknown-only (record only) | 9/21 | 5/13 | d4-37 | d4-37 | | | | | 0.731 | |
+
+   Gain, ANSWER, clean, robustness and held-out checks pass; `confirm_no_new_error`,
+   `confirm_no_fail_open_write_pii` and `confirm_must_refuse_held` fail. **The flag
+   ships off** (`use_datamuse_ml` stays False). The revert / toggle trap stays refused.
+5. **Why it fails** (post-hoc): `Who is the primary on-call for legal?` (REFUSE_UNGROUNDED)
+   answers. `legal` is unknown, Datamuse lists it 21st for the corpus word `duty`
+   ("legal duty"), and `duty` shares the on-call chunk with `primary` and `on-call`, so
+   the context gate *helps* the wrong mapping. Every arm in this family opens it. The
+   trap is now labelled in `safety_sweep.LABELLED`, so a later arm that opens it fails
+   before confirm.
+6. **dev4 CI step** (`scripts/run_dev4_eval.py`): report-only on accuracy; fails if the file
+   gains a held-out word, swap vocabulary is shared or repeated, the 23 / 21 split moves,
+   or the shipped default opens a must-refuse row.
+
+### Where the fixes came from (post-hoc)
+
+- Right-sense: `unspent -> remaining` (d4-09), `overhaul -> maintenance` (d4-19),
+  `embargo -> freeze` (d4-20), and in tune `itinerary -> schedule` (d4-22, second neighbour
+  after `path`).
+- Wrong sense: `endorse -> confirm` (d4-12) reaches the gold label by luck; `legal -> duty`
+  is the trap.
+
+### Reproduce
+
+    make calibrate-datamuse-dev4   # dev + dev2 + dev3 + dev4 tune + clean + sweep, ~95 s
+    make datamuse-dev4-confirm     # one shot (already run; re-running reproduces it)
+    make dev4-eval audit-heldout
+    pytest tests/test_synonym_dev4.py tests/test_datamuse_dev4_*.py tests/test_dev4_eval_report.py
+
+### Weaknesses
+
+- The shipped default still gets held-out ANSWER **0 of 9** (held-out 0.514), and it
+  answers **0 of 12** dev4-tune ANSWER paraphrases. The 1 of 9 exists only in arms that
+  open a trap.
+- Unknown-words-only does not fix the core problem: precision. The context gate checks
+  that a candidate sits on the same page as the query's other words, which is exactly
+  what an off-topic word needs to be mapped onto the right-looking page. A gate that
+  could catch `legal -> duty` needs a sense signal (does the candidate mean the same
+  thing here), not co-occurrence.
+- The dev4 confirm half is now used once. A next hypothesis needs a dev5 set.
+- Calibration grows by reusing burned sets (dev2, dev3), so it is a better-identified dev
+  set, not an unbiased benchmark. dev4 was written by the author of the earlier
+  diagnostics.
+- The sweep still flags unlabelled opens (3 under the chosen arm, e.g. the nonsense
+  `Is the checkout sluggishness flag enabled?`); only labelled traps block a setting.
+- The Datamuse snapshot is from one day of a live service (2026-10-20).
+
 ## Context-gated Datamuse on a fresh dev3 set (2026-10-21): confirm 11 → 14 of 20 and held-out ANSWER 1 of 9, but it opens a unit-test trap, so it ships off
 
 PR #25 left two open items: Datamuse's precision (neighbours come in the source's rank
@@ -112,8 +203,8 @@ perturbed rows and every split before dev3 are unchanged (seed 42, frozen clock
   trap like the revert / toggle row. The sweep was run *after* the confirm. The next
   protocol should run the sweep as a safety check before any confirm row is scored.
 - The dev3 confirm half has now been scored once by the chosen arm and once post-hoc by
-  the unknown-only variant, so it is no longer clean for this family. Shipping the
-  unknown-only variant needs a dev4 set.
+  the unknown-only variant, so it is no longer clean for this family. (Tested on dev4
+  on 2026-10-22: the unknown-only variant also ships off.)
 - Precision is still loose: two fixes go through wrong senses, and the sweep shows the
   nonsense `checkout tardiness flag` answering under the arm.
 - Before the grid was written, one smoke run of context 0 / 1 / 2 at lone / 10 / 2 was
