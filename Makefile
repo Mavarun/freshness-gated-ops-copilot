@@ -1,4 +1,4 @@
-.PHONY: datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -157,3 +157,8 @@ datamuse-dev3-posthoc:
 # dev3 set, report-only (CI step; fails only on vocabulary / split drift).
 dev3-eval:
 	python scripts/run_dev3_eval.py
+
+# Unknown-words-only Datamuse on dev4 (pre-registered, ops_copilot/datamuse_dev4.py):
+# calibration on dev + all dev2 + all dev3 + dev4 tune, clean golden and the tests/ sweep.
+calibrate-datamuse-dev4:
+	python scripts/calibrate_datamuse_dev4.py
