@@ -1,4 +1,4 @@
-.PHONY: calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: datamuse-dev4-confirm calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -162,3 +162,8 @@ dev3-eval:
 # calibration on dev + all dev2 + all dev3 + dev4 tune, clean golden and the tests/ sweep.
 calibrate-datamuse-dev4:
 	python scripts/calibrate_datamuse_dev4.py
+
+# One shot: off vs the dev4-chosen unknown-words-only arm (dev4 confirm, robustness,
+# tests/ sweep, fresh); the dev3 arms are scored for the record only.
+datamuse-dev4-confirm:
+	python scripts/run_datamuse_dev4_confirm.py

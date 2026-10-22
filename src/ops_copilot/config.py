@@ -161,7 +161,9 @@ class CopilotConfig:
     # rank candidates by that count first. Calibrated on dev3 calib.
     datamuse_context_min: int = 0
     # Map corpus (known) words too (original behaviour). False maps only
-    # unknown words; post-hoc evidence only so far (artifacts/datamuse_dev3_posthoc.json).
+    # unknown words. Pre-registered dev4 test (2026-10-22,
+    # artifacts/datamuse_dev4_confirm.json): +3 on dev4 confirm but it answers
+    # the must-refuse trap d4-37 (legal -> duty), so use_datamuse_ml stays off.
     datamuse_expand_known: bool = True
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
