@@ -29,6 +29,10 @@ QUERY_START = ("What", "How", "Who", "Is", "Please", "Can", "When", "Which", "Wh
 LABELLED = {
     "What is the revert procedure for the checkout_retry feature toggle?": (
         "REFUSE_UNGROUNDED", "tests/test_synonyms.py::test_synonyms_do_not_open_ungrounded_traps"),
+    # dev4 confirm trap d4-37 (2026-10-22): the unknown-only arm maps legal -> duty.
+    "Who is the primary on-call for legal?": (
+        "REFUSE_UNGROUNDED",
+        "tests/test_datamuse_dev4_confirm.py::test_the_shipped_default_still_refuses_the_trap_the_arm_opens"),
 }
 OPENING = {"ANSWER", "PROPOSE_WRITE"}
 
