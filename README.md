@@ -22,6 +22,89 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Word-meaning gate on a fresh dev5 set (2026-10-24): the gate closes the legal -> duty trap, but calibration finds the shipped default already answering a dev5 trap, so nothing ships and dev5 confirm stays unspent
+
+PR #27 left one hypothesis: Datamuse candidates need a sense check (does the candidate
+mean the same thing here), not co-occurrence, and a fresh dev5 set to test it on. This
+slice builds that check from a second, independent source, writes dev5, pre-registers
+the protocol and runs calibration. Calibration then finds a fail-open in the **shipped
+default**, not in any Datamuse arm. Under the pre-registered rule that leaves no
+candidate, so no confirm row is scored. Labels, golden file, the 203 perturbed rows and
+every earlier split are unchanged (seed 42, frozen clock 2026-09-13). Held-out is not run.
+
+### What changed
+
+1. **dev5 set** (`data/eval/synonym_dev5.jsonl`, `synonym_dev5.py`, 44 rows, written by
+   hand before any table was queried for its words or any config was run on it): 35
+   one-swap ops / everyday paraphrases (`latency -> turnaround`, `on-call -> watchkeeper`,
+   `utilization -> strain`, `freeze -> standstill`, `restart -> bump`), 6 absent-topic
+   traps (three are word-sense traps: an unknown word that a dictionary links to a corpus
+   word in another sense, such as `colour` next to a feature `flag` or a theatre
+   `audition` next to `production`), and 3 canary / PII / write rows. Source-grouped
+   split: 24 `tune` / 20 `confirm`. The guard adds dev4 swap words to the banned list,
+   and the held-out audit covers the file.
+2. **Pair cosines** (`data/datamuse/cf_pair_cosine.json.gz`, `datamuse_pair_sense.py`): the
+   counter-fitted cosine (Mrkšić et al. 2016: synonyms pulled together, antonyms pushed
+   apart, so cosine tracks substitutability) for **every** pair already in the Datamuse
+   table, 39,847 pairs, 10,685 of them with a word outside the vectors. No other pairs are
+   scored, so no eval word chose what is in it. The build is byte-stable and pinned to
+   both source hashes.
+3. **Word-meaning gate** (`datamuse_sense_min`, off at 0): a Datamuse candidate survives
+   only if its counter-fitted cosine with the query word is ≥ *t*. A missing cosine
+   fails closed. `legal -> duty` scores 0.26.
+4. **Pre-registered protocol** (`datamuse_dev5.py`, committed before the first run): 48
+   settings (rank 20 / 50 / 100 × 1 / 2 neighbours × context 0 / 2 × sense 0.30 / 0.40 /
+   0.50 / 0.60), all unknown-words-only. Calibration = 15 dev + 43 dev2 + 45 dev3 + **all
+   44 dev4** (burned, disclosed) + 24 dev5 tune = 171 rows, plus clean golden and the
+   `tests/` sweep. The safety rule is dev4's, unchanged. Disclosed in the module: the
+   cosines of the PR #27 post-hoc mappings were looked at before the grid was written,
+   so the 0.30 floor sits just above the trap.
+5. **Calibration** (`make calibrate-datamuse-dev5`, `artifacts/datamuse_dev5_calibration.md`):
+   **0 of 48 safe**. The shipped default already answers the must-refuse trap d5-38
+   (`What colour is the checkout_retry feature flag?`). The rule counts every fail-open,
+   so every arm inherits it. Setting that aside, 42 of 48 arms add no new error, open no
+   new must-refuse row and open no labelled trap. The best (rank ≤ 100, one neighbour,
+   context ≥ 2, sense ≥ 0.30) scores 101/171 vs 92/171 off (ANSWER 34/88 vs 26/88).
+   **d4-37 (`legal -> duty`) stays refused in all 48 arms.** The rank-100 arms without
+   the context gate still open d3-33. **No candidate, so `use_datamuse_ml` stays False
+   and none of the 20 dev5 confirm rows was scored.**
+6. **The d5-38 fail-open** (`make passage-sense-probe`, `artifacts/passage_sense_probe.md`,
+   post-hoc): the passage-support rescue, on by default since 2026-10-11, vouches for
+   the missing word `colour` through the evidence word `default`. Its domain vectors
+   are topical, and "default colour" is common prose. `size` and `owner` open the same
+   way. An opt-in check (`passage_support_sense_check`) requires the credited word to be
+   one of the query word's counter-fitted substitutes. It closes d5-38 with clean
+   1.000, but calibration falls from **92/171 to 57/171** (ANSWER 26/88 to 9/88, 36 new
+   errors), so it ships off. A looser variant that only vetoes when the vectors list
+   other substitutes was tried ad hoc and still lost 22 rows, so it was not committed.
+   So most of the passage rescue's correct answers also come through topical, not
+   synonymous, credit. A strict `xfail` test pins the open bug.
+7. **dev5 CI step** (`scripts/run_dev5_eval.py`): scores the shipped default on the tune
+   half only (10/24, ANSWER 3/13). It fails on held-out words, vocabulary or split drift,
+   or a default must-refuse open other than the pinned d5-38.
+
+### Reproduce
+
+    make calibrate-datamuse-dev5   # 171 calibration rows + clean + sweep, 48 settings, ~3 min
+    make passage-sense-probe       # post-hoc, selects nothing
+    make dev5-eval audit-heldout
+    pytest tests/test_synonym_dev5.py tests/test_datamuse_pair_sense.py tests/test_datamuse_sense_gate.py tests/test_datamuse_dev5_*.py tests/test_passage_sense_check.py tests/test_dev5_eval_report.py
+
+### Weaknesses
+
+- **The shipped default answers a must-refuse trap** (d5-38) through the passage rescue,
+  and the only fix tried costs 36 correct calibration rows. This now outranks the
+  synonym work: a rescue that credits a topical neighbour can open any "What <property>
+  is the <known page>?" question.
+- Held-out understanding is unchanged: 0.514 and ANSWER **0 of 9** in the shipped default.
+- The word-meaning gate is not yet tested on unseen rows. Its +9 on calibration is on a
+  set that includes four burned sets, and the gate's floor was chosen after looking at
+  the dev4 trap's cosine.
+- The pair cosines cover 73% of Datamuse pairs. Ops jargon outside the 65,713-word
+  vectors always fails the gate (`unspent -> remaining` has no cosine).
+- dev5 tune has now been seen. dev5 confirm (20 rows, 8 must-refuse) is unspent and can
+  test one pre-registered arm once the default no longer opens d5-38.
+
 ## Unknown-words-only Datamuse on a fresh dev4 set (2026-10-22): confirm 7 → 10 of 21, but it answers a must-refuse trap, so it ships off; held-out ANSWER still 0 of 9 shipped
 
 PR #26 left one hypothesis: give Datamuse alternatives only to words the corpus does
@@ -104,7 +187,8 @@ no-harm check.
   that a candidate sits on the same page as the query's other words, which is exactly
   what an off-topic word needs to be mapped onto the right-looking page. A gate that
   could catch `legal -> duty` needs a sense signal (does the candidate mean the same
-  thing here), not co-occurrence.
+  thing here), not co-occurrence. (Tried on 2026-10-24: a counter-fitted gate keeps d4-37
+  refused in every arm, but dev5 calibration found no safe arm.)
 - The dev4 confirm half is now used once. A next hypothesis needs a dev5 set.
 - Calibration grows by reusing burned sets (dev2, dev3), so it is a better-identified dev
   set, not an unbiased benchmark. dev4 was written by the author of the earlier
