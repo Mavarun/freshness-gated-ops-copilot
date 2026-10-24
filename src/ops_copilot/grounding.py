@@ -117,7 +117,7 @@ from ops_copilot.tag_synonyms import TagSynonymBackoff
 from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
 from ops_copilot.gloss_sense import GlossSenseBackoff
 from ops_copilot.noun_gloss_sense import NounGlossSenseBackoff
-from ops_copilot.word_vectors import WordVectorBackoff
+from ops_copilot.word_vectors import NeighbourTable, WordVectorBackoff
 
 
 @dataclass(frozen=True)
@@ -229,6 +229,7 @@ class Grounder:
         passage_known: bool = True,
         passage_max_terms: int = 1,
         passage_strict: bool = True,
+        passage_sense: NeighbourTable | None = None,
         gloss_sense: GlossSenseBackoff | None = None,
         noun_gloss: NounGlossSenseBackoff | None = None,
         noun_gloss_known: bool = False,
@@ -258,6 +259,7 @@ class Grounder:
         self.passage_known = bool(passage_known)
         self.passage_max_terms = int(passage_max_terms)
         self.passage_strict = bool(passage_strict)
+        self.passage_sense = passage_sense
         self.gloss_sense = gloss_sense
         self.noun_gloss = noun_gloss
         self.noun_gloss_known = bool(noun_gloss_known and noun_gloss is not None)
@@ -481,6 +483,22 @@ class Grounder:
     def _plain_weight(self, word: str) -> float:
         return self.idf.get(word, self.idf.get(word + "s", self.oov_idf))
 
+    def passage_sense_ok(self, query_word: str, evidence_word: str) -> bool:
+        """True if the counter-fitted table lists ``evidence_word`` as a substitute.
+
+        The table keeps each word's 5 nearest corpus words with cosine >= 0.50;
+        a pair outside it (or a word outside the vectors) fails closed.
+        """
+        table = self.passage_sense
+        if table is None:
+            return True
+        q = query_word.lower()
+        targets = {fold_token(evidence_word), evidence_word}
+        for key in dict.fromkeys((q, fold_token(q))):
+            if any(w in targets or fold_token(w) in targets for w, _s in table.get(key)):
+                return True
+        return False
+
     def passage_rescue(
         self,
         query: str,
@@ -524,6 +542,11 @@ class Grounder:
         for t in cands:
             word, sim = best.best.get(fold_token(t.token), (None, 0.0))
             if word is None:
+                return (), best.prob
+            # Word-meaning check (off by default): the domain vectors credit
+            # topical neighbours ("colour" <- "default"), so the counter-fitted
+            # table must also list the credited word as a substitute.
+            if self.passage_sense is not None and not self.passage_sense_ok(t.token, word):
                 return (), best.prob
             out.append(Translation(t.token, word, round(float(sim), 4)))
         return tuple(out), best.prob
