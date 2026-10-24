@@ -25,6 +25,7 @@ HAND_WRITTEN = (
     "data/eval/synonym_dev2.jsonl",
     "data/eval/synonym_dev3.jsonl",
     "data/eval/synonym_dev4.jsonl",
+    "data/eval/synonym_dev5.jsonl",
 )
 # Ontology schema names (kind "config_key", label "patch_config"), not synonym
 # material: the held-out word "config" is only present as part of these.
