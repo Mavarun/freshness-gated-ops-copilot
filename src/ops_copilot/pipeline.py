@@ -195,6 +195,7 @@ class Copilot:
                 lone_unknown=self.config.datamuse_scope == "lone",
                 context_min=self.config.datamuse_context_min,
                 expand_known=self.config.datamuse_expand_known,
+                sense_min=self.config.datamuse_sense_min,
                 doc_words=(
                     tuple(frozenset(content_tokens(t)) for t in texts)
                     if self.config.datamuse_context_min

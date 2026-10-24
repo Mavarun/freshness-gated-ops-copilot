@@ -39,6 +39,20 @@ the query's *other* corpus words (``set_context``), and candidates are
 re-ranked by that co-occurrence count before the source rank. It uses only
 the corpus and the query, so it needs no eval input; with no context set
 (e.g. the retrieval rewrite) a gated backoff returns nothing.
+
+**Word-meaning (substitutability) gate** (``sense_min``, off at 0; added
+2026-10-24). PR #27 showed why co-occurrence cannot be the precision signal:
+``legal`` is 21st in the Datamuse list of the corpus word ``duty`` ("legal
+duty"), and ``duty`` shares the on-call chunk with the query's other words, so
+the context gate *helped* the wrong mapping. Datamuse's ``ml`` relation mixes
+synonymy with collocation and topical relatedness. With ``sense_min = t > 0``
+a candidate corpus word ``c`` for query word ``q`` is kept only if the
+counter-fitted vectors (``datamuse_pair_sense.py``; Mrksic et al. 2016, pulled
+together on PPDB synonym pairs and pushed apart on antonyms, so cosine measures
+substitutability rather than relatedness) give ``cos(q, c) >= t``. A pair with
+a word outside the counter-fitted vocabulary has no cosine and fails. Two
+independent sources must agree that ``q`` can stand in for ``c``; the gate
+uses no eval input. Returning nothing is still the safe answer.
 """
 
 from __future__ import annotations
@@ -52,6 +66,7 @@ from pathlib import Path
 
 from ops_copilot.semantic import Neighbour
 from ops_copilot.text import fold_token, is_identifier
+from ops_copilot.datamuse_pair_sense import PairSenseTable, load_pair_table
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "datamuse"
 DEFAULT_TABLE = DATA_DIR / "ml_neighbours.json.gz"
@@ -203,6 +218,10 @@ class DatamuseSense:
     # mapped). Added after the 2026-10-21 sweep found revert -> returning
     # opening an ungrounded trap; True keeps the original behaviour.
     expand_known: bool = True
+    # Word-meaning gate: 0 = off; t > 0 keeps a candidate only if its
+    # counter-fitted cosine with the query word is >= t (missing cosine fails).
+    sense_min: float = 0.0
+    sense_table: PairSenseTable | None = None
     _cache: dict[tuple, tuple[Neighbour, ...]] = field(default_factory=dict, repr=False)
 
     def __post_init__(self) -> None:
@@ -216,6 +235,10 @@ class DatamuseSense:
             raise ValueError("context_min must be >= 0")
         if self.context_min and self.doc_words is None:
             raise ValueError("context_min > 0 needs doc_words (content tokens per corpus chunk)")
+        if not 0.0 <= self.sense_min <= 1.0:
+            raise ValueError("sense_min must be in [0, 1]")
+        if self.sense_min and self.sense_table is None:
+            self.sense_table = load_pair_table()
         self._docs_of: dict[str, list[int]] = {}
         for i, words in enumerate(self.doc_words or ()):
             for w in words:
@@ -239,6 +262,18 @@ class DatamuseSense:
             return 0
         return max((len(self.doc_words[i] & others) for i in self._docs_of.get(word, ())), default=0)
 
+    def sense_similarity(self, query_token: str, word: str) -> float | None:
+        """Counter-fitted cosine of (query word, corpus word); None when unknown."""
+        if self.sense_table is None:
+            return None
+        return self.sense_table.cosine(query_token, word)
+
+    def passes_sense(self, query_token: str, word: str) -> bool:
+        if not self.sense_min:
+            return True
+        cos = self.sense_similarity(query_token, word)
+        return cos is not None and cos >= self.sense_min
+
     def neighbours(self, token: str) -> tuple[Neighbour, ...]:
         if not self.lookupable(token):
             return ()
@@ -259,6 +294,8 @@ class DatamuseSense:
             if self.noun_only and not noun:
                 continue
             if self.corpus_words is not None and word not in self.corpus_words:
+                continue
+            if not self.passes_sense(tok, word):
                 continue
             if self.context_min:
                 sup = self.context_support(word, tok)
