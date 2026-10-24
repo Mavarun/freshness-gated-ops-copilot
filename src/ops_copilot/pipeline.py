@@ -36,6 +36,7 @@ from ops_copilot.qa_translation import AnswerSupportModel
 from ops_copilot.tag_synonyms import TagSynonymBackoff, tag_synonym_sites
 from ops_copilot.wiktionary_senses import WiktionarySenseBackoff
 from ops_copilot.word_vectors import WordVectorBackoff
+from ops_copilot.word_vectors import load_table as load_wordvec_table
 from ops_copilot.text import content_tokens
 from ops_copilot.source_slas import SourceSlaTable, load_source_slas, resolve_max_age
 from ops_copilot.types import Chunk, CopilotResult, Decision
@@ -261,6 +262,7 @@ class Copilot:
             passage_known=self.config.passage_support_known_words,
             passage_max_terms=self.config.passage_support_max_terms,
             passage_strict=self.config.passage_support_strict,
+            passage_sense=load_wordvec_table() if self.config.passage_support_sense_check else None,
             gloss_sense=(
                 self.gloss_sense
                 if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding

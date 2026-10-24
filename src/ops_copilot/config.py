@@ -258,6 +258,12 @@ class CopilotConfig:
     passage_support_max_terms: int = 1
     passage_support_known_words: bool = True
     passage_support_strict: bool = True
+    # Word-meaning check on passage rescues (off): a rescued query word must
+    # also have the credited evidence word among its counter-fitted corpus
+    # neighbours (cosine >= 0.50, top 5). Added 2026-10-24 after dev5 trap d5-38
+    # ("What colour is the checkout_retry feature flag?") came back ANSWER in
+    # the shipped default through "colour" <- "default".
+    passage_support_sense_check: bool = False
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
