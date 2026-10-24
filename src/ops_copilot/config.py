@@ -165,6 +165,10 @@ class CopilotConfig:
     # artifacts/datamuse_dev4_confirm.json): +3 on dev4 confirm but it answers
     # the must-refuse trap d4-37 (legal -> duty), so use_datamuse_ml stays off.
     datamuse_expand_known: bool = True
+    # Word-meaning gate (0 = off): keep a Datamuse candidate only if the
+    # counter-fitted vectors also call it a substitute for the query word
+    # (cosine >= t; a word outside its vocabulary fails). Pre-registered on dev5 (datamuse_dev5.py).
+    datamuse_sense_min: float = 0.0
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
