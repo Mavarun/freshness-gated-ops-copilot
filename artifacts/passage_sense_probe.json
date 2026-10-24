@@ -1,0 +1,92 @@
+{
+  "decision": "ships off: closes d5-38 but loses correct rows (no-new-error rule fails)",
+  "default": {
+    "accuracy": 0.5380116959064327,
+    "answer_correct": 26,
+    "clean": {
+      "clean_accuracy": 1.0,
+      "n_clean": 51,
+      "n_fail_open": 0,
+      "n_spurious_write": 0
+    },
+    "correct": 92,
+    "n": 171,
+    "n_answer": 88,
+    "n_fail_open": 1,
+    "n_raw_pii": 0,
+    "n_spurious_write": 0,
+    "opened_must_refuse": [
+      "d5-38"
+    ]
+  },
+  "fixed": [
+    "d5-38"
+  ],
+  "n_rows": 171,
+  "new_errors": [
+    "d2-02",
+    "d2-06",
+    "d2-09",
+    "d2-14",
+    "d2-15",
+    "d2-16",
+    "d2-23",
+    "d2-24",
+    "d2-25",
+    "d2-38",
+    "d3-02",
+    "d3-05",
+    "d3-09",
+    "d3-10",
+    "d3-11",
+    "d3-18",
+    "d3-21",
+    "d3-23",
+    "d3-25",
+    "d3-27",
+    "d3-28",
+    "d3-29",
+    "d3-30",
+    "d3-31",
+    "d3-43",
+    "d4-27",
+    "d4-28",
+    "d4-29",
+    "d4-42",
+    "d4-43",
+    "d5-02",
+    "d5-18",
+    "d5-29",
+    "d5-31",
+    "g35-synonym",
+    "g48-synonym"
+  ],
+  "new_errors_by_set": {
+    "dev": 2,
+    "dev2": 10,
+    "dev3": 15,
+    "dev4": 5,
+    "dev5_tune": 4
+  },
+  "post_hoc": true,
+  "sense_check": {
+    "accuracy": 0.3333333333333333,
+    "answer_correct": 9,
+    "clean": {
+      "clean_accuracy": 1.0,
+      "n_clean": 51,
+      "n_fail_open": 0,
+      "n_spurious_write": 0
+    },
+    "correct": 57,
+    "n": 171,
+    "n_answer": 88,
+    "n_fail_open": 0,
+    "n_raw_pii": 0,
+    "n_spurious_write": 0,
+    "opened_must_refuse": []
+  },
+  "sweep_labelled_trap_opened": [],
+  "sweep_n_changed": 10,
+  "sweep_n_opened": 0
+}

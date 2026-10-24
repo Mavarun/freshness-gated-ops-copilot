@@ -2,12 +2,17 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import replace
+from pathlib import Path
+
+import pytest
 
 from ops_copilot.config import CopilotConfig
 from ops_copilot.pipeline import Copilot
 from ops_copilot.word_vectors import NeighbourTable
 
+ART = Path(__file__).resolve().parents[1] / "artifacts" / "passage_sense_probe.json"
 TRAP = "What colour is the checkout_retry feature flag?"
 
 
@@ -42,3 +47,18 @@ def test_the_check_closes_the_colour_default_rescue_end_to_end():
     assert res.decision.value == "REFUSE_UNGROUNDED"
     assert on.ask("What is the current checkout p99 latency?").decision.value == "ANSWER"
 
+
+@pytest.mark.xfail(strict=True, reason="shipped default answers d5-38 via passage rescue colour<-default "
+                                        "(2026-10-24); the opt-in check closes it but loses 36 correct calibration rows")
+def test_the_shipped_default_refuses_the_colour_trap():
+    assert Copilot().ask(TRAP).decision.value == "REFUSE_UNGROUNDED"
+
+
+def test_probe_artifact_closes_d5_38_but_fails_the_no_new_error_rule():
+    rep = json.loads(ART.read_text())
+    assert rep["post_hoc"] is True and rep["n_rows"] == 171
+    assert rep["default"]["opened_must_refuse"] == ["d5-38"] and rep["sense_check"]["opened_must_refuse"] == []
+    assert (rep["default"]["correct"], rep["sense_check"]["correct"]) == (92, 57)
+    assert (rep["default"]["answer_correct"], rep["sense_check"]["answer_correct"]) == (26, 9)
+    assert rep["fixed"] == ["d5-38"] and len(rep["new_errors"]) == 36
+    assert rep["sense_check"]["clean"]["clean_accuracy"] == 1.0 and rep["sweep_labelled_trap_opened"] == []
