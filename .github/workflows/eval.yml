@@ -55,6 +55,13 @@ jobs:
       - name: dev4 set (default vs unknown-words-only Datamuse arm, non-gating on accuracy)
         run: python scripts/run_dev4_eval.py
 
+      # Report-only on accuracy: the dev5 set, tune half only (its confirm
+      # half is unspent). Fails on held-out words, shared or repeated swap
+      # vocabulary, split drift, or a default must-refuse open other than the
+      # known d5-38 bug (pinned by a strict xfail).
+      - name: dev5 set (shipped default on the tune half, non-gating on accuracy)
+        run: python scripts/run_dev5_eval.py
+
       # Gating: exits non-zero if any refusal explanation, or any redacted trace
       # line (query / reason / write parse), leaks a canary token, PII or a
       # secret, or a golden explanation check fails.
@@ -91,3 +98,5 @@ jobs:
             artifacts/synonym_dev3_eval.json
             artifacts/synonym_dev4_eval.md
             artifacts/synonym_dev4_eval.json
+            artifacts/synonym_dev5_eval.md
+            artifacts/synonym_dev5_eval.json
