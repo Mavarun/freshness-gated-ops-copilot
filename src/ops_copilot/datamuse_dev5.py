@@ -163,6 +163,9 @@ def calibrate(settings: list[dict] | None = None, rows: list[dict] | None = None
         "rows_by_set": {s: sum(r.get("set") == s for r in rows) for s in sets},
         "n_settings": len(results),
         "baseline_off": {**_public(off), "clean": _clean_stats(off_cfg)},
+        # Reporting only (the rule is unchanged): must-refuse rows the shipped
+        # default already opens; is_safe counts them as fail-opens of every arm.
+        "baseline_off_opened_must_refuse": sorted(off_opened),
         "chosen": chosen,
         "n_safe": sum(r["safe"] for r in results),
         "candidate": bool(chosen["safe"] and chosen["calib_correct"] > off["correct"]),
