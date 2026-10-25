@@ -27,8 +27,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from ops_copilot.attribute_traps import half as trap_half  # noqa: E402
-from ops_copilot.config import CopilotConfig  # noqa: E402
 from ops_copilot.datamuse_dev5 import calibration_rows  # noqa: E402
+from ops_copilot.passage_null_dev5 import pre_change_config  # noqa: E402
 from ops_copilot.pipeline import Copilot  # noqa: E402
 from ops_copilot.qa_translation import words as qa_words  # noqa: E402
 from ops_copilot.synonym_dev4 import OPENING  # noqa: E402
@@ -36,9 +36,9 @@ from ops_copilot.text import fold_token, is_identifier  # noqa: E402
 
 
 def main() -> int:
-    base = Copilot(config=CopilotConfig())
-    off = Copilot(config=replace(CopilotConfig(), use_passage_support_model=False))
-    g = Copilot(config=replace(CopilotConfig(), passage_support_null_min=0.1)).grounder
+    base = Copilot(config=pre_change_config())
+    off = Copilot(config=replace(pre_change_config(), use_passage_support_model=False))
+    g = Copilot(config=replace(pre_change_config(), passage_support_null_min=0.1)).grounder
     controls, model = g.passage_null_controls, g.passage_support
     last: dict[str, tuple] = {}
     orig = base.grounder.passage_rescue
@@ -88,7 +88,7 @@ def main() -> int:
     # passing chunk is enough. Record the per-call percentiles.
     from ops_copilot import grounding as G
 
-    strict = Copilot(config=replace(CopilotConfig(), passage_support_null_min=0.5))
+    strict = Copilot(config=replace(pre_change_config(), passage_support_null_min=0.5))
     calls: list[float] = []
     real_pct = G.null_percentile
 

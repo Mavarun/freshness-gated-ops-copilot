@@ -97,6 +97,11 @@ MAX_ANSWER_LOSS = 3
 __all__ = ["calibration_rows", "opened_must_refuse"]
 
 
+def pre_change_config() -> CopilotConfig:
+    """The shipped default before this slice (null test off): every baseline here."""
+    return replace(CopilotConfig(), passage_support_null_min=0.0, passage_support_null_sticky=False)
+
+
 def grid_settings() -> list[dict]:
     return [{"null_min": q} for q in GRID_Q]
 
@@ -143,7 +148,7 @@ def calibrate(settings: list[dict] | None = None, rows: list[dict] | None = None
     rows = calibration_rows() if rows is None else rows
     traps = trap_half("tune") if traps is None else traps
     answer_ids = {r["id"] for r in rows if r["expect_decision"] == "ANSWER"}
-    off_cfg = CopilotConfig()
+    off_cfg = pre_change_config()
     off = score_rows(off_cfg, rows)
     off_traps = score_traps(off_cfg, traps)
     results = []
@@ -154,7 +159,7 @@ def calibrate(settings: list[dict] | None = None, rows: list[dict] | None = None
         errs = new_errors(off, on)
         opened = opened_must_refuse(on, rows)
         tr = score_traps(cfg, traps)
-        sw = sweep(cfg)
+        sw = sweep(cfg, base=off_cfg)
         n_ans_lost = sum(e in answer_ids for e in errs)
         results.append(
             {
