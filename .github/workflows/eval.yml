@@ -62,6 +62,12 @@ jobs:
       - name: dev5 set (shipped default on the tune half, non-gating on accuracy)
         run: python scripts/run_dev5_eval.py
 
+      # Gating on safety: the 36 attribute traps (What flavour / price / salary
+      # is <known page>?). Fails if the shipped default opens any of them, the
+      # split drifts or a held-out word enters the file.
+      - name: Attribute traps (shipped vs pre-change default)
+        run: python scripts/run_attribute_traps_eval.py
+
       # Gating: exits non-zero if any refusal explanation, or any redacted trace
       # line (query / reason / write parse), leaks a canary token, PII or a
       # secret, or a golden explanation check fails.
@@ -100,3 +106,5 @@ jobs:
             artifacts/synonym_dev4_eval.json
             artifacts/synonym_dev5_eval.md
             artifacts/synonym_dev5_eval.json
+            artifacts/attribute_traps_eval.md
+            artifacts/attribute_traps_eval.json
