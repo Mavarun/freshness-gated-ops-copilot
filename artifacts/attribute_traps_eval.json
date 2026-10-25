@@ -1,0 +1,37 @@
+{
+ "heldout_words_in_file": [],
+ "pre_change_default": {
+  "n": 36,
+  "n_opened": 7,
+  "opened": [
+   "at-01",
+   "at-07",
+   "at-12",
+   "at-21",
+   "at-22",
+   "at-25",
+   "at-33"
+  ],
+  "opened_by_form": {
+   "how_adj_is": 1,
+   "what_attr_is": 2,
+   "what_is_attr_of": 1,
+   "what_is_subject_attr": 3
+  }
+ },
+ "shipped_default": {
+  "n": 36,
+  "n_opened": 0,
+  "opened": [],
+  "opened_by_form": {
+   "how_adj_is": 0,
+   "what_attr_is": 0,
+   "what_is_attr_of": 0,
+   "what_is_subject_attr": 0
+  }
+ },
+ "split_sizes": {
+  "confirm": 18,
+  "tune": 18
+ }
+}
