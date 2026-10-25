@@ -19,9 +19,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from ops_copilot.attribute_traps import half as trap_half, score_traps  # noqa: E402
-from ops_copilot.config import CopilotConfig  # noqa: E402
 from ops_copilot.datamuse_dev4 import opened_must_refuse  # noqa: E402
-from ops_copilot.passage_null_dev5 import config_for, confirm_decision  # noqa: E402
+from ops_copilot.passage_null_dev5 import config_for, confirm_decision, pre_change_config  # noqa: E402
 from ops_copilot.robustness import run_robustness  # noqa: E402
 from ops_copilot.safety_sweep import sweep  # noqa: E402
 from ops_copilot.synonym_dev5 import half  # noqa: E402
@@ -54,11 +53,11 @@ def main() -> int:
         out["decision"] = {"default_on": False, "reason": "no calibration candidate; confirm rows not run"}
     else:
         rows, traps = half("confirm"), trap_half("confirm")
-        off_cfg, on_cfg = CopilotConfig(), config_for(chosen)
+        off_cfg, on_cfg = pre_change_config(), config_for(chosen)
         off_c, on_c = score_rows(off_cfg, rows), score_rows(on_cfg, rows)
         off_t, on_t = score_traps(off_cfg, traps), score_traps(on_cfg, traps)
         off_r, on_r = _rob(off_cfg), _rob(on_cfg)
-        sw = sweep(on_cfg)
+        sw = sweep(on_cfg, base=off_cfg)
         out["dev5_confirm"] = {
             "off": _pub(off_c), "on": _pub(on_c),
             "fixed": fixed_rows(off_c, on_c), "new_errors": new_errors(off_c, on_c),

@@ -1,4 +1,4 @@
-# Null-control test on passage rescues: calibration
+# Null-control test on passage rescues: calibration (v1)
 
 Rows: 171 dev5 calibration rows + 18 attribute-trap tune rows (no dev5 confirm, no trap confirm, no held-out), 51 clean golden, tests/ sweep. 100 controls, seed 42.
 
