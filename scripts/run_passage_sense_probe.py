@@ -33,7 +33,8 @@ def _pub(s: dict) -> dict:
 
 def main() -> int:
     rows = calibration_rows()
-    off_cfg = CopilotConfig()
+    # The default this probe was written against (PR #28): null-control test off.
+    off_cfg = replace(CopilotConfig(), passage_support_null_min=0.0, passage_support_null_sticky=False)
     on_cfg = replace(off_cfg, passage_support_sense_check=True)
     off, on = score_rows(off_cfg, rows), score_rows(on_cfg, rows)
     sw = sweep(on_cfg)

@@ -28,9 +28,9 @@
   },
   "tune": {
    "Datamuse unknown words only, dev4-chosen (ships off: opens d4-37)": {
-    "accuracy": 0.43478260869565216,
+    "accuracy": 0.34782608695652173,
     "answer_correct": 1,
-    "correct": 10,
+    "correct": 8,
     "must_refuse_opened": [],
     "n": 23,
     "n_answer": 12,
@@ -39,9 +39,9 @@
     "n_spurious_write": 0
    },
    "default (shipped)": {
-    "accuracy": 0.391304347826087,
+    "accuracy": 0.30434782608695654,
     "answer_correct": 0,
-    "correct": 9,
+    "correct": 7,
     "must_refuse_opened": [],
     "n": 23,
     "n_answer": 12,

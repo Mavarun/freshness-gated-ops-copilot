@@ -4,6 +4,6 @@ Vocabulary problems: none. Held-out words in file: none. Split sizes: {'tune': 2
 
 | half | arm | correct | ANSWER | must-refuse opened | fail-open | spurious write | raw PII |
 | --- | --- | ---: | ---: | --- | ---: | ---: | ---: |
-| tune | default (shipped) | 10/24 | 3/13 | d5-38 | 1 | 0 | 0 |
+| tune | default (shipped) | 10/24 | 2/13 | - | 0 | 0 | 0 |
 
-Known open bug: d5-38 (passage rescue colour <- default). Unexpected opens: none.
+Known open bugs: none (d5-38 closed 2026-10-25 by the null-control test). Unexpected opens: none.

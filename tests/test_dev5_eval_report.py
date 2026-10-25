@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_ci_script_freezes_the_same_split_sizes_and_never_scores_confirm():
     src = (ROOT / "scripts" / "run_dev5_eval.py").read_text(encoding="utf-8")
     assert 'FROZEN = {"tune": 24, "confirm": 20}' in src
-    assert 'KNOWN_OPEN = ("d5-38",)' in src
+    assert "KNOWN_OPEN: tuple[str, ...] = ()" in src
     assert len(half("tune")) == 24 and len(half("confirm")) == 20
 
 
@@ -31,4 +31,6 @@ def test_committed_report_matches_a_fresh_run():
     assert fresh["vocabulary_problems"] == {} and fresh["heldout_words_in_file"] == []
     assert fresh["confirm_scored"] is False and fresh["unexpected_open"] == []
     t = fresh["tune_default"]
-    assert (t["correct"], t["n"], t["must_refuse_opened"]) == (10, 24, ["d5-38"])
+    # d5-38 closed by the null-control test (2026-10-25); one ANSWER row lost (3 -> 2 of 13)
+    assert (t["correct"], t["n"], t["must_refuse_opened"]) == (10, 24, [])
+    assert (t["answer_correct"], t["n_answer"], t["n_fail_open"]) == (2, 13, 0)
