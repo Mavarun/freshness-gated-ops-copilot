@@ -97,7 +97,7 @@ import numpy as np
 
 from ops_copilot.embeddings import EmbeddingBackend, evidence_sentences
 
-from ops_copilot.passage_support import PassageSupportModel
+from ops_copilot.passage_support import PassageSupportModel, control_words, null_percentile
 from ops_copilot.qa_translation import AnswerSupportModel, Translation
 from ops_copilot.qa_translation import words as qa_words
 from ops_copilot.lexicon import WH_WORDS, CorpusVocabulary, fix_interrogative_typos
@@ -230,6 +230,8 @@ class Grounder:
         passage_max_terms: int = 1,
         passage_strict: bool = True,
         passage_sense: NeighbourTable | None = None,
+        passage_null_min: float = 0.0,
+        passage_null_controls: int = 100,
         gloss_sense: GlossSenseBackoff | None = None,
         noun_gloss: NounGlossSenseBackoff | None = None,
         noun_gloss_known: bool = False,
@@ -260,6 +262,13 @@ class Grounder:
         self.passage_max_terms = int(passage_max_terms)
         self.passage_strict = bool(passage_strict)
         self.passage_sense = passage_sense
+        self.passage_null_min = float(passage_null_min)
+        self.passage_null_controls: tuple[str, ...] = ()
+        if passage_support is not None and self.passage_null_min > 0:
+            corpus_qa = {w for text in corpus_texts for w in qa_words(text)}
+            self.passage_null_controls = control_words(
+                passage_support.vectors, corpus_qa | set(self.idf), k=int(passage_null_controls)
+            )
         self.gloss_sense = gloss_sense
         self.noun_gloss = noun_gloss
         self.noun_gloss_known = bool(noun_gloss_known and noun_gloss is not None)
@@ -526,10 +535,12 @@ class Grounder:
             return (), None
         q_words = [fold_token(t.token) for t in terms if t.token.isalpha() and not is_identifier(t.token)]
         best = None
+        best_words: list[str] = []
         for part in evidence_parts:
-            v = model.verdict(q_words, qa_words(part), self._plain_weight)
+            p_words = qa_words(part)
+            v = model.verdict(q_words, p_words, self._plain_weight)
             if v is not None and (best is None or v.prob > best.prob):
-                best = v
+                best, best_words = v, p_words
         if best is None:
             return (), None
         if best.prob < self.passage_min_prob:
@@ -548,6 +559,16 @@ class Grounder:
             # table must also list the credited word as a substitute.
             if self.passage_sense is not None and not self.passage_sense_ok(t.token, word):
                 return (), best.prob
+            # Null-control test (off by default): the passage must prefer this
+            # word to most unrelated words, or the probability came from the
+            # topic alone ("What flavour is the checkout_retry flag?").
+            if self.passage_null_min > 0 and self.passage_null_controls:
+                pct = null_percentile(
+                    model, q_words, fold_token(t.token), best_words, self._plain_weight,
+                    self.passage_null_controls,
+                )
+                if pct < self.passage_null_min:
+                    return (), best.prob
             out.append(Translation(t.token, word, round(float(sim), 4)))
         return tuple(out), best.prob
 

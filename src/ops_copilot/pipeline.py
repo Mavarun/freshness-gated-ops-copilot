@@ -263,6 +263,8 @@ class Copilot:
             passage_max_terms=self.config.passage_support_max_terms,
             passage_strict=self.config.passage_support_strict,
             passage_sense=load_wordvec_table() if self.config.passage_support_sense_check else None,
+            passage_null_min=self.config.passage_support_null_min,
+            passage_null_controls=self.config.passage_support_null_controls,
             gloss_sense=(
                 self.gloss_sense
                 if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
