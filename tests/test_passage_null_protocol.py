@@ -33,3 +33,12 @@ def test_selection_prefers_safe_then_correct_then_answers_then_stricter_q():
         {"safe": True, "calib_correct": 87, "calib_answer_correct": 26, "null_min": 0.5},
     ]
     assert sorted(rows, key=selection_key)[0]["null_min"] == 0.4
+
+
+def test_v2_grid_is_v1_grid_with_the_sticky_veto():
+    from ops_copilot.passage_null_dev5 import grid_settings_v2
+
+    v2 = grid_settings_v2()
+    assert [s["null_min"] for s in v2] == list(GRID_Q) and all(s["sticky"] for s in v2)
+    assert config_for(v2[0]).passage_support_null_sticky is True
+    assert config_for({"null_min": 0.1}).passage_support_null_sticky is False
