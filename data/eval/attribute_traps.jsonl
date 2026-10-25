@@ -1,0 +1,36 @@
+{"id": "at-01", "query": "What shape is the checkout_retry feature flag?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "shape", "form": "what_attr_is"}
+{"id": "at-02", "query": "What flavour is the Redis checkout-pool?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "flavour", "form": "what_attr_is"}
+{"id": "at-03", "query": "What font is the checkout latency runbook?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "font", "form": "what_attr_is"}
+{"id": "at-04", "query": "What texture is the production maintenance change window?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "texture", "form": "what_attr_is"}
+{"id": "at-05", "query": "What weight is the checkout-api deployment?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "weight", "form": "what_attr_is"}
+{"id": "at-06", "query": "What smell is the checkout error budget?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "smell", "form": "what_attr_is"}
+{"id": "at-07", "query": "What price is the checkout_retry feature flag?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "price", "form": "what_attr_is"}
+{"id": "at-08", "query": "What mascot is the INC-4821 incident?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "mascot", "form": "what_attr_is"}
+{"id": "at-09", "query": "What height is the payments-worker deployment?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "height", "form": "what_attr_is"}
+{"id": "at-10", "query": "What nickname is the primary on-call right now?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "nickname", "form": "what_attr_is"}
+{"id": "at-11", "query": "What is the shape of the Redis checkout-pool?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "shape", "form": "what_is_attr_of"}
+{"id": "at-12", "query": "What is the flavour of the checkout_retry feature flag?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "flavour", "form": "what_is_attr_of"}
+{"id": "at-13", "query": "What is the font of the blue-green deploy procedure?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "font", "form": "what_is_attr_of"}
+{"id": "at-14", "query": "What is the texture of the checkout error budget?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "texture", "form": "what_is_attr_of"}
+{"id": "at-15", "query": "What is the weight of the Redis checkout-pool?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "weight", "form": "what_is_attr_of"}
+{"id": "at-16", "query": "What is the smell of the production maintenance change window?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "smell", "form": "what_is_attr_of"}
+{"id": "at-17", "query": "What is the price of the checkout-api deployment?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "price", "form": "what_is_attr_of"}
+{"id": "at-18", "query": "What is the mascot of the checkout latency runbook?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "mascot", "form": "what_is_attr_of"}
+{"id": "at-19", "query": "What is the birthday of the primary on-call right now?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "birthday", "form": "what_is_attr_of"}
+{"id": "at-20", "query": "What is the salary of the primary on-call right now?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "salary", "form": "what_is_attr_of"}
+{"id": "at-21", "query": "What is the checkout_retry feature flag shape?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "shape", "form": "what_is_subject_attr"}
+{"id": "at-22", "query": "What is the checkout error budget flavour?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "flavour", "form": "what_is_subject_attr"}
+{"id": "at-23", "query": "What is the Redis checkout-pool font?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "font", "form": "what_is_subject_attr"}
+{"id": "at-24", "query": "What is the checkout-api deployment texture?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "texture", "form": "what_is_subject_attr"}
+{"id": "at-25", "query": "What is the production maintenance change window weight?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "weight", "form": "what_is_subject_attr"}
+{"id": "at-26", "query": "What is the checkout latency runbook smell?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "smell", "form": "what_is_subject_attr"}
+{"id": "at-27", "query": "What is the INC-4821 incident price?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "price", "form": "what_is_subject_attr"}
+{"id": "at-28", "query": "What is the checkout_retry feature flag mascot?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "mascot", "form": "what_is_subject_attr"}
+{"id": "at-29", "query": "What is the payments-worker deployment height?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "height", "form": "what_is_subject_attr"}
+{"id": "at-30", "query": "What is the primary on-call salary right now?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "salary", "form": "what_is_subject_attr"}
+{"id": "at-31", "query": "How heavy is the Redis checkout-pool?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "heavy", "form": "how_adj_is"}
+{"id": "at-32", "query": "How tall is the checkout-api deployment?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "tall", "form": "how_adj_is"}
+{"id": "at-33", "query": "How expensive is the checkout_retry feature flag?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "expensive", "form": "how_adj_is"}
+{"id": "at-34", "query": "How spicy is the checkout error budget?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "spicy", "form": "how_adj_is"}
+{"id": "at-35", "query": "How loud is the production maintenance change window?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "loud", "form": "how_adj_is"}
+{"id": "at-36", "query": "How friendly is the primary on-call right now?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "friendly", "form": "how_adj_is"}
