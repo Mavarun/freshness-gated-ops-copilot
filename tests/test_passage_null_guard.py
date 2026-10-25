@@ -43,18 +43,19 @@ def test_null_percentile_counts_controls_strictly_below_the_real_word():
     assert null_percentile(m, ["what", "good"], "good", ["x"], lambda w: 1.0, []) == 0.0
 
 
-def test_off_by_default_and_controls_exclude_corpus_words():
+def test_on_by_default_since_the_confirm_and_controls_exclude_corpus_words():
     cfg = CopilotConfig()
-    assert cfg.passage_support_null_min == 0.0
-    assert Copilot(config=cfg).grounder.passage_null_controls == ()
-    g = Copilot(config=replace(cfg, passage_support_null_min=0.3)).grounder
+    assert (cfg.passage_support_null_min, cfg.passage_support_null_sticky) == (0.30, True)
+    off = replace(cfg, passage_support_null_min=0.0)
+    assert Copilot(config=off).grounder.passage_null_controls == ()
+    g = Copilot(config=cfg).grounder
     assert len(g.passage_null_controls) == 100
     assert not set(g.passage_null_controls) & set(g.idf)
 
 
 def test_guard_never_adds_a_rescue():
     """The test can only veto: every row it answers, the default answers too."""
-    base = Copilot(config=CopilotConfig())
+    base = Copilot(config=replace(CopilotConfig(), passage_support_null_min=0.0))
     on = Copilot(config=replace(CopilotConfig(), passage_support_null_min=0.5))
     for q in ("What is the production maintenance change span?", "What colour is the checkout_retry feature flag?",
               "What is the remaining error margin for checkout?"):
@@ -63,8 +64,7 @@ def test_guard_never_adds_a_rescue():
             assert a.grounding.passage_rescued == b.grounding.passage_rescued
 
 
-def test_sticky_veto_is_off_by_default_and_remembers_vetoed_words_per_query():
-    assert CopilotConfig().passage_support_null_sticky is False
+def test_sticky_veto_remembers_vetoed_words_per_query():
     g = Copilot(config=replace(CopilotConfig(), passage_support_null_min=0.5, passage_support_null_sticky=True)).grounder
     g._remember_null_veto("q1", "flavour")
     g._remember_null_veto("q1", "weight")

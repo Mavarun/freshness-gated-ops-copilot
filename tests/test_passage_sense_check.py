@@ -48,10 +48,12 @@ def test_the_check_closes_the_colour_default_rescue_end_to_end():
     assert on.ask("What is the current checkout p99 latency?").decision.value == "ANSWER"
 
 
-@pytest.mark.xfail(strict=True, reason="shipped default answers d5-38 via passage rescue colour<-default "
-                                        "(2026-10-24); the opt-in check closes it but loses 36 correct calibration rows")
 def test_the_shipped_default_refuses_the_colour_trap():
-    assert Copilot().ask(TRAP).decision.value == "REFUSE_UNGROUNDED"
+    # Was a strict xfail (2026-10-24). Closed 2026-10-25 by the null-control
+    # test (passage_support_null_min=0.30, sticky), not by this sense check.
+    res = Copilot().ask(TRAP)
+    assert res.decision.value == "REFUSE_UNGROUNDED"
+    assert res.grounding is None or res.grounding.passage_rescued == []
 
 
 def test_probe_artifact_closes_d5_38_but_fails_the_no_new_error_rule():

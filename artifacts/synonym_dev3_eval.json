@@ -2,9 +2,9 @@
  "halves": {
   "calib": {
    "Datamuse context-gated, dev3-chosen (ships off: opens a unit-test trap)": {
-    "accuracy": 0.76,
+    "accuracy": 0.72,
     "answer_correct": 7,
-    "correct": 19,
+    "correct": 18,
     "decisions": {
      "d3-01": "REFUSE_DISAGREE",
      "d3-02": "ANSWER",
@@ -20,7 +20,7 @@
      "d3-20": "REFUSE_UNGROUNDED",
      "d3-21": "ANSWER",
      "d3-26": "REFUSE_STALE",
-     "d3-27": "REFUSE_STALE",
+     "d3-27": "REFUSE_UNGROUNDED",
      "d3-28": "REFUSE_STALE",
      "d3-31": "REFUSE_STALE",
      "d3-32": "REFUSE_UNGROUNDED",
@@ -39,9 +39,9 @@
     "n_spurious_write": 0
    },
    "default (shipped)": {
-    "accuracy": 0.68,
+    "accuracy": 0.64,
     "answer_correct": 6,
-    "correct": 17,
+    "correct": 16,
     "decisions": {
      "d3-01": "REFUSE_UNGROUNDED",
      "d3-02": "ANSWER",
@@ -57,7 +57,7 @@
      "d3-20": "REFUSE_UNGROUNDED",
      "d3-21": "ANSWER",
      "d3-26": "REFUSE_UNGROUNDED",
-     "d3-27": "REFUSE_STALE",
+     "d3-27": "REFUSE_UNGROUNDED",
      "d3-28": "REFUSE_STALE",
      "d3-31": "REFUSE_STALE",
      "d3-32": "REFUSE_UNGROUNDED",
@@ -76,9 +76,9 @@
     "n_spurious_write": 0
    },
    "same, unknown words only (post-hoc, ships off)": {
-    "accuracy": 0.72,
+    "accuracy": 0.68,
     "answer_correct": 7,
-    "correct": 18,
+    "correct": 17,
     "decisions": {
      "d3-01": "REFUSE_DISAGREE",
      "d3-02": "ANSWER",
@@ -94,7 +94,7 @@
      "d3-20": "REFUSE_UNGROUNDED",
      "d3-21": "ANSWER",
      "d3-26": "REFUSE_UNGROUNDED",
-     "d3-27": "REFUSE_STALE",
+     "d3-27": "REFUSE_UNGROUNDED",
      "d3-28": "REFUSE_STALE",
      "d3-31": "REFUSE_STALE",
      "d3-32": "REFUSE_UNGROUNDED",
@@ -115,13 +115,13 @@
   },
   "confirm": {
    "Datamuse context-gated, dev3-chosen (ships off: opens a unit-test trap)": {
-    "accuracy": 0.7,
-    "answer_correct": 7,
-    "correct": 14,
+    "accuracy": 0.65,
+    "answer_correct": 6,
+    "correct": 13,
     "decisions": {
      "d3-03": "REFUSE_UNGROUNDED",
      "d3-04": "ANSWER",
-     "d3-09": "ANSWER",
+     "d3-09": "REFUSE_UNGROUNDED",
      "d3-10": "ANSWER",
      "d3-14": "ANSWER",
      "d3-15": "REFUSE_UNGROUNDED",
@@ -147,13 +147,13 @@
     "n_spurious_write": 0
    },
    "default (shipped)": {
-    "accuracy": 0.55,
-    "answer_correct": 4,
-    "correct": 11,
+    "accuracy": 0.5,
+    "answer_correct": 3,
+    "correct": 10,
     "decisions": {
      "d3-03": "REFUSE_UNGROUNDED",
      "d3-04": "REFUSE_UNGROUNDED",
-     "d3-09": "ANSWER",
+     "d3-09": "REFUSE_UNGROUNDED",
      "d3-10": "ANSWER",
      "d3-14": "REFUSE_UNGROUNDED",
      "d3-15": "REFUSE_UNGROUNDED",
@@ -179,13 +179,13 @@
     "n_spurious_write": 0
    },
    "same, unknown words only (post-hoc, ships off)": {
-    "accuracy": 0.65,
-    "answer_correct": 6,
-    "correct": 13,
+    "accuracy": 0.6,
+    "answer_correct": 5,
+    "correct": 12,
     "decisions": {
      "d3-03": "REFUSE_UNGROUNDED",
      "d3-04": "ANSWER",
-     "d3-09": "ANSWER",
+     "d3-09": "REFUSE_UNGROUNDED",
      "d3-10": "ANSWER",
      "d3-14": "ANSWER",
      "d3-15": "REFUSE_UNGROUNDED",

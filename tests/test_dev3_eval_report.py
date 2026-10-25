@@ -28,4 +28,6 @@ def test_committed_report_matches_a_fresh_run(tmp_path):
     fresh = json.loads((ROOT / "artifacts" / "synonym_dev3_eval.json").read_text())
     assert fresh == committed
     default = fresh["halves"]["confirm"]["default (shipped)"]
-    assert (default["correct"], default["n_fail_open"]) == (11, 0)
+    # 11 until 2026-10-25; the null-control test turns d3-27 (execute <- procedure)
+    # from REFUSE_STALE into REFUSE_UNGROUNDED, a row already counted in its calibration cost.
+    assert (default["correct"], default["n_fail_open"]) == (10, 0)

@@ -43,6 +43,9 @@ def test_pair_table_and_dev5_report_numbers_match():
     assert f"{meta['n_pairs']:,} pairs, {meta['n_missing']:,} of them" in s
     assert f"cover {round(100 * (1 - meta['n_missing'] / meta['n_pairs']))}% of Datamuse pairs" in s
     rep = json.loads((ART / "synonym_dev5_eval.json").read_text())
+    # Historical: the section quotes the PR #28 default (10/24, ANSWER 3/13). The
+    # report now scores the 2026-10-25 default (null test on), quoted in its own section.
+    assert "(10/24, ANSWER 3/13)" in s
     t = rep["tune_default"]
-    assert f"({t['correct']}/{t['n']}, ANSWER {t['answer_correct']}/{t['n_answer']})" in s
+    assert (t["correct"], t["answer_correct"]) == (10, 2)
     assert rep["split_sizes"] == {"tune": 24, "confirm": 20} and "24 `tune` / 20 `confirm`" in s

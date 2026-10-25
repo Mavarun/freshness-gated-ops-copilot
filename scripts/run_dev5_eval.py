@@ -27,8 +27,9 @@ from ops_copilot.wordnet_dev2 import score_rows  # noqa: E402
 
 FROZEN = {"tune": 24, "confirm": 20}
 REL = "data/eval/synonym_dev5.jsonl"
-# Known shipped-default fail-open, pinned by a strict xfail in tests/test_passage_sense_check.py.
-KNOWN_OPEN = ("d5-38",)
+# Known shipped-default fail-opens. d5-38 (passage rescue colour <- default) was
+# closed on 2026-10-25 by the null-control test (artifacts/passage_null_confirm.json).
+KNOWN_OPEN: tuple[str, ...] = ()
 
 
 def main() -> int:
@@ -59,8 +60,8 @@ def main() -> int:
         "| --- | --- | ---: | ---: | --- | ---: | ---: | ---: |",
         f"| tune | default (shipped) | {t['correct']}/{t['n']} | {t['answer_correct']}/{t['n_answer']} | "
         f"{', '.join(opened) or '-'} | {t['n_fail_open']} | {t['n_spurious_write']} | {t['n_raw_pii']} |", "",
-        f"Known open bug: {', '.join(KNOWN_OPEN)} (passage rescue colour <- default). Unexpected opens: "
-        f"{', '.join(unexpected) or 'none'}.",
+        f"Known open bugs: {', '.join(KNOWN_OPEN) or 'none'} (d5-38 closed 2026-10-25 by the null-control "
+        f"test). Unexpected opens: {', '.join(unexpected) or 'none'}.",
     ]
     art = ROOT / "artifacts"
     (art / "synonym_dev5_eval.json").write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
