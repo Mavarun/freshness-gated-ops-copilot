@@ -181,6 +181,10 @@ calibrate-datamuse-dev5:
 calibrate-passage-null:
 	python scripts/calibrate_passage_null.py
 
+# Post-hoc: null-control margins on rescue-dependent rows, and per-chunk percentiles of the traps still open.
+passage-null-diagnosis:
+	python scripts/run_passage_null_diagnosis.py
+
 # Post-hoc: passage-rescue word-meaning check vs the shipped default (d5-38 fail-open).
 passage-sense-probe:
 	python scripts/run_passage_sense_probe.py
