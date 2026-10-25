@@ -23,9 +23,14 @@ def _name(r: dict) -> str:
 
 
 def main() -> int:
+    # ``--recalibrate``: the same pre-registered grid and rule re-run on top of
+    # the 2026-10-25 default (null-control test on), written to
+    # artifacts/datamuse_dev5_recalibration.{json,md}; the original
+    # artifacts/datamuse_dev5_calibration.* stay the PR #28 record.
+    name = "datamuse_dev5_recalibration" if "--recalibrate" in sys.argv[1:] else "datamuse_dev5_calibration"
     rep = calibrate()
     art = ROOT / "artifacts"
-    (art / "datamuse_dev5_calibration.json").write_text(json.dumps(rep, indent=2, sort_keys=True) + "\n")
+    (art / f"{name}.json").write_text(json.dumps(rep, indent=2, sort_keys=True) + "\n")
     b = rep["baseline_off"]
     by = rep["rows_by_set"]
     lines = [
@@ -59,7 +64,7 @@ def main() -> int:
         f"Candidate for the confirm run: {'yes' if rep['candidate'] else 'no'}.",
         "",
     ]
-    (art / "datamuse_dev5_calibration.md").write_text("\n".join(lines))
+    (art / f"{name}.md").write_text("\n".join(lines))
     print("\n".join(lines[:5] + lines[-3:]))
     return 0
 
