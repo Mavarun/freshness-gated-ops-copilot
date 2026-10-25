@@ -61,3 +61,14 @@ def test_guard_never_adds_a_rescue():
         a, b = base.ask(q), on.ask(q)
         if b.grounding and b.grounding.passage_rescued:
             assert a.grounding.passage_rescued == b.grounding.passage_rescued
+
+
+def test_sticky_veto_is_off_by_default_and_remembers_vetoed_words_per_query():
+    assert CopilotConfig().passage_support_null_sticky is False
+    g = Copilot(config=replace(CopilotConfig(), passage_support_null_min=0.5, passage_support_null_sticky=True)).grounder
+    g._remember_null_veto("q1", "flavour")
+    g._remember_null_veto("q1", "weight")
+    assert g._null_vetoed["q1"] == frozenset({"flavour", "weight"})
+    for i in range(600):
+        g._remember_null_veto(f"x{i}", "w")
+    assert len(g._null_vetoed) == 512 and "q1" not in g._null_vetoed
