@@ -399,6 +399,55 @@ class PassageSupportModel:
         return PassageVerdict(self.classifier.prob(f), f, best)
 
 
+# ---------------------------------------------------------------------------
+# null-control test (run time, opt-in): does the passage support *this* word?
+
+NULL_SEED = 42
+NULL_MIN_LEN = 4
+
+
+def control_words(
+    dv: DomainVectors, exclude: Iterable[str], k: int = 100, seed: int = NULL_SEED
+) -> tuple[str, ...]:
+    """``k`` seeded control words: alphabetic vector words of >= 4 letters outside ``exclude``.
+
+    The pool is the sorted domain-vector vocabulary minus the corpus words, so
+    no eval row and no corpus word chose the controls.
+    """
+    if k < 1:
+        raise ValueError("k >= 1 required")
+    ex = set(exclude)
+    pool = sorted(w for w in dv.index if w.isalpha() and len(w) >= NULL_MIN_LEN and w not in ex)
+    return tuple(random.Random(seed).sample(pool, min(k, len(pool))))
+
+
+def null_percentile(
+    model: "PassageSupportModel",
+    q_words: Sequence[str],
+    word: str,
+    p_words: Iterable[str],
+    weight: Callable[[str], float],
+    controls: Sequence[str],
+) -> float:
+    """Fraction of controls that score *below* the real query word on this passage.
+
+    Each control replaces ``word`` in the query and the classifier re-scores
+    the same passage. A passage that answers the question should prefer the
+    real word to unrelated ones; when an arbitrary word scores as high, the
+    probability came from the rest of the query (the topic), not from this
+    word, so the passage does not vouch for it.
+    """
+    p_list = list(p_words)
+    real = model.verdict(q_words, p_list, weight)
+    if real is None or not controls:
+        return 0.0
+    below = 0
+    for c in controls:
+        v = model.verdict([c if w == word else w for w in q_words], p_list, weight)
+        below += int(v is not None and v.prob < real.prob)
+    return below / len(controls)
+
+
 @lru_cache(maxsize=2)
 def _load_model(path: str) -> dict:
     return json.loads(Path(path).read_text())

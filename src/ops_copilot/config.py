@@ -264,6 +264,13 @@ class CopilotConfig:
     # ("What colour is the checkout_retry feature flag?") came back ANSWER in
     # the shipped default through "colour" <- "default".
     passage_support_sense_check: bool = False
+    # Null-control test on passage rescues (off at 0.0): swap the rescued word
+    # for each of passage_support_null_controls seeded unrelated words; rescue
+    # only if at least this fraction of them scores below the real word on
+    # the same passage (passage_support.null_percentile). Added 2026-10-25 for
+    # the attribute traps ("What colour / flavour / price is <known page>?").
+    passage_support_null_min: float = 0.0
+    passage_support_null_controls: int = 100
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
