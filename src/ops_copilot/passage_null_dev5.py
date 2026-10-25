@@ -62,6 +62,18 @@ sweep. Default on only if all hold:
 - robustness: clean 1.000; no fail-open, spurious write or raw PII; held-out
   accuracy >= shipped default - 1 row's worth, held-out ANSWER not down;
 - the sweep opens no labelled trap.
+
+Amendment v2 (pre-registered 2026-10-25 after the v1 calibration and the
+post-hoc diagnosis, before any v2 grid run; both confirm halves still unseen):
+
+v1 found no safe setting (``artifacts/passage_null_calibration.md``) and the
+diagnosis (``artifacts/passage_null_diagnosis.md``) found why: the rescue is
+retried per supporting chunk, so a trap vetoed on one chunk passes on another
+(at-25: 0.12 then 0.61). v2 adds ``passage_support_null_sticky``: a word the
+test vetoes for a query on any part stays vetoed for that query. Disclosed:
+before this amendment was written, q = 0.50 with the sticky veto was run on
+at-22 and at-25 only (both refused). Grid, safe rule, cost caps, selection
+key and confirm rule are v1's unchanged; the v1 grid is not re-selected.
 """
 
 from __future__ import annotations
@@ -89,11 +101,16 @@ def grid_settings() -> list[dict]:
     return [{"null_min": q} for q in GRID_Q]
 
 
+def grid_settings_v2() -> list[dict]:
+    return [{"null_min": q, "sticky": True} for q in GRID_Q]
+
+
 def config_for(setting: dict, base: CopilotConfig | None = None) -> CopilotConfig:
     return replace(
         base or CopilotConfig(),
         passage_support_null_min=float(setting["null_min"]),
         passage_support_null_controls=N_CONTROLS,
+        passage_support_null_sticky=bool(setting.get("sticky", False)),
     )
 
 
