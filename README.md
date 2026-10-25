@@ -22,6 +22,95 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Null-control test on passage rescues (2026-10-25): d5-38 and 7 of 7 attribute-trap opens closed, on by default, at a cost of 4 calibration rows, 1 dev5 confirm row and 3 fresh rows
+
+PR #28 found the shipped default answering the must-refuse trap d5-38 (`What colour is the
+checkout_retry feature flag?`) through the passage rescue `colour <- default`. The only fix
+tried cost 36 correct calibration rows. This slice measures how wide the hole is, tests a
+targeted guard under a pre-registered protocol, amends it once after a diagnosed failure,
+confirms it once and ships it. Labels, golden file and the 203 perturbed rows are unchanged
+(seed 42, frozen clock 2026-09-13).
+
+### What changed
+
+1. **Attribute traps** (`data/eval/attribute_traps.jsonl`, `attribute_traps.py`, 36 rows written
+   by hand before any config ran on them): a known subject asked for a property it does not
+   have (`flavour`, `price`, `salary`, `How heavy ...`) in four forms (`What <attr> is the X?`,
+   `What is the <attr> of the X?`, `What is the X <attr>?`, `How <adj> is the X?`). `colour` is
+   not reused. Split by attribute, 18 `tune` / 18 `confirm`, so the confirm words were never
+   seen while designing. **The pre-change default opens 7 of 36**, in all four forms
+   (`flavour <- other`, `weight <- utc`, `expensive <- adds`, ...).
+2. **Null-control test** (`passage_support.null_percentile`, `passage_support_null_min`): swap the
+   rescued word for each of 100 seeded control words (domain-vector words outside the corpus)
+   and re-score the same passage. Rescue only if at least a fraction *q* of controls score below
+   the real word. If an unrelated word scores as high, the probability came from the topic, not
+   from this word.
+3. **v1 protocol and calibration** (`passage_null_dev5.py`, committed before the grid ran;
+   `artifacts/passage_null_calibration.md`): q ∈ {0.10 … 0.50}. Safe = clean 1.000, no
+   must-refuse calibration row and no tune trap opens, the sweep opens no labelled trap, and at
+   most 9 calibration rows (3 ANSWER) are lost. The strict no-new-error rule would reject every
+   setting by construction, as disclosed in the module. Result: **every q closes d5-38** (q = 0.10
+   with no new error, 93 vs 92 of 171), but 2 to 4 of 18 tune traps stay open. **0 of 5 safe.**
+4. **Diagnosis** (`make passage-null-diagnosis`, post-hoc): on the final grounding call every trap
+   scores below its control median, and only two refusal rows do too. But the rescue is retried
+   for each supporting chunk, and one passing chunk is enough. at-25 scores 0.12 on one chunk and
+   0.61 on another.
+5. **v2 amendment** (`passage_support_null_sticky`, pre-registered before the v2 grid ran; same
+   grid, rule and caps): a word the test vetoes for a query on any chunk stays vetoed for that
+   query. **q = 0.30 is the one safe setting**: d5-38 and 18 of 18 tune traps are refused, at
+   88 vs 92 of 171 (5 new errors: d3-09 and d5-02 are ANSWER rows; d3-27, d4-29 and d4-42 are
+   refusals that change type).
+6. **One-shot confirm** (`artifacts/passage_null_confirm.json`): every pre-registered check
+   passes.
+
+| set (never seen while designing) | pre-change default | null test (q 0.30, sticky) |
+| :--- | ---: | ---: |
+| attribute-trap confirm, opened | 2 / 18 (at-01, at-21: `shape`) | **0 / 18** |
+| dev5 confirm, correct | 8 / 20 | 7 / 20 (d5-13 lost) |
+| dev5 confirm, ANSWER | 3 / 12 | 2 / 12 |
+| dev5 confirm, must-refuse opened | 0 | 0 |
+| 203-row run: clean / perturbed / held-out | 1.000 / 0.902 / 0.514 | 1.000 / 0.902 / 0.514 (no row changes) |
+| held-out ANSWER | 0 / 9 | 0 / 9 |
+
+7. **On by default** (`passage_support_null_min = 0.30`, `passage_support_null_sticky = True`).
+   PR #28's strict `xfail` on d5-38 is now a passing test. Every report-only artifact was re-run
+   and every cost re-pinned. The shipped default on dev5 tune stays at 10/24 (ANSWER 3 to 2 of
+   13, d5-38 closed). dev3 confirm drops 11 to 10 (d3-27 changes refusal type). dev4 tune drops
+   9 to 7. **The fresh general-English set with the passage classifier drops 14 to 11 of 26**
+   (`residual`, `slot` and `empty` are now refused). The unit-test sweep refuses one more literal
+   (`What is the checkout p99 latency? cc`).
+8. **Attribute-trap CI step** (`scripts/run_attribute_traps_eval.py`, gating): the shipped default
+   must refuse all 36 traps.
+9. **Datamuse grid re-run on the new default** (`make recalibrate-datamuse-dev5`): with d5-38 closed,
+   42 of 48 word-meaning arms are now safe. The best (rank ≤ 100, one neighbour, context ≥ 2,
+   sense ≥ 0.30) scores 98 vs 88 of 171 (ANSWER 33 vs 24), with no new error and no attribute
+   trap opened. **It stays off**: today's confirm spent dev5 confirm, so it needs a fresh dev6
+   set.
+
+### Reproduce
+
+    make calibrate-passage-null passage-null-diagnosis   # v1 + v2 grids (~1 min), post-hoc diagnosis
+    make passage-null-confirm                            # the one-shot confirm (already recorded)
+    make attribute-traps-eval recalibrate-datamuse-dev5
+    pytest tests/test_attribute_traps*.py tests/test_passage_null_*.py tests/test_datamuse_dev5_recalibration.py
+
+### Weaknesses
+
+- The fix trades usefulness for safety. It loses real paraphrases whose rescue was also topical
+  (`unused`, `existing`, `residual`, `slot`), and held-out ANSWER is still **0 of 9**.
+- The protocol was amended once after seeing the v1 calibration. The confirm halves were unseen
+  for both versions, but the v2 mechanism was designed on the tune traps. Both attribute-trap
+  halves and dev5 confirm are now spent.
+- 100 controls give the percentile a resolution of 0.01, and the cut sits at 0.30 on a set where
+  some keep rows score 0.20 to 0.40. Borderline rows can flip with a different control sample
+  (seed 42 is fixed and tested; other seeds are not).
+- The sticky veto keeps per-query state inside the grounder (bounded at 512 queries). A query's
+  decision does not depend on earlier queries, but it does depend on the order in which its own
+  chunks are tried.
+- The Datamuse candidate (+10 calibration rows) and the README's ops-synonym, everyday-paraphrase
+  and formatless-secret weaknesses are untouched. The next step is a fresh dev6 set to confirm
+  the Datamuse arm on top of this default.
+
 ## Word-meaning gate on a fresh dev5 set (2026-10-24): the gate closes the legal -> duty trap, but calibration finds the shipped default already answering a dev5 trap, so nothing ships and dev5 confirm stays unspent
 
 PR #27 left one hypothesis: Datamuse candidates need a sense check (does the candidate
