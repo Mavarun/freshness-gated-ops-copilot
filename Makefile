@@ -180,6 +180,7 @@ calibrate-datamuse-dev5:
 # Null-control test on passage rescues: 5-setting q grid on dev5 calibration + attribute-trap tune rows.
 calibrate-passage-null:
 	python scripts/calibrate_passage_null.py
+	python scripts/calibrate_passage_null.py --v2
 
 # Post-hoc: null-control margins on rescue-dependent rows, and per-chunk percentiles of the traps still open.
 passage-null-diagnosis:

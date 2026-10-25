@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Calibrate the null-control test on passage rescues -> artifacts/passage_null_calibration.{json,md}.
+"""Calibrate the null-control test on passage rescues -> artifacts/passage_null_calibration.{json,md}
+(``--v2``: the sticky-veto amendment -> artifacts/passage_null_v2_calibration.{json,md}).
 
 Protocol: ``ops_copilot.passage_null_dev5`` (pre-registered). Scores the
 shipped default and each q on the 171 dev5 calibration rows, the 18
@@ -16,16 +17,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from ops_copilot.passage_null_dev5 import calibrate  # noqa: E402
+from ops_copilot.passage_null_dev5 import calibrate, grid_settings, grid_settings_v2  # noqa: E402
 
 
 def main() -> int:
-    rep = calibrate()
+    v2 = "--v2" in sys.argv[1:]
+    rep = calibrate(grid_settings_v2() if v2 else grid_settings())
+    name = "passage_null_v2_calibration" if v2 else "passage_null_calibration"
     art = ROOT / "artifacts"
-    (art / "passage_null_calibration.json").write_text(json.dumps(rep, indent=2, sort_keys=True) + "\n")
+    (art / f"{name}.json").write_text(json.dumps(rep, indent=2, sort_keys=True) + "\n")
     b = rep["baseline_off"]
     lines = [
-        "# Null-control test on passage rescues: calibration",
+        "# Null-control test on passage rescues: calibration" + (" (v2, sticky veto)" if v2 else " (v1)"),
         "",
         f"Rows: {rep['n_rows']} dev5 calibration rows + {rep['n_trap_rows']} attribute-trap tune rows "
         "(no dev5 confirm, no trap confirm, no held-out), 51 clean golden, tests/ sweep. 100 controls, seed 42.",
@@ -51,7 +54,7 @@ def main() -> int:
         f"Chosen new errors: {', '.join(c['new_errors']) or '-'}; fixed: {', '.join(c['fixed']) or '-'}.",
         "",
     ]
-    (art / "passage_null_calibration.md").write_text("\n".join(lines))
+    (art / f"{name}.md").write_text("\n".join(lines))
     print("\n".join(lines))
     return 0
 
