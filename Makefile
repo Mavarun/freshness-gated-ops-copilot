@@ -1,4 +1,4 @@
-.PHONY: calibrate-passage-null passage-null-diagnosis attribute-traps-eval dev5-eval passage-sense-probe calibrate-datamuse-dev5 dev4-eval datamuse-dev4-confirm calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: passage-null-confirm calibrate-passage-null passage-null-diagnosis attribute-traps-eval dev5-eval passage-sense-probe calibrate-datamuse-dev5 dev4-eval datamuse-dev4-confirm calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -181,6 +181,10 @@ calibrate-datamuse-dev5:
 calibrate-passage-null:
 	python scripts/calibrate_passage_null.py
 	python scripts/calibrate_passage_null.py --v2
+
+# One-shot confirm of the v2-chosen null test (dev5 confirm, trap confirm, 203-row run, sweep). Run once.
+passage-null-confirm:
+	python scripts/run_passage_null_confirm.py
 
 # Post-hoc: null-control margins on rescue-dependent rows, and per-chunk percentiles of the traps still open.
 passage-null-diagnosis:
