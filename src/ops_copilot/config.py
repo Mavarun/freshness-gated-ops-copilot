@@ -271,6 +271,11 @@ class CopilotConfig:
     # the attribute traps ("What colour / flavour / price is <known page>?").
     passage_support_null_min: float = 0.0
     passage_support_null_controls: int = 100
+    # Sticky veto (off): once the null test vetoes a word for a query on any
+    # evidence part, no other part of the same query may rescue it. Without
+    # it the rescue is retried per supporting chunk and one lucky chunk is
+    # enough (artifacts/passage_null_diagnosis.md: at-22, at-25).
+    passage_support_null_sticky: bool = False
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in

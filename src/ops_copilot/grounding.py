@@ -89,6 +89,8 @@ unrecognised command (*Can you reboot payments-worker?*) off the read path.
 
 from __future__ import annotations
 
+from collections import OrderedDict
+
 import math
 from dataclasses import dataclass
 from typing import Callable, Sequence
@@ -232,6 +234,7 @@ class Grounder:
         passage_sense: NeighbourTable | None = None,
         passage_null_min: float = 0.0,
         passage_null_controls: int = 100,
+        passage_null_sticky: bool = False,
         gloss_sense: GlossSenseBackoff | None = None,
         noun_gloss: NounGlossSenseBackoff | None = None,
         noun_gloss_known: bool = False,
@@ -264,6 +267,9 @@ class Grounder:
         self.passage_sense = passage_sense
         self.passage_null_min = float(passage_null_min)
         self.passage_null_controls: tuple[str, ...] = ()
+        self.passage_null_sticky = bool(passage_null_sticky)
+        # query -> words the null test vetoed on some evidence part (sticky mode)
+        self._null_vetoed: OrderedDict[str, frozenset[str]] = OrderedDict()
         if passage_support is not None and self.passage_null_min > 0:
             corpus_qa = {w for text in corpus_texts for w in qa_words(text)}
             self.passage_null_controls = control_words(
@@ -508,6 +514,12 @@ class Grounder:
                 return True
         return False
 
+    def _remember_null_veto(self, query: str, word: str) -> None:
+        self._null_vetoed[query] = self._null_vetoed.get(query, frozenset()) | {word}
+        self._null_vetoed.move_to_end(query)
+        while len(self._null_vetoed) > 512:
+            self._null_vetoed.popitem(last=False)
+
     def passage_rescue(
         self,
         query: str,
@@ -563,11 +575,16 @@ class Grounder:
             # word to most unrelated words, or the probability came from the
             # topic alone ("What flavour is the checkout_retry flag?").
             if self.passage_null_min > 0 and self.passage_null_controls:
+                key = fold_token(t.token)
+                if self.passage_null_sticky and key in self._null_vetoed.get(query, frozenset()):
+                    return (), best.prob
                 pct = null_percentile(
                     model, q_words, fold_token(t.token), best_words, self._plain_weight,
                     self.passage_null_controls,
                 )
                 if pct < self.passage_null_min:
+                    if self.passage_null_sticky:
+                        self._remember_null_veto(query, key)
                     return (), best.prob
             out.append(Translation(t.token, word, round(float(sim), 4)))
         return tuple(out), best.prob
