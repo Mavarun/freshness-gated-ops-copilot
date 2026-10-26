@@ -22,6 +22,84 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26): +2 rows and held-out ANSWER 0 → 1 of 9, but it opens the word-sense trap d6-36, so it ships off; and the shipped null test's 0-of-36 trap result holds for seed 42 only
+
+PR #29 left one candidate: the word-meaning-gated Datamuse arm (98 vs 88 of 171 calibration
+rows) needed unseen rows. This slice writes dev6, confirms the frozen arm once, diagnoses the
+result, and tests a weakness PR #29 listed: does the null test depend on which control words
+were drawn? Labels, golden file and the 203 perturbed rows are unchanged (frozen clock
+2026-09-13).
+
+### What changed
+
+1. **dev6** (`data/eval/synonym_dev6.jsonl`, `synonym_dev6.py`, 45 rows, written by hand before
+   any table was queried for its words or any config ran on it): 33 one-swap paraphrases
+   (24 ANSWER), 9 absent-topic traps (7 word-sense traps such as `What country is the
+   checkout_retry feature flag from?`), 3 canary / PII / write rows; 20 must-refuse. It has
+   **no tune half**: the arm was already frozen. The vocabulary guard rejected 38 and then 35
+   rows of the first two drafts. The obvious ops synonyms (`reboot`, `bounce`, `instances`,
+   `health`, `playbook`) are held-out words or were already used by dev..dev5, so dev6 tests
+   less obvious rewording (`lateness`, `duty-engineer`, `sop`, `custodian`).
+2. **Pre-registered confirm** (`datamuse_dev6.py`, committed before the run): the arm from
+   `datamuse_dev5_recalibration.json` frozen as a literal; dev4's confirm rule unchanged
+   (gain, ANSWER not down, no new error, no must-refuse open, clean 1.000, held-out not
+   down, sweep safe), plus all 36 attribute traps refused; an exact sign test recorded only.
+3. **One-shot confirm** (`make datamuse-dev6-confirm`, `artifacts/datamuse_dev6_confirm.md`):
+
+| dev6 and the 203-row run | shipped default | + Datamuse arm |
+| :--- | ---: | ---: |
+| dev6 correct | 21 / 45 | 23 / 45 |
+| dev6 ANSWER | 3 / 24 | 5 / 24 |
+| dev6 must-refuse opened | 0 | **1 (d6-36)** |
+| 203-row clean / perturbed | 1.000 / 0.901 | 1.000 / 0.916 |
+| held-out accuracy / ANSWER | 0.514 / 0 of 9 | 0.600 / 1 of 9 |
+| attribute traps opened | 0 / 36 | 0 / 36 |
+| fresh general-English set | 11 / 26 | 16 / 26 |
+
+   3 rows fixed and 1 broken (exact sign test p = 0.625). Three pre-registered checks fail
+   (new error, fail-open, must-refuse open), so **`use_datamuse_ml` stays False** and dev6 is
+   spent. (The perturbed figure is 183/203 = 0.901; earlier sections printed it as 0.902.)
+4. **Post-hoc mapping diagnosis** (`make datamuse-dev6-posthoc`, selects nothing): 33 of 36
+   swap rows put a word the corpus does not know into the query, but the arm maps a word in
+   only **8** rows. By hand, 3 mappings are right-sense (`relief -> mitigation`,
+   `custodian -> owner`, `available -> availability`) and 5 are wrong-sense. d6-36 opens via
+   `country -> region` (rank 12, cosine 0.45, context 3), a real dictionary synonym used in
+   the wrong sense that passes both gates. One of the three fixes (`protocol -> minutes`
+   on a STALE row) is right for the wrong reason.
+5. **Null-test seed knob** (`passage_support_null_seed`, default 42, so no decision changes).
+6. **Pre-registered seed-sensitivity check** (`passage_null_seeds.py`, `make passage-null-seeds`,
+   `artifacts/passage_null_seeds.md`, report-only): seeds 1–20 vs 42 on the 171 calibration
+   rows, 36 attribute traps and clean golden. **Not seed-stable: only 1 of 20 seeds is safe.**
+   Other seeds reopen 1–5 traps: at-22 in 17 seeds, at-12 in 10, and confirm traps in 1 seed.
+   Calibration stays at 85–89 of 171, and no must-refuse calibration row or clean row breaks.
+   300 controls do not help (1 of 20 safe, at-22 in 19). So the 2026-10-25 "0 of 36" result,
+   and mainly its tune-trap half (the half the sticky veto was designed on), depends on the
+   seed-42 sample. The default is unchanged, as pre-registered.
+7. **dev6 CI step** (`scripts/run_dev6_eval.py`): the shipped default on dev6 (21/45, ANSWER
+   3/24). It fails on held-out words, vocabulary drift or any default must-refuse open.
+
+### Reproduce
+
+    make datamuse-dev6-confirm datamuse-dev6-posthoc   # the confirm is already spent; re-running reproduces it
+    make passage-null-seeds dev6-eval                  # ~2.5 min + seconds
+    pytest tests/test_synonym_dev6.py tests/test_datamuse_dev6_*.py tests/test_passage_null_seed*.py tests/test_dev6_eval_report.py
+
+### Weaknesses
+
+- **The shipped attribute-trap safety depends on one control sample.** With seed 42 it opens
+  0 of 36. With 19 of 20 other seeds it opens 1–5, and more controls do not fix it. A
+  sample-free veto, such as a percentile over the whole control pool or a calibrated
+  absolute floor, needs its own pre-registered test, and both trap halves are already spent.
+- Held-out ANSWER is still **0 of 9** shipped. The only arm that moves it (1 of 9) opens a
+  must-refuse row.
+- Datamuse coverage is the bigger gap: 8 of 33 unknown-word rows get any mapping, and 5 of
+  the 8 mappings are in the wrong sense. Neither the cosine gate nor the context gate can tell
+  `country -> region` from `relief -> mitigation`.
+- dev6 is spent, and so are dev5 confirm and both trap halves. Any next arm needs a dev7 set.
+  The guard shows the easy ops synonyms are all held-out or used, so dev7 will test ever
+  rarer rewording.
+- The sense labels in the post-hoc table are one person's judgement.
+
 ## Null-control test on passage rescues (2026-10-25): d5-38 and 7 of 7 attribute-trap opens closed, on by default, at a cost of 4 calibration rows, 1 dev5 confirm row and 3 fresh rows
 
 PR #28 found the shipped default answering the must-refuse trap d5-38 (`What colour is the
