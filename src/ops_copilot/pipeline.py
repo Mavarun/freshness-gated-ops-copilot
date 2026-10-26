@@ -265,6 +265,7 @@ class Copilot:
             passage_sense=load_wordvec_table() if self.config.passage_support_sense_check else None,
             passage_null_min=self.config.passage_support_null_min,
             passage_null_controls=self.config.passage_support_null_controls,
+            passage_null_seed=self.config.passage_support_null_seed,
             passage_null_sticky=self.config.passage_support_null_sticky,
             gloss_sense=(
                 self.gloss_sense

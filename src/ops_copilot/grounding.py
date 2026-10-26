@@ -99,7 +99,7 @@ import numpy as np
 
 from ops_copilot.embeddings import EmbeddingBackend, evidence_sentences
 
-from ops_copilot.passage_support import PassageSupportModel, control_words, null_percentile
+from ops_copilot.passage_support import NULL_SEED, PassageSupportModel, control_words, null_percentile
 from ops_copilot.qa_translation import AnswerSupportModel, Translation
 from ops_copilot.qa_translation import words as qa_words
 from ops_copilot.lexicon import WH_WORDS, CorpusVocabulary, fix_interrogative_typos
@@ -234,6 +234,7 @@ class Grounder:
         passage_sense: NeighbourTable | None = None,
         passage_null_min: float = 0.0,
         passage_null_controls: int = 100,
+        passage_null_seed: int = NULL_SEED,
         passage_null_sticky: bool = False,
         gloss_sense: GlossSenseBackoff | None = None,
         noun_gloss: NounGlossSenseBackoff | None = None,
@@ -273,7 +274,8 @@ class Grounder:
         if passage_support is not None and self.passage_null_min > 0:
             corpus_qa = {w for text in corpus_texts for w in qa_words(text)}
             self.passage_null_controls = control_words(
-                passage_support.vectors, corpus_qa | set(self.idf), k=int(passage_null_controls)
+                passage_support.vectors, corpus_qa | set(self.idf), k=int(passage_null_controls),
+                seed=int(passage_null_seed),
             )
         self.gloss_sense = gloss_sense
         self.noun_gloss = noun_gloss
