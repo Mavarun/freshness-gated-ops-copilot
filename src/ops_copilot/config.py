@@ -274,6 +274,10 @@ class CopilotConfig:
     # confirm 8 -> 7 of 20 with no must-refuse open, held-out unchanged.
     passage_support_null_min: float = 0.30
     passage_support_null_controls: int = 100
+    # Seed of the control-word sample (passage_support.control_words). 42 is
+    # the seed every recorded artifact used; other seeds exist only for the
+    # 2026-10-26 seed-sensitivity check (artifacts/passage_null_seeds.md).
+    passage_support_null_seed: int = 42
     # Sticky veto (off): once the null test vetoes a word for a query on any
     # evidence part, no other part of the same query may rescue it. Without
     # it the rescue is retried per supporting chunk and one lucky chunk is
