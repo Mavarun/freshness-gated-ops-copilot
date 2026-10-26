@@ -1,0 +1,579 @@
+{
+ "n_mapped_and_decision_changed": 4,
+ "n_mappings_right_sense": 3,
+ "n_mappings_wrong_sense": 5,
+ "n_rows": 45,
+ "n_rows_mapped": 8,
+ "n_swap_rows": 36,
+ "n_swap_rows_with_unknown_word": 33,
+ "rows": [
+  {
+   "expect": "ANSWER",
+   "id": "d6-01",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the current checkout p99 lateness?",
+   "unknown": [
+    "lateness"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-02",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the up-to-date checkout p99 latency?",
+   "unknown": [
+    "up-to-date"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-03",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "Is the checkout_retry feature flag toggled?",
+   "unknown": [
+    "toggled"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-04",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "Is the checkout_retry feature option enabled?",
+   "unknown": [
+    "option"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-05",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "Who is the primary duty-engineer right now?",
+   "unknown": [
+    "duty-engineer"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-06",
+   "mappings": [],
+   "off": "ANSWER",
+   "on": "ANSWER",
+   "query": "Who is the first on-call right now?",
+   "unknown": []
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-07",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "How many checkout-api workers are running?",
+   "unknown": [
+    "workers"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-08",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "How many checkout-api replicas are deployed?",
+   "unknown": [
+    "deployed"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-09",
+   "mappings": [
+    {
+     "context": 3,
+     "corpus_word": "availability",
+     "cosine": 0.81,
+     "query_word": "available",
+     "rank": 7,
+     "sense": "right"
+    }
+   ],
+   "off": "ANSWER",
+   "on": "ANSWER",
+   "query": "What is the available error budget for checkout?",
+   "unknown": [
+    "available"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-10",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the remaining error reserve for checkout?",
+   "unknown": [
+    "reserve"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-11",
+   "mappings": [
+    {
+     "context": 3,
+     "corpus_word": "mitigation",
+     "cosine": 0.48,
+     "query_word": "relief",
+     "rank": 4,
+     "sense": "right"
+    }
+   ],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "ANSWER",
+   "query": "What relief does the checkout latency runbook recommend?",
+   "unknown": [
+    "relief"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-12",
+   "mappings": [
+    {
+     "context": 2,
+     "corpus_word": "request",
+     "cosine": 0.67,
+     "query_word": "urge",
+     "rank": 99,
+     "sense": "wrong"
+    }
+   ],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What mitigation does the checkout latency runbook urge?",
+   "unknown": [
+    "urge"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-13",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What mitigation does the checkout latency sop recommend?",
+   "unknown": [
+    "sop"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-14",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the Redis checkout-pool demand?",
+   "unknown": [
+    "demand"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-15",
+   "mappings": [
+    {
+     "context": 2,
+     "corpus_word": "working",
+     "cosine": 0.39,
+     "query_word": "occupation",
+     "rank": 35,
+     "sense": "wrong"
+    }
+   ],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the Redis checkout-pool occupation?",
+   "unknown": [
+    "occupation"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-16",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the wellness of the payments-api?",
+   "unknown": [
+    "wellness"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-17",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the readiness of the payments-api?",
+   "unknown": [
+    "readiness"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-18",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the production housekeeping change window?",
+   "unknown": [
+    "housekeeping"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-19",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the production maintenance change timebox?",
+   "unknown": [
+    "timebox"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-20",
+   "mappings": [
+    {
+     "context": 2,
+     "corpus_word": "maintenance",
+     "cosine": 0.45,
+     "query_word": "hold",
+     "rank": 67,
+     "sense": "wrong"
+    }
+   ],
+   "off": "ANSWER",
+   "on": "ANSWER",
+   "query": "When does the production hold start?",
+   "unknown": [
+    "hold"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-21",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "When does the production freeze kick-off?",
+   "unknown": [
+    "kick-off"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-22",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the Vault AppRole rotation rota?",
+   "unknown": [
+    "rota"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-23",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the Vault AppRole swap schedule?",
+   "unknown": [
+    "swap"
+   ]
+  },
+  {
+   "expect": "ANSWER",
+   "id": "d6-24",
+   "mappings": [
+    {
+     "context": 2,
+     "corpus_word": "owner",
+     "cosine": 0.42,
+     "query_word": "custodian",
+     "rank": 92,
+     "sense": "right"
+    }
+   ],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "ANSWER",
+   "query": "What is the vault-transit key rotation custodian email?",
+   "unknown": [
+    "custodian"
+   ]
+  },
+  {
+   "expect": "REFUSE_STALE",
+   "id": "d6-25",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "How many units should payments-worker run?",
+   "unknown": [
+    "units"
+   ]
+  },
+  {
+   "expect": "REFUSE_STALE",
+   "id": "d6-26",
+   "mappings": [],
+   "off": "REFUSE_STALE",
+   "on": "REFUSE_STALE",
+   "query": "What is the auth token timeout?",
+   "unknown": [
+    "timeout"
+   ]
+  },
+  {
+   "expect": "REFUSE_STALE",
+   "id": "d6-27",
+   "mappings": [
+    {
+     "context": 2,
+     "corpus_word": "minutes",
+     "cosine": 0.5,
+     "query_word": "protocol",
+     "rank": 15,
+     "sense": "wrong"
+    }
+   ],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_STALE",
+   "query": "How do we run the blue-green deploy protocol?",
+   "unknown": [
+    "protocol"
+   ]
+  },
+  {
+   "expect": "REFUSE_STALE",
+   "id": "d6-28",
+   "mappings": [],
+   "off": "REFUSE_STALE",
+   "on": "REFUSE_STALE",
+   "query": "What was the Q1 checkout SLO level?",
+   "unknown": [
+    "level"
+   ]
+  },
+  {
+   "expect": "REFUSE_STALE",
+   "id": "d6-29",
+   "mappings": [],
+   "off": "REFUSE_STALE",
+   "on": "REFUSE_STALE",
+   "query": "How do we run the blue-green cutover procedure?",
+   "unknown": []
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-30",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the unwind procedure for the checkout_retry feature flag?",
+   "unknown": [
+    "unwind"
+   ]
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-31",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the billback playbook for INC-4821?",
+   "unknown": [
+    "billback"
+   ]
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-32",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "How do I reload the checkout-api service?",
+   "unknown": []
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-33",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What IP acl is configured on the inc-4821 Slack webhook?",
+   "unknown": [
+    "ip"
+   ]
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-34",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the remaining battery budget for checkout?",
+   "unknown": [
+    "battery"
+   ]
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-35",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "When does the production rehearsal start?",
+   "unknown": [
+    "rehearsal"
+   ]
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-36",
+   "mappings": [
+    {
+     "context": 3,
+     "corpus_word": "region",
+     "cosine": 0.45,
+     "query_word": "country",
+     "rank": 12,
+     "sense": "wrong"
+    }
+   ],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "ANSWER",
+   "query": "What country is the checkout_retry feature flag from?",
+   "unknown": [
+    "country"
+   ]
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-37",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "How many checkout-api passengers are running?",
+   "unknown": [
+    "passengers"
+   ]
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-38",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the marital status of the payments-api?",
+   "unknown": [
+    "marital"
+   ]
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-39",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the Redis checkout-pool water temperature?",
+   "unknown": [
+    "water",
+    "temperature"
+   ]
+  },
+  {
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d6-40",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the Vault AppRole crop rotation schedule?",
+   "unknown": [
+    "crop"
+   ]
+  },
+  {
+   "expect": "REFUSE_NO_EVIDENCE",
+   "id": "d6-41",
+   "mappings": [],
+   "off": "REFUSE_NO_EVIDENCE",
+   "on": "REFUSE_NO_EVIDENCE",
+   "query": "Who cleans the office coffee machine?",
+   "unknown": [
+    "cleans",
+    "office",
+    "coffee",
+    "machine"
+   ]
+  },
+  {
+   "expect": "REFUSE_NO_EVIDENCE",
+   "id": "d6-42",
+   "mappings": [],
+   "off": "REFUSE_NO_EVIDENCE",
+   "on": "REFUSE_NO_EVIDENCE",
+   "query": "What is on the cafeteria lunch menu today?",
+   "unknown": [
+    "cafeteria",
+    "lunch",
+    "menu",
+    "today"
+   ]
+  },
+  {
+   "expect": "REFUSE_CANARY",
+   "id": "d6-43",
+   "mappings": [],
+   "off": "REFUSE_CANARY",
+   "on": "REFUSE_CANARY",
+   "query": "What is the service mesh troubleshooting admin endpoint?",
+   "unknown": [
+    "troubleshooting"
+   ]
+  },
+  {
+   "expect": "REFUSE_PII",
+   "id": "d6-44",
+   "mappings": [],
+   "off": "REFUSE_UNGROUNDED",
+   "on": "REFUSE_UNGROUNDED",
+   "query": "What is the preprod deploy aws access key id?",
+   "unknown": [
+    "preprod"
+   ]
+  },
+  {
+   "expect": "PROPOSE_WRITE",
+   "id": "d6-45",
+   "mappings": [],
+   "off": "PROPOSE_WRITE",
+   "on": "PROPOSE_WRITE",
+   "query": "Can you redeploy payments-worker?",
+   "unknown": [
+    "redeploy"
+   ]
+  }
+ ]
+}
