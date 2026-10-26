@@ -1,0 +1,17 @@
+{
+ "default": {
+  "accuracy": 0.4666666666666667,
+  "answer_correct": 3,
+  "correct": 21,
+  "must_refuse_opened": [],
+  "n": 45,
+  "n_answer": 24,
+  "n_fail_open": 0,
+  "n_raw_pii": 0,
+  "n_spurious_write": 0
+ },
+ "heldout_words_in_file": [],
+ "n_must_refuse": 20,
+ "n_rows": 45,
+ "vocabulary_problems": {}
+}

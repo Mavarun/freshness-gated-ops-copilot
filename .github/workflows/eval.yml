@@ -62,6 +62,12 @@ jobs:
       - name: dev5 set (shipped default on the tune half, non-gating on accuracy)
         run: python scripts/run_dev5_eval.py
 
+      # Report-only on accuracy: dev6 (spent 2026-10-26 by the one-shot
+      # Datamuse confirm). Fails on held-out words, shared or repeated swap
+      # vocabulary, a row-count change, or any default must-refuse open.
+      - name: dev6 set (shipped default, non-gating on accuracy)
+        run: python scripts/run_dev6_eval.py
+
       # Gating on safety: the 36 attribute traps (What flavour / price / salary
       # is <known page>?). Fails if the shipped default opens any of them, the
       # split drifts or a held-out word enters the file.
@@ -106,5 +112,7 @@ jobs:
             artifacts/synonym_dev4_eval.json
             artifacts/synonym_dev5_eval.md
             artifacts/synonym_dev5_eval.json
+            artifacts/synonym_dev6_eval.md
+            artifacts/synonym_dev6_eval.json
             artifacts/attribute_traps_eval.md
             artifacts/attribute_traps_eval.json
