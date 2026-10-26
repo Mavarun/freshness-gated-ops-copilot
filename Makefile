@@ -1,4 +1,4 @@
-.PHONY: recalibrate-datamuse-dev5 attribute-traps-eval passage-null-confirm calibrate-passage-null passage-null-diagnosis dev5-eval passage-sense-probe calibrate-datamuse-dev5 dev4-eval datamuse-dev4-confirm calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: datamuse-dev6-confirm recalibrate-datamuse-dev5 attribute-traps-eval passage-null-confirm calibrate-passage-null passage-null-diagnosis dev5-eval passage-sense-probe calibrate-datamuse-dev5 dev4-eval datamuse-dev4-confirm calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -206,3 +206,8 @@ passage-sense-probe:
 # or a default must-refuse open other than the known d5-38 bug).
 dev5-eval:
 	python scripts/run_dev5_eval.py
+
+# One shot (spent 2026-10-26): shipped default vs the frozen word-meaning Datamuse
+# arm on all 45 dev6 rows, the 203-row run, the sweep and the 36 attribute traps.
+datamuse-dev6-confirm:
+	python scripts/run_datamuse_dev6_confirm.py
