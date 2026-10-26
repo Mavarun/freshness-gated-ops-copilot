@@ -12,9 +12,10 @@ def _j(name):
     return json.loads((ROOT / "artifacts" / name).read_text())
 
 
-def test_section_is_first_and_quotes_confirm_numbers():
-    first = [l for l in README.splitlines() if l.startswith("## ")][0]
-    assert first.startswith("## Null-control test on passage rescues (2026-10-25)")
+def test_section_follows_the_dev6_section_and_quotes_confirm_numbers():
+    heads = [l for l in README.splitlines() if l.startswith("## ")]
+    assert heads[0].startswith("## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26)")
+    assert heads[1].startswith("## Null-control test on passage rescues (2026-10-25)")
     conf = _j("passage_null_confirm.json")
     assert conf["decision"]["default_on"] is True
     for s in ("**0 / 18**", "8 / 20 | 7 / 20 (d5-13 lost)", "3 / 12 | 2 / 12", "0 / 9 | 0 / 9",
