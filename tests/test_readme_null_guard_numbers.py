@@ -14,8 +14,8 @@ def _j(name):
 
 def test_section_follows_the_dev6_section_and_quotes_confirm_numbers():
     heads = [l for l in README.splitlines() if l.startswith("## ")]
-    assert heads[0].startswith("## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26)")
-    assert heads[1].startswith("## Null-control test on passage rescues (2026-10-25)")
+    i = next(k for k, h in enumerate(heads) if h.startswith("## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26)"))
+    assert heads[i + 1].startswith("## Null-control test on passage rescues (2026-10-25)")
     conf = _j("passage_null_confirm.json")
     assert conf["decision"]["default_on"] is True
     for s in ("**0 / 18**", "8 / 20 | 7 / 20 (d5-13 lost)", "3 / 12 | 2 / 12", "0 / 9 | 0 / 9",

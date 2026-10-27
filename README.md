@@ -22,6 +22,93 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Seed-free null test (2026-10-27): seed 42 was a 1-in-21 draw, a sample-free version fails its confirm on a fresh trap, and the shipped default answers that trap too
+
+PR #30 found that the shipped null test refuses all 36 attribute traps only with seed 42. This
+slice measures exactly how lucky that was, builds a version with no sample and no seed,
+pre-registers it, confirms it once on fresh traps, and works out why it fails. Labels, golden
+file and the 203 perturbed rows are unchanged (frozen clock 2026-09-13). **The shipped default
+is unchanged.**
+
+### What changed
+
+1. **Whole-pool percentile** (`passage_support.pool_null_percentile`, knob
+   `passage_support_null_pool`, off): the rescued word is compared with all 5,067 pool words
+   instead of a 100-word sample. A closed-form update scores the whole pool in about 5 ms per
+   rescue and matches the per-control loop to 2e-7 (the vectors are float32).
+2. **Exact sample distribution** (`passage_null_exact.py`, `make passage-null-exact`,
+   `artifacts/passage_null_exact.md`, report-only): each row's null-test calls are forced to
+   pass or veto and enumerated into a decision tree. 70 of 207 rows reach the test. Walking a
+   tree with any control sample gives that sample's decisions. This **reproduces all 21
+   recorded seeds exactly** (100 and 300 controls), so 10,000 samples replace 20 seeds:
+
+| shipped test, over 10,000 control samples | 100 controls | 300 controls |
+| :--- | ---: | ---: |
+| P(no attribute trap opens) | **0.047** | 0.004 |
+| mean traps opened | 1.61 | 1.57 |
+| P(at-22 opens) / P(at-12 opens) | 0.926 / 0.574 | 0.993 / 0.573 |
+| calibration correct, mean [5%, 95%] | 87.9 [86, 89] | 88.2 [87, 89] |
+
+   Seed 42 (0 traps, 88 of 171) is roughly a 1-in-21 draw. More controls make the estimate
+   sharper, not safer, because at-22's whole-pool percentile (0.363) is above the 0.30 cut.
+3. **Traps v2** (`data/eval/attribute_traps_v2.jsonl`, 40 rows written by hand before any
+   config ran on them): 18 new attributes (`taste`, `zodiac`, `wingspan`, `How juicy ...`) on
+   other pages, in the same four forms, split 20 tune / 20 confirm by attribute. The guard
+   rejected `count`, `lag`, `live` and `request` (held-out words) in the first draft's subjects.
+4. **Pre-registered protocol** (`passage_null_pool.py`, committed before any v2 row was
+   scored). The pool grid on seen rows was disclosed. Grid: q = 0.30 to 0.50. Safe means no
+   must-refuse row and none of the 56 calibration traps open, at most 6 rows and 3 ANSWER rows
+   lost versus the seed-42 default. The pick is the smallest safe q whose lower neighbour is
+   also safe.
+5. **Calibration** (`make calibrate-passage-null-pool`): 2 of 11 settings are safe (0.38 and
+   0.40). at-22 opens up to q = 0.36 and no v2 tune trap opens at any q. **Chosen: q = 0.40**,
+   at 83 vs 88 of 171 (ANSWER 22 vs 24; new errors d2-17, d2-24, d3-02, d3-28, d4-27).
+6. **One-shot confirm** (`make passage-null-pool-confirm`, `artifacts/passage_null_pool_confirm.md`):
+
+| rows never seen while designing | shipped default | pool, q = 0.40 |
+| :--- | ---: | ---: |
+| v2 confirm traps opened | **1 / 20 (at2-01)** | **1 / 20 (at2-01)** |
+| 203-row clean / perturbed | 1.000 / 0.901 | 1.000 / 0.901 |
+| held-out accuracy / ANSWER | 0.514 / 0 of 9 | 0.514 / 0 of 9 |
+| dev6 (spent, recorded only) | 21 / 45 | 20 / 45 (d6-20 lost) |
+
+   `What taste is the LaunchDarkly checkout_retry flag?` is answered by both. In pool mode its
+   percentile is 0.408, just above the cut. The trap check fails and every other check passes,
+   so **`passage_support_null_pool` stays False** and v2 confirm is spent. Across 10,000
+   samples, the shipped test opens at least one v2 confirm trap with probability 0.990.
+7. **Post-hoc overlap** (`make passage-null-overlap`, `artifacts/passage_null_overlap.md`,
+   selects nothing): **no whole-pool cut is both safe and free**. at2-01 opens up to
+   q = 0.408, while 6 ANSWER rows survive only below that cut (d2-17 0.344, d3-02 0.348,
+   d3-23 0.402, d3-10 0.408, ...). The opened traps are credited by generic passage words
+   (`taste <- one`, `flavour <- two / other`, `shape <- region`, `expensive <- adds`). Most
+   keep rows near the cut are credited by real substitutes (`plan <- schedule`,
+   `quota <- remaining`), though not all (`today <- only`).
+8. **CI** (`scripts/run_attribute_traps_v2_eval.py`, report-only): the shipped default opens
+   1 of 40 v2 traps (at2-01, pinned by a strict `xfail`). The step fails on any other open, on
+   split drift or on a held-out word.
+
+### Reproduce
+
+    make passage-null-exact passage-null-overlap attribute-traps-v2-eval   # ~1 min
+    make calibrate-passage-null-pool passage-null-pool-confirm             # the confirm is spent; re-running reproduces it
+    pytest tests/test_passage_null_pool*.py tests/test_passage_null_exact*.py tests/test_passage_null_overlap.py tests/test_attribute_traps_v2*.py
+
+### Weaknesses
+
+- **The shipped default answers a fresh must-refuse trap (at2-01).** It is pinned by a strict
+  `xfail`, and no fix ships today.
+- The percentile statistic itself is the limit, not the sample. Traps and real paraphrases
+  overlap at 0.34–0.41. The next idea is to check the *credited* passage word (a generic or
+  function word such as `one`, `two`, `other` should not be able to vouch for a noun). That
+  needs a third trap set and a fresh dev7, because both trap sets, dev5 confirm and dev6 are
+  spent.
+- Held-out ANSWER is still **0 of 9**. Ops synonyms (`lag`, `bounce`), everyday paraphrases
+  and formatless secrets are untouched.
+- The decision trees assume that a call's outcome depends only on pass or veto. This holds for
+  the shipped grounder (tested against 21 seeds), but would need re-checking if the null test
+  ever fed a score into a later gate.
+- Hand labels (trap wording, generic vs real credit) are one person's judgement.
+
 ## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26): +2 rows and held-out ANSWER 0 → 1 of 9, but it opens the word-sense trap d6-36, so it ships off; and the shipped null test's 0-of-36 trap result holds for seed 42 only
 
 PR #29 left one candidate: the word-meaning-gated Datamuse arm (98 vs 88 of 171 calibration
