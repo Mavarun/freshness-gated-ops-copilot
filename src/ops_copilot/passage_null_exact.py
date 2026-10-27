@@ -54,6 +54,7 @@ class Node:
     decision: str | None = None
     query: str = ""
     word: str = ""
+    credited: str = ""  # passage word the classifier credits for ``word`` on this call
     below: np.ndarray | None = None
     passed: "Node | None" = None
     vetoed: "Node | None" = None
@@ -80,7 +81,8 @@ class _Forcer:
             for j in near:  # settle near-ties with the exact shipped comparison
                 v = model.verdict([self.pool[j] if w == word else w for w in q_words], p_list, weight)
                 below[j] = v is not None and v.prob < real.prob
-        self.calls.append((word, below))
+        cred = (real.best.get(word, (None, 0.0))[0] or "") if real is not None else ""
+        self.calls.append((word, below, cred))
         ok = self.pattern[i] if i < len(self.pattern) else True
         return 1.0 if ok else 0.0
 
@@ -109,8 +111,8 @@ def build_trees(rows: list[dict], cfg: CopilotConfig | None = None) -> tuple[dic
             dec, calls = run(query, pattern)
             if len(calls) <= len(pattern) or len(pattern) >= MAX_CALLS:
                 return Node(decision=dec)
-            word, below = calls[len(pattern)]
-            return Node(query=query, word=word, below=below,
+            word, below, cred = calls[len(pattern)]
+            return Node(query=query, word=word, credited=cred, below=below,
                         passed=explore(query, pattern + [True]), vetoed=explore(query, pattern + [False]))
 
         trees = {r["id"]: explore(r["query"], []) for r in rows}
