@@ -1,4 +1,4 @@
-.PHONY: passage-null-overlap calibrate-passage-null-pool passage-null-pool-confirm passage-null-exact dev6-eval passage-null-seeds datamuse-dev6-posthoc datamuse-dev6-confirm recalibrate-datamuse-dev5 attribute-traps-eval passage-null-confirm calibrate-passage-null passage-null-diagnosis dev5-eval passage-sense-probe calibrate-datamuse-dev5 dev4-eval datamuse-dev4-confirm calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: attribute-traps-v2-eval passage-null-overlap calibrate-passage-null-pool passage-null-pool-confirm passage-null-exact dev6-eval passage-null-seeds datamuse-dev6-posthoc datamuse-dev6-confirm recalibrate-datamuse-dev5 attribute-traps-eval passage-null-confirm calibrate-passage-null passage-null-diagnosis dev5-eval passage-sense-probe calibrate-datamuse-dev5 dev4-eval datamuse-dev4-confirm calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -235,6 +235,10 @@ passage-null-pool-confirm:
 # Post-hoc: can any pool cut separate the traps from the keep rows? (selects nothing)
 passage-null-overlap:
 	python scripts/run_passage_null_overlap.py
+
+# Spent v2 traps on the shipped default (CI step; known open at2-01).
+attribute-traps-v2-eval:
+	python scripts/run_attribute_traps_v2_eval.py
 
 # dev6 (spent), report-only regression check of the shipped default (CI step).
 dev6-eval:
