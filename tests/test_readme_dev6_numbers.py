@@ -18,10 +18,10 @@ def _j(name: str) -> dict:
     return json.loads((ART / name).read_text())
 
 
-def test_it_is_the_newest_section():
-    text = (ROOT / "README.md").read_text(encoding="utf-8")
-    first = text.index("\n## ")
-    assert text[first + 1:].startswith("## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26)")
+def test_it_directly_follows_the_seed_free_section():
+    heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
+    assert heads[0].startswith("## Seed-free null test (2026-10-27)")
+    assert heads[1].startswith("## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26)")
 
 
 def test_confirm_table_matches():
