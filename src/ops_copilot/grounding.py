@@ -99,7 +99,14 @@ import numpy as np
 
 from ops_copilot.embeddings import EmbeddingBackend, evidence_sentences
 
-from ops_copilot.passage_support import NULL_SEED, PassageSupportModel, control_words, null_percentile
+from ops_copilot.passage_support import (
+    NULL_SEED,
+    PassageSupportModel,
+    control_pool,
+    control_words,
+    null_percentile,
+    pool_null_percentile,
+)
 from ops_copilot.qa_translation import AnswerSupportModel, Translation
 from ops_copilot.qa_translation import words as qa_words
 from ops_copilot.lexicon import WH_WORDS, CorpusVocabulary, fix_interrogative_typos
@@ -236,6 +243,7 @@ class Grounder:
         passage_null_controls: int = 100,
         passage_null_seed: int = NULL_SEED,
         passage_null_sticky: bool = False,
+        passage_null_pool: bool = False,
         gloss_sense: GlossSenseBackoff | None = None,
         noun_gloss: NounGlossSenseBackoff | None = None,
         noun_gloss_known: bool = False,
@@ -271,12 +279,20 @@ class Grounder:
         self.passage_null_sticky = bool(passage_null_sticky)
         # query -> words the null test vetoed on some evidence part (sticky mode)
         self._null_vetoed: OrderedDict[str, frozenset[str]] = OrderedDict()
+        self.passage_null_pool = bool(passage_null_pool)
+        # (query, word, percentile) of every null test run, newest last (bounded);
+        # read by the report-only diagnostics, never by a decision.
+        self.null_log: list[tuple[str, str, float]] = []
         if passage_support is not None and self.passage_null_min > 0:
             corpus_qa = {w for text in corpus_texts for w in qa_words(text)}
-            self.passage_null_controls = control_words(
-                passage_support.vectors, corpus_qa | set(self.idf), k=int(passage_null_controls),
-                seed=int(passage_null_seed),
-            )
+            exclude = corpus_qa | set(self.idf)
+            if self.passage_null_pool:  # seed-free: the whole pool, no sample
+                self.passage_null_controls = control_pool(passage_support.vectors, exclude)
+            else:
+                self.passage_null_controls = control_words(
+                    passage_support.vectors, exclude, k=int(passage_null_controls),
+                    seed=int(passage_null_seed),
+                )
         self.gloss_sense = gloss_sense
         self.noun_gloss = noun_gloss
         self.noun_gloss_known = bool(noun_gloss_known and noun_gloss is not None)
@@ -580,10 +596,12 @@ class Grounder:
                 key = fold_token(t.token)
                 if self.passage_null_sticky and key in self._null_vetoed.get(query, frozenset()):
                     return (), best.prob
-                pct = null_percentile(
+                pct = (pool_null_percentile if self.passage_null_pool else null_percentile)(
                     model, q_words, fold_token(t.token), best_words, self._plain_weight,
                     self.passage_null_controls,
                 )
+                self.null_log.append((query, key, pct))
+                del self.null_log[:-4096]
                 if pct < self.passage_null_min:
                     if self.passage_null_sticky:
                         self._remember_null_veto(query, key)

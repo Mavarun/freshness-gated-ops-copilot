@@ -267,6 +267,7 @@ class Copilot:
             passage_null_controls=self.config.passage_support_null_controls,
             passage_null_seed=self.config.passage_support_null_seed,
             passage_null_sticky=self.config.passage_support_null_sticky,
+            passage_null_pool=self.config.passage_support_null_pool,
             gloss_sense=(
                 self.gloss_sense
                 if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
