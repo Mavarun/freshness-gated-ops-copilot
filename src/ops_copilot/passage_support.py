@@ -451,3 +451,139 @@ def null_percentile(
 @lru_cache(maxsize=2)
 def _load_model(path: str) -> dict:
     return json.loads(Path(path).read_text())
+
+
+# ---------------------------------------------------------------------------
+# seed-free variant (2026-10-27): the percentile over the *whole* control pool
+#
+# ``control_words`` draws k words from a pool of a few thousand, so the shipped
+# percentile is a sample estimate and the 2026-10-26 seed sweep showed the
+# decision on borderline traps depends on which sample was drawn. Scoring every
+# pool word removes the sample (and the seed) altogether. The loop in
+# ``null_percentile`` would cost ~50x more per rescue, so ``pool_null_percentile``
+# computes the same features for all pool words at once: a control replaces one
+# query word, so only that word's weight, credit and vector change and every
+# feature is a closed-form update of the other words' sums.
+
+NULL_TIE_EPS = 1e-6  # the vectors are float32: loop and closed form agree to ~2e-7
+
+
+def control_pool(dv: DomainVectors, exclude: Iterable[str]) -> tuple[str, ...]:
+    """The sorted pool ``control_words`` samples from (no seed, no sample)."""
+    ex = set(exclude)
+    return tuple(sorted(w for w in dv.index if w.isalpha() and len(w) >= NULL_MIN_LEN and w not in ex))
+
+
+def substitution_probs(
+    model: "PassageSupportModel",
+    q_words: Sequence[str],
+    word: str,
+    p_words: Iterable[str],
+    weight: Callable[[str], float],
+    controls: Sequence[str],
+) -> np.ndarray:
+    """Classifier probability for each control replacing ``word`` (vectorised).
+
+    Equals ``model.verdict([c if w == word else w ...], p_words, weight).prob``
+    for every control ``c`` (tested to 1e-6; the vectors are float32), with ``nan`` where the loop
+    would return ``None``. Controls that are already another query word or a
+    passage word fall back to the exact loop, since the closed form assumes a
+    new, missing word.
+    """
+    dv = model.vectors
+    pset = set(p_words)
+    q = list(dict.fromkeys(q_words))
+    if word not in q:  # nothing to replace: every control scores like the real query
+        v = model.verdict(q_words, list(pset), weight)
+        return np.full(len(controls), np.nan if v is None else v.prob)
+    others = [w for w in q if w != word]
+    plist = [a for a in pset if a in dv.index]
+    pmat = dv.vectors[[dv.index[a] for a in plist]] if plist else None
+    n = len(others) + 1  # distinct words once ``word`` is replaced by a new control
+    ws = {w: max(weight(w), 1e-6) for w in others}
+    credit: dict[str, float] = {}
+    for w in others:
+        if w in pset:
+            credit[w] = 1.0
+            continue
+        v = dv.vector(w)
+        credit[w] = 0.0 if v is None or pmat is None else max(float(np.max(pmat @ v)), SIM_FLOOR)
+    hit = [w for w in others if w in pset]
+    miss = [w for w in others if w not in pset]
+    s_w = sum(ws.values())
+    s_hit = sum(ws[w] for w in hit)
+    s_soft = sum(ws[w] * credit[w] for w in others)
+    min_miss = min((credit[w] for w in miss), default=np.inf)
+    s_cred = sum(credit[w] for w in others)
+    ge4 = sum(credit[w] >= 0.4 for w in others)
+    ge6 = sum(credit[w] >= 0.6 for w in others)
+    union = len(set(others) | pset) + 1
+    qsum = np.zeros(dv.vectors.shape[1])
+    for w in others:
+        if w in dv.index:
+            qsum = qsum + dv.vectors[dv.index[w]] * ws[w]
+    pv = _mean_vec(dv, plist, weight) if plist else None
+
+    ctrl = list(controls)
+    out = np.full(len(ctrl), np.nan)
+    fast = [i for i, c in enumerate(ctrl) if c in dv.index and c not in pset and c not in ws]
+    if fast:
+        cv = dv.vectors[[dv.index[ctrl[i]] for i in fast]]
+        wc = np.array([max(weight(ctrl[i]), 1e-6) for i in fast])
+        cc = np.maximum(np.max(cv @ pmat.T, axis=1), SIM_FLOOR) if pmat is not None else np.zeros(len(fast))
+        total = s_w + wc
+        qv = qsum[None, :] + cv * wc[:, None]
+        norm = np.linalg.norm(qv, axis=1)
+        if pv is not None:
+            cen = np.where(norm > 0, (qv @ pv) / np.where(norm > 0, norm, 1.0), 0.0)
+        else:
+            cen = np.zeros(len(fast))
+        feats = {
+            "lex": s_hit / total,
+            "soft": (s_soft + wc * cc) / total,
+            "weakest": np.minimum(min_miss, cc),
+            "missing": np.full(len(fast), (len(miss) + 1) / n),
+            "centroid": cen,
+            "jaccard": np.full(len(fast), len(hit) / union),
+            "hit_frac": np.full(len(fast), len(hit) / n),
+            "soft_ge_04": (ge4 + (cc >= 0.4)) / n,
+            "soft_ge_06": (ge6 + (cc >= 0.6)) / n,
+            "best_mean": (s_cred + cc) / n,
+            "len_ratio": np.full(len(fast), math.tanh(math.log((1.0 + len(pset)) / (1.0 + n)))),
+        }
+        clf = model.classifier
+        x = np.column_stack([feats[name] for name in clf.names])
+        logit = ((x - clf.mean) / clf.scale) @ clf.coef + clf.intercept
+        out[fast] = 1.0 / (1.0 + np.exp(-logit))
+    p_list = list(pset)
+    done = set(fast)
+    for i, c in enumerate(ctrl):
+        if i in done:
+            continue
+        v = model.verdict([c if w == word else w for w in q_words], p_list, weight)
+        out[i] = np.nan if v is None else v.prob
+    return out
+
+
+def pool_null_percentile(
+    model: "PassageSupportModel",
+    q_words: Sequence[str],
+    word: str,
+    p_words: Iterable[str],
+    weight: Callable[[str], float],
+    pool: Sequence[str],
+) -> float:
+    """Fraction of the *whole* pool scoring below the real word (no seed, no sample).
+
+    The real word is scored by ``model.verdict`` exactly as in
+    ``null_percentile``; a control within ``NULL_TIE_EPS`` of the real
+    probability counts as a tie (not below), so float rounding between the
+    loop and the closed form cannot move a control across the real word.
+    """
+    p_list = list(p_words)
+    real = model.verdict(q_words, p_list, weight)
+    if real is None or not pool:
+        return 0.0
+    probs = substitution_probs(model, q_words, word, p_list, weight, pool)
+    below = np.nan_to_num(probs, nan=np.inf) < real.prob - NULL_TIE_EPS
+    return float(np.mean(below))
