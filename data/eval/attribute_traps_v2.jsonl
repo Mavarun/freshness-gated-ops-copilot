@@ -1,0 +1,40 @@
+{"id": "at2-01", "query": "What taste is the LaunchDarkly checkout_retry flag?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "taste", "form": "what_attr_is"}
+{"id": "at2-02", "query": "What aroma is the Kafka consumer drain runbook?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "aroma", "form": "what_attr_is"}
+{"id": "at2-03", "query": "What temperament is the Vault AppRole rotation schedule?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "temperament", "form": "what_attr_is"}
+{"id": "at2-04", "query": "What horsepower is the auth token TTL?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "horsepower", "form": "what_attr_is"}
+{"id": "at2-05", "query": "What hairstyle is the Grafana checkout SLI snapshot?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "hairstyle", "form": "what_attr_is"}
+{"id": "at2-06", "query": "What zodiac is the INC-3104 incident?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "zodiac", "form": "what_attr_is"}
+{"id": "at2-07", "query": "What religion is the Redis maxmemory-policy?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "religion", "form": "what_attr_is"}
+{"id": "at2-08", "query": "What accent is the payments-api QPS panel?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "accent", "form": "what_attr_is"}
+{"id": "at2-09", "query": "What melody is the Q1 checkout SLO target?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "melody", "form": "what_attr_is"}
+{"id": "at2-10", "query": "What wingspan is the OPS-9912 ticket?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "wingspan", "form": "what_attr_is"}
+{"id": "at2-11", "query": "What hobby is the payments-worker replica snapshot?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "hobby", "form": "what_attr_is"}
+{"id": "at2-12", "query": "What is the taste of the Grafana checkout SLI snapshot?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "taste", "form": "what_is_attr_of"}
+{"id": "at2-13", "query": "What is the aroma of the INC-3104 incident?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "aroma", "form": "what_is_attr_of"}
+{"id": "at2-14", "query": "What is the temperament of the Redis maxmemory-policy?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "temperament", "form": "what_is_attr_of"}
+{"id": "at2-15", "query": "What is the horsepower of the payments-api QPS panel?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "horsepower", "form": "what_is_attr_of"}
+{"id": "at2-16", "query": "What is the hairstyle of the Q1 checkout SLO target?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "hairstyle", "form": "what_is_attr_of"}
+{"id": "at2-17", "query": "What is the zodiac of the OPS-9912 ticket?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "zodiac", "form": "what_is_attr_of"}
+{"id": "at2-18", "query": "What is the religion of the payments-worker replica snapshot?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "religion", "form": "what_is_attr_of"}
+{"id": "at2-19", "query": "What is the accent of the LaunchDarkly checkout_retry flag?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "accent", "form": "what_is_attr_of"}
+{"id": "at2-20", "query": "What is the melody of the Kafka consumer drain runbook?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "melody", "form": "what_is_attr_of"}
+{"id": "at2-21", "query": "What is the wingspan of the Vault AppRole rotation schedule?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "wingspan", "form": "what_is_attr_of"}
+{"id": "at2-22", "query": "What is the hobby of the auth token TTL?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "hobby", "form": "what_is_attr_of"}
+{"id": "at2-23", "query": "What is the Q1 checkout SLO target taste?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "taste", "form": "what_is_subject_attr"}
+{"id": "at2-24", "query": "What is the OPS-9912 ticket aroma?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "aroma", "form": "what_is_subject_attr"}
+{"id": "at2-25", "query": "What is the payments-worker replica snapshot temperament?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "temperament", "form": "what_is_subject_attr"}
+{"id": "at2-26", "query": "What is the LaunchDarkly checkout_retry flag horsepower?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "horsepower", "form": "what_is_subject_attr"}
+{"id": "at2-27", "query": "What is the Kafka consumer drain runbook hairstyle?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "hairstyle", "form": "what_is_subject_attr"}
+{"id": "at2-28", "query": "What is the Vault AppRole rotation schedule zodiac?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "zodiac", "form": "what_is_subject_attr"}
+{"id": "at2-29", "query": "What is the auth token TTL religion?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "religion", "form": "what_is_subject_attr"}
+{"id": "at2-30", "query": "What is the Grafana checkout SLI snapshot accent?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "accent", "form": "what_is_subject_attr"}
+{"id": "at2-31", "query": "What is the INC-3104 incident melody?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "melody", "form": "what_is_subject_attr"}
+{"id": "at2-32", "query": "What is the Redis maxmemory-policy wingspan?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "wingspan", "form": "what_is_subject_attr"}
+{"id": "at2-33", "query": "What is the payments-api QPS panel hobby?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "hobby", "form": "what_is_subject_attr"}
+{"id": "at2-34", "query": "How sweet is the Vault AppRole rotation schedule?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "sweet", "form": "how_adj_is"}
+{"id": "at2-35", "query": "How bitter is the auth token TTL?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "bitter", "form": "how_adj_is"}
+{"id": "at2-36", "query": "How fluffy is the Grafana checkout SLI snapshot?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "fluffy", "form": "how_adj_is"}
+{"id": "at2-37", "query": "How brave is the INC-3104 incident?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "brave", "form": "how_adj_is"}
+{"id": "at2-38", "query": "How juicy is the Redis maxmemory-policy?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "juicy", "form": "how_adj_is"}
+{"id": "at2-39", "query": "How shiny is the payments-api QPS panel?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "shiny", "form": "how_adj_is"}
+{"id": "at2-40", "query": "How salty is the Q1 checkout SLO target?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "salty", "form": "how_adj_is"}
