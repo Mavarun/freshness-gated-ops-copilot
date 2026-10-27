@@ -283,6 +283,12 @@ class CopilotConfig:
     # it the rescue is retried per supporting chunk and one lucky chunk is
     # enough (artifacts/passage_null_diagnosis.md: at-22, at-25).
     passage_support_null_sticky: bool = True
+    # Seed-free null test (off): score the rescued word against the *whole*
+    # control pool (passage_support.pool_null_percentile, ~5,000 words) instead
+    # of a 100-word seeded sample, so neither _controls nor _seed is used.
+    # Added 2026-10-27 because the shipped "0 of 36 traps" held for seed 42
+    # only (artifacts/passage_null_seeds.md).
+    passage_support_null_pool: bool = False
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
