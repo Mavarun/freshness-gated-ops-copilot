@@ -268,6 +268,9 @@ class Copilot:
             passage_null_seed=self.config.passage_support_null_seed,
             passage_null_sticky=self.config.passage_support_null_sticky,
             passage_null_pool=self.config.passage_support_null_pool,
+            passage_credit_stop=self.config.passage_support_credit_stop,
+            passage_credit_top_freq=self.config.passage_support_credit_top_freq,
+            passage_credit_max_rank=self.config.passage_support_credit_max_rank,
             gloss_sense=(
                 self.gloss_sense
                 if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
