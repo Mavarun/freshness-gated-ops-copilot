@@ -17,12 +17,15 @@ def dv():
     return default_vectors()
 
 
-def test_all_checks_off_by_default():
+def test_stop_word_check_ships_on_and_the_other_two_stay_off():
+    # on since its one-shot confirm (artifacts/credit_check_confirm.json)
     cfg = CopilotConfig()
-    assert cfg.passage_support_credit_stop is False
+    assert cfg.passage_support_credit_stop is True
     assert cfg.passage_support_credit_top_freq == 0
     assert cfg.passage_support_credit_max_rank == 0
-    assert not Copilot(config=cfg).grounder.credit_check_on
+    assert Copilot(config=cfg).grounder.credit_check_on
+    off = replace(cfg, passage_support_credit_stop=False)
+    assert not Copilot(config=off).grounder.credit_check_on
 
 
 def test_off_returns_no_problem(dv):
@@ -83,7 +86,8 @@ def test_veto_is_sticky_so_no_later_evidence_part_rescues_the_word():
 
 
 def test_shipped_default_unchanged_on_golden_answers():
-    off, on = Copilot(config=CopilotConfig()), Copilot(config=replace(CopilotConfig(), passage_support_credit_stop=True))
+    off = Copilot(config=replace(CopilotConfig(), passage_support_credit_stop=False))
+    on = Copilot(config=CopilotConfig())
     for q in ("What is the current checkout p99 latency?", "Is the checkout_retry feature flag enabled?",
               "What is the remaining error budget for checkout?"):
         assert on.ask(q).decision == off.ask(q).decision

@@ -99,7 +99,9 @@ __all__ = ["calibration_rows", "opened_must_refuse"]
 
 def pre_change_config() -> CopilotConfig:
     """The shipped default before this slice (null test off): every baseline here."""
-    return replace(CopilotConfig(), passage_support_null_min=0.0, passage_support_null_sticky=False)
+    # credited-word check (2026-10-28) did not exist yet: keep it off so the record reproduces
+    return replace(CopilotConfig(), passage_support_null_min=0.0, passage_support_null_sticky=False,
+                   passage_support_credit_stop=False)
 
 
 def grid_settings() -> list[dict]:

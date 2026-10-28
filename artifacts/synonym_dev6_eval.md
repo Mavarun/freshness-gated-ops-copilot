@@ -4,4 +4,4 @@ Vocabulary problems: none. Held-out words in file: none. Rows: 45 (20 must-refus
 
 | arm | correct | ANSWER | must-refuse opened | fail-open | spurious write | raw PII |
 | --- | ---: | ---: | --- | ---: | ---: | ---: |
-| default (shipped) | 21/45 | 3/24 | - | 0 | 0 | 0 |
+| default (shipped) | 20/45 | 2/24 | - | 0 | 0 | 0 |

@@ -24,7 +24,10 @@ def test_grid_is_31_arms_without_all_off():
 
 
 def test_baseline_is_the_shipped_default_and_arms_only_touch_credit_knobs():
-    assert shipped_config() == CopilotConfig()
+    # the pre-change default (credited-word check off) stays the baseline after the flip
+    from dataclasses import replace
+
+    assert shipped_config() == replace(CopilotConfig(), passage_support_credit_stop=False)
     cfg = config_for({"stop": True, "top_freq": 100, "max_rank": 500})
     assert (cfg.passage_support_credit_stop, cfg.passage_support_credit_top_freq,
             cfg.passage_support_credit_max_rank) == (True, 100, 500)

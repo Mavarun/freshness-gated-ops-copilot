@@ -84,8 +84,10 @@ def test_fresh_set_blind_run() -> None:
     off = score(base, rows)
     on = score(replace(base, **CONFIGS["+ passage classifier (dev-chosen)"]), rows)
     # 18/26 at its 2026-10-11 run (all rescues), 14/26 by PR #28; 11/26 since the
-    # null-control test (2026-10-25) refuses f05 residual, f09 slot and f15 empty.
-    assert off["n"] - len(off["wrong"]) == 7 and on["n"] - len(on["wrong"]) == 11
+    # null-control test (2026-10-25) refuses f05 residual, f09 slot and f15 empty;
+    # 10/26 since the credited-word check (2026-10-28) refuses the f13 rescue, so the
+    # stale row is refused as ungrounded (still a refusal).
+    assert off["n"] - len(off["wrong"]) == 7 and on["n"] - len(on["wrong"]) == 10
     assert on["n_fail_open"] == 0 and on["n_spurious_write"] == 0
     broke = {w.split(":")[0] for w in on["wrong"]} - {w.split(":")[0] for w in off["wrong"]}
     assert broke == set()

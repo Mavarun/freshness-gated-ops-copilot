@@ -61,7 +61,8 @@ def test_trees_are_small_and_most_rows_never_reach_the_null_test(built):
 def test_pool_decision_equals_a_real_pool_mode_run(built):
     _, traps, trees, _ = built
     for q in (0.30, 0.38):
-        cfg = replace(CopilotConfig(), passage_support_null_pool=True, passage_support_null_min=q)
+        cfg = replace(CopilotConfig(), passage_support_null_pool=True, passage_support_null_min=q,
+                      passage_support_credit_stop=False)  # the trees are of the 2026-10-27 default
         bot = Copilot(config=cfg)
         real = {t["id"]: bot.ask(t["query"]).decision.value for t in traps}
         assert real == {t["id"]: pool_decision(trees, q)[t["id"]] for t in traps}

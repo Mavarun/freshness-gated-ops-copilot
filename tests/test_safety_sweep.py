@@ -1,6 +1,7 @@
 """Unit-test literal sweep: the dev3-chosen Datamuse arm opens a labelled trap, so it ships off."""
 
 import json
+from dataclasses import replace
 from pathlib import Path
 
 from ops_copilot.config import CopilotConfig
@@ -21,12 +22,17 @@ def test_collects_query_literals_including_every_labelled_one():
 
 def test_chosen_arm_opens_the_revert_toggle_trap_and_default_does_not():
     chosen = json.loads((ROOT / "artifacts" / "datamuse_dev3_confirm.json").read_text())["chosen"]
-    rep = sweep(config_for(chosen), queries=[REVERT, "What is the chargeback runbook for INC-4821?"])
+    # the 2026-10-21 record, on the default of that day (credited-word check off)
+    pre = replace(CopilotConfig(), passage_support_credit_stop=False)
+    rep = sweep(config_for(chosen, pre), base=pre, queries=[REVERT, "What is the chargeback runbook for INC-4821?"])
     assert [c["query"] for c in rep["changed"]] == [REVERT]
     assert rep["changed"][0]["base"] == "REFUSE_UNGROUNDED" and rep["changed"][0]["candidate"] == "ANSWER"
     assert rep["safe"] is False
-    same = sweep(CopilotConfig(), queries=[REVERT])
+    same = sweep(pre, base=pre, queries=[REVERT])
     assert same["changed"] == [] and same["safe"] is True
+    # on today's default the arm no longer opens it (the credited-word check refuses
+    # the rescue); recorded only, the arm stays off
+    assert sweep(config_for(chosen), queries=[REVERT])["changed"] == []
 
 
 def test_committed_sweep_artifact_and_the_shipped_flag():

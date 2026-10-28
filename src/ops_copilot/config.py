@@ -296,7 +296,11 @@ class CopilotConfig:
     # (passage_support.credited_word_problems). Added 2026-10-28: the traps that
     # beat the null test ride generic credits ("taste" <- "one", "flavour" <-
     # "two"), artifacts/passage_null_overlap.md.
-    passage_support_credit_stop: bool = False
+    # _stop on since its one-shot confirm (artifacts/credit_check_confirm.json)
+    # met every pre-registered check (v3 confirm traps 0/19, no new dev7 confirm
+    # error, held-out unchanged); it closes at2-01 at a calibration cost of 4 of
+    # 238 rows (artifacts/credit_check_calibration.md). _top_freq / _max_rank stay off.
+    passage_support_credit_stop: bool = True
     passage_support_credit_top_freq: int = 0
     passage_support_credit_max_rank: int = 0
     # Optional sentence embeddings (embeddings.py, extra "[embed]").

@@ -76,8 +76,8 @@ jobs:
 
       # Report-only on safety: the 40 v2 attribute traps (spent 2026-10-27 by the
       # seed-free null-test confirm). Fails on split drift, a held-out word, or
-      # any shipped-default open other than the known at2-01.
-      - name: Attribute traps v2 (shipped default, known open at2-01)
+      # any shipped-default open (at2-01 closed 2026-10-28 by the credited-word check).
+      - name: Attribute traps v2 (shipped default, none open)
         run: python scripts/run_attribute_traps_v2_eval.py
 
       # Gating: exits non-zero if any refusal explanation, or any redacted trace

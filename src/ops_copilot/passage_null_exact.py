@@ -88,7 +88,10 @@ class _Forcer:
 
 
 def shipped_config() -> CopilotConfig:
-    return CopilotConfig()
+    """The shipped default of 2026-10-27 (before the credited-word check), so the record reproduces."""
+    from dataclasses import replace
+
+    return replace(CopilotConfig(), passage_support_credit_stop=False)
 
 
 def build_trees(rows: list[dict], cfg: CopilotConfig | None = None) -> tuple[dict[str, Node], tuple[str, ...]]:
