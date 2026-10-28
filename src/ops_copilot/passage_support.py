@@ -121,12 +121,13 @@ def pair_features(
     q = list(dict.fromkeys(q_words))
     if not q:
         return None
-    pset = set(p_words)
+    pseq = list(dict.fromkeys(p_words))  # passage order, not set order, so float sums and ties are reproducible
+    pset = set(pseq)
     ws = {w: max(weight(w), 1e-6) for w in q}
     total = sum(ws.values())
     hit = [w for w in q if w in pset]
     missing = [w for w in q if w not in pset]
-    plist = [a for a in pset if a in dv.index]
+    plist = [a for a in pseq if a in dv.index]
     pmat = dv.vectors[[dv.index[a] for a in plist]] if plist else None
     credit: dict[str, float] = {w: 1.0 for w in hit}
     best: dict[str, tuple[str | None, float]] = {}
@@ -491,13 +492,14 @@ def substitution_probs(
     new, missing word.
     """
     dv = model.vectors
-    pset = set(p_words)
+    pseq = list(dict.fromkeys(p_words))  # passage order, not set order, so float sums and ties are reproducible
+    pset = set(pseq)
     q = list(dict.fromkeys(q_words))
     if word not in q:  # nothing to replace: every control scores like the real query
-        v = model.verdict(q_words, list(pset), weight)
+        v = model.verdict(q_words, pseq, weight)
         return np.full(len(controls), np.nan if v is None else v.prob)
     others = [w for w in q if w != word]
-    plist = [a for a in pset if a in dv.index]
+    plist = [a for a in pseq if a in dv.index]
     pmat = dv.vectors[[dv.index[a] for a in plist]] if plist else None
     n = len(others) + 1  # distinct words once ``word`` is replaced by a new control
     ws = {w: max(weight(w), 1e-6) for w in others}
@@ -555,7 +557,7 @@ def substitution_probs(
         x = np.column_stack([feats[name] for name in clf.names])
         logit = ((x - clf.mean) / clf.scale) @ clf.coef + clf.intercept
         out[fast] = 1.0 / (1.0 + np.exp(-logit))
-    p_list = list(pset)
+    p_list = pseq
     done = set(fast)
     for i, c in enumerate(ctrl):
         if i in done:
