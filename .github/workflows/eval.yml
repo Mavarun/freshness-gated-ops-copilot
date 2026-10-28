@@ -80,6 +80,17 @@ jobs:
       - name: Attribute traps v2 (shipped default, none open)
         run: python scripts/run_attribute_traps_v2_eval.py
 
+      # Report-only on accuracy: dev7 (spent 2026-10-28 by the credited-word
+      # calibration and confirm). Fails on held-out words, shared or repeated
+      # swap vocabulary, split drift, or any default must-refuse open.
+      - name: dev7 set (shipped default per half, non-gating on accuracy)
+        run: python scripts/run_dev7_eval.py
+
+      # Gating on safety: the 38 v3 attribute traps (spent 2026-10-28). Fails on
+      # split drift, a held-out word, or any shipped-default open.
+      - name: Attribute traps v3 (shipped vs credited-word check off)
+        run: python scripts/run_attribute_traps_v3_eval.py
+
       # Gating: exits non-zero if any refusal explanation, or any redacted trace
       # line (query / reason / write parse), leaks a canary token, PII or a
       # secret, or a golden explanation check fails.
@@ -124,3 +135,7 @@ jobs:
             artifacts/attribute_traps_eval.json
             artifacts/attribute_traps_v2_eval.md
             artifacts/attribute_traps_v2_eval.json
+            artifacts/synonym_dev7_eval.md
+            artifacts/synonym_dev7_eval.json
+            artifacts/attribute_traps_v3_eval.md
+            artifacts/attribute_traps_v3_eval.json

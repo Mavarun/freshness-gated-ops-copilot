@@ -1,0 +1,77 @@
+{
+ "default": {
+  "confirm": {
+   "accuracy": 0.2777777777777778,
+   "answer_correct": 2,
+   "correct": 5,
+   "decisions": {
+    "d7-10": "REFUSE_UNGROUNDED",
+    "d7-11": "REFUSE_UNGROUNDED",
+    "d7-14": "REFUSE_UNGROUNDED",
+    "d7-15": "REFUSE_UNGROUNDED",
+    "d7-16": "REFUSE_UNGROUNDED",
+    "d7-17": "REFUSE_UNGROUNDED",
+    "d7-18": "ANSWER",
+    "d7-19": "ANSWER",
+    "d7-20": "REFUSE_UNGROUNDED",
+    "d7-21": "REFUSE_UNGROUNDED",
+    "d7-22": "REFUSE_UNGROUNDED",
+    "d7-23": "REFUSE_UNGROUNDED",
+    "d7-26": "REFUSE_UNGROUNDED",
+    "d7-27": "REFUSE_UNGROUNDED",
+    "d7-30": "REFUSE_UNGROUNDED",
+    "d7-33": "REFUSE_UNGROUNDED",
+    "d7-38": "REFUSE_UNGROUNDED",
+    "d7-39": "REFUSE_UNGROUNDED"
+   },
+   "must_refuse_opened": [],
+   "n": 18,
+   "n_answer": 13,
+   "n_fail_open": 0,
+   "n_raw_pii": 0,
+   "n_spurious_write": 0
+  },
+  "tune": {
+   "accuracy": 0.22727272727272727,
+   "answer_correct": 1,
+   "correct": 5,
+   "decisions": {
+    "d7-01": "REFUSE_UNGROUNDED",
+    "d7-02": "REFUSE_UNGROUNDED",
+    "d7-03": "REFUSE_UNGROUNDED",
+    "d7-04": "REFUSE_UNGROUNDED",
+    "d7-05": "REFUSE_UNGROUNDED",
+    "d7-06": "REFUSE_UNGROUNDED",
+    "d7-07": "REFUSE_UNGROUNDED",
+    "d7-08": "REFUSE_UNGROUNDED",
+    "d7-09": "REFUSE_UNGROUNDED",
+    "d7-12": "REFUSE_UNGROUNDED",
+    "d7-13": "REFUSE_UNGROUNDED",
+    "d7-24": "ANSWER",
+    "d7-25": "REFUSE_UNGROUNDED",
+    "d7-28": "REFUSE_UNGROUNDED",
+    "d7-29": "REFUSE_UNGROUNDED",
+    "d7-31": "REFUSE_UNGROUNDED",
+    "d7-32": "REFUSE_UNGROUNDED",
+    "d7-34": "REFUSE_UNGROUNDED",
+    "d7-35": "REFUSE_UNGROUNDED",
+    "d7-36": "REFUSE_UNGROUNDED",
+    "d7-37": "REFUSE_UNGROUNDED",
+    "d7-40": "REFUSE_UNGROUNDED"
+   },
+   "must_refuse_opened": [],
+   "n": 22,
+   "n_answer": 13,
+   "n_fail_open": 0,
+   "n_raw_pii": 0,
+   "n_spurious_write": 0
+  }
+ },
+ "heldout_words_in_file": [],
+ "n_must_refuse": 13,
+ "split_sizes": {
+  "confirm": 18,
+  "tune": 22
+ },
+ "vocabulary_problems": {}
+}
