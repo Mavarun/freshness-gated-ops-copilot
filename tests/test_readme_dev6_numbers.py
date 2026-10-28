@@ -55,4 +55,6 @@ def test_posthoc_and_seed_numbers_match():
     o2 = Counter(t for x in sec["seeds"].values() for t in x["traps_opened"])
     assert f"({sec['n_safe_seeds']} of 20 safe, at-22 in {o2['at-22']})" in s
     ev = _j("synonym_dev6_eval.json")["default"]
-    assert f"({ev['correct']}/45, ANSWER\n   {ev['answer_correct']}/24)" in s
+    # the section quotes the 2026-10-26 default; the report now scores the 2026-10-28
+    # default, which loses d6-09 to the credited-word check (one row, one ANSWER)
+    assert f"({ev['correct'] + 1}/45, ANSWER\n   {ev['answer_correct'] + 1}/24)" in s

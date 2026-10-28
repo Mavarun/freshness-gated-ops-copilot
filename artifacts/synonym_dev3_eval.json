@@ -2,12 +2,12 @@
  "halves": {
   "calib": {
    "Datamuse context-gated, dev3-chosen (ships off: opens a unit-test trap)": {
-    "accuracy": 0.72,
-    "answer_correct": 7,
-    "correct": 18,
+    "accuracy": 0.68,
+    "answer_correct": 6,
+    "correct": 17,
     "decisions": {
      "d3-01": "REFUSE_DISAGREE",
-     "d3-02": "ANSWER",
+     "d3-02": "REFUSE_UNGROUNDED",
      "d3-05": "ANSWER",
      "d3-06": "REFUSE_UNGROUNDED",
      "d3-07": "REFUSE_UNGROUNDED",
@@ -39,12 +39,12 @@
     "n_spurious_write": 0
    },
    "default (shipped)": {
-    "accuracy": 0.64,
-    "answer_correct": 6,
-    "correct": 16,
+    "accuracy": 0.6,
+    "answer_correct": 5,
+    "correct": 15,
     "decisions": {
      "d3-01": "REFUSE_UNGROUNDED",
-     "d3-02": "ANSWER",
+     "d3-02": "REFUSE_UNGROUNDED",
      "d3-05": "ANSWER",
      "d3-06": "REFUSE_UNGROUNDED",
      "d3-07": "REFUSE_UNGROUNDED",
@@ -76,12 +76,12 @@
     "n_spurious_write": 0
    },
    "same, unknown words only (post-hoc, ships off)": {
-    "accuracy": 0.68,
-    "answer_correct": 7,
-    "correct": 17,
+    "accuracy": 0.64,
+    "answer_correct": 6,
+    "correct": 16,
     "decisions": {
      "d3-01": "REFUSE_DISAGREE",
-     "d3-02": "ANSWER",
+     "d3-02": "REFUSE_UNGROUNDED",
      "d3-05": "ANSWER",
      "d3-06": "REFUSE_UNGROUNDED",
      "d3-07": "REFUSE_UNGROUNDED",

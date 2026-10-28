@@ -21,7 +21,8 @@ def test_committed_report_matches_a_fresh_run_and_agrees_with_the_confirm_off_ar
     assert fresh == committed
     assert fresh["vocabulary_problems"] == {} and fresh["heldout_words_in_file"] == []
     d = fresh["default"]
-    assert (d["correct"], d["n"], d["answer_correct"], d["n_answer"]) == (21, 45, 3, 24)
+    # 21 / 3 under the 2026-10-26 default; the credited-word check (2026-10-28) costs d6-09
+    assert (d["correct"], d["n"], d["answer_correct"], d["n_answer"]) == (20, 45, 2, 24)
     assert d["must_refuse_opened"] == [] and d["n_fail_open"] == 0
     off = json.loads((ROOT / "artifacts" / "datamuse_dev6_confirm.json").read_text())["confirm"]["off"]
-    assert (off["correct"], off["answer_correct"]) == (d["correct"], d["answer_correct"])
+    assert (off["correct"], off["answer_correct"]) == (d["correct"] + 1, d["answer_correct"] + 1)

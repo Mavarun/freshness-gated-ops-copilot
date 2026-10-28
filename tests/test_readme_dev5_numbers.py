@@ -47,5 +47,7 @@ def test_pair_table_and_dev5_report_numbers_match():
     # report now scores the 2026-10-25 default (null test on), quoted in its own section.
     assert "(10/24, ANSWER 3/13)" in s
     t = rep["tune_default"]
-    assert (t["correct"], t["answer_correct"]) == (10, 2)
+    # 10 / 2 under the 2026-10-25 default; 9 / 1 since the credited-word check
+    # (2026-10-28) refuses d5-18 (artifacts/credit_check_calibration.md)
+    assert (t["correct"], t["answer_correct"]) == (9, 1)
     assert rep["split_sizes"] == {"tune": 24, "confirm": 20} and "24 `tune` / 20 `confirm`" in s

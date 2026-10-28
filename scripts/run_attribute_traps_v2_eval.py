@@ -3,9 +3,10 @@
 
 Both halves are spent (tune in the 2026-10-27 seed-free calibration, confirm
 once). Scores the shipped default on all 40. Exits non-zero if the split
-drifts, a held-out word enters the file, or the shipped default opens any trap
-other than the known at2-01 (``What taste is the LaunchDarkly checkout_retry
-flag?``, pinned by a strict xfail until a fix closes it).
+drifts, a held-out word enters the file, or the shipped default opens any trap.
+The known open of 2026-10-27, at2-01 (``What taste is the LaunchDarkly
+checkout_retry flag?``, a strict xfail until then), was closed on 2026-10-28 by
+the credited-word check (``taste <- one``; ``one`` is a stop word).
 """
 
 from __future__ import annotations
@@ -22,7 +23,7 @@ from ops_copilot.config import CopilotConfig  # noqa: E402
 from ops_copilot.resource_audit import audit  # noqa: E402
 
 FROZEN = {"tune": 20, "confirm": 20}
-KNOWN_OPEN = ("at2-01",)
+KNOWN_OPEN: tuple[str, ...] = ()  # at2-01 closed 2026-10-28 by the credited-word check
 REL = "data/eval/attribute_traps_v2.jsonl"
 
 

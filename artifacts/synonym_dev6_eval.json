@@ -1,8 +1,8 @@
 {
  "default": {
-  "accuracy": 0.4666666666666667,
-  "answer_correct": 3,
-  "correct": 21,
+  "accuracy": 0.4444444444444444,
+  "answer_correct": 2,
+  "correct": 20,
   "must_refuse_opened": [],
   "n": 45,
   "n_answer": 24,

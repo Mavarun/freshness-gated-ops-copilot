@@ -71,7 +71,7 @@ def shipped_config() -> CopilotConfig:
     """The shipped default before this slice (seed-42 sample): every baseline here."""
     return replace(CopilotConfig(), passage_support_null_pool=False, passage_support_null_min=0.30,
                    passage_support_null_controls=100, passage_support_null_seed=42,
-                   passage_support_null_sticky=True)
+                   passage_support_null_sticky=True, passage_support_credit_stop=False)
 
 
 def grid_settings() -> list[dict]:
