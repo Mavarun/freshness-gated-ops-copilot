@@ -104,6 +104,7 @@ from ops_copilot.passage_support import (
     PassageSupportModel,
     control_pool,
     control_words,
+    credited_word_problems,
     null_percentile,
     pool_null_percentile,
 )
@@ -244,6 +245,9 @@ class Grounder:
         passage_null_seed: int = NULL_SEED,
         passage_null_sticky: bool = False,
         passage_null_pool: bool = False,
+        passage_credit_stop: bool = False,
+        passage_credit_top_freq: int = 0,
+        passage_credit_max_rank: int = 0,
         gloss_sense: GlossSenseBackoff | None = None,
         noun_gloss: NounGlossSenseBackoff | None = None,
         noun_gloss_known: bool = False,
@@ -283,6 +287,12 @@ class Grounder:
         # (query, word, percentile) of every null test run, newest last (bounded);
         # read by the report-only diagnostics, never by a decision.
         self.null_log: list[tuple[str, str, float]] = []
+        # Credited-word check (off): a generic passage word may not vouch.
+        self.passage_credit_stop = bool(passage_credit_stop)
+        self.passage_credit_top_freq = int(passage_credit_top_freq)
+        self.passage_credit_max_rank = int(passage_credit_max_rank)
+        # (query, word, credited, problems) of every credited-word check that vetoed (bounded).
+        self.credit_log: list[tuple[str, str, str, tuple[str, ...]]] = []
         if passage_support is not None and self.passage_null_min > 0:
             corpus_qa = {w for text in corpus_texts for w in qa_words(text)}
             exclude = corpus_qa | set(self.idf)
@@ -532,6 +542,10 @@ class Grounder:
                 return True
         return False
 
+    @property
+    def credit_check_on(self) -> bool:
+        return bool(self.passage_credit_stop or self.passage_credit_top_freq or self.passage_credit_max_rank)
+
     def _remember_null_veto(self, query: str, word: str) -> None:
         self._null_vetoed[query] = self._null_vetoed.get(query, frozenset()) | {word}
         self._null_vetoed.move_to_end(query)
@@ -592,6 +606,24 @@ class Grounder:
             # Null-control test (off by default): the passage must prefer this
             # word to most unrelated words, or the probability came from the
             # topic alone ("What flavour is the checkout_retry flag?").
+            # Credited-word check (off by default): a stop word, a very frequent
+            # word or a non-mutual neighbour may not vouch ("taste" <- "one").
+            # The veto shares the null test's sticky memory, so a later
+            # evidence part cannot rescue the same word for the same query.
+            if self.credit_check_on:
+                key = fold_token(t.token)
+                if self.passage_null_sticky and key in self._null_vetoed.get(query, frozenset()):
+                    return (), best.prob
+                probs = credited_word_problems(
+                    model.vectors, key, word, stop=self.passage_credit_stop,
+                    top_freq=self.passage_credit_top_freq, max_rank=self.passage_credit_max_rank,
+                )
+                if probs:
+                    self.credit_log.append((query, key, word, probs))
+                    del self.credit_log[:-4096]
+                    if self.passage_null_sticky:
+                        self._remember_null_veto(query, key)
+                    return (), best.prob
             if self.passage_null_min > 0 and self.passage_null_controls:
                 key = fold_token(t.token)
                 if self.passage_null_sticky and key in self._null_vetoed.get(query, frozenset()):

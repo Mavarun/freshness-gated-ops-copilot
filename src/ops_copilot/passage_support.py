@@ -587,3 +587,54 @@ def pool_null_percentile(
     probs = substitution_probs(model, q_words, word, p_list, weight, pool)
     below = np.nan_to_num(probs, nan=np.inf) < real.prob - NULL_TIE_EPS
     return float(np.mean(below))
+
+
+# ---------------------------------------------------------------------------
+# credited-word check (2026-10-28, opt-in): may this passage word vouch for a noun?
+#
+# ``artifacts/passage_null_overlap.md`` (post-hoc, spent rows) showed that no
+# null-test cut separates attribute traps from real paraphrases: the traps are
+# credited by generic passage words (``taste <- one``, ``flavour <- two``,
+# ``shape <- region``), while most keep rows near the same percentile are
+# credited by real substitutes (``plan <- schedule``). The percentile measures
+# how much the passage prefers the query word, never *which* passage word got
+# the credit. These tests look at that word only, using fixed outside lists
+# (no eval row chose them):
+#
+# - ``stop``: the credited word is an English stop word (scikit-learn's
+#   ``ENGLISH_STOP_WORDS``, 318 words, unchanged since 2010);
+# - ``top_freq``: the credited word is among the ``top_freq`` most frequent
+#   words of the Stack Exchange vector vocabulary (the vector table is stored
+#   in frequency order, so this is its index);
+# - ``max_rank``: the query word is not among the credited word's ``max_rank``
+#   nearest domain-vector neighbours (a credit that the credited word itself
+#   would not return).
+
+def credited_word_problems(
+    dv: DomainVectors, query_word: str, credited: str, *, stop: bool = False,
+    top_freq: int = 0, max_rank: int = 0,
+) -> tuple[str, ...]:
+    """Reasons ``credited`` may not vouch for ``query_word`` (empty: it may)."""
+    from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+
+    if top_freq < 0 or max_rank < 0:
+        raise ValueError("top_freq and max_rank must be >= 0")
+    out = []
+    if stop and credited in ENGLISH_STOP_WORDS:
+        out.append("stop_word")
+    if top_freq and credited in dv.index and dv.index[credited] < top_freq:
+        out.append("frequent")
+    if max_rank:
+        r = neighbour_rank(dv, credited, query_word)
+        if r is None or r > max_rank:
+            out.append("not_mutual")
+    return tuple(out)
+
+
+def neighbour_rank(dv: DomainVectors, centre: str, word: str) -> int | None:
+    """1-based rank of ``word`` among ``centre``'s domain-vector neighbours (``centre`` excluded)."""
+    if centre not in dv.index or word not in dv.index or centre == word:
+        return None
+    sims = dv.vectors @ dv.vectors[dv.index[centre]]
+    sims[dv.index[centre]] = -np.inf
+    return int(np.sum(sims > sims[dv.index[word]])) + 1

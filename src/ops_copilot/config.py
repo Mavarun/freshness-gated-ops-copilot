@@ -289,6 +289,16 @@ class CopilotConfig:
     # Added 2026-10-27 because the shipped "0 of 36 traps" held for seed 42
     # only (artifacts/passage_null_seeds.md).
     passage_support_null_pool: bool = False
+    # Credited-word check on passage rescues (all off): the passage word the
+    # classifier credits for a missing query word may not be an English stop
+    # word (_stop), one of the _top_freq most frequent Stack Exchange vector
+    # words, or a word whose _max_rank nearest neighbours lack the query word
+    # (passage_support.credited_word_problems). Added 2026-10-28: the traps that
+    # beat the null test ride generic credits ("taste" <- "one", "flavour" <-
+    # "two"), artifacts/passage_null_overlap.md.
+    passage_support_credit_stop: bool = False
+    passage_support_credit_top_freq: int = 0
+    passage_support_credit_max_rank: int = 0
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
