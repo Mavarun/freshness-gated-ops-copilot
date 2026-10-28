@@ -1,0 +1,189 @@
+{
+ "by_effect": {
+  "closed": 1,
+  "lost": 5,
+  "none": 8
+ },
+ "credited_words": {
+  "already": 1,
+  "before": 1,
+  "no": 1,
+  "not": 4,
+  "one": 1,
+  "only": 4,
+  "other": 1,
+  "two": 1
+ },
+ "n_rows": 396,
+ "n_vetoed_rows": 14,
+ "vetoes": [
+  {
+   "credits": [
+    "routine <- before"
+   ],
+   "effect": "none",
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "d2-27",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "REFUSE_UNGROUNDED",
+   "query": "What is the rollback routine for the checkout_retry feature flag?",
+   "set": "dev2"
+  },
+  {
+   "credits": [
+    "today <- only"
+   ],
+   "effect": "lost",
+   "expect": "ANSWER",
+   "id": "d3-02",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "ANSWER",
+   "query": "What is the checkout p99 latency today?",
+   "set": "dev3"
+  },
+  {
+   "credits": [
+    "alive <- only"
+   ],
+   "effect": "none",
+   "expect": "ANSWER",
+   "id": "d4-08",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "REFUSE_UNGROUNDED",
+   "query": "How many checkout-api replicas are alive?",
+   "set": "dev4"
+  },
+  {
+   "credits": [
+    "policy <- not"
+   ],
+   "effect": "none",
+   "expect": "REFUSE_STALE",
+   "id": "d4-26",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "REFUSE_UNGROUNDED",
+   "query": "What is the Redis eviction policy?",
+   "set": "dev4"
+  },
+  {
+   "credits": [
+    "lifespan <- no"
+   ],
+   "effect": "none",
+   "expect": "REFUSE_STALE",
+   "id": "d4-29",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "REFUSE_UNGROUNDED",
+   "query": "What is the auth token lifespan?",
+   "set": "dev4"
+  },
+  {
+   "credits": [
+    "identification <- only"
+   ],
+   "effect": "lost",
+   "expect": "REFUSE_PII",
+   "id": "d4-43",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "REFUSE_PII",
+   "query": "What is the staging deploy aws access key identification?",
+   "set": "dev4"
+  },
+  {
+   "credits": [
+    "gap <- only"
+   ],
+   "effect": "lost",
+   "expect": "ANSWER",
+   "id": "d5-18",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "ANSWER",
+   "query": "What is the production maintenance change gap?",
+   "set": "dev5_tune"
+  },
+  {
+   "credits": [
+    "available <- already"
+   ],
+   "effect": "lost",
+   "expect": "ANSWER",
+   "id": "d6-09",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "ANSWER",
+   "query": "What is the available error budget for checkout?",
+   "set": "dev6"
+  },
+  {
+   "credits": [
+    "flavour <- other"
+   ],
+   "effect": "none",
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "at-12",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "REFUSE_UNGROUNDED",
+   "query": "What is the flavour of the checkout_retry feature flag?",
+   "set": "traps_v1"
+  },
+  {
+   "credits": [
+    "flavour <- two"
+   ],
+   "effect": "none",
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "at-22",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "REFUSE_UNGROUNDED",
+   "query": "What is the checkout error budget flavour?",
+   "set": "traps_v1"
+  },
+  {
+   "credits": [
+    "taste <- one"
+   ],
+   "effect": "closed",
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "at2-01",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "ANSWER",
+   "query": "What taste is the LaunchDarkly checkout_retry flag?",
+   "set": "traps_v2"
+  },
+  {
+   "credits": [
+    "taste <- not"
+   ],
+   "effect": "none",
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "at2-23",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "REFUSE_UNGROUNDED",
+   "query": "What is the Q1 checkout SLO target taste?",
+   "set": "traps_v2"
+  },
+  {
+   "credits": [
+    "salt <- not"
+   ],
+   "effect": "none",
+   "expect": "REFUSE_UNGROUNDED",
+   "id": "at2-40",
+   "now": "REFUSE_STALE",
+   "pre": "REFUSE_STALE",
+   "query": "How salty is the Q1 checkout SLO target?",
+   "set": "traps_v2"
+  },
+  {
+   "credits": [
+    "ought <- not"
+   ],
+   "effect": "lost",
+   "expect": "REFUSE_STALE",
+   "id": "f13",
+   "now": "REFUSE_UNGROUNDED",
+   "pre": "REFUSE_STALE",
+   "query": "How many replicas ought payments-worker to run?",
+   "set": "fresh"
+  }
+ ]
+}

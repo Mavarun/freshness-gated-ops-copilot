@@ -13,10 +13,11 @@ def _j(name):
     return json.loads((ROOT / "artifacts" / name).read_text())
 
 
-def test_section_is_first_and_followed_by_the_dev6_section():
+def test_section_is_second_and_followed_by_the_dev6_section():
     heads = [h for h in README.splitlines() if h.startswith("## ")]
-    assert heads[0].startswith(HEAD)
-    assert heads[1].startswith("## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26)")
+    assert heads[0].startswith("## Credited-word check (2026-10-28)")
+    assert heads[1].startswith(HEAD)
+    assert heads[2].startswith("## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26)")
 
 
 def test_exact_distribution_numbers():

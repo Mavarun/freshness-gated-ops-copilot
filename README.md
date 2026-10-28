@@ -22,6 +22,81 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Credited-word check (2026-10-28): a stop word may not vouch for a missing word; closes at2-01, ships on, costs 4 of 238 calibration rows
+
+PR #31 ended with the shipped default answering the fresh trap at2-01 (`What taste is the
+LaunchDarkly checkout_retry flag?`). It also showed that no null-test cut separates traps from
+real paraphrases, because the traps are credited by generic passage words (`taste <- one`). This
+slice checks the *credited* word itself. It writes two fresh sets, pre-registers the check, tunes
+on the tune halves only and confirms once. Labels, golden file and the 203 perturbed rows are
+unchanged (frozen clock 2026-09-13).
+
+### What changed
+
+1. **Credited-word check** (`passage_support.credited_word_problems`, three knobs). A passage
+   rescue is vetoed when the passage word credited for the missing query word is an English stop
+   word (`_stop`, scikit-learn's fixed list), one of the N most frequent Stack Exchange vector
+   words (`_top_freq`), or a word whose K nearest neighbours lack the query word (`_max_rank`).
+   The veto shares the null test's sticky memory, so a later evidence part cannot rescue the
+   same word.
+2. **Traps v3** (`data/eval/attribute_traps_v3.jsonl`, 38 rows written by hand before any config
+   ran on them): 18 new attributes (`nationality`, `vintage`, `calories`, `How grumpy ...`),
+   split 19 tune / 19 confirm by attribute.
+3. **dev7** (`data/eval/synonym_dev7.jsonl`, 40 rows): 26 ANSWER paraphrases, 8 refusal
+   paraphrases, 3 canary / PII / write rows and 3 word-sense traps. Words were screened only by
+   the vocabulary guard. The split is 22 tune / 18 confirm by source query.
+4. **Pre-registered protocol** (`credit_check.py`, committed before any v3 or dev7 row was
+   scored). The grid has 31 arms. Calibration uses 238 rows (incl. dev7 tune), 51 clean rows and
+   95 traps (all v1 and v2, v3 tune). Safe means at2-01 closes, no trap or must-refuse row
+   opens, and at most 6 rows / 3 ANSWER rows are lost. What was looked at on spent rows first is
+   disclosed in the module.
+5. **Calibration** (`make calibrate-credit-check`, `artifacts/credit_check_calibration.md`):
+   **2 of 31 arms are safe, both built on stop words.** The neighbour rank alone never closes
+   at2-01, and every top-N frequency list costs 9–19 rows. **Chosen: stop words only**, at
+   110 vs 114 of 238 (ANSWER 25 vs 28).
+6. **One-shot confirm** (`make credit-check-confirm`, `artifacts/credit_check_confirm.md`):
+
+| rows never seen while designing | shipped default (check off) | + stop-word check |
+| :--- | ---: | ---: |
+| v3 confirm traps opened | 0 / 19 | 0 / 19 |
+| dev7 confirm correct / ANSWER | 5 / 18, 2 of 13 | 5 / 18, 2 of 13 |
+| 203-row clean / perturbed | 1.000 / 0.901 | 1.000 / 0.901 |
+| held-out accuracy / ANSWER | 0.514 / 0 of 9 | 0.514 / 0 of 9 |
+| fresh set (recorded only) | 11 / 26 | 10 / 26 |
+
+   Every check passes (no new dev7 error), so **`passage_support_credit_stop` is now True**. The
+   confirm shows *no harm*, not a gain: even with the check off, the default refuses all 38 v3
+   traps and no dev7 confirm row changes. The check's only trap effect is the spent at2-01, so
+   **v2 traps go from 1 of 40 open to 0 of 40**, and its strict `xfail` is gone.
+7. **What it vetoes** (`artifacts/credit_check_audit.md`, post-hoc, 396 rows): 14 rows have a
+   veto. 1 trap closes (`taste <- one`). 5 rows are lost: 3 real ANSWER rows (`today <- only`,
+   `gap <- only`, `available <- already`) and 2 refusals that now give the wrong reason
+   (d4-43 PII -> ungrounded, fresh f13 stale -> ungrounded; both still refuse). 8 rows do not
+   change. Report-only artifacts are re-pinned with this cost: dev5 tune 10 -> 9 of 24, dev6
+   21 -> 20 of 45, dev3 calib 16 -> 15 of 25, dev4 tune 7 -> 6 of 23.
+
+### Reproduce
+
+    make calibrate-credit-check credit-check-confirm     # ~45 s; the confirm is spent
+    python scripts/run_credit_check_audit.py
+    python scripts/run_dev7_eval.py && python scripts/run_attribute_traps_v3_eval.py
+    pytest tests/test_credit*.py tests/test_attribute_traps_v3.py tests/test_synonym_dev7.py
+
+### Weaknesses
+
+- **Traps v3 has no power.** The check-off default already refuses all 38, so the evidence that
+  the check closes traps is one spent row (at2-01). A harder fourth trap set needs attributes
+  whose best passage credit is a stop word, and it must be written blind.
+- The stop-word list is blunt. 3 of the 5 rows it costs are real paraphrases whose credit
+  happens to be `only` or `already`. Generic content words (`region`, `percent`, `bot`) still
+  vouch. Only the null test stops them today, and the seed-42 sample still decides borderline
+  calls (a random 100-word sample refuses all v1 traps with P = 0.047, PR #31).
+- Held-out ANSWER is still **0 of 9**, and dev7 confirm ANSWER is 2 of 13. The ops synonyms the
+  README keeps listing (`lag`, `bounce`, `reboot`) are held-out words, so no dev set can contain
+  them. The understanding gap is untouched.
+- Hand labels (trap wording, dev7 paraphrases such as `twins` or `feature-gate`) are one
+  person's judgement.
+
 ## Seed-free null test (2026-10-27): seed 42 was a 1-in-21 draw, a sample-free version fails its confirm on a fresh trap, and the shipped default answers that trap too
 
 PR #30 found that the shipped null test refuses all 36 attribute traps only with seed 42. This
