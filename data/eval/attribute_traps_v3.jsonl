@@ -1,0 +1,38 @@
+{"id": "at3-01", "query": "What nationality is the checkout p99 latency?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "nationality", "form": "what_attr_is"}
+{"id": "at3-02", "query": "What dialect is the Redis checkout-pool?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "dialect", "form": "what_attr_is"}
+{"id": "at3-03", "query": "What species is the checkout error budget?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "species", "form": "what_attr_is"}
+{"id": "at3-04", "query": "What cuisine is the payments-api status page?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "cuisine", "form": "what_attr_is"}
+{"id": "at3-05", "query": "What vintage is the production maintenance change window?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "vintage", "form": "what_attr_is"}
+{"id": "at3-06", "query": "What fragrance is the production freeze?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "fragrance", "form": "what_attr_is"}
+{"id": "at3-07", "query": "What lyrics is the checkout latency runbook?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "lyrics", "form": "what_attr_is"}
+{"id": "at3-08", "query": "What genre is the primary on-call?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "genre", "form": "what_attr_is"}
+{"id": "at3-09", "query": "What calories is the checkout-api replica snapshot?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "calories", "form": "what_attr_is"}
+{"id": "at3-10", "query": "What eyesight is the vault-transit key rotation schedule window?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "eyesight", "form": "what_attr_is"}
+{"id": "at3-11", "query": "What is the nationality of the payments-api status page?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "nationality", "form": "what_is_attr_of"}
+{"id": "at3-12", "query": "What is the dialect of the production maintenance change window?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "dialect", "form": "what_is_attr_of"}
+{"id": "at3-13", "query": "What is the species of the production freeze?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "species", "form": "what_is_attr_of"}
+{"id": "at3-14", "query": "What is the cuisine of the checkout latency runbook?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "cuisine", "form": "what_is_attr_of"}
+{"id": "at3-15", "query": "What is the vintage of the primary on-call?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "vintage", "form": "what_is_attr_of"}
+{"id": "at3-16", "query": "What is the fragrance of the checkout-api replica snapshot?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "fragrance", "form": "what_is_attr_of"}
+{"id": "at3-17", "query": "What is the lyrics of the vault-transit key rotation schedule window?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "lyrics", "form": "what_is_attr_of"}
+{"id": "at3-18", "query": "What is the genre of the blue-green deploy procedure?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "genre", "form": "what_is_attr_of"}
+{"id": "at3-19", "query": "What is the calories of the inc-4821 Slack webhook?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "calories", "form": "what_is_attr_of"}
+{"id": "at3-20", "query": "What is the eyesight of the checkout p99 latency?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "eyesight", "form": "what_is_attr_of"}
+{"id": "at3-21", "query": "What is the payments-api status page nationality?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "nationality", "form": "what_is_subject_attr"}
+{"id": "at3-22", "query": "What is the production maintenance change window dialect?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "dialect", "form": "what_is_subject_attr"}
+{"id": "at3-23", "query": "What is the production freeze species?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "species", "form": "what_is_subject_attr"}
+{"id": "at3-24", "query": "What is the checkout latency runbook cuisine?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "cuisine", "form": "what_is_subject_attr"}
+{"id": "at3-25", "query": "What is the primary on-call vintage?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "vintage", "form": "what_is_subject_attr"}
+{"id": "at3-26", "query": "What is the checkout-api replica snapshot fragrance?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "fragrance", "form": "what_is_subject_attr"}
+{"id": "at3-27", "query": "What is the vault-transit key rotation schedule window lyrics?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "lyrics", "form": "what_is_subject_attr"}
+{"id": "at3-28", "query": "What is the blue-green deploy procedure genre?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "genre", "form": "what_is_subject_attr"}
+{"id": "at3-29", "query": "What is the inc-4821 Slack webhook calories?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "calories", "form": "what_is_subject_attr"}
+{"id": "at3-30", "query": "What is the checkout p99 latency eyesight?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "eyesight", "form": "what_is_subject_attr"}
+{"id": "at3-31", "query": "How sour is the vault-transit key rotation schedule window?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "sour", "form": "how_adj_is"}
+{"id": "at3-32", "query": "How furry is the blue-green deploy procedure?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "furry", "form": "how_adj_is"}
+{"id": "at3-33", "query": "How grumpy is the inc-4821 Slack webhook?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "grumpy", "form": "how_adj_is"}
+{"id": "at3-34", "query": "How crunchy is the checkout p99 latency?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "crunchy", "form": "how_adj_is"}
+{"id": "at3-35", "query": "How sleepy is the Redis checkout-pool?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "sleepy", "form": "how_adj_is"}
+{"id": "at3-36", "query": "How hungry is the checkout error budget?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "hungry", "form": "how_adj_is"}
+{"id": "at3-37", "query": "How muddy is the payments-api status page?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "muddy", "form": "how_adj_is"}
+{"id": "at3-38", "query": "How rusty is the production maintenance change window?", "expect_decision": "REFUSE_UNGROUNDED", "attribute": "rusty", "form": "how_adj_is"}
