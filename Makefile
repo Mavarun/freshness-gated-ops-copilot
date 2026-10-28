@@ -1,4 +1,4 @@
-.PHONY: attribute-traps-v2-eval passage-null-overlap calibrate-passage-null-pool passage-null-pool-confirm passage-null-exact dev6-eval passage-null-seeds datamuse-dev6-posthoc datamuse-dev6-confirm recalibrate-datamuse-dev5 attribute-traps-eval passage-null-confirm calibrate-passage-null passage-null-diagnosis dev5-eval passage-sense-probe calibrate-datamuse-dev5 dev4-eval datamuse-dev4-confirm calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
+.PHONY: calibrate-credit-check credit-check-confirm attribute-traps-v2-eval passage-null-overlap calibrate-passage-null-pool passage-null-pool-confirm passage-null-exact dev6-eval passage-null-seeds datamuse-dev6-posthoc datamuse-dev6-confirm recalibrate-datamuse-dev5 attribute-traps-eval passage-null-confirm calibrate-passage-null passage-null-diagnosis dev5-eval passage-sense-probe calibrate-datamuse-dev5 dev4-eval datamuse-dev4-confirm calibrate-datamuse-dev4 datamuse-dev3-posthoc datamuse-dev3-sweep calibrate-datamuse-dev3 datamuse-dev3-confirm dev3-eval datamuse-table calibrate-datamuse-dev2 datamuse-dev2-confirm datamuse-coverage dev2-eval wordnet-coverage calibrate-wordnet-dev2 wordnet-dev2-confirm wordnet-table calibrate-wordnet wordnet-heldout audit-heldout noun-heldout test eval demo api install install-embed robustness paraphrases split embeddings calibrate embed-eval calibrate-lexicons calibrate-answer-support calibrate-passage-support calibrate-gloss-sense calibrate-noun-gloss-sense select-passage-support passphrase-fp secret-entropy explain-eval
 
 install:
 	python -m pip install -e ".[dev,api]"
@@ -243,3 +243,11 @@ attribute-traps-v2-eval:
 # dev6 (spent), report-only regression check of the shipped default (CI step).
 dev6-eval:
 	python scripts/run_dev6_eval.py
+
+# Credited-word check (pre-registered, ops_copilot/credit_check.py): calibration
+# on 238 rows + 51 clean + 95 traps (v1, v2, v3 tune); then one confirm run.
+calibrate-credit-check:
+	python scripts/calibrate_credit_check.py --jobs 4
+
+credit-check-confirm:
+	python scripts/run_credit_check_confirm.py
