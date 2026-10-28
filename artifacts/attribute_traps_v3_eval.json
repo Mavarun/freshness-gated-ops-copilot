@@ -1,0 +1,31 @@
+{
+ "arms": {
+  "pre-change default (credited-word check off)": {
+   "n": 38,
+   "n_opened": 0,
+   "opened": [],
+   "opened_by_form": {
+    "how_adj_is": 0,
+    "what_attr_is": 0,
+    "what_is_attr_of": 0,
+    "what_is_subject_attr": 0
+   }
+  },
+  "shipped default": {
+   "n": 38,
+   "n_opened": 0,
+   "opened": [],
+   "opened_by_form": {
+    "how_adj_is": 0,
+    "what_attr_is": 0,
+    "what_is_attr_of": 0,
+    "what_is_subject_attr": 0
+   }
+  }
+ },
+ "heldout_words_in_file": [],
+ "split_sizes": {
+  "confirm": 19,
+  "tune": 19
+ }
+}
