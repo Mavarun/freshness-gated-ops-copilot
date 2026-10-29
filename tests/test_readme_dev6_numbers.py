@@ -20,8 +20,8 @@ def _j(name: str) -> dict:
 
 def test_it_directly_follows_the_seed_free_section():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
-    assert heads[1].startswith("## Seed-free null test (2026-10-27)")  # under the 2026-10-28 section
-    assert heads[2].startswith("## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26)")
+    i = next(k for k, h in enumerate(heads) if h.startswith("## Seed-free null test (2026-10-27)"))
+    assert heads[i + 1].startswith("## Datamuse arm confirmed once on a fresh dev6 set (2026-10-26)")
 
 
 def test_confirm_table_matches():
