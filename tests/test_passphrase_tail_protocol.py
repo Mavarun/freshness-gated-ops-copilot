@@ -51,3 +51,20 @@ def test_detectors_and_patterns_follow_the_arm() -> None:
 def test_repo_queries_cover_golden_perturbed_and_write_rows() -> None:
     assert len(P.repo_queries()) == 51 + 203 + 39
     assert len(P.oct13_probe_texts()) == 80
+
+
+def test_amendment_is_frozen_and_space_only() -> None:
+    assert P.AMENDED == ("keep", 0.10, "space-only") and P.AMENDED_CONFIRM_SEED == 2931
+    assert P.AMENDED_CONFIRM_SEED not in (P.CALIB_SEED, P.CONFIRM_SEED)
+    assert P.arm_name(P.AMENDED) == "keep/0.10/space-only"
+    d = P.detector(P.AMENDED)
+    assert (d.tail, d.coherence_max, d.coherence_compounds) == ("keep", 0.10, False)
+    assert P.detector(("keep", 0.10)).coherence_compounds is True
+
+
+def test_identifier_check_sees_the_compound_false_positive() -> None:
+    ids = P.data_identifiers()
+    assert "sidecar-mesh-mtls-handshake-budget" in ids
+    base = set(P.identifier_flags(P.SHIPPED))
+    assert set(P.identifier_flags(("keep", 0.10))) - base
+    assert not set(P.identifier_flags(P.AMENDED)) - base
