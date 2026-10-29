@@ -1,0 +1,2390 @@
+{
+ "chosen": "keep/0.10",
+ "results": [
+  {
+   "arm": "trim/none",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 4,
+      "leak_words": 13,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 37,
+      "leak_words": 111,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 4,
+      "leak_words": 20,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 9,
+     "other": 15,
+     "stop_inside": 1,
+     "tail_trim": 21
+    },
+    "examples": [
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "batch"
+      ],
+      "text": "log in to grafana with passphrase bucktooth coerce swirl batch please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "poster",
+       "scale"
+      ],
+      "text": "the deploy token diabetic parasitic preset flashback poster scale stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "wireless",
+       "unashamed",
+       "legacy",
+       "ambiguous"
+      ],
+      "text": "the deploy token Wireless-Unashamed-Legacy-Ambiguous-99 stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "unused"
+      ],
+      "text": "log in to grafana with passphrase profanity sugar catcher undusted sizable unused please"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "numerous"
+      ],
+      "text": "the deploy token Squeegee Tremor Repacking Amplifier Numerous 60 stopped working, who rotates it?"
+     }
+    ],
+    "total": {
+     "leak_rows": 46,
+     "leak_words": 148,
+     "over_words": 488,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ],
+     [
+      "boxes always blanked"
+     ],
+     [
+      "really secret becomes paramount"
+     ],
+     [
+      "testers use cracklib"
+     ],
+     [
+      "dumps like LinkedIn"
+     ]
+    ],
+    "flagged": 17,
+    "redacted_words": 56
+   }
+  },
+  {
+   "arm": "trim/0.02",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 3,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 34,
+      "leak_words": 100,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 3,
+      "leak_words": 16,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 6,
+     "other": 13,
+     "stop_inside": 1,
+     "tail_trim": 21
+    },
+    "examples": [
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "batch"
+      ],
+      "text": "log in to grafana with passphrase bucktooth coerce swirl batch please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "poster",
+       "scale"
+      ],
+      "text": "the deploy token diabetic parasitic preset flashback poster scale stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "wireless",
+       "unashamed",
+       "legacy",
+       "ambiguous"
+      ],
+      "text": "the deploy token Wireless-Unashamed-Legacy-Ambiguous-99 stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "unused"
+      ],
+      "text": "log in to grafana with passphrase profanity sugar catcher undusted sizable unused please"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "numerous"
+      ],
+      "text": "the deploy token Squeegee Tremor Repacking Amplifier Numerous 60 stopped working, who rotates it?"
+     }
+    ],
+    "total": {
+     "leak_rows": 41,
+     "leak_words": 129,
+     "over_words": 488,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ],
+     [
+      "boxes always blanked"
+     ],
+     [
+      "really secret becomes paramount"
+     ],
+     [
+      "testers use cracklib"
+     ],
+     [
+      "dumps like LinkedIn"
+     ]
+    ],
+    "flagged": 17,
+    "redacted_words": 56
+   }
+  },
+  {
+   "arm": "trim/0.05",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 3,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 34,
+      "leak_words": 100,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 2,
+      "leak_words": 11,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 4,
+     "other": 13,
+     "stop_inside": 1,
+     "tail_trim": 21
+    },
+    "examples": [
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "batch"
+      ],
+      "text": "log in to grafana with passphrase bucktooth coerce swirl batch please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "poster",
+       "scale"
+      ],
+      "text": "the deploy token diabetic parasitic preset flashback poster scale stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "wireless",
+       "unashamed",
+       "legacy",
+       "ambiguous"
+      ],
+      "text": "the deploy token Wireless-Unashamed-Legacy-Ambiguous-99 stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "unused"
+      ],
+      "text": "log in to grafana with passphrase profanity sugar catcher undusted sizable unused please"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "numerous"
+      ],
+      "text": "the deploy token Squeegee Tremor Repacking Amplifier Numerous 60 stopped working, who rotates it?"
+     }
+    ],
+    "total": {
+     "leak_rows": 39,
+     "leak_words": 120,
+     "over_words": 488,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ],
+     [
+      "boxes always blanked"
+     ],
+     [
+      "really secret becomes paramount"
+     ],
+     [
+      "testers use cracklib"
+     ]
+    ],
+    "flagged": 20,
+    "redacted_words": 69
+   }
+  },
+  {
+   "arm": "trim/0.08",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 2,
+      "leak_words": 5,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 34,
+      "leak_words": 100,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 1,
+      "leak_words": 5,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 2,
+     "other": 13,
+     "stop_inside": 1,
+     "tail_trim": 21
+    },
+    "examples": [
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "batch"
+      ],
+      "text": "log in to grafana with passphrase bucktooth coerce swirl batch please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "poster",
+       "scale"
+      ],
+      "text": "the deploy token diabetic parasitic preset flashback poster scale stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "unused"
+      ],
+      "text": "log in to grafana with passphrase profanity sugar catcher undusted sizable unused please"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "numerous"
+      ],
+      "text": "the deploy token Squeegee Tremor Repacking Amplifier Numerous 60 stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "charging"
+      ],
+      "text": "log in to grafana with passphrase Gully Silliness Legwork Charging 38 please"
+     }
+    ],
+    "total": {
+     "leak_rows": 37,
+     "leak_words": 110,
+     "over_words": 488,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ],
+     [
+      "recovery involves computing long chains"
+     ]
+    ],
+    "flagged": 25,
+    "redacted_words": 92
+   }
+  },
+  {
+   "arm": "trim/0.10",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 2,
+      "leak_words": 5,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 34,
+      "leak_words": 100,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 1,
+     "other": 13,
+     "stop_inside": 1,
+     "tail_trim": 21
+    },
+    "examples": [
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "batch"
+      ],
+      "text": "log in to grafana with passphrase bucktooth coerce swirl batch please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "poster",
+       "scale"
+      ],
+      "text": "the deploy token diabetic parasitic preset flashback poster scale stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "unused"
+      ],
+      "text": "log in to grafana with passphrase profanity sugar catcher undusted sizable unused please"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "numerous"
+      ],
+      "text": "the deploy token Squeegee Tremor Repacking Amplifier Numerous 60 stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "charging"
+      ],
+      "text": "log in to grafana with passphrase Gully Silliness Legwork Charging 38 please"
+     }
+    ],
+    "total": {
+     "leak_rows": 36,
+     "leak_words": 105,
+     "over_words": 488,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 107
+   }
+  },
+  {
+   "arm": "trim/0.12",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 1,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 34,
+      "leak_words": 100,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 13,
+     "stop_inside": 1,
+     "tail_trim": 21
+    },
+    "examples": [
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "batch"
+      ],
+      "text": "log in to grafana with passphrase bucktooth coerce swirl batch please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "poster",
+       "scale"
+      ],
+      "text": "the deploy token diabetic parasitic preset flashback poster scale stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "unused"
+      ],
+      "text": "log in to grafana with passphrase profanity sugar catcher undusted sizable unused please"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "numerous"
+      ],
+      "text": "the deploy token Squeegee Tremor Repacking Amplifier Numerous 60 stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "charging"
+      ],
+      "text": "log in to grafana with passphrase Gully Silliness Legwork Charging 38 please"
+     }
+    ],
+    "total": {
+     "leak_rows": 35,
+     "leak_words": 101,
+     "over_words": 488,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 34,
+    "redacted_words": 138
+   }
+  },
+  {
+   "arm": "trim/0.15",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 1,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 34,
+      "leak_words": 100,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 13,
+     "stop_inside": 1,
+     "tail_trim": 21
+    },
+    "examples": [
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "batch"
+      ],
+      "text": "log in to grafana with passphrase bucktooth coerce swirl batch please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "poster",
+       "scale"
+      ],
+      "text": "the deploy token diabetic parasitic preset flashback poster scale stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "unused"
+      ],
+      "text": "log in to grafana with passphrase profanity sugar catcher undusted sizable unused please"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "numerous"
+      ],
+      "text": "the deploy token Squeegee Tremor Repacking Amplifier Numerous 60 stopped working, who rotates it?"
+     },
+     {
+      "cause": "tail_trim",
+      "leaked": [
+       "charging"
+      ],
+      "text": "log in to grafana with passphrase Gully Silliness Legwork Charging 38 please"
+     }
+    ],
+    "total": {
+     "leak_rows": 35,
+     "leak_words": 101,
+     "over_words": 488,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "management service like azure keyvault"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ]
+    ],
+    "flagged": 38,
+    "redacted_words": 157
+   }
+  },
+  {
+   "arm": "keep/none",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 4,
+      "leak_words": 13,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 16,
+      "leak_words": 88,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 4,
+      "leak_words": 20,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 9,
+     "other": 15,
+     "stop_inside": 1
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "wireless",
+       "unashamed",
+       "legacy",
+       "ambiguous"
+      ],
+      "text": "the deploy token Wireless-Unashamed-Legacy-Ambiguous-99 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "trinity",
+       "wobble",
+       "phony",
+       "android",
+       "dumpling",
+       "peddling"
+      ],
+      "text": "use Trinity Wobble Phony Android Dumpling Peddling 67 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "ending",
+       "appraisal",
+       "litter",
+       "goofball",
+       "affront",
+       "energetic"
+      ],
+      "text": "use Ending Appraisal Litter Goofball Affront Energetic 16 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "qualifier",
+       "peso",
+       "identify",
+       "small"
+      ],
+      "text": "the deploy token qualifier.peso.identify.small stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "nuttiness",
+       "bunch",
+       "finalist",
+       "attach",
+       "privacy",
+       "company"
+      ],
+      "text": "the deploy token nuttiness_bunch_finalist_attach_privacy_company stopped working, who rotates it?"
+     }
+    ],
+    "total": {
+     "leak_rows": 25,
+     "leak_words": 125,
+     "over_words": 510,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ],
+     [
+      "boxes always blanked out"
+     ],
+     [
+      "really secret becomes paramount"
+     ],
+     [
+      "testers use cracklib"
+     ],
+     [
+      "dumps like LinkedIn"
+     ]
+    ],
+    "flagged": 17,
+    "redacted_words": 59
+   }
+  },
+  {
+   "arm": "keep/0.02",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 3,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 13,
+      "leak_words": 77,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 3,
+      "leak_words": 16,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 6,
+     "other": 13,
+     "stop_inside": 1
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "wireless",
+       "unashamed",
+       "legacy",
+       "ambiguous"
+      ],
+      "text": "the deploy token Wireless-Unashamed-Legacy-Ambiguous-99 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "trinity",
+       "wobble",
+       "phony",
+       "android",
+       "dumpling",
+       "peddling"
+      ],
+      "text": "use Trinity Wobble Phony Android Dumpling Peddling 67 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "ending",
+       "appraisal",
+       "litter",
+       "goofball",
+       "affront",
+       "energetic"
+      ],
+      "text": "use Ending Appraisal Litter Goofball Affront Energetic 16 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "qualifier",
+       "peso",
+       "identify",
+       "small"
+      ],
+      "text": "the deploy token qualifier.peso.identify.small stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "nuttiness",
+       "bunch",
+       "finalist",
+       "attach",
+       "privacy",
+       "company"
+      ],
+      "text": "the deploy token nuttiness_bunch_finalist_attach_privacy_company stopped working, who rotates it?"
+     }
+    ],
+    "total": {
+     "leak_rows": 20,
+     "leak_words": 106,
+     "over_words": 510,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ],
+     [
+      "boxes always blanked out"
+     ],
+     [
+      "really secret becomes paramount"
+     ],
+     [
+      "testers use cracklib"
+     ],
+     [
+      "dumps like LinkedIn"
+     ]
+    ],
+    "flagged": 17,
+    "redacted_words": 59
+   }
+  },
+  {
+   "arm": "keep/0.05",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 3,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 13,
+      "leak_words": 77,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 2,
+      "leak_words": 11,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 4,
+     "other": 13,
+     "stop_inside": 1
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "wireless",
+       "unashamed",
+       "legacy",
+       "ambiguous"
+      ],
+      "text": "the deploy token Wireless-Unashamed-Legacy-Ambiguous-99 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "trinity",
+       "wobble",
+       "phony",
+       "android",
+       "dumpling",
+       "peddling"
+      ],
+      "text": "use Trinity Wobble Phony Android Dumpling Peddling 67 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "ending",
+       "appraisal",
+       "litter",
+       "goofball",
+       "affront",
+       "energetic"
+      ],
+      "text": "use Ending Appraisal Litter Goofball Affront Energetic 16 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "nuttiness",
+       "bunch",
+       "finalist",
+       "attach",
+       "privacy",
+       "company"
+      ],
+      "text": "the deploy token nuttiness_bunch_finalist_attach_privacy_company stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "sultry",
+       "penknife",
+       "blast",
+       "imminent",
+       "cylinder",
+       "pennant"
+      ],
+      "text": "use Sultry Penknife Blast Imminent Cylinder Pennant 86 to log in to vault"
+     }
+    ],
+    "total": {
+     "leak_rows": 18,
+     "leak_words": 97,
+     "over_words": 510,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ],
+     [
+      "boxes always blanked out"
+     ],
+     [
+      "really secret becomes paramount"
+     ],
+     [
+      "testers use cracklib"
+     ]
+    ],
+    "flagged": 20,
+    "redacted_words": 72
+   }
+  },
+  {
+   "arm": "keep/0.08",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 2,
+      "leak_words": 5,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 13,
+      "leak_words": 77,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 1,
+      "leak_words": 5,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 2,
+     "other": 13,
+     "stop_inside": 1
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "trinity",
+       "wobble",
+       "phony",
+       "android",
+       "dumpling",
+       "peddling"
+      ],
+      "text": "use Trinity Wobble Phony Android Dumpling Peddling 67 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "ending",
+       "appraisal",
+       "litter",
+       "goofball",
+       "affront",
+       "energetic"
+      ],
+      "text": "use Ending Appraisal Litter Goofball Affront Energetic 16 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "sultry",
+       "penknife",
+       "blast",
+       "imminent",
+       "cylinder",
+       "pennant"
+      ],
+      "text": "use Sultry Penknife Blast Imminent Cylinder Pennant 86 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "collision",
+       "versus",
+       "arena",
+       "tingling",
+       "undermine",
+       "neon"
+      ],
+      "text": "use Collision Versus Arena Tingling Undermine Neon 85 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "schnapps",
+       "snorkel",
+       "verbose",
+       "pastel",
+       "snowdrift",
+       "cage"
+      ],
+      "text": "use Schnapps Snorkel Verbose Pastel Snowdrift Cage 51 to log in to vault"
+     }
+    ],
+    "total": {
+     "leak_rows": 16,
+     "leak_words": 87,
+     "over_words": 510,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ],
+     [
+      "recovery involves computing long chains"
+     ]
+    ],
+    "flagged": 25,
+    "redacted_words": 95
+   }
+  },
+  {
+   "arm": "keep/0.10",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 2,
+      "leak_words": 5,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 13,
+      "leak_words": 77,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 1,
+     "other": 13,
+     "stop_inside": 1
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "trinity",
+       "wobble",
+       "phony",
+       "android",
+       "dumpling",
+       "peddling"
+      ],
+      "text": "use Trinity Wobble Phony Android Dumpling Peddling 67 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "ending",
+       "appraisal",
+       "litter",
+       "goofball",
+       "affront",
+       "energetic"
+      ],
+      "text": "use Ending Appraisal Litter Goofball Affront Energetic 16 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "sultry",
+       "penknife",
+       "blast",
+       "imminent",
+       "cylinder",
+       "pennant"
+      ],
+      "text": "use Sultry Penknife Blast Imminent Cylinder Pennant 86 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "collision",
+       "versus",
+       "arena",
+       "tingling",
+       "undermine",
+       "neon"
+      ],
+      "text": "use Collision Versus Arena Tingling Undermine Neon 85 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "schnapps",
+       "snorkel",
+       "verbose",
+       "pastel",
+       "snowdrift",
+       "cage"
+      ],
+      "text": "use Schnapps Snorkel Verbose Pastel Snowdrift Cage 51 to log in to vault"
+     }
+    ],
+    "total": {
+     "leak_rows": 15,
+     "leak_words": 82,
+     "over_words": 510,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "keep/0.12",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 1,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 13,
+      "leak_words": 77,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 13,
+     "stop_inside": 1
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "trinity",
+       "wobble",
+       "phony",
+       "android",
+       "dumpling",
+       "peddling"
+      ],
+      "text": "use Trinity Wobble Phony Android Dumpling Peddling 67 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "ending",
+       "appraisal",
+       "litter",
+       "goofball",
+       "affront",
+       "energetic"
+      ],
+      "text": "use Ending Appraisal Litter Goofball Affront Energetic 16 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "sultry",
+       "penknife",
+       "blast",
+       "imminent",
+       "cylinder",
+       "pennant"
+      ],
+      "text": "use Sultry Penknife Blast Imminent Cylinder Pennant 86 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "collision",
+       "versus",
+       "arena",
+       "tingling",
+       "undermine",
+       "neon"
+      ],
+      "text": "use Collision Versus Arena Tingling Undermine Neon 85 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "schnapps",
+       "snorkel",
+       "verbose",
+       "pastel",
+       "snowdrift",
+       "cage"
+      ],
+      "text": "use Schnapps Snorkel Verbose Pastel Snowdrift Cage 51 to log in to vault"
+     }
+    ],
+    "total": {
+     "leak_rows": 14,
+     "leak_words": 78,
+     "over_words": 510,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 34,
+    "redacted_words": 141
+   }
+  },
+  {
+   "arm": "keep/0.15",
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 1,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 13,
+      "leak_words": 77,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 13,
+     "stop_inside": 1
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "secret"
+      ],
+      "text": "use Stingray-Decency-Coral-Secret-Outlying-79 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "payroll",
+       "salary",
+       "hurt",
+       "coronary",
+       "monotype",
+       "dodge"
+      ],
+      "text": "use Payroll Salary Hurt Coronary Monotype Dodge 22 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "poplar",
+       "quirk",
+       "hurray",
+       "kick",
+       "vehicular",
+       "gyration"
+      ],
+      "text": "use Poplar Quirk Hurray Kick Vehicular Gyration 92 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "trinity",
+       "wobble",
+       "phony",
+       "android",
+       "dumpling",
+       "peddling"
+      ],
+      "text": "use Trinity Wobble Phony Android Dumpling Peddling 67 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "ending",
+       "appraisal",
+       "litter",
+       "goofball",
+       "affront",
+       "energetic"
+      ],
+      "text": "use Ending Appraisal Litter Goofball Affront Energetic 16 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "sultry",
+       "penknife",
+       "blast",
+       "imminent",
+       "cylinder",
+       "pennant"
+      ],
+      "text": "use Sultry Penknife Blast Imminent Cylinder Pennant 86 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "collision",
+       "versus",
+       "arena",
+       "tingling",
+       "undermine",
+       "neon"
+      ],
+      "text": "use Collision Versus Arena Tingling Undermine Neon 85 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "schnapps",
+       "snorkel",
+       "verbose",
+       "pastel",
+       "snowdrift",
+       "cage"
+      ],
+      "text": "use Schnapps Snorkel Verbose Pastel Snowdrift Cage 51 to log in to vault"
+     }
+    ],
+    "total": {
+     "leak_rows": 14,
+     "leak_words": 78,
+     "over_words": 510,
+     "rows": 1200,
+     "words": 5927
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "fp_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "management service like azure keyvault"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ]
+    ],
+    "flagged": 38,
+    "redacted_words": 160
+   }
+  }
+ ],
+ "rows": 1200,
+ "se_train_candidates": 3020,
+ "seed": 2910
+}
