@@ -25,11 +25,18 @@ Rule (offline, no eval text):
    compound is redacted whole or not at all, so service names made of ops
    words ("payments-api-canary-pool") stay.
 
-Known gap: a passphrase built mostly from ops words ("juniper orbit copper
-tundra" -> three of four are in the vector vocabulary) still leaks.
+Known gap until Oct 29: a passphrase built mostly from ops words ("juniper orbit
+copper tundra" -> three of four are in the vector vocabulary) leaked. The
+incoherence arm closes it for space-joined runs of four or more words; an
+ops-word compound joined by ``-`` / ``.`` / ``_`` still leaks.
 
-Two optional knobs (Oct 29, both off by default; ``passphrase_wordlist`` measures
-them on real EFF diceware passphrases):
+Two knobs (Oct 29; ``passphrase_wordlist`` measures them on real EFF diceware
+passphrases). The shipped detector uses ``tail="keep"`` and the incoherence arm at
+0.10 on space-joined runs only (``DEFAULT_*`` below), after a pre-registered
+calibration, a failed-on-identifiers first confirm and an amended one-shot confirm
+(``passphrase_tail_protocol``): leaked words 105 -> 76 of 5,886 on the
+fresh seed, 0 new Stack Exchange test flags, 0 new identifier flags. The
+Oct 13 behaviour is ``tail="trim", coherence_max=None``:
 
 * ``tail="keep"``: once a space-joined run is a passphrase, redact it up to the
   run's end (the stop word, or ``MAX_WORDS``) instead of trimming trailing ops
@@ -68,6 +75,9 @@ MAX_WORDS = 6
 MIN_WORDS = 3
 COHERENCE_MIN_WORDS = 4
 TAIL_MODES = ("trim", "keep")
+DEFAULT_TAIL = "keep"
+DEFAULT_COHERENCE_MAX: float | None = 0.10
+DEFAULT_COHERENCE_COMPOUNDS = False
 
 _CUE = (
     r"pass(?:word|phrase|code)s?|passwd|pin|secret|token|credentials?|"
@@ -144,9 +154,9 @@ class CuedPassphraseDetector:
         self,
         vocabulary: frozenset[str] | None = None,
         *,
-        tail: str = "trim",
-        coherence_max: float | None = None,
-        coherence_compounds: bool = True,
+        tail: str = DEFAULT_TAIL,
+        coherence_max: float | None = DEFAULT_COHERENCE_MAX,
+        coherence_compounds: bool = DEFAULT_COHERENCE_COMPOUNDS,
         vectors=None,
     ):
         if tail not in TAIL_MODES:

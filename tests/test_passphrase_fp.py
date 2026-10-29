@@ -13,4 +13,6 @@ def test_false_positive_rate_on_stack_exchange_text_is_pinned() -> None:
     tr, te = out["train"], out["test"]
     assert tr["sentences"] > 2000 and te["sentences"] > 200
     assert tr["rate"] < 0.01 and te["rate"] < 0.01
-    assert tr["flagged"] == 17 and te["flagged"] == 0
+    # 17 under the Oct 13 detector; 28 since the Oct 29 space-only incoherence arm (all 11 new
+    # flags are space runs, within the pre-registered budget of 15)
+    assert tr["flagged"] == 28 and te["flagged"] == 0

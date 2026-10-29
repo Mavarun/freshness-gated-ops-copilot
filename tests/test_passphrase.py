@@ -10,7 +10,8 @@ from ops_copilot.passphrase import CUED_PASSPHRASE, CuedPassphraseDetector, ops_
 @pytest.mark.parametrize(
     "text, value",
     [
-        ("the deploy token marble meadow lagoon badger stopped working", "marble meadow lagoon badger"),
+        ("the deploy token marble meadow lagoon badger stopped working", "marble meadow lagoon badger stopped working"),
+        ("the deploy token marble meadow lagoon badger, who rotates it?", "marble meadow lagoon badger"),
         ("log in to grafana with passphrase Lagoon Mosaic Velvet Sonnet 83 please", "Lagoon Mosaic Velvet Sonnet 83"),
         ("the deploy token Canyon-Cobalt-Falcon-Marble-45 stopped working", "Canyon-Cobalt-Falcon-Marble-45"),
         ("token copper.cactus.thistle.cobalt.maple", "copper.cactus.thistle.cobalt.maple"),
@@ -37,14 +38,23 @@ def test_leaves_ops_text_alone(text: str) -> None:
     assert CUED_PASSPHRASE.search(text) is None
 
 
-def test_known_gap_passphrase_of_ops_words() -> None:
-    # three of four words are in the ops-domain vector vocabulary: documented leak
+def test_ops_word_passphrase_gap_closed_for_space_runs_only() -> None:
+    # three of four words are in the ops-domain vector vocabulary: leaked until Oct 29
     assert {"juniper", "orbit", "copper"} <= ops_vocabulary()
-    assert CUED_PASSPHRASE.search("token juniper orbit copper tundra stopped") is None
+    text = "token juniper orbit copper tundra stopped"
+    assert CuedPassphraseDetector(tail="trim", coherence_max=None).search(text) is None
+    assert CUED_PASSPHRASE.search(text).group() == "juniper orbit copper tundra stopped"
+    # known gap: the same words as a compound
+    assert CUED_PASSPHRASE.search("token juniper-orbit-copper-tundra") is None
+
+
+def test_shipped_defaults_are_the_amended_arm() -> None:
+    d = CUED_PASSPHRASE
+    assert (d.tail, d.coherence_max, d.coherence_compounds) == ("keep", 0.10, False)
 
 
 def test_vocabulary_is_injectable_and_subn_counts() -> None:
-    d = CuedPassphraseDetector(vocabulary=frozenset())
+    d = CuedPassphraseDetector(vocabulary=frozenset(), tail="trim", coherence_max=None)
     out, n = d.subn("[x]", "token alpha beta gamma, and secret delta epsilon zeta")
     assert n == 2 and out == "token [x], and secret [x]"
     assert d.sub("[x]", "") == ""
@@ -52,7 +62,7 @@ def test_vocabulary_is_injectable_and_subn_counts() -> None:
 
 def test_tail_keep_redacts_a_trailing_ops_word_but_flags_the_same_runs() -> None:
     text = "the deploy token syrup prowling uplifted component stopped working"
-    assert CUED_PASSPHRASE.search(text).group() == "syrup prowling uplifted"
+    assert CuedPassphraseDetector(tail="trim").search(text).group() == "syrup prowling uplifted"
     keep = CuedPassphraseDetector(tail="keep")
     assert keep.search(text).group() == "syrup prowling uplifted component stopped working"
     for t in ("the token is expired", "rotate the token rotation schedule for checkout", "my password"):
@@ -70,8 +80,8 @@ def test_coherence_arm_flags_unrelated_ops_words_only() -> None:
     from ops_copilot.passphrase import mean_pair_cosine
 
     gap = "token juniper orbit copper tundra stopped"
-    arm = CuedPassphraseDetector(coherence_max=0.5)
-    assert CUED_PASSPHRASE.search(gap) is None
+    arm = CuedPassphraseDetector(coherence_max=0.5, coherence_compounds=True)
+    assert CuedPassphraseDetector(coherence_max=None).search(gap) is None
     assert arm.search(gap) is not None
     # a three-word run is below COHERENCE_MIN_WORDS and never uses the arm
     assert arm.search("token juniper orbit copper") is None
@@ -83,7 +93,7 @@ def test_coherence_arm_flags_unrelated_ops_words_only() -> None:
 
 
 def test_space_only_coherence_leaves_identifiers_but_flags_space_runs() -> None:
-    both = CuedPassphraseDetector(coherence_max=0.10)
+    both = CuedPassphraseDetector(coherence_max=0.10, coherence_compounds=True)
     space = CuedPassphraseDetector(coherence_max=0.10, coherence_compounds=False)
     ident = "api key sidecar-mesh-mtls-handshake-budget"
     assert both.search(ident) is not None and space.search(ident) is None
