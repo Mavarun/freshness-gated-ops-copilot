@@ -18,9 +18,95 @@ behind a **HITL approve** gate. Offline CI, frozen clock.
 | `PROPOSE_WRITE` | Imperative/request write parsed (action + target + confidence); pending HITL approve (never auto-executes) |
 | `REFUSE_AMBIGUOUS_WRITE` | Looks like a write but no target, an unregistered target (did-you-mean), no page recipient, several targets/actions, conditional, unsupported, or low confidence: asks to clarify |
 
-Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19).
+Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19). On passphrases drawn from the real EFF wordlist, 76 of 5,886 words leak on a fresh confirm seed (105 before Oct 29).
 
 
+
+## Real-wordlist passphrases (2026-10-29): leaked words 105 → 76 on a fresh seed, ships on after an amended confirm; ops-word compounds still leak
+
+This slice steps off the dev-set treadmill of PRs #25–#32 and goes after the formatless-secret
+weakness. The Oct 13 passphrase probe used 32 words picked to be *outside* the ops vocabulary,
+so it could never see the gap the detector documents: a passphrase made of words the ops
+vocabulary knows. Real generators do not avoid ops words. Labels, golden file and the 203
+perturbed rows are unchanged.
+
+### What changed
+
+1. **Real-wordlist probe** (`passphrase_wordlist.py`, `data/passphrase/`). The EFF large
+   diceware list (7,776 words, CC BY 3.0 US, pinned by sha256) shares 1,342 words with the ops
+   vocabulary. Seeded rows use 4–6 words, four separators, half Title-Case + number, and the
+   five Oct 13 templates. Scoring runs the trace-query boundary pass (fragment pass included)
+   and counts leaked passphrase words, over-redacted template words and a post-hoc cause per
+   leaking row.
+2. **Two knobs** (`passphrase.CuedPassphraseDetector`):
+   - `tail="keep"`: once a space run is a passphrase, redact to the run's end instead of
+     trimming trailing ops words. The flag decision is unchanged, so the set of flagged
+     sentences is identical. Only the span grows (`... uplifted component stopped working` no
+     longer leaks `component`).
+   - `coherence_max`: a 4+ word run that fails the ops-word count is still a passphrase if
+     its mean pairwise domain-vector cosine is below the cut, because diceware words are
+     drawn independently.
+3. **Pre-registered protocol** (`passphrase_tail_protocol.py`, committed before any arm was
+   scored). 14 arms. Safe means no Oct 13 probe leak, no golden / perturbed / write trace
+   query change, at most +15 Stack Exchange train flags, and at most +0.5 over-redacted
+   template words per row.
+4. **Calibration** (seed 2910, `artifacts/passphrase_tail_calibration.md`). Cuts of 0.12 and
+   above exceed the FP budget. **Chosen: keep/0.10**, which takes leaked words from 148 to 82
+   and SE train flags from 17 to 28.
+5. **First confirm** (seed 2929, `artifacts/passphrase_tail_confirm.md`): 93 → 41 words, 0 new
+   SE test flags, every pre-registered check passes. **But the full test suite then failed
+   a pinned case:** the arm flags `api key payments-api-canary-pool`. On `-` / `.` / `_`
+   compounds it flags 9 of the 13 multi-part identifiers in `data/` (doc ids such as
+   `sidecar-mesh-mtls-handshake-budget`). The protocol never checked identifiers, so
+   **keep/0.10 does not ship as confirmed**, and seed 2929 is spent.
+6. **Amendment, then a fresh one-shot confirm** (committed before any amended row was scored).
+   The arm is restricted to space-joined runs (`coherence_compounds=False`), so its flags are a
+   subset of keep/0.10's. A fifth check was added: no new flags on 51 `data/` identifiers × 6
+   credential cues. The fresh seed is 2931 (`artifacts/passphrase_tail_amended_confirm.md`):
+
+| seed 2931, never scored before the amendment | Oct 13 detector | shipped now (keep / 0.10 / space-only) |
+| :--- | ---: | ---: |
+| rows leaking a passphrase word | 41 / 1,200 | **16 / 1,200** |
+| passphrase words leaked | 105 / 5,886 | **76 / 5,886** |
+| leaks from tail trimming | 25 rows | 0 |
+| hyphen / dot / underscore words leaked | 38 | 38 (unchanged by design) |
+| over-redacted template words | 528 | 549 |
+| SE test sentences flagged (all false positives) | 0 / 306 | 0 / 306 |
+| `data/` identifiers newly flagged | – | 0 |
+| golden / perturbed / write trace queries changed, Oct 13 probe leaks | – | 0, 0 |
+
+   Every check passes, so the knobs **ship on** (`DEFAULT_TAIL = "keep"`,
+   `DEFAULT_COHERENCE_MAX = 0.10`, `DEFAULT_COHERENCE_COMPOUNDS = False`). Across all three
+   spent seeds, leaked words go 346 → 256 (`artifacts/passphrase_wordlist_eval.md`, gating
+   in CI).
+7. **Costs, re-pinned.** On SE train, flagged sentences go 17 → 28 of 3,020 (0.6% → 0.9%;
+   `artifacts/passphrase_fp_eval.md`). The new flags are generic prose such as
+   `doesnt match Password Complexity requirements`. `tail="keep"` also redacts continuation
+   words after a passphrase (`stopped working`), and the pinned unit case changed to match.
+
+### Reproduce
+
+    python scripts/run_passphrase_wordlist_eval.py                                   # CI, ~5 s
+    python scripts/calibrate_passphrase_tail.py --raw-dir /tmp/se_qa_raw              # needs the SE pages
+    python scripts/run_passphrase_tail_confirm.py --raw-dir /tmp/se_qa_raw [--amended] # both confirms are spent
+    pytest tests/test_passphrase*.py
+
+### Weaknesses
+
+- **Ops-word compounds still leak.** `attempt.rubbing.essential.path` and
+  `elderly-service-semantic-clean-livable-headphone` cannot be told apart from service names by
+  word statistics alone. A list of the real service and doc identifiers to exempt, then the
+  arm back on compounds, is the next step for this family.
+- The largest remaining cause ("other", 6–13 rows per seed) is mostly six-word Title-Case
+  passphrases in the purpose template (`use ... 43 to log in`). They leak whole because the
+  purpose pattern allows only six tokens.
+- A passphrase word that is in the run stop list (`broken`, `from`, `why`) still splits the
+  run (1–3 rows per seed).
+- The 48-d vectors separate diceware from prose only weakly (calibration medians 0.14 vs 0.26),
+  so the cut costs 11 SE train false flags. The protocol missed identifiers until the test
+  suite caught them. The positives are synthetic draws from a real list, not leaked secrets.
+- Held-out ANSWER is still **0 of 9**. Ops synonyms (`lag`, `bounce`) and everyday
+  paraphrases were not touched today.
 
 ## Credited-word check (2026-10-28): a stop word may not vouch for a missing word; closes at2-01, ships on, costs 4 of 238 calibration rows
 

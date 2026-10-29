@@ -1,0 +1,71 @@
+{
+ "failures": [],
+ "new_identifier_flags": [],
+ "oct13_probe_leak_words": 0,
+ "repo_query_changes": 0,
+ "seeds": {
+  "2910": {
+   "oct13": {
+    "leak_rows": 46,
+    "leak_words": 148,
+    "over_words": 488,
+    "rows": 1200,
+    "words": 5927
+   },
+   "shipped": {
+    "leak_rows": 22,
+    "leak_words": 114,
+    "over_words": 510,
+    "rows": 1200,
+    "words": 5927
+   },
+   "shipped_cause": {
+    "no_flag_ops": 8,
+    "other": 13,
+    "stop_inside": 1
+   }
+  },
+  "2929": {
+   "oct13": {
+    "leak_rows": 32,
+    "leak_words": 93,
+    "over_words": 503,
+    "rows": 1200,
+    "words": 5978
+   },
+   "shipped": {
+    "leak_rows": 12,
+    "leak_words": 66,
+    "over_words": 539,
+    "rows": 1200,
+    "words": 5978
+   },
+   "shipped_cause": {
+    "no_flag_ops": 5,
+    "other": 6,
+    "stop_inside": 1
+   }
+  },
+  "2931": {
+   "oct13": {
+    "leak_rows": 41,
+    "leak_words": 105,
+    "over_words": 528,
+    "rows": 1200,
+    "words": 5886
+   },
+   "shipped": {
+    "leak_rows": 16,
+    "leak_words": 76,
+    "over_words": 549,
+    "rows": 1200,
+    "words": 5886
+   },
+   "shipped_cause": {
+    "no_flag_ops": 6,
+    "other": 7,
+    "stop_inside": 3
+   }
+  }
+ }
+}

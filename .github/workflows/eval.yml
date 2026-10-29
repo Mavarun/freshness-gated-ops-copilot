@@ -103,6 +103,13 @@ jobs:
       - name: Random-token secret detector (calibration + FPR gate)
         run: python scripts/run_secret_entropy_eval.py
 
+      # Gating: real EFF-wordlist passphrases (three spent Oct 29 seeds). Fails if the
+      # shipped detector leaks more words than the Oct 13 one on any seed, if the Oct 13
+      # probe leaks, if a golden/perturbed/write trace query moves, or if a data/
+      # identifier is newly flagged.
+      - name: EFF-wordlist passphrases (shipped vs Oct 13 detector)
+        run: python scripts/run_passphrase_wordlist_eval.py
+
       - name: Upload eval artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -139,3 +146,5 @@ jobs:
             artifacts/synonym_dev7_eval.json
             artifacts/attribute_traps_v3_eval.md
             artifacts/attribute_traps_v3_eval.json
+            artifacts/passphrase_wordlist_eval.md
+            artifacts/passphrase_wordlist_eval.json
