@@ -1,0 +1,263 @@
+{
+ "checks": {
+  "fewer_leaked_words": true,
+  "fp_budget": true,
+  "oct13_no_leak": true,
+  "over_budget": true,
+  "repo_queries_unchanged": true
+ },
+ "chosen": {
+  "arm": "keep/0.10",
+  "oct13_leak_words": 0,
+  "probe": {
+   "by_separator": {
+    "dot": {
+     "leak_rows": 0,
+     "leak_words": 0,
+     "rows": 300
+    },
+    "hyphen": {
+     "leak_rows": 0,
+     "leak_words": 0,
+     "rows": 300
+    },
+    "space": {
+     "leak_rows": 7,
+     "leak_words": 41,
+     "rows": 300
+    },
+    "underscore": {
+     "leak_rows": 0,
+     "leak_words": 0,
+     "rows": 300
+    }
+   },
+   "cause": {
+    "other": 6,
+    "stop_inside": 1
+   },
+   "examples": [
+    {
+     "cause": "other",
+     "leaked": [
+      "decline",
+      "patrol",
+      "hurricane",
+      "numerous",
+      "quiver",
+      "culture"
+     ],
+     "text": "use Decline Patrol Hurricane Numerous Quiver Culture 12 to log in to vault"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "underuse",
+      "cursive",
+      "neon",
+      "unlikable",
+      "stretch",
+      "backfield"
+     ],
+     "text": "use Underuse Cursive Neon Unlikable Stretch Backfield 28 to log in to vault"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "width",
+      "overcook",
+      "amulet",
+      "stays",
+      "macaroni",
+      "tamale"
+     ],
+     "text": "use Width Overcook Amulet Stays Macaroni Tamale 27 to log in to vault"
+    },
+    {
+     "cause": "stop_inside",
+     "leaked": [
+      "vineyard",
+      "from",
+      "bulldog",
+      "dial",
+      "freebase"
+     ],
+     "text": "the deploy token Vineyard From Bulldog Dial Freebase 23 stopped working, who rotates it?"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "denial",
+      "judgingly",
+      "wildlife",
+      "stylized",
+      "recede",
+      "absolute"
+     ],
+     "text": "use Denial Judgingly Wildlife Stylized Recede Absolute 15 to log in to vault"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "unaudited",
+      "bartender",
+      "squealing",
+      "subsector",
+      "cosponsor",
+      "riveting"
+     ],
+     "text": "use Unaudited Bartender Squealing Subsector Cosponsor Riveting 47 to log in to vault"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "green",
+      "aflame",
+      "cataract",
+      "footpad",
+      "slather",
+      "renewal"
+     ],
+     "text": "use Green Aflame Cataract Footpad Slather Renewal 55 to log in to vault"
+    }
+   ],
+   "total": {
+    "leak_rows": 7,
+    "leak_words": 41,
+    "over_words": 539,
+    "rows": 1200,
+    "words": 5978
+   }
+  },
+  "repo_query_changes": 0,
+  "se": {
+   "examples": [],
+   "flagged": 0,
+   "redacted_words": 0
+  }
+ },
+ "rows": 1200,
+ "se_test_candidates": 306,
+ "seed": 2929,
+ "shipped": {
+  "arm": "trim/none",
+  "oct13_leak_words": 0,
+  "probe": {
+   "by_separator": {
+    "dot": {
+     "leak_rows": 2,
+     "leak_words": 10,
+     "rows": 300
+    },
+    "hyphen": {
+     "leak_rows": 2,
+     "leak_words": 10,
+     "rows": 300
+    },
+    "space": {
+     "leak_rows": 27,
+     "leak_words": 68,
+     "rows": 300
+    },
+    "underscore": {
+     "leak_rows": 1,
+     "leak_words": 5,
+     "rows": 300
+    }
+   },
+   "cause": {
+    "no_flag_ops": 6,
+    "other": 7,
+    "stop_inside": 1,
+    "tail_trim": 18
+   },
+   "examples": [
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "thumb"
+     ],
+     "text": "log in to grafana with passphrase Exodus Salami Deceit Staining Thumb 60 please"
+    },
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "till"
+     ],
+     "text": "log in to grafana with passphrase Prude Licking Gauntlet Covenant Mantra Till 50 please"
+    },
+    {
+     "cause": "no_flag_ops",
+     "leaked": [
+      "balance",
+      "onboard",
+      "landed",
+      "another"
+     ],
+     "text": "the deploy token Balance Onboard Landed Another 47 stopped working, who rotates it?"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "reassign",
+      "winter",
+      "facebook",
+      "player"
+     ],
+     "text": "log in to grafana with passphrase Reassign Winter Facebook Player 23 please"
+    },
+    {
+     "cause": "no_flag_ops",
+     "leaked": [
+      "unlikable",
+      "edition",
+      "overact",
+      "among",
+      "gotten"
+     ],
+     "text": "the deploy token unlikable_edition_overact_among_gotten stopped working, who rotates it?"
+    },
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "undefined"
+     ],
+     "text": "log in to grafana with passphrase affecting washroom nearby relearn undefined please"
+    },
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "cancel"
+     ],
+     "text": "the deploy token waged librarian thirty conduit surgical cancel stopped working, who rotates it?"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "decline",
+      "patrol",
+      "hurricane",
+      "numerous",
+      "quiver",
+      "culture"
+     ],
+     "text": "use Decline Patrol Hurricane Numerous Quiver Culture 12 to log in to vault"
+    }
+   ],
+   "total": {
+    "leak_rows": 32,
+    "leak_words": 93,
+    "over_words": 503,
+    "rows": 1200,
+    "words": 5978
+   }
+  },
+  "repo_query_changes": 0,
+  "se": {
+   "examples": [],
+   "flagged": 0,
+   "redacted_words": 0
+  }
+ },
+ "ships_on": true
+}
