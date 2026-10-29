@@ -37,7 +37,9 @@ def test_score_counts_leaks_over_redaction_and_causes() -> None:
         # flagged whole
         ProbeRow("marble meadow lagoon badger", ("marble", "meadow", "lagoon", "badger"), "space", "no_copula", tpl),
     ]
-    out = score_rows(rows, SENSITIVE_PATTERNS)
+    from ops_copilot.passphrase_tail_protocol import SHIPPED, patterns_for
+
+    out = score_rows(rows, patterns_for(SHIPPED))  # the Oct 13 detector, explicit
     assert out["total"]["rows"] == 3 and out["total"]["words"] == 12
     assert out["total"]["leak_rows"] == 2 and out["total"]["leak_words"] == 5
     assert out["cause"] == {"no_flag_ops": 1, "tail_trim": 1}

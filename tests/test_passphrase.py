@@ -80,3 +80,14 @@ def test_coherence_arm_flags_unrelated_ops_words_only() -> None:
     assert mean_pair_cosine(["server"]) == 0.0
     # coherent ops prose stays below the bar at a tight cut
     assert CuedPassphraseDetector(coherence_max=0.0).search(gap) is None
+
+
+def test_space_only_coherence_leaves_identifiers_but_flags_space_runs() -> None:
+    both = CuedPassphraseDetector(coherence_max=0.10)
+    space = CuedPassphraseDetector(coherence_max=0.10, coherence_compounds=False)
+    ident = "api key sidecar-mesh-mtls-handshake-budget"
+    assert both.search(ident) is not None and space.search(ident) is None
+    assert space.search("api key payments-api-canary-pool") is None
+    assert space.search("token juniper orbit copper tundra stopped") is not None
+    # the ops-word count still flags compounds whatever the switch says
+    assert space.search("api key tulip_badger_otter_prism").group() == "tulip_badger_otter_prism"

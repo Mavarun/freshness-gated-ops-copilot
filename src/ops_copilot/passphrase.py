@@ -44,6 +44,11 @@ them on real EFF diceware passphrases):
   their pairs look unrelated; prose after a credential noun ("management tool like
   HashiCorp Vault") tends to stay on one topic. The vectors are 48-d, so the
   separation is weak and ``c`` needs a false-positive budget.
+  ``coherence_compounds=False`` applies the arm to space-joined runs only: on
+  ``-`` / ``.`` / ``_`` compounds it also fires on multi-part identifiers of the
+  repo's own data ("sidecar-mesh-mtls-handshake-budget"), which the first
+  protocol did not check (found after its confirm; see the amendment in
+  ``passphrase_tail_protocol``).
 """
 
 from __future__ import annotations
@@ -141,6 +146,7 @@ class CuedPassphraseDetector:
         *,
         tail: str = "trim",
         coherence_max: float | None = None,
+        coherence_compounds: bool = True,
         vectors=None,
     ):
         if tail not in TAIL_MODES:
@@ -148,6 +154,7 @@ class CuedPassphraseDetector:
         self._vocab = vocabulary
         self.tail = tail
         self.coherence_max = coherence_max
+        self.coherence_compounds = coherence_compounds
         self._vectors = vectors
 
     def _incoherent(self, words: list[str]) -> bool:
@@ -166,7 +173,9 @@ class CuedPassphraseDetector:
         val = m.group("val")
         if m.group("sep"):
             words = [w for w in val.split(m.group("sep")) if w.isalpha()]
-            return (a, b) if _enough(words, is_ops) or self._incoherent(words) else None
+            if _enough(words, is_ops):
+                return (a, b)
+            return (a, b) if self.coherence_compounds and self._incoherent(words) else None
         toks = list(re.finditer(r"\S+", val))
         keep: list[re.Match[str]] = []
         for t in toks:

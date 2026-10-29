@@ -35,6 +35,22 @@ One-shot confirm (``CONFIRM_SEED``, Stack Exchange test split). The pick ships o
 the shipped detector on the confirm rows, checks 1, 2 and 4 hold there, and it
 flags at most ``FP_BUDGET_TEST`` more test sentences. Otherwise it ships off and
 the confirm seed is spent either way.
+
+Amendment (committed after the confirm, before any amended row was scored). The
+confirm passed (keep/0.10: 93 -> 41 leaked words, 0 new test flags), but the full
+test suite then showed the incoherence arm flagging ``api key
+payments-api-canary-pool``, a pinned must-not-flag case. On separator-joined
+compounds the arm also flags 9 of the 13 three-to-six-part identifiers found in
+``data/`` (doc ids such as ``sidecar-mesh-mtls-handshake-budget``). The first
+protocol never checked identifiers, so it missed this. keep/0.10 therefore does
+**not** ship as confirmed. The amended arm ``AMENDED`` is keep/0.10 with the arm
+on space-joined runs only (``coherence_compounds=False``). Its flags are a subset
+of keep/0.10's, so the Stack Exchange counts cannot rise above the confirmed ones.
+It ships on only if, on a fresh seed ``AMENDED_CONFIRM_SEED`` (never scored before
+this amendment), it leaks strictly fewer words than the shipped detector, checks
+1, 2 and 4 hold, it adds at most ``FP_BUDGET_TEST`` Stack Exchange test flags, and
+check 5 holds: no ``data/`` identifier after a credential noun is flagged that the
+shipped detector does not flag. Seed 2929 is spent.
 """
 
 from __future__ import annotations
@@ -54,6 +70,9 @@ FP_BUDGET_TRAIN = 15
 FP_BUDGET_TEST = 1
 OVER_BUDGET_PER_ROW = 0.5
 SHIPPED = ("trim", None)
+AMENDED = ("keep", 0.10, "space-only")
+AMENDED_CONFIRM_SEED = 2931
+IDENTIFIER_CUES = ("api key", "token", "secret", "password", "passphrase", "access key")
 
 _SENT = re.compile(r"(?<=[.!?])\s+|\n+")
 
@@ -62,18 +81,36 @@ def arms() -> list[tuple[str, float | None]]:
     return [(t, c) for t in TAILS for c in COHERENCE_CUTS]
 
 
-def arm_name(arm: tuple[str, float | None]) -> str:
-    t, c = arm
-    return f"{t}/{'none' if c is None else f'{c:.2f}'}"
+def arm_name(arm: tuple) -> str:
+    t, c = arm[0], arm[1]
+    name = f"{t}/{'none' if c is None else f'{c:.2f}'}"
+    return name + (f"/{arm[2]}" if len(arm) > 2 else "")
 
 
-def detector(arm: tuple[str, float | None]):
+def detector(arm: tuple):
+    """Arms are explicit, so a later change of the module defaults never moves them."""
     from ops_copilot.passphrase import CuedPassphraseDetector
 
-    return CuedPassphraseDetector(tail=arm[0], coherence_max=arm[1])
+    return CuedPassphraseDetector(tail=arm[0], coherence_max=arm[1], coherence_compounds=len(arm) < 3)
 
 
-def patterns_for(arm: tuple[str, float | None]):
+def data_identifiers() -> list[str]:
+    """Lower-case 3-6 part ``-`` / ``.`` / ``_`` identifiers in the repo's ``data/`` text files."""
+    root = Path(__file__).resolve().parents[2] / "data"
+    pat = re.compile(r"\b[a-z]{3,12}(?:([-._])[a-z]{3,12})(?:\1[a-z]{3,12}){1,4}\b")
+    found: set[str] = set()
+    for p in sorted(root.rglob("*")):
+        if p.suffix in (".jsonl", ".json", ".yaml", ".yml", ".md") and p.is_file():
+            found.update(m.group() for m in pat.finditer(p.read_text(encoding="utf-8", errors="ignore")))
+    return sorted(found)
+
+
+def identifier_flags(arm: tuple) -> list[str]:
+    det = detector(arm)
+    return [f"{cue} {n}" for n in data_identifiers() for cue in IDENTIFIER_CUES if det.search(f"{cue} {n}")]
+
+
+def patterns_for(arm: tuple):
     from ops_copilot.explain_redact import SENSITIVE_PATTERNS
 
     det = detector(arm)
