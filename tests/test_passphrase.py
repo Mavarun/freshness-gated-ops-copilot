@@ -48,3 +48,35 @@ def test_vocabulary_is_injectable_and_subn_counts() -> None:
     out, n = d.subn("[x]", "token alpha beta gamma, and secret delta epsilon zeta")
     assert n == 2 and out == "token [x], and secret [x]"
     assert d.sub("[x]", "") == ""
+
+
+def test_tail_keep_redacts_a_trailing_ops_word_but_flags_the_same_runs() -> None:
+    text = "the deploy token syrup prowling uplifted component stopped working"
+    assert CUED_PASSPHRASE.search(text).group() == "syrup prowling uplifted"
+    keep = CuedPassphraseDetector(tail="keep")
+    assert keep.search(text).group() == "syrup prowling uplifted component stopped working"
+    for t in ("the token is expired", "rotate the token rotation schedule for checkout", "my password"):
+        assert keep.search(t) is None
+    # numbers after the kept run stay part of the span
+    assert keep.search("passphrase Lagoon Mosaic Velvet Sonnet 83 please").group() == "Lagoon Mosaic Velvet Sonnet 83"
+
+
+def test_tail_mode_is_validated() -> None:
+    with pytest.raises(ValueError):
+        CuedPassphraseDetector(tail="drop")
+
+
+def test_coherence_arm_flags_unrelated_ops_words_only() -> None:
+    from ops_copilot.passphrase import mean_pair_cosine
+
+    gap = "token juniper orbit copper tundra stopped"
+    arm = CuedPassphraseDetector(coherence_max=0.5)
+    assert CUED_PASSPHRASE.search(gap) is None
+    assert arm.search(gap) is not None
+    # a three-word run is below COHERENCE_MIN_WORDS and never uses the arm
+    assert arm.search("token juniper orbit copper") is None
+    # an unknown word contributes 0 to every pair
+    assert mean_pair_cosine(["qqqzz", "xxyyw", "zzkkq", "wwqqz"]) == 0.0
+    assert mean_pair_cosine(["server"]) == 0.0
+    # coherent ops prose stays below the bar at a tight cut
+    assert CuedPassphraseDetector(coherence_max=0.0).search(gap) is None

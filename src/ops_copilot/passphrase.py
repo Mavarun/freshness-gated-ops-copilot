@@ -27,6 +27,23 @@ Rule (offline, no eval text):
 
 Known gap: a passphrase built mostly from ops words ("juniper orbit copper
 tundra" -> three of four are in the vector vocabulary) still leaks.
+
+Two optional knobs (Oct 29, both off by default; ``passphrase_wordlist`` measures
+them on real EFF diceware passphrases):
+
+* ``tail="keep"``: once a space-joined run is a passphrase, redact it up to the
+  run's end (the stop word, or ``MAX_WORDS``) instead of trimming trailing ops
+  words. The *decision* still uses the trimmed run, so the set of flagged
+  sentences is unchanged; only the span grows. It trades over-redacting words
+  like "stopped working" for not leaking a passphrase's last word when that word
+  happens to be an ops word ("... uplifted component").
+* ``coherence_max=c``: a run of at least ``COHERENCE_MIN_WORDS`` words that fails
+  the ops-word count is still a passphrase when its words are mutually unrelated:
+  the mean pairwise cosine of the ops-domain vectors (a pair with a word missing
+  from the table counts 0) is below ``c``. Diceware draws words independently, so
+  their pairs look unrelated; prose after a credential noun ("management tool like
+  HashiCorp Vault") tends to stay on one topic. The vectors are 48-d, so the
+  separation is weak and ``c`` needs a false-positive budget.
 """
 
 from __future__ import annotations
@@ -44,6 +61,8 @@ from ops_copilot.text import STOPWORDS
 CORPUS_DIR = Path(__file__).resolve().parents[2] / "data" / "corpus"
 MAX_WORDS = 6
 MIN_WORDS = 3
+COHERENCE_MIN_WORDS = 4
+TAIL_MODES = ("trim", "keep")
 
 _CUE = (
     r"pass(?:word|phrase|code)s?|passwd|pin|secret|token|credentials?|"
@@ -85,6 +104,25 @@ def ops_vocabulary() -> frozenset[str]:
     return frozenset(default_vectors().index) | corpus_vocabulary()
 
 
+def mean_pair_cosine(words: list[str], vectors=None) -> float:
+    """Mean cosine over all word pairs (lower-cased); a pair with an unknown word counts 0."""
+    import itertools
+
+    if vectors is None:
+        from ops_copilot.domain_vectors import default_vectors
+
+        vectors = default_vectors()
+    ws = [w.lower() for w in words]
+    pairs = list(itertools.combinations(ws, 2))
+    if not pairs:
+        return 0.0
+    tot = 0.0
+    for a, b in pairs:
+        s = vectors.similarity(a, b)
+        tot += 0.0 if s is None else s
+    return tot / len(pairs)
+
+
 def _enough(words: list[str], is_ops: Callable[[str], bool]) -> bool:
     if len(words) < MIN_WORDS:
         return False
@@ -97,8 +135,25 @@ class CuedPassphraseDetector:
 
     pattern = "<cued diceware passphrase detector>"
 
-    def __init__(self, vocabulary: frozenset[str] | None = None):
+    def __init__(
+        self,
+        vocabulary: frozenset[str] | None = None,
+        *,
+        tail: str = "trim",
+        coherence_max: float | None = None,
+        vectors=None,
+    ):
+        if tail not in TAIL_MODES:
+            raise ValueError(f"tail must be one of {TAIL_MODES}")
         self._vocab = vocabulary
+        self.tail = tail
+        self.coherence_max = coherence_max
+        self._vectors = vectors
+
+    def _incoherent(self, words: list[str]) -> bool:
+        if self.coherence_max is None or len(words) < COHERENCE_MIN_WORDS:
+            return False
+        return mean_pair_cosine(words, self._vectors) < self.coherence_max
 
     @property
     def vocabulary(self) -> frozenset[str]:
@@ -111,7 +166,7 @@ class CuedPassphraseDetector:
         val = m.group("val")
         if m.group("sep"):
             words = [w for w in val.split(m.group("sep")) if w.isalpha()]
-            return (a, b) if _enough(words, is_ops) else None
+            return (a, b) if _enough(words, is_ops) or self._incoherent(words) else None
         toks = list(re.finditer(r"\S+", val))
         keep: list[re.Match[str]] = []
         for t in toks:
@@ -119,10 +174,15 @@ class CuedPassphraseDetector:
                 break
             keep.append(t)
         words = [t for t in keep if t.group().isalpha()]
+        full = list(words)
         while words and is_ops(words[-1].group().lower()):
             words.pop()
         if not _enough([t.group() for t in words], is_ops):
-            return None
+            if not self._incoherent([t.group() for t in full]):
+                return None
+            words = full
+        if self.tail == "keep":
+            words = full
         last = keep.index(words[-1])
         nxt = keep[last + 1] if last + 1 < len(keep) else None
         end = nxt.end() if nxt is not None and nxt.group().isdigit() else words[-1].end()
