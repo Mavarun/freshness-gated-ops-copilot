@@ -9,9 +9,21 @@
   "examples": [
    {
     "flagged": [
+     "doesnt match Password Complexity requirements"
+    ],
+    "site": "askubuntu"
+   },
+   {
+    "flagged": [
      "Ring networks vanished"
     ],
     "site": "networkengineering"
+   },
+   {
+    "flagged": [
+     "contains fully binary byte strings"
+    ],
+    "site": "security"
    },
    {
     "flagged": [
@@ -45,31 +57,19 @@
    },
    {
     "flagged": [
-     "expiration policies annoy"
+     "Credentials grant type deviates"
     ],
     "site": "security"
    },
    {
     "flagged": [
-     "policy actually results"
-    ],
-    "site": "security"
-   },
-   {
-    "flagged": [
-     "boxes always blanked"
-    ],
-    "site": "security"
-   },
-   {
-    "flagged": [
-     "really secret becomes paramount"
+     "over completely different means"
     ],
     "site": "security"
    }
   ],
-  "flagged": 17,
-  "rate": 0.005629139072847682,
+  "flagged": 28,
+  "rate": 0.009271523178807948,
   "sentences": 3020
  }
 }

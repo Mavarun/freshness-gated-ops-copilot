@@ -4,7 +4,7 @@ Sentences with a credential noun followed by a word run, from public question ti
 
 | split | candidate sentences | flagged | rate |
 | --- | ---: | ---: | ---: |
-| train | 3,020 | 17 | 0.006 |
+| train | 3,020 | 28 | 0.009 |
 | test | 306 | 0 | 0.000 |
 
 Flagged spans on the test split (the words that would be redacted):

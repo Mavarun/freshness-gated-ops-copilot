@@ -6,6 +6,10 @@ Scores the shipped detector and the calibration pick on the confirm seed and the
 Stack Exchange *test* sentences, applies the pre-registered ship rule and writes
 ``artifacts/passphrase_tail_confirm.{json,md}``. The confirm seed is spent by the
 first run; re-running reproduces the same numbers.
+
+``--amended`` runs the protocol amendment instead: the space-only arm
+(``P.AMENDED``) against the shipped detector on ``P.AMENDED_CONFIRM_SEED`` plus
+check 5 (identifiers), writing ``artifacts/passphrase_tail_amended_confirm.*``.
 """
 
 from __future__ import annotations
@@ -50,11 +54,35 @@ def run(raw_dir: Path) -> dict:
     }
 
 
+def run_amended(raw_dir: Path) -> dict:
+    rows = wordlist_passphrases(P.AMENDED_CONFIRM_SEED, P.N_ROWS)
+    se = P.se_candidates(raw_dir)["test"]
+    base_q = P.shipped_repo_queries()
+    base = P.evaluate_arm(P.SHIPPED, rows, se, base_queries=base_q)
+    pick = P.evaluate_arm(P.AMENDED, rows, se, base_queries=base_q)
+    checks = P.is_safe(pick, base, fp_budget=P.FP_BUDGET_TEST)
+    new_ids = sorted(set(P.identifier_flags(P.AMENDED)) - set(P.identifier_flags(P.SHIPPED)))
+    checks["no_new_identifier_flags"] = not new_ids
+    checks["fewer_leaked_words"] = pick["probe"]["total"]["leak_words"] < base["probe"]["total"]["leak_words"]
+    return {
+        "seed": P.AMENDED_CONFIRM_SEED,
+        "rows": P.N_ROWS,
+        "se_test_candidates": len(se),
+        "identifiers": len(P.data_identifiers()),
+        "new_identifier_flags": new_ids,
+        "shipped": base,
+        "chosen": pick,
+        "checks": checks,
+        "ships_on": all(checks.values()),
+    }
+
+
 def render(out: dict) -> str:
     b, c = out["shipped"], out["chosen"]
     bt, ct = b["probe"]["total"], c["probe"]["total"]
+    title = "amended one-shot confirm" if "identifiers" in out else "one-shot confirm"
     lines = [
-        f"# Passphrase tail / incoherence arm: one-shot confirm (seed {out['seed']}, {out['rows']} EFF rows; "
+        f"# Passphrase tail / incoherence arm: {title} (seed {out['seed']}, {out['rows']} EFF rows; "
         f"{out['se_test_candidates']} Stack Exchange test sentences)",
         "",
         "| | shipped (`trim/none`) | chosen (`%s`) |" % c["arm"],
@@ -65,6 +93,11 @@ def render(out: dict) -> str:
         f"| SE test sentences flagged (all false positives) | {b['se']['flagged']} | {c['se']['flagged']} |",
         f"| Oct 13 probe words leaked | {b['oct13_leak_words']} | {c['oct13_leak_words']} |",
         f"| golden / perturbed / write trace queries changed | - | {c['repo_query_changes']} |",
+        *(
+            [f"| `data/` identifiers newly flagged (of {out['identifiers']}, x {len(P.IDENTIFIER_CUES)} cues) | - | {len(out['new_identifier_flags'])} |"]
+            if "identifiers" in out
+            else []
+        ),
         "",
         "Leak causes: shipped " + ", ".join(f"{k} {v}" for k, v in b["probe"]["cause"].items())
         + "; chosen " + ", ".join(f"{k} {v}" for k, v in c["probe"]["cause"].items()),
@@ -86,9 +119,12 @@ def render(out: dict) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--raw-dir", type=Path, required=True)
-    out = run(ap.parse_args().raw_dir)
-    (ART / "passphrase_tail_confirm.json").write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
-    (ART / "passphrase_tail_confirm.md").write_text(render(out))
+    ap.add_argument("--amended", action="store_true")
+    args = ap.parse_args()
+    out = run_amended(args.raw_dir) if args.amended else run(args.raw_dir)
+    stem = "passphrase_tail_amended_confirm" if args.amended else "passphrase_tail_confirm"
+    (ART / f"{stem}.json").write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
+    (ART / f"{stem}.md").write_text(render(out))
     print(render(out))
 
 

@@ -1,0 +1,265 @@
+{
+ "checks": {
+  "fewer_leaked_words": true,
+  "fp_budget": true,
+  "no_new_identifier_flags": true,
+  "oct13_no_leak": true,
+  "over_budget": true,
+  "repo_queries_unchanged": true
+ },
+ "chosen": {
+  "arm": "keep/0.10/space-only",
+  "oct13_leak_words": 0,
+  "probe": {
+   "by_separator": {
+    "dot": {
+     "leak_rows": 1,
+     "leak_words": 4,
+     "rows": 300
+    },
+    "hyphen": {
+     "leak_rows": 3,
+     "leak_words": 11,
+     "rows": 300
+    },
+    "space": {
+     "leak_rows": 7,
+     "leak_words": 38,
+     "rows": 300
+    },
+    "underscore": {
+     "leak_rows": 5,
+     "leak_words": 23,
+     "rows": 300
+    }
+   },
+   "cause": {
+    "no_flag_ops": 6,
+    "other": 7,
+    "stop_inside": 3
+   },
+   "examples": [
+    {
+     "cause": "no_flag_ops",
+     "leaked": [
+      "elderly",
+      "service",
+      "semantic",
+      "clean",
+      "livable",
+      "headphone"
+     ],
+     "text": "the deploy token elderly-service-semantic-clean-livable-headphone stopped working, who rotates it?"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "sprig",
+      "detonate",
+      "italicize",
+      "domestic",
+      "stallion",
+      "mammal"
+     ],
+     "text": "use Sprig Detonate Italicize Domestic Stallion Mammal 43 to log in to vault"
+    },
+    {
+     "cause": "stop_inside",
+     "leaked": [
+      "ungloved",
+      "energetic",
+      "broken",
+      "dowry",
+      "rudder"
+     ],
+     "text": "the deploy token Ungloved Energetic Broken Dowry Rudder 88 stopped working, who rotates it?"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "dehydrate",
+      "lesser",
+      "flinch",
+      "numerator",
+      "underage",
+      "cahoots"
+     ],
+     "text": "use Dehydrate Lesser Flinch Numerator Underage Cahoots 67 to log in to vault"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "financial",
+      "pouch",
+      "abide",
+      "ranch"
+     ],
+     "text": "The vault passphrase is had-financial-pouch-abide-ranch. Who owns vault-transit?"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "basket",
+      "drift",
+      "other",
+      "backtalk",
+      "labored",
+      "headphone"
+     ],
+     "text": "use Basket Drift Other Backtalk Labored Headphone 47 to log in to vault"
+    },
+    {
+     "cause": "other",
+     "leaked": [
+      "chatty",
+      "paternal",
+      "conceal",
+      "herald",
+      "occupancy"
+     ],
+     "text": "use Chatty Paternal Rut Conceal Herald Occupancy 47 to log in to vault"
+    },
+    {
+     "cause": "no_flag_ops",
+     "leaked": [
+      "unused",
+      "acting",
+      "freestyle",
+      "kick",
+      "afoot"
+     ],
+     "text": "log in to grafana with passphrase unused_acting_freestyle_kick_afoot please"
+    }
+   ],
+   "total": {
+    "leak_rows": 16,
+    "leak_words": 76,
+    "over_words": 549,
+    "rows": 1200,
+    "words": 5886
+   }
+  },
+  "repo_query_changes": 0,
+  "se": {
+   "examples": [],
+   "flagged": 0,
+   "redacted_words": 0
+  }
+ },
+ "identifiers": 51,
+ "new_identifier_flags": [],
+ "rows": 1200,
+ "se_test_candidates": 306,
+ "seed": 2931,
+ "shipped": {
+  "arm": "trim/none",
+  "oct13_leak_words": 0,
+  "probe": {
+   "by_separator": {
+    "dot": {
+     "leak_rows": 1,
+     "leak_words": 4,
+     "rows": 300
+    },
+    "hyphen": {
+     "leak_rows": 3,
+     "leak_words": 11,
+     "rows": 300
+    },
+    "space": {
+     "leak_rows": 32,
+     "leak_words": 67,
+     "rows": 300
+    },
+    "underscore": {
+     "leak_rows": 5,
+     "leak_words": 23,
+     "rows": 300
+    }
+   },
+   "cause": {
+    "no_flag_ops": 6,
+    "other": 7,
+    "stop_inside": 3,
+    "tail_trim": 25
+   },
+   "examples": [
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "outright"
+     ],
+     "text": "the deploy token Output Icing Colonial Roulette Outright 32 stopped working, who rotates it?"
+    },
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "take"
+     ],
+     "text": "the deploy token skies fragile pessimism take stopped working, who rotates it?"
+    },
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "apple"
+     ],
+     "text": "the deploy token Outgrow Accompany Juggle Giggling Geiger Apple 87 stopped working, who rotates it?"
+    },
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "getting"
+     ],
+     "text": "the deploy token yiddish waltz tradition release thinly getting stopped working, who rotates it?"
+    },
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "customize"
+     ],
+     "text": "the deploy token Childcare Alone Matrix Deftly Possibly Customize 39 stopped working, who rotates it?"
+    },
+    {
+     "cause": "no_flag_ops",
+     "leaked": [
+      "elderly",
+      "service",
+      "semantic",
+      "clean",
+      "livable",
+      "headphone"
+     ],
+     "text": "the deploy token elderly-service-semantic-clean-livable-headphone stopped working, who rotates it?"
+    },
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "generic"
+     ],
+     "text": "log in to grafana with passphrase commode scarily jubilant generic please"
+    },
+    {
+     "cause": "tail_trim",
+     "leaked": [
+      "able"
+     ],
+     "text": "log in to grafana with passphrase Tasty Flinch Fondly Outgrow Overlaid Able 70 please"
+    }
+   ],
+   "total": {
+    "leak_rows": 41,
+    "leak_words": 105,
+    "over_words": 528,
+    "rows": 1200,
+    "words": 5886
+   }
+  },
+  "repo_query_changes": 0,
+  "se": {
+   "examples": [],
+   "flagged": 0,
+   "redacted_words": 0
+  }
+ },
+ "ships_on": true
+}
