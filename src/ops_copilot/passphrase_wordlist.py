@@ -95,8 +95,23 @@ def offlist_words() -> tuple[str, ...]:
     return tuple(sorted(w for w in keys if w.isalpha() and w.islower() and 4 <= len(w) <= 9 and w not in eff))
 
 
-def wordlist_passphrases(seed: int, n: int, *, words: Sequence[str] | None = None) -> list[ProbeRow]:
-    """``n`` seeded probe rows; ``words`` swaps the word source (default: the EFF list)."""
+NUMBER_STYLES = ("token", "attached")
+
+
+def wordlist_passphrases(
+    seed: int, n: int, *, words: Sequence[str] | None = None, number_style: str = "token"
+) -> list[ProbeRow]:
+    """``n`` seeded probe rows; ``words`` swaps the word source (default: the EFF list).
+
+    ``number_style="token"`` (the Oct 29 rows): half the rows are Title-Case with a
+    trailing two-digit number as its own part. ``"attached"`` is how Bitwarden's
+    generator does it (``appendRandomNumberToRandomWord``): every row carries one
+    digit 0-9 glued to a random word ("Ranch3"), and half are Title-Case.
+    """
+    if number_style not in NUMBER_STYLES:
+        raise ValueError(f"number_style must be one of {NUMBER_STYLES}")
+    if number_style == "attached":
+        return _attached_rows(seed, n, eff_words() if words is None else tuple(words))
     rng = random.Random(seed)
     words = eff_words() if words is None else tuple(words)
     tpls = _templates()
@@ -108,6 +123,21 @@ def wordlist_passphrases(seed: int, n: int, *, words: Sequence[str] | None = Non
         parts = list(ws)
         if rng.random() < 0.5:
             parts = [w.title() for w in parts] + [str(rng.randint(10, 99))]
+        rows.append(ProbeRow(sep.join(parts), tuple(ws), SEP_NAMES[sep], ctx, tpl))
+    return rows
+
+
+def _attached_rows(seed: int, n: int, words: tuple[str, ...]) -> list[ProbeRow]:
+    rng = random.Random(seed)
+    tpls = _templates()
+    rows: list[ProbeRow] = []
+    for i in range(n):
+        ws = rng.sample(words, rng.choice(LENGTHS))
+        sep = SEPARATORS[i % len(SEPARATORS)]
+        ctx, tpl = tpls[rng.randrange(len(tpls))]
+        parts = [w.title() for w in ws] if rng.random() < 0.5 else list(ws)
+        k = rng.randrange(len(parts))
+        parts[k] = parts[k] + str(rng.randint(0, 9))
         rows.append(ProbeRow(sep.join(parts), tuple(ws), SEP_NAMES[sep], ctx, tpl))
     return rows
 
