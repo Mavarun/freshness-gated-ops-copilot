@@ -75,9 +75,30 @@ def _templates() -> list[tuple[str, str]]:
     return [(ctx, t) for ctx, ts in PASSPHRASE_TEMPLATES.items() for t in ts]
 
 
-def wordlist_passphrases(seed: int, n: int) -> list[ProbeRow]:
+WORDNET_NOUNS = Path(__file__).resolve().parents[2] / "data" / "wordnet" / "wn_noun_neighbours.json.gz"
+
+
+@lru_cache(maxsize=1)
+def offlist_words() -> tuple[str, ...]:
+    """Control word source: 4-9 letter lower-case WordNet nouns that are *not* on the EFF list.
+
+    Taken from the keys of the committed WordNet neighbour table (``data/wordnet``),
+    so it is offline and pinned by that file. A passphrase built from these words is
+    what a generator with a different list (or a person) would type; an arm that
+    keys on EFF membership should gain nothing on it, which is the point of the
+    control.
+    """
+    import json
+
+    keys = json.loads(gzip.decompress(WORDNET_NOUNS.read_bytes()))["neighbours"]
+    eff = set(eff_words())
+    return tuple(sorted(w for w in keys if w.isalpha() and w.islower() and 4 <= len(w) <= 9 and w not in eff))
+
+
+def wordlist_passphrases(seed: int, n: int, *, words: Sequence[str] | None = None) -> list[ProbeRow]:
+    """``n`` seeded probe rows; ``words`` swaps the word source (default: the EFF list)."""
     rng = random.Random(seed)
-    words = eff_words()
+    words = eff_words() if words is None else tuple(words)
     tpls = _templates()
     rows: list[ProbeRow] = []
     for i in range(n):

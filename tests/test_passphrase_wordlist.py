@@ -57,3 +57,15 @@ def test_redact_query_uses_the_given_patterns() -> None:
     q = "the deploy token marble meadow lagoon badger stopped working"
     assert "marble" not in redact_query(q, SENSITIVE_PATTERNS)
     assert "marble" in redact_query(q, PR19_PATTERNS)
+
+
+def test_offlist_control_words_are_disjoint_from_the_eff_list() -> None:
+    from ops_copilot.passphrase_wordlist import offlist_words
+
+    off = offlist_words()
+    assert len(off) == 6872 and not set(off) & set(eff_words())
+    assert all(w.isalpha() and w.islower() and 4 <= len(w) <= 9 for w in off)
+    rows = wordlist_passphrases(5, 20, words=off)
+    assert all(set(r.words) <= set(off) for r in rows)
+    # the default source is unchanged, so every spent seed reproduces
+    assert wordlist_passphrases(5, 20) == wordlist_passphrases(5, 20, words=eff_words())
