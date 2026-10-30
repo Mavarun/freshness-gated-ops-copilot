@@ -43,8 +43,9 @@ def test_calibration_first_confirm_and_totals_match() -> None:
     conf = _j("passphrase_tail_confirm.json")
     assert f"{conf['shipped']['probe']['total']['leak_words']} → {conf['chosen']['probe']['total']['leak_words']} words" in SECTION
     ev = _j("passphrase_wordlist_eval.json")
-    old = sum(v["oct13"]["leak_words"] for v in ev["seeds"].values())
-    new = sum(v["shipped"]["leak_words"] for v in ev["seeds"].values())
+    oct29_seeds = [str(x) for x in (2910, 2929, 2931)]
+    old = sum(ev["seeds"][k]["oct13"]["leak_words"] for k in oct29_seeds)
+    new = sum(ev["seeds"][k]["oct29"]["leak_words"] for k in oct29_seeds)
     assert f"leaked words go {old} → {new}" in SECTION
     fp = _j("passphrase_fp_eval.json")["train"]
     assert f"17 → {fp['flagged']} of {fp['sentences']:,}" in SECTION

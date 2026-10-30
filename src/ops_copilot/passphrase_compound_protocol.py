@@ -99,8 +99,8 @@ def patterns_for(arm: tuple):
     for k, p in SENSITIVE_PATTERNS:
         if k == "passphrase":
             p = det
-        elif p is LOGIN_SECRET_RE and arm[2]:
-            p = LOGIN_SECRET_NUM_RE
+        elif p is LOGIN_SECRET_RE or p is LOGIN_SECRET_NUM_RE:
+            p = LOGIN_SECRET_NUM_RE if arm[2] else LOGIN_SECRET_RE
         out.append((k, p))
     return tuple(out)
 

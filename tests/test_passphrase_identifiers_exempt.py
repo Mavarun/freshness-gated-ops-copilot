@@ -24,10 +24,10 @@ def test_list_never_reads_the_gzipped_wordlist() -> None:
     assert not [p for p in parts if len(p) >= 4 and all(w in eff for w in p)]
 
 
-def test_exemption_is_off_by_default_and_exact() -> None:
-    assert CUED_PASSPHRASE.exempt_identifiers is False
+def test_exemption_is_on_by_default_and_exact() -> None:
+    assert CUED_PASSPHRASE.exempt_identifiers is True
     # the Oct 29 identifier failure: arm on compounds flags a known doc id
-    on = CuedPassphraseDetector(coherence_compounds=True)
+    on = CuedPassphraseDetector(coherence_compounds=True, exempt_identifiers=False)
     ex = CuedPassphraseDetector(coherence_compounds=True, exempt_identifiers=True)
     text = "api key sidecar-mesh-mtls-handshake-budget"
     assert on.search(text) is not None

@@ -57,7 +57,12 @@ Oct 13 behaviour is ``tail="trim", coherence_max=None``:
   protocol did not check (found after its confirm; see the amendment in
   ``passphrase_tail_protocol``).
 
-Two more knobs (Oct 30, off here; ``passphrase_compound_protocol`` decides):
+Two more knobs (Oct 30, on by default after the pre-registered calibration on seed
+3010 and a one-shot confirm on seed 3037, ``passphrase_compound_protocol``: leaked
+words 128 -> 16 of the confirm rows together with the purpose-pattern number
+fix, 0 new Stack Exchange test sentence flags, 1 new flag on 142 real Stack
+Exchange identifiers). The Oct 29 detector is ``wordlist_compounds=None,
+wordlist_space=False, exempt_identifiers=False``:
 
 * ``wordlist_compounds`` / ``wordlist_space``: a run whose words all come from the
   EFF large list (``generator_words``) is a passphrase even when the ops-word count
@@ -89,10 +94,10 @@ TAIL_MODES = ("trim", "keep")
 DEFAULT_TAIL = "keep"
 DEFAULT_COHERENCE_MAX: float | None = 0.10
 DEFAULT_COHERENCE_COMPOUNDS = False
-DEFAULT_EXEMPT_IDENTIFIERS = False
+DEFAULT_EXEMPT_IDENTIFIERS = True
 WORDLIST_MODES = (None, "all4", "but1_4", "all3")
-DEFAULT_WORDLIST_COMPOUNDS: str | None = None
-DEFAULT_WORDLIST_SPACE = False
+DEFAULT_WORDLIST_COMPOUNDS: str | None = "all4"
+DEFAULT_WORDLIST_SPACE = True
 DATA_DIR = CORPUS_DIR.parent
 _IDENT_SUFFIXES = (".jsonl", ".json", ".yaml", ".yml", ".md", ".txt")
 _IDENT_RE = re.compile(r"(?<![\w-])[a-z]{3,12}(?:([-._])[a-z]{3,12})(?:\1[a-z]{3,12}){1,4}(?![\w-])")

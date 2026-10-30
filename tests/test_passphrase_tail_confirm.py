@@ -56,8 +56,11 @@ def test_amended_confirm_ships_on_and_reproduces_offline() -> None:
     assert (conf["shipped"]["probe"]["total"]["leak_words"], conf["chosen"]["probe"]["total"]["leak_words"]) == (105, 76)
 
 
-def test_shipped_patterns_are_the_amended_arm() -> None:
+def test_shipped_patterns_are_the_amended_arm_plus_the_oct30_knobs() -> None:
+    from ops_copilot import passphrase_compound_protocol as C
     from ops_copilot.explain_redact import SENSITIVE_PATTERNS
 
     rows = wordlist_passphrases(P.AMENDED_CONFIRM_SEED, 200)
-    assert score_rows(rows, SENSITIVE_PATTERNS)["total"] == score_rows(rows, P.patterns_for(P.AMENDED))["total"]
+    # the Oct 30 protocol's base arm is the amended Oct 29 arm, and the shipped set is its pick
+    assert score_rows(rows, C.patterns_for(C.SHIPPED))["total"] == score_rows(rows, P.patterns_for(P.AMENDED))["total"]
+    assert score_rows(rows, SENSITIVE_PATTERNS)["total"] == score_rows(rows, C.patterns_for(("all4", True, True)))["total"]
