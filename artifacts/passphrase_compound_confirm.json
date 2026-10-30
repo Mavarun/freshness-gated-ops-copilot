@@ -1,0 +1,302 @@
+{
+ "chosen": "all4/space/num",
+ "offlist": {
+  "all4/space/num": {
+   "leak_rows": 7,
+   "leak_words": 33,
+   "over_words": 515,
+   "rows": 1200,
+   "words": 5990
+  },
+  "none/-/-": {
+   "leak_rows": 12,
+   "leak_words": 63,
+   "over_words": 515,
+   "rows": 1200,
+   "words": 5990
+  }
+ },
+ "results": [
+  {
+   "arm": "none/-/-",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "Always-Include-Phased-Updates",
+     "DYN_CRY_MAP",
+     "DatabaseName.SchemaName.TableName",
+     "Eng_Khaled_Omar",
+     "OBJ_HANDLE_TAGBITS",
+     "aiplatform.endpoints.predict",
+     "anomaly_score_thresholds",
+     "blogs.FreeBSDish.org",
+     "centos.pkgs.org",
+     "create_ext_pgagent"
+    ],
+    "flagged": 23,
+    "n": 142,
+    "new_examples": [],
+    "new_flags": 0
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 19,
+      "leak_words": 104,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 2,
+      "leak_words": 11,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 5,
+     "other": 16,
+     "stop_inside": 3
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "automaker",
+       "livable",
+       "grunge",
+       "trident",
+       "essential",
+       "slick"
+      ],
+      "text": "use Automaker Livable Grunge Trident Essential Slick 66 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "issue",
+       "balancing",
+       "wildcard",
+       "depraved"
+      ],
+      "text": "log in to grafana with passphrase issue.balancing.wildcard.depraved please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "endanger",
+       "capitol",
+       "wham",
+       "obtain",
+       "emission",
+       "stomp"
+      ],
+      "text": "use Endanger Capitol Wham Obtain Emission Stomp 26 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "diffusion",
+       "fanfare",
+       "slather",
+       "tightly",
+       "rocket",
+       "devotion"
+      ],
+      "text": "use Diffusion Fanfare Slather Tightly Rocket Devotion 60 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "photo",
+       "overdress",
+       "hardened",
+       "extent"
+      ],
+      "text": "the deploy token photo-overdress-hardened-extent stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "impound",
+       "volley",
+       "supply",
+       "unrented",
+       "reference",
+       "omen"
+      ],
+      "text": "use Impound Volley Supply Unrented Reference Omen 92 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "perky",
+       "ipod",
+       "during",
+       "splotchy",
+       "justice",
+       "shiftless"
+      ],
+      "text": "use Perky Ipod During Splotchy Justice Shiftless 49 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "outdated",
+       "unit",
+       "embark",
+       "massive",
+       "payer"
+      ],
+      "text": "log in to grafana with passphrase outdated_unit_embark_massive_payer please"
+     }
+    ],
+    "total": {
+     "leak_rows": 24,
+     "leak_words": 128,
+     "over_words": 507,
+     "rows": 1200,
+     "words": 5962
+    }
+   },
+   "repo_query_changes": 0,
+   "se": {
+    "examples": [],
+    "flagged": 0,
+    "redacted_words": 0
+   }
+  },
+  {
+   "arm": "all4/space/num",
+   "confirm": {
+    "data_idents": true,
+    "fewer_leaked_words": true,
+    "fp_budget": true,
+    "ident_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "Always-Include-Phased-Updates",
+     "DYN_CRY_MAP",
+     "DatabaseName.SchemaName.TableName",
+     "Eng_Khaled_Omar",
+     "OBJ_HANDLE_TAGBITS",
+     "aiplatform.endpoints.predict",
+     "anomaly_score_thresholds",
+     "blogs.FreeBSDish.org",
+     "centos.pkgs.org",
+     "client_header_buffer_size"
+    ],
+    "flagged": 24,
+    "n": 142,
+    "new_examples": [
+     "client_header_buffer_size"
+    ],
+    "new_flags": 1
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 1,
+      "leak_words": 5,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 3,
+      "leak_words": 11,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 1,
+     "stop_inside": 3
+    },
+    "examples": [
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "carrot",
+       "many",
+       "caravan",
+       "failing",
+       "possibly",
+       "browbeat"
+      ],
+      "text": "the deploy token carrot many caravan failing possibly browbeat stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "running",
+       "pagan",
+       "curing",
+       "unnoticed",
+       "character"
+      ],
+      "text": "The vault passphrase is running.pagan.curing.unnoticed.character. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "entrust",
+       "puritan"
+      ],
+      "text": "my password is Panda Epilepsy Sleek Why Entrust Puritan 53, why can't I log in?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "antitrust",
+       "nebulizer",
+       "confirm"
+      ],
+      "text": "The vault passphrase is Had Antitrust Zap Nebulizer Confirm 42. Who owns vault-transit?"
+     }
+    ],
+    "total": {
+     "leak_rows": 4,
+     "leak_words": 16,
+     "over_words": 509,
+     "rows": 1200,
+     "words": 5962
+    }
+   },
+   "repo_query_changes": 0,
+   "se": {
+    "examples": [],
+    "flagged": 0,
+    "redacted_words": 0
+   }
+  }
+ ],
+ "rows": 1200,
+ "se_identifiers": 142,
+ "se_sentences": 306,
+ "seed": 3037,
+ "shipped_identifier_flags": 23,
+ "ships": true
+}
