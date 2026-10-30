@@ -14,5 +14,10 @@ see https://www.eff.org/copyright). Attribution: wordlist by the Electronic Fron
 Foundation. The repository's MIT licence covers the code only, not this file.
 
 Use here: the list is the word source of the *real-wordlist* passphrase probe
-(`ops_copilot.passphrase_wordlist`). It is never read by the detector itself, so no
-detector rule is fitted to it except through the pre-registered calibration seed.
+(`ops_copilot.passphrase_wordlist`). Until Oct 29 it was never read by the detector.
+Since Oct 30 the detector's list-membership arm (`passphrase.generator_words`,
+`wordlist_compounds="all4"`, `wordlist_space=True`) reads it too, because real
+generators (Bitwarden's `EFFLongWordList`, for one) draw from it. The probe and the arm
+therefore share the list, so probe recall overstates real-world recall. The off-list
+control (`passphrase_wordlist.offlist_words`, WordNet nouns not on the list) measures
+that gap.

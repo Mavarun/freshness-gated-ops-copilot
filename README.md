@@ -18,9 +18,94 @@ behind a **HITL approve** gate. Offline CI, frozen clock.
 | `PROPOSE_WRITE` | Imperative/request write parsed (action + target + confidence); pending HITL approve (never auto-executes) |
 | `REFUSE_AMBIGUOUS_WRITE` | Looks like a write but no target, an unregistered target (did-you-mean), no page recipient, several targets/actions, conditional, unsupported, or low confidence: asks to clarify |
 
-Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19). On passphrases drawn from the real EFF wordlist, 76 of 5,886 words leak on a fresh confirm seed (105 before Oct 29).
+Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19). On passphrases drawn from the real EFF wordlist, 16 of 5,962 words leak on the Oct 30 fresh confirm seed (128 with the Oct 29 detector); passphrases with a Bitwarden-style glued digit (`Cascade5`) still leak about a third of their words.
 
 
+
+## Passphrase list arm and purpose-number fix (2026-10-30): leaked words 128 → 16 on a fresh confirm seed, ships on; a glued-digit fix cuts 1,857 → 7 but flags 12 real package names, so it ships off
+
+Oct 29 left three leak families: ops-word compounds (`elderly-service-semantic-clean-livable-headphone`),
+six-word Title-Case passphrases in the purpose template, and stop words inside a run. Its stated next
+step was an identifier exemption list with the incoherence arm back on compounds. A look at Stack
+Exchange identifiers before any arm was scored showed that plan cannot work: the pair-cosine arm at
+0.05 would flag 233 of 1,646 real `-`/`.`/`_` names, and any exemption list built from `data/` passes
+the old identifier check by construction. This slice therefore adds a real-identifier false-positive
+set and tests a different signal. Labels, golden file and the 203 perturbed rows are unchanged.
+
+### What changed
+
+1. **Exact exemption list** (`passphrase.known_identifiers`): the 54 multi-part names in `data/`
+   are never flagged. It is exact, so it protects nothing the repo has not seen.
+2. **Stack Exchange identifier set** (`passphrase_identifiers`): 3–6 part names from the QA
+   snapshot (titles + top two answers), split by the QA train/test hash, test made disjoint:
+   1,867 train and 142 test names, each put after `token`. Every flag is a false positive.
+   Nothing harvested is committed.
+3. **Off-list control** (`passphrase_wordlist.offlist_words`): 6,872 WordNet nouns from the
+   committed neighbour table that are *not* on the EFF list, built into the same probe rows.
+4. **EFF-list membership arm** (`wordlist_compounds`, `wordlist_space`): a compound whose 4+ parts
+   are all on the EFF large list, or a space run whose first 4+ words are, is a passphrase even when
+   the ops-word count fails. Bitwarden's generator draws from this list (`EFFLongWordList`).
+5. **Purpose pattern with a trailing number** (`explain_redact.LOGIN_SECRET_NUM_RE`): six words plus
+   their number are seven tokens, one over the old limit.
+6. **Pre-registered protocol** (`passphrase_compound_protocol`, committed before any arm was scored):
+   16 arms, fresh calibration seed 3010 and confirm seed 3037, six safety checks including at most 9
+   new flags on the 1,867 SE train identifiers.
+7. **Calibration** (`artifacts/passphrase_compound_calibration.md`). The `but1_4` and `all3` modes
+   newly flag 16 and 28 SE train identifiers, over the budget. Every `all4` arm is safe. **Chosen:
+   all4 + space arm + purpose number**, which takes leaked words from 136 to 37.
+8. **One-shot confirm** on seed 3037 + SE test (`artifacts/passphrase_compound_confirm.md`):
+
+| seed 3037, never scored before the protocol | Oct 29 detector | shipped now (all4 / space / num) |
+| :--- | ---: | ---: |
+| rows leaking a passphrase word | 24 / 1,200 | **4 / 1,200** |
+| passphrase words leaked | 128 / 5,962 | **16 / 5,962** |
+| over-redacted template words | 507 | 509 |
+| SE test sentences flagged (all false positives) | 0 / 306 | 0 / 306 |
+| SE test identifiers newly flagged | – | 1 / 142 (`client_header_buffer_size`) |
+| `data/` identifiers newly flagged, trace queries changed, Oct 13 probe leaks | – | 0, 0, 0 |
+
+   Every check passes, so the three knobs **ship on**. In the CI report (`artifacts/passphrase_wordlist_eval.md`, gating),
+   the three Oct 29 seeds now leak 35 words together (256 with the Oct 29 detector).
+9. **Post-hoc attribution** (`artifacts/passphrase_compound_posthoc.md`). Most of the gain is the purpose fix
+   (128 → 39 alone). The list arm alone gives 128 → 109. On the off-list control the list arms add
+   nothing (63 → 33 with or without them; the purpose fix gives all of it). So the list arm fires on list
+   membership only, and only helps passphrases from EFF-list generators.
+10. **A new gap, then a fix that does not ship.** Bitwarden adds its number by gluing one digit to a
+    random word (`Cascade5`). The probe never drew that shape. On seed 3061 rows of that shape the shipped
+    patterns leak 1,977 of 5,944 words (452 of 1,200 rows), the same as before today. The `attached_digit`
+    knob lets a cued word end in one digit. Its own pre-registered one-shot check
+    (`passphrase_digit_protocol`, fresh seeds 3079 / 3083, `artifacts/passphrase_digit_check.md`) gives
+    leaked words **1,857 → 7** (438 → 3 rows; over-redacted 507 → 581), no change on Oct 29-shape rows, and
+    SE sentences 28 → 29 train / 0 → 0 test. But it newly flags **12 of 1,920 SE train identifiers**
+    (budget 9): `libgl1-mesa-dev`, `diffie-hellman-group1-sha1`, `net.ipv4.conf.all`, and 1 of 147 in test.
+    One check fails, so it **ships off** and both seeds are spent.
+
+### Reproduce
+
+    python scripts/run_passphrase_wordlist_eval.py                                     # CI, ~10 s
+    python scripts/run_passphrase_compound_posthoc.py                                  # offline, ~15 s
+    python scripts/calibrate_passphrase_compounds.py --raw-dir /tmp/se_qa_raw           # needs the SE pages
+    python scripts/run_passphrase_compound_confirm.py --raw-dir /tmp/se_qa_raw          # spent
+    python scripts/run_passphrase_digit_check.py --raw-dir /tmp/se_qa_raw               # spent
+    pytest tests/test_passphrase*.py tests/test_login_secret_number.py
+
+### Weaknesses
+
+- **Glued-digit passphrases still leak about a third of their words.** The fix works on the probe but
+  flags versioned package names. Next step: exempt parts shaped like a version (a short or known tech
+  token plus a digit: `libgl1`, `ipv4`, `sha1`, `ssh2`), then a fresh one-shot check.
+- **The shipped detector already flags 221 of 1,867 (11.8%) real SE train identifiers** after a
+  credential noun, from the Oct 13 ops-word count rule (`xserver-xorg-input-libinput`). This set did
+  not exist before today. Today's arms add 0 train and 1 test flags on top, but the base rate is the
+  bigger false-positive problem. Note that a name right after "token" is unusual in real text, so this
+  is a stress test, not a measured rate.
+- The list arm only knows the EFF large list. Passphrases from other generators (the off-list control)
+  gain only from the purpose fix. The probe and the arm use the same list, so the probe overstates
+  real-world recall.
+- 4 confirm rows still leak: 3 have a stop word inside the run (`why`, `had`, `many`), and 1 dot compound
+  follows a copula.
+- Held-out ANSWER is still **0 of 9**. Ops synonyms (`lag`, `bounce`) and everyday paraphrases were not
+  touched today.
 
 ## Real-wordlist passphrases (2026-10-29): leaked words 105 → 76 on a fresh seed, ships on after an amended confirm; ops-word compounds still leak
 
@@ -96,7 +181,8 @@ perturbed rows are unchanged.
 - **Ops-word compounds still leak.** `attempt.rubbing.essential.path` and
   `elderly-service-semantic-clean-livable-headphone` cannot be told apart from service names by
   word statistics alone. A list of the real service and doc identifiers to exempt, then the
-  arm back on compounds, is the next step for this family.
+  arm back on compounds, is the next step for this family. *(Oct 30: the pair-cosine arm would
+  flag 233 of 1,646 real SE identifiers, so an EFF-list membership arm shipped instead.)*
 - The largest remaining cause ("other", 6–13 rows per seed) is mostly six-word Title-Case
   passphrases in the purpose template (`use ... 43 to log in`). They leak whole because the
   purpose pattern allows only six tokens.
