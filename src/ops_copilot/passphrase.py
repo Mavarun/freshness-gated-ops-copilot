@@ -78,6 +78,10 @@ TAIL_MODES = ("trim", "keep")
 DEFAULT_TAIL = "keep"
 DEFAULT_COHERENCE_MAX: float | None = 0.10
 DEFAULT_COHERENCE_COMPOUNDS = False
+DEFAULT_EXEMPT_IDENTIFIERS = False
+DATA_DIR = CORPUS_DIR.parent
+_IDENT_SUFFIXES = (".jsonl", ".json", ".yaml", ".yml", ".md", ".txt")
+_IDENT_RE = re.compile(r"(?<![\w-])[a-z]{3,12}(?:([-._])[a-z]{3,12})(?:\1[a-z]{3,12}){1,4}(?![\w-])")
 
 _CUE = (
     r"pass(?:word|phrase|code)s?|passwd|pin|secret|token|credentials?|"
@@ -110,6 +114,26 @@ def corpus_vocabulary() -> frozenset[str]:
                 text = f"{d.get('doc_id', '')} {d.get('title', '')} {d.get('body', '')}".lower()
                 words.update(re.findall(r"[a-z]+", text))
     return frozenset(words)
+
+
+@lru_cache(maxsize=1)
+def known_identifiers() -> frozenset[str]:
+    """Lower-case 3-6 part ``-`` / ``.`` / ``_`` names in the repo's own ``data/`` text files.
+
+    These are the service, doc, dashboard and flag names the copilot already knows
+    ("sidecar-mesh-mtls-handshake-budget", "cache.flush.orchestrator"). With
+    ``exempt_identifiers=True`` a compound equal to one of them (case-insensitive) is
+    never a passphrase. It is an *exact* list: a new service that is not yet in
+    ``data/`` gets no protection from it, which is what the Stack Exchange identifier
+    set in ``passphrase_identifiers`` measures. Gzipped and binary files are skipped,
+    so the EFF wordlist itself never enters the list.
+    """
+    found: set[str] = set()
+    for path in sorted(DATA_DIR.rglob("*")):
+        if path.is_file() and path.suffix in _IDENT_SUFFIXES:
+            text = path.read_text(encoding="utf-8", errors="ignore").lower()
+            found.update(m.group() for m in _IDENT_RE.finditer(text))
+    return frozenset(found)
 
 
 @lru_cache(maxsize=1)
@@ -157,6 +181,7 @@ class CuedPassphraseDetector:
         tail: str = DEFAULT_TAIL,
         coherence_max: float | None = DEFAULT_COHERENCE_MAX,
         coherence_compounds: bool = DEFAULT_COHERENCE_COMPOUNDS,
+        exempt_identifiers: bool = DEFAULT_EXEMPT_IDENTIFIERS,
         vectors=None,
     ):
         if tail not in TAIL_MODES:
@@ -165,12 +190,22 @@ class CuedPassphraseDetector:
         self.tail = tail
         self.coherence_max = coherence_max
         self.coherence_compounds = coherence_compounds
+        self.exempt_identifiers = exempt_identifiers
         self._vectors = vectors
 
     def _incoherent(self, words: list[str]) -> bool:
         if self.coherence_max is None or len(words) < COHERENCE_MIN_WORDS:
             return False
         return mean_pair_cosine(words, self._vectors) < self.coherence_max
+
+    @staticmethod
+    def _is_known_identifier(val: str, sep: str) -> bool:
+        """The compound, or the compound without a trailing number part, is a ``data/`` name."""
+        low = val.lower()
+        parts = low.split(sep)
+        bare = sep.join(parts[:-1]) if parts and parts[-1].isdigit() else low
+        ids = known_identifiers()
+        return low in ids or bare in ids
 
     @property
     def vocabulary(self) -> frozenset[str]:
@@ -182,6 +217,8 @@ class CuedPassphraseDetector:
         a, b = m.span("val")
         val = m.group("val")
         if m.group("sep"):
+            if self.exempt_identifiers and self._is_known_identifier(val, m.group("sep")):
+                return None
             words = [w for w in val.split(m.group("sep")) if w.isalpha()]
             if _enough(words, is_ops):
                 return (a, b)
