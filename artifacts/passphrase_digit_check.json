@@ -1,0 +1,164 @@
+{
+ "attached": {
+  "by_separator": {
+   "candidate": {
+    "dot": {
+     "leak_rows": 0,
+     "leak_words": 0,
+     "rows": 300
+    },
+    "hyphen": {
+     "leak_rows": 0,
+     "leak_words": 0,
+     "rows": 300
+    },
+    "space": {
+     "leak_rows": 3,
+     "leak_words": 7,
+     "rows": 300
+    },
+    "underscore": {
+     "leak_rows": 0,
+     "leak_words": 0,
+     "rows": 300
+    }
+   },
+   "shipped": {
+    "dot": {
+     "leak_rows": 105,
+     "leak_words": 362,
+     "rows": 300
+    },
+    "hyphen": {
+     "leak_rows": 112,
+     "leak_words": 552,
+     "rows": 300
+    },
+    "space": {
+     "leak_rows": 119,
+     "leak_words": 431,
+     "rows": 300
+    },
+    "underscore": {
+     "leak_rows": 102,
+     "leak_words": 512,
+     "rows": 300
+    }
+   }
+  },
+  "candidate": {
+   "leak_rows": 3,
+   "leak_words": 7,
+   "over_words": 581,
+   "rows": 1200,
+   "words": 5905
+  },
+  "candidate_cause": {
+   "other": 1,
+   "stop_inside": 2
+  },
+  "candidate_examples": [
+   {
+    "cause": "other",
+    "leaked": [
+     "secret"
+    ],
+    "text": "my password is Secret9 Applaud Landmass Audibly, why can't I log in?"
+   },
+   {
+    "cause": "stop_inside",
+    "leaked": [
+     "used",
+     "overheat",
+     "colt",
+     "lather",
+     "resource"
+    ],
+    "text": "use Used Overheat Colt Lather7 Resource to log in to vault"
+   },
+   {
+    "cause": "stop_inside",
+    "leaked": [
+     "many"
+    ],
+    "text": "the deploy token Device Underwear Slander8 Unhappy Many stopped working, who rotates it?"
+   }
+  ],
+  "seed": 3079,
+  "shipped": {
+   "leak_rows": 438,
+   "leak_words": 1857,
+   "over_words": 507,
+   "rows": 1200,
+   "words": 5905
+  }
+ },
+ "checks": {
+  "attached_fewer_leaks": true,
+  "data_idents": true,
+  "oct13_no_leak": true,
+  "repo_queries_unchanged": true,
+  "se_test_identifiers": true,
+  "se_test_sentences": true,
+  "se_train_identifiers": false,
+  "se_train_sentences": true,
+  "standard_no_more_leaks": true,
+  "standard_over_budget": true
+ },
+ "data_ident_new_flags": [],
+ "oct13_leak_words": 0,
+ "repo_query_changes": 0,
+ "se": {
+  "test": {
+   "ident_new": 1,
+   "ident_new_examples": [
+    "net.ipv6.conf.eth1.autoconf"
+   ],
+   "ident_shipped": 24,
+   "n_identifiers": 147,
+   "n_sentences": 306,
+   "sent_candidate": 0,
+   "sent_shipped": 0
+  },
+  "train": {
+   "ident_new": 12,
+   "ident_new_examples": [
+    "Column1.deviceDetail.displayName",
+    "Diff-Ext-for-KDiff3",
+    "Shibboleth-IdP3-TOTP-Auth",
+    "diffie-hellman-group1-sha1",
+    "gvfs-udisks2-volume-monitor",
+    "kde4-ftps-kio",
+    "libgl1-mesa-dev",
+    "libgl1-mesa-dri",
+    "libgl1-mesa-glx",
+    "libxcb-glx0-dev",
+    "net.ipv4.conf.all",
+    "ssh2-enum-algos"
+   ],
+   "ident_shipped": 221,
+   "n_identifiers": 1920,
+   "n_sentences": 3025,
+   "sent_candidate": 29,
+   "sent_shipped": 28
+  }
+ },
+ "ships": false,
+ "standard": {
+  "candidate": {
+   "leak_rows": 5,
+   "leak_words": 21,
+   "over_words": 503,
+   "rows": 1200,
+   "words": 5937
+  },
+  "seed": 3083,
+  "shipped": {
+   "leak_rows": 5,
+   "leak_words": 21,
+   "over_words": 503,
+   "rows": 1200,
+   "words": 5937
+  }
+ }
+}
