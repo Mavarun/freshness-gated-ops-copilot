@@ -1,0 +1,3248 @@
+{
+ "chosen": "all4/space/num",
+ "results": [
+  {
+   "arm": "none/-/-",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 221,
+    "n": 1867,
+    "new_examples": [],
+    "new_flags": 0
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 6,
+      "leak_words": 28,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 17,
+      "leak_words": 85,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 3,
+      "leak_words": 14,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 8,
+     "other": 14,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "saloon",
+       "moneyless",
+       "rebound",
+       "recluse",
+       "doorknob",
+       "shamrock"
+      ],
+      "text": "use Saloon Moneyless Rebound Recluse Doorknob Shamrock 49 to log in to vault"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "endpoint",
+       "calculate",
+       "spoken",
+       "delicious",
+       "establish"
+      ],
+      "text": "log in to grafana with passphrase endpoint-calculate-spoken-delicious-establish please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "pavestone",
+       "emergency",
+       "mutation",
+       "chest",
+       "provoking",
+       "graceful"
+      ],
+      "text": "use Pavestone Emergency Mutation Chest Provoking Graceful 50 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "script",
+       "elliptic",
+       "preheated",
+       "eleven",
+       "mobility"
+      ],
+      "text": "use Script Fog Elliptic Preheated Eleven Mobility 25 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "proofs",
+       "gear",
+       "scoundrel",
+       "percent",
+       "swarm"
+      ],
+      "text": "log in to grafana with passphrase proofs_gear_scoundrel_percent_swarm please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "volatile",
+       "recolor",
+       "stuffed",
+       "tinsel",
+       "washtub",
+       "unreached"
+      ],
+      "text": "use Volatile Recolor Stuffed Tinsel Washtub Unreached 80 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "publisher",
+       "graveyard",
+       "happening",
+       "anyway",
+       "rejoicing"
+      ],
+      "text": "log in to grafana with passphrase publisher-graveyard-happening-anyway-rejoicing please"
+     }
+    ],
+    "total": {
+     "leak_rows": 28,
+     "leak_words": 136,
+     "over_words": 533,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "none/-/num",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 221,
+    "n": 1867,
+    "new_examples": [],
+    "new_flags": 0
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 6,
+      "leak_words": 28,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 7,
+      "leak_words": 26,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 3,
+      "leak_words": 14,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 8,
+     "other": 4,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "endpoint",
+       "calculate",
+       "spoken",
+       "delicious",
+       "establish"
+      ],
+      "text": "log in to grafana with passphrase endpoint-calculate-spoken-delicious-establish please"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "proofs",
+       "gear",
+       "scoundrel",
+       "percent",
+       "swarm"
+      ],
+      "text": "log in to grafana with passphrase proofs_gear_scoundrel_percent_swarm please"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "publisher",
+       "graveyard",
+       "happening",
+       "anyway",
+       "rejoicing"
+      ],
+      "text": "log in to grafana with passphrase publisher-graveyard-happening-anyway-rejoicing please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "reliable",
+       "roundish",
+       "clarity",
+       "union"
+      ],
+      "text": "the deploy token Reliable-Roundish-Clarity-Union-77 stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "draw",
+       "chief",
+       "voltage",
+       "replica"
+      ],
+      "text": "log in to grafana with passphrase draw-chief-voltage-replica please"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "broken",
+       "uncork",
+       "battering",
+       "uncanny",
+       "diffusive"
+      ],
+      "text": "log in to grafana with passphrase Broken Uncork Battering Oil Uncanny Diffusive 63 please"
+     }
+    ],
+    "total": {
+     "leak_rows": 18,
+     "leak_words": 77,
+     "over_words": 533,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "none/space/-",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 221,
+    "n": 1867,
+    "new_examples": [],
+    "new_flags": 0
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 6,
+      "leak_words": 28,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 16,
+      "leak_words": 81,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 3,
+      "leak_words": 14,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 8,
+     "other": 13,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "saloon",
+       "moneyless",
+       "rebound",
+       "recluse",
+       "doorknob",
+       "shamrock"
+      ],
+      "text": "use Saloon Moneyless Rebound Recluse Doorknob Shamrock 49 to log in to vault"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "endpoint",
+       "calculate",
+       "spoken",
+       "delicious",
+       "establish"
+      ],
+      "text": "log in to grafana with passphrase endpoint-calculate-spoken-delicious-establish please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "pavestone",
+       "emergency",
+       "mutation",
+       "chest",
+       "provoking",
+       "graceful"
+      ],
+      "text": "use Pavestone Emergency Mutation Chest Provoking Graceful 50 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "script",
+       "elliptic",
+       "preheated",
+       "eleven",
+       "mobility"
+      ],
+      "text": "use Script Fog Elliptic Preheated Eleven Mobility 25 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "proofs",
+       "gear",
+       "scoundrel",
+       "percent",
+       "swarm"
+      ],
+      "text": "log in to grafana with passphrase proofs_gear_scoundrel_percent_swarm please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "volatile",
+       "recolor",
+       "stuffed",
+       "tinsel",
+       "washtub",
+       "unreached"
+      ],
+      "text": "use Volatile Recolor Stuffed Tinsel Washtub Unreached 80 to log in to vault"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "publisher",
+       "graveyard",
+       "happening",
+       "anyway",
+       "rejoicing"
+      ],
+      "text": "log in to grafana with passphrase publisher-graveyard-happening-anyway-rejoicing please"
+     }
+    ],
+    "total": {
+     "leak_rows": 27,
+     "leak_words": 132,
+     "over_words": 535,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "none/space/num",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 221,
+    "n": 1867,
+    "new_examples": [],
+    "new_flags": 0
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 6,
+      "leak_words": 28,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 6,
+      "leak_words": 22,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 3,
+      "leak_words": 14,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "no_flag_ops": 8,
+     "other": 3,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "endpoint",
+       "calculate",
+       "spoken",
+       "delicious",
+       "establish"
+      ],
+      "text": "log in to grafana with passphrase endpoint-calculate-spoken-delicious-establish please"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "proofs",
+       "gear",
+       "scoundrel",
+       "percent",
+       "swarm"
+      ],
+      "text": "log in to grafana with passphrase proofs_gear_scoundrel_percent_swarm please"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "publisher",
+       "graveyard",
+       "happening",
+       "anyway",
+       "rejoicing"
+      ],
+      "text": "log in to grafana with passphrase publisher-graveyard-happening-anyway-rejoicing please"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "reliable",
+       "roundish",
+       "clarity",
+       "union"
+      ],
+      "text": "the deploy token Reliable-Roundish-Clarity-Union-77 stopped working, who rotates it?"
+     },
+     {
+      "cause": "no_flag_ops",
+      "leaked": [
+       "draw",
+       "chief",
+       "voltage",
+       "replica"
+      ],
+      "text": "log in to grafana with passphrase draw-chief-voltage-replica please"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "broken",
+       "uncork",
+       "battering",
+       "uncanny",
+       "diffusive"
+      ],
+      "text": "log in to grafana with passphrase Broken Uncork Battering Oil Uncanny Diffusive 63 please"
+     }
+    ],
+    "total": {
+     "leak_rows": 17,
+     "leak_words": 73,
+     "over_words": 535,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "all4/-/-",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 221,
+    "n": 1867,
+    "new_examples": [],
+    "new_flags": 0
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 17,
+      "leak_words": 85,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 14,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "saloon",
+       "moneyless",
+       "rebound",
+       "recluse",
+       "doorknob",
+       "shamrock"
+      ],
+      "text": "use Saloon Moneyless Rebound Recluse Doorknob Shamrock 49 to log in to vault"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "pavestone",
+       "emergency",
+       "mutation",
+       "chest",
+       "provoking",
+       "graceful"
+      ],
+      "text": "use Pavestone Emergency Mutation Chest Provoking Graceful 50 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "script",
+       "elliptic",
+       "preheated",
+       "eleven",
+       "mobility"
+      ],
+      "text": "use Script Fog Elliptic Preheated Eleven Mobility 25 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "volatile",
+       "recolor",
+       "stuffed",
+       "tinsel",
+       "washtub",
+       "unreached"
+      ],
+      "text": "use Volatile Recolor Stuffed Tinsel Washtub Unreached 80 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "quickstep",
+       "size",
+       "acting",
+       "blog",
+       "ludicrous",
+       "tuesday"
+      ],
+      "text": "use Quickstep Size Acting Blog Ludicrous Tuesday 26 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "cornstalk",
+       "festivity",
+       "unstuck",
+       "murmuring",
+       "amaze",
+       "handgrip"
+      ],
+      "text": "use Cornstalk Festivity Unstuck Murmuring Amaze Handgrip 14 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     }
+    ],
+    "total": {
+     "leak_rows": 20,
+     "leak_words": 100,
+     "over_words": 533,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "all4/-/num",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 221,
+    "n": 1867,
+    "new_examples": [],
+    "new_flags": 0
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 7,
+      "leak_words": 26,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 4,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "broken",
+       "uncork",
+       "battering",
+       "uncanny",
+       "diffusive"
+      ],
+      "text": "log in to grafana with passphrase Broken Uncork Battering Oil Uncanny Diffusive 63 please"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "provolone",
+       "refocus",
+       "from",
+       "cattail",
+       "ragweed",
+       "turret"
+      ],
+      "text": "the deploy token Provolone Refocus From Cattail Ragweed Turret 80 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "those",
+       "footrest",
+       "untouched",
+       "referee",
+       "polio",
+       "curdle"
+      ],
+      "text": "my password is those-footrest-untouched-referee-polio-curdle, why can't I log in?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "could",
+       "putdown",
+       "flattered",
+       "antennae"
+      ],
+      "text": "The vault passphrase is Overhang Could Putdown Flattered Antennae 72. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "used",
+       "scallop",
+       "oxidizing"
+      ],
+      "text": "the deploy token Junction Showdown Concierge Used Scallop Oxidizing 66 stopped working, who rotates it?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "from",
+       "germicide"
+      ],
+      "text": "log in to grafana with passphrase snowboard shack savage palm from germicide please"
+     }
+    ],
+    "total": {
+     "leak_rows": 10,
+     "leak_words": 41,
+     "over_words": 533,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "all4/space/-",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 221,
+    "n": 1867,
+    "new_examples": [],
+    "new_flags": 0
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 16,
+      "leak_words": 81,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 13,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "saloon",
+       "moneyless",
+       "rebound",
+       "recluse",
+       "doorknob",
+       "shamrock"
+      ],
+      "text": "use Saloon Moneyless Rebound Recluse Doorknob Shamrock 49 to log in to vault"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "pavestone",
+       "emergency",
+       "mutation",
+       "chest",
+       "provoking",
+       "graceful"
+      ],
+      "text": "use Pavestone Emergency Mutation Chest Provoking Graceful 50 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "script",
+       "elliptic",
+       "preheated",
+       "eleven",
+       "mobility"
+      ],
+      "text": "use Script Fog Elliptic Preheated Eleven Mobility 25 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "volatile",
+       "recolor",
+       "stuffed",
+       "tinsel",
+       "washtub",
+       "unreached"
+      ],
+      "text": "use Volatile Recolor Stuffed Tinsel Washtub Unreached 80 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "quickstep",
+       "size",
+       "acting",
+       "blog",
+       "ludicrous",
+       "tuesday"
+      ],
+      "text": "use Quickstep Size Acting Blog Ludicrous Tuesday 26 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "cornstalk",
+       "festivity",
+       "unstuck",
+       "murmuring",
+       "amaze",
+       "handgrip"
+      ],
+      "text": "use Cornstalk Festivity Unstuck Murmuring Amaze Handgrip 14 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     }
+    ],
+    "total": {
+     "leak_rows": 19,
+     "leak_words": 96,
+     "over_words": 535,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "all4/space/num",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 221,
+    "n": 1867,
+    "new_examples": [],
+    "new_flags": 0
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 6,
+      "leak_words": 22,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 3,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "broken",
+       "uncork",
+       "battering",
+       "uncanny",
+       "diffusive"
+      ],
+      "text": "log in to grafana with passphrase Broken Uncork Battering Oil Uncanny Diffusive 63 please"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "provolone",
+       "refocus",
+       "from",
+       "cattail",
+       "ragweed",
+       "turret"
+      ],
+      "text": "the deploy token Provolone Refocus From Cattail Ragweed Turret 80 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "those",
+       "footrest",
+       "untouched",
+       "referee",
+       "polio",
+       "curdle"
+      ],
+      "text": "my password is those-footrest-untouched-referee-polio-curdle, why can't I log in?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "could",
+       "putdown",
+       "flattered",
+       "antennae"
+      ],
+      "text": "The vault passphrase is Overhang Could Putdown Flattered Antennae 72. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "used",
+       "scallop",
+       "oxidizing"
+      ],
+      "text": "the deploy token Junction Showdown Concierge Used Scallop Oxidizing 66 stopped working, who rotates it?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "from",
+       "germicide"
+      ],
+      "text": "log in to grafana with passphrase snowboard shack savage palm from germicide please"
+     }
+    ],
+    "total": {
+     "leak_rows": 9,
+     "leak_words": 37,
+     "over_words": 535,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "but1_4/-/-",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 237,
+    "n": 1867,
+    "new_examples": [
+     "Client_Max_Body_Size",
+     "Cross-Origin-Resource-Policy",
+     "DRIVER_POWER_STATE_FAILURE",
+     "Google-cloud-ops-agent",
+     "almost-anything-except-bash",
+     "browser.cache.disk.capacity",
+     "client_max_body_size",
+     "docker-registry-machine-name",
+     "grub_disk_get_size",
+     "gtk-icon-theme-name",
+     "proxy_headers_hash_bucket_size",
+     "report_cut_value_error"
+    ],
+    "new_flags": 16
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 17,
+      "leak_words": 85,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 14,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "saloon",
+       "moneyless",
+       "rebound",
+       "recluse",
+       "doorknob",
+       "shamrock"
+      ],
+      "text": "use Saloon Moneyless Rebound Recluse Doorknob Shamrock 49 to log in to vault"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "pavestone",
+       "emergency",
+       "mutation",
+       "chest",
+       "provoking",
+       "graceful"
+      ],
+      "text": "use Pavestone Emergency Mutation Chest Provoking Graceful 50 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "script",
+       "elliptic",
+       "preheated",
+       "eleven",
+       "mobility"
+      ],
+      "text": "use Script Fog Elliptic Preheated Eleven Mobility 25 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "volatile",
+       "recolor",
+       "stuffed",
+       "tinsel",
+       "washtub",
+       "unreached"
+      ],
+      "text": "use Volatile Recolor Stuffed Tinsel Washtub Unreached 80 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "quickstep",
+       "size",
+       "acting",
+       "blog",
+       "ludicrous",
+       "tuesday"
+      ],
+      "text": "use Quickstep Size Acting Blog Ludicrous Tuesday 26 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "cornstalk",
+       "festivity",
+       "unstuck",
+       "murmuring",
+       "amaze",
+       "handgrip"
+      ],
+      "text": "use Cornstalk Festivity Unstuck Murmuring Amaze Handgrip 14 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     }
+    ],
+    "total": {
+     "leak_rows": 20,
+     "leak_words": 100,
+     "over_words": 533,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "but1_4/-/num",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 237,
+    "n": 1867,
+    "new_examples": [
+     "Client_Max_Body_Size",
+     "Cross-Origin-Resource-Policy",
+     "DRIVER_POWER_STATE_FAILURE",
+     "Google-cloud-ops-agent",
+     "almost-anything-except-bash",
+     "browser.cache.disk.capacity",
+     "client_max_body_size",
+     "docker-registry-machine-name",
+     "grub_disk_get_size",
+     "gtk-icon-theme-name",
+     "proxy_headers_hash_bucket_size",
+     "report_cut_value_error"
+    ],
+    "new_flags": 16
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 7,
+      "leak_words": 26,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 4,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "broken",
+       "uncork",
+       "battering",
+       "uncanny",
+       "diffusive"
+      ],
+      "text": "log in to grafana with passphrase Broken Uncork Battering Oil Uncanny Diffusive 63 please"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "provolone",
+       "refocus",
+       "from",
+       "cattail",
+       "ragweed",
+       "turret"
+      ],
+      "text": "the deploy token Provolone Refocus From Cattail Ragweed Turret 80 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "those",
+       "footrest",
+       "untouched",
+       "referee",
+       "polio",
+       "curdle"
+      ],
+      "text": "my password is those-footrest-untouched-referee-polio-curdle, why can't I log in?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "could",
+       "putdown",
+       "flattered",
+       "antennae"
+      ],
+      "text": "The vault passphrase is Overhang Could Putdown Flattered Antennae 72. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "used",
+       "scallop",
+       "oxidizing"
+      ],
+      "text": "the deploy token Junction Showdown Concierge Used Scallop Oxidizing 66 stopped working, who rotates it?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "from",
+       "germicide"
+      ],
+      "text": "log in to grafana with passphrase snowboard shack savage palm from germicide please"
+     }
+    ],
+    "total": {
+     "leak_rows": 10,
+     "leak_words": 41,
+     "over_words": 533,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "but1_4/space/-",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 237,
+    "n": 1867,
+    "new_examples": [
+     "Client_Max_Body_Size",
+     "Cross-Origin-Resource-Policy",
+     "DRIVER_POWER_STATE_FAILURE",
+     "Google-cloud-ops-agent",
+     "almost-anything-except-bash",
+     "browser.cache.disk.capacity",
+     "client_max_body_size",
+     "docker-registry-machine-name",
+     "grub_disk_get_size",
+     "gtk-icon-theme-name",
+     "proxy_headers_hash_bucket_size",
+     "report_cut_value_error"
+    ],
+    "new_flags": 16
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 16,
+      "leak_words": 81,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 13,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "saloon",
+       "moneyless",
+       "rebound",
+       "recluse",
+       "doorknob",
+       "shamrock"
+      ],
+      "text": "use Saloon Moneyless Rebound Recluse Doorknob Shamrock 49 to log in to vault"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "pavestone",
+       "emergency",
+       "mutation",
+       "chest",
+       "provoking",
+       "graceful"
+      ],
+      "text": "use Pavestone Emergency Mutation Chest Provoking Graceful 50 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "script",
+       "elliptic",
+       "preheated",
+       "eleven",
+       "mobility"
+      ],
+      "text": "use Script Fog Elliptic Preheated Eleven Mobility 25 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "volatile",
+       "recolor",
+       "stuffed",
+       "tinsel",
+       "washtub",
+       "unreached"
+      ],
+      "text": "use Volatile Recolor Stuffed Tinsel Washtub Unreached 80 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "quickstep",
+       "size",
+       "acting",
+       "blog",
+       "ludicrous",
+       "tuesday"
+      ],
+      "text": "use Quickstep Size Acting Blog Ludicrous Tuesday 26 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "cornstalk",
+       "festivity",
+       "unstuck",
+       "murmuring",
+       "amaze",
+       "handgrip"
+      ],
+      "text": "use Cornstalk Festivity Unstuck Murmuring Amaze Handgrip 14 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     }
+    ],
+    "total": {
+     "leak_rows": 19,
+     "leak_words": 96,
+     "over_words": 535,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "but1_4/space/num",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 237,
+    "n": 1867,
+    "new_examples": [
+     "Client_Max_Body_Size",
+     "Cross-Origin-Resource-Policy",
+     "DRIVER_POWER_STATE_FAILURE",
+     "Google-cloud-ops-agent",
+     "almost-anything-except-bash",
+     "browser.cache.disk.capacity",
+     "client_max_body_size",
+     "docker-registry-machine-name",
+     "grub_disk_get_size",
+     "gtk-icon-theme-name",
+     "proxy_headers_hash_bucket_size",
+     "report_cut_value_error"
+    ],
+    "new_flags": 16
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 6,
+      "leak_words": 22,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 3,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "broken",
+       "uncork",
+       "battering",
+       "uncanny",
+       "diffusive"
+      ],
+      "text": "log in to grafana with passphrase Broken Uncork Battering Oil Uncanny Diffusive 63 please"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "provolone",
+       "refocus",
+       "from",
+       "cattail",
+       "ragweed",
+       "turret"
+      ],
+      "text": "the deploy token Provolone Refocus From Cattail Ragweed Turret 80 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "those",
+       "footrest",
+       "untouched",
+       "referee",
+       "polio",
+       "curdle"
+      ],
+      "text": "my password is those-footrest-untouched-referee-polio-curdle, why can't I log in?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "could",
+       "putdown",
+       "flattered",
+       "antennae"
+      ],
+      "text": "The vault passphrase is Overhang Could Putdown Flattered Antennae 72. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "used",
+       "scallop",
+       "oxidizing"
+      ],
+      "text": "the deploy token Junction Showdown Concierge Used Scallop Oxidizing 66 stopped working, who rotates it?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "from",
+       "germicide"
+      ],
+      "text": "log in to grafana with passphrase snowboard shack savage palm from germicide please"
+     }
+    ],
+    "total": {
+     "leak_rows": 9,
+     "leak_words": 37,
+     "over_words": 535,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "all3/-/-",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 249,
+    "n": 1867,
+    "new_examples": [
+     "Chrome-Headless-Shell",
+     "Entity-Attribute-Value",
+     "Operating-system-level",
+     "Strict-Transport-Security",
+     "account_move_line",
+     "cursor_theme_name",
+     "entity-attribute-value",
+     "envelope-versus-From",
+     "google-chrome-stable",
+     "greeter-setup-script",
+     "icon-theme-name",
+     "large-broadcast-domain"
+    ],
+    "new_flags": 28
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 17,
+      "leak_words": 85,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 14,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "saloon",
+       "moneyless",
+       "rebound",
+       "recluse",
+       "doorknob",
+       "shamrock"
+      ],
+      "text": "use Saloon Moneyless Rebound Recluse Doorknob Shamrock 49 to log in to vault"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "pavestone",
+       "emergency",
+       "mutation",
+       "chest",
+       "provoking",
+       "graceful"
+      ],
+      "text": "use Pavestone Emergency Mutation Chest Provoking Graceful 50 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "script",
+       "elliptic",
+       "preheated",
+       "eleven",
+       "mobility"
+      ],
+      "text": "use Script Fog Elliptic Preheated Eleven Mobility 25 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "volatile",
+       "recolor",
+       "stuffed",
+       "tinsel",
+       "washtub",
+       "unreached"
+      ],
+      "text": "use Volatile Recolor Stuffed Tinsel Washtub Unreached 80 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "quickstep",
+       "size",
+       "acting",
+       "blog",
+       "ludicrous",
+       "tuesday"
+      ],
+      "text": "use Quickstep Size Acting Blog Ludicrous Tuesday 26 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "cornstalk",
+       "festivity",
+       "unstuck",
+       "murmuring",
+       "amaze",
+       "handgrip"
+      ],
+      "text": "use Cornstalk Festivity Unstuck Murmuring Amaze Handgrip 14 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     }
+    ],
+    "total": {
+     "leak_rows": 20,
+     "leak_words": 100,
+     "over_words": 533,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "all3/-/num",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 249,
+    "n": 1867,
+    "new_examples": [
+     "Chrome-Headless-Shell",
+     "Entity-Attribute-Value",
+     "Operating-system-level",
+     "Strict-Transport-Security",
+     "account_move_line",
+     "cursor_theme_name",
+     "entity-attribute-value",
+     "envelope-versus-From",
+     "google-chrome-stable",
+     "greeter-setup-script",
+     "icon-theme-name",
+     "large-broadcast-domain"
+    ],
+    "new_flags": 28
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 7,
+      "leak_words": 26,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 4,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "broken",
+       "uncork",
+       "battering",
+       "uncanny",
+       "diffusive"
+      ],
+      "text": "log in to grafana with passphrase Broken Uncork Battering Oil Uncanny Diffusive 63 please"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "provolone",
+       "refocus",
+       "from",
+       "cattail",
+       "ragweed",
+       "turret"
+      ],
+      "text": "the deploy token Provolone Refocus From Cattail Ragweed Turret 80 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "those",
+       "footrest",
+       "untouched",
+       "referee",
+       "polio",
+       "curdle"
+      ],
+      "text": "my password is those-footrest-untouched-referee-polio-curdle, why can't I log in?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "could",
+       "putdown",
+       "flattered",
+       "antennae"
+      ],
+      "text": "The vault passphrase is Overhang Could Putdown Flattered Antennae 72. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "used",
+       "scallop",
+       "oxidizing"
+      ],
+      "text": "the deploy token Junction Showdown Concierge Used Scallop Oxidizing 66 stopped working, who rotates it?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "from",
+       "germicide"
+      ],
+      "text": "log in to grafana with passphrase snowboard shack savage palm from germicide please"
+     }
+    ],
+    "total": {
+     "leak_rows": 10,
+     "leak_words": 41,
+     "over_words": 533,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "all3/space/-",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 249,
+    "n": 1867,
+    "new_examples": [
+     "Chrome-Headless-Shell",
+     "Entity-Attribute-Value",
+     "Operating-system-level",
+     "Strict-Transport-Security",
+     "account_move_line",
+     "cursor_theme_name",
+     "entity-attribute-value",
+     "envelope-versus-From",
+     "google-chrome-stable",
+     "greeter-setup-script",
+     "icon-theme-name",
+     "large-broadcast-domain"
+    ],
+    "new_flags": 28
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 16,
+      "leak_words": 81,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 13,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "other",
+      "leaked": [
+       "saloon",
+       "moneyless",
+       "rebound",
+       "recluse",
+       "doorknob",
+       "shamrock"
+      ],
+      "text": "use Saloon Moneyless Rebound Recluse Doorknob Shamrock 49 to log in to vault"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "pavestone",
+       "emergency",
+       "mutation",
+       "chest",
+       "provoking",
+       "graceful"
+      ],
+      "text": "use Pavestone Emergency Mutation Chest Provoking Graceful 50 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "script",
+       "elliptic",
+       "preheated",
+       "eleven",
+       "mobility"
+      ],
+      "text": "use Script Fog Elliptic Preheated Eleven Mobility 25 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "volatile",
+       "recolor",
+       "stuffed",
+       "tinsel",
+       "washtub",
+       "unreached"
+      ],
+      "text": "use Volatile Recolor Stuffed Tinsel Washtub Unreached 80 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "quickstep",
+       "size",
+       "acting",
+       "blog",
+       "ludicrous",
+       "tuesday"
+      ],
+      "text": "use Quickstep Size Acting Blog Ludicrous Tuesday 26 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "cornstalk",
+       "festivity",
+       "unstuck",
+       "murmuring",
+       "amaze",
+       "handgrip"
+      ],
+      "text": "use Cornstalk Festivity Unstuck Murmuring Amaze Handgrip 14 to log in to vault"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     }
+    ],
+    "total": {
+     "leak_rows": 19,
+     "leak_words": 96,
+     "over_words": 535,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  },
+  {
+   "arm": "all3/space/num",
+   "data_ident_new_flags": [],
+   "idents": {
+    "examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW"
+    ],
+    "flagged": 249,
+    "n": 1867,
+    "new_examples": [
+     "Chrome-Headless-Shell",
+     "Entity-Attribute-Value",
+     "Operating-system-level",
+     "Strict-Transport-Security",
+     "account_move_line",
+     "cursor_theme_name",
+     "entity-attribute-value",
+     "envelope-versus-From",
+     "google-chrome-stable",
+     "greeter-setup-script",
+     "icon-theme-name",
+     "large-broadcast-domain"
+    ],
+    "new_flags": 28
+   },
+   "oct13_leak_words": 0,
+   "probe": {
+    "by_separator": {
+     "dot": {
+      "leak_rows": 2,
+      "leak_words": 9,
+      "rows": 300
+     },
+     "hyphen": {
+      "leak_rows": 1,
+      "leak_words": 6,
+      "rows": 300
+     },
+     "space": {
+      "leak_rows": 6,
+      "leak_words": 22,
+      "rows": 300
+     },
+     "underscore": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "rows": 300
+     }
+    },
+    "cause": {
+     "other": 3,
+     "stop_inside": 6
+    },
+    "examples": [
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "that",
+       "unbaked"
+      ],
+      "text": "the deploy token Impart Anaconda Grimace Wisplike That Unbaked 50 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "much",
+       "encounter",
+       "hankering",
+       "broadly"
+      ],
+      "text": "The vault passphrase is much.encounter.hankering.broadly. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "broken",
+       "uncork",
+       "battering",
+       "uncanny",
+       "diffusive"
+      ],
+      "text": "log in to grafana with passphrase Broken Uncork Battering Oil Uncanny Diffusive 63 please"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "provolone",
+       "refocus",
+       "from",
+       "cattail",
+       "ragweed",
+       "turret"
+      ],
+      "text": "the deploy token Provolone Refocus From Cattail Ragweed Turret 80 stopped working, who rotates it?"
+     },
+     {
+      "cause": "other",
+      "leaked": [
+       "those",
+       "footrest",
+       "untouched",
+       "referee",
+       "polio",
+       "curdle"
+      ],
+      "text": "my password is those-footrest-untouched-referee-polio-curdle, why can't I log in?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "could",
+       "putdown",
+       "flattered",
+       "antennae"
+      ],
+      "text": "The vault passphrase is Overhang Could Putdown Flattered Antennae 72. Who owns vault-transit?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "used",
+       "scallop",
+       "oxidizing"
+      ],
+      "text": "the deploy token Junction Showdown Concierge Used Scallop Oxidizing 66 stopped working, who rotates it?"
+     },
+     {
+      "cause": "stop_inside",
+      "leaked": [
+       "from",
+       "germicide"
+      ],
+      "text": "log in to grafana with passphrase snowboard shack savage palm from germicide please"
+     }
+    ],
+    "total": {
+     "leak_rows": 9,
+     "leak_words": 37,
+     "over_words": 535,
+     "rows": 1200,
+     "words": 5959
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "fp_budget": true,
+    "ident_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true
+   },
+   "se": {
+    "examples": [
+     [
+      "doesnt match Password Complexity requirements"
+     ],
+     [
+      "Ring networks vanished"
+     ],
+     [
+      "contains fully binary byte strings"
+     ],
+     [
+      "hash function always produces"
+     ],
+     [
+      "system expects users"
+     ],
+     [
+      "whenever somebody clicks"
+     ],
+     [
+      "managers like KeePassXC"
+     ],
+     [
+      "thing actually means"
+     ],
+     [
+      "Credentials grant type deviates"
+     ],
+     [
+      "over completely different means"
+     ],
+     [
+      "expiration policies annoy"
+     ],
+     [
+      "policy actually results"
+     ]
+    ],
+    "flagged": 28,
+    "redacted_words": 110
+   }
+  }
+ ],
+ "rows": 1200,
+ "se_identifiers": 1867,
+ "se_sentences": 3020,
+ "seed": 3010,
+ "shipped_identifier_flags": 221
+}
