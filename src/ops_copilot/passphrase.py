@@ -56,6 +56,17 @@ Oct 13 behaviour is ``tail="trim", coherence_max=None``:
   repo's own data ("sidecar-mesh-mtls-handshake-budget"), which the first
   protocol did not check (found after its confirm; see the amendment in
   ``passphrase_tail_protocol``).
+
+Two more knobs (Oct 30, off here; ``passphrase_compound_protocol`` decides):
+
+* ``wordlist_compounds`` / ``wordlist_space``: a run whose words all come from the
+  EFF large list (``generator_words``) is a passphrase even when the ops-word count
+  fails. Word statistics cannot tell ``elderly-service-semantic-clean`` from a service
+  name, but list membership of *every* part is rare for real identifiers. The probe
+  draws from the same list, so the probe alone overstates the gain; the off-list
+  probe and the Stack Exchange identifier set are the controls.
+* ``exempt_identifiers``: an exact list of the repo's own multi-part names
+  (``known_identifiers``) is never flagged.
 """
 
 from __future__ import annotations
@@ -79,6 +90,9 @@ DEFAULT_TAIL = "keep"
 DEFAULT_COHERENCE_MAX: float | None = 0.10
 DEFAULT_COHERENCE_COMPOUNDS = False
 DEFAULT_EXEMPT_IDENTIFIERS = False
+WORDLIST_MODES = (None, "all4", "but1_4", "all3")
+DEFAULT_WORDLIST_COMPOUNDS: str | None = None
+DEFAULT_WORDLIST_SPACE = False
 DATA_DIR = CORPUS_DIR.parent
 _IDENT_SUFFIXES = (".jsonl", ".json", ".yaml", ".yml", ".md", ".txt")
 _IDENT_RE = re.compile(r"(?<![\w-])[a-z]{3,12}(?:([-._])[a-z]{3,12})(?:\1[a-z]{3,12}){1,4}(?![\w-])")
@@ -162,6 +176,49 @@ def mean_pair_cosine(words: list[str], vectors=None) -> float:
     return tot / len(pairs)
 
 
+@lru_cache(maxsize=1)
+def generator_words() -> frozenset[str]:
+    """The EFF large wordlist, the list password managers draw passphrases from.
+
+    Bitwarden's generator, for one, picks each word from ``EFFLongWordList``. A run
+    whose words all come from this list is what such a generator emits; a service
+    name usually has at least one part that is not an everyday English word
+    (``virtio``, ``texlive``, ``hpa``). Used only by the off-by-default wordlist arm.
+    """
+    from ops_copilot.passphrase_wordlist import eff_words
+
+    return frozenset(eff_words())
+
+
+def wordlist_match(words: list[str], mode: str | None) -> bool:
+    """Is a run of words what an EFF-list generator emits, under ``mode``?
+
+    ``all4``: 4+ words, every one on the list. ``but1_4``: 4+ words, at most one off
+    the list. ``all3``: 3+ words, every one on the list. ``None``: never.
+    """
+    if mode is None:
+        return False
+    if mode not in WORDLIST_MODES:
+        raise ValueError(f"wordlist mode must be one of {WORDLIST_MODES}")
+    gen = generator_words()
+    ws = [w.lower() for w in words]
+    off = sum(w not in gen for w in ws)
+    if mode == "all3":
+        return len(ws) >= 3 and off == 0
+    return len(ws) >= 4 and off <= (1 if mode == "but1_4" else 0)
+
+
+def _list_prefix(words: list[str]) -> list[str]:
+    """The leading words that are all on the generator list (prose may follow a passphrase)."""
+    gen = generator_words()
+    out = []
+    for w in words:
+        if w.lower() not in gen:
+            break
+        out.append(w)
+    return out
+
+
 def _enough(words: list[str], is_ops: Callable[[str], bool]) -> bool:
     if len(words) < MIN_WORDS:
         return False
@@ -182,6 +239,8 @@ class CuedPassphraseDetector:
         coherence_max: float | None = DEFAULT_COHERENCE_MAX,
         coherence_compounds: bool = DEFAULT_COHERENCE_COMPOUNDS,
         exempt_identifiers: bool = DEFAULT_EXEMPT_IDENTIFIERS,
+        wordlist_compounds: str | None = DEFAULT_WORDLIST_COMPOUNDS,
+        wordlist_space: bool = DEFAULT_WORDLIST_SPACE,
         vectors=None,
     ):
         if tail not in TAIL_MODES:
@@ -190,7 +249,11 @@ class CuedPassphraseDetector:
         self.tail = tail
         self.coherence_max = coherence_max
         self.coherence_compounds = coherence_compounds
+        if wordlist_compounds not in WORDLIST_MODES:
+            raise ValueError(f"wordlist_compounds must be one of {WORDLIST_MODES}")
         self.exempt_identifiers = exempt_identifiers
+        self.wordlist_compounds = wordlist_compounds
+        self.wordlist_space = wordlist_space
         self._vectors = vectors
 
     def _incoherent(self, words: list[str]) -> bool:
@@ -220,7 +283,7 @@ class CuedPassphraseDetector:
             if self.exempt_identifiers and self._is_known_identifier(val, m.group("sep")):
                 return None
             words = [w for w in val.split(m.group("sep")) if w.isalpha()]
-            if _enough(words, is_ops):
+            if _enough(words, is_ops) or wordlist_match(words, self.wordlist_compounds):
                 return (a, b)
             return (a, b) if self.coherence_compounds and self._incoherent(words) else None
         toks = list(re.finditer(r"\S+", val))
@@ -234,7 +297,8 @@ class CuedPassphraseDetector:
         while words and is_ops(words[-1].group().lower()):
             words.pop()
         if not _enough([t.group() for t in words], is_ops):
-            if not self._incoherent([t.group() for t in full]):
+            fw = [t.group() for t in full]
+            if not (self._incoherent(fw) or (self.wordlist_space and wordlist_match(_list_prefix(fw), "all4"))):
                 return None
             words = full
         if self.tail == "keep":
