@@ -131,6 +131,14 @@ LOGIN_SECRET_RE = re.compile(
     rf"(?i){_HOW}\b(?:{_USE})\s+(?!(?:{_NOT_VALUE}|{_STOP_ALT})\b)(?!\[redacted)"
     rf"(?P<val>{_VTOK}(?:\s+{_VTOK}){{0,5}}?)\s+(?:to|for)\s+(?:{_LOGIN})\b"
 )
+# Oct 30 candidate (off; ``passphrase_compound_protocol`` decides): a six-word
+# Title-Case passphrase plus its number is seven tokens, one over the limit, so
+# "use Sprig Detonate Italicize Domestic Stallion Mammal 43 to log in" leaked
+# whole. This form allows one extra token when it is a 1-4 digit number.
+LOGIN_SECRET_NUM_RE = re.compile(
+    rf"(?i){_HOW}\b(?:{_USE})\s+(?!(?:{_NOT_VALUE}|{_STOP_ALT})\b)(?!\[redacted)"
+    rf"(?P<val>{_VTOK}(?:\s+{_VTOK}){{0,5}}?(?:\s+\d{{1,4}})?)\s+(?:to|for)\s+(?:{_LOGIN})\b"
+)
 DISCLOSED_RES = (DISCLOSED_SECRET_RE, LOGIN_SECRET_RE)
 # >= 32 chars of key-ish alphabet with both letters and digits; doc ids use
 # underscores/hyphens and no long digit runs, so they never match.
