@@ -91,7 +91,10 @@ def detector(arm: tuple):
     """Arms are explicit, so a later change of the module defaults never moves them."""
     from ops_copilot.passphrase import CuedPassphraseDetector
 
-    return CuedPassphraseDetector(tail=arm[0], coherence_max=arm[1], coherence_compounds=len(arm) < 3)
+    return CuedPassphraseDetector(
+        tail=arm[0], coherence_max=arm[1], coherence_compounds=len(arm) < 3,
+        wordlist_compounds=None, wordlist_space=False, exempt_identifiers=False,
+    )
 
 
 def data_identifiers() -> list[str]:
@@ -111,10 +114,13 @@ def identifier_flags(arm: tuple) -> list[str]:
 
 
 def patterns_for(arm: tuple):
-    from ops_copilot.explain_redact import SENSITIVE_PATTERNS
+    """The Oct 29 pattern set with the arm's detector; the purpose pattern stays the Oct 29 one."""
+    from ops_copilot.explain_redact import LOGIN_SECRET_NUM_RE, LOGIN_SECRET_RE, SENSITIVE_PATTERNS
 
     det = detector(arm)
-    return tuple((k, det if k == "passphrase" else p) for k, p in SENSITIVE_PATTERNS)
+    return tuple(
+        (k, det if k == "passphrase" else LOGIN_SECRET_RE if p is LOGIN_SECRET_NUM_RE else p) for k, p in SENSITIVE_PATTERNS
+    )
 
 
 def repo_queries() -> list[str]:

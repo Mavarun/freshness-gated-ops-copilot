@@ -9,11 +9,12 @@ from ops_copilot.explain_redact import LOGIN_SECRET_NUM_RE, LOGIN_SECRET_RE, SEN
 SEVEN = "use Sprig Detonate Italicize Domestic Stallion Mammal 43 to log in to vault"
 
 
-def test_seven_token_passphrase_leaks_today_and_matches_with_the_number_form() -> None:
+def test_seven_token_passphrase_leaked_on_oct29_and_the_shipped_form_matches() -> None:
     assert LOGIN_SECRET_RE.search(SEVEN) is None
     m = LOGIN_SECRET_NUM_RE.search(SEVEN)
     assert m is not None and m.group("val") == "Sprig Detonate Italicize Domestic Stallion Mammal 43"
-    assert all(p is not LOGIN_SECRET_NUM_RE for _, p in SENSITIVE_PATTERNS)
+    assert any(p is LOGIN_SECRET_NUM_RE for _, p in SENSITIVE_PATTERNS)
+    assert all(p is not LOGIN_SECRET_RE for _, p in SENSITIVE_PATTERNS)
 
 
 @pytest.mark.parametrize(

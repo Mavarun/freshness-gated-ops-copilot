@@ -48,9 +48,10 @@ def test_ops_word_passphrase_gap_closed_for_space_runs_only() -> None:
     assert CUED_PASSPHRASE.search("token juniper-orbit-copper-tundra") is None
 
 
-def test_shipped_defaults_are_the_amended_arm() -> None:
+def test_shipped_defaults_are_the_amended_arm_plus_the_oct30_list_arm() -> None:
     d = CUED_PASSPHRASE
     assert (d.tail, d.coherence_max, d.coherence_compounds) == ("keep", 0.10, False)
+    assert (d.wordlist_compounds, d.wordlist_space, d.exempt_identifiers) == ("all4", True, True)
 
 
 def test_vocabulary_is_injectable_and_subn_counts() -> None:
@@ -93,7 +94,8 @@ def test_coherence_arm_flags_unrelated_ops_words_only() -> None:
 
 
 def test_space_only_coherence_leaves_identifiers_but_flags_space_runs() -> None:
-    both = CuedPassphraseDetector(coherence_max=0.10, coherence_compounds=True)
+    # the Oct 29 arm, without the Oct 30 exemption list (which would mask the case)
+    both = CuedPassphraseDetector(coherence_max=0.10, coherence_compounds=True, exempt_identifiers=False)
     space = CuedPassphraseDetector(coherence_max=0.10, coherence_compounds=False)
     ident = "api key sidecar-mesh-mtls-handshake-budget"
     assert both.search(ident) is not None and space.search(ident) is None

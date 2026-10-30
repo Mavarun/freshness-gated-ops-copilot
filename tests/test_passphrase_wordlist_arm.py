@@ -21,11 +21,11 @@ def test_modes() -> None:
         CuedPassphraseDetector(wordlist_compounds="bogus")
 
 
-def test_off_by_default_and_closes_the_documented_compound_leak() -> None:
+def test_on_by_default_and_closes_the_documented_compound_leak() -> None:
     text = "the deploy token elderly-service-semantic-clean-livable-headphone stopped working"
-    assert CUED_PASSPHRASE.wordlist_compounds is None and CUED_PASSPHRASE.wordlist_space is False
-    assert CUED_PASSPHRASE.search(text) is None
-    on = CuedPassphraseDetector(wordlist_compounds="all4")
+    assert CUED_PASSPHRASE.wordlist_compounds == "all4" and CUED_PASSPHRASE.wordlist_space is True
+    assert CuedPassphraseDetector(wordlist_compounds=None).search(text) is None
+    on = CUED_PASSPHRASE
     assert on.search(text).group() == "elderly-service-semantic-clean-livable-headphone"
     assert on.search("token Attempt.Rubbing.Essential.Path.42").group() == "Attempt.Rubbing.Essential.Path.42"
 
@@ -45,7 +45,7 @@ def test_identifiers_with_an_off_list_part_stay(text: str) -> None:
 
 def test_space_arm_needs_four_leading_list_words() -> None:
     d = CuedPassphraseDetector(wordlist_space=True, coherence_max=None)
-    base = CuedPassphraseDetector(coherence_max=None)
+    base = CuedPassphraseDetector(coherence_max=None, wordlist_space=False)
     text = "the deploy token elderly service semantic clean stopped working"
     assert base.search(text) is None
     assert d.search(text).group() == "elderly service semantic clean stopped working"

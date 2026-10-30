@@ -131,7 +131,7 @@ LOGIN_SECRET_RE = re.compile(
     rf"(?i){_HOW}\b(?:{_USE})\s+(?!(?:{_NOT_VALUE}|{_STOP_ALT})\b)(?!\[redacted)"
     rf"(?P<val>{_VTOK}(?:\s+{_VTOK}){{0,5}}?)\s+(?:to|for)\s+(?:{_LOGIN})\b"
 )
-# Oct 30 candidate (off; ``passphrase_compound_protocol`` decides): a six-word
+# Oct 30 (on since the pre-registered confirm, ``passphrase_compound_protocol``): a six-word
 # Title-Case passphrase plus its number is seven tokens, one over the limit, so
 # "use Sprig Detonate Italicize Domestic Stallion Mammal 43 to log in" leaked
 # whole. This form allows one extra token when it is a 1-4 digit number.
@@ -139,7 +139,7 @@ LOGIN_SECRET_NUM_RE = re.compile(
     rf"(?i){_HOW}\b(?:{_USE})\s+(?!(?:{_NOT_VALUE}|{_STOP_ALT})\b)(?!\[redacted)"
     rf"(?P<val>{_VTOK}(?:\s+{_VTOK}){{0,5}}?(?:\s+\d{{1,4}})?)\s+(?:to|for)\s+(?:{_LOGIN})\b"
 )
-DISCLOSED_RES = (DISCLOSED_SECRET_RE, LOGIN_SECRET_RE)
+DISCLOSED_RES = (DISCLOSED_SECRET_RE, LOGIN_SECRET_NUM_RE)
 # >= 32 chars of key-ish alphabet with both letters and digits; doc ids use
 # underscores/hyphens and no long digit runs, so they never match.
 HIGH_ENTROPY_RE = re.compile(r"\b(?=[A-Za-z0-9+/=]*\d)(?=[A-Za-z0-9+/=]*[A-Za-z])[A-Za-z0-9+/=]{32,}")
@@ -147,7 +147,7 @@ HIGH_ENTROPY_RE = re.compile(r"\b(?=[A-Za-z0-9+/=]*\d)(?=[A-Za-z0-9+/=]*[A-Za-z]
 SENSITIVE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("canary", CANARY_ANY_CASE_RE),
     ("disclosed_secret", DISCLOSED_SECRET_RE),
-    ("disclosed_secret", LOGIN_SECRET_RE),
+    ("disclosed_secret", LOGIN_SECRET_NUM_RE),
     ("secret", SECRET_ASSIGNMENT_RE),
     ("aws_key", AWS_KEY_ANY_CASE_RE),
     ("slack_token", SLACK_TOKEN_ANY_CASE_RE),
@@ -170,11 +170,11 @@ PR15_PATTERNS = tuple(p for p in SENSITIVE_PATTERNS if p[0] not in ("disclosed_s
 PR16_PATTERNS = tuple(
     ("disclosed_secret", PR16_DISCLOSED_SECRET_RE) if p[1] is DISCLOSED_SECRET_RE else p
     for p in SENSITIVE_PATTERNS
-    if p[0] not in ("random_token", "passphrase") and p[1] is not LOGIN_SECRET_RE
+    if p[0] not in ("random_token", "passphrase") and p[1] is not LOGIN_SECRET_NUM_RE
 )
 
 # PR #19 (Oct 12) pattern set, for the Oct 13 passphrase before / after.
-_PR19_SWAP = {id(DISCLOSED_SECRET_RE): PR19_DISCLOSED_SECRET_RE, id(LOGIN_SECRET_RE): PR19_LOGIN_SECRET_RE}
+_PR19_SWAP = {id(DISCLOSED_SECRET_RE): PR19_DISCLOSED_SECRET_RE, id(LOGIN_SECRET_NUM_RE): PR19_LOGIN_SECRET_RE}
 PR19_PATTERNS = tuple((k, _PR19_SWAP.get(id(p), p)) for k, p in SENSITIVE_PATTERNS if k != "passphrase")
 
 _MIN_FRAGMENT = 2
@@ -214,7 +214,7 @@ def sensitive_fragments(texts: Iterable[str], *, patterns=SENSITIVE_PATTERNS) ->
             if kind == "disclosed_secret":
                 # fragment the value only: the cue ("token", "password") is
                 # an ordinary word the explanation must keep
-                m = next((m for r in (*DISCLOSED_RES, PR19_DISCLOSED_SECRET_RE, PR19_LOGIN_SECRET_RE, PR16_DISCLOSED_SECRET_RE) if (m := r.search(value))), None)
+                m = next((m for r in (*DISCLOSED_RES, LOGIN_SECRET_RE, PR19_DISCLOSED_SECRET_RE, PR19_LOGIN_SECRET_RE, PR16_DISCLOSED_SECRET_RE) if (m := r.search(value))), None)
                 part = m.group("val") if m else value
             frags.update(
                 t for t in tokenize(part) if len(t) >= _MIN_FRAGMENT and t not in STOPWORDS

@@ -31,6 +31,7 @@ def test_split_is_disjoint_and_uses_the_qa_hash(tmp_path) -> None:
 
 def test_score_counts_new_flags_against_a_base() -> None:
     names = ["elderly-service-semantic-clean", "proxy-cache-path-nginx", "marble-meadow-lagoon-badger"]
-    base = set(n for n in names if CUED_PASSPHRASE.search(f"token {n}"))
-    res = score_identifiers(CuedPassphraseDetector(wordlist_compounds="all4"), names, base=base)
+    old = CuedPassphraseDetector(wordlist_compounds=None)
+    base = set(n for n in names if old.search(f"token {n}"))
+    res = score_identifiers(CUED_PASSPHRASE, names, base=base)
     assert res["n"] == 3 and res["new_examples"] == ["elderly-service-semantic-clean"] and res["new_flags"] == 1

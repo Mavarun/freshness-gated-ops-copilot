@@ -43,3 +43,13 @@ def test_offlist_control_and_offline_reproduction(conf: dict) -> None:
         assert score_rows(rows, P.patterns_for(arm))["total"] == r["probe"]["total"]
     got = score_rows(wordlist_passphrases(P.OFFLIST_SEED, P.N_ROWS, words=offlist_words()), P.patterns_for(P.SHIPPED))
     assert got["total"] == off["none/-/-"]
+
+
+def test_ci_report_matches_the_confirm_and_gates_on_the_oct29_patterns(conf: dict) -> None:
+    ev = json.loads((ART.parent / "passphrase_wordlist_eval.json").read_text())
+    assert set(ev["seeds"]) == {"2910", "2929", "2931", "3010", "3037", "offlist-3053"} and not ev["failures"]
+    base, res = conf["results"]
+    assert ev["seeds"]["3037"]["oct29"] == base["probe"]["total"]
+    assert ev["seeds"]["3037"]["shipped"] == res["probe"]["total"]
+    assert ev["seeds"]["offlist-3053"]["shipped"] == conf["offlist"]["all4/space/num"]
+    assert all(v["shipped"]["leak_words"] <= v["oct29"]["leak_words"] for v in ev["seeds"].values())
