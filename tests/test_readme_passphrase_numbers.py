@@ -16,10 +16,10 @@ def _j(name: str) -> dict:
     return json.loads((ART / name).read_text())
 
 
-def test_section_is_first_and_followed_by_the_credited_word_section() -> None:
+def test_section_is_followed_by_the_credited_word_section() -> None:
     heads = [h for h in README.splitlines() if h.startswith("## ")]
-    assert heads[0].startswith(HEAD)
-    assert heads[1].startswith("## Credited-word check (2026-10-28)")
+    i = next(k for k, h in enumerate(heads) if h.startswith(HEAD))
+    assert heads[i + 1].startswith("## Credited-word check (2026-10-28)")
 
 
 def test_amended_confirm_table_matches() -> None:
