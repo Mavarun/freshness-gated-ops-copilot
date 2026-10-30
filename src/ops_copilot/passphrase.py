@@ -114,6 +114,17 @@ CUED_RE = re.compile(
     rf"|{_WORD}(?:\s+{_WORD}){{1,{MAX_WORDS - 1}}}(?:\s+{_NUM})?)"
     rf"(?![\w-])"
 )
+# Oct 30: Bitwarden glues one digit to a random word ("Cascade5"). With
+# ``attached_digit=True`` a word may end in one digit; the digit is dropped for
+# every word check and kept in the redacted span.
+_WORD_D = r"[A-Za-z]{3,12}\d?"
+CUED_DIGIT_RE = re.compile(
+    rf"(?i)\b(?:{_CUE})\s+"
+    rf"(?P<val>{_WORD_D}(?P<sep>[-._]){_WORD_D}(?:(?P=sep){_WORD_D}){{1,{MAX_WORDS - 2}}}(?:(?P=sep){_NUM})?"
+    rf"|{_WORD_D}(?:\s+{_WORD_D}){{1,{MAX_WORDS - 1}}}(?:\s+{_NUM})?)"
+    rf"(?![\w-])"
+)
+DEFAULT_ATTACHED_DIGIT = False
 _SPACE_STOP = frozenset(
     "is was are were be been and but so or why what how who when where can could would please does do did then "
     "to for with from in on at of by via into the a an my our your their this that it its not no never "
@@ -246,6 +257,7 @@ class CuedPassphraseDetector:
         exempt_identifiers: bool = DEFAULT_EXEMPT_IDENTIFIERS,
         wordlist_compounds: str | None = DEFAULT_WORDLIST_COMPOUNDS,
         wordlist_space: bool = DEFAULT_WORDLIST_SPACE,
+        attached_digit: bool = DEFAULT_ATTACHED_DIGIT,
         vectors=None,
     ):
         if tail not in TAIL_MODES:
@@ -259,6 +271,7 @@ class CuedPassphraseDetector:
         self.exempt_identifiers = exempt_identifiers
         self.wordlist_compounds = wordlist_compounds
         self.wordlist_space = wordlist_space
+        self.attached_digit = attached_digit
         self._vectors = vectors
 
     def _incoherent(self, words: list[str]) -> bool:
@@ -279,30 +292,37 @@ class CuedPassphraseDetector:
     def vocabulary(self) -> frozenset[str]:
         return self._vocab if self._vocab is not None else ops_vocabulary()
 
+    def _bare(self, w: str) -> str:
+        """The word without one glued trailing digit (only with ``attached_digit``)."""
+        if self.attached_digit and len(w) > 1 and w[-1].isdigit() and w[:-1].isalpha():
+            return w[:-1]
+        return w
+
     def _span(self, m: re.Match[str]) -> tuple[int, int] | None:
         vocab = self.vocabulary
         is_ops = vocab.__contains__
+        bare = self._bare
         a, b = m.span("val")
         val = m.group("val")
         if m.group("sep"):
             if self.exempt_identifiers and self._is_known_identifier(val, m.group("sep")):
                 return None
-            words = [w for w in val.split(m.group("sep")) if w.isalpha()]
+            words = [bare(w) for w in val.split(m.group("sep")) if bare(w).isalpha()]
             if _enough(words, is_ops) or wordlist_match(words, self.wordlist_compounds):
                 return (a, b)
             return (a, b) if self.coherence_compounds and self._incoherent(words) else None
         toks = list(re.finditer(r"\S+", val))
         keep: list[re.Match[str]] = []
         for t in toks:
-            if t.group().lower() in _SPACE_STOP:
+            if bare(t.group()).lower() in _SPACE_STOP:
                 break
             keep.append(t)
-        words = [t for t in keep if t.group().isalpha()]
+        words = [t for t in keep if bare(t.group()).isalpha()]
         full = list(words)
-        while words and is_ops(words[-1].group().lower()):
+        while words and is_ops(bare(words[-1].group()).lower()):
             words.pop()
-        if not _enough([t.group() for t in words], is_ops):
-            fw = [t.group() for t in full]
+        if not _enough([bare(t.group()) for t in words], is_ops):
+            fw = [bare(t.group()) for t in full]
             if not (self._incoherent(fw) or (self.wordlist_space and wordlist_match(_list_prefix(fw), "all4"))):
                 return None
             words = full
@@ -314,7 +334,7 @@ class CuedPassphraseDetector:
         return (a + words[0].start(), a + end)
 
     def finditer(self, text: str) -> Iterator[_Match]:
-        for m in CUED_RE.finditer(text or ""):
+        for m in (CUED_DIGIT_RE if self.attached_digit else CUED_RE).finditer(text or ""):
             sp = self._span(m)
             if sp is not None:
                 yield _Match(text, sp)
