@@ -41,3 +41,14 @@ def test_backoff_only_lands_on_table_entries() -> None:
     for w in ("badgers", "stopped", "happily"):
         assert any(c in table for c in D._candidates(w))
     assert not any(c in table for c in D._candidates("objectids"))
+
+
+def test_wordnet_notice_names_both_tables_and_carries_the_licence() -> None:
+    notice = (D.TABLE.parent / "NOTICE.md").read_text()
+    assert "wn_lemmas.txt.gz" in notice and "wn_noun_neighbours.json.gz" in notice
+    assert "WordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved." in notice
+    assert 'THIS SOFTWARE AND DATABASE IS PROVIDED "AS IS"' in notice
+    # the notice is scanned by passphrase.known_identifiers; it must not add exempt names
+    from ops_copilot.passphrase import _IDENT_RE
+
+    assert not list(_IDENT_RE.finditer(notice.lower()))
