@@ -1,0 +1,472 @@
+{
+ "chosen": "ops/compounds/guard",
+ "offlist": {
+  "ops/compounds/guard": {
+   "leak_rows": 4,
+   "leak_words": 15,
+   "over_words": 523,
+   "rows": 1200,
+   "words": 5948
+  },
+  "ops/compounds/off": {
+   "leak_rows": 4,
+   "leak_words": 15,
+   "over_words": 523,
+   "rows": 1200,
+   "words": 5948
+  },
+  "seed": 3181
+ },
+ "results": [
+  {
+   "arm": "ops/compounds/off",
+   "checks": {},
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 116,
+       "leak_words": 439,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 103,
+       "leak_words": 507,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 125,
+       "leak_words": 467,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 112,
+       "leak_words": 535,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 11,
+      "other": 362,
+      "stop_inside": 2,
+      "tail_trim": 81
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "sequel",
+        "camper",
+        "underwire",
+        "bulge",
+        "pyramid"
+       ],
+       "text": "log in to grafana with passphrase Sequel.Camper.Underwire7.Bulge.Pyramid please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "reformat",
+        "tarnish",
+        "grouped",
+        "clover",
+        "retrieval",
+        "enlarging"
+       ],
+       "text": "log in to grafana with passphrase reformat9 tarnish grouped clover retrieval enlarging please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "pulp",
+        "pajamas",
+        "actress",
+        "depletion"
+       ],
+       "text": "the deploy token pulp_pajamas_actress1_depletion stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "slackness",
+        "submitter",
+        "afar",
+        "directory",
+        "endanger"
+       ],
+       "text": "log in to grafana with passphrase slackness submitter afar8 directory endanger say please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "lumber",
+        "harmony",
+        "backing",
+        "bobsled"
+       ],
+       "text": "the deploy token Lumber-Harmony3-Backing-Bobsled stopped working, who rotates it?"
+      },
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "disallow",
+        "unhappily",
+        "dictate",
+        "claim"
+       ],
+       "text": "log in to grafana with passphrase Disallow.Unhappily.Dictate.Claim9 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "unchanged",
+        "junkman",
+        "licking",
+        "propeller"
+       ],
+       "text": "the deploy token unchanged2.junkman.licking.propeller stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "coherent",
+        "untried",
+        "version",
+        "coastal",
+        "stew"
+       ],
+       "text": "log in to grafana with passphrase coherent-untried7-version-coastal-stew please"
+      }
+     ],
+     "total": {
+      "leak_rows": 456,
+      "leak_words": 1948,
+      "over_words": 499,
+      "rows": 1200,
+      "words": 5890
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 514,
+      "rows": 1200,
+      "words": 5971
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 8,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 1,
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "scurvy",
+        "dumping",
+        "president",
+        "gray"
+       ],
+       "text": "The vault passphrase is Had.Scurvy.Dumping.President.Gray.39. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "much",
+        "stimulant",
+        "humpback",
+        "oxidizing",
+        "riptide",
+        "siberian"
+       ],
+       "text": "The vault passphrase is much stimulant humpback oxidizing riptide siberian. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "cheating",
+        "unaltered"
+       ],
+       "text": "log in to grafana with passphrase Upcoming Manila Unmixable Why Cheating Unaltered 78 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 12,
+      "over_words": 503,
+      "rows": 1200,
+      "words": 5931
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "se": {
+    "ident_flagged": 24,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 0,
+    "ident_unflagged_examples": [],
+    "sent_flagged": 0
+   }
+  },
+  {
+   "arm": "ops/compounds/guard",
+   "checks": {
+    "data_idents": true,
+    "gain": true,
+    "invented_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 2,
+       "leak_words": 8,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 2,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 1,
+      "other": 1,
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "many",
+        "stable",
+        "unsavory",
+        "outnumber"
+       ],
+       "text": "use many.stable.unsavory.outnumber3 to log in to vault"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "expiring"
+       ],
+       "text": "the deploy token Armhole Gumming7 Earwig Coherence Expiring stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "many"
+       ],
+       "text": "log in to grafana with passphrase bonanza botanist hesitancy2 many please"
+      },
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "setting",
+        "haven",
+        "islamist",
+        "good"
+       ],
+       "text": "The vault passphrase is setting.opt9.haven.islamist.good. Who owns vault-transit?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 10,
+      "over_words": 558,
+      "rows": 1200,
+      "words": 5890
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 514,
+      "rows": 1200,
+      "words": 5971
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 8,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 1,
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "scurvy",
+        "dumping",
+        "president",
+        "gray"
+       ],
+       "text": "The vault passphrase is Had.Scurvy.Dumping.President.Gray.39. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "much",
+        "stimulant",
+        "humpback",
+        "oxidizing",
+        "riptide",
+        "siberian"
+       ],
+       "text": "The vault passphrase is much stimulant humpback oxidizing riptide siberian. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "cheating",
+        "unaltered"
+       ],
+       "text": "log in to grafana with passphrase Upcoming Manila Unmixable Why Cheating Unaltered 78 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 12,
+      "over_words": 503,
+      "rows": 1200,
+      "words": 5931
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "se": {
+    "ident_flagged": 24,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 0,
+    "ident_unflagged_examples": [],
+    "sent_flagged": 0
+   }
+  }
+ ],
+ "rows": 1200,
+ "se_identifiers": 147,
+ "se_sentences": 306,
+ "seeds": {
+  "attached": 3163,
+  "invented": 3167,
+  "standard": 3137
+ },
+ "ships": true,
+ "split": "test"
+}
