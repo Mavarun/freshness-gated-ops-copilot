@@ -72,6 +72,23 @@ wordlist_space=False, exempt_identifiers=False``:
   probe and the Stack Exchange identifier set are the controls.
 * ``exempt_identifiers``: an exact list of the repo's own multi-part names
   (``known_identifiers``) is never flagged.
+
+One more knob (Oct 31, ``passphrase_dictionary_protocol``), off by default until its
+protocol runs: ``plain_rule``. The Oct 13 count calls a word *plain* (evidence for a
+passphrase) when it is not an ops word. On real Stack Exchange identifiers that is
+the main false-positive source: ``xserver-xorg-input-libinput`` and
+``BTRFS_FIRST_FREE_OBJECTID`` have several parts that are not ops words simply
+because they are not words at all. Generators draw from word lists, so:
+
+* ``plain_rule="ops"``: the Oct 13 count (shipped).
+* ``plain_rule="dict"``: a plain word must also be a dictionary word, the EFF large
+  list or a WordNet 3.0 lemma of any part of speech (``in_dictionary``).
+* ``plain_rule="dict_cv"``: a dictionary word, or a strictly consonant-vowel
+  alternating invented word ("bafiku"), the shape pronounceable generators emit.
+
+``plain_scope`` says where the rule applies: ``"compounds"`` (``-`` / ``.`` / ``_``
+runs only) or ``"all"`` (space runs too). The cost is passphrases made of invented
+words that are neither, which ``passphrase_invented`` measures.
 """
 
 from __future__ import annotations
@@ -125,6 +142,11 @@ CUED_DIGIT_RE = re.compile(
     rf"(?![\w-])"
 )
 DEFAULT_ATTACHED_DIGIT = False
+PLAIN_RULES = ("ops", "dict", "dict_cv")
+PLAIN_SCOPES = ("compounds", "all")
+DEFAULT_PLAIN_RULE = "ops"
+DEFAULT_PLAIN_SCOPE = "compounds"
+_VOWELS = frozenset("aeiou")
 _SPACE_STOP = frozenset(
     "is was are were be been and but so or why what how who when where can could would please does do did then "
     "to for with from in on at of by via into the a an my our your their this that it its not no never "
@@ -224,6 +246,38 @@ def wordlist_match(words: list[str], mode: str | None) -> bool:
     return len(ws) >= 4 and off <= (1 if mode == "but1_4" else 0)
 
 
+def in_dictionary(word: str) -> bool:
+    """A WordNet 3.0 lemma of any part of speech (or an inflection of one), or an EFF-list word.
+
+    Both sources are pinned in ``data/`` (``dictionary``, ``passphrase_wordlist``), so
+    this is offline. A word outside both is not "a word a generator draws": tool names
+    (``xorg``), abbreviations (``btrfs``) and glued tokens (``objectid``) fall outside.
+    """
+    from ops_copilot.dictionary import is_word
+
+    w = word.lower()
+    return w in generator_words() or is_word(w)
+
+
+def is_cv_word(word: str) -> bool:
+    """4+ letters, strictly consonant-vowel alternating from a leading consonant ("bafiku")."""
+    t = word.lower()
+    if len(t) < 4 or not t.isalpha() or t[0] in _VOWELS:
+        return False
+    return all((c in _VOWELS) == (i % 2 == 1) for i, c in enumerate(t))
+
+
+def plain_word_test(rule: str, is_ops: Callable[[str], bool]) -> Callable[[str], bool]:
+    """Predicate on a lower-case word: does it count as evidence for a passphrase?"""
+    if rule not in PLAIN_RULES:
+        raise ValueError(f"plain_rule must be one of {PLAIN_RULES}")
+    if rule == "ops":
+        return lambda w: not is_ops(w)
+    if rule == "dict":
+        return lambda w: not is_ops(w) and in_dictionary(w)
+    return lambda w: not is_ops(w) and (in_dictionary(w) or is_cv_word(w))
+
+
 def _list_prefix(words: list[str]) -> list[str]:
     """The leading words that are all on the generator list (prose may follow a passphrase)."""
     gen = generator_words()
@@ -235,10 +289,11 @@ def _list_prefix(words: list[str]) -> list[str]:
     return out
 
 
-def _enough(words: list[str], is_ops: Callable[[str], bool]) -> bool:
+def _enough(words: list[str], is_ops: Callable[[str], bool], is_plain: Callable[[str], bool] | None = None) -> bool:
     if len(words) < MIN_WORDS:
         return False
-    plain = sum(not is_ops(w.lower()) for w in words)
+    is_plain = is_plain or (lambda w: not is_ops(w))
+    plain = sum(is_plain(w.lower()) for w in words)
     return plain >= max(2, math.ceil(len(words) / 2))
 
 
@@ -258,6 +313,8 @@ class CuedPassphraseDetector:
         wordlist_compounds: str | None = DEFAULT_WORDLIST_COMPOUNDS,
         wordlist_space: bool = DEFAULT_WORDLIST_SPACE,
         attached_digit: bool = DEFAULT_ATTACHED_DIGIT,
+        plain_rule: str = DEFAULT_PLAIN_RULE,
+        plain_scope: str = DEFAULT_PLAIN_SCOPE,
         vectors=None,
     ):
         if tail not in TAIL_MODES:
@@ -272,6 +329,12 @@ class CuedPassphraseDetector:
         self.wordlist_compounds = wordlist_compounds
         self.wordlist_space = wordlist_space
         self.attached_digit = attached_digit
+        if plain_rule not in PLAIN_RULES:
+            raise ValueError(f"plain_rule must be one of {PLAIN_RULES}")
+        if plain_scope not in PLAIN_SCOPES:
+            raise ValueError(f"plain_scope must be one of {PLAIN_SCOPES}")
+        self.plain_rule = plain_rule
+        self.plain_scope = plain_scope
         self._vectors = vectors
 
     def _incoherent(self, words: list[str]) -> bool:
@@ -304,11 +367,12 @@ class CuedPassphraseDetector:
         bare = self._bare
         a, b = m.span("val")
         val = m.group("val")
+        plain = plain_word_test(self.plain_rule, is_ops) if self.plain_rule != "ops" else None
         if m.group("sep"):
             if self.exempt_identifiers and self._is_known_identifier(val, m.group("sep")):
                 return None
             words = [bare(w) for w in val.split(m.group("sep")) if bare(w).isalpha()]
-            if _enough(words, is_ops) or wordlist_match(words, self.wordlist_compounds):
+            if _enough(words, is_ops, plain) or wordlist_match(words, self.wordlist_compounds):
                 return (a, b)
             return (a, b) if self.coherence_compounds and self._incoherent(words) else None
         toks = list(re.finditer(r"\S+", val))
@@ -321,7 +385,7 @@ class CuedPassphraseDetector:
         full = list(words)
         while words and is_ops(bare(words[-1].group()).lower()):
             words.pop()
-        if not _enough([bare(t.group()) for t in words], is_ops):
+        if not _enough([bare(t.group()) for t in words], is_ops, plain if self.plain_scope == "all" else None):
             fw = [bare(t.group()) for t in full]
             if not (self._incoherent(fw) or (self.wordlist_space and wordlist_match(_list_prefix(fw), "all4"))):
                 return None
