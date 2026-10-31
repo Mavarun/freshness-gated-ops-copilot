@@ -192,3 +192,54 @@ def score_rows(rows: Sequence[ProbeRow], patterns) -> dict[str, Any]:
             if len(examples) < 8:
                 examples.append({"text": r.text, "leaked": leaked, "cause": c})
     return {"total": tot, "by_separator": by_sep, "cause": dict(sorted(cause.items())), "examples": examples}
+
+
+# ---------------------------------------------------------------------------
+# Oct 31: passphrases made of invented words (the cost control of ``plain_rule``)
+
+INVENTED_POOL_SEED = 7331
+INVENTED_POOL_SIZE = 4000
+INVENTED_SHAPES = ("cv", "cvc")
+_ONSETS = "bcdfghjklmnprstvwz"
+_VOWEL_SET = "aeiou"
+
+
+def _invented_word(rng: random.Random, shape: str) -> str:
+    if shape == "cv":  # strict consonant-vowel alternation, 2-4 syllables ("bafiku")
+        return "".join(rng.choice(_ONSETS) + rng.choice(_VOWEL_SET) for _ in range(rng.randint(2, 4)))
+    # closed syllables, 2 of them ("zorbak", "quintel"-like): never strictly CV
+    return "".join(rng.choice(_ONSETS) + rng.choice(_VOWEL_SET) + rng.choice(_ONSETS) for _ in range(2))
+
+
+@lru_cache(maxsize=4)
+def invented_words(shape: str) -> tuple[str, ...]:
+    """A fixed pool of invented words of one shape, none in the dictionary or the ops vocabulary.
+
+    People and pronounceable generators type passphrases from words that are in no
+    list. ``plain_rule="dict"`` would stop counting them, so this pool measures what
+    that costs. ``cv`` words are what ``plain_rule="dict_cv"`` lets back in; ``cvc``
+    words are not, so neither rule is graded on a pool built for it alone.
+    """
+    from ops_copilot.passphrase import in_dictionary, ops_vocabulary
+
+    if shape not in INVENTED_SHAPES:
+        raise ValueError(f"shape must be one of {INVENTED_SHAPES}")
+    rng = random.Random(f"{INVENTED_POOL_SEED}-{shape}")
+    ops = ops_vocabulary()
+    out: dict[str, None] = {}
+    while len(out) < INVENTED_POOL_SIZE:
+        w = _invented_word(rng, shape)
+        if w not in ops and not in_dictionary(w):
+            out[w] = None
+    return tuple(out)
+
+
+def invented_passphrases(seed: int, n: int) -> list[ProbeRow]:
+    """``n`` probe rows in the Oct 29 shape; even rows draw ``cv`` words, odd rows ``cvc``."""
+    half = (n + 1) // 2
+    cv = wordlist_passphrases(seed, half, words=invented_words("cv"))
+    cvc = wordlist_passphrases(seed + 1, n - half, words=invented_words("cvc"))
+    out: list[ProbeRow] = []
+    for i in range(n):
+        out.append(cv[i // 2] if i % 2 == 0 else cvc[i // 2])
+    return out
