@@ -18,9 +18,88 @@ behind a **HITL approve** gate. Offline CI, frozen clock.
 | `PROPOSE_WRITE` | Imperative/request write parsed (action + target + confidence); pending HITL approve (never auto-executes) |
 | `REFUSE_AMBIGUOUS_WRITE` | Looks like a write but no target, an unregistered target (did-you-mean), no page recipient, several targets/actions, conditional, unsupported, or low confidence: asks to clarify |
 
-Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19). On passphrases drawn from the real EFF wordlist, 16 of 5,962 words leak on the Oct 30 fresh confirm seed (128 with the Oct 29 detector); passphrases with a Bitwarden-style glued digit (`Cascade5`) still leak about a third of their words.
+Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19). On passphrases drawn from the real EFF wordlist, 16 of 5,962 words leak on the Oct 30 fresh confirm seed (128 with the Oct 29 detector); on passphrases with a Bitwarden-style glued digit (`Cascade5`), 10 of 5,890 words leak on the Oct 31 fresh confirm seed (1,948 with the Oct 30 detector).
 
 
+
+## Glued-digit guard (2026-10-31): Bitwarden-shape leaked words 1,948 → 10 on a fresh confirm seed with 0 new identifier flags, ships on; a dictionary rule cuts real-identifier false flags 221 → 48 but leaks invented-word passphrases, so it ships off
+
+Oct 30 left two weaknesses at the top. First, glued-digit passphrases (`Cascade5`) leaked about a third of
+their words, because the fix flagged versioned package names. Second, the shipped detector flags 221 of
+1,867 real Stack Exchange identifiers after a credential noun. This slice tests one knob for each, under one
+pre-registered protocol. Labels, golden file and the 203 perturbed rows are unchanged.
+
+### What changed
+
+1. **`digit_guard`** (`passphrase.CuedPassphraseDetector`). Bitwarden glues one digit 0-9 to *one* word
+   from the EFF list. With the guard, the glued-digit reading is used only when exactly one word carries
+   a digit and that word without the digit is on the EFF list. Anything else (`libgl1-mesa-dev`,
+   `ssh2-enum-algos`) is read by the plain patterns. Spans of both readings are merged, so the guard
+   never redacts less than the detector without `attached_digit`.
+2. **`plain_rule`** (`dict`, `dict_cv`; scope `compounds` or `all`). The Oct 13 count treats any
+   non-ops token as passphrase evidence. So `xserver-xorg-input-libinput` counts as a passphrase
+   because `xorg` and `libinput` are not words. `dict` asks each plain word to be a dictionary word.
+   `dict_cv` also accepts strictly consonant-vowel invented words (`bafiku`).
+3. **Offline dictionary** (`dictionary`, `data/wordnet/wn_lemmas.txt.gz`): 82,302 single-word WordNet 3.0
+   lemmas of every part of speech, built from the same SHA-pinned archive as the noun table, plus a
+   morphy-style suffix backoff. The committed noun table alone misses 9 of the 32 Oct 13 probe words.
+4. **Invented-word probe** (`passphrase_wordlist.invented_passphrases`), the cost control for `plain_rule`.
+   It uses two fixed pools of 4,000 words outside every list: consonant-vowel words (`dict_cv` accepts
+   them) and closed-syllable words (`zorbak`, which no rule accepts).
+5. **Pre-registered protocol** (`passphrase_dictionary_protocol`, committed before any arm was scored):
+   15 arms. Calibration seeds are 3109 / 3119 / 3121 and confirm seeds 3137 / 3163 / 3167. There are
+   eight safety checks, including at most 9 new SE train identifier flags and an invented-word leak
+   budget of 0.5%. The docstring lists what was seen first. On scratch seeds, the dictionary rule leaked
+   21% of invented words, and that is why the budget exists.
+6. **Calibration** (`artifacts/passphrase_dictionary_calibration.md`). The unguarded Oct 30 knob again
+   newly flags 12 SE train identifiers. With the guard it flags 0 and keeps the gain: glued-digit leaked
+   words 2,081 → 16. Every dictionary arm fails the invented-word budget: `dict` leaks 1,294 and
+   `dict_cv` 888 of 6,016 invented words, while the shipped detector leaks 0. **Chosen: ops/compounds/guard.**
+7. **One-shot confirm** on fresh seeds + SE test (`artifacts/passphrase_dictionary_confirm.md`):
+
+| fresh seeds 3137 / 3163 / 3167, never scored before the protocol | Oct 30 detector | shipped now (guard) |
+| :--- | ---: | ---: |
+| glued-digit rows leaking a passphrase word | 456 / 1,200 | **4 / 1,200** |
+| glued-digit passphrase words leaked | 1,948 / 5,890 | **10 / 5,890** |
+| Oct 29-shape words leaked | 12 | 12 |
+| invented-word words leaked | 0 | 0 |
+| over-redacted template words (three probes) | 1,516 | 1,575 |
+| SE test sentences flagged (all false positives) | 0 / 306 | 0 / 306 |
+| SE test identifiers flagged (new) | 24 / 147 | 24 / 147 (0) |
+| Oct 13 probe leaks, trace queries changed, `data/` identifiers newly flagged | 0, 0, 0 | 0, 0, 0 |
+
+   All nine checks pass, so `attached_digit` and `digit_guard` now **ship on**. The off-list control is
+   unchanged (15 → 15 of 5,948). In the CI report (`artifacts/passphrase_wordlist_eval.md`, gating), the
+   four spent glued-digit seeds now leak 36 words together (7,863 with the Oct 30 detector).
+8. **Post-hoc, the dictionary rule** (`artifacts/passphrase_dictionary_posthoc.md`). On SE train, `dict`
+   stops flagging 173 of 221 identifiers. Its leaks are all `-` / `.` / `_` compounds of invented words.
+   No space-joined row leaks, because the incoherence arm still catches those. `dict_cv` closes the
+   consonant-vowel half (406 → 0 words on seed 3121) but not the closed-syllable half (888).
+
+### Reproduce
+
+    python scripts/run_passphrase_wordlist_eval.py                                     # CI, ~15 s
+    python scripts/build_dictionary_words.py --source /tmp/wordnet.zip                 # once; table is committed
+    python scripts/calibrate_passphrase_dictionary.py --raw-dir /tmp/se_qa_raw          # needs the SE pages
+    python scripts/run_passphrase_dictionary_confirm.py --raw-dir /tmp/se_qa_raw        # spent
+    python scripts/run_passphrase_dictionary_posthoc.py --raw-dir /tmp/se_qa_raw
+    pytest tests/test_passphrase*.py tests/test_dictionary.py
+
+### Weaknesses
+
+- **The real-identifier false-positive base rate is unchanged** (221 of 1,867 SE train names, 24 of 147
+  test). The dictionary rule would cut it to 48, but only by leaking invented-word compounds
+  (`zorbak-quintel-...`). A secret that leaks is worse than a name that is over-redacted, so it stays off.
+  Next step: a second signal for compounds whose parts are not words. One candidate is a character model
+  trained on real identifier parts against the invented pools, gated by the same budgets.
+- The guard only knows the EFF list, like the Oct 30 list arm. A glued digit on a word from another
+  generator's list is read as before, and two glued digits are never read as a passphrase.
+- Over-redaction grows by about 60 template words per 1,200 glued-digit rows (the span now covers
+  trailing words).
+- 4 glued-digit confirm rows still leak: 2 have a stop word inside the run (`many`), 1 is an ops-word
+  compound and 1 follows a copula.
+- Held-out ANSWER is still **0 of 9**. Ops synonyms (`lag`, `bounce`) and everyday paraphrases were not
+  touched today.
 
 ## Passphrase list arm and purpose-number fix (2026-10-30): leaked words 128 → 16 on a fresh confirm seed, ships on; a glued-digit fix cuts 1,857 → 7 but flags 12 real package names, so it ships off
 
