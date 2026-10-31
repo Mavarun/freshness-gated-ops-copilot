@@ -2,6 +2,123 @@
  "failures": [],
  "new_identifier_flags": [],
  "oct13_probe_leak_words": 0,
+ "oct31": {
+  "glued-3061": {
+   "oct30": {
+    "leak_rows": 452,
+    "leak_words": 1977,
+    "over_words": 488,
+    "rows": 1200,
+    "words": 5944
+   },
+   "shipped": {
+    "leak_rows": 3,
+    "leak_words": 3,
+    "over_words": 540,
+    "rows": 1200,
+    "words": 5944
+   },
+   "shipped_cause": {
+    "other": 2,
+    "stop_inside": 1
+   }
+  },
+  "glued-3079": {
+   "oct30": {
+    "leak_rows": 438,
+    "leak_words": 1857,
+    "over_words": 507,
+    "rows": 1200,
+    "words": 5905
+   },
+   "shipped": {
+    "leak_rows": 3,
+    "leak_words": 7,
+    "over_words": 581,
+    "rows": 1200,
+    "words": 5905
+   },
+   "shipped_cause": {
+    "other": 1,
+    "stop_inside": 2
+   }
+  },
+  "glued-3119": {
+   "oct30": {
+    "leak_rows": 488,
+    "leak_words": 2081,
+    "over_words": 479,
+    "rows": 1200,
+    "words": 5933
+   },
+   "shipped": {
+    "leak_rows": 4,
+    "leak_words": 16,
+    "over_words": 549,
+    "rows": 1200,
+    "words": 5933
+   },
+   "shipped_cause": {
+    "other": 1,
+    "stop_inside": 3
+   }
+  },
+  "glued-3163": {
+   "oct30": {
+    "leak_rows": 456,
+    "leak_words": 1948,
+    "over_words": 499,
+    "rows": 1200,
+    "words": 5890
+   },
+   "shipped": {
+    "leak_rows": 4,
+    "leak_words": 10,
+    "over_words": 558,
+    "rows": 1200,
+    "words": 5890
+   },
+   "shipped_cause": {
+    "no_flag_ops": 1,
+    "other": 1,
+    "stop_inside": 2
+   }
+  },
+  "invented-3121": {
+   "oct30": {
+    "leak_rows": 0,
+    "leak_words": 0,
+    "over_words": 506,
+    "rows": 1200,
+    "words": 6016
+   },
+   "shipped": {
+    "leak_rows": 0,
+    "leak_words": 0,
+    "over_words": 506,
+    "rows": 1200,
+    "words": 6016
+   },
+   "shipped_cause": {}
+  },
+  "invented-3167": {
+   "oct30": {
+    "leak_rows": 0,
+    "leak_words": 0,
+    "over_words": 514,
+    "rows": 1200,
+    "words": 5971
+   },
+   "shipped": {
+    "leak_rows": 0,
+    "leak_words": 0,
+    "over_words": 514,
+    "rows": 1200,
+    "words": 5971
+   },
+   "shipped_cause": {}
+  }
+ },
  "repo_query_changes": 0,
  "seeds": {
   "2910": {

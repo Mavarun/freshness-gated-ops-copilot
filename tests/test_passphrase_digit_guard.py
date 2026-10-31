@@ -33,7 +33,7 @@ def test_versioned_names_are_not_read_as_glued(name: str) -> None:
 
 def test_two_glued_digits_fall_back_to_the_plain_reading() -> None:
     t = "token cascade5-ranch7-lagoon-mosaic"
-    assert CuedPassphraseDetector(attached_digit=True).search(t) is not None
+    assert CuedPassphraseDetector(attached_digit=True, digit_guard=False).search(t) is not None
     assert _det()._guard_ok("cascade5-ranch7-lagoon-mosaic") is False
     assert (_det().search(t) is None) == (CuedPassphraseDetector().search(t) is None)
 
@@ -57,5 +57,14 @@ def test_guard_never_redacts_less_than_the_plain_patterns() -> None:
 
 def test_guard_without_attached_digit_is_inert() -> None:
     t = "token Appetizer7_Trusting_Unpeeled_Extrude"
-    assert CuedPassphraseDetector(digit_guard=True).search(t) is None
-    assert CuedPassphraseDetector().digit_guard is False
+    assert CuedPassphraseDetector(attached_digit=False, digit_guard=True).search(t) is None
+
+
+def test_shipped_default_is_the_confirmed_guard() -> None:
+    from ops_copilot.passphrase import CUED_PASSPHRASE
+
+    d = CuedPassphraseDetector()
+    assert (d.attached_digit, d.digit_guard, d.plain_rule) == (True, True, "ops")
+    assert (CUED_PASSPHRASE.attached_digit, CUED_PASSPHRASE.digit_guard) == (True, True)
+    assert d.search("the deploy token Appetizer7_Trusting_Unpeeled_Extrude stopped") is not None
+    assert d.search("token libgl1-mesa-dev") is None

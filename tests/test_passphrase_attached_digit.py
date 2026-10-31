@@ -17,7 +17,7 @@ from ops_copilot.passphrase import CUED_DIGIT_RE, CUED_RE, CuedPassphraseDetecto
 )
 def test_glued_digit_runs_are_flagged_with_the_knob(text: str, value: str) -> None:
     assert CuedPassphraseDetector(attached_digit=False).search(text) is None
-    assert CuedPassphraseDetector(attached_digit=True).search(text).group() == value
+    assert CuedPassphraseDetector(attached_digit=True, digit_guard=False).search(text).group() == value
 
 
 @pytest.mark.parametrize(
@@ -26,13 +26,13 @@ def test_glued_digit_runs_are_flagged_with_the_knob(text: str, value: str) -> No
      "the deploy token for payments-api2", "api key sidecar-mesh-mtls-handshake-budget"],
 )
 def test_ops_text_still_alone(text: str) -> None:
-    assert CuedPassphraseDetector(attached_digit=True).search(text) is None
+    assert CuedPassphraseDetector(attached_digit=True, digit_guard=False).search(text) is None
 
 
 def test_digit_regex_is_a_superset_and_word_checks_drop_one_digit() -> None:
     for t in ("token alpha beta gamma", "token a-b-c", "token alpha-beta-gamma-12"):
         assert (CUED_RE.search(t) is None) or CUED_DIGIT_RE.search(t) is not None
-    d = CuedPassphraseDetector(attached_digit=True)
+    d = CuedPassphraseDetector(attached_digit=True, digit_guard=False)
     assert d._bare("cascade5") == "cascade" and d._bare("ab12") == "ab12" and d._bare("7") == "7"
     assert CuedPassphraseDetector(attached_digit=False)._bare("cascade5") == "cascade5"
     # two glued digits are not the Bitwarden shape: the run stops before the word

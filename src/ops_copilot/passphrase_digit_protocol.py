@@ -56,6 +56,7 @@ def shipped_detector():
     return CuedPassphraseDetector(
         tail="keep", coherence_max=0.10, coherence_compounds=False,
         wordlist_compounds="all4", wordlist_space=True, exempt_identifiers=True, attached_digit=False,
+        digit_guard=False, plain_rule="ops",
     )
 
 
@@ -65,6 +66,7 @@ def candidate_detector():
     return CuedPassphraseDetector(
         tail="keep", coherence_max=0.10, coherence_compounds=False,
         wordlist_compounds="all4", wordlist_space=True, exempt_identifiers=True, attached_digit=True,
+        digit_guard=False, plain_rule="ops",
     )
 
 
