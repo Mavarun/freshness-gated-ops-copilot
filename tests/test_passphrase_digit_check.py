@@ -24,7 +24,9 @@ def test_artifact_numbers_and_decision() -> None:
     assert (te["sent_shipped"], te["sent_candidate"], te["ident_new"], te["n_identifiers"]) == (0, 0, 1, 147)
     assert D.checks(out) == out["checks"]
     assert [k for k, v in out["checks"].items() if not v] == ["se_train_identifiers"]
-    assert out["ships"] is False and CUED_PASSPHRASE.attached_digit is False
+    assert out["ships"] is False
+    # the unguarded knob never shipped; Oct 31 ships it only behind digit_guard
+    assert CUED_PASSPHRASE.attached_digit is True and CUED_PASSPHRASE.digit_guard is True
 
 
 def test_probe_side_reproduces_offline() -> None:

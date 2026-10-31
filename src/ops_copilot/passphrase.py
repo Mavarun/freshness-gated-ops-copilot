@@ -149,8 +149,8 @@ CUED_DIGIT_RE = re.compile(
     rf"|{_WORD_D}(?:\s+{_WORD_D}){{1,{MAX_WORDS - 1}}}(?:\s+{_NUM})?)"
     rf"(?![\w-])"
 )
-DEFAULT_ATTACHED_DIGIT = False
-DEFAULT_DIGIT_GUARD = False
+DEFAULT_ATTACHED_DIGIT = True
+DEFAULT_DIGIT_GUARD = True
 _GLUED_RE = re.compile(r"[A-Za-z]{3,12}\d")
 PLAIN_RULES = ("ops", "dict", "dict_cv")
 PLAIN_SCOPES = ("compounds", "all")

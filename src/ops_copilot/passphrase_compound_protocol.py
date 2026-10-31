@@ -88,6 +88,7 @@ def detector(arm: tuple):
     return CuedPassphraseDetector(
         tail="keep", coherence_max=0.10, coherence_compounds=False,
         wordlist_compounds=c, wordlist_space=sp, exempt_identifiers=c is not None,
+        attached_digit=False, digit_guard=False, plain_rule="ops",
     )
 
 

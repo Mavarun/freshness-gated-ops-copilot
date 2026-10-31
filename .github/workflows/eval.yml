@@ -106,8 +106,9 @@ jobs:
       # Gating: real EFF-wordlist passphrases (five spent Oct 29 / Oct 30 seeds plus the
       # off-list control). Fails if the shipped patterns leak more words than the Oct 29
       # ones on any seed, if the Oct 13 probe leaks, if a golden/perturbed/write trace
-      # query moves, or if a data/ identifier is newly flagged.
-      - name: EFF-wordlist passphrases (shipped vs Oct 29 vs Oct 13)
+      # query moves, or if a data/ identifier is newly flagged. Since Oct 31 also fails if the
+      # shipped patterns leak more words than the Oct 30 ones on the glued-digit or invented-word rows.
+      - name: EFF-wordlist passphrases (shipped vs Oct 29 vs Oct 13; glued-digit and invented rows vs Oct 30)
         run: python scripts/run_passphrase_wordlist_eval.py
 
       - name: Upload eval artifacts

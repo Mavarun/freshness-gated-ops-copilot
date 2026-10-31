@@ -11,6 +11,11 @@ seed or the control, the shipped patterns leak more passphrase words than the
 Oct 29 ones (or the Oct 29 ones more than Oct 13), if any Oct 13 probe word
 leaks, if any golden / perturbed / write trace query differs from the Oct 13
 detector's, or if a ``data/`` identifier is newly flagged.
+
+Since Oct 31 it also scores the Bitwarden glued-digit rows (``Cascade5``; spent
+seeds 3061, 3079, 3119, 3163) and the invented-word rows (3121, 3167) with the
+Oct 30 patterns and the shipped ones, and fails if the shipped patterns leak more
+words than the Oct 30 ones on any of them.
 """
 
 from __future__ import annotations
@@ -23,11 +28,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from ops_copilot import passphrase_compound_protocol as C  # noqa: E402
+from ops_copilot import passphrase_dictionary_protocol as Q  # noqa: E402
 from ops_copilot import passphrase_tail_protocol as P  # noqa: E402
 from ops_copilot.explain_redact import SENSITIVE_PATTERNS  # noqa: E402
 from ops_copilot.passphrase import CUED_PASSPHRASE  # noqa: E402
 from ops_copilot.passphrase_wordlist import (  # noqa: E402
     _present,
+    invented_passphrases,
     offlist_words,
     redact_query,
     score_rows,
@@ -36,6 +43,8 @@ from ops_copilot.passphrase_wordlist import (  # noqa: E402
 
 ART = ROOT / "artifacts"
 SEEDS = (P.CALIB_SEED, P.CONFIRM_SEED, P.AMENDED_CONFIRM_SEED, C.CALIB_SEED, C.CONFIRM_SEED)
+GLUED_SEEDS = (3061, 3079, Q.CALIB_ATTACHED_SEED, Q.CONFIRM_ATTACHED_SEED)
+INVENTED_SEEDS = (Q.CALIB_INVENTED_SEED, Q.CONFIRM_INVENTED_SEED)
 
 
 def run() -> dict:
@@ -50,6 +59,15 @@ def run() -> dict:
             out["failures"].append(f"{name}: shipped leaks more words than Oct 29")
         if m["leak_words"] > a["leak_words"]:
             out["failures"].append(f"{name}: Oct 29 leaks more words than Oct 13")
+    oct30 = C.patterns_for(("all4", True, True))
+    out["oct31"] = {}
+    more = [(f"glued-{s}", wordlist_passphrases(s, P.N_ROWS, number_style="attached")) for s in GLUED_SEEDS]
+    more += [(f"invented-{s}", invented_passphrases(s, P.N_ROWS)) for s in INVENTED_SEEDS]
+    for name, rows in more:
+        o, b = score_rows(rows, oct30)["total"], score_rows(rows, SENSITIVE_PATTERNS)
+        out["oct31"][name] = {"oct30": o, "shipped": b["total"], "shipped_cause": b["cause"]}
+        if b["total"]["leak_words"] > o["leak_words"]:
+            out["failures"].append(f"{name}: shipped leaks more words than Oct 30")
     out["oct13_probe_leak_words"] = sum(
         sum(_present(redact_query(t, SENSITIVE_PATTERNS).lower(), w) for w in ws) for t, ws in P.oct13_probe_texts()
     )
@@ -86,6 +104,18 @@ def render(out: dict) -> str:
             f"| {s} | {a['leak_rows']} -> {m['leak_rows']} -> {b['leak_rows']} | {a['leak_words']} -> {m['leak_words']} -> "
             f"{b['leak_words']} of {a['words']} | {a['over_words']} -> {m['over_words']} -> {b['over_words']} |"
         )
+    lines += [
+        "",
+        "Oct 31 rows: Bitwarden-style glued digit (`glued-*`, one digit 0-9 on one word) and invented words "
+        "(`invented-*`, half strictly consonant-vowel, half closed syllables). All spent.",
+        "",
+        "| rows | rows leaking (Oct 30 -> shipped) | words leaked (Oct 30 -> shipped) | over-redacted |",
+        "| --- | ---: | ---: | ---: |",
+    ]
+    for s, v in out["oct31"].items():
+        o, b = v["oct30"], v["shipped"]
+        lines.append(f"| {s} | {o['leak_rows']} -> {b['leak_rows']} | {o['leak_words']} -> {b['leak_words']} of {o['words']} | "
+                     f"{o['over_words']} -> {b['over_words']} |")
     lines += [
         "",
         f"Oct 13 probe words leaked: {out['oct13_probe_leak_words']}. Trace queries changed: {out['repo_query_changes']}. "

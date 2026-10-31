@@ -11,6 +11,17 @@
 | 3037 | 46 -> 24 -> 4 | 175 -> 128 -> 16 of 5962 | 478 -> 507 -> 509 |
 | offlist-3053 | 26 -> 12 -> 7 | 80 -> 63 -> 33 of 5990 | 492 -> 515 -> 515 |
 
+Oct 31 rows: Bitwarden-style glued digit (`glued-*`, one digit 0-9 on one word) and invented words (`invented-*`, half strictly consonant-vowel, half closed syllables). All spent.
+
+| rows | rows leaking (Oct 30 -> shipped) | words leaked (Oct 30 -> shipped) | over-redacted |
+| --- | ---: | ---: | ---: |
+| glued-3061 | 452 -> 3 | 1977 -> 3 of 5944 | 488 -> 540 |
+| glued-3079 | 438 -> 3 | 1857 -> 7 of 5905 | 507 -> 581 |
+| glued-3119 | 488 -> 4 | 2081 -> 16 of 5933 | 479 -> 549 |
+| glued-3163 | 456 -> 4 | 1948 -> 10 of 5890 | 499 -> 558 |
+| invented-3121 | 0 -> 0 | 0 -> 0 of 6016 | 506 -> 506 |
+| invented-3167 | 0 -> 0 | 0 -> 0 of 5971 | 514 -> 514 |
+
 Oct 13 probe words leaked: 0. Trace queries changed: 0. New identifier flags: 0.
 
 Failures: none
