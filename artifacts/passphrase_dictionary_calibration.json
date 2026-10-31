@@ -1,0 +1,4237 @@
+{
+ "chosen": "ops/compounds/guard",
+ "results": [
+  {
+   "arm": "ops/compounds/off",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 136,
+       "leak_words": 497,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 113,
+       "leak_words": 555,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 129,
+       "leak_words": 484,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 110,
+       "leak_words": 545,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 10,
+      "other": 386,
+      "stop_inside": 3,
+      "tail_trim": 89
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "womb",
+        "previous",
+        "gangrene",
+        "proclaim"
+       ],
+       "text": "the deploy token Womb2-Previous-Gangrene-Proclaim stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shortness",
+        "scarecrow",
+        "cosigner",
+        "geology"
+       ],
+       "text": "log in to grafana with passphrase shortness-scarecrow-cosigner-geology6 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "humbly",
+        "varied",
+        "rockstar",
+        "yonder"
+       ],
+       "text": "log in to grafana with passphrase humbly_varied_rockstar4_yonder_wok please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "upgrade",
+        "submerge",
+        "habitual",
+        "evict",
+        "stubborn",
+        "bazooka"
+       ],
+       "text": "the deploy token Upgrade-Submerge5-Habitual-Evict-Stubborn-Bazooka stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "stubbed",
+        "trade",
+        "petted",
+        "blandness"
+       ],
+       "text": "log in to grafana with passphrase stubbed0.trade.petted.blandness please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "affidavit",
+        "dweeb",
+        "immorally",
+        "average",
+        "unframed",
+        "laborious"
+       ],
+       "text": "the deploy token Affidavit_Dweeb_Immorally2_Average_Unframed_Laborious stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "small",
+        "plunder",
+        "detonator",
+        "corset",
+        "manlike"
+       ],
+       "text": "log in to grafana with passphrase Small Plunder Detonator6 Corset Manlike please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "quintet"
+       ],
+       "text": "log in to grafana with passphrase Washing Amperage Gratitude Clasp Quintet4 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 488,
+      "leak_words": 2081,
+      "over_words": 479,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 221,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 0,
+    "ident_unflagged_examples": [],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "ops/compounds/raw",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 12,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "applied",
+        "outdated",
+        "stir",
+        "stinking",
+        "barrier"
+       ],
+       "text": "log in to grafana with passphrase applied outdated stir8 stinking barrier please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "empty",
+        "crouch",
+        "impotent",
+        "shelter"
+       ],
+       "text": "The vault passphrase is Empty.Crouch.Impotent0.Shelter. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "shrubbery",
+        "collision",
+        "contented"
+       ],
+       "text": "the deploy token from9 shrubbery collision contented stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "outdated",
+        "dallying",
+        "turban"
+       ],
+       "text": "log in to grafana with passphrase Sacrament Dress Commute Outdated Dallying Turban6 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 549,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": false,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 233,
+    "ident_new": 12,
+    "ident_new_examples": [
+     "Column1.deviceDetail.displayName",
+     "Diff-Ext-for-KDiff3",
+     "Shibboleth-IdP3-TOTP-Auth",
+     "diffie-hellman-group1-sha1",
+     "gvfs-udisks2-volume-monitor",
+     "kde4-ftps-kio",
+     "libgl1-mesa-dev",
+     "libgl1-mesa-dri",
+     "libgl1-mesa-glx",
+     "libxcb-glx0-dev",
+     "net.ipv4.conf.all",
+     "ssh2-enum-algos"
+    ],
+    "ident_unflagged": 0,
+    "ident_unflagged_examples": [],
+    "sent_flagged": 29
+   }
+  },
+  {
+   "arm": "ops/compounds/guard",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 12,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "applied",
+        "outdated",
+        "stir",
+        "stinking",
+        "barrier"
+       ],
+       "text": "log in to grafana with passphrase applied outdated stir8 stinking barrier please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "empty",
+        "crouch",
+        "impotent",
+        "shelter"
+       ],
+       "text": "The vault passphrase is Empty.Crouch.Impotent0.Shelter. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "shrubbery",
+        "collision",
+        "contented"
+       ],
+       "text": "the deploy token from9 shrubbery collision contented stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "outdated",
+        "dallying",
+        "turban"
+       ],
+       "text": "log in to grafana with passphrase Sacrament Dress Commute Outdated Dallying Turban6 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 549,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 221,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 0,
+    "ident_unflagged_examples": [],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "dict/compounds/off",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 136,
+       "leak_words": 497,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 113,
+       "leak_words": 555,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 129,
+       "leak_words": 484,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 110,
+       "leak_words": 545,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 10,
+      "other": 386,
+      "stop_inside": 3,
+      "tail_trim": 89
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "womb",
+        "previous",
+        "gangrene",
+        "proclaim"
+       ],
+       "text": "the deploy token Womb2-Previous-Gangrene-Proclaim stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shortness",
+        "scarecrow",
+        "cosigner",
+        "geology"
+       ],
+       "text": "log in to grafana with passphrase shortness-scarecrow-cosigner-geology6 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "humbly",
+        "varied",
+        "rockstar",
+        "yonder"
+       ],
+       "text": "log in to grafana with passphrase humbly_varied_rockstar4_yonder_wok please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "upgrade",
+        "submerge",
+        "habitual",
+        "evict",
+        "stubborn",
+        "bazooka"
+       ],
+       "text": "the deploy token Upgrade-Submerge5-Habitual-Evict-Stubborn-Bazooka stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "stubbed",
+        "trade",
+        "petted",
+        "blandness"
+       ],
+       "text": "log in to grafana with passphrase stubbed0.trade.petted.blandness please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "affidavit",
+        "dweeb",
+        "immorally",
+        "average",
+        "unframed",
+        "laborious"
+       ],
+       "text": "the deploy token Affidavit_Dweeb_Immorally2_Average_Unframed_Laborious stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "small",
+        "plunder",
+        "detonator",
+        "corset",
+        "manlike"
+       ],
+       "text": "log in to grafana with passphrase Small Plunder Detonator6 Corset Manlike please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "quintet"
+       ],
+       "text": "log in to grafana with passphrase Washing Amperage Gratitude Clasp Quintet4 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 488,
+      "leak_words": 2081,
+      "over_words": 479,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 92,
+       "leak_words": 460,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 88,
+       "leak_words": 439,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 80,
+       "leak_words": 395,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 260
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "sabamo",
+        "misafu",
+        "sarojawa",
+        "mebacica",
+        "kolega",
+        "jivi"
+       ],
+       "text": "the deploy token Sabamo_Misafu_Sarojawa_Mebacica_Kolega_Jivi_93 stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "givudeco",
+        "sode",
+        "hireka",
+        "rubigu",
+        "benu",
+        "cavisu"
+       ],
+       "text": "log in to grafana with passphrase Givudeco.Sode.Hireka.Rubigu.Benu.Cavisu.46 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 260,
+      "leak_words": 1294,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 48,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 173,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "dict/compounds/raw",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 12,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "applied",
+        "outdated",
+        "stir",
+        "stinking",
+        "barrier"
+       ],
+       "text": "log in to grafana with passphrase applied outdated stir8 stinking barrier please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "empty",
+        "crouch",
+        "impotent",
+        "shelter"
+       ],
+       "text": "The vault passphrase is Empty.Crouch.Impotent0.Shelter. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "shrubbery",
+        "collision",
+        "contented"
+       ],
+       "text": "the deploy token from9 shrubbery collision contented stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "outdated",
+        "dallying",
+        "turban"
+       ],
+       "text": "log in to grafana with passphrase Sacrament Dress Commute Outdated Dallying Turban6 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 549,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 92,
+       "leak_words": 460,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 88,
+       "leak_words": 439,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 80,
+       "leak_words": 395,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 260
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "sabamo",
+        "misafu",
+        "sarojawa",
+        "mebacica",
+        "kolega",
+        "jivi"
+       ],
+       "text": "the deploy token Sabamo_Misafu_Sarojawa_Mebacica_Kolega_Jivi_93 stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "givudeco",
+        "sode",
+        "hireka",
+        "rubigu",
+        "benu",
+        "cavisu"
+       ],
+       "text": "log in to grafana with passphrase Givudeco.Sode.Hireka.Rubigu.Benu.Cavisu.46 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 260,
+      "leak_words": 1294,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 50,
+    "ident_new": 2,
+    "ident_new_examples": [
+     "Shibboleth-IdP3-TOTP-Auth",
+     "net.ipv4.conf.all"
+    ],
+    "ident_unflagged": 173,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 29
+   }
+  },
+  {
+   "arm": "dict/compounds/guard",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 12,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "applied",
+        "outdated",
+        "stir",
+        "stinking",
+        "barrier"
+       ],
+       "text": "log in to grafana with passphrase applied outdated stir8 stinking barrier please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "empty",
+        "crouch",
+        "impotent",
+        "shelter"
+       ],
+       "text": "The vault passphrase is Empty.Crouch.Impotent0.Shelter. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "shrubbery",
+        "collision",
+        "contented"
+       ],
+       "text": "the deploy token from9 shrubbery collision contented stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "outdated",
+        "dallying",
+        "turban"
+       ],
+       "text": "log in to grafana with passphrase Sacrament Dress Commute Outdated Dallying Turban6 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 549,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 92,
+       "leak_words": 460,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 88,
+       "leak_words": 439,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 80,
+       "leak_words": 395,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 260
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "sabamo",
+        "misafu",
+        "sarojawa",
+        "mebacica",
+        "kolega",
+        "jivi"
+       ],
+       "text": "the deploy token Sabamo_Misafu_Sarojawa_Mebacica_Kolega_Jivi_93 stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "givudeco",
+        "sode",
+        "hireka",
+        "rubigu",
+        "benu",
+        "cavisu"
+       ],
+       "text": "log in to grafana with passphrase Givudeco.Sode.Hireka.Rubigu.Benu.Cavisu.46 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 260,
+      "leak_words": 1294,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 48,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 173,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "dict/all/off",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 136,
+       "leak_words": 497,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 113,
+       "leak_words": 555,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 129,
+       "leak_words": 484,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 110,
+       "leak_words": 545,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 10,
+      "other": 386,
+      "stop_inside": 3,
+      "tail_trim": 89
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "womb",
+        "previous",
+        "gangrene",
+        "proclaim"
+       ],
+       "text": "the deploy token Womb2-Previous-Gangrene-Proclaim stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shortness",
+        "scarecrow",
+        "cosigner",
+        "geology"
+       ],
+       "text": "log in to grafana with passphrase shortness-scarecrow-cosigner-geology6 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "humbly",
+        "varied",
+        "rockstar",
+        "yonder"
+       ],
+       "text": "log in to grafana with passphrase humbly_varied_rockstar4_yonder_wok please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "upgrade",
+        "submerge",
+        "habitual",
+        "evict",
+        "stubborn",
+        "bazooka"
+       ],
+       "text": "the deploy token Upgrade-Submerge5-Habitual-Evict-Stubborn-Bazooka stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "stubbed",
+        "trade",
+        "petted",
+        "blandness"
+       ],
+       "text": "log in to grafana with passphrase stubbed0.trade.petted.blandness please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "affidavit",
+        "dweeb",
+        "immorally",
+        "average",
+        "unframed",
+        "laborious"
+       ],
+       "text": "the deploy token Affidavit_Dweeb_Immorally2_Average_Unframed_Laborious stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "small",
+        "plunder",
+        "detonator",
+        "corset",
+        "manlike"
+       ],
+       "text": "log in to grafana with passphrase Small Plunder Detonator6 Corset Manlike please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "quintet"
+       ],
+       "text": "log in to grafana with passphrase Washing Amperage Gratitude Clasp Quintet4 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 488,
+      "leak_words": 2081,
+      "over_words": 479,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 92,
+       "leak_words": 460,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 88,
+       "leak_words": 439,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 80,
+       "leak_words": 395,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 260
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "sabamo",
+        "misafu",
+        "sarojawa",
+        "mebacica",
+        "kolega",
+        "jivi"
+       ],
+       "text": "the deploy token Sabamo_Misafu_Sarojawa_Mebacica_Kolega_Jivi_93 stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "givudeco",
+        "sode",
+        "hireka",
+        "rubigu",
+        "benu",
+        "cavisu"
+       ],
+       "text": "log in to grafana with passphrase Givudeco.Sode.Hireka.Rubigu.Benu.Cavisu.46 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 260,
+      "leak_words": 1294,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 48,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 173,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 24
+   }
+  },
+  {
+   "arm": "dict/all/raw",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 12,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "applied",
+        "outdated",
+        "stir",
+        "stinking",
+        "barrier"
+       ],
+       "text": "log in to grafana with passphrase applied outdated stir8 stinking barrier please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "empty",
+        "crouch",
+        "impotent",
+        "shelter"
+       ],
+       "text": "The vault passphrase is Empty.Crouch.Impotent0.Shelter. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "shrubbery",
+        "collision",
+        "contented"
+       ],
+       "text": "the deploy token from9 shrubbery collision contented stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "outdated",
+        "dallying",
+        "turban"
+       ],
+       "text": "log in to grafana with passphrase Sacrament Dress Commute Outdated Dallying Turban6 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 549,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 92,
+       "leak_words": 460,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 88,
+       "leak_words": 439,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 80,
+       "leak_words": 395,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 260
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "sabamo",
+        "misafu",
+        "sarojawa",
+        "mebacica",
+        "kolega",
+        "jivi"
+       ],
+       "text": "the deploy token Sabamo_Misafu_Sarojawa_Mebacica_Kolega_Jivi_93 stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "givudeco",
+        "sode",
+        "hireka",
+        "rubigu",
+        "benu",
+        "cavisu"
+       ],
+       "text": "log in to grafana with passphrase Givudeco.Sode.Hireka.Rubigu.Benu.Cavisu.46 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 260,
+      "leak_words": 1294,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 50,
+    "ident_new": 2,
+    "ident_new_examples": [
+     "Shibboleth-IdP3-TOTP-Auth",
+     "net.ipv4.conf.all"
+    ],
+    "ident_unflagged": 173,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 25
+   }
+  },
+  {
+   "arm": "dict/all/guard",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 12,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "applied",
+        "outdated",
+        "stir",
+        "stinking",
+        "barrier"
+       ],
+       "text": "log in to grafana with passphrase applied outdated stir8 stinking barrier please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "empty",
+        "crouch",
+        "impotent",
+        "shelter"
+       ],
+       "text": "The vault passphrase is Empty.Crouch.Impotent0.Shelter. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "shrubbery",
+        "collision",
+        "contented"
+       ],
+       "text": "the deploy token from9 shrubbery collision contented stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "outdated",
+        "dallying",
+        "turban"
+       ],
+       "text": "log in to grafana with passphrase Sacrament Dress Commute Outdated Dallying Turban6 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 549,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 92,
+       "leak_words": 460,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 88,
+       "leak_words": 439,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 80,
+       "leak_words": 395,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 260
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "sabamo",
+        "misafu",
+        "sarojawa",
+        "mebacica",
+        "kolega",
+        "jivi"
+       ],
+       "text": "the deploy token Sabamo_Misafu_Sarojawa_Mebacica_Kolega_Jivi_93 stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "givudeco",
+        "sode",
+        "hireka",
+        "rubigu",
+        "benu",
+        "cavisu"
+       ],
+       "text": "log in to grafana with passphrase Givudeco.Sode.Hireka.Rubigu.Benu.Cavisu.46 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 260,
+      "leak_words": 1294,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 48,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 173,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 24
+   }
+  },
+  {
+   "arm": "dict_cv/compounds/off",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 136,
+       "leak_words": 497,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 113,
+       "leak_words": 555,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 129,
+       "leak_words": 484,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 110,
+       "leak_words": 545,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 10,
+      "other": 386,
+      "stop_inside": 3,
+      "tail_trim": 89
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "womb",
+        "previous",
+        "gangrene",
+        "proclaim"
+       ],
+       "text": "the deploy token Womb2-Previous-Gangrene-Proclaim stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shortness",
+        "scarecrow",
+        "cosigner",
+        "geology"
+       ],
+       "text": "log in to grafana with passphrase shortness-scarecrow-cosigner-geology6 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "humbly",
+        "varied",
+        "rockstar",
+        "yonder"
+       ],
+       "text": "log in to grafana with passphrase humbly_varied_rockstar4_yonder_wok please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "upgrade",
+        "submerge",
+        "habitual",
+        "evict",
+        "stubborn",
+        "bazooka"
+       ],
+       "text": "the deploy token Upgrade-Submerge5-Habitual-Evict-Stubborn-Bazooka stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "stubbed",
+        "trade",
+        "petted",
+        "blandness"
+       ],
+       "text": "log in to grafana with passphrase stubbed0.trade.petted.blandness please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "affidavit",
+        "dweeb",
+        "immorally",
+        "average",
+        "unframed",
+        "laborious"
+       ],
+       "text": "the deploy token Affidavit_Dweeb_Immorally2_Average_Unframed_Laborious stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "small",
+        "plunder",
+        "detonator",
+        "corset",
+        "manlike"
+       ],
+       "text": "log in to grafana with passphrase Small Plunder Detonator6 Corset Manlike please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "quintet"
+       ],
+       "text": "log in to grafana with passphrase Washing Amperage Gratitude Clasp Quintet4 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 488,
+      "leak_words": 2081,
+      "over_words": 479,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 65,
+       "leak_words": 327,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 57,
+       "leak_words": 285,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 55,
+       "leak_words": 276,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 177
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bitgaz",
+        "vubles",
+        "recped",
+        "zuhgeg",
+        "buwzij",
+        "lampop"
+       ],
+       "text": "log in to grafana with passphrase bitgaz_vubles_recped_zuhgeg_buwzij_lampop please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "lihzut",
+        "noczok",
+        "vinwen",
+        "devlof",
+        "kusmih",
+        "sikwof"
+       ],
+       "text": "the deploy token lihzut.noczok.vinwen.devlof.kusmih.sikwof stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 177,
+      "leak_words": 888,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 53,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 168,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "dict_cv/compounds/raw",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 12,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "applied",
+        "outdated",
+        "stir",
+        "stinking",
+        "barrier"
+       ],
+       "text": "log in to grafana with passphrase applied outdated stir8 stinking barrier please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "empty",
+        "crouch",
+        "impotent",
+        "shelter"
+       ],
+       "text": "The vault passphrase is Empty.Crouch.Impotent0.Shelter. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "shrubbery",
+        "collision",
+        "contented"
+       ],
+       "text": "the deploy token from9 shrubbery collision contented stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "outdated",
+        "dallying",
+        "turban"
+       ],
+       "text": "log in to grafana with passphrase Sacrament Dress Commute Outdated Dallying Turban6 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 549,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 65,
+       "leak_words": 327,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 57,
+       "leak_words": 285,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 55,
+       "leak_words": 276,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 177
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bitgaz",
+        "vubles",
+        "recped",
+        "zuhgeg",
+        "buwzij",
+        "lampop"
+       ],
+       "text": "log in to grafana with passphrase bitgaz_vubles_recped_zuhgeg_buwzij_lampop please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "lihzut",
+        "noczok",
+        "vinwen",
+        "devlof",
+        "kusmih",
+        "sikwof"
+       ],
+       "text": "the deploy token lihzut.noczok.vinwen.devlof.kusmih.sikwof stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 177,
+      "leak_words": 888,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 55,
+    "ident_new": 2,
+    "ident_new_examples": [
+     "Shibboleth-IdP3-TOTP-Auth",
+     "net.ipv4.conf.all"
+    ],
+    "ident_unflagged": 168,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 29
+   }
+  },
+  {
+   "arm": "dict_cv/compounds/guard",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 12,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "applied",
+        "outdated",
+        "stir",
+        "stinking",
+        "barrier"
+       ],
+       "text": "log in to grafana with passphrase applied outdated stir8 stinking barrier please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "empty",
+        "crouch",
+        "impotent",
+        "shelter"
+       ],
+       "text": "The vault passphrase is Empty.Crouch.Impotent0.Shelter. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "shrubbery",
+        "collision",
+        "contented"
+       ],
+       "text": "the deploy token from9 shrubbery collision contented stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "outdated",
+        "dallying",
+        "turban"
+       ],
+       "text": "log in to grafana with passphrase Sacrament Dress Commute Outdated Dallying Turban6 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 549,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 65,
+       "leak_words": 327,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 57,
+       "leak_words": 285,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 55,
+       "leak_words": 276,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 177
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bitgaz",
+        "vubles",
+        "recped",
+        "zuhgeg",
+        "buwzij",
+        "lampop"
+       ],
+       "text": "log in to grafana with passphrase bitgaz_vubles_recped_zuhgeg_buwzij_lampop please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "lihzut",
+        "noczok",
+        "vinwen",
+        "devlof",
+        "kusmih",
+        "sikwof"
+       ],
+       "text": "the deploy token lihzut.noczok.vinwen.devlof.kusmih.sikwof stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 177,
+      "leak_words": 888,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 53,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 168,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "dict_cv/all/off",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 136,
+       "leak_words": 497,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 113,
+       "leak_words": 555,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 129,
+       "leak_words": 484,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 110,
+       "leak_words": 545,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 10,
+      "other": 386,
+      "stop_inside": 3,
+      "tail_trim": 89
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "womb",
+        "previous",
+        "gangrene",
+        "proclaim"
+       ],
+       "text": "the deploy token Womb2-Previous-Gangrene-Proclaim stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shortness",
+        "scarecrow",
+        "cosigner",
+        "geology"
+       ],
+       "text": "log in to grafana with passphrase shortness-scarecrow-cosigner-geology6 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "humbly",
+        "varied",
+        "rockstar",
+        "yonder"
+       ],
+       "text": "log in to grafana with passphrase humbly_varied_rockstar4_yonder_wok please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "upgrade",
+        "submerge",
+        "habitual",
+        "evict",
+        "stubborn",
+        "bazooka"
+       ],
+       "text": "the deploy token Upgrade-Submerge5-Habitual-Evict-Stubborn-Bazooka stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "stubbed",
+        "trade",
+        "petted",
+        "blandness"
+       ],
+       "text": "log in to grafana with passphrase stubbed0.trade.petted.blandness please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "affidavit",
+        "dweeb",
+        "immorally",
+        "average",
+        "unframed",
+        "laborious"
+       ],
+       "text": "the deploy token Affidavit_Dweeb_Immorally2_Average_Unframed_Laborious stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "small",
+        "plunder",
+        "detonator",
+        "corset",
+        "manlike"
+       ],
+       "text": "log in to grafana with passphrase Small Plunder Detonator6 Corset Manlike please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "quintet"
+       ],
+       "text": "log in to grafana with passphrase Washing Amperage Gratitude Clasp Quintet4 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 488,
+      "leak_words": 2081,
+      "over_words": 479,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 65,
+       "leak_words": 327,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 57,
+       "leak_words": 285,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 55,
+       "leak_words": 276,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 177
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bitgaz",
+        "vubles",
+        "recped",
+        "zuhgeg",
+        "buwzij",
+        "lampop"
+       ],
+       "text": "log in to grafana with passphrase bitgaz_vubles_recped_zuhgeg_buwzij_lampop please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "lihzut",
+        "noczok",
+        "vinwen",
+        "devlof",
+        "kusmih",
+        "sikwof"
+       ],
+       "text": "the deploy token lihzut.noczok.vinwen.devlof.kusmih.sikwof stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 177,
+      "leak_words": 888,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 53,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 168,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 24
+   }
+  },
+  {
+   "arm": "dict_cv/all/raw",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 12,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "applied",
+        "outdated",
+        "stir",
+        "stinking",
+        "barrier"
+       ],
+       "text": "log in to grafana with passphrase applied outdated stir8 stinking barrier please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "empty",
+        "crouch",
+        "impotent",
+        "shelter"
+       ],
+       "text": "The vault passphrase is Empty.Crouch.Impotent0.Shelter. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "shrubbery",
+        "collision",
+        "contented"
+       ],
+       "text": "the deploy token from9 shrubbery collision contented stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "outdated",
+        "dallying",
+        "turban"
+       ],
+       "text": "log in to grafana with passphrase Sacrament Dress Commute Outdated Dallying Turban6 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 549,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 65,
+       "leak_words": 327,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 57,
+       "leak_words": 285,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 55,
+       "leak_words": 276,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 177
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bitgaz",
+        "vubles",
+        "recped",
+        "zuhgeg",
+        "buwzij",
+        "lampop"
+       ],
+       "text": "log in to grafana with passphrase bitgaz_vubles_recped_zuhgeg_buwzij_lampop please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "lihzut",
+        "noczok",
+        "vinwen",
+        "devlof",
+        "kusmih",
+        "sikwof"
+       ],
+       "text": "the deploy token lihzut.noczok.vinwen.devlof.kusmih.sikwof stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 177,
+      "leak_words": 888,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 55,
+    "ident_new": 2,
+    "ident_new_examples": [
+     "Shibboleth-IdP3-TOTP-Auth",
+     "net.ipv4.conf.all"
+    ],
+    "ident_unflagged": 168,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 25
+   }
+  },
+  {
+   "arm": "dict_cv/all/guard",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 12,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "applied",
+        "outdated",
+        "stir",
+        "stinking",
+        "barrier"
+       ],
+       "text": "log in to grafana with passphrase applied outdated stir8 stinking barrier please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "empty",
+        "crouch",
+        "impotent",
+        "shelter"
+       ],
+       "text": "The vault passphrase is Empty.Crouch.Impotent0.Shelter. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "shrubbery",
+        "collision",
+        "contented"
+       ],
+       "text": "the deploy token from9 shrubbery collision contented stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "outdated",
+        "dallying",
+        "turban"
+       ],
+       "text": "log in to grafana with passphrase Sacrament Dress Commute Outdated Dallying Turban6 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 549,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 65,
+       "leak_words": 327,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 57,
+       "leak_words": 285,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 55,
+       "leak_words": 276,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 177
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "lijzup",
+        "gawtak",
+        "fecjij",
+        "fisnog"
+       ],
+       "text": "the deploy token lijzup-gawtak-fecjij-fisnog stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gucrur",
+        "fobduh",
+        "vucsef",
+        "zecsat",
+        "dozfad",
+        "fibwuf"
+       ],
+       "text": "log in to grafana with passphrase gucrur.fobduh.vucsef.zecsat.dozfad.fibwuf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "giskoj",
+        "jolfad",
+        "guwmir",
+        "gaplom"
+       ],
+       "text": "log in to grafana with passphrase Giskoj.Jolfad.Guwmir.Gaplom.98 please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bonjog",
+        "dakluh",
+        "sadcum",
+        "lokgah",
+        "kavfir"
+       ],
+       "text": "the deploy token bonjog_dakluh_sadcum_lokgah_kavfir stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "wafjaw",
+        "kehvos",
+        "himrih",
+        "vulsah",
+        "femhej"
+       ],
+       "text": "log in to grafana with passphrase wafjaw-kehvos-himrih-vulsah-femhej please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "kerzer",
+        "dizwok",
+        "jirsom",
+        "lugjok"
+       ],
+       "text": "the deploy token kerzer.dizwok.jirsom.lugjok stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "bitgaz",
+        "vubles",
+        "recped",
+        "zuhgeg",
+        "buwzij",
+        "lampop"
+       ],
+       "text": "log in to grafana with passphrase bitgaz_vubles_recped_zuhgeg_buwzij_lampop please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "lihzut",
+        "noczok",
+        "vinwen",
+        "devlof",
+        "kusmih",
+        "sikwof"
+       ],
+       "text": "the deploy token lihzut.noczok.vinwen.devlof.kusmih.sikwof stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 177,
+      "leak_words": 888,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 6016
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "expiring",
+        "argue",
+        "bolt",
+        "passably"
+       ],
+       "text": "my password is expiring.argue.bolt.passably, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 4,
+      "over_words": 470,
+      "rows": 1200,
+      "words": 5954
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "invented_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "standard_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 53,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_unflagged": 168,
+    "ident_unflagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "CRYPT_EXT_DES",
+     "Carter-Wegman-style",
+     "Cleanmgr.exe.mui",
+     "DBA_COL_PRIVS"
+    ],
+    "sent_flagged": 24
+   }
+  }
+ ],
+ "rows": 1200,
+ "se_identifiers": 1920,
+ "se_sentences": 3025,
+ "seeds": {
+  "attached": 3119,
+  "invented": 3121,
+  "standard": 3109
+ },
+ "split": "train"
+}
