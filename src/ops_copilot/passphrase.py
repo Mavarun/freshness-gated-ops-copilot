@@ -86,6 +86,14 @@ because they are not words at all. Generators draw from word lists, so:
 * ``plain_rule="dict_cv"``: a dictionary word, or a strictly consonant-vowel
   alternating invented word ("bafiku"), the shape pronounceable generators emit.
 
+``digit_guard`` (with ``attached_digit``): the Oct 30 glued-digit knob flagged
+versioned names (``libgl1-mesa-dev``, ``net.ipv4.conf.all``). Bitwarden glues one
+digit 0-9 to *one* word drawn from the EFF list, so with the guard a run is read in
+the glued-digit shape only when exactly one word carries a digit and that word
+without its digit is on the EFF list; otherwise the run is read as the plain
+patterns read it (spans of both readings are merged, so the guard never redacts
+less than the patterns without ``attached_digit``).
+
 ``plain_scope`` says where the rule applies: ``"compounds"`` (``-`` / ``.`` / ``_``
 runs only) or ``"all"`` (space runs too). The cost is passphrases made of invented
 words that are neither, which ``passphrase_invented`` measures.
@@ -142,6 +150,8 @@ CUED_DIGIT_RE = re.compile(
     rf"(?![\w-])"
 )
 DEFAULT_ATTACHED_DIGIT = False
+DEFAULT_DIGIT_GUARD = False
+_GLUED_RE = re.compile(r"[A-Za-z]{3,12}\d")
 PLAIN_RULES = ("ops", "dict", "dict_cv")
 PLAIN_SCOPES = ("compounds", "all")
 DEFAULT_PLAIN_RULE = "ops"
@@ -315,6 +325,7 @@ class CuedPassphraseDetector:
         attached_digit: bool = DEFAULT_ATTACHED_DIGIT,
         plain_rule: str = DEFAULT_PLAIN_RULE,
         plain_scope: str = DEFAULT_PLAIN_SCOPE,
+        digit_guard: bool = DEFAULT_DIGIT_GUARD,
         vectors=None,
     ):
         if tail not in TAIL_MODES:
@@ -335,6 +346,7 @@ class CuedPassphraseDetector:
             raise ValueError(f"plain_scope must be one of {PLAIN_SCOPES}")
         self.plain_rule = plain_rule
         self.plain_scope = plain_scope
+        self.digit_guard = digit_guard
         self._vectors = vectors
 
     def _incoherent(self, words: list[str]) -> bool:
@@ -355,16 +367,20 @@ class CuedPassphraseDetector:
     def vocabulary(self) -> frozenset[str]:
         return self._vocab if self._vocab is not None else ops_vocabulary()
 
-    def _bare(self, w: str) -> str:
+    def _bare(self, w: str, digits: bool | None = None) -> str:
         """The word without one glued trailing digit (only with ``attached_digit``)."""
-        if self.attached_digit and len(w) > 1 and w[-1].isdigit() and w[:-1].isalpha():
+        digits = self.attached_digit if digits is None else digits
+        if digits and len(w) > 1 and w[-1].isdigit() and w[:-1].isalpha():
             return w[:-1]
         return w
 
-    def _span(self, m: re.Match[str]) -> tuple[int, int] | None:
+    def _span(self, m: re.Match[str], digits: bool | None = None) -> tuple[int, int] | None:
         vocab = self.vocabulary
         is_ops = vocab.__contains__
-        bare = self._bare
+        digits = self.attached_digit if digits is None else digits
+
+        def bare(w: str) -> str:
+            return self._bare(w, digits)
         a, b = m.span("val")
         val = m.group("val")
         plain = plain_word_test(self.plain_rule, is_ops) if self.plain_rule != "ops" else None
@@ -397,11 +413,30 @@ class CuedPassphraseDetector:
         end = nxt.end() if nxt is not None and nxt.group().isdigit() else words[-1].end()
         return (a + words[0].start(), a + end)
 
+    @staticmethod
+    def _guard_ok(val: str) -> bool:
+        """Exactly one glued-digit word, and that word without its digit is on the EFF list."""
+        glued = [t for t in re.split(r"[\s._-]+", val) if _GLUED_RE.fullmatch(t)]
+        return len(glued) == 1 and glued[0][:-1].lower() in generator_words()
+
+    def _spans(self, text: str) -> list[tuple[int, int]]:
+        if not (self.attached_digit and self.digit_guard):
+            rx = CUED_DIGIT_RE if self.attached_digit else CUED_RE
+            return [sp for m in rx.finditer(text) if (sp := self._span(m)) is not None]
+        found = [sp for m in CUED_DIGIT_RE.finditer(text)
+                 if self._guard_ok(m.group("val")) and (sp := self._span(m)) is not None]
+        found += [sp for m in CUED_RE.finditer(text) if (sp := self._span(m, digits=False)) is not None]
+        merged: list[tuple[int, int]] = []
+        for a, b in sorted(found):
+            if merged and a <= merged[-1][1]:
+                merged[-1] = (merged[-1][0], max(b, merged[-1][1]))
+            else:
+                merged.append((a, b))
+        return merged
+
     def finditer(self, text: str) -> Iterator[_Match]:
-        for m in (CUED_DIGIT_RE if self.attached_digit else CUED_RE).finditer(text or ""):
-            sp = self._span(m)
-            if sp is not None:
-                yield _Match(text, sp)
+        for sp in self._spans(text or ""):
+            yield _Match(text, sp)
 
     def search(self, text: str) -> _Match | None:
         return next(self.finditer(text), None)
