@@ -1,0 +1,459 @@
+{
+ "invented": {
+  "3121": {
+   "dict/compounds/guard": {
+    "cv": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 27,
+       "leak_words": 133,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 31,
+       "leak_words": 154,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 25,
+       "leak_words": 119,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 83,
+      "leak_words": 406,
+      "over_words": 246,
+      "rows": 600,
+      "words": 2990
+     }
+    },
+    "cvc": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 65,
+       "leak_words": 327,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 57,
+       "leak_words": 285,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 55,
+       "leak_words": 276,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 177,
+      "leak_words": 888,
+      "over_words": 260,
+      "rows": 600,
+      "words": 3026
+     }
+    }
+   },
+   "dict_cv/compounds/guard": {
+    "cv": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 246,
+      "rows": 600,
+      "words": 2990
+     }
+    },
+    "cvc": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 65,
+       "leak_words": 327,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 57,
+       "leak_words": 285,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 55,
+       "leak_words": 276,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 177,
+      "leak_words": 888,
+      "over_words": 260,
+      "rows": 600,
+      "words": 3026
+     }
+    }
+   },
+   "ops/compounds/off": {
+    "cv": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 246,
+      "rows": 600,
+      "words": 2990
+     }
+    },
+    "cvc": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 260,
+      "rows": 600,
+      "words": 3026
+     }
+    }
+   }
+  },
+  "3167": {
+   "dict/compounds/guard": {
+    "cv": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 29,
+       "leak_words": 134,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 34,
+       "leak_words": 157,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 29,
+       "leak_words": 136,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 92,
+      "leak_words": 427,
+      "over_words": 267,
+      "rows": 600,
+      "words": 2965
+     }
+    },
+    "cvc": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 62,
+       "leak_words": 315,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 63,
+       "leak_words": 316,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 57,
+       "leak_words": 289,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 182,
+      "leak_words": 920,
+      "over_words": 247,
+      "rows": 600,
+      "words": 3006
+     }
+    }
+   },
+   "dict_cv/compounds/guard": {
+    "cv": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 267,
+      "rows": 600,
+      "words": 2965
+     }
+    },
+    "cvc": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 62,
+       "leak_words": 315,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 63,
+       "leak_words": 316,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 57,
+       "leak_words": 289,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 182,
+      "leak_words": 920,
+      "over_words": 247,
+      "rows": 600,
+      "words": 3006
+     }
+    }
+   },
+   "ops/compounds/off": {
+    "cv": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 267,
+      "rows": 600,
+      "words": 2965
+     }
+    },
+    "cvc": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 150
+      }
+     },
+     "rows": 600,
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 247,
+      "rows": 600,
+      "words": 3006
+     }
+    }
+   }
+  }
+ },
+ "se_train": {
+  "dict/compounds/guard": {
+   "dropped": 173,
+   "dropped_by_shape": {
+    "all_caps": 31,
+    "lower": 105,
+    "mixed_case": 37
+   },
+   "still_flagged": 48,
+   "still_flagged_examples": [
+    "ALL_COL_PRIVS",
+    "COLA_MARKETS_MVIEW",
+    "COLA_MARKETS_VIEW",
+    "Candy-Crush-Free",
+    "Conventions-Transact-SQL",
+    "DRIVER_UNLOADED_WITHOUT_CANCELLING_PENDING_OPERATIONS",
+    "ERR_CONNECTION_TIMED_OUT",
+    "New-directories-with-files",
+    "Ninja-Turtle-like",
+    "PAX_MEMORY_SANITIZE",
+    "all-zeros-address",
+    "always-compare-med",
+    "anti-semi-join",
+    "barely-moves-the-needle",
+    "birthday-gift-ideas"
+   ]
+  },
+  "dict_cv/compounds/guard": {
+   "dropped": 168,
+   "dropped_by_shape": {
+    "all_caps": 30,
+    "lower": 101,
+    "mixed_case": 37
+   },
+   "still_flagged": 53,
+   "still_flagged_examples": [
+    "ALL_COL_PRIVS",
+    "COLA_MARKETS_MVIEW",
+    "COLA_MARKETS_VIEW",
+    "Candy-Crush-Free",
+    "Conventions-Transact-SQL",
+    "DRIVER_UNLOADED_WITHOUT_CANCELLING_PENDING_OPERATIONS",
+    "ERR_CONNECTION_TIMED_OUT",
+    "KUBE_SERVICE_ADDRESSES",
+    "New-directories-with-files",
+    "Ninja-Turtle-like",
+    "PAX_MEMORY_SANITIZE",
+    "all-zeros-address",
+    "always-compare-med",
+    "anti-semi-join",
+    "barely-moves-the-needle"
+   ]
+  },
+  "shipped_flags": 221
+ }
+}
