@@ -1,6 +1,168 @@
 {
  "failures": [],
  "new_identifier_flags": [],
+ "nov1": {
+  "attached-3209": {
+   "oct31": {
+    "leak_rows": 4,
+    "leak_words": 17,
+    "over_words": 536,
+    "rows": 1200,
+    "words": 5933
+   },
+   "shipped": {
+    "leak_rows": 4,
+    "leak_words": 17,
+    "over_words": 536,
+    "rows": 1200,
+    "words": 5933
+   }
+  },
+  "attached-3253": {
+   "oct31": {
+    "leak_rows": 9,
+    "leak_words": 34,
+    "over_words": 529,
+    "rows": 1200,
+    "words": 5979
+   },
+   "shipped": {
+    "leak_rows": 9,
+    "leak_words": 34,
+    "over_words": 529,
+    "rows": 1200,
+    "words": 5979
+   }
+  },
+  "cased-3221": {
+   "oct31": {
+    "leak_rows": 2,
+    "leak_words": 7,
+    "over_words": 490,
+    "rows": 1200,
+    "words": 5952
+   },
+   "shipped": {
+    "leak_rows": 2,
+    "leak_words": 7,
+    "over_words": 490,
+    "rows": 1200,
+    "words": 5952
+   }
+  },
+  "cased-3259": {
+   "oct31": {
+    "leak_rows": 2,
+    "leak_words": 6,
+    "over_words": 546,
+    "rows": 1200,
+    "words": 5934
+   },
+   "shipped": {
+    "leak_rows": 2,
+    "leak_words": 6,
+    "over_words": 546,
+    "rows": 1200,
+    "words": 5934
+   }
+  },
+  "invented-3217": {
+   "oct31": {
+    "leak_rows": 0,
+    "leak_words": 0,
+    "over_words": 475,
+    "rows": 1200,
+    "words": 5988
+   },
+   "shipped": {
+    "leak_rows": 0,
+    "leak_words": 0,
+    "over_words": 475,
+    "rows": 1200,
+    "words": 5988
+   }
+  },
+  "invented-3257": {
+   "oct31": {
+    "leak_rows": 0,
+    "leak_words": 0,
+    "over_words": 480,
+    "rows": 1200,
+    "words": 5966
+   },
+   "shipped": {
+    "leak_rows": 0,
+    "leak_words": 0,
+    "over_words": 480,
+    "rows": 1200,
+    "words": 5966
+   }
+  },
+  "phrase-3229": {
+   "oct31": {
+    "leak_rows": 370,
+    "leak_words": 1252,
+    "over_words": 488,
+    "rows": 1200,
+    "words": 4758
+   },
+   "shipped": {
+    "leak_rows": 370,
+    "leak_words": 1252,
+    "over_words": 488,
+    "rows": 1200,
+    "words": 4758
+   }
+  },
+  "phrase-3271": {
+   "oct31": {
+    "leak_rows": 368,
+    "leak_words": 1273,
+    "over_words": 477,
+    "rows": 1200,
+    "words": 4747
+   },
+   "shipped": {
+    "leak_rows": 368,
+    "leak_words": 1273,
+    "over_words": 477,
+    "rows": 1200,
+    "words": 4747
+   }
+  },
+  "standard-3203": {
+   "oct31": {
+    "leak_rows": 3,
+    "leak_words": 15,
+    "over_words": 506,
+    "rows": 1200,
+    "words": 5980
+   },
+   "shipped": {
+    "leak_rows": 3,
+    "leak_words": 15,
+    "over_words": 506,
+    "rows": 1200,
+    "words": 5980
+   }
+  },
+  "standard-3251": {
+   "oct31": {
+    "leak_rows": 1,
+    "leak_words": 1,
+    "over_words": 515,
+    "rows": 1200,
+    "words": 5904
+   },
+   "shipped": {
+    "leak_rows": 1,
+    "leak_words": 1,
+    "over_words": 515,
+    "rows": 1200,
+    "words": 5904
+   }
+  }
+ },
  "oct13_probe_leak_words": 0,
  "oct31": {
   "glued-3061": {

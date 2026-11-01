@@ -21,9 +21,11 @@ def _det(guards=ALL) -> CuedPassphraseDetector:
     return CuedPassphraseDetector(shape_guards=guards)
 
 
-def test_default_is_off_until_the_protocol_runs():
-    assert DEFAULT_SHAPE_GUARDS == ()
-    assert CUED_PASSPHRASE.shape_guards == ()
+def test_confirmed_case_and_tld_guards_ship_on_and_stop_stays_off():
+    assert DEFAULT_SHAPE_GUARDS == ("case", "tld")
+    assert CUED_PASSPHRASE.shape_guards == ("case", "tld")
+    assert CUED_PASSPHRASE.search("token csrc.nist.gov") is None
+    assert CUED_PASSPHRASE.search("token Windows.System.UserProfile.LockScreen") is None
 
 
 @pytest.mark.parametrize("part", ["cascade", "Cascade", "CASCADE", "cASCADE", "Cascade5", "cascade7"])

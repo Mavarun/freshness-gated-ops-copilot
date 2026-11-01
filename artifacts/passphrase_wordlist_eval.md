@@ -22,6 +22,21 @@ Oct 31 rows: Bitwarden-style glued digit (`glued-*`, one digit 0-9 on one word) 
 | invented-3121 | 0 -> 0 | 0 -> 0 of 6016 | 506 -> 506 |
 | invented-3167 | 0 -> 0 | 0 -> 0 of 5971 | 514 -> 514 |
 
+Nov 1 rows (spent by the shape-guard protocol): the five probes on its calibration and confirm seeds, Oct 31 patterns vs shipped (shape guards `case` + `tld` on).
+
+| rows | rows leaking (Oct 31 -> shipped) | words leaked (Oct 31 -> shipped) | over-redacted |
+| --- | ---: | ---: | ---: |
+| standard-3203 | 3 -> 3 | 15 -> 15 of 5980 | 506 -> 506 |
+| attached-3209 | 4 -> 4 | 17 -> 17 of 5933 | 536 -> 536 |
+| invented-3217 | 0 -> 0 | 0 -> 0 of 5988 | 475 -> 475 |
+| cased-3221 | 2 -> 2 | 7 -> 7 of 5952 | 490 -> 490 |
+| phrase-3229 | 370 -> 370 | 1252 -> 1252 of 4758 | 488 -> 488 |
+| standard-3251 | 1 -> 1 | 1 -> 1 of 5904 | 515 -> 515 |
+| attached-3253 | 9 -> 9 | 34 -> 34 of 5979 | 529 -> 529 |
+| invented-3257 | 0 -> 0 | 0 -> 0 of 5966 | 480 -> 480 |
+| cased-3259 | 2 -> 2 | 6 -> 6 of 5934 | 546 -> 546 |
+| phrase-3271 | 368 -> 368 | 1273 -> 1273 of 4747 | 477 -> 477 |
+
 Oct 13 probe words leaked: 0. Trace queries changed: 0. New identifier flags: 0.
 
 Failures: none
