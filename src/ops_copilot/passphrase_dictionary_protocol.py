@@ -100,6 +100,7 @@ def detector(arm: tuple):
         wordlist_compounds="all4", wordlist_space=True, exempt_identifiers=True,
         attached_digit=digit != "off", digit_guard=digit == "guard",
         plain_rule=rule, plain_scope=scope,
+        shape_guards=(), function_parts=False,  # Nov 1 knobs, pinned off
     )
 
 

@@ -88,6 +88,7 @@ def detector(arm: tuple[str, ...]):
         wordlist_compounds="all4", wordlist_space=True, exempt_identifiers=True,
         attached_digit=True, digit_guard=True, plain_rule="ops", plain_scope="compounds",
         shape_guards=tuple(arm),
+        function_parts=False,  # Nov 1 knobs, pinned off
     )
 
 
