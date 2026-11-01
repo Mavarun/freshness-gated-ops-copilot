@@ -243,3 +243,69 @@ def invented_passphrases(seed: int, n: int) -> list[ProbeRow]:
     for i in range(n):
         out.append(cv[i // 2] if i % 2 == 0 else cvc[i // 2])
     return out
+
+
+# ---------------------------------------------------------------------------
+# Nov 1: cost controls for ``shape_guards`` (case-styled and phrase passphrases)
+
+CASE_STYLES = ("upper", "alternate", "random", "invert")
+PHRASE_WORDS = ("and", "the", "of", "with", "for", "to", "in", "on", "my", "you", "is", "at", "by", "or")
+
+
+def _case(word: str, style: str, rng: random.Random, i: int) -> str:
+    if style == "upper":  # KeePassXC "UPPER CASE"
+        return word.upper()
+    if style == "alternate":  # xkpasswd ALTERNATE: lower / UPPER word by word
+        return word.upper() if i % 2 else word.lower()
+    if style == "invert":  # xkpasswd INVERT: cASCADE
+        return word[:1].lower() + word[1:].upper()
+    return rng.choice((word.lower(), word.upper(), word.title()))  # xkpasswd RANDOM (per word)
+
+
+def cased_passphrases(seed: int, n: int) -> list[ProbeRow]:
+    """``n`` EFF passphrases in the case styles other generators emit.
+
+    Rows cycle through UPPER (KeePassXC), word-alternating lower / UPPER, per-word
+    random lower / UPPER / Title, and inverted (``cASCADE``, xkpasswd); separators
+    cycle as in ``wordlist_passphrases``, and every other row has a trailing
+    two-digit number. The ``case`` shape guard must never fire on these.
+    """
+    rng = random.Random(seed)
+    words = eff_words()
+    tpls = _templates()
+    rows: list[ProbeRow] = []
+    for i in range(n):
+        ws = rng.sample(words, rng.choice(LENGTHS))
+        sep = SEPARATORS[i % len(SEPARATORS)]
+        style = CASE_STYLES[(i // len(SEPARATORS)) % len(CASE_STYLES)]
+        ctx, tpl = tpls[rng.randrange(len(tpls))]
+        parts = [_case(w, style, rng, j) for j, w in enumerate(ws)]
+        if rng.random() < 0.5:
+            parts.append(str(rng.randint(10, 99)))
+        rows.append(ProbeRow(sep.join(parts), tuple(ws), SEP_NAMES[sep], ctx, tpl))
+    return rows
+
+
+def phrase_passphrases(seed: int, n: int) -> list[ProbeRow]:
+    """``n`` rows of 3-5 EFF words with one short function word inside (``ocean-and-velvet-badger``).
+
+    A person who types a phrase as a passphrase writes connectives; the ``stop``
+    shape guard reads such a compound as prose. Only the EFF words count as secret
+    words when scoring (``words``), so a leak means a real passphrase word was left.
+    The function word is drawn from ``PHRASE_WORDS`` and placed at a random inner
+    position; separators cycle through ``-``, ``.``, ``_`` and space.
+    """
+    rng = random.Random(seed)
+    words = eff_words()
+    tpls = _templates()
+    rows: list[ProbeRow] = []
+    for i in range(n):
+        ws = rng.sample(words, rng.choice((3, 4, 5)))
+        sep = SEPARATORS[i % len(SEPARATORS)]
+        ctx, tpl = tpls[rng.randrange(len(tpls))]
+        parts = list(ws)
+        parts.insert(rng.randint(1, len(parts) - 1), rng.choice(PHRASE_WORDS))
+        if rng.random() < 0.5:
+            parts = [p.title() for p in parts]
+        rows.append(ProbeRow(sep.join(parts), tuple(ws), SEP_NAMES[sep], ctx, tpl))
+    return rows
