@@ -113,6 +113,16 @@ passphrase:
   list (``chicken-and-egg``, ``who-knows-what-will-happen``). The cost is a
   person typing a phrase as a passphrase; the protocol's phrase probe measures it.
 
+``function_parts`` (Nov 1, ``passphrase_phrase_protocol``), off by default until its
+protocol runs. A person who types a phrase as a passphrase writes function words
+(``turtle_unproven_in_spider_sampling_slug``). Two-letter parts (``in``, ``by``,
+``or``) break the compound pattern, so the whole value leaked; longer ones (``the``,
+``and``) count against the plain-word share and break the all-EFF arm. With
+``function_parts=True`` a ``-`` / ``.`` / ``_`` compound may also hold up to
+``MAX_FUNCTION_PARTS`` parts from ``FUNCTION_WORDS``; they stay in the redacted span
+but are left out of every word test. A two-letter part that is not a function word
+still makes the reading fail. Space runs are unchanged.
+
 ``plain_scope`` says where the rule applies: ``"compounds"`` (``-`` / ``.`` / ``_``
 runs only) or ``"all"`` (space runs too). The cost is passphrases made of invented
 words that are neither, which ``passphrase_invented`` measures.
@@ -171,6 +181,19 @@ CUED_DIGIT_RE = re.compile(
 DEFAULT_ATTACHED_DIGIT = True
 DEFAULT_DIGIT_GUARD = True
 _GLUED_RE = re.compile(r"[A-Za-z]{3,12}\d")
+# Nov 1: compounds whose parts may be two letters long (function words only, checked in ``_span``)
+_WORD_F = r"[A-Za-z]{2,12}"
+MAX_FUNCTION_PARTS = 2
+CUED_FN_RE = re.compile(
+    rf"(?i)\b(?:{_CUE})\s+"
+    rf"(?P<val>{_WORD_F}(?P<sep>[-._]){_WORD_F}(?:(?P=sep){_WORD_F}){{1,{MAX_WORDS - 2 + MAX_FUNCTION_PARTS}}}(?:(?P=sep){_NUM})?)"
+    rf"(?![\w-])"
+)
+FUNCTION_WORDS = frozenset(
+    "a an the and or but nor of in on at by to for from with into onto over under as is are was be "
+    "it its my our your his her their you we he she they me us him them this that if so no not up out off".split()
+)
+DEFAULT_FUNCTION_PARTS = False
 PLAIN_RULES = ("ops", "dict", "dict_cv")
 PLAIN_SCOPES = ("compounds", "all")
 DEFAULT_PLAIN_RULE = "ops"
@@ -383,6 +406,7 @@ class CuedPassphraseDetector:
         plain_scope: str = DEFAULT_PLAIN_SCOPE,
         digit_guard: bool = DEFAULT_DIGIT_GUARD,
         shape_guards: tuple[str, ...] = DEFAULT_SHAPE_GUARDS,
+        function_parts: bool = DEFAULT_FUNCTION_PARTS,
         vectors=None,
     ):
         if tail not in TAIL_MODES:
@@ -408,6 +432,7 @@ class CuedPassphraseDetector:
         if any(g not in SHAPE_GUARDS for g in shape_guards):
             raise ValueError(f"shape_guards must be drawn from {SHAPE_GUARDS}")
         self.shape_guards = shape_guards
+        self.function_parts = function_parts
         self._vectors = vectors
 
     def _incoherent(self, words: list[str]) -> bool:
@@ -435,7 +460,7 @@ class CuedPassphraseDetector:
             return w[:-1]
         return w
 
-    def _span(self, m: re.Match[str], digits: bool | None = None) -> tuple[int, int] | None:
+    def _span(self, m: re.Match[str], digits: bool | None = None, fn: bool = False) -> tuple[int, int] | None:
         vocab = self.vocabulary
         is_ops = vocab.__contains__
         digits = self.attached_digit if digits is None else digits
@@ -450,7 +475,17 @@ class CuedPassphraseDetector:
                 return None
             if self.shape_guards and shape_guard_hits(val.split(m.group("sep")), m.group("sep"), self.shape_guards):
                 return None
-            words = [bare(w) for w in val.split(m.group("sep")) if bare(w).isalpha()]
+            parts = val.split(m.group("sep"))
+            if fn:
+                func = [p for p in parts if p.lower() in FUNCTION_WORDS]
+                if not func or len(func) > MAX_FUNCTION_PARTS:
+                    return None
+                if any(len(p) < 3 and not p.isdigit() and p.lower() not in FUNCTION_WORDS for p in parts):
+                    return None
+                parts = [p for p in parts if p.lower() not in FUNCTION_WORDS]
+                if len(parts) > MAX_WORDS:
+                    return None
+            words = [bare(w) for w in parts if bare(w).isalpha()]
             if _enough(words, is_ops, plain) or wordlist_match(words, self.wordlist_compounds):
                 return (a, b)
             return (a, b) if self.coherence_compounds and self._incoherent(words) else None
@@ -483,12 +518,20 @@ class CuedPassphraseDetector:
         return len(glued) == 1 and glued[0][:-1].lower() in generator_words()
 
     def _spans(self, text: str) -> list[tuple[int, int]]:
+        extra = []
+        if self.function_parts:
+            extra = [sp for m in CUED_FN_RE.finditer(text) if (sp := self._span(m, digits=False, fn=True)) is not None]
         if not (self.attached_digit and self.digit_guard):
             rx = CUED_DIGIT_RE if self.attached_digit else CUED_RE
-            return [sp for m in rx.finditer(text) if (sp := self._span(m)) is not None]
-        found = [sp for m in CUED_DIGIT_RE.finditer(text)
-                 if self._guard_ok(m.group("val")) and (sp := self._span(m)) is not None]
-        found += [sp for m in CUED_RE.finditer(text) if (sp := self._span(m, digits=False)) is not None]
+            found = [sp for m in rx.finditer(text) if (sp := self._span(m)) is not None]
+            if not extra:
+                return found
+            found += extra
+        else:
+            found = [sp for m in CUED_DIGIT_RE.finditer(text)
+                     if self._guard_ok(m.group("val")) and (sp := self._span(m)) is not None]
+            found += [sp for m in CUED_RE.finditer(text) if (sp := self._span(m, digits=False)) is not None]
+            found += extra
         merged: list[tuple[int, int]] = []
         for a, b in sorted(found):
             if merged and a <= merged[-1][1]:
