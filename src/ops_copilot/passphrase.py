@@ -94,8 +94,11 @@ without its digit is on the EFF list; otherwise the run is read as the plain
 patterns read it (spans of both readings are merged, so the guard never redacts
 less than the patterns without ``attached_digit``).
 
-One more knob (Nov 1, ``passphrase_shape_protocol``), off by default until its
-protocol runs: ``shape_guards``. Generators emit words in a few fixed shapes, so
+One more knob (Nov 1, ``passphrase_shape_protocol``): ``shape_guards``. The
+pre-registered calibration picked ``("case", "tld")`` (SE train identifier flags
+221 -> 166, 0 new, no extra leaked words on five probes) and the one-shot confirm
+passed every check (SE test 24 -> 21, 0 new), so those two **ship on**; ``"stop"``
+fails the phrase-passphrase leak budget and stays off. Generators emit words in a few fixed shapes, so
 some compounds after a credential noun cannot be generator output whatever their
 words are. Each guard, when on, says a ``-`` / ``.`` / ``_`` compound is *not* a
 passphrase:
@@ -174,7 +177,7 @@ DEFAULT_PLAIN_RULE = "ops"
 DEFAULT_PLAIN_SCOPE = "compounds"
 _VOWELS = frozenset("aeiou")
 SHAPE_GUARDS = ("case", "tld", "stop")
-DEFAULT_SHAPE_GUARDS: tuple[str, ...] = ()
+DEFAULT_SHAPE_GUARDS: tuple[str, ...] = ("case", "tld")
 # lower, Title, UPPER, inverted (``cASCADE``); one glued digit allowed
 _GEN_CASE_RE = re.compile(r"(?:[a-z]+|[A-Z][a-z]+|[A-Z]+|[a-z][A-Z]+)\d?")
 _TLDS = (

@@ -18,9 +18,76 @@ behind a **HITL approve** gate. Offline CI, frozen clock.
 | `PROPOSE_WRITE` | Imperative/request write parsed (action + target + confidence); pending HITL approve (never auto-executes) |
 | `REFUSE_AMBIGUOUS_WRITE` | Looks like a write but no target, an unregistered target (did-you-mean), no page recipient, several targets/actions, conditional, unsupported, or low confidence: asks to clarify |
 
-Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19). On passphrases drawn from the real EFF wordlist, 16 of 5,962 words leak on the Oct 30 fresh confirm seed (128 with the Oct 29 detector); on passphrases with a Bitwarden-style glued digit (`Cascade5`), 10 of 5,890 words leak on the Oct 31 fresh confirm seed (1,948 with the Oct 30 detector).
+Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19). On passphrases drawn from the real EFF wordlist, 16 of 5,962 words leak on the Oct 30 fresh confirm seed (128 with the Oct 29 detector); on passphrases with a Bitwarden-style glued digit (`Cascade5`), 10 of 5,890 words leak on the Oct 31 fresh confirm seed (1,948 with the Oct 30 detector). Shape guards (Nov 1) stop flagging real host names and CamelCase identifiers after a credential noun: 166 of 1,920 Stack Exchange train identifiers are still flagged (221 before), and 21 of 147 test ones (24 before).
 
 
+
+## Shape guards (2026-11-01): real-identifier false flags 221 → 166 (SE train) and 24 → 21 (SE test) with no extra leaks, ships on; a stop-word guard fails its phrase budget, and phrase passphrases turn out to leak 26% of their words
+
+Oct 31 left the real-identifier false-positive base rate at the top: the shipped detector flags 221 of
+1,920 Stack Exchange train identifiers and 24 of 147 test ones after a credential noun. The dictionary
+rule would cut that, but it leaks invented-word passphrases. This slice tests three guards that only look
+at a compound's *shape*: a shape no passphrase generator emits, whatever the words are. One
+pre-registered protocol covers all three. Labels, golden file and the 203 perturbed rows are unchanged.
+
+### What changed
+
+1. **`shape_guards`** (`passphrase.shape_guard_hits`). Each guard makes a `-` / `.` / `_` compound *not* a passphrase:
+   - `case`: a part's letter case is not lower, Title, UPPER or inverted (`cASCADE`), with one glued
+     digit allowed. That catches `KernelBase.dll.mui`, `AmazonEKS_CNI_Policy` and `Whonix-Gateway-LXQt`.
+     All-caps constants (`BTRFS_FIRST_FREE_OBJECTID`) are deliberately left alone, because KeePassXC
+     emits UPPER-CASE passphrases.
+   - `tld`: a `.` compound ending in a common top-level domain that is not an EFF word. That catches
+     `csrc.nist.gov`. `net` is on the EFF list, so it is excluded.
+   - `stop`: a part is a non-EFF stop word, as in `chicken-and-egg`.
+2. **Two new cost probes** (`passphrase_wordlist`): `cased_passphrases` (KeePassXC UPPER and xkpasswd
+   alternate / random / inverted case) and `phrase_passphrases` (3-5 EFF words with one inner function
+   word: `ocean-and-velvet-badger`). The phrase probe is the stop guard's worst case.
+3. **Pre-registered protocol** (`passphrase_shape_protocol`, committed before any arm was scored). It has
+   8 arms (every subset of the three guards) and five probes. Calibration seeds are 3203-3229, confirm
+   seeds 3251-3271 and the off-list seed 3299. There are eight safety checks: 0 new SE identifier flags,
+   no extra SE sentence flags, no extra leaks on the standard / glued / cased probes, and at most 0.5%
+   extra leaked words on the invented and phrase probes. The pick is the safe arm with the fewest SE
+   train identifier flags. The docstring lists what was seen first: only the 221 SE train flags, by shape.
+4. **Calibration** (`artifacts/passphrase_shape_calibration.md`). `case` 221 → 197, `tld` → 188,
+   `case+tld` → **166**, 0 new, leaks unchanged on all five probes. Every arm with `stop` cuts more
+   (`case+tld+stop` → 143), but it leaks 397 more phrase words (1,252 → 1,649 of 4,758; budget 23), so
+   it fails. **Chosen: case+tld.**
+5. **One-shot confirm** on fresh seeds + SE test (`artifacts/passphrase_shape_confirm.md`):
+
+| fresh seeds 3251-3271, never scored before the protocol | Oct 31 detector | shipped now (case + tld) |
+| :--- | ---: | ---: |
+| SE test identifiers flagged (all false positives) | 24 / 147 | **21 / 147** (0 new) |
+| SE test sentences flagged | 0 / 306 | 0 / 306 |
+| leaked words: standard / glued / invented / cased / phrase | 1 / 34 / 0 / 6 / 1,273 | 1 / 34 / 0 / 6 / 1,273 |
+| over-redacted template words (five probes) | 2,547 | 2,547 |
+| Oct 13 probe leaks, trace queries changed, `data/` identifiers newly flagged | 0, 0, 0 | 0, 0, 0 |
+| off-list control (reported only), leaked words | 14 / 5,967 | 14 / 5,967 |
+
+   All nine checks pass, so `case` and `tld` now **ship on** (`stop` stays off). The CI report
+   (`artifacts/passphrase_wordlist_eval.md`, gating) now also scores the ten spent Nov 1 probe seeds
+   and fails if the shipped patterns leak more than the Oct 31 ones on any of them.
+
+### Reproduce
+
+    python scripts/run_passphrase_wordlist_eval.py                                  # CI, ~25 s
+    python scripts/calibrate_passphrase_shape.py --raw-dir /tmp/se_qa_raw            # needs the SE pages
+    python scripts/run_passphrase_shape_confirm.py --raw-dir /tmp/se_qa_raw          # spent
+    pytest tests/test_passphrase_shape*.py
+
+### Weaknesses
+
+- **A new leak family: phrase passphrases.** The shipped detector leaks 1,252 of 4,758 words (26%) when a
+  passphrase holds a function word (`turtle_unproven_in_spider_sampling_slug`, `detergent in turtle clerk`).
+  This gap is older than today; the probe is new. Two-letter parts (`in`, `by`, `or`) break the compound
+  pattern, and a stop word ends a space run. The probe draws its function words from a list made for
+  it, so it is a stress test, not a measured rate.
+- The identifier base rate is still 166 of 1,920 on train. The rest are all-caps constants (37, which the
+  case guard leaves alone on purpose), lower-case dotted config keys (`browser.gesture.swipe.left`) and
+  hyphenated English. SE test has only 24 flags, so the confirm's 24 → 21 is a small sample.
+- The TLD list is fixed by hand (34 domains). A host on another TLD is still flagged.
+- Held-out ANSWER is still **0 of 9**. The ops synonyms (`lag`, `bounce`) are held-out words, so they
+  cannot be added to any product lexicon. Understanding was not touched today.
 
 ## Glued-digit guard (2026-10-31): Bitwarden-shape leaked words 1,948 → 10 on a fresh confirm seed with 0 new identifier flags, ships on; a dictionary rule cuts real-identifier false flags 221 → 48 but leaks invented-word passphrases, so it ships off
 

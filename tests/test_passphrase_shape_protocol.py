@@ -34,11 +34,12 @@ def test_grid_is_every_subset_smallest_first() -> None:
     assert [S.arm_name(a) for a in arms][:4] == ["shipped", "case", "tld", "stop"]
 
 
-def test_shipped_arm_is_the_current_default_detector() -> None:
+def test_shipped_arm_is_the_oct31_detector_and_the_pick_is_the_new_default() -> None:
     d = S.detector(S.SHIPPED)
     keys = ("tail", "coherence_max", "coherence_compounds", "exempt_identifiers", "wordlist_compounds",
-            "wordlist_space", "attached_digit", "digit_guard", "plain_rule", "plain_scope", "shape_guards")
+            "wordlist_space", "attached_digit", "digit_guard", "plain_rule", "plain_scope")
     assert {k: getattr(d, k) for k in keys} == {k: getattr(CUED_PASSPHRASE, k) for k in keys}
+    assert d.shape_guards == () and CUED_PASSPHRASE.shape_guards == ("case", "tld")
     assert S.detector(("case", "stop")).shape_guards == ("case", "stop")
 
 

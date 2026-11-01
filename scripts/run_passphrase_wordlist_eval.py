@@ -16,6 +16,11 @@ Since Oct 31 it also scores the Bitwarden glued-digit rows (``Cascade5``; spent
 seeds 3061, 3079, 3119, 3163) and the invented-word rows (3121, 3167) with the
 Oct 30 patterns and the shipped ones, and fails if the shipped patterns leak more
 words than the Oct 30 ones on any of them.
+
+Since Nov 1 (shape guards ship on) it also scores the case-styled and phrase rows
+of the spent Nov 1 seeds (``passphrase_shape_protocol``) and every seed above with
+the Oct 31 patterns and the shipped ones, and fails if the shipped patterns leak
+more words than the Oct 31 ones on any of them.
 """
 
 from __future__ import annotations
@@ -29,6 +34,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from ops_copilot import passphrase_compound_protocol as C  # noqa: E402
 from ops_copilot import passphrase_dictionary_protocol as Q  # noqa: E402
+from ops_copilot import passphrase_shape_protocol as S  # noqa: E402
 from ops_copilot import passphrase_tail_protocol as P  # noqa: E402
 from ops_copilot.explain_redact import SENSITIVE_PATTERNS  # noqa: E402
 from ops_copilot.passphrase import CUED_PASSPHRASE  # noqa: E402
@@ -45,6 +51,7 @@ ART = ROOT / "artifacts"
 SEEDS = (P.CALIB_SEED, P.CONFIRM_SEED, P.AMENDED_CONFIRM_SEED, C.CALIB_SEED, C.CONFIRM_SEED)
 GLUED_SEEDS = (3061, 3079, Q.CALIB_ATTACHED_SEED, Q.CONFIRM_ATTACHED_SEED)
 INVENTED_SEEDS = (Q.CALIB_INVENTED_SEED, Q.CONFIRM_INVENTED_SEED)
+SHAPE_SEEDS = tuple((k, s) for seeds in (S.CALIB_SEEDS, S.CONFIRM_SEEDS) for k, s in seeds.items())
 
 
 def run() -> dict:
@@ -68,6 +75,14 @@ def run() -> dict:
         out["oct31"][name] = {"oct30": o, "shipped": b["total"], "shipped_cause": b["cause"]}
         if b["total"]["leak_words"] > o["leak_words"]:
             out["failures"].append(f"{name}: shipped leaks more words than Oct 30")
+    oct31 = S.patterns_for(S.SHIPPED)
+    out["nov1"] = {}
+    for kind, seed in SHAPE_SEEDS:
+        rows = S.probe_rows(kind, seed)
+        o, b = score_rows(rows, oct31)["total"], score_rows(rows, SENSITIVE_PATTERNS)["total"]
+        out["nov1"][f"{kind}-{seed}"] = {"oct31": o, "shipped": b}
+        if b["leak_words"] > o["leak_words"]:
+            out["failures"].append(f"{kind}-{seed}: shipped leaks more words than Oct 31")
     out["oct13_probe_leak_words"] = sum(
         sum(_present(redact_query(t, SENSITIVE_PATTERNS).lower(), w) for w in ws) for t, ws in P.oct13_probe_texts()
     )
@@ -114,6 +129,18 @@ def render(out: dict) -> str:
     ]
     for s, v in out["oct31"].items():
         o, b = v["oct30"], v["shipped"]
+        lines.append(f"| {s} | {o['leak_rows']} -> {b['leak_rows']} | {o['leak_words']} -> {b['leak_words']} of {o['words']} | "
+                     f"{o['over_words']} -> {b['over_words']} |")
+    lines += [
+        "",
+        "Nov 1 rows (spent by the shape-guard protocol): the five probes on its calibration and confirm seeds, "
+        "Oct 31 patterns vs shipped (shape guards `case` + `tld` on).",
+        "",
+        "| rows | rows leaking (Oct 31 -> shipped) | words leaked (Oct 31 -> shipped) | over-redacted |",
+        "| --- | ---: | ---: | ---: |",
+    ]
+    for s, v in out["nov1"].items():
+        o, b = v["oct31"], v["shipped"]
         lines.append(f"| {s} | {o['leak_rows']} -> {b['leak_rows']} | {o['leak_words']} -> {b['leak_words']} of {o['words']} | "
                      f"{o['over_words']} -> {b['over_words']} |")
     lines += [
