@@ -1,4 +1,7 @@
-"""Scoring for the Nov 1 protocol (``passphrase_shape_protocol``); the rules live there."""
+"""Scoring for the Nov 1 protocols (``passphrase_shape_protocol``, ``passphrase_phrase_protocol``).
+
+The rules live in the protocol modules; ``proto`` picks one (default: shape guards).
+"""
 
 from __future__ import annotations
 
@@ -7,9 +10,11 @@ from typing import Any
 
 
 def evaluate_arm(arm, probes: dict[str, list], se: dict[str, list[str]], *, base_queries: dict[str, str],
-                 base_ident_flags: set[str]) -> dict[str, Any]:
-    from ops_copilot import passphrase_shape_protocol as S
+                 base_ident_flags: set[str], proto=None) -> dict[str, Any]:
+    from ops_copilot import passphrase_shape_protocol
     from ops_copilot import passphrase_tail_protocol as T
+
+    S = proto or passphrase_shape_protocol
     from ops_copilot.passphrase import shape_guard_hits
     from ops_copilot.passphrase_identifiers import identifier_flags
     from ops_copilot.passphrase_wordlist import _present, redact_query, score_rows
@@ -20,7 +25,7 @@ def evaluate_arm(arm, probes: dict[str, list], se: dict[str, list[str]], *, base
     new = [n for n in flagged if n not in base_ident_flags]
     removed = sorted(base_ident_flags - set(flagged))
     by_guard: dict[str, int] = {}
-    for n in removed:
+    for n in (removed if getattr(S, "GUARDS", None) else []):
         sep = next(c for c in n if c in "-._")
         for g in shape_guard_hits(n.split(sep), sep, arm):
             by_guard[g] = by_guard.get(g, 0) + 1
@@ -44,20 +49,21 @@ def evaluate_arm(arm, probes: dict[str, list], se: dict[str, list[str]], *, base
     }
 
 
-def run_phase(seeds: dict[str, int], split: str, raw_dir: Path, arms) -> dict[str, Any]:
+def run_phase(seeds: dict[str, int], split: str, raw_dir: Path, arms, proto=None) -> dict[str, Any]:
     from ops_copilot import passphrase_digit_protocol as D
-    from ops_copilot import passphrase_shape_protocol as S
+    from ops_copilot import passphrase_shape_protocol
     from ops_copilot import passphrase_tail_protocol as T
     from ops_copilot.passphrase_identifiers import identifier_flags
     from ops_copilot.passphrase_wordlist import redact_query
 
+    S = proto or passphrase_shape_protocol
     probes = {k: S.probe_rows(k, s) for k, s in seeds.items()}
     se = D.se_material(raw_dir)[split]
-    # Baseline queries come from the Oct 31 shipped detector (the protocol's SHIPPED arm).
+    # Baseline queries come from the protocol's SHIPPED arm.
     pats = S.patterns_for(S.SHIPPED)
     base_q = {q: redact_query(q, pats) for q in dict.fromkeys(T.repo_queries())}
     base_ids = set(identifier_flags(S.detector(S.SHIPPED), se["identifiers"]))
-    results = [evaluate_arm(a, probes, se, base_queries=base_q, base_ident_flags=base_ids) for a in arms]
+    results = [evaluate_arm(a, probes, se, base_queries=base_q, base_ident_flags=base_ids, proto=S) for a in arms]
     return {"seeds": seeds, "split": split, "rows": S.N_ROWS, "se_sentences": len(se["sentences"]),
             "se_identifiers": len(se["identifiers"]), "results": results}
 
