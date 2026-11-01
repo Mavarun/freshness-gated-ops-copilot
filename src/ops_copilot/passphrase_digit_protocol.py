@@ -57,6 +57,7 @@ def shipped_detector():
         tail="keep", coherence_max=0.10, coherence_compounds=False,
         wordlist_compounds="all4", wordlist_space=True, exempt_identifiers=True, attached_digit=False,
         digit_guard=False, plain_rule="ops",
+        shape_guards=(), function_parts=False,  # Nov 1 knobs, pinned off
     )
 
 
@@ -67,6 +68,7 @@ def candidate_detector():
         tail="keep", coherence_max=0.10, coherence_compounds=False,
         wordlist_compounds="all4", wordlist_space=True, exempt_identifiers=True, attached_digit=True,
         digit_guard=False, plain_rule="ops",
+        shape_guards=(), function_parts=False,  # Nov 1 knobs, pinned off
     )
 
 

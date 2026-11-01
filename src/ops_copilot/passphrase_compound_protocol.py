@@ -89,6 +89,7 @@ def detector(arm: tuple):
         tail="keep", coherence_max=0.10, coherence_compounds=False,
         wordlist_compounds=c, wordlist_space=sp, exempt_identifiers=c is not None,
         attached_digit=False, digit_guard=False, plain_rule="ops",
+        shape_guards=(), function_parts=False,  # Nov 1 knobs, pinned off
     )
 
 

@@ -16,7 +16,7 @@ def _j(name: str) -> dict:
     return json.loads((ART / name).read_text())
 
 
-def test_section_is_newest_and_followed_by_oct31() -> None:
+def test_section_follows_function_parts_and_precedes_oct31() -> None:
     heads = [h for h in README.splitlines() if h.startswith("## ")]
     i = next(k for k, h in enumerate(heads) if h.startswith(HEAD))
     assert heads[i + 1].startswith("## Glued-digit guard (2026-10-31)")

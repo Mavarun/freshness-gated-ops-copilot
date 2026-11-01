@@ -54,7 +54,7 @@ SENT_BUDGET_TRAIN = 5
 SENT_BUDGET_TEST = 1
 IDENT_BUDGET_TRAIN = 3
 IDENT_BUDGET_TEST = 1
-SHIPPED = False
+SHIPPED = False  # the shape-guard detector; the confirm shipped function_parts=True
 PROBES = ("standard", "attached", "invented", "cased", "phrase")
 
 

@@ -113,8 +113,9 @@ passphrase:
   list (``chicken-and-egg``, ``who-knows-what-will-happen``). The cost is a
   person typing a phrase as a passphrase; the protocol's phrase probe measures it.
 
-``function_parts`` (Nov 1, ``passphrase_phrase_protocol``), off by default until its
-protocol runs. A person who types a phrase as a passphrase writes function words
+``function_parts`` (Nov 1, ``passphrase_phrase_protocol``), **on by default** after a
+passed calibration and one-shot confirm (phrase-probe leaked words 1,351 -> 487 on the
+fresh confirm seeds, compounds 883 -> 19; 0 new SE test identifier or sentence flags). A person who types a phrase as a passphrase writes function words
 (``turtle_unproven_in_spider_sampling_slug``). Two-letter parts (``in``, ``by``,
 ``or``) break the compound pattern, so the whole value leaked; longer ones (``the``,
 ``and``) count against the plain-word share and break the all-EFF arm. With
@@ -193,7 +194,7 @@ FUNCTION_WORDS = frozenset(
     "a an the and or but nor of in on at by to for from with into onto over under as is are was be "
     "it its my our your his her their you we he she they me us him them this that if so no not up out off".split()
 )
-DEFAULT_FUNCTION_PARTS = False
+DEFAULT_FUNCTION_PARTS = True
 PLAIN_RULES = ("ops", "dict", "dict_cv")
 PLAIN_SCOPES = ("compounds", "all")
 DEFAULT_PLAIN_RULE = "ops"

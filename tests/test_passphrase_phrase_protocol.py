@@ -22,9 +22,9 @@ def test_arms_pin_the_nov1_shipped_detector() -> None:
     assert F.arms() == [False, True] and F.arm_name(F.SHIPPED) == "shipped"
     d = F.detector(F.SHIPPED)
     keys = ("tail", "coherence_max", "exempt_identifiers", "wordlist_compounds", "attached_digit",
-            "digit_guard", "plain_rule", "shape_guards", "function_parts")
+            "digit_guard", "plain_rule", "shape_guards")
     assert {k: getattr(d, k) for k in keys} == {k: getattr(CUED_PASSPHRASE, k) for k in keys}
-    assert F.detector(True).function_parts is True
+    assert d.function_parts is False and F.detector(True).function_parts is CUED_PASSPHRASE.function_parts is True
 
 
 def test_function_words_cover_the_probe_which_is_why_se_is_the_control() -> None:

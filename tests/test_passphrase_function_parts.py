@@ -17,8 +17,9 @@ def _on() -> CuedPassphraseDetector:
     return CuedPassphraseDetector(function_parts=True)
 
 
-def test_off_by_default_until_the_protocol_runs():
-    assert DEFAULT_FUNCTION_PARTS is False and CUED_PASSPHRASE.function_parts is False
+def test_on_by_default_after_the_confirm():
+    assert DEFAULT_FUNCTION_PARTS is True and CUED_PASSPHRASE.function_parts is True
+    assert CUED_PASSPHRASE.search("token turtle_unproven_in_spider_sampling_slug now").group() == "turtle_unproven_in_spider_sampling_slug"
     assert MAX_FUNCTION_PARTS == 2 and {"in", "by", "or", "the", "and"} <= FUNCTION_WORDS
 
 
@@ -30,14 +31,14 @@ def test_off_by_default_until_the_protocol_runs():
     ],
 )
 def test_two_letter_function_parts_no_longer_break_the_compound(text, value):
-    assert CuedPassphraseDetector().search(text) is None
+    assert CuedPassphraseDetector(function_parts=False).search(text) is None
     assert _on().search(text).group() == value
 
 
 @pytest.mark.parametrize("name", ["all-in-one-solution", "ab-cd-ef-gh", "ip-to-mac-map", "chicken-and-egg"])
 def test_short_non_words_and_short_runs_do_not_become_passphrases(name):
     text = f"token {name}"
-    assert (_on().search(text) is None) == (CuedPassphraseDetector().search(text) is None)
+    assert (_on().search(text) is None) == (CuedPassphraseDetector(function_parts=False).search(text) is None)
 
 
 def test_too_many_function_parts_is_not_a_phrase_passphrase():
@@ -48,12 +49,12 @@ def test_too_many_function_parts_is_not_a_phrase_passphrase():
 def test_knob_never_redacts_less():
     for t in ["token marble-meadow-lagoon-badger", "passphrase lagoon mosaic velvet sonnet 83 please",
               "token Appetizer7_Trusting_Unpeeled_Extrude now"]:
-        a, b = CuedPassphraseDetector().search(t), _on().search(t)
+        a, b = CuedPassphraseDetector(function_parts=False).search(t), _on().search(t)
         if a is not None:
             assert b is not None and b.start() <= a.start() and b.end() >= a.end()
 
 
 def test_space_runs_are_unchanged():
     t = "log in with passphrase detergent in turtle clerk goofiness please"
-    a, b = CuedPassphraseDetector().search(t), _on().search(t)
+    a, b = CuedPassphraseDetector(function_parts=False).search(t), _on().search(t)
     assert (a is None and b is None) or a.span() == b.span()
