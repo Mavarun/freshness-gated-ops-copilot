@@ -1,0 +1,831 @@
+{
+ "chosen": "case+tld",
+ "offlist": {
+  "case+tld": {
+   "leak_rows": 4,
+   "leak_words": 14,
+   "over_words": 523,
+   "rows": 1200,
+   "words": 5967
+  },
+  "seed": 3299,
+  "shipped": {
+   "leak_rows": 4,
+   "leak_words": 14,
+   "over_words": 523,
+   "rows": 1200,
+   "words": 5967
+  }
+ },
+ "results": [
+  {
+   "arm": "shipped",
+   "checks": {},
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 6,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 8,
+       "leak_words": 28,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 8
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "exciting",
+        "catchy",
+        "unloader"
+       ],
+       "text": "The vault passphrase is from exciting catchy3 unloader. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "never"
+       ],
+       "text": "the deploy token arousal delicacy deceptive overhear9 rehydrate never stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "corned",
+        "grain",
+        "disabled",
+        "recast",
+        "duvet",
+        "uncouth"
+       ],
+       "text": "the deploy token Corned Grain Disabled Recast Duvet3 Uncouth stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "running",
+        "feline"
+       ],
+       "text": "log in to grafana with passphrase cubicle sensually8 chuck running feline please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "relic",
+        "uncurious",
+        "crewless"
+       ],
+       "text": "the deploy token had relic uncurious4 crewless stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "cartridge",
+        "setting",
+        "rectify",
+        "deluxe"
+       ],
+       "text": "log in to grafana with passphrase Cartridge Setting9 Rectify Deluxe please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "these",
+        "curly",
+        "litter"
+       ],
+       "text": "log in to grafana with passphrase country tattling tutor these curly litter2 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "basics",
+        "ravage",
+        "carrousel",
+        "prude",
+        "coveted"
+       ],
+       "text": "log in to grafana with passphrase Old Basics Ravage6 Carrousel Prude Coveted please"
+      }
+     ],
+     "total": {
+      "leak_rows": 9,
+      "leak_words": 34,
+      "over_words": 529,
+      "rows": 1200,
+      "words": 5979
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 6,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "quotation",
+        "safely",
+        "broken"
+       ],
+       "text": "the deploy token quotation SAFELY wok BROKEN stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "very",
+        "tying",
+        "stoneware"
+       ],
+       "text": "the deploy token Guidable PORTHOLE SINLESS VERY TYING Stoneware 30 stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 6,
+      "over_words": 546,
+      "rows": 1200,
+      "words": 5934
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 480,
+      "rows": 1200,
+      "words": 5966
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 84,
+       "leak_words": 255,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 74,
+       "leak_words": 310,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 128,
+       "leak_words": 393,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 82,
+       "leak_words": 315,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 285,
+      "stop_inside": 3,
+      "tail_trim": 64
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "entourage",
+        "rented",
+        "shorter",
+        "creation"
+       ],
+       "text": "the deploy token entourage rented shorter with creation stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "march",
+        "crepe",
+        "thicket",
+        "amplify"
+       ],
+       "text": "the deploy token march-in-crepe-thicket-amplify stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "overstate",
+        "kosher",
+        "patience",
+        "glitch"
+       ],
+       "text": "the deploy token overstate.kosher.of.patience.glitch stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "submarine",
+        "paternal",
+        "marsupial",
+        "residence"
+       ],
+       "text": "the deploy token Submarine Paternal By Marsupial Residence stopped working, who rotates it?"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "tying"
+       ],
+       "text": "the deploy token handsaw.sasquatch.bullfrog.on.tying stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gloomily",
+        "surfer",
+        "shading"
+       ],
+       "text": "the deploy token gloomily or surfer shading stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "appendage",
+        "encore",
+        "sponsor"
+       ],
+       "text": "log in to grafana with passphrase Appendage At Encore Sponsor please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shadow",
+        "shingle",
+        "astute",
+        "outlet",
+        "rotten"
+       ],
+       "text": "the deploy token shadow-in-shingle-astute-outlet-rotten stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 368,
+      "leak_words": 1273,
+      "over_words": 477,
+      "rows": 1200,
+      "words": 4747
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 1,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "tail_trim": 1
+     },
+     "examples": [
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "secret"
+       ],
+       "text": "use Clutter Mama Unlearned Imperfect Urgent Secret 68 to log in to vault"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 1,
+      "over_words": 515,
+      "rows": 1200,
+      "words": 5904
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "se": {
+    "ident_flagged": 24,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "Always-Include-Phased-Updates",
+     "DYN_CRY_MAP",
+     "DatabaseName.SchemaName.TableName",
+     "Eng_Khaled_Omar",
+     "OBJ_HANDLE_TAGBITS",
+     "aiplatform.endpoints.predict",
+     "anomaly_score_thresholds",
+     "blogs.FreeBSDish.org",
+     "centos.pkgs.org",
+     "client_header_buffer_size",
+     "create_ext_pgagent",
+     "ffff.ffff.ffff"
+    ],
+    "ident_unflagged": 0,
+    "ident_unflagged_by_guard": {},
+    "ident_unflagged_examples": [],
+    "sent_flagged": 0
+   }
+  },
+  {
+   "arm": "case+tld",
+   "checks": {
+    "data_idents": true,
+    "fewer_test_identifiers": true,
+    "leak_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "strict_no_more_leaks": true
+   },
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 6,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 8,
+       "leak_words": 28,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 8
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "from",
+        "exciting",
+        "catchy",
+        "unloader"
+       ],
+       "text": "The vault passphrase is from exciting catchy3 unloader. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "never"
+       ],
+       "text": "the deploy token arousal delicacy deceptive overhear9 rehydrate never stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "corned",
+        "grain",
+        "disabled",
+        "recast",
+        "duvet",
+        "uncouth"
+       ],
+       "text": "the deploy token Corned Grain Disabled Recast Duvet3 Uncouth stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "running",
+        "feline"
+       ],
+       "text": "log in to grafana with passphrase cubicle sensually8 chuck running feline please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "relic",
+        "uncurious",
+        "crewless"
+       ],
+       "text": "the deploy token had relic uncurious4 crewless stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "cartridge",
+        "setting",
+        "rectify",
+        "deluxe"
+       ],
+       "text": "log in to grafana with passphrase Cartridge Setting9 Rectify Deluxe please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "these",
+        "curly",
+        "litter"
+       ],
+       "text": "log in to grafana with passphrase country tattling tutor these curly litter2 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "basics",
+        "ravage",
+        "carrousel",
+        "prude",
+        "coveted"
+       ],
+       "text": "log in to grafana with passphrase Old Basics Ravage6 Carrousel Prude Coveted please"
+      }
+     ],
+     "total": {
+      "leak_rows": 9,
+      "leak_words": 34,
+      "over_words": 529,
+      "rows": 1200,
+      "words": 5979
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 6,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "quotation",
+        "safely",
+        "broken"
+       ],
+       "text": "the deploy token quotation SAFELY wok BROKEN stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "very",
+        "tying",
+        "stoneware"
+       ],
+       "text": "the deploy token Guidable PORTHOLE SINLESS VERY TYING Stoneware 30 stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 6,
+      "over_words": 546,
+      "rows": 1200,
+      "words": 5934
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 480,
+      "rows": 1200,
+      "words": 5966
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 84,
+       "leak_words": 255,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 74,
+       "leak_words": 310,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 128,
+       "leak_words": 393,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 82,
+       "leak_words": 315,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 285,
+      "stop_inside": 3,
+      "tail_trim": 64
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "entourage",
+        "rented",
+        "shorter",
+        "creation"
+       ],
+       "text": "the deploy token entourage rented shorter with creation stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "march",
+        "crepe",
+        "thicket",
+        "amplify"
+       ],
+       "text": "the deploy token march-in-crepe-thicket-amplify stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "overstate",
+        "kosher",
+        "patience",
+        "glitch"
+       ],
+       "text": "the deploy token overstate.kosher.of.patience.glitch stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "submarine",
+        "paternal",
+        "marsupial",
+        "residence"
+       ],
+       "text": "the deploy token Submarine Paternal By Marsupial Residence stopped working, who rotates it?"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "tying"
+       ],
+       "text": "the deploy token handsaw.sasquatch.bullfrog.on.tying stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gloomily",
+        "surfer",
+        "shading"
+       ],
+       "text": "the deploy token gloomily or surfer shading stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "appendage",
+        "encore",
+        "sponsor"
+       ],
+       "text": "log in to grafana with passphrase Appendage At Encore Sponsor please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shadow",
+        "shingle",
+        "astute",
+        "outlet",
+        "rotten"
+       ],
+       "text": "the deploy token shadow-in-shingle-astute-outlet-rotten stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 368,
+      "leak_words": 1273,
+      "over_words": 477,
+      "rows": 1200,
+      "words": 4747
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 1,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "tail_trim": 1
+     },
+     "examples": [
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "secret"
+       ],
+       "text": "use Clutter Mama Unlearned Imperfect Urgent Secret 68 to log in to vault"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 1,
+      "over_words": 515,
+      "rows": 1200,
+      "words": 5904
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "se": {
+    "ident_flagged": 21,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "Always-Include-Phased-Updates",
+     "DYN_CRY_MAP",
+     "Eng_Khaled_Omar",
+     "OBJ_HANDLE_TAGBITS",
+     "aiplatform.endpoints.predict",
+     "anomaly_score_thresholds",
+     "client_header_buffer_size",
+     "create_ext_pgagent",
+     "ffff.ffff.ffff",
+     "heif-gdk-pixbuf",
+     "kwin-style-dekorator",
+     "lock-all-tables"
+    ],
+    "ident_unflagged": 3,
+    "ident_unflagged_by_guard": {
+     "case": 2,
+     "tld": 2
+    },
+    "ident_unflagged_examples": [
+     "DatabaseName.SchemaName.TableName",
+     "blogs.FreeBSDish.org",
+     "centos.pkgs.org"
+    ],
+    "sent_flagged": 0
+   }
+  }
+ ],
+ "rows": 1200,
+ "se_identifiers": 147,
+ "se_sentences": 306,
+ "seeds": {
+  "attached": 3253,
+  "cased": 3259,
+  "invented": 3257,
+  "phrase": 3271,
+  "standard": 3251
+ },
+ "ships": true,
+ "split": "test"
+}
