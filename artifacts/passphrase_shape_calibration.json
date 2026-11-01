@@ -1,0 +1,3314 @@
+{
+ "chosen": "case+tld",
+ "results": [
+  {
+   "arm": "shipped",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 3,
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "peso",
+        "defy",
+        "emptier",
+        "retiring",
+        "capped"
+       ],
+       "text": "use had-peso-defy-emptier8-retiring-capped to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "very",
+        "shivering",
+        "perplexed",
+        "pork",
+        "chooser",
+        "slighted"
+       ],
+       "text": "use Very.Shivering.Perplexed9.Pork.Chooser.Slighted to log in to vault"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "patronize",
+        "staff",
+        "traffic",
+        "sizable",
+        "impotent"
+       ],
+       "text": "log in to grafana with passphrase patronize staff0 old traffic sizable impotent please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "secret"
+       ],
+       "text": "my password is Secret.Angling.Ferret.Accustom1, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 17,
+      "over_words": 536,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "those",
+        "unifier",
+        "browsing",
+        "puppy"
+       ],
+       "text": "log in to grafana with passphrase THOSE UNIFIER BROWSING PUPPY 52 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "empty",
+        "passive",
+        "line"
+       ],
+       "text": "log in to grafana with passphrase RECENT OUTBREAK AEROSPACE EMPTY PASSIVE LINE 38 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 7,
+      "over_words": 490,
+      "rows": 1200,
+      "words": 5952
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 475,
+      "rows": 1200,
+      "words": 5988
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 76,
+       "leak_words": 230,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 80,
+       "leak_words": 316,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 131,
+       "leak_words": 372,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 83,
+       "leak_words": 334,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 279,
+      "stop_inside": 1,
+      "tail_trim": 74
+     },
+     "examples": [
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "ardently",
+        "charger",
+        "directed"
+       ],
+       "text": "log in to grafana with passphrase Ardently-Charger-Or-Directed please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "turtle",
+        "unproven",
+        "spider",
+        "sampling",
+        "slug"
+       ],
+       "text": "the deploy token turtle_unproven_in_spider_sampling_slug stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shrubbery",
+        "duller",
+        "unkempt",
+        "humorless",
+        "snaking"
+       ],
+       "text": "the deploy token shrubbery_duller_unkempt_humorless_at_snaking stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "cheddar",
+        "retreat",
+        "tripping",
+        "emphatic",
+        "wolf"
+       ],
+       "text": "log in to grafana with passphrase cheddar_retreat_tripping_by_emphatic_wolf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "suing",
+        "slimness",
+        "magnify",
+        "sleek",
+        "entree"
+       ],
+       "text": "log in to grafana with passphrase suing_slimness_magnify_sleek_my_entree please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "detergent",
+        "turtle",
+        "clerk",
+        "goofiness"
+       ],
+       "text": "log in to grafana with passphrase detergent in turtle clerk goofiness please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "garnish",
+        "unplanted",
+        "underling",
+        "uncounted",
+        "chef"
+       ],
+       "text": "log in to grafana with passphrase Garnish-Unplanted-Underling-By-Uncounted-Chef please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "dictate",
+        "frighten",
+        "concur",
+        "variable"
+       ],
+       "text": "the deploy token zap_dictate_or_frighten_concur_variable stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 370,
+      "leak_words": 1252,
+      "over_words": 488,
+      "rows": 1200,
+      "words": 4758
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 15,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "undertake",
+        "uncapped",
+        "used",
+        "large"
+       ],
+       "text": "log in to grafana with passphrase Undertake Uncapped Used Large 19 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting",
+        "opponent",
+        "arise",
+        "smell",
+        "product"
+       ],
+       "text": "log in to grafana with passphrase Setting Opponent Arise Smell Product 18 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "numeral",
+        "running",
+        "wrecking",
+        "tainted",
+        "reusable",
+        "stubborn"
+       ],
+       "text": "log in to grafana with passphrase numeral running wrecking tainted reusable stubborn please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 15,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 5980
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "leak_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "strict_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 221,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW",
+     "COLA_MARKETS_VIEW",
+     "CRYPT_EXT_DES"
+    ],
+    "ident_unflagged": 0,
+    "ident_unflagged_by_guard": {},
+    "ident_unflagged_examples": [],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "case",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 3,
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "peso",
+        "defy",
+        "emptier",
+        "retiring",
+        "capped"
+       ],
+       "text": "use had-peso-defy-emptier8-retiring-capped to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "very",
+        "shivering",
+        "perplexed",
+        "pork",
+        "chooser",
+        "slighted"
+       ],
+       "text": "use Very.Shivering.Perplexed9.Pork.Chooser.Slighted to log in to vault"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "patronize",
+        "staff",
+        "traffic",
+        "sizable",
+        "impotent"
+       ],
+       "text": "log in to grafana with passphrase patronize staff0 old traffic sizable impotent please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "secret"
+       ],
+       "text": "my password is Secret.Angling.Ferret.Accustom1, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 17,
+      "over_words": 536,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "those",
+        "unifier",
+        "browsing",
+        "puppy"
+       ],
+       "text": "log in to grafana with passphrase THOSE UNIFIER BROWSING PUPPY 52 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "empty",
+        "passive",
+        "line"
+       ],
+       "text": "log in to grafana with passphrase RECENT OUTBREAK AEROSPACE EMPTY PASSIVE LINE 38 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 7,
+      "over_words": 490,
+      "rows": 1200,
+      "words": 5952
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 475,
+      "rows": 1200,
+      "words": 5988
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 76,
+       "leak_words": 230,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 80,
+       "leak_words": 316,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 131,
+       "leak_words": 372,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 83,
+       "leak_words": 334,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 279,
+      "stop_inside": 1,
+      "tail_trim": 74
+     },
+     "examples": [
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "ardently",
+        "charger",
+        "directed"
+       ],
+       "text": "log in to grafana with passphrase Ardently-Charger-Or-Directed please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "turtle",
+        "unproven",
+        "spider",
+        "sampling",
+        "slug"
+       ],
+       "text": "the deploy token turtle_unproven_in_spider_sampling_slug stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shrubbery",
+        "duller",
+        "unkempt",
+        "humorless",
+        "snaking"
+       ],
+       "text": "the deploy token shrubbery_duller_unkempt_humorless_at_snaking stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "cheddar",
+        "retreat",
+        "tripping",
+        "emphatic",
+        "wolf"
+       ],
+       "text": "log in to grafana with passphrase cheddar_retreat_tripping_by_emphatic_wolf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "suing",
+        "slimness",
+        "magnify",
+        "sleek",
+        "entree"
+       ],
+       "text": "log in to grafana with passphrase suing_slimness_magnify_sleek_my_entree please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "detergent",
+        "turtle",
+        "clerk",
+        "goofiness"
+       ],
+       "text": "log in to grafana with passphrase detergent in turtle clerk goofiness please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "garnish",
+        "unplanted",
+        "underling",
+        "uncounted",
+        "chef"
+       ],
+       "text": "log in to grafana with passphrase Garnish-Unplanted-Underling-By-Uncounted-Chef please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "dictate",
+        "frighten",
+        "concur",
+        "variable"
+       ],
+       "text": "the deploy token zap_dictate_or_frighten_concur_variable stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 370,
+      "leak_words": 1252,
+      "over_words": 488,
+      "rows": 1200,
+      "words": 4758
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 15,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "undertake",
+        "uncapped",
+        "used",
+        "large"
+       ],
+       "text": "log in to grafana with passphrase Undertake Uncapped Used Large 19 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting",
+        "opponent",
+        "arise",
+        "smell",
+        "product"
+       ],
+       "text": "log in to grafana with passphrase Setting Opponent Arise Smell Product 18 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "numeral",
+        "running",
+        "wrecking",
+        "tainted",
+        "reusable",
+        "stubborn"
+       ],
+       "text": "log in to grafana with passphrase numeral running wrecking tainted reusable stubborn please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 15,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 5980
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "leak_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "strict_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 197,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW",
+     "COLA_MARKETS_VIEW",
+     "CRYPT_EXT_DES",
+     "Candy-Crush-Free"
+    ],
+    "ident_unflagged": 24,
+    "ident_unflagged_by_guard": {
+     "case": 24
+    },
+    "ident_unflagged_examples": [
+     "AmazonEKS_CNI_Policy",
+     "JobA.StepA.VariableA",
+     "KernelBase.dll.mui",
+     "Microsoft.VisualStudio.Shell.Interop",
+     "MultiRBL.valli.org",
+     "User.ReadWrite.All",
+     "WebStorm.exe.vmoptions",
+     "Whonix-Gateway-LXQt",
+     "Windows.System.UserProfile.LockScreen",
+     "all-VLANs-open",
+     "android.webkit.WebView",
+     "certs-CRLs-only"
+    ],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "tld",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 3,
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "peso",
+        "defy",
+        "emptier",
+        "retiring",
+        "capped"
+       ],
+       "text": "use had-peso-defy-emptier8-retiring-capped to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "very",
+        "shivering",
+        "perplexed",
+        "pork",
+        "chooser",
+        "slighted"
+       ],
+       "text": "use Very.Shivering.Perplexed9.Pork.Chooser.Slighted to log in to vault"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "patronize",
+        "staff",
+        "traffic",
+        "sizable",
+        "impotent"
+       ],
+       "text": "log in to grafana with passphrase patronize staff0 old traffic sizable impotent please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "secret"
+       ],
+       "text": "my password is Secret.Angling.Ferret.Accustom1, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 17,
+      "over_words": 536,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "those",
+        "unifier",
+        "browsing",
+        "puppy"
+       ],
+       "text": "log in to grafana with passphrase THOSE UNIFIER BROWSING PUPPY 52 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "empty",
+        "passive",
+        "line"
+       ],
+       "text": "log in to grafana with passphrase RECENT OUTBREAK AEROSPACE EMPTY PASSIVE LINE 38 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 7,
+      "over_words": 490,
+      "rows": 1200,
+      "words": 5952
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 475,
+      "rows": 1200,
+      "words": 5988
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 76,
+       "leak_words": 230,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 80,
+       "leak_words": 316,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 131,
+       "leak_words": 372,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 83,
+       "leak_words": 334,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 279,
+      "stop_inside": 1,
+      "tail_trim": 74
+     },
+     "examples": [
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "ardently",
+        "charger",
+        "directed"
+       ],
+       "text": "log in to grafana with passphrase Ardently-Charger-Or-Directed please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "turtle",
+        "unproven",
+        "spider",
+        "sampling",
+        "slug"
+       ],
+       "text": "the deploy token turtle_unproven_in_spider_sampling_slug stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shrubbery",
+        "duller",
+        "unkempt",
+        "humorless",
+        "snaking"
+       ],
+       "text": "the deploy token shrubbery_duller_unkempt_humorless_at_snaking stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "cheddar",
+        "retreat",
+        "tripping",
+        "emphatic",
+        "wolf"
+       ],
+       "text": "log in to grafana with passphrase cheddar_retreat_tripping_by_emphatic_wolf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "suing",
+        "slimness",
+        "magnify",
+        "sleek",
+        "entree"
+       ],
+       "text": "log in to grafana with passphrase suing_slimness_magnify_sleek_my_entree please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "detergent",
+        "turtle",
+        "clerk",
+        "goofiness"
+       ],
+       "text": "log in to grafana with passphrase detergent in turtle clerk goofiness please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "garnish",
+        "unplanted",
+        "underling",
+        "uncounted",
+        "chef"
+       ],
+       "text": "log in to grafana with passphrase Garnish-Unplanted-Underling-By-Uncounted-Chef please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "dictate",
+        "frighten",
+        "concur",
+        "variable"
+       ],
+       "text": "the deploy token zap_dictate_or_frighten_concur_variable stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 370,
+      "leak_words": 1252,
+      "over_words": 488,
+      "rows": 1200,
+      "words": 4758
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 15,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "undertake",
+        "uncapped",
+        "used",
+        "large"
+       ],
+       "text": "log in to grafana with passphrase Undertake Uncapped Used Large 19 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting",
+        "opponent",
+        "arise",
+        "smell",
+        "product"
+       ],
+       "text": "log in to grafana with passphrase Setting Opponent Arise Smell Product 18 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "numeral",
+        "running",
+        "wrecking",
+        "tainted",
+        "reusable",
+        "stubborn"
+       ],
+       "text": "log in to grafana with passphrase numeral running wrecking tainted reusable stubborn please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 15,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 5980
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "leak_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "strict_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 188,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW",
+     "COLA_MARKETS_VIEW",
+     "CRYPT_EXT_DES"
+    ],
+    "ident_unflagged": 33,
+    "ident_unflagged_by_guard": {
+     "tld": 33
+    },
+    "ident_unflagged_examples": [
+     "MultiRBL.valli.org",
+     "addons.videolan.org",
+     "appengine.googleapis.com",
+     "bigbox.mynetwork.com",
+     "bounce.emails.barclaysus.com",
+     "csrc.nist.gov",
+     "devel.api.mycompany.com",
+     "download.nus.edu",
+     "emails.barclaysus.com",
+     "jpl.nasa.gov",
+     "kaescripts.blogspot.com",
+     "mail.dgfip.finances.gouv"
+    ],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "stop",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 3,
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "peso",
+        "defy",
+        "emptier",
+        "retiring",
+        "capped"
+       ],
+       "text": "use had-peso-defy-emptier8-retiring-capped to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "very",
+        "shivering",
+        "perplexed",
+        "pork",
+        "chooser",
+        "slighted"
+       ],
+       "text": "use Very.Shivering.Perplexed9.Pork.Chooser.Slighted to log in to vault"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "patronize",
+        "staff",
+        "traffic",
+        "sizable",
+        "impotent"
+       ],
+       "text": "log in to grafana with passphrase patronize staff0 old traffic sizable impotent please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "secret"
+       ],
+       "text": "my password is Secret.Angling.Ferret.Accustom1, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 17,
+      "over_words": 536,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "those",
+        "unifier",
+        "browsing",
+        "puppy"
+       ],
+       "text": "log in to grafana with passphrase THOSE UNIFIER BROWSING PUPPY 52 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "empty",
+        "passive",
+        "line"
+       ],
+       "text": "log in to grafana with passphrase RECENT OUTBREAK AEROSPACE EMPTY PASSIVE LINE 38 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 7,
+      "over_words": 490,
+      "rows": 1200,
+      "words": 5952
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 475,
+      "rows": 1200,
+      "words": 5988
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 112,
+       "leak_words": 368,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 113,
+       "leak_words": 445,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 131,
+       "leak_words": 372,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 116,
+       "leak_words": 464,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 381,
+      "stop_inside": 1,
+      "tail_trim": 74
+     },
+     "examples": [
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "ardently",
+        "charger",
+        "directed"
+       ],
+       "text": "log in to grafana with passphrase Ardently-Charger-Or-Directed please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "goofy",
+        "hedge",
+        "debrief"
+       ],
+       "text": "the deploy token Goofy.With.Hedge.Debrief stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "turtle",
+        "unproven",
+        "spider",
+        "sampling",
+        "slug"
+       ],
+       "text": "the deploy token turtle_unproven_in_spider_sampling_slug stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "crier",
+        "diocese",
+        "majestic",
+        "pushover",
+        "blighted"
+       ],
+       "text": "log in to grafana with passphrase Crier-And-Diocese-Majestic-Pushover-Blighted please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shrubbery",
+        "duller",
+        "unkempt",
+        "humorless",
+        "snaking"
+       ],
+       "text": "the deploy token shrubbery_duller_unkempt_humorless_at_snaking stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "cheddar",
+        "retreat",
+        "tripping",
+        "emphatic",
+        "wolf"
+       ],
+       "text": "log in to grafana with passphrase cheddar_retreat_tripping_by_emphatic_wolf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "suing",
+        "slimness",
+        "magnify",
+        "sleek",
+        "entree"
+       ],
+       "text": "log in to grafana with passphrase suing_slimness_magnify_sleek_my_entree please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "detergent",
+        "turtle",
+        "clerk",
+        "goofiness"
+       ],
+       "text": "log in to grafana with passphrase detergent in turtle clerk goofiness please"
+      }
+     ],
+     "total": {
+      "leak_rows": 472,
+      "leak_words": 1649,
+      "over_words": 488,
+      "rows": 1200,
+      "words": 4758
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 15,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "undertake",
+        "uncapped",
+        "used",
+        "large"
+       ],
+       "text": "log in to grafana with passphrase Undertake Uncapped Used Large 19 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting",
+        "opponent",
+        "arise",
+        "smell",
+        "product"
+       ],
+       "text": "log in to grafana with passphrase Setting Opponent Arise Smell Product 18 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "numeral",
+        "running",
+        "wrecking",
+        "tainted",
+        "reusable",
+        "stubborn"
+       ],
+       "text": "log in to grafana with passphrase numeral running wrecking tainted reusable stubborn please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 15,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 5980
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "leak_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "strict_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 198,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW",
+     "COLA_MARKETS_VIEW",
+     "CRYPT_EXT_DES"
+    ],
+    "ident_unflagged": 23,
+    "ident_unflagged_by_guard": {
+     "stop": 23
+    },
+    "ident_unflagged_examples": [
+     "New-directories-with-files",
+     "arg-too-long",
+     "barely-moves-the-needle",
+     "browser.gesture.swipe.right",
+     "captures-and-redirects",
+     "chicken-and-egg",
+     "how-you-say",
+     "iface_you_want",
+     "incremented_juniper_when",
+     "ire_and_curses",
+     "libusb_get_port_number",
+     "metaslab_lba_weighting_enabled"
+    ],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "case+tld",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 3,
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "peso",
+        "defy",
+        "emptier",
+        "retiring",
+        "capped"
+       ],
+       "text": "use had-peso-defy-emptier8-retiring-capped to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "very",
+        "shivering",
+        "perplexed",
+        "pork",
+        "chooser",
+        "slighted"
+       ],
+       "text": "use Very.Shivering.Perplexed9.Pork.Chooser.Slighted to log in to vault"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "patronize",
+        "staff",
+        "traffic",
+        "sizable",
+        "impotent"
+       ],
+       "text": "log in to grafana with passphrase patronize staff0 old traffic sizable impotent please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "secret"
+       ],
+       "text": "my password is Secret.Angling.Ferret.Accustom1, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 17,
+      "over_words": 536,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "those",
+        "unifier",
+        "browsing",
+        "puppy"
+       ],
+       "text": "log in to grafana with passphrase THOSE UNIFIER BROWSING PUPPY 52 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "empty",
+        "passive",
+        "line"
+       ],
+       "text": "log in to grafana with passphrase RECENT OUTBREAK AEROSPACE EMPTY PASSIVE LINE 38 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 7,
+      "over_words": 490,
+      "rows": 1200,
+      "words": 5952
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 475,
+      "rows": 1200,
+      "words": 5988
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 76,
+       "leak_words": 230,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 80,
+       "leak_words": 316,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 131,
+       "leak_words": 372,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 83,
+       "leak_words": 334,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 279,
+      "stop_inside": 1,
+      "tail_trim": 74
+     },
+     "examples": [
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "ardently",
+        "charger",
+        "directed"
+       ],
+       "text": "log in to grafana with passphrase Ardently-Charger-Or-Directed please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "turtle",
+        "unproven",
+        "spider",
+        "sampling",
+        "slug"
+       ],
+       "text": "the deploy token turtle_unproven_in_spider_sampling_slug stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shrubbery",
+        "duller",
+        "unkempt",
+        "humorless",
+        "snaking"
+       ],
+       "text": "the deploy token shrubbery_duller_unkempt_humorless_at_snaking stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "cheddar",
+        "retreat",
+        "tripping",
+        "emphatic",
+        "wolf"
+       ],
+       "text": "log in to grafana with passphrase cheddar_retreat_tripping_by_emphatic_wolf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "suing",
+        "slimness",
+        "magnify",
+        "sleek",
+        "entree"
+       ],
+       "text": "log in to grafana with passphrase suing_slimness_magnify_sleek_my_entree please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "detergent",
+        "turtle",
+        "clerk",
+        "goofiness"
+       ],
+       "text": "log in to grafana with passphrase detergent in turtle clerk goofiness please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "garnish",
+        "unplanted",
+        "underling",
+        "uncounted",
+        "chef"
+       ],
+       "text": "log in to grafana with passphrase Garnish-Unplanted-Underling-By-Uncounted-Chef please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "dictate",
+        "frighten",
+        "concur",
+        "variable"
+       ],
+       "text": "the deploy token zap_dictate_or_frighten_concur_variable stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 370,
+      "leak_words": 1252,
+      "over_words": 488,
+      "rows": 1200,
+      "words": 4758
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 15,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "undertake",
+        "uncapped",
+        "used",
+        "large"
+       ],
+       "text": "log in to grafana with passphrase Undertake Uncapped Used Large 19 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting",
+        "opponent",
+        "arise",
+        "smell",
+        "product"
+       ],
+       "text": "log in to grafana with passphrase Setting Opponent Arise Smell Product 18 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "numeral",
+        "running",
+        "wrecking",
+        "tainted",
+        "reusable",
+        "stubborn"
+       ],
+       "text": "log in to grafana with passphrase numeral running wrecking tainted reusable stubborn please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 15,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 5980
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "leak_budget": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "strict_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 166,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW",
+     "COLA_MARKETS_VIEW",
+     "CRYPT_EXT_DES",
+     "Candy-Crush-Free"
+    ],
+    "ident_unflagged": 55,
+    "ident_unflagged_by_guard": {
+     "case": 24,
+     "tld": 33
+    },
+    "ident_unflagged_examples": [
+     "AmazonEKS_CNI_Policy",
+     "JobA.StepA.VariableA",
+     "KernelBase.dll.mui",
+     "Microsoft.VisualStudio.Shell.Interop",
+     "MultiRBL.valli.org",
+     "User.ReadWrite.All",
+     "WebStorm.exe.vmoptions",
+     "Whonix-Gateway-LXQt",
+     "Windows.System.UserProfile.LockScreen",
+     "addons.videolan.org",
+     "all-VLANs-open",
+     "android.webkit.WebView"
+    ],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "case+stop",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 3,
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "peso",
+        "defy",
+        "emptier",
+        "retiring",
+        "capped"
+       ],
+       "text": "use had-peso-defy-emptier8-retiring-capped to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "very",
+        "shivering",
+        "perplexed",
+        "pork",
+        "chooser",
+        "slighted"
+       ],
+       "text": "use Very.Shivering.Perplexed9.Pork.Chooser.Slighted to log in to vault"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "patronize",
+        "staff",
+        "traffic",
+        "sizable",
+        "impotent"
+       ],
+       "text": "log in to grafana with passphrase patronize staff0 old traffic sizable impotent please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "secret"
+       ],
+       "text": "my password is Secret.Angling.Ferret.Accustom1, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 17,
+      "over_words": 536,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "those",
+        "unifier",
+        "browsing",
+        "puppy"
+       ],
+       "text": "log in to grafana with passphrase THOSE UNIFIER BROWSING PUPPY 52 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "empty",
+        "passive",
+        "line"
+       ],
+       "text": "log in to grafana with passphrase RECENT OUTBREAK AEROSPACE EMPTY PASSIVE LINE 38 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 7,
+      "over_words": 490,
+      "rows": 1200,
+      "words": 5952
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 475,
+      "rows": 1200,
+      "words": 5988
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 112,
+       "leak_words": 368,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 113,
+       "leak_words": 445,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 131,
+       "leak_words": 372,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 116,
+       "leak_words": 464,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 381,
+      "stop_inside": 1,
+      "tail_trim": 74
+     },
+     "examples": [
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "ardently",
+        "charger",
+        "directed"
+       ],
+       "text": "log in to grafana with passphrase Ardently-Charger-Or-Directed please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "goofy",
+        "hedge",
+        "debrief"
+       ],
+       "text": "the deploy token Goofy.With.Hedge.Debrief stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "turtle",
+        "unproven",
+        "spider",
+        "sampling",
+        "slug"
+       ],
+       "text": "the deploy token turtle_unproven_in_spider_sampling_slug stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "crier",
+        "diocese",
+        "majestic",
+        "pushover",
+        "blighted"
+       ],
+       "text": "log in to grafana with passphrase Crier-And-Diocese-Majestic-Pushover-Blighted please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shrubbery",
+        "duller",
+        "unkempt",
+        "humorless",
+        "snaking"
+       ],
+       "text": "the deploy token shrubbery_duller_unkempt_humorless_at_snaking stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "cheddar",
+        "retreat",
+        "tripping",
+        "emphatic",
+        "wolf"
+       ],
+       "text": "log in to grafana with passphrase cheddar_retreat_tripping_by_emphatic_wolf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "suing",
+        "slimness",
+        "magnify",
+        "sleek",
+        "entree"
+       ],
+       "text": "log in to grafana with passphrase suing_slimness_magnify_sleek_my_entree please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "detergent",
+        "turtle",
+        "clerk",
+        "goofiness"
+       ],
+       "text": "log in to grafana with passphrase detergent in turtle clerk goofiness please"
+      }
+     ],
+     "total": {
+      "leak_rows": 472,
+      "leak_words": 1649,
+      "over_words": 488,
+      "rows": 1200,
+      "words": 4758
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 15,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "undertake",
+        "uncapped",
+        "used",
+        "large"
+       ],
+       "text": "log in to grafana with passphrase Undertake Uncapped Used Large 19 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting",
+        "opponent",
+        "arise",
+        "smell",
+        "product"
+       ],
+       "text": "log in to grafana with passphrase Setting Opponent Arise Smell Product 18 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "numeral",
+        "running",
+        "wrecking",
+        "tainted",
+        "reusable",
+        "stubborn"
+       ],
+       "text": "log in to grafana with passphrase numeral running wrecking tainted reusable stubborn please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 15,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 5980
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "leak_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "strict_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 174,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW",
+     "COLA_MARKETS_VIEW",
+     "CRYPT_EXT_DES",
+     "Candy-Crush-Free"
+    ],
+    "ident_unflagged": 47,
+    "ident_unflagged_by_guard": {
+     "case": 24,
+     "stop": 23
+    },
+    "ident_unflagged_examples": [
+     "AmazonEKS_CNI_Policy",
+     "JobA.StepA.VariableA",
+     "KernelBase.dll.mui",
+     "Microsoft.VisualStudio.Shell.Interop",
+     "MultiRBL.valli.org",
+     "New-directories-with-files",
+     "User.ReadWrite.All",
+     "WebStorm.exe.vmoptions",
+     "Whonix-Gateway-LXQt",
+     "Windows.System.UserProfile.LockScreen",
+     "all-VLANs-open",
+     "android.webkit.WebView"
+    ],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "tld+stop",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 3,
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "peso",
+        "defy",
+        "emptier",
+        "retiring",
+        "capped"
+       ],
+       "text": "use had-peso-defy-emptier8-retiring-capped to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "very",
+        "shivering",
+        "perplexed",
+        "pork",
+        "chooser",
+        "slighted"
+       ],
+       "text": "use Very.Shivering.Perplexed9.Pork.Chooser.Slighted to log in to vault"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "patronize",
+        "staff",
+        "traffic",
+        "sizable",
+        "impotent"
+       ],
+       "text": "log in to grafana with passphrase patronize staff0 old traffic sizable impotent please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "secret"
+       ],
+       "text": "my password is Secret.Angling.Ferret.Accustom1, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 17,
+      "over_words": 536,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "those",
+        "unifier",
+        "browsing",
+        "puppy"
+       ],
+       "text": "log in to grafana with passphrase THOSE UNIFIER BROWSING PUPPY 52 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "empty",
+        "passive",
+        "line"
+       ],
+       "text": "log in to grafana with passphrase RECENT OUTBREAK AEROSPACE EMPTY PASSIVE LINE 38 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 7,
+      "over_words": 490,
+      "rows": 1200,
+      "words": 5952
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 475,
+      "rows": 1200,
+      "words": 5988
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 112,
+       "leak_words": 368,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 113,
+       "leak_words": 445,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 131,
+       "leak_words": 372,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 116,
+       "leak_words": 464,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 381,
+      "stop_inside": 1,
+      "tail_trim": 74
+     },
+     "examples": [
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "ardently",
+        "charger",
+        "directed"
+       ],
+       "text": "log in to grafana with passphrase Ardently-Charger-Or-Directed please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "goofy",
+        "hedge",
+        "debrief"
+       ],
+       "text": "the deploy token Goofy.With.Hedge.Debrief stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "turtle",
+        "unproven",
+        "spider",
+        "sampling",
+        "slug"
+       ],
+       "text": "the deploy token turtle_unproven_in_spider_sampling_slug stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "crier",
+        "diocese",
+        "majestic",
+        "pushover",
+        "blighted"
+       ],
+       "text": "log in to grafana with passphrase Crier-And-Diocese-Majestic-Pushover-Blighted please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shrubbery",
+        "duller",
+        "unkempt",
+        "humorless",
+        "snaking"
+       ],
+       "text": "the deploy token shrubbery_duller_unkempt_humorless_at_snaking stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "cheddar",
+        "retreat",
+        "tripping",
+        "emphatic",
+        "wolf"
+       ],
+       "text": "log in to grafana with passphrase cheddar_retreat_tripping_by_emphatic_wolf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "suing",
+        "slimness",
+        "magnify",
+        "sleek",
+        "entree"
+       ],
+       "text": "log in to grafana with passphrase suing_slimness_magnify_sleek_my_entree please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "detergent",
+        "turtle",
+        "clerk",
+        "goofiness"
+       ],
+       "text": "log in to grafana with passphrase detergent in turtle clerk goofiness please"
+      }
+     ],
+     "total": {
+      "leak_rows": 472,
+      "leak_words": 1649,
+      "over_words": 488,
+      "rows": 1200,
+      "words": 4758
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 15,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "undertake",
+        "uncapped",
+        "used",
+        "large"
+       ],
+       "text": "log in to grafana with passphrase Undertake Uncapped Used Large 19 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting",
+        "opponent",
+        "arise",
+        "smell",
+        "product"
+       ],
+       "text": "log in to grafana with passphrase Setting Opponent Arise Smell Product 18 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "numeral",
+        "running",
+        "wrecking",
+        "tainted",
+        "reusable",
+        "stubborn"
+       ],
+       "text": "log in to grafana with passphrase numeral running wrecking tainted reusable stubborn please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 15,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 5980
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "leak_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "strict_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 165,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "AmazonEKS_CNI_Policy",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW",
+     "COLA_MARKETS_VIEW",
+     "CRYPT_EXT_DES"
+    ],
+    "ident_unflagged": 56,
+    "ident_unflagged_by_guard": {
+     "stop": 23,
+     "tld": 33
+    },
+    "ident_unflagged_examples": [
+     "MultiRBL.valli.org",
+     "New-directories-with-files",
+     "addons.videolan.org",
+     "appengine.googleapis.com",
+     "arg-too-long",
+     "barely-moves-the-needle",
+     "bigbox.mynetwork.com",
+     "bounce.emails.barclaysus.com",
+     "browser.gesture.swipe.right",
+     "captures-and-redirects",
+     "chicken-and-egg",
+     "csrc.nist.gov"
+    ],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "case+tld+stop",
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 3,
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "peso",
+        "defy",
+        "emptier",
+        "retiring",
+        "capped"
+       ],
+       "text": "use had-peso-defy-emptier8-retiring-capped to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "very",
+        "shivering",
+        "perplexed",
+        "pork",
+        "chooser",
+        "slighted"
+       ],
+       "text": "use Very.Shivering.Perplexed9.Pork.Chooser.Slighted to log in to vault"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "patronize",
+        "staff",
+        "traffic",
+        "sizable",
+        "impotent"
+       ],
+       "text": "log in to grafana with passphrase patronize staff0 old traffic sizable impotent please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "secret"
+       ],
+       "text": "my password is Secret.Angling.Ferret.Accustom1, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 17,
+      "over_words": 536,
+      "rows": 1200,
+      "words": 5933
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "those",
+        "unifier",
+        "browsing",
+        "puppy"
+       ],
+       "text": "log in to grafana with passphrase THOSE UNIFIER BROWSING PUPPY 52 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "empty",
+        "passive",
+        "line"
+       ],
+       "text": "log in to grafana with passphrase RECENT OUTBREAK AEROSPACE EMPTY PASSIVE LINE 38 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 7,
+      "over_words": 490,
+      "rows": 1200,
+      "words": 5952
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 475,
+      "rows": 1200,
+      "words": 5988
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 112,
+       "leak_words": 368,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 113,
+       "leak_words": 445,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 131,
+       "leak_words": 372,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 116,
+       "leak_words": 464,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 381,
+      "stop_inside": 1,
+      "tail_trim": 74
+     },
+     "examples": [
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "ardently",
+        "charger",
+        "directed"
+       ],
+       "text": "log in to grafana with passphrase Ardently-Charger-Or-Directed please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "goofy",
+        "hedge",
+        "debrief"
+       ],
+       "text": "the deploy token Goofy.With.Hedge.Debrief stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "turtle",
+        "unproven",
+        "spider",
+        "sampling",
+        "slug"
+       ],
+       "text": "the deploy token turtle_unproven_in_spider_sampling_slug stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "crier",
+        "diocese",
+        "majestic",
+        "pushover",
+        "blighted"
+       ],
+       "text": "log in to grafana with passphrase Crier-And-Diocese-Majestic-Pushover-Blighted please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "shrubbery",
+        "duller",
+        "unkempt",
+        "humorless",
+        "snaking"
+       ],
+       "text": "the deploy token shrubbery_duller_unkempt_humorless_at_snaking stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "cheddar",
+        "retreat",
+        "tripping",
+        "emphatic",
+        "wolf"
+       ],
+       "text": "log in to grafana with passphrase cheddar_retreat_tripping_by_emphatic_wolf please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "suing",
+        "slimness",
+        "magnify",
+        "sleek",
+        "entree"
+       ],
+       "text": "log in to grafana with passphrase suing_slimness_magnify_sleek_my_entree please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "detergent",
+        "turtle",
+        "clerk",
+        "goofiness"
+       ],
+       "text": "log in to grafana with passphrase detergent in turtle clerk goofiness please"
+      }
+     ],
+     "total": {
+      "leak_rows": 472,
+      "leak_words": 1649,
+      "over_words": 488,
+      "rows": 1200,
+      "words": 4758
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 3,
+       "leak_words": 15,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 3
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "undertake",
+        "uncapped",
+        "used",
+        "large"
+       ],
+       "text": "log in to grafana with passphrase Undertake Uncapped Used Large 19 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting",
+        "opponent",
+        "arise",
+        "smell",
+        "product"
+       ],
+       "text": "log in to grafana with passphrase Setting Opponent Arise Smell Product 18 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "numeral",
+        "running",
+        "wrecking",
+        "tainted",
+        "reusable",
+        "stubborn"
+       ],
+       "text": "log in to grafana with passphrase numeral running wrecking tainted reusable stubborn please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 15,
+      "over_words": 506,
+      "rows": 1200,
+      "words": 5980
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "safe": {
+    "data_idents": true,
+    "leak_budget": false,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true,
+    "strict_no_more_leaks": true
+   },
+   "se": {
+    "ident_flagged": 143,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW",
+     "COLA_MARKETS_VIEW",
+     "CRYPT_EXT_DES",
+     "Candy-Crush-Free"
+    ],
+    "ident_unflagged": 78,
+    "ident_unflagged_by_guard": {
+     "case": 24,
+     "stop": 23,
+     "tld": 33
+    },
+    "ident_unflagged_examples": [
+     "AmazonEKS_CNI_Policy",
+     "JobA.StepA.VariableA",
+     "KernelBase.dll.mui",
+     "Microsoft.VisualStudio.Shell.Interop",
+     "MultiRBL.valli.org",
+     "New-directories-with-files",
+     "User.ReadWrite.All",
+     "WebStorm.exe.vmoptions",
+     "Whonix-Gateway-LXQt",
+     "Windows.System.UserProfile.LockScreen",
+     "addons.videolan.org",
+     "all-VLANs-open"
+    ],
+    "sent_flagged": 28
+   }
+  }
+ ],
+ "rows": 1200,
+ "se_identifiers": 1920,
+ "se_sentences": 3025,
+ "seeds": {
+  "attached": 3209,
+  "cased": 3221,
+  "invented": 3217,
+  "phrase": 3229,
+  "standard": 3203
+ },
+ "split": "train"
+}
