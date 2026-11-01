@@ -94,6 +94,22 @@ without its digit is on the EFF list; otherwise the run is read as the plain
 patterns read it (spans of both readings are merged, so the guard never redacts
 less than the patterns without ``attached_digit``).
 
+One more knob (Nov 1, ``passphrase_shape_protocol``), off by default until its
+protocol runs: ``shape_guards``. Generators emit words in a few fixed shapes, so
+some compounds after a credential noun cannot be generator output whatever their
+words are. Each guard, when on, says a ``-`` / ``.`` / ``_`` compound is *not* a
+passphrase:
+
+* ``"case"``: a part has a letter-case shape no generator emits. Generators write a
+  word lower-case, Title-Case, UPPER-CASE or inverted (``cASCADE``, xkpasswd),
+  optionally with one glued digit; ``KernelBase``, ``AmazonEKS``, ``LXQt`` and
+  ``VLANs`` are none of these.
+* ``"tld"``: a ``.`` compound whose last part is a common top-level domain that is
+  not itself a generator word (``csrc.nist.gov``, ``pkgs.tailscale.com``).
+* ``"stop"``: a part is a stop word (``text.STOPWORDS``) that is not on the EFF
+  list (``chicken-and-egg``, ``who-knows-what-will-happen``). The cost is a
+  person typing a phrase as a passphrase; the protocol's phrase probe measures it.
+
 ``plain_scope`` says where the rule applies: ``"compounds"`` (``-`` / ``.`` / ``_``
 runs only) or ``"all"`` (space runs too). The cost is passphrases made of invented
 words that are neither, which ``passphrase_invented`` measures.
@@ -157,6 +173,15 @@ PLAIN_SCOPES = ("compounds", "all")
 DEFAULT_PLAIN_RULE = "ops"
 DEFAULT_PLAIN_SCOPE = "compounds"
 _VOWELS = frozenset("aeiou")
+SHAPE_GUARDS = ("case", "tld", "stop")
+DEFAULT_SHAPE_GUARDS: tuple[str, ...] = ()
+# lower, Title, UPPER, inverted (``cASCADE``); one glued digit allowed
+_GEN_CASE_RE = re.compile(r"(?:[a-z]+|[A-Z][a-z]+|[A-Z]+|[a-z][A-Z]+)\d?")
+_TLDS = (
+    "com", "org", "net", "gov", "edu", "mil", "int", "io", "co", "uk", "de", "fr", "us", "ca",
+    "au", "in", "jp", "cn", "ru", "br", "nl", "eu", "gouv", "info", "biz", "me", "tv", "dev",
+    "app", "ai", "local", "lan", "arpa", "internal",
+)
 _SPACE_STOP = frozenset(
     "is was are were be been and but so or why what how who when where can could would please does do did then "
     "to for with from in on at of by via into the a an my our your their this that it its not no never "
@@ -288,6 +313,34 @@ def plain_word_test(rule: str, is_ops: Callable[[str], bool]) -> Callable[[str],
     return lambda w: not is_ops(w) and (in_dictionary(w) or is_cv_word(w))
 
 
+@lru_cache(maxsize=1)
+def host_tlds() -> frozenset[str]:
+    """Common top-level domains, minus any that is an EFF-list word (``net``)."""
+    return frozenset(_TLDS) - generator_words()
+
+
+def shape_guard_hits(parts: list[str], sep: str, guards: tuple[str, ...] | list[str]) -> list[str]:
+    """Which guards say this compound cannot be generator output (see the module docstring).
+
+    ``parts`` are the compound's parts as typed (case kept); a trailing number part
+    is ignored.
+    """
+    bad = [g for g in guards if g not in SHAPE_GUARDS]
+    if bad:
+        raise ValueError(f"shape guards must be in {SHAPE_GUARDS}")
+    ps = [p for p in parts if p and not p.isdigit()]
+    hits: list[str] = []
+    if "case" in guards and any(not _GEN_CASE_RE.fullmatch(p) for p in ps):
+        hits.append("case")
+    if "tld" in guards and sep == "." and ps and ps[-1].lower() in host_tlds():
+        hits.append("tld")
+    if "stop" in guards:
+        gen = generator_words()
+        if any(p.lower() in STOPWORDS and p.lower() not in gen for p in ps):
+            hits.append("stop")
+    return hits
+
+
 def _list_prefix(words: list[str]) -> list[str]:
     """The leading words that are all on the generator list (prose may follow a passphrase)."""
     gen = generator_words()
@@ -326,6 +379,7 @@ class CuedPassphraseDetector:
         plain_rule: str = DEFAULT_PLAIN_RULE,
         plain_scope: str = DEFAULT_PLAIN_SCOPE,
         digit_guard: bool = DEFAULT_DIGIT_GUARD,
+        shape_guards: tuple[str, ...] = DEFAULT_SHAPE_GUARDS,
         vectors=None,
     ):
         if tail not in TAIL_MODES:
@@ -347,6 +401,10 @@ class CuedPassphraseDetector:
         self.plain_rule = plain_rule
         self.plain_scope = plain_scope
         self.digit_guard = digit_guard
+        shape_guards = tuple(shape_guards)
+        if any(g not in SHAPE_GUARDS for g in shape_guards):
+            raise ValueError(f"shape_guards must be drawn from {SHAPE_GUARDS}")
+        self.shape_guards = shape_guards
         self._vectors = vectors
 
     def _incoherent(self, words: list[str]) -> bool:
@@ -386,6 +444,8 @@ class CuedPassphraseDetector:
         plain = plain_word_test(self.plain_rule, is_ops) if self.plain_rule != "ops" else None
         if m.group("sep"):
             if self.exempt_identifiers and self._is_known_identifier(val, m.group("sep")):
+                return None
+            if self.shape_guards and shape_guard_hits(val.split(m.group("sep")), m.group("sep"), self.shape_guards):
                 return None
             words = [bare(w) for w in val.split(m.group("sep")) if bare(w).isalpha()]
             if _enough(words, is_ops, plain) or wordlist_match(words, self.wordlist_compounds):
