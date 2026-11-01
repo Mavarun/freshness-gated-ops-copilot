@@ -1,0 +1,731 @@
+{
+ "passes": true,
+ "phase": "calibrate",
+ "results": [
+  {
+   "arm": "shipped",
+   "checks": {},
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 2,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "running",
+        "financial",
+        "grief",
+        "leverage",
+        "lens"
+       ],
+       "text": "my password is Running-Financial-Grief9-Leverage-Lens, why can't I log in?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting"
+       ],
+       "text": "log in to grafana with passphrase Slang7 Container Frigidly Result Setting please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting"
+       ],
+       "text": "log in to grafana with passphrase Elsewhere Perm8 Exorcist Quality Setting please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 7,
+      "over_words": 505,
+      "rows": 1200,
+      "words": 5914
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 6,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "getting",
+        "fantasize",
+        "fervor",
+        "squeegee"
+       ],
+       "text": "the deploy token Getting fantasize OLD fervor squeegee 69 stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "setting",
+        "denatured",
+        "sedative",
+        "dingbat",
+        "chill",
+        "exhaust"
+       ],
+       "text": "The vault passphrase is SETTING.DENATURED.SEDATIVE.DINGBAT.CHILL.EXHAUST. Who owns vault-transit?"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 10,
+      "over_words": 523,
+      "rows": 1200,
+      "words": 5931
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 483,
+      "rows": 1200,
+      "words": 6022
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 75,
+       "leak_words": 222,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 75,
+       "leak_words": 289,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 129,
+       "leak_words": 398,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 77,
+       "leak_words": 294,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 16,
+      "other": 279,
+      "stop_inside": 1,
+      "tail_trim": 60
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "decaf",
+        "dice",
+        "crisply"
+       ],
+       "text": "the deploy token decaf in dice crisply stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "dubiously",
+        "deflator",
+        "rack"
+       ],
+       "text": "the deploy token dubiously you deflator rack stopped working, who rotates it?"
+      },
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "pull",
+        "fiddle",
+        "finale"
+       ],
+       "text": "log in to grafana with passphrase pull-in-fiddle-finale please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "snide",
+        "carpenter",
+        "flagship"
+       ],
+       "text": "the deploy token Snide.Carpenter.My.Flagship stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "legroom",
+        "alibi",
+        "clock",
+        "hardhat",
+        "unwieldy"
+       ],
+       "text": "the deploy token legroom-alibi-my-clock-hardhat-unwieldy stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "appealing",
+        "exploit",
+        "passably"
+       ],
+       "text": "log in to grafana with passphrase appealing_at_exploit_passably please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "pardon",
+        "cabana",
+        "blouse"
+       ],
+       "text": "the deploy token pardon cabana on blouse stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "gigantic",
+        "mollusk",
+        "seventh"
+       ],
+       "text": "log in to grafana with passphrase Gigantic_On_Mollusk_Seventh please"
+      }
+     ],
+     "total": {
+      "leak_rows": 356,
+      "leak_words": 1203,
+      "over_words": 462,
+      "rows": 1200,
+      "words": 4761
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "unlocked",
+        "bullwhip"
+       ],
+       "text": "log in to grafana with passphrase bullhorn monday surviving unlocked bullwhip please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "empty",
+        "smokeless",
+        "subduing",
+        "handwoven",
+        "degrease"
+       ],
+       "text": "the deploy token Empty Smokeless Subduing Handwoven Degrease 70 stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 7,
+      "over_words": 521,
+      "rows": 1200,
+      "words": 5948
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "se": {
+    "ident_flagged": 166,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW",
+     "COLA_MARKETS_VIEW",
+     "CRYPT_EXT_DES",
+     "Candy-Crush-Free"
+    ],
+    "ident_unflagged": 0,
+    "ident_unflagged_by_guard": {},
+    "ident_unflagged_examples": [],
+    "sent_flagged": 28
+   }
+  },
+  {
+   "arm": "function_parts",
+   "checks": {
+    "data_idents": true,
+    "gain": true,
+    "no_more_leaks": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": true
+   },
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 2,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "running",
+        "financial",
+        "grief",
+        "leverage",
+        "lens"
+       ],
+       "text": "my password is Running-Financial-Grief9-Leverage-Lens, why can't I log in?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting"
+       ],
+       "text": "log in to grafana with passphrase Slang7 Container Frigidly Result Setting please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "setting"
+       ],
+       "text": "log in to grafana with passphrase Elsewhere Perm8 Exorcist Quality Setting please"
+      }
+     ],
+     "total": {
+      "leak_rows": 3,
+      "leak_words": 7,
+      "over_words": 505,
+      "rows": 1200,
+      "words": 5914
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 6,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 4,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 1,
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "getting",
+        "fantasize",
+        "fervor",
+        "squeegee"
+       ],
+       "text": "the deploy token Getting fantasize OLD fervor squeegee 69 stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "setting",
+        "denatured",
+        "sedative",
+        "dingbat",
+        "chill",
+        "exhaust"
+       ],
+       "text": "The vault passphrase is SETTING.DENATURED.SEDATIVE.DINGBAT.CHILL.EXHAUST. Who owns vault-transit?"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 10,
+      "over_words": 523,
+      "rows": 1200,
+      "words": 5931
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 483,
+      "rows": 1200,
+      "words": 6022
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 3,
+       "leak_words": 10,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 6,
+       "leak_words": 17,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 129,
+       "leak_words": 398,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 1,
+       "leak_words": 2,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 12,
+      "other": 83,
+      "stop_inside": 1,
+      "tail_trim": 43
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "decaf",
+        "dice",
+        "crisply"
+       ],
+       "text": "the deploy token decaf in dice crisply stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "dubiously",
+        "deflator",
+        "rack"
+       ],
+       "text": "the deploy token dubiously you deflator rack stopped working, who rotates it?"
+      },
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "pull",
+        "fiddle",
+        "finale"
+       ],
+       "text": "log in to grafana with passphrase pull-in-fiddle-finale please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "pardon",
+        "cabana",
+        "blouse"
+       ],
+       "text": "the deploy token pardon cabana on blouse stopped working, who rotates it?"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "evaporate"
+       ],
+       "text": "my password is nurture gauging and evaporate, why can't I log in?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "dreamboat",
+        "distract",
+        "banking",
+        "hardcover"
+       ],
+       "text": "log in to grafana with passphrase Dreamboat Distract Or Banking Hardcover please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "unblock",
+        "heap",
+        "ragweed"
+       ],
+       "text": "log in to grafana with passphrase Unblock Heap In Ragweed please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "cramp"
+       ],
+       "text": "log in to grafana with passphrase Parmesan Aflutter Blighted Smokeless At Cramp please"
+      }
+     ],
+     "total": {
+      "leak_rows": 139,
+      "leak_words": 427,
+      "over_words": 462,
+      "rows": 1200,
+      "words": 4761
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 2,
+       "leak_words": 7,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "unlocked",
+        "bullwhip"
+       ],
+       "text": "log in to grafana with passphrase bullhorn monday surviving unlocked bullwhip please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "empty",
+        "smokeless",
+        "subduing",
+        "handwoven",
+        "degrease"
+       ],
+       "text": "the deploy token Empty Smokeless Subduing Handwoven Degrease 70 stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 2,
+      "leak_words": 7,
+      "over_words": 521,
+      "rows": 1200,
+      "words": 5948
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "se": {
+    "ident_flagged": 167,
+    "ident_new": 1,
+    "ident_new_examples": [
+     "WBC_ERR_DOMAIN_NOT_FOUND"
+    ],
+    "ident_still_flagged_examples": [
+     "ACCOUNTID.dkr.ecr",
+     "ALL_COL_PRIVS",
+     "ASYNC_DISKPOOL_LOCK",
+     "AUTO_UPDATE_STATISTCS_ASYNC",
+     "Adj-RIB-Out",
+     "BTRFS_FIRST_FREE_OBJECTID",
+     "BTRFS_LAST_FREE_OBJECTID",
+     "CLSCTX_INPROC_SERVER",
+     "COLA_MARKETS_MVIEW",
+     "COLA_MARKETS_VIEW",
+     "CRYPT_EXT_DES",
+     "Candy-Crush-Free"
+    ],
+    "ident_unflagged": 0,
+    "ident_unflagged_by_guard": {},
+    "ident_unflagged_examples": [],
+    "sent_flagged": 28
+   }
+  }
+ ],
+ "rows": 1200,
+ "se_identifiers": 1920,
+ "se_sentences": 3025,
+ "seeds": {
+  "attached": 3313,
+  "cased": 3323,
+  "invented": 3319,
+  "phrase": 3301,
+  "standard": 3307
+ },
+ "split": "train"
+}
