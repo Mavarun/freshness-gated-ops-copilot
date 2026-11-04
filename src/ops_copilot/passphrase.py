@@ -195,6 +195,34 @@ FUNCTION_WORDS = frozenset(
     "it its my our your his her their you we he she they me us him them this that if so no not up out off".split()
 )
 DEFAULT_FUNCTION_PARTS = True
+# Nov 4: space-joined phrases ("detergent in turtle clerk"). A bridge word is a function word inside a
+# space run that would otherwise end it; ``space_bridge`` names the list ("prep" / "func" / "stop"),
+# ``space_bridge_max`` how many bridge words one run may hold. Off by default until its protocol runs.
+CUED_FNS_RE = re.compile(
+    rf"(?i)\b(?:{_CUE})\s+(?P<sep>)"  # empty ``sep`` group: a space run, as in the second branch of ``CUED_RE``
+    rf"(?P<val>{_WORD}(?:\s+{_WORD_F}){{1,{MAX_WORDS - 1 + MAX_FUNCTION_PARTS}}}(?:\s+{_NUM})?)"
+    rf"(?![\w-])"
+)
+PREP_WORDS = frozenset("a an the and or of in on at by to for from with".split())
+SPACE_BRIDGES = (None, "prep", "func", "stop")
+DEFAULT_SPACE_BRIDGE: str | None = None
+DEFAULT_SPACE_BRIDGE_MAX = 2
+
+
+def bridge_words(kind: str | None) -> frozenset[str]:
+    """The words a space run may hold inside it under ``space_bridge=kind``.
+
+    ``prep``: 14 articles, conjunctions and prepositions (``PREP_WORDS``). ``func``: the 51
+    ``FUNCTION_WORDS`` (adds copulas, pronouns, ``not``). ``stop``: ``FUNCTION_WORDS`` plus the
+    repo's retrieval stop words (``text.STOPWORDS``). ``None``: nothing.
+    """
+    if kind not in SPACE_BRIDGES:
+        raise ValueError(f"space_bridge must be one of {SPACE_BRIDGES}")
+    if kind is None:
+        return frozenset()
+    if kind == "prep":
+        return PREP_WORDS
+    return FUNCTION_WORDS if kind == "func" else FUNCTION_WORDS | STOPWORDS
 PLAIN_RULES = ("ops", "dict", "dict_cv")
 PLAIN_SCOPES = ("compounds", "all")
 DEFAULT_PLAIN_RULE = "ops"
@@ -408,6 +436,8 @@ class CuedPassphraseDetector:
         digit_guard: bool = DEFAULT_DIGIT_GUARD,
         shape_guards: tuple[str, ...] = DEFAULT_SHAPE_GUARDS,
         function_parts: bool = DEFAULT_FUNCTION_PARTS,
+        space_bridge: str | None = DEFAULT_SPACE_BRIDGE,
+        space_bridge_max: int = DEFAULT_SPACE_BRIDGE_MAX,
         vectors=None,
     ):
         if tail not in TAIL_MODES:
@@ -434,6 +464,11 @@ class CuedPassphraseDetector:
             raise ValueError(f"shape_guards must be drawn from {SHAPE_GUARDS}")
         self.shape_guards = shape_guards
         self.function_parts = function_parts
+        self._bridge = bridge_words(space_bridge)
+        self.space_bridge = space_bridge
+        if space_bridge_max < 0:
+            raise ValueError("space_bridge_max must be >= 0")
+        self.space_bridge_max = space_bridge_max
         self._vectors = vectors
 
     def _incoherent(self, words: list[str]) -> bool:
@@ -461,7 +496,8 @@ class CuedPassphraseDetector:
             return w[:-1]
         return w
 
-    def _span(self, m: re.Match[str], digits: bool | None = None, fn: bool = False) -> tuple[int, int] | None:
+    def _span(self, m: re.Match[str], digits: bool | None = None, fn: bool = False,
+              bridge: bool = False) -> tuple[int, int] | None:
         vocab = self.vocabulary
         is_ops = vocab.__contains__
         digits = self.attached_digit if digits is None else digits
@@ -492,11 +528,19 @@ class CuedPassphraseDetector:
             return (a, b) if self.coherence_compounds and self._incoherent(words) else None
         toks = list(re.finditer(r"\S+", val))
         keep: list[re.Match[str]] = []
-        for t in toks:
-            if bare(t.group()).lower() in _SPACE_STOP:
+        skip: set[int] = set()  # indices into ``keep`` of bridge words (kept in the span, left out of every word test)
+        for i, t in enumerate(toks):
+            w = bare(t.group()).lower()
+            if w in _SPACE_STOP:
+                nxt = bare(toks[i + 1].group()).lower() if i + 1 < len(toks) else ""
+                if (bridge and w in self._bridge and keep and len(skip) < self.space_bridge_max
+                        and (len(keep) - 1) not in skip and nxt.isalpha() and nxt not in _SPACE_STOP):
+                    skip.add(len(keep))
+                    keep.append(t)
+                    continue
                 break
             keep.append(t)
-        words = [t for t in keep if bare(t.group()).isalpha()]
+        words = [t for j, t in enumerate(keep) if j not in skip and bare(t.group()).isalpha()]
         full = list(words)
         while words and is_ops(bare(words[-1].group()).lower()):
             words.pop()
@@ -522,6 +566,8 @@ class CuedPassphraseDetector:
         extra = []
         if self.function_parts:
             extra = [sp for m in CUED_FN_RE.finditer(text) if (sp := self._span(m, digits=False, fn=True)) is not None]
+        if self._bridge and self.space_bridge_max:
+            extra += [sp for m in CUED_FNS_RE.finditer(text) if (sp := self._span(m, digits=False, bridge=True)) is not None]
         if not (self.attached_digit and self.digit_guard):
             rx = CUED_DIGIT_RE if self.attached_digit else CUED_RE
             found = [sp for m in rx.finditer(text) if (sp := self._span(m)) is not None]
