@@ -1,0 +1,1302 @@
+{
+ "passes": false,
+ "phase": "confirm",
+ "pick": "func/2/eff3",
+ "results": [
+  {
+   "arm": "shipped",
+   "checks": {},
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 4,
+       "leak_words": 16,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 4
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "these",
+        "doorstop",
+        "chip"
+       ],
+       "text": "the deploy token emerald unhealthy boxlike1 these doorstop chip stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "reset",
+        "goal",
+        "chosen",
+        "january",
+        "crisping",
+        "morbidly"
+       ],
+       "text": "the deploy token Reset7 Goal Chosen January Crisping Morbidly stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "these",
+        "lily",
+        "nearly",
+        "overcoat",
+        "thaw"
+       ],
+       "text": "log in to grafana with passphrase these lily nearly overcoat thaw8 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "bagging",
+        "illusive"
+       ],
+       "text": "my password is Docile Moving0 Smock Why Bagging Illusive, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 561,
+      "rows": 1200,
+      "words": 5971
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "running",
+        "support",
+        "jailer",
+        "lunchroom",
+        "upstart"
+       ],
+       "text": "log in to grafana with passphrase Running Support jailer Lunchroom upstart 15 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 5,
+      "over_words": 545,
+      "rows": 1200,
+      "words": 5970
+     }
+    },
+    "connective": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 8,
+       "leak_words": 33,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 16,
+       "leak_words": 64,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 5,
+       "leak_words": 15,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 15,
+       "leak_words": 61,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 19,
+      "other": 23,
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "revisable",
+        "sheet",
+        "astrology",
+        "exclude"
+       ],
+       "text": "log in to grafana with passphrase Revisable-Sheet-Between-Astrology-Exclude please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "alienable",
+        "capitol",
+        "plenty"
+       ],
+       "text": "the deploy token alienable capitol after plenty stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "letter",
+        "chili",
+        "feline",
+        "capable"
+       ],
+       "text": "the deploy token Letter-Within-Chili-Feline-Capable stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "penalty",
+        "deplored",
+        "subtract",
+        "kelp"
+       ],
+       "text": "log in to grafana with passphrase Penalty-Deplored-Subtract-While-Kelp please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "sanctity",
+        "shell",
+        "resume",
+        "abacus"
+       ],
+       "text": "log in to grafana with passphrase sanctity_shell_through_resume_abacus please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "cloud",
+        "false",
+        "blooper",
+        "proofs"
+       ],
+       "text": "log in to grafana with passphrase cloud.false.blooper.because.proofs please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "effects",
+        "much",
+        "squiggle"
+       ],
+       "text": "the deploy token effects much per squiggle stopped working, who rotates it?"
+      },
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "clock",
+        "animation",
+        "acting",
+        "tactful",
+        "polio"
+       ],
+       "text": "log in to grafana with passphrase Clock-Animation-Acting-Tactful-Though-Polio please"
+      }
+     ],
+     "total": {
+      "leak_rows": 44,
+      "leak_words": 173,
+      "over_words": 530,
+      "rows": 1200,
+      "words": 4766
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 530,
+      "rows": 1200,
+      "words": 5971
+     }
+    },
+    "offlist_phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 3,
+       "leak_words": 10,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 139,
+       "leak_words": 426,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 5,
+       "leak_words": 21,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 8,
+      "other": 87,
+      "stop_inside": 1,
+      "tail_trim": 51
+     },
+     "examples": [
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "welcome"
+       ],
+       "text": "log in to grafana with passphrase debussy stroke blueprint chromate and welcome please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "avon"
+       ],
+       "text": "log in to grafana with passphrase Belt Lutefisk Petronius Georgette For Avon please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "guess",
+        "pleiades",
+        "falafel"
+       ],
+       "text": "my password is Farewell Minister Is Guess Pleiades Falafel, why can't I log in?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "patness",
+        "boodle",
+        "dieting"
+       ],
+       "text": "the deploy token Patness Boodle In Dieting stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "smidge",
+        "lineation",
+        "redaction",
+        "volition",
+        "thrum"
+       ],
+       "text": "log in to grafana with passphrase Smidge Lineation Redaction Of Volition Thrum please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "heilong",
+        "flake",
+        "mixology",
+        "legging"
+       ],
+       "text": "the deploy token Heilong Flake At Mixology Legging stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "ament",
+        "saale",
+        "part",
+        "tagore"
+       ],
+       "text": "the deploy token Ament Saale Part My Tagore stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "czar",
+        "timberman",
+        "sexton",
+        "stator"
+       ],
+       "text": "the deploy token Czar Timberman Is Sexton Stator stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 147,
+      "leak_words": 457,
+      "over_words": 493,
+      "rows": 1200,
+      "words": 4798
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 3,
+       "leak_words": 9,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 2,
+       "leak_words": 6,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 133,
+       "leak_words": 391,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 5,
+       "leak_words": 14,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 12,
+      "other": 88,
+      "tail_trim": 43
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "freeway",
+        "limelight",
+        "unwoven"
+       ],
+       "text": "the deploy token freeway limelight on unwoven stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "used",
+        "subject",
+        "barrette"
+       ],
+       "text": "The vault passphrase is Used.Subject.With.Barrette. Who owns vault-transit?"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "elbow"
+       ],
+       "text": "log in to grafana with passphrase Anthem Flatness Routine Unlovable In Elbow please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "mold",
+        "unhealthy",
+        "flatly",
+        "virus",
+        "ranch"
+       ],
+       "text": "log in to grafana with passphrase Mold Unhealthy To Flatly Virus Ranch please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "frosting",
+        "justice"
+       ],
+       "text": "The vault passphrase is Chop Glazing Habitable And Frosting Justice. Who owns vault-transit?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "mouth",
+        "cadet",
+        "regain"
+       ],
+       "text": "log in to grafana with passphrase Mouth Of Cadet Regain please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "stem",
+        "gallon"
+       ],
+       "text": "my password is Outright And Stem Gallon, why can't I log in?"
+      },
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "vocalize",
+        "probe",
+        "naming"
+       ],
+       "text": "the deploy token vocalize_probe_in_naming stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 143,
+      "leak_words": 420,
+      "over_words": 472,
+      "rows": 1200,
+      "words": 4725
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 2,
+       "leak_words": 6,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 4,
+       "leak_words": 16,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 1,
+       "leak_words": 1,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 4,
+      "stop_inside": 4
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "password",
+        "chase",
+        "tremor",
+        "delivery",
+        "scraggly"
+       ],
+       "text": "use password.chase.tremor.delivery.scraggly to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "secret"
+       ],
+       "text": "my password is secret-bulldozer-implement-shush-blizzard, why can't I log in?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "used",
+        "able",
+        "relieving",
+        "cage",
+        "scion"
+       ],
+       "text": "use Used-Able-Relieving-Cage-Scion-16 to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "stopped"
+       ],
+       "text": "the deploy token Unopposed_Stopped_Impending_Deduce_Used_Caboose_37 stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "many",
+        "aqueduct",
+        "grimy",
+        "tapping",
+        "epidural",
+        "unbundle"
+       ],
+       "text": "log in to grafana with passphrase many aqueduct grimy tapping epidural unbundle please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "very",
+        "viper",
+        "cheddar",
+        "jimmy",
+        "marbles"
+       ],
+       "text": "The vault passphrase is Very Viper Cheddar Jimmy Marbles 80. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "many",
+        "cobbler",
+        "guacamole",
+        "strobe"
+       ],
+       "text": "my password is Many Cobbler Guacamole Yin Strobe 29, why can't I log in?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "hybrid"
+       ],
+       "text": "log in to grafana with passphrase Tremble Factor Sampling Mangy Had Hybrid 26 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 8,
+      "leak_words": 28,
+      "over_words": 523,
+      "rows": 1200,
+      "words": 5949
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "se": {
+    "ident_flagged": 21,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "Always-Include-Phased-Updates",
+     "DYN_CRY_MAP",
+     "Eng_Khaled_Omar",
+     "OBJ_HANDLE_TAGBITS",
+     "aiplatform.endpoints.predict",
+     "anomaly_score_thresholds",
+     "client_header_buffer_size",
+     "create_ext_pgagent",
+     "ffff.ffff.ffff",
+     "heif-gdk-pixbuf",
+     "kwin-style-dekorator",
+     "lock-all-tables"
+    ],
+    "ident_unflagged": 0,
+    "ident_unflagged_by_guard": {},
+    "ident_unflagged_examples": [],
+    "sent_flagged": 0
+   }
+  },
+  {
+   "arm": "func/2/eff3",
+   "checks": {
+    "data_idents": true,
+    "gain": true,
+    "no_more_leaks": true,
+    "oct13_no_leak": true,
+    "over_budget": true,
+    "repo_queries_unchanged": true,
+    "se_identifiers": true,
+    "se_sentences": false
+   },
+   "data_ident_new_flags": [],
+   "oct13_leak_words": 0,
+   "probe": {
+    "attached": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 4,
+       "leak_words": 16,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 4
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "these",
+        "doorstop",
+        "chip"
+       ],
+       "text": "the deploy token emerald unhealthy boxlike1 these doorstop chip stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "reset",
+        "goal",
+        "chosen",
+        "january",
+        "crisping",
+        "morbidly"
+       ],
+       "text": "the deploy token Reset7 Goal Chosen January Crisping Morbidly stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "these",
+        "lily",
+        "nearly",
+        "overcoat",
+        "thaw"
+       ],
+       "text": "log in to grafana with passphrase these lily nearly overcoat thaw8 please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "bagging",
+        "illusive"
+       ],
+       "text": "my password is Docile Moving0 Smock Why Bagging Illusive, why can't I log in?"
+      }
+     ],
+     "total": {
+      "leak_rows": 4,
+      "leak_words": 16,
+      "over_words": 561,
+      "rows": 1200,
+      "words": 5971
+     }
+    },
+    "cased": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "stop_inside": 1
+     },
+     "examples": [
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "running",
+        "support",
+        "jailer",
+        "lunchroom",
+        "upstart"
+       ],
+       "text": "log in to grafana with passphrase Running Support jailer Lunchroom upstart 15 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 1,
+      "leak_words": 5,
+      "over_words": 545,
+      "rows": 1200,
+      "words": 5970
+     }
+    },
+    "connective": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 8,
+       "leak_words": 33,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 16,
+       "leak_words": 64,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 5,
+       "leak_words": 15,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 15,
+       "leak_words": 61,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 19,
+      "other": 23,
+      "stop_inside": 2
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "revisable",
+        "sheet",
+        "astrology",
+        "exclude"
+       ],
+       "text": "log in to grafana with passphrase Revisable-Sheet-Between-Astrology-Exclude please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "alienable",
+        "capitol",
+        "plenty"
+       ],
+       "text": "the deploy token alienable capitol after plenty stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "letter",
+        "chili",
+        "feline",
+        "capable"
+       ],
+       "text": "the deploy token Letter-Within-Chili-Feline-Capable stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "penalty",
+        "deplored",
+        "subtract",
+        "kelp"
+       ],
+       "text": "log in to grafana with passphrase Penalty-Deplored-Subtract-While-Kelp please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "sanctity",
+        "shell",
+        "resume",
+        "abacus"
+       ],
+       "text": "log in to grafana with passphrase sanctity_shell_through_resume_abacus please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "cloud",
+        "false",
+        "blooper",
+        "proofs"
+       ],
+       "text": "log in to grafana with passphrase cloud.false.blooper.because.proofs please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "effects",
+        "much",
+        "squiggle"
+       ],
+       "text": "the deploy token effects much per squiggle stopped working, who rotates it?"
+      },
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "clock",
+        "animation",
+        "acting",
+        "tactful",
+        "polio"
+       ],
+       "text": "log in to grafana with passphrase Clock-Animation-Acting-Tactful-Though-Polio please"
+      }
+     ],
+     "total": {
+      "leak_rows": 44,
+      "leak_words": 173,
+      "over_words": 530,
+      "rows": 1200,
+      "words": 4766
+     }
+    },
+    "invented": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      }
+     },
+     "cause": {},
+     "examples": [],
+     "total": {
+      "leak_rows": 0,
+      "leak_words": 0,
+      "over_words": 530,
+      "rows": 1200,
+      "words": 5971
+     }
+    },
+    "offlist_phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 0,
+       "leak_words": 0,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 3,
+       "leak_words": 10,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 139,
+       "leak_words": 426,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 5,
+       "leak_words": 21,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 8,
+      "other": 87,
+      "stop_inside": 1,
+      "tail_trim": 51
+     },
+     "examples": [
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "welcome"
+       ],
+       "text": "log in to grafana with passphrase debussy stroke blueprint chromate and welcome please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "avon"
+       ],
+       "text": "log in to grafana with passphrase Belt Lutefisk Petronius Georgette For Avon please"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "guess",
+        "pleiades",
+        "falafel"
+       ],
+       "text": "my password is Farewell Minister Is Guess Pleiades Falafel, why can't I log in?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "patness",
+        "boodle",
+        "dieting"
+       ],
+       "text": "the deploy token Patness Boodle In Dieting stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "smidge",
+        "lineation",
+        "redaction",
+        "volition",
+        "thrum"
+       ],
+       "text": "log in to grafana with passphrase Smidge Lineation Redaction Of Volition Thrum please"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "heilong",
+        "flake",
+        "mixology",
+        "legging"
+       ],
+       "text": "the deploy token Heilong Flake At Mixology Legging stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "ament",
+        "saale",
+        "part",
+        "tagore"
+       ],
+       "text": "the deploy token Ament Saale Part My Tagore stopped working, who rotates it?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "czar",
+        "timberman",
+        "sexton",
+        "stator"
+       ],
+       "text": "the deploy token Czar Timberman Is Sexton Stator stopped working, who rotates it?"
+      }
+     ],
+     "total": {
+      "leak_rows": 147,
+      "leak_words": 457,
+      "over_words": 493,
+      "rows": 1200,
+      "words": 4798
+     }
+    },
+    "phrase": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 3,
+       "leak_words": 9,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 2,
+       "leak_words": 6,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 13,
+       "leak_words": 20,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 5,
+       "leak_words": 14,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "no_flag_ops": 9,
+      "other": 1,
+      "tail_trim": 13
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "used",
+        "subject",
+        "barrette"
+       ],
+       "text": "The vault passphrase is Used.Subject.With.Barrette. Who owns vault-transit?"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "frosting",
+        "justice"
+       ],
+       "text": "The vault passphrase is Chop Glazing Habitable And Frosting Justice. Who owns vault-transit?"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "stem",
+        "gallon"
+       ],
+       "text": "my password is Outright And Stem Gallon, why can't I log in?"
+      },
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "vocalize",
+        "probe",
+        "naming"
+       ],
+       "text": "the deploy token vocalize_probe_in_naming stopped working, who rotates it?"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "outsource",
+        "vixen",
+        "remnant"
+       ],
+       "text": "my password is tamer and outsource vixen remnant, why can't I log in?"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "baggy"
+       ],
+       "text": "The vault passphrase is Conch Spinster Onscreen And Baggy. Who owns vault-transit?"
+      },
+      {
+       "cause": "no_flag_ops",
+       "leaked": [
+        "juniper",
+        "coat",
+        "cinnamon"
+       ],
+       "text": "the deploy token juniper.coat.by.cinnamon stopped working, who rotates it?"
+      },
+      {
+       "cause": "tail_trim",
+       "leaked": [
+        "imprudent",
+        "boney"
+       ],
+       "text": "The vault passphrase is Molecular And Imprudent Boney. Who owns vault-transit?"
+      }
+     ],
+     "total": {
+      "leak_rows": 23,
+      "leak_words": 49,
+      "over_words": 534,
+      "rows": 1200,
+      "words": 4725
+     }
+    },
+    "standard": {
+     "by_separator": {
+      "dot": {
+       "leak_rows": 1,
+       "leak_words": 5,
+       "rows": 300
+      },
+      "hyphen": {
+       "leak_rows": 2,
+       "leak_words": 6,
+       "rows": 300
+      },
+      "space": {
+       "leak_rows": 4,
+       "leak_words": 16,
+       "rows": 300
+      },
+      "underscore": {
+       "leak_rows": 1,
+       "leak_words": 1,
+       "rows": 300
+      }
+     },
+     "cause": {
+      "other": 4,
+      "stop_inside": 4
+     },
+     "examples": [
+      {
+       "cause": "other",
+       "leaked": [
+        "password",
+        "chase",
+        "tremor",
+        "delivery",
+        "scraggly"
+       ],
+       "text": "use password.chase.tremor.delivery.scraggly to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "secret"
+       ],
+       "text": "my password is secret-bulldozer-implement-shush-blizzard, why can't I log in?"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "used",
+        "able",
+        "relieving",
+        "cage",
+        "scion"
+       ],
+       "text": "use Used-Able-Relieving-Cage-Scion-16 to log in to vault"
+      },
+      {
+       "cause": "other",
+       "leaked": [
+        "stopped"
+       ],
+       "text": "the deploy token Unopposed_Stopped_Impending_Deduce_Used_Caboose_37 stopped working, who rotates it?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "many",
+        "aqueduct",
+        "grimy",
+        "tapping",
+        "epidural",
+        "unbundle"
+       ],
+       "text": "log in to grafana with passphrase many aqueduct grimy tapping epidural unbundle please"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "very",
+        "viper",
+        "cheddar",
+        "jimmy",
+        "marbles"
+       ],
+       "text": "The vault passphrase is Very Viper Cheddar Jimmy Marbles 80. Who owns vault-transit?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "many",
+        "cobbler",
+        "guacamole",
+        "strobe"
+       ],
+       "text": "my password is Many Cobbler Guacamole Yin Strobe 29, why can't I log in?"
+      },
+      {
+       "cause": "stop_inside",
+       "leaked": [
+        "hybrid"
+       ],
+       "text": "log in to grafana with passphrase Tremble Factor Sampling Mangy Had Hybrid 26 please"
+      }
+     ],
+     "total": {
+      "leak_rows": 8,
+      "leak_words": 28,
+      "over_words": 523,
+      "rows": 1200,
+      "words": 5949
+     }
+    }
+   },
+   "repo_query_changes": 0,
+   "se": {
+    "ident_flagged": 21,
+    "ident_new": 0,
+    "ident_new_examples": [],
+    "ident_still_flagged_examples": [
+     "Always-Include-Phased-Updates",
+     "DYN_CRY_MAP",
+     "Eng_Khaled_Omar",
+     "OBJ_HANDLE_TAGBITS",
+     "aiplatform.endpoints.predict",
+     "anomaly_score_thresholds",
+     "client_header_buffer_size",
+     "create_ext_pgagent",
+     "ffff.ffff.ffff",
+     "heif-gdk-pixbuf",
+     "kwin-style-dekorator",
+     "lock-all-tables"
+    ],
+    "ident_unflagged": 0,
+    "ident_unflagged_by_guard": {},
+    "ident_unflagged_examples": [],
+    "sent_flagged": 2
+   }
+  }
+ ],
+ "rows": 1200,
+ "se_identifiers": 147,
+ "se_sentences": 306,
+ "seeds": {
+  "attached": 3539,
+  "cased": 3557,
+  "connective": 3563,
+  "invented": 3549,
+  "offlist_phrase": 3567,
+  "phrase": 3561,
+  "standard": 3533
+ },
+ "split": "test"
+}
