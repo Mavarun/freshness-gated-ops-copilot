@@ -2,11 +2,12 @@
 
     python scripts/run_passphrase_space_protocol.py --phase calibrate --raw-dir /tmp/se_qa_raw
     python scripts/run_passphrase_space_protocol.py --phase confirm --raw-dir /tmp/se_qa_raw   # one shot
+    python scripts/run_passphrase_space_protocol.py --protocol eff --phase calibrate --raw-dir /tmp/se_qa_raw
 
 ``calibrate`` scores all five arms on the calibration seeds and SE *train* and records the pick;
 ``confirm`` runs only if the committed calibration artifact has a pick, scores shipped and the pick on
 the confirm seeds and SE *test*, and the confirm seeds are spent once it has run.
-Writes ``artifacts/passphrase_space_{calibration,confirm}.{json,md}``.
+Writes ``artifacts/passphrase_space_{calibration,confirm}.{json,md}`` (``--protocol eff``: ``passphrase_space_eff_*``).
 """
 
 from __future__ import annotations
@@ -19,19 +20,22 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from ops_copilot import passphrase_space_protocol as F  # noqa: E402
+from ops_copilot import passphrase_space_eff_protocol, passphrase_space_protocol  # noqa: E402
 from ops_copilot.passphrase_shape_eval import run_phase  # noqa: E402
 
 ART = ROOT / "artifacts"
-BY_NAME = {F.arm_name(a): a for a in F.arms()}
+PROTOCOLS = {"v1": (passphrase_space_protocol, "passphrase_space"), "eff": (passphrase_space_eff_protocol, "passphrase_space_eff")}
+F = passphrase_space_protocol  # rebound in ``main`` by ``--protocol``
+PREFIX = "passphrase_space"
 
 
 def run(phase: str, raw_dir: Path) -> dict:
+    by_name = {F.arm_name(a): a for a in F.arms()}
     if phase == "confirm":
-        cal = json.loads((ART / "passphrase_space_calibration.json").read_text())
+        cal = json.loads((ART / f"{PREFIX}_calibration.json").read_text())
         if not cal["pick"]:
             raise SystemExit("calibration found no safe arm with a gain; the protocol stops before the confirm")
-        arms = [F.SHIPPED, BY_NAME[cal["pick"]]]
+        arms = [F.SHIPPED, by_name[cal["pick"]]]
         seeds, split = F.CONFIRM_SEEDS, "test"
     else:
         arms, seeds, split = F.arms(), F.CALIB_SEEDS, "train"
@@ -54,7 +58,7 @@ def run(phase: str, raw_dir: Path) -> dict:
 
 def _table(out: dict) -> list[str]:
     lines = [
-        "| arm | leak words std / glued / invented / cased / phrase / connective (total) | over words | SE sentences flagged "
+        "| arm | leak words " + " / ".join(F.PROBES) + " (total) | over words | SE sentences flagged "
         "| SE ids flagged (new) | Oct 13 / queries / data ids | checks |",
         "| --- | ---: | ---: | ---: | ---: | ---: | :---: |",
     ]
@@ -81,11 +85,11 @@ def render(out: dict) -> str:
         verdict = (f"**`{out['pick']}` ships on.** The confirm seeds are spent." if out["passes"]
                    else f"**`{out['pick']}` ships off.** The confirm seeds are spent.")
     lines = [
-        f"# Space-joined function words: {out['phase']} (seeds {' / '.join(str(s[k]) for k in F.PROBES)}, "
+        f"# Space-joined function words ({PREFIX}): {out['phase']} (seeds {' / '.join(str(s[k]) for k in F.PROBES)}, "
         f"{out['rows']:,} rows each; {out['se_sentences']:,} SE {split} sentences, {out['se_identifiers']:,} SE {split} identifiers)",
         "",
-        "Pre-registered in `ops_copilot.passphrase_space_protocol`. `shipped` is the Nov 1 detector (function parts on, no space bridge).",
-        "Arms are `bridge list / max bridge words`.",
+        f"Pre-registered in `ops_copilot.{F.__name__.rsplit('.', 1)[-1]}`. `shipped` is the Nov 1 detector (function parts on, no space bridge).",
+        "Arms are `bridge list / max bridge words[ / rule]`.",
         "",
         *_table(out),
         "",
@@ -93,7 +97,7 @@ def render(out: dict) -> str:
     for r in out["results"][1:]:
         lines.append(f"Checks `{r['arm']}`: " + ", ".join(f"{k} {'pass' if v else 'FAIL'}" for k, v in r["checks"].items()))
     lines += ["", verdict, ""]
-    for k in ("phrase", "connective"):
+    for k in [k for k in ("phrase", "connective", "offlist_phrase") if k in F.PROBES]:
         pb = base["probe"][k]
         for r in out["results"][1:]:
             pr = r["probe"][k]
@@ -107,14 +111,17 @@ def render(out: dict) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--protocol", choices=tuple(PROTOCOLS), default="v1")
     ap.add_argument("--phase", choices=("calibrate", "confirm"), required=True)
     ap.add_argument("--raw-dir", type=Path, required=True)
     a = ap.parse_args()
+    global F, PREFIX
+    F, PREFIX = PROTOCOLS[a.protocol]
     out = run(a.phase, a.raw_dir)
     name = "calibration" if a.phase == "calibrate" else "confirm"
     ART.mkdir(exist_ok=True)
-    (ART / f"passphrase_space_{name}.json").write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
-    (ART / f"passphrase_space_{name}.md").write_text(render(out))
+    (ART / f"{PREFIX}_{name}.json").write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
+    (ART / f"{PREFIX}_{name}.md").write_text(render(out))
     print(render(out))
 
 
