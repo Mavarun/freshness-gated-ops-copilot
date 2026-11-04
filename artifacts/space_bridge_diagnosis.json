@@ -1,0 +1,526 @@
+{
+ "arms": {
+  "func/2": {
+   "bridge_words": {
+    "and": 15,
+    "are": 4,
+    "for": 7,
+    "from": 1,
+    "in": 2,
+    "of": 2,
+    "that": 2,
+    "the": 14,
+    "them": 1,
+    "to": 10,
+    "with": 3,
+    "your": 3
+   },
+   "examples": [
+    {
+     "bridge_words": [
+      "to",
+      "in"
+     ],
+     "label": "not_all_eff",
+     "span": "based FDE to TPM in Ubuntu 26"
+    },
+    {
+     "bridge_words": [
+      "for"
+     ],
+     "label": "not_all_eff",
+     "span": "easily for all users"
+    },
+    {
+     "bridge_words": [
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "specific instances to specific nodes"
+    },
+    {
+     "bridge_words": [
+      "and",
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "storage and set the variables internally"
+    },
+    {
+     "bridge_words": [
+      "with",
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "attack with TGT and TGS"
+    },
+    {
+     "bridge_words": [
+      "of"
+     ],
+     "label": "not_all_eff",
+     "span": "against corpus of previous breaches"
+    },
+    {
+     "bridge_words": [
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "complexity and regular expiration requirements"
+    },
+    {
+     "bridge_words": [
+      "and",
+      "them"
+     ],
+     "label": "not_all_eff",
+     "span": "Provider collects credentials and passes them along"
+    },
+    {
+     "bridge_words": [
+      "to",
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "forces attackers to increase the complexity"
+    },
+    {
+     "bridge_words": [
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "includes the group NT AUTHORITY"
+    },
+    {
+     "bridge_words": [
+      "that",
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "managers  that allow teams to share"
+    },
+    {
+     "bridge_words": [
+      "are",
+      "for"
+     ],
+     "label": "not_all_eff",
+     "span": "policies are notorious for cargo cult engineering"
+    },
+    {
+     "bridge_words": [
+      "and",
+      "that"
+     ],
+     "label": "not_all_eff",
+     "span": "hashes and user encryption keys that depend"
+    },
+    {
+     "bridge_words": [
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "managers lead to better outcomes"
+    },
+    {
+     "bridge_words": [
+      "the",
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "insures the user doing the  owning"
+    }
+   ],
+   "labels": {
+    "not_all_eff": 47
+   },
+   "new_sentence_flags": 47
+  },
+  "prep/1": {
+   "bridge_words": {
+    "and": 8,
+    "for": 4,
+    "in": 1,
+    "of": 2,
+    "the": 7,
+    "to": 3,
+    "with": 2
+   },
+   "examples": [
+    {
+     "bridge_words": [
+      "for"
+     ],
+     "label": "not_all_eff",
+     "span": "easily for all users"
+    },
+    {
+     "bridge_words": [
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "specific instances to specific nodes"
+    },
+    {
+     "bridge_words": [
+      "of"
+     ],
+     "label": "not_all_eff",
+     "span": "against corpus of previous breaches"
+    },
+    {
+     "bridge_words": [
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "complexity and regular expiration requirements"
+    },
+    {
+     "bridge_words": [
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "Provider collects credentials and passes"
+    },
+    {
+     "bridge_words": [
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "includes the group NT AUTHORITY"
+    },
+    {
+     "bridge_words": [
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "managers lead to better outcomes"
+    },
+    {
+     "bridge_words": [
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "expiration policies limit the damage"
+    },
+    {
+     "bridge_words": [
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "prompts and other processes"
+    },
+    {
+     "bridge_words": [
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "hash undergoes the above process"
+    },
+    {
+     "bridge_words": [
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "achieves the absolute minimum defence necessary"
+    },
+    {
+     "bridge_words": [
+      "for"
+     ],
+     "label": "not_all_eff",
+     "span": "policy for elderly clientele"
+    },
+    {
+     "bridge_words": [
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "before the security push starts anyway"
+    },
+    {
+     "bridge_words": [
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "length and possibly other security measures"
+    },
+    {
+     "bridge_words": [
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "protected and all user accounts"
+    }
+   ],
+   "labels": {
+    "not_all_eff": 28
+   },
+   "new_sentence_flags": 28
+  },
+  "prep/2": {
+   "bridge_words": {
+    "an": 1,
+    "and": 13,
+    "for": 5,
+    "in": 2,
+    "of": 2,
+    "the": 13,
+    "to": 8,
+    "with": 3
+   },
+   "examples": [
+    {
+     "bridge_words": [
+      "to",
+      "in"
+     ],
+     "label": "not_all_eff",
+     "span": "based FDE to TPM in Ubuntu 26"
+    },
+    {
+     "bridge_words": [
+      "for"
+     ],
+     "label": "not_all_eff",
+     "span": "easily for all users"
+    },
+    {
+     "bridge_words": [
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "specific instances to specific nodes"
+    },
+    {
+     "bridge_words": [
+      "and",
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "storage and set the variables internally"
+    },
+    {
+     "bridge_words": [
+      "with",
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "attack with TGT and TGS"
+    },
+    {
+     "bridge_words": [
+      "of"
+     ],
+     "label": "not_all_eff",
+     "span": "against corpus of previous breaches"
+    },
+    {
+     "bridge_words": [
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "complexity and regular expiration requirements"
+    },
+    {
+     "bridge_words": [
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "Provider collects credentials and passes"
+    },
+    {
+     "bridge_words": [
+      "to",
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "forces attackers to increase the complexity"
+    },
+    {
+     "bridge_words": [
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "includes the group NT AUTHORITY"
+    },
+    {
+     "bridge_words": [
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "managers lead to better outcomes"
+    },
+    {
+     "bridge_words": [
+      "the",
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "insures the user doing the  owning"
+    },
+    {
+     "bridge_words": [
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "expiration policies limit the damage"
+    },
+    {
+     "bridge_words": [
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "prompts and other processes"
+    },
+    {
+     "bridge_words": [
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "hash undergoes the above process"
+    }
+   ],
+   "labels": {
+    "not_all_eff": 36
+   },
+   "new_sentence_flags": 36
+  },
+  "stop/2": {
+   "bridge_words": {
+    "and": 16,
+    "are": 4,
+    "for": 7,
+    "from": 1,
+    "in": 2,
+    "of": 3,
+    "that": 2,
+    "the": 15,
+    "them": 1,
+    "to": 11,
+    "with": 4,
+    "your": 3
+   },
+   "examples": [
+    {
+     "bridge_words": [
+      "to",
+      "in"
+     ],
+     "label": "not_all_eff",
+     "span": "based FDE to TPM in Ubuntu 26"
+    },
+    {
+     "bridge_words": [
+      "for"
+     ],
+     "label": "not_all_eff",
+     "span": "easily for all users"
+    },
+    {
+     "bridge_words": [
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "specific instances to specific nodes"
+    },
+    {
+     "bridge_words": [
+      "and",
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "storage and set the variables internally"
+    },
+    {
+     "bridge_words": [
+      "with",
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "attack with TGT and TGS"
+    },
+    {
+     "bridge_words": [
+      "of"
+     ],
+     "label": "not_all_eff",
+     "span": "against corpus of previous breaches"
+    },
+    {
+     "bridge_words": [
+      "and"
+     ],
+     "label": "not_all_eff",
+     "span": "complexity and regular expiration requirements"
+    },
+    {
+     "bridge_words": [
+      "and",
+      "them"
+     ],
+     "label": "not_all_eff",
+     "span": "Provider collects credentials and passes them along"
+    },
+    {
+     "bridge_words": [
+      "to",
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "forces attackers to increase the complexity"
+    },
+    {
+     "bridge_words": [
+      "the"
+     ],
+     "label": "not_all_eff",
+     "span": "includes the group NT AUTHORITY"
+    },
+    {
+     "bridge_words": [
+      "that",
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "managers  that allow teams to share"
+    },
+    {
+     "bridge_words": [
+      "are",
+      "for"
+     ],
+     "label": "not_all_eff",
+     "span": "policies are notorious for cargo cult engineering"
+    },
+    {
+     "bridge_words": [
+      "and",
+      "that"
+     ],
+     "label": "not_all_eff",
+     "span": "hashes and user encryption keys that depend"
+    },
+    {
+     "bridge_words": [
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "managers also apply to corporate environments"
+    },
+    {
+     "bridge_words": [
+      "to"
+     ],
+     "label": "not_all_eff",
+     "span": "managers lead to better outcomes than memorized passwords"
+    }
+   ],
+   "labels": {
+    "not_all_eff": 56
+   },
+   "new_sentence_flags": 56
+  }
+ },
+ "sentences": 3025
+}
