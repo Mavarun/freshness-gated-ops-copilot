@@ -62,3 +62,17 @@ def test_connective_rows_hold_one_inner_connective_that_is_on_no_list():
         assert len(extra) == 1 and extra[0] in CONNECTIVE_WORDS
         assert parts[0] != extra[0] and parts[-1] != extra[0]
         assert all(w in gen for w in r.words) and 3 <= len(r.words) <= 5
+
+
+def test_offlist_phrase_rows_use_off_list_words_and_phrase_rows_are_unchanged():
+    from ops_copilot.passphrase_wordlist import offlist_phrase_passphrases, offlist_words
+
+    gen, off = generator_words(), set(offlist_words())
+    rows = offlist_phrase_passphrases(3, 120)
+    assert [r.text for r in rows] == [r.text for r in offlist_phrase_passphrases(3, 120)]
+    assert all(set(r.words) <= off and not set(r.words) & gen for r in rows)
+    parts = [p.lower() for p in re.split(r"[ ._-]", rows[0].secret)]
+    assert sum(p not in rows[0].words for p in parts) == 1
+    # the words= parameter defaults to the EFF list, so the Nov 1 phrase rows are the same rows as before
+    assert [r.text for r in phrase_passphrases(3, 20)] == [r.text for r in phrase_passphrases(3, 20, words=None)]
+    assert all(w in gen for r in phrase_passphrases(3, 20) for w in r.words)
