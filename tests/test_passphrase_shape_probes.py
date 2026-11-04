@@ -45,3 +45,20 @@ def test_phrase_rows_hold_one_inner_function_word_that_is_not_scored():
 def test_phrase_words_are_off_the_eff_list():
     gen = generator_words()
     assert not [w for w in PHRASE_WORDS if w in gen]
+
+
+def test_connective_rows_hold_one_inner_connective_that_is_on_no_list():
+    from ops_copilot.passphrase import FUNCTION_WORDS, bridge_words
+    from ops_copilot.passphrase_wordlist import CONNECTIVE_WORDS, connective_passphrases
+
+    gen = generator_words()
+    assert not [w for w in CONNECTIVE_WORDS if w in gen or w in bridge_words("stop") or w in FUNCTION_WORDS]
+    rows = connective_passphrases(3, 200)
+    assert [r.text for r in rows] == [r.text for r in connective_passphrases(3, 200)]
+    assert {r.separator for r in rows} == {"space", "hyphen", "dot", "underscore"}
+    for r in rows:
+        parts = [p.lower() for p in re.split(r"[ ._-]", r.secret)]
+        extra = [p for p in parts if p not in r.words]
+        assert len(extra) == 1 and extra[0] in CONNECTIVE_WORDS
+        assert parts[0] != extra[0] and parts[-1] != extra[0]
+        assert all(w in gen for w in r.words) and 3 <= len(r.words) <= 5

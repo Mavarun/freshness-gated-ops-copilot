@@ -309,3 +309,38 @@ def phrase_passphrases(seed: int, n: int) -> list[ProbeRow]:
             parts = [p.title() for p in parts]
         rows.append(ProbeRow(sep.join(parts), tuple(ws), SEP_NAMES[sep], ctx, tpl))
     return rows
+
+
+# ---------------------------------------------------------------------------
+# Nov 4: a held-out-connective control for ``space_bridge`` (reported, not gating)
+
+CONNECTIVE_WORDS = (
+    "because", "without", "between", "while", "after", "before", "through",
+    "against", "within", "across", "since", "though", "whether", "per",
+)
+
+
+def connective_passphrases(seed: int, n: int) -> list[ProbeRow]:
+    """``phrase_passphrases`` with connectives that are on no bridge list and not on the EFF list.
+
+    The phrase probe draws its function words from ``PHRASE_WORDS``, and every one of them is on
+    ``passphrase.FUNCTION_WORDS``, so it overstates what a function-word list can do on real
+    phrases. These 14 words (``because``, ``without``...) are on none of the lists
+    (``passphrase.bridge_words``) and not on the EFF list, so a gain here would have to come from a
+    reading that generalises past a list. Rows are otherwise built like the phrase rows: 3-5 EFF
+    words, one inner connective, half Title-Case, separators cycling through ``-``, ``.``, ``_`` and space.
+    """
+    rng = random.Random(seed)
+    words = eff_words()
+    tpls = _templates()
+    rows: list[ProbeRow] = []
+    for i in range(n):
+        ws = rng.sample(words, rng.choice((3, 4, 5)))
+        sep = SEPARATORS[i % len(SEPARATORS)]
+        ctx, tpl = tpls[rng.randrange(len(tpls))]
+        parts = list(ws)
+        parts.insert(rng.randint(1, len(parts) - 1), rng.choice(CONNECTIVE_WORDS))
+        if rng.random() < 0.5:
+            parts = [p.title() for p in parts]
+        rows.append(ProbeRow(sep.join(parts), tuple(ws), SEP_NAMES[sep], ctx, tpl))
+    return rows
