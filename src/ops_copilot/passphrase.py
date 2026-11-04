@@ -205,6 +205,11 @@ CUED_FNS_RE = re.compile(
 )
 PREP_WORDS = frozenset("a an the and or of in on at by to for from with".split())
 SPACE_BRIDGES = (None, "prep", "func", "stop")
+# ``space_bridge_rule``: "plain" = the ordinary non-ops-word count on the content words; "eff3" / "eff4" =
+# the content words must be 3+ / 4+ words that are *all* on the EFF list (a bridged run is read only as
+# list-generator output, never as prose that happens to use unusual words).
+SPACE_BRIDGE_RULES = ("plain", "eff3", "eff4")
+DEFAULT_SPACE_BRIDGE_RULE = "plain"
 DEFAULT_SPACE_BRIDGE: str | None = None
 DEFAULT_SPACE_BRIDGE_MAX = 2
 
@@ -438,6 +443,7 @@ class CuedPassphraseDetector:
         function_parts: bool = DEFAULT_FUNCTION_PARTS,
         space_bridge: str | None = DEFAULT_SPACE_BRIDGE,
         space_bridge_max: int = DEFAULT_SPACE_BRIDGE_MAX,
+        space_bridge_rule: str = DEFAULT_SPACE_BRIDGE_RULE,
         vectors=None,
     ):
         if tail not in TAIL_MODES:
@@ -469,6 +475,9 @@ class CuedPassphraseDetector:
         if space_bridge_max < 0:
             raise ValueError("space_bridge_max must be >= 0")
         self.space_bridge_max = space_bridge_max
+        if space_bridge_rule not in SPACE_BRIDGE_RULES:
+            raise ValueError(f"space_bridge_rule must be one of {SPACE_BRIDGE_RULES}")
+        self.space_bridge_rule = space_bridge_rule
         self._vectors = vectors
 
     def _incoherent(self, words: list[str]) -> bool:
@@ -540,6 +549,8 @@ class CuedPassphraseDetector:
                     continue
                 break
             keep.append(t)
+        if bridge and self.space_bridge_rule != "plain":
+            return self._bridge_eff_span(a, keep, skip)
         words = [t for j, t in enumerate(keep) if j not in skip and bare(t.group()).isalpha()]
         full = list(words)
         while words and is_ops(bare(words[-1].group()).lower()):
@@ -555,6 +566,33 @@ class CuedPassphraseDetector:
         nxt = keep[last + 1] if last + 1 < len(keep) else None
         end = nxt.end() if nxt is not None and nxt.group().isdigit() else words[-1].end()
         return (a + words[0].start(), a + end)
+
+    def _bridge_eff_span(self, a: int, keep: list[re.Match[str]], skip: set[int]) -> tuple[int, int] | None:
+        """The ``eff3`` / ``eff4`` reading of a bridged space run: only list words, at least one bridge word.
+
+        The run is cut at its first content word that is not on the EFF list (prose may follow a
+        passphrase), trailing bridge words are dropped, and a number token right after the cut is kept.
+        """
+        gen = generator_words()
+        cut: list[int] = []
+        for j, t in enumerate(keep):
+            if j in skip:
+                cut.append(j)
+                continue
+            if t.group().lower() not in gen:
+                break
+            cut.append(j)
+        while cut and cut[-1] in skip:
+            cut.pop()
+        content = [j for j in cut if j not in skip]
+        need = 3 if self.space_bridge_rule == "eff3" else 4
+        if len(content) < need or not any(j in skip for j in cut):
+            return None
+        end = keep[cut[-1]].end()
+        nxt = keep[cut[-1] + 1] if cut[-1] + 1 < len(keep) else None
+        if nxt is not None and nxt.group().isdigit():
+            end = nxt.end()
+        return (a + keep[cut[0]].start(), a + end)
 
     @staticmethod
     def _guard_ok(val: str) -> bool:
