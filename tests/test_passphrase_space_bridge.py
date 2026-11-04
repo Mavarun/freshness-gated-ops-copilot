@@ -85,3 +85,55 @@ def test_knob_never_redacts_less(text):
 def test_off_by_default_until_its_protocol_runs():
     assert CUED_PASSPHRASE.space_bridge is None
     assert CUED_PASSPHRASE.search("token ocean in velvet by badger now") is None
+
+
+# ---- Nov 4, second reading: ``space_bridge_rule`` (list words only) ----
+
+def _eff(rule="eff3", kind="func", mx=2) -> CuedPassphraseDetector:
+    return CuedPassphraseDetector(space_bridge=kind, space_bridge_max=mx, space_bridge_rule=rule)
+
+
+def test_rule_is_validated_and_defaults_to_plain():
+    from ops_copilot.passphrase import DEFAULT_SPACE_BRIDGE_RULE, SPACE_BRIDGE_RULES
+
+    assert SPACE_BRIDGE_RULES == ("plain", "eff3", "eff4") and DEFAULT_SPACE_BRIDGE_RULE == "plain"
+    with pytest.raises(ValueError):
+        CuedPassphraseDetector(space_bridge_rule="eff5")
+
+
+def test_eff_rule_reads_a_bridged_run_only_when_every_content_word_is_on_the_list():
+    t = "log in with passphrase detergent in turtle clerk goofiness please"
+    assert _eff("eff3").search(t).group() == "detergent in turtle clerk goofiness"
+    assert _eff("eff4").search(t).group() == "detergent in turtle clerk goofiness"
+    # prose with unusual words that the plain count flags is not read by the eff rule
+    prose = "password managers lead to better outcomes"
+    assert _det("func").search(prose) is not None
+    assert _eff("eff3").search(prose) is None and _eff("eff4").search(prose) is None
+
+
+def test_eff_rule_cuts_at_the_first_off_list_word_and_keeps_a_trailing_number():
+    assert _eff().search("passphrase detergent in turtle clerk zzyzx extra").group() == "detergent in turtle clerk"
+    assert _eff().search("passphrase detergent in turtle clerk 83 now").group() == "detergent in turtle clerk 83"
+    # a bridge word is never left dangling at the end of the cut
+    assert _eff().search("passphrase detergent turtle clerk by zzyzx").group() == "detergent turtle clerk"
+
+
+def test_eff_thresholds_are_three_and_four_content_words():
+    t = "passphrase detergent in turtle clerk please"
+    assert _eff("eff3").search(t).group() == "detergent in turtle clerk"
+    assert _eff("eff4").search(t) is None or _eff("eff4").search(t).group() != "detergent in turtle clerk"
+
+
+def test_eff_rule_needs_a_bridge_word_so_it_never_changes_unbridged_runs():
+    t = "passphrase detergent turtle clerk goofiness please"
+    a, b = _det("func").search(t), _eff("eff3").search(t)
+    assert (a is None) == (b is None) and (a is None or a.span() == b.span())
+
+
+@pytest.mark.parametrize("rule", ["eff3", "eff4"])
+def test_eff_rule_never_redacts_less(rule):
+    for t in ["log in with passphrase detergent in turtle clerk goofiness please", "token marble meadow lagoon badger",
+              "token detergent turtle clerk", "token marble-meadow-lagoon-badger"]:
+        a, b = CuedPassphraseDetector(space_bridge=None).search(t), _eff(rule).search(t)
+        if a is not None:
+            assert b is not None and b.start() <= a.start() and b.end() >= a.end()
