@@ -18,9 +18,77 @@ behind a **HITL approve** gate. Offline CI, frozen clock.
 | `PROPOSE_WRITE` | Imperative/request write parsed (action + target + confidence); pending HITL approve (never auto-executes) |
 | `REFUSE_AMBIGUOUS_WRITE` | Looks like a write but no target, an unregistered target (did-you-mean), no page recipient, several targets/actions, conditional, unsupported, or low confidence: asks to clarify |
 
-Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19). On passphrases drawn from the real EFF wordlist, 16 of 5,962 words leak on the Oct 30 fresh confirm seed (128 with the Oct 29 detector); on passphrases with a Bitwarden-style glued digit (`Cascade5`), 10 of 5,890 words leak on the Oct 31 fresh confirm seed (1,948 with the Oct 30 detector). Shape guards (Nov 1) stop flagging real host names and CamelCase identifiers after a credential noun: 166 of 1,920 Stack Exchange train identifiers are still flagged (221 before), and 21 of 147 test ones (24 before). Passphrases with a function word inside a compound (`turtle_unproven_in_spider_sampling_slug`) leak 19 words on the Nov 1 fresh confirm seed (883 before); space-joined ones still leak.
+Every refusal also returns a structured, redacted `explanation` (gate, evidence doc ids, stale age vs SLA, missing terms, disagreeing docs, remediation) in `/query` and the traces. Trace lines and `/query` also redact the user-derived `query`, `reason`, `write_intent` and `proposed_write` fields (0 of 349 scanned rows leak; 89 did in PR #14), including secrets typed as plain words after a credential noun (0 of 70 probe words leak; 65 did in PR #15) and diceware-style passphrases (0 of 80 probe rows leak; 47 did in PR #19). On passphrases drawn from the real EFF wordlist, 16 of 5,962 words leak on the Oct 30 fresh confirm seed (128 with the Oct 29 detector); on passphrases with a Bitwarden-style glued digit (`Cascade5`), 10 of 5,890 words leak on the Oct 31 fresh confirm seed (1,948 with the Oct 30 detector). Shape guards (Nov 1) stop flagging real host names and CamelCase identifiers after a credential noun: 166 of 1,920 Stack Exchange train identifiers are still flagged (221 before), and 21 of 147 test ones (24 before). Passphrases with a function word inside a compound (`turtle_unproven_in_spider_sampling_slug`) leak 19 words on the Nov 1 fresh confirm seed (883 before); space-joined ones still leak, and a Nov 4 list-only bridge (`space_bridge`, off) cuts the phrase probe's leaked words from 420 to 49 on fresh seeds but adds 2 false flags on 306 Stack Exchange test sentences (budget 1), so it stays off.
 
 
+
+## Space-joined phrases (2026-11-04): phrase-passphrase leaked words 420 → 49 on fresh seeds, but 2 new Stack Exchange test flags (budget 1), so it ships off
+
+The Nov 1 function-parts slice left space-joined phrases (`detergent in turtle clerk goofiness`) as the
+largest leak: 468 of the 487 phrase words still leaking on the confirm seeds. A stop word ends a space
+run, and two-letter words (`in`, `by`) never match the word pattern. This slice lets a space run hold up
+to two function words and measures what it costs on real sentences. Two pre-registered protocols, both
+committed before any scored run; the second exists because the first failed.
+
+### What changed
+
+1. **`space_bridge`** (`passphrase.bridge_words`, off by default). A function word inside a space run no
+   longer ends it; it stays in the redacted span and is left out of every word test. A bridge word may not
+   be first, last or follow another bridge word, and `space_bridge_max` caps them (2). Three lists:
+   `prep` (14 articles / prepositions), `func` (the 51 function words) and `stop` (`func` plus the retrieval
+   stop words).
+2. **Protocol 1** (`passphrase_space_protocol`, seeds 3401-3463; `artifacts/passphrase_space_calibration.md`).
+   Five arms on six probes, one of them a new **connective** probe (`because`, `without`, `between`: words on no list).
+   Every arm closes much of the phrase leak (468 → 207 with `prep`, 94 with `func` / `stop`) and every arm
+   fails the SE train sentence budget (28 flagged → 56 / 64 / 75 / 84; budget +5). Nothing is picked, and
+   the confirm seeds are never spent.
+3. **Post-hoc diagnosis** (`scripts/diagnose_space_bridge.py`, SE train only). All 28-56 new flags are
+   ordinary prose (`managers lead to better outcomes`, `complexity and regular expiration requirements`) and
+   every one holds at least one word that is not on the EFF list.
+4. **`space_bridge_rule`** (`eff3` / `eff4`, off by default). A bridged run is read only when it holds 3 / 4+
+   content words that are *all* on the EFF list and the run is cut at the first off-list word. SE train flags of
+   0 new for this rule are true by construction (the rule came from those flags), so the protocol's evidence is
+   SE *test* plus two controls: an **off-list phrase** probe (words not on the EFF list, no gain expected) and the connective probe.
+5. **Protocol 2** (`passphrase_space_eff_protocol`, fresh seeds 3501-3567). Calibration (SE train): all four
+   arms safe, `func/2/eff3` picked: phrase leaks 454 → 70, SE train sentence flags 28 → 30 (budget +5),
+   0 new identifier flags, 0 Oct 13 leaks, controls unchanged (connective 146, off-list phrase 430).
+6. **One-shot confirm** on fresh seeds + SE test (`artifacts/passphrase_space_eff_confirm.md`):
+
+| fresh seeds 3533-3567, SE test | shipped (Nov 1) | `func/2/eff3` |
+| :--- | ---: | ---: |
+| phrase probe leaked words | 420 | **49** (space-joined 391 → 20) |
+| connective probe leaked words (words on no list) | 173 | 173 |
+| off-list phrase probe leaked words | 457 | 457 |
+| standard / attached / invented / cased leaked words | 28 / 16 / 0 / 5 | 28 / 16 / 0 / 5 |
+| over-redacted template words (seven probes) | 3,654 | 3,716 (+62) |
+| SE test sentences flagged (all false positives) | 0 / 306 | **2 / 306** (budget +1) |
+| SE test identifiers flagged | 21 / 147 | 21 / 147 (0 new) |
+
+   The two flagged sentences are one text that occurs twice in the test set: `... most users do not use a password
+   manager and thus the password gets saved ...`, read as `manager and thus the password`. The check is a count, so
+   it fails, and the confirm seeds are spent. **`space_bridge` ships off.** Nothing in the shipped detector changed.
+
+### Reproduce
+
+    pytest tests/test_passphrase_space*.py tests/test_space_bridge_diagnosis.py                       # CI, offline
+    python scripts/run_passphrase_space_protocol.py --phase calibrate --raw-dir /tmp/se_qa_raw       # needs the SE pages
+    python scripts/run_passphrase_space_protocol.py --protocol eff --phase calibrate --raw-dir /tmp/se_qa_raw
+    python scripts/run_passphrase_space_protocol.py --protocol eff --phase confirm --raw-dir /tmp/se_qa_raw   # spent
+    python scripts/diagnose_space_bridge.py --raw-dir /tmp/se_qa_raw
+
+### Weaknesses
+
+- **Space-joined phrases still leak in the shipped detector** (391 of the 420 phrase words on the confirm seeds).
+  The list-only reading cuts that to 20 but fails a 1-sentence SE test budget: 2 of 306 sentences, which are
+  one text that occurs twice, so the test set holds one distinct false flag and is too small to price it.
+- **Two limits of any list reading.** Passphrases from words off the EFF list get nothing (off-list phrase probe,
+  457 leaked words, unchanged), and connectives on no list (`because`, `without`) are not bridged (173, unchanged).
+  The phrase probe draws both its words and its function words from lists, so 420 → 49 is an upper bound.
+- Two function words in a row (`in the`) still end a run by design, and a leading function word after the cue
+  (`password the quick ...`) ends it before it starts. Neither was measured.
+- The first protocol's confirm seeds (3433-3463) were never scored. They stay unspent for any later variant of the
+  plain-count reading.
+- Held-out ANSWER is still **0 of 9**; understanding was not touched.
 
 ## Function-word parts (2026-11-01, second slice): phrase-passphrase leaked words 1,351 → 487 on a fresh confirm seed (compounds 883 → 19), 0 new SE test flags, ships on
 
