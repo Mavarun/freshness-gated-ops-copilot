@@ -98,8 +98,9 @@ def probe_rows(kind: str, seed: int, n: int = N_ROWS):
     return rows(kind, seed, n)
 
 
-def checks(res: dict, base: dict, *, sent_budget: int, ident_budget: int) -> dict[str, Any]:
+def checks(res: dict, base: dict, *, sent_budget: int, ident_budget: int, probes: tuple[str, ...] | None = None) -> dict[str, Any]:
     p, b = res["probe"], base["probe"]
+    probes = probes or PROBES
     return {
         "oct13_no_leak": res["oct13_leak_words"] == 0,
         "repo_queries_unchanged": res["repo_query_changes"] == 0,
@@ -108,9 +109,9 @@ def checks(res: dict, base: dict, *, sent_budget: int, ident_budget: int) -> dic
         "se_identifiers": res["se"]["ident_new"] <= ident_budget,
         "over_budget": all(
             p[k]["total"]["over_words"] - b[k]["total"]["over_words"] <= OVER_BUDGET_PER_ROW * b[k]["total"]["rows"]
-            for k in PROBES
+            for k in probes
         ),
-        "no_more_leaks": all(p[k]["total"]["leak_words"] <= b[k]["total"]["leak_words"] for k in PROBES),
+        "no_more_leaks": all(p[k]["total"]["leak_words"] <= b[k]["total"]["leak_words"] for k in probes),
         "gain": p["phrase"]["total"]["leak_words"] < b["phrase"]["total"]["leak_words"],
     }
 
