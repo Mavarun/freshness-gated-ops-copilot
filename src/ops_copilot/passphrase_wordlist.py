@@ -286,7 +286,7 @@ def cased_passphrases(seed: int, n: int) -> list[ProbeRow]:
     return rows
 
 
-def phrase_passphrases(seed: int, n: int) -> list[ProbeRow]:
+def phrase_passphrases(seed: int, n: int, *, words: Sequence[str] | None = None) -> list[ProbeRow]:
     """``n`` rows of 3-5 EFF words with one short function word inside (``ocean-and-velvet-badger``).
 
     A person who types a phrase as a passphrase writes connectives; the ``stop``
@@ -296,7 +296,7 @@ def phrase_passphrases(seed: int, n: int) -> list[ProbeRow]:
     position; separators cycle through ``-``, ``.``, ``_`` and space.
     """
     rng = random.Random(seed)
-    words = eff_words()
+    words = eff_words() if words is None else tuple(words)
     tpls = _templates()
     rows: list[ProbeRow] = []
     for i in range(n):
@@ -344,3 +344,12 @@ def connective_passphrases(seed: int, n: int) -> list[ProbeRow]:
             parts = [p.title() for p in parts]
         rows.append(ProbeRow(sep.join(parts), tuple(ws), SEP_NAMES[sep], ctx, tpl))
     return rows
+
+
+def offlist_phrase_passphrases(seed: int, n: int) -> list[ProbeRow]:
+    """``phrase_passphrases`` over the off-list control words (``offlist_words``) instead of the EFF list.
+
+    A passphrase a person or another generator writes from words outside the EFF list. A reading that
+    keys on EFF membership (``space_bridge_rule="eff3"``) should gain nothing here, which is the point.
+    """
+    return phrase_passphrases(seed, n, words=offlist_words())
