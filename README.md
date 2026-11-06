@@ -22,6 +22,75 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Verified did-you-mean rewrites (2026-11-06): the gold word comes back on 2 of 9 held-out rows (1 in its own slot), under the floor of 3, so `suggest_rewrites` ships off
+
+Held-out ANSWER has been 0 of 9 because every way to understand a held-out word (`lag` for `latency`)
+needs a resource that knows the pair, and hand-written resources may not hold held-out words. This
+slice does not try to understand the word. On a `REFUSE_UNGROUNDED` refusal it swaps each missing term
+for a word the closest retrieved chunks use, and keeps a rewrite only if the rewritten query passes
+every gate. The user would pick one. The decision on the original query never changes, so held-out
+ANSWER stays **0 of 9** by construction: this measures "one click away", not understanding.
+
+### What changed
+
+1. **`rewrite_suggest`**: candidate words from the top-3 retrieved chunks (no stop words, identifiers or
+   query words), ranked by `idf`, `first` (order in the chunk) or `context` (how many of the missing
+   term's query neighbours sit within 2 tokens of the candidate in a chunk). `min_context` drops
+   candidates with fewer shared neighbours.
+2. **Harness** (`rewrite_suggest_eval`): rescuable rows (expected ANSWER, refused as ungrounded), traps
+   (expected `REFUSE_UNGROUNDED`; any suggestion is an *invitation* to a different question), and a
+   seeded **null control** that swaps in random corpus words.
+3. **Protocol** (`rewrite_suggest_protocol`, frozen before the grid and before any confirm row): 7 arms
+   calibrated on dev2-dev6; pick the best top-1 anchor hit with trap invitations <= 0.40 and top-1
+   anchor precision >= 0.50; confirm once on dev7 + fresh and the held-out rows; ship only if
+   held-out anchor hits in the top 3 are >= 3 of 9.
+4. **`suggest_rewrites`** config knob (off): attaches the rewrites to the explanation, skips queries
+   with PII, never changes the decision.
+
+### Results
+
+Calibration (dev2-dev6, 93 rescuable rows, 42 traps; `artifacts/rewrite_suggest_calibration.md`):
+
+| arm | anchor hit @1 | anchor hit @3 | anchor precision @1 | trap invitations |
+| :--- | ---: | ---: | ---: | ---: |
+| `idf` | 0.247 | 0.344 | 0.258 | 0.500 |
+| `context` | 0.430 | 0.538 | 0.449 | 0.548 |
+| `context_mc2` (picked) | 0.430 | 0.441 | 0.678 | 0.286 |
+| `context_pairs` | 0.430 | 0.538 | 0.449 | 0.786 |
+
+The **null control** matters most here: random corpus words swapped for the missing term pass every gate
+on **43.6%** of tries. Doc hits (0.957 for most arms) mostly measure that leniency, not the ranking, so
+the protocol scores on the anchor word.
+
+One-shot confirm, `context_mc2` (`artifacts/rewrite_suggest_confirm.md`):
+
+| set | rescuable | anchor hit @3 | anchor precision @1 | trap invitations |
+| :--- | ---: | ---: | ---: | ---: |
+| dev7 + fresh | 33 | 0.545 | 0.773 | 0.300 |
+| held-out | 9 | **2 of 9** | 1.000 | 0.250 |
+
+Held-out misses the floor of 3, so **`suggest_rewrites` ships off**. A post-hoc check
+(`artifacts/rewrite_suggest_posthoc.md`, never changes the call) found one of the two held-out hits is
+loose: `What is the latency checkout p99 lag?` puts `latency` in the slot of `present`, not `lag`. In the
+user's own slot `context_mc2` gets **1 of 9**; `context_pairs` gets 4 of 9 but invites half the traps.
+
+### Reproduce
+
+    pytest tests/test_rewrite_suggest*.py tests/test_readme_rewrite_numbers.py
+    python scripts/run_rewrite_suggest_protocol.py --phase calibrate
+    python scripts/run_rewrite_suggest_protocol.py --phase confirm     # spent
+    python scripts/run_rewrite_suggest_protocol.py --phase posthoc
+
+### Weaknesses
+
+- The grounding gate is lenient: 43.6% of random one-word swaps pass it on dev2-dev6. That is a
+  safety finding in its own right, not just a problem for rewrites, and it is untested on answers.
+- Held-out ANSWER is still **0 of 9**. Rewrites need the anchor word in a retrieved chunk next to the
+  query's other words. `turned on`, `kick off` and `cycling timetable` have no such neighbour.
+- Two-word swaps (`context_pairs`) find more held-out anchors (4 of 9 strict) but invite 0.786 of the
+  calibration traps. A trap-aware pair rule needs a fresh set.
+- Ops synonyms, everyday paraphrases and format-less secrets were not touched.
+
 ## Space-joined phrases (2026-11-04): phrase-passphrase leaked words 420 → 49 on fresh seeds, but 2 new Stack Exchange test flags (budget 1), so it ships off
 
 The Nov 1 function-parts slice left space-joined phrases (`detergent in turtle clerk goofiness`) as the
