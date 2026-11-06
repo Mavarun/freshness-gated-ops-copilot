@@ -76,3 +76,15 @@ def test_no_missing_terms_means_no_suggestions(bot):
         decision=Decision.REFUSE_UNGROUNDED, explanation={"missing_terms": []}, query="q", retrieved=[]
     )
     assert suggest_rewrites(fake, bot) == []
+
+
+def test_min_context_filters_candidates_without_shared_neighbours(bot):
+    from ops_copilot.rewrite_suggest import context_scores, ranked_for_term
+
+    r = bot.ask("What is the left error allowance for checkout?")
+    cfg = SuggestConfig(rank="context", min_context=1)
+    kept = ranked_for_term(r, bot, "allowance", cfg)
+    assert kept and kept[0] == "budget"
+    scores = context_scores(r, "allowance", kept, cfg)
+    assert all(scores[w] >= 1 for w in kept)
+    assert len(kept) <= len(ranked_for_term(r, bot, "allowance", SuggestConfig(rank="context")))

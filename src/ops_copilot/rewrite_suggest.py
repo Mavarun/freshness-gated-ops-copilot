@@ -51,6 +51,11 @@ class SuggestConfig:
     allow_drop: bool = False
     max_suggestions: int = 3
     window: int = 2
+    # context rank only: drop candidates sharing fewer than this many query
+    # neighbours (0 keeps everything). The null control (random corpus words
+    # verify ~44% of the time on dev2-dev6) showed the gates accept almost any
+    # swap near the right document, so precision has to come from the candidate.
+    min_context: int = 0
 
 
 @dataclass
@@ -147,7 +152,8 @@ def ranked_for_term(result, bot, term: str, cfg: SuggestConfig) -> list[str]:
     base = candidate_words(result, bot, SuggestConfig(rank="idf", top_chunks=cfg.top_chunks))
     order = {w: i for i, w in enumerate(base)}
     ctx = context_scores(result, term, base, cfg)
-    return sorted(base, key=lambda w: (-ctx[w], order[w]))[: cfg.max_candidates]
+    kept = [w for w in base if ctx[w] >= cfg.min_context]
+    return sorted(kept, key=lambda w: (-ctx[w], order[w]))[: cfg.max_candidates]
 
 
 def swap_word(query: str, term: str, replacement: str) -> str | None:
