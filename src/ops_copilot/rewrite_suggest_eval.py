@@ -92,6 +92,7 @@ class ArmScore:
     n_covered: int = 0
     doc_hit_1: int = 0
     doc_hit_3: int = 0
+    anchor_hit_1: int = 0
     anchor_hit_3: int = 0
     n_traps: int = 0
     trap_invitations: int = 0
@@ -105,7 +106,10 @@ class ArmScore:
             "coverage": self.n_covered / n,
             "doc_hit_1": self.doc_hit_1 / n,
             "doc_hit_3": self.doc_hit_3 / n,
+            "anchor_hit_1": self.anchor_hit_1 / n,
             "anchor_hit_3": self.anchor_hit_3 / n,
+            # share of offered top suggestions that restore the gold anchor
+            "anchor_precision_1": self.anchor_hit_1 / max(self.n_covered, 1),
             "trap_invitation": self.trap_invitations / t,
             "null_verify_rate": self.null_verified / max(self.null_tried, 1),
         }
@@ -156,10 +160,12 @@ def score_arm(
         rws = suggest_rewrites(res, bot, cfg, verifier=verifier)
         hits = [bool({_doc(c) for c in r.cited_ids} & want) for r in rws]
         anchors = {fold_token(a) for a in row.anchors}
-        anchor = any(fold_token(rep) in anchors for r in rws for _, rep in r.swaps if rep)
+        restores = [any(fold_token(rep) in anchors for _, rep in r.swaps if rep) for r in rws]
+        anchor = any(restores[:3])
         sc.n_covered += bool(rws)
         sc.doc_hit_1 += bool(hits[:1] and hits[0])
         sc.doc_hit_3 += any(hits[:3])
+        sc.anchor_hit_1 += bool(restores[:1] and restores[0])
         sc.anchor_hit_3 += anchor
         sc.rows.append({"id": row.id, "kind": "rescuable", "suggestions": [r.query for r in rws],
                         "doc_hits": hits, "anchor_hit": anchor})

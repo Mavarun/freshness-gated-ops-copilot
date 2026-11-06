@@ -37,7 +37,8 @@ def test_score_arm_counts_rescuable_traps_and_null():
     ]
     sc = score_arm(rows, SuggestConfig(rank="context"), null_draws=3)
     assert sc.n_rescuable == 1  # x2 is answered by the default, so it is not rescuable
-    assert sc.anchor_hit_3 == 1
+    assert sc.anchor_hit_3 == 1 and sc.anchor_hit_1 == 1
+    assert sc.rates()["anchor_precision_1"] == 1.0
     assert sc.null_tried == 3
     r = sc.rates()
     assert 0 <= r["null_verify_rate"] <= 1 and r["coverage"] == 1.0
