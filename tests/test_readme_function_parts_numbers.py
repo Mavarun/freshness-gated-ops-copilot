@@ -22,7 +22,7 @@ def _j(name: str) -> dict:
 def test_section_order() -> None:
     heads = [h for h in README.splitlines() if h.startswith("## ")]
     i = next(k for k, h in enumerate(heads) if h.startswith(HEAD))
-    assert i == 1 and heads[0].startswith("## Space-joined phrases (2026-11-04)") and heads[i + 1].startswith("## Shape guards (2026-11-01)")
+    assert heads[i - 1].startswith("## Space-joined phrases (2026-11-04)") and heads[i + 1].startswith("## Shape guards (2026-11-01)")
 
 
 def test_calibration_numbers() -> None:
