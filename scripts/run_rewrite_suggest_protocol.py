@@ -3,6 +3,7 @@
 
     python scripts/run_rewrite_suggest_protocol.py --phase calibrate
     python scripts/run_rewrite_suggest_protocol.py --phase confirm     # one shot; refuses to rerun
+    python scripts/run_rewrite_suggest_protocol.py --phase posthoc     # strict anchors, never changes the ship call
 """
 
 from __future__ import annotations
@@ -81,7 +82,32 @@ def confirm() -> int:
     return 0
 
 
+def posthoc() -> int:
+    """Strict-slot anchors for every arm on calibration and on the spent confirm rows."""
+    conf = json.loads((ART / "rewrite_suggest_confirm.json").read_text(encoding="utf-8"))
+    sets = {"calibration": load_rows(CALIBRATION_FILES), "dev7+fresh": load_rows(CONFIRM_FILES),
+            "heldout": load_heldout_rows()}
+    out: dict = {"confirm_arm": conf["arm"], "confirm_ships": conf["ships"], "sets": {}}
+    md = ["# Verified rewrites, post-hoc strict anchors (does not change the ship call)", "",
+          f"Confirm arm `{conf['arm']}` shipped **{'on' if conf['ships'] else 'off'}**. "
+          "Strict = gold word placed in the slot of the word the user typed.", "",
+          "| set | arm | rescuable | anchor_hit_3 | strict_anchor_hit_3 | trap_invitation |",
+          "| :--- | :--- | ---: | ---: | ---: | ---: |"]
+    for set_name, rows in sets.items():
+        out["sets"][set_name] = {}
+        for name, cfg in ARMS.items():
+            d = score_arm(rows, cfg).as_dict()
+            out["sets"][set_name][name] = {k: v for k, v in d.items() if k != "rows"}
+            r = d["rates"]
+            md.append(f"| {set_name} | `{name}` | {d['n_rescuable']} | {d['anchor_hit_3']} | "
+                      f"{d['strict_anchor_hit_3']} | {r['trap_invitation']:.3f} |")
+    (ART / "rewrite_suggest_posthoc.json").write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8")
+    (ART / "rewrite_suggest_posthoc.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    print("\n".join(md))
+    return 0
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--phase", choices=("calibrate", "confirm"), required=True)
-    sys.exit(calibrate() if ap.parse_args().phase == "calibrate" else confirm())
+    ap.add_argument("--phase", choices=("calibrate", "confirm", "posthoc"), required=True)
+    sys.exit({"calibrate": calibrate, "confirm": confirm, "posthoc": posthoc}[ap.parse_args().phase]())
