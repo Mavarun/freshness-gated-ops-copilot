@@ -1,0 +1,570 @@
+{
+  "arm": "context_mc2",
+  "pooled": {
+    "n_rescuable": 33,
+    "n_covered": 22,
+    "doc_hit_1": 22,
+    "doc_hit_3": 22,
+    "anchor_hit_1": 17,
+    "anchor_hit_3": 18,
+    "n_traps": 10,
+    "trap_invitations": 3,
+    "null_verified": 80,
+    "null_tried": 186,
+    "rows": [
+      {
+        "id": "d7-01",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the current checkout p99 latency?",
+          "What is the current checkout p99 open?",
+          "What is the current checkout p99 utc?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-02",
+        "kind": "rescuable",
+        "suggestions": [
+          "Is the checkout_retry feature flag enabled?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-03",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "d7-04",
+        "kind": "rescuable",
+        "suggestions": [
+          "Who is the primary asha right now?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": false
+      },
+      {
+        "id": "d7-05",
+        "kind": "rescuable",
+        "suggestions": [
+          "Who is the primary on-call right now?",
+          "Who is the asha on-call right now?",
+          "Who is the patel on-call right now?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-06",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "d7-07",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "d7-08",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the remaining error budget for checkout?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-09",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the remaining error budget for checkout?",
+          "What is the remaining error slo for checkout?",
+          "What is the remaining error percent for checkout?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-10",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "d7-11",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "d7-12",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the Redis checkout-pool increase?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": false
+      },
+      {
+        "id": "d7-13",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the Redis checkout-pool increase?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": false
+      },
+      {
+        "id": "d7-14",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "d7-15",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the production maintenance change window?",
+          "What is the production freeze change window?",
+          "What is the production saturday change window?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-16",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the production maintenance change window?",
+          "What is the production maintenance change freeze?",
+          "What is the production maintenance change states?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-17",
+        "kind": "rescuable",
+        "suggestions": [
+          "When does the production freeze start?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-20",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the Vault AppRole rotation schedule?",
+          "What is the Vault AppRole states schedule?",
+          "What is the Vault AppRole injection schedule?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-21",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the vault-transit key rotation contact email?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-22",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the vault-transit key rotation contact email?",
+          "What is the vault-transit key rotation contact phone?"
+        ],
+        "doc_hits": [
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-23",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the vault-transit key rotation schedule window?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-25",
+        "kind": "rescuable",
+        "suggestions": [
+          "Is the checkout_retry feature flag enabled?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "d7-26",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "d7-31",
+        "kind": "trap",
+        "suggestions": []
+      },
+      {
+        "id": "d7-32",
+        "kind": "trap",
+        "suggestions": []
+      },
+      {
+        "id": "d7-33",
+        "kind": "trap",
+        "suggestions": []
+      },
+      {
+        "id": "d7-34",
+        "kind": "trap",
+        "suggestions": []
+      },
+      {
+        "id": "d7-38",
+        "kind": "trap",
+        "suggestions": [
+          "What is the remaining percent budget for checkout?",
+          "What is the remaining error budget for checkout?",
+          "What is the remaining not budget for checkout?"
+        ]
+      },
+      {
+        "id": "d7-39",
+        "kind": "trap",
+        "suggestions": [
+          "Who is the primary asha right now?"
+        ]
+      },
+      {
+        "id": "d7-40",
+        "kind": "trap",
+        "suggestions": [
+          "When does the production freeze start?"
+        ]
+      },
+      {
+        "id": "f02",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "f03",
+        "kind": "rescuable",
+        "suggestions": [
+          "Who is the primary on-call right now?",
+          "Who is the asha on-call right now?",
+          "Who is the patel on-call right now?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "f04",
+        "kind": "rescuable",
+        "suggestions": [
+          "How many checkout-api replicas are hpa?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": false
+      },
+      {
+        "id": "f05",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the remaining error budget for checkout?"
+        ],
+        "doc_hits": [
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "f06",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "f07",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "f08",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "f09",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the production maintenance change window?",
+          "What is the production maintenance change freeze?",
+          "What is the production maintenance change states?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "f10",
+        "kind": "rescuable",
+        "suggestions": [
+          "When does the production freeze change?",
+          "When does the production freeze starts?",
+          "When does the production freeze utc?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "f11",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the Vault AppRole rotation schedule?",
+          "What is the Vault AppRole rotation runs?"
+        ],
+        "doc_hits": [
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "f18",
+        "kind": "trap",
+        "suggestions": []
+      },
+      {
+        "id": "f19",
+        "kind": "trap",
+        "suggestions": []
+      },
+      {
+        "id": "f20",
+        "kind": "trap",
+        "suggestions": []
+      }
+    ],
+    "rates": {
+      "coverage": 0.6666666666666666,
+      "doc_hit_1": 0.6666666666666666,
+      "doc_hit_3": 0.6666666666666666,
+      "anchor_hit_1": 0.5151515151515151,
+      "anchor_hit_3": 0.5454545454545454,
+      "anchor_precision_1": 0.7727272727272727,
+      "trap_invitation": 0.3,
+      "null_verify_rate": 0.43010752688172044
+    }
+  },
+  "heldout": {
+    "n_rescuable": 9,
+    "n_covered": 2,
+    "doc_hit_1": 2,
+    "doc_hit_3": 2,
+    "anchor_hit_1": 2,
+    "anchor_hit_3": 2,
+    "n_traps": 4,
+    "trap_invitations": 1,
+    "null_verified": 5,
+    "null_tried": 54,
+    "rows": [
+      {
+        "id": "g00-synonym",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the latency checkout p99 lag?",
+          "What is the open checkout p99 lag?",
+          "What is the utc checkout p99 lag?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "g01-synonym",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "g04-synonym",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "g05-synonym",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "g07-synonym",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "g19-synonym",
+        "kind": "trap",
+        "suggestions": [
+          "What is the rollback flag for the checkout_retry feature toggle?"
+        ]
+      },
+      {
+        "id": "g20-synonym",
+        "kind": "trap",
+        "suggestions": []
+      },
+      {
+        "id": "g23-synonym",
+        "kind": "trap",
+        "suggestions": []
+      },
+      {
+        "id": "g25-synonym",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "g40-synonym",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      },
+      {
+        "id": "g45-synonym",
+        "kind": "trap",
+        "suggestions": []
+      },
+      {
+        "id": "g47-synonym",
+        "kind": "rescuable",
+        "suggestions": [
+          "What is the vault-transit credential rotation contact email?",
+          "What is the vault-transit credential key contact email?",
+          "What is the vault-transit credential phone contact email?"
+        ],
+        "doc_hits": [
+          true,
+          true,
+          true
+        ],
+        "anchor_hit": true
+      },
+      {
+        "id": "g50-synonym",
+        "kind": "rescuable",
+        "suggestions": [],
+        "doc_hits": [],
+        "anchor_hit": false
+      }
+    ],
+    "rates": {
+      "coverage": 0.2222222222222222,
+      "doc_hit_1": 0.2222222222222222,
+      "doc_hit_3": 0.2222222222222222,
+      "anchor_hit_1": 0.2222222222222222,
+      "anchor_hit_3": 0.2222222222222222,
+      "anchor_precision_1": 1.0,
+      "trap_invitation": 0.25,
+      "null_verify_rate": 0.09259259259259259
+    }
+  },
+  "ships": false
+}
