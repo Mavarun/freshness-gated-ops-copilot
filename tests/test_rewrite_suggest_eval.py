@@ -42,3 +42,17 @@ def test_score_arm_counts_rescuable_traps_and_null():
     assert sc.null_tried == 3
     r = sc.rates()
     assert 0 <= r["null_verify_rate"] <= 1 and r["coverage"] == 1.0
+
+
+def test_strict_anchor_needs_the_typed_slot():
+    rows = load_heldout_rows()
+    g00 = next(r for r in rows if r.id == "g00-synonym")
+    assert "lag" in g00.swapped and "present" in g00.swapped
+    sc = score_arm([g00], SuggestConfig(rank="context", min_context=2))
+    # the confirm's only g00 hit swaps 'present' for 'latency': loose hit, not strict
+    assert sc.anchor_hit_3 == 1
+    assert sc.strict_anchor_hit_3 == 0
+
+
+def test_swap_right_side_is_parsed():
+    assert _anchors_from_swap("latency -> sluggishness", 1) == ("sluggishness",)

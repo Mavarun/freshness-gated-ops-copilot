@@ -6,7 +6,10 @@ Rows come from the synonym sets that carry the clean golden query they were made
 - **rescuable**: expected ``ANSWER`` but the shipped default refuses ``REFUSE_UNGROUNDED``.
   A suggestion is a *doc hit* when the rewritten query's answer cites a document the
   clean golden query's answer cites, and an *anchor hit* when the rewrite puts the gold
-  anchor word (the left side of the swap, e.g. ``latency`` for ``latency -> lag``) back.
+  anchor word (the left side of the swap, e.g. ``latency`` for ``latency -> lag``) back,
+  and a *strict* anchor hit when it does so in the slot of the word the user typed
+  (``lag`` -> ``latency``, not ``present`` -> ``latency``; added post-hoc on 2026-11-06
+  after the confirm showed ``What is the latency checkout p99 lag?`` counted as a hit).
 - **traps**: expected ``REFUSE_UNGROUNDED`` and refused so by the default. Any
   suggestion is an *invitation*: the user is offered a different, answerable question.
 - **null control**: for each rescuable row, the missing term is swapped for seeded random
@@ -44,18 +47,28 @@ class EvalRow:
     expect: str
     anchors: tuple[str, ...]
     source: str
+    swapped: tuple[str, ...] = ()  # right side of the swap: the words the user typed
+    # per swap: (gold anchor tokens, typed tokens); a strict hit must stay inside one pair
+    pairs: tuple[tuple[tuple[str, ...], tuple[str, ...]], ...] = ()
 
 
 def _doc(chunk_id: str) -> str:
     return chunk_id.split("::", 1)[0]
 
 
-def _anchors_from_swap(swap: str) -> tuple[str, ...]:
+def _anchors_from_swap(swap: str, side: int = 0) -> tuple[str, ...]:
     out: list[str] = []
     for part in swap.split(","):
         if "->" in part:
-            out.extend(tokenize(part.split("->", 1)[0]))
+            out.extend(tokenize(part.split("->", 1)[side]))
     return tuple(out)
+
+
+def _pairs(parts: list[str]) -> tuple[tuple[tuple[str, ...], tuple[str, ...]], ...]:
+    return tuple(
+        (tuple(tokenize(p.split("->", 1)[0])), tuple(tokenize(p.split("->", 1)[1])))
+        for p in parts if "->" in p
+    )
 
 
 def load_rows(files: tuple[str, ...], root: Path = ROOT) -> list[EvalRow]:
@@ -66,7 +79,9 @@ def load_rows(files: tuple[str, ...], root: Path = ROOT) -> list[EvalRow]:
                 r = json.loads(line)
                 rows.append(
                     EvalRow(r["id"], r["query"], int(r.get("source_index", -1)), r["expect_decision"],
-                            _anchors_from_swap(r.get("swap", "")), rel)
+                            _anchors_from_swap(r.get("swap", "")), rel,
+                            _anchors_from_swap(r.get("swap", ""), 1),
+                            _pairs(r.get("swap", "").split(",")))
                 )
     return rows
 
@@ -81,8 +96,9 @@ def load_heldout_rows() -> list[EvalRow]:
             continue
         pairs = split[rid].get("pairs", [])
         anchors = tuple(t for p in pairs for t in tokenize(p.split("->", 1)[0]))
+        swapped = tuple(t for p in pairs for t in tokenize(p.split("->", 1)[1]))
         out.append(EvalRow(rid, r["query"], int(r.get("source_index", -1)), r["expect_decision"], anchors,
-                           "heldout"))
+                           "heldout", swapped, _pairs(list(pairs))))
     return out
 
 
@@ -94,6 +110,7 @@ class ArmScore:
     doc_hit_3: int = 0
     anchor_hit_1: int = 0
     anchor_hit_3: int = 0
+    strict_anchor_hit_3: int = 0
     n_traps: int = 0
     trap_invitations: int = 0
     null_verified: int = 0
@@ -108,6 +125,7 @@ class ArmScore:
             "doc_hit_3": self.doc_hit_3 / n,
             "anchor_hit_1": self.anchor_hit_1 / n,
             "anchor_hit_3": self.anchor_hit_3 / n,
+            "strict_anchor_hit_3": self.strict_anchor_hit_3 / n,
             # share of offered top suggestions that restore the gold anchor
             "anchor_precision_1": self.anchor_hit_1 / max(self.n_covered, 1),
             "trap_invitation": self.trap_invitations / t,
@@ -162,13 +180,21 @@ def score_arm(
         anchors = {fold_token(a) for a in row.anchors}
         restores = [any(fold_token(rep) in anchors for _, rep in r.swaps if rep) for r in rws]
         anchor = any(restores[:3])
+        strict = any(
+            fold_token(term) in {fold_token(t) for t in typed}
+            and fold_token(rep) in {fold_token(a) for a in gold}
+            for r in rws[:3] for term, rep in r.swaps if rep
+            for gold, typed in row.pairs
+        )
         sc.n_covered += bool(rws)
         sc.doc_hit_1 += bool(hits[:1] and hits[0])
         sc.doc_hit_3 += any(hits[:3])
         sc.anchor_hit_1 += bool(restores[:1] and restores[0])
         sc.anchor_hit_3 += anchor
+        sc.strict_anchor_hit_3 += strict
         sc.rows.append({"id": row.id, "kind": "rescuable", "suggestions": [r.query for r in rws],
-                        "doc_hits": hits, "anchor_hit": anchor})
+                        "doc_hits": hits, "anchor_hit": anchor, "strict_anchor_hit": strict,
+                        "swaps": [[list(x) for x in r.swaps] for r in rws]})
         missing = (res.explanation or {}).get("missing_terms") or []
         for _ in range(null_draws if missing else 0):
             q = swap_word(res.query, missing[0], rng.choice(words))
