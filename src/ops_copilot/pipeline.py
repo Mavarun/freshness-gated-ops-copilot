@@ -537,7 +537,7 @@ class Copilot:
         )
 
         latency_ms = (time.perf_counter() - started) * 1000.0
-        return CopilotResult(
+        result = CopilotResult(
             query=query,
             decision=policy.decision,
             reason=policy.reason,
@@ -562,6 +562,30 @@ class Copilot:
             write_intent=intent.parse_dict() if intent is not None else None,
             explanation=policy.explanation,
         )
+        if cfg.suggest_rewrites:
+            self._attach_rewrites(result)
+        return result
+
+    def _attach_rewrites(self, result: CopilotResult) -> None:
+        """Verified did-you-mean rewrites on REFUSE_UNGROUNDED (off by default, 2026-11-06).
+
+        The decision is never changed. Queries holding PII or a secret get no
+        rewrites, since a rewrite echoes the query back. The verifier runs with the
+        knob off so rewrites are never themselves rewritten.
+        """
+        from dataclasses import replace as _replace
+
+        from ops_copilot.rewrite_suggest import SuggestConfig, suggest_rewrites
+
+        if result.decision != Decision.REFUSE_UNGROUNDED or result.explanation is None:
+            return
+        if detect_pii(result.query) or result.redactions_count:
+            return
+        if getattr(self, "_rewrite_verifier", None) is None:
+            self._rewrite_verifier = Copilot(config=_replace(self.config, suggest_rewrites=False))
+        cfg = SuggestConfig(rank="context", min_context=self.config.suggest_rewrites_min_context)
+        rws = suggest_rewrites(result, self, cfg, verifier=self._rewrite_verifier)
+        result.explanation = {**result.explanation, "suggested_rewrites": [r.as_dict() for r in rws]}
 
 
 def run_query(

@@ -36,6 +36,11 @@ class CopilotConfig:
     """Policy and retrieval knobs for a single copilot instance."""
 
     max_age_hours: float = 48.0
+    # Verified did-you-mean rewrites on REFUSE_UNGROUNDED (rewrite_suggest.py).
+    # Off: the 2026-11-06 confirm put the gold word back on 2 of 9 held-out rows
+    # (1 in its own slot) against a floor of 3. Never changes a decision.
+    suggest_rewrites: bool = False
+    suggest_rewrites_min_context: int = 2
     # When True, freshness uses per-source SLAs (see config/source_slas.yaml)
     # with max_age_hours as the fallback for unknown sources. When False,
     # every source shares max_age_hours (v0 global-only behaviour).

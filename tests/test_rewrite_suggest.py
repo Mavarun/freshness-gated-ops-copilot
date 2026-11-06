@@ -88,3 +88,24 @@ def test_min_context_filters_candidates_without_shared_neighbours(bot):
     scores = context_scores(r, "allowance", kept, cfg)
     assert all(scores[w] >= 1 for w in kept)
     assert len(kept) <= len(ranked_for_term(r, bot, "allowance", SuggestConfig(rank="context")))
+
+
+def test_pipeline_knob_is_off_by_default_and_never_changes_decision():
+    from ops_copilot.config import CopilotConfig
+
+    q = "What is the left error allowance for checkout?"
+    off = Copilot().ask(q)
+    assert "suggested_rewrites" not in (off.explanation or {})
+    on = Copilot(config=CopilotConfig(suggest_rewrites=True, suggest_rewrites_min_context=1)).ask(q)
+    assert on.decision == off.decision == Decision.REFUSE_UNGROUNDED
+    rws = on.explanation["suggested_rewrites"]
+    assert rws and rws[0]["swaps"] == [["allowance", "budget"]]
+    assert all("suggested_rewrites" not in (Copilot().ask(r["query"]).explanation or {}) for r in rws)
+
+
+def test_pipeline_knob_skips_queries_with_pii():
+    from ops_copilot.config import CopilotConfig
+
+    bot = Copilot(config=CopilotConfig(suggest_rewrites=True, suggest_rewrites_min_context=1))
+    r = bot.ask("What is the left error allowance for checkout, mail jane.doe@example.com?")
+    assert "suggested_rewrites" not in (r.explanation or {})
