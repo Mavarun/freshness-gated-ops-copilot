@@ -22,6 +22,79 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Random one-word swaps on answered questions (2026-11-07): swaps still answered 0.407 → 0.150 on a fresh confirm seed by turning off passage rescues of known corpus words, ships on at a cost of 2 of 48 answered rows
+
+The Nov 6 null control showed random corpus words pass every gate on 43.6% of swaps, but only on
+questions the copilot had already refused. This slice asks the safety version on answers: take a
+question the shipped default answers correctly, swap one salient term for a seeded random corpus word,
+and count how often it still answers. `What is the remaining error budget for max?` was answered from
+the error-budget page because the passage classifier vouched for `max` with `rate`. Most passes worked
+that way: a **known** corpus word missing from the evidence was "rescued" by an unrelated passage word
+(`latency <- channel`, `primary <- replica`).
+
+### What changed
+
+1. **`swap_null`**: seeded swaps on answered rows, fixed by the shipped default so every arm sees the same
+   queries. Each pass is labelled by what supported the swapped-in word: passage, translation, semantic,
+   lexical (the word is in the evidence) or unsupported (it passed on the other terms' coverage).
+2. **`passage_support_known_sense_check`** (new, off): the counter-fitted word-meaning check for known
+   words only.
+3. **Protocol** (`swap_null_protocol`, frozen before the grid; exploratory runs disclosed in its
+   docstring): 5 arms on golden + dev2-dev6; pick the lowest swap pass rate that loses <= 2 answered rows
+   and opens nothing new; confirm once on dev7 + fresh + the 203-row set with a new seed; ship if the
+   pass rate drops >= 0.05 absolute and >= 25% relative, <= 2 answered rows are lost and 0 of 114
+   attribute traps open.
+4. **Default**: `passage_support_known_words` is now off. Older experiment code pins the old scope so its
+   records still reproduce. New gating CI step: `scripts/run_swap_null_report.py`.
+
+### Results
+
+Calibration (golden + dev2-dev6, 384 swaps; `artifacts/swap_null_calibration.md`):
+
+| arm | swaps answered | pass rate | via passage | answered rows lost |
+| :--- | ---: | ---: | ---: | ---: |
+| shipped | 123 | 0.320 | 92 | 0 |
+| `known_off` (picked) | 42 | 0.109 | 0 | 2 |
+| `sense_all` | 43 | 0.112 | 4 | 14 |
+| `sense_known` (new) | 46 | 0.120 | 4 | 2 |
+| `credit_rank5` | 40 | 0.104 | 2 | 19 |
+
+The new `sense_known` knob lost to plain `known_off`, so it stays off.
+
+One-shot confirm, seed 2611 (`artifacts/swap_null_confirm.md`):
+
+| arm | swaps | answered | pass rate | answered rows kept | attribute traps open |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| shipped | 459 | 187 | 0.407 | 48 of 48 | 0 of 114 |
+| `known_off` | 459 | 69 | **0.150** | 46 of 48 | 0 of 114 |
+
+It passes, so **known-word passage rescues ship off**. What this costs:
+- 203-row robustness: 0.901 → 0.892. `g39` (`route <- path`) is now over-refused. `g48` is still
+  refused, but as `REFUSE_UNGROUNDED` instead of `REFUSE_PII`.
+- dev3 confirm: 10 → 9. dev7 confirm: 5 → 4 (`When does the production freeze open?`).
+
+Held-out ANSWER stays **0 of 9**, and every CI gate passes.
+
+### Reproduce
+
+    pytest tests/test_swap_null*.py tests/test_passage_known_sense.py tests/test_readme_swap_null_numbers.py
+    python scripts/run_swap_null_protocol.py --phase calibrate
+    python scripts/run_swap_null_protocol.py --phase confirm      # spent
+    python scripts/run_swap_null_report.py                        # CI gate + residual
+
+### Weaknesses
+
+- The grounding gate is still lenient on non-key words: on the shipped default, 42 of 384 calibration
+  swaps are still answered. In 25 of them the swapped word is outside the key half the gate checks and
+  nothing supports it (`artifacts/swap_null_report.md`). Closing that needs a coverage rule that is
+  tested on a fresh set.
+- Genuine known-word rescues are gone too (`open <- window`, `route <- path`). `sense_known` was meant to
+  keep them but lost the same 2 rows.
+- The confirm's swaps were fresh, but its row-level keep counts on dev7, fresh and the 203-row set were
+  seen while exploring (disclosed). A random swap is only a proxy: some lexical passes are fair questions.
+- Held-out ANSWER is still 0 of 9. Ops synonyms (`lag` for latency, `bounce` for restart), everyday
+  paraphrases and format-less secrets were not touched.
+
 ## Verified did-you-mean rewrites (2026-11-06): the gold word comes back on 2 of 9 held-out rows (1 in its own slot), under the floor of 3, so `suggest_rewrites` ships off
 
 Held-out ANSWER has been 0 of 9 because every way to understand a held-out word (`lag` for `latency`)
