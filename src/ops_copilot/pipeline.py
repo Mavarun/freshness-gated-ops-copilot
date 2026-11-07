@@ -262,7 +262,14 @@ class Copilot:
             passage_known=self.config.passage_support_known_words,
             passage_max_terms=self.config.passage_support_max_terms,
             passage_strict=self.config.passage_support_strict,
-            passage_sense=load_wordvec_table() if self.config.passage_support_sense_check else None,
+            passage_sense=(
+                load_wordvec_table()
+                if self.config.passage_support_sense_check or self.config.passage_support_known_sense_check
+                else None
+            ),
+            passage_sense_known_only=(
+                self.config.passage_support_known_sense_check and not self.config.passage_support_sense_check
+            ),
             passage_null_min=self.config.passage_support_null_min,
             passage_null_controls=self.config.passage_support_null_controls,
             passage_null_seed=self.config.passage_support_null_seed,

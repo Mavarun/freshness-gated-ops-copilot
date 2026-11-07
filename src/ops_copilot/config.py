@@ -269,6 +269,13 @@ class CopilotConfig:
     # ("What colour is the checkout_retry feature flag?") came back ANSWER in
     # the shipped default through "colour" <- "default".
     passage_support_sense_check: bool = False
+    # Word-meaning check for *known* corpus words only (off): a known word the
+    # evidence does not contain may be rescued by the passage classifier only when
+    # the counter-fitted table lists the credited word as a substitute. Added
+    # 2026-11-07 after the answer-side swap null control (swap_null.py) found
+    # random known words rescued from unrelated passage words ("max" <- "rate",
+    # "latency" <- "channel"). Unknown words keep the shipped behaviour.
+    passage_support_known_sense_check: bool = False
     # Null-control test on passage rescues (off at 0.0): swap the rescued word
     # for each of passage_support_null_controls seeded unrelated words; rescue
     # only if at least this fraction of them scores below the real word on
