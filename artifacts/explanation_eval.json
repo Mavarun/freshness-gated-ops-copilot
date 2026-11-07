@@ -407,7 +407,7 @@
     },
     "perturbed": {
       "n": 203,
-      "n_refusals": 143,
+      "n_refusals": 144,
       "n_schema_ok": 203,
       "transfer": {
         "by_check": {
@@ -432,12 +432,12 @@
             "n": 44
           },
           "pii_doc_correct": {
-            "correct": 11,
-            "n": 11
+            "correct": 10,
+            "n": 10
           },
           "pii_kind_correct": {
-            "correct": 11,
-            "n": 11
+            "correct": 10,
+            "n": 10
           },
           "projected_exceeds_budget": {
             "correct": 12,
@@ -464,8 +464,8 @@
             "n": 28
           },
           "remediation_scrub": {
-            "correct": 11,
-            "n": 11
+            "correct": 10,
+            "n": 10
           },
           "stale_age_correct": {
             "correct": 28,
@@ -492,10 +492,10 @@
             "n": 28
           }
         },
-        "n_checks": 423,
-        "n_checks_correct": 414,
-        "n_rows": 123,
-        "rows_all_correct": 114
+        "n_checks": 420,
+        "n_checks_correct": 411,
+        "n_rows": 122,
+        "rows_all_correct": 113
       }
     },
     "random_tokens": {
@@ -1012,7 +1012,7 @@
     },
     "perturbed": {
       "n": 203,
-      "n_refusals": 141,
+      "n_refusals": 142,
       "n_schema_ok": 203,
       "transfer": {
         "by_check": {
@@ -1037,12 +1037,12 @@
             "n": 44
           },
           "pii_doc_correct": {
-            "correct": 11,
-            "n": 11
+            "correct": 10,
+            "n": 10
           },
           "pii_kind_correct": {
-            "correct": 11,
-            "n": 11
+            "correct": 10,
+            "n": 10
           },
           "projected_exceeds_budget": {
             "correct": 12,
@@ -1069,8 +1069,8 @@
             "n": 29
           },
           "remediation_scrub": {
-            "correct": 11,
-            "n": 11
+            "correct": 10,
+            "n": 10
           },
           "stale_age_correct": {
             "correct": 29,
@@ -1097,10 +1097,10 @@
             "n": 29
           }
         },
-        "n_checks": 430,
-        "n_checks_correct": 421,
-        "n_rows": 124,
-        "rows_all_correct": 115
+        "n_checks": 427,
+        "n_checks_correct": 418,
+        "n_rows": 123,
+        "rows_all_correct": 114
       }
     },
     "random_tokens": {

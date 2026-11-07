@@ -1,3 +1,7 @@
+from dataclasses import replace
+
+from ops_copilot.config import CopilotConfig
+from ops_copilot.pipeline import Copilot
 from ops_copilot.rewrite_suggest import SuggestConfig
 from ops_copilot.rewrite_suggest_eval import (
     CALIBRATION_FILES,
@@ -48,7 +52,9 @@ def test_strict_anchor_needs_the_typed_slot():
     rows = load_heldout_rows()
     g00 = next(r for r in rows if r.id == "g00-synonym")
     assert "lag" in g00.swapped and "present" in g00.swapped
-    sc = score_arm([g00], SuggestConfig(rank="context", min_context=2))
+    # the Nov 6 record ran on that day's default (passage rescues of known words on)
+    old = Copilot(config=replace(CopilotConfig(), passage_support_known_words=True))
+    sc = score_arm([g00], SuggestConfig(rank="context", min_context=2), bot=old)
     # the confirm's only g00 hit swaps 'present' for 'latency': loose hit, not strict
     assert sc.anchor_hit_3 == 1
     assert sc.strict_anchor_hit_3 == 0

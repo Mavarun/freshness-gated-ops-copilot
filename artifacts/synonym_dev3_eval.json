@@ -2,9 +2,9 @@
  "halves": {
   "calib": {
    "Datamuse context-gated, dev3-chosen (ships off: opens a unit-test trap)": {
-    "accuracy": 0.68,
-    "answer_correct": 6,
-    "correct": 17,
+    "accuracy": 0.6,
+    "answer_correct": 5,
+    "correct": 15,
     "decisions": {
      "d3-01": "REFUSE_DISAGREE",
      "d3-02": "REFUSE_UNGROUNDED",
@@ -18,11 +18,11 @@
      "d3-18": "ANSWER",
      "d3-19": "ANSWER",
      "d3-20": "REFUSE_UNGROUNDED",
-     "d3-21": "ANSWER",
+     "d3-21": "REFUSE_UNGROUNDED",
      "d3-26": "REFUSE_STALE",
      "d3-27": "REFUSE_UNGROUNDED",
      "d3-28": "REFUSE_STALE",
-     "d3-31": "REFUSE_STALE",
+     "d3-31": "REFUSE_UNGROUNDED",
      "d3-32": "REFUSE_UNGROUNDED",
      "d3-34": "REFUSE_UNGROUNDED",
      "d3-36": "REFUSE_UNGROUNDED",
@@ -39,9 +39,9 @@
     "n_spurious_write": 0
    },
    "default (shipped)": {
-    "accuracy": 0.6,
-    "answer_correct": 5,
-    "correct": 15,
+    "accuracy": 0.52,
+    "answer_correct": 4,
+    "correct": 13,
     "decisions": {
      "d3-01": "REFUSE_UNGROUNDED",
      "d3-02": "REFUSE_UNGROUNDED",
@@ -55,11 +55,11 @@
      "d3-18": "ANSWER",
      "d3-19": "ANSWER",
      "d3-20": "REFUSE_UNGROUNDED",
-     "d3-21": "ANSWER",
+     "d3-21": "REFUSE_UNGROUNDED",
      "d3-26": "REFUSE_UNGROUNDED",
      "d3-27": "REFUSE_UNGROUNDED",
      "d3-28": "REFUSE_STALE",
-     "d3-31": "REFUSE_STALE",
+     "d3-31": "REFUSE_UNGROUNDED",
      "d3-32": "REFUSE_UNGROUNDED",
      "d3-34": "REFUSE_UNGROUNDED",
      "d3-36": "REFUSE_UNGROUNDED",
@@ -76,9 +76,9 @@
     "n_spurious_write": 0
    },
    "same, unknown words only (post-hoc, ships off)": {
-    "accuracy": 0.64,
-    "answer_correct": 6,
-    "correct": 16,
+    "accuracy": 0.56,
+    "answer_correct": 5,
+    "correct": 14,
     "decisions": {
      "d3-01": "REFUSE_DISAGREE",
      "d3-02": "REFUSE_UNGROUNDED",
@@ -92,11 +92,11 @@
      "d3-18": "ANSWER",
      "d3-19": "ANSWER",
      "d3-20": "REFUSE_UNGROUNDED",
-     "d3-21": "ANSWER",
+     "d3-21": "REFUSE_UNGROUNDED",
      "d3-26": "REFUSE_UNGROUNDED",
      "d3-27": "REFUSE_UNGROUNDED",
      "d3-28": "REFUSE_STALE",
-     "d3-31": "REFUSE_STALE",
+     "d3-31": "REFUSE_UNGROUNDED",
      "d3-32": "REFUSE_UNGROUNDED",
      "d3-34": "REFUSE_UNGROUNDED",
      "d3-36": "REFUSE_UNGROUNDED",
@@ -115,9 +115,9 @@
   },
   "confirm": {
    "Datamuse context-gated, dev3-chosen (ships off: opens a unit-test trap)": {
-    "accuracy": 0.65,
-    "answer_correct": 6,
-    "correct": 13,
+    "accuracy": 0.6,
+    "answer_correct": 5,
+    "correct": 12,
     "decisions": {
      "d3-03": "REFUSE_UNGROUNDED",
      "d3-04": "ANSWER",
@@ -129,8 +129,8 @@
      "d3-17": "REFUSE_UNGROUNDED",
      "d3-22": "ANSWER",
      "d3-23": "ANSWER",
-     "d3-24": "REFUSE_PII",
-     "d3-25": "ANSWER",
+     "d3-24": "REFUSE_UNGROUNDED",
+     "d3-25": "REFUSE_UNGROUNDED",
      "d3-29": "REFUSE_STALE",
      "d3-30": "REFUSE_STALE",
      "d3-33": "REFUSE_UNGROUNDED",
@@ -147,9 +147,9 @@
     "n_spurious_write": 0
    },
    "default (shipped)": {
-    "accuracy": 0.5,
-    "answer_correct": 3,
-    "correct": 10,
+    "accuracy": 0.45,
+    "answer_correct": 2,
+    "correct": 9,
     "decisions": {
      "d3-03": "REFUSE_UNGROUNDED",
      "d3-04": "REFUSE_UNGROUNDED",
@@ -161,8 +161,8 @@
      "d3-17": "REFUSE_UNGROUNDED",
      "d3-22": "REFUSE_UNGROUNDED",
      "d3-23": "ANSWER",
-     "d3-24": "REFUSE_PII",
-     "d3-25": "ANSWER",
+     "d3-24": "REFUSE_UNGROUNDED",
+     "d3-25": "REFUSE_UNGROUNDED",
      "d3-29": "REFUSE_STALE",
      "d3-30": "REFUSE_STALE",
      "d3-33": "REFUSE_UNGROUNDED",
@@ -179,9 +179,9 @@
     "n_spurious_write": 0
    },
    "same, unknown words only (post-hoc, ships off)": {
-    "accuracy": 0.6,
-    "answer_correct": 5,
-    "correct": 12,
+    "accuracy": 0.55,
+    "answer_correct": 4,
+    "correct": 11,
     "decisions": {
      "d3-03": "REFUSE_UNGROUNDED",
      "d3-04": "ANSWER",
@@ -193,8 +193,8 @@
      "d3-17": "REFUSE_UNGROUNDED",
      "d3-22": "REFUSE_UNGROUNDED",
      "d3-23": "ANSWER",
-     "d3-24": "REFUSE_PII",
-     "d3-25": "ANSWER",
+     "d3-24": "REFUSE_UNGROUNDED",
+     "d3-25": "REFUSE_UNGROUNDED",
      "d3-29": "REFUSE_STALE",
      "d3-30": "REFUSE_STALE",
      "d3-33": "REFUSE_UNGROUNDED",

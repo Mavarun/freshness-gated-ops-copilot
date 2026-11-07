@@ -545,7 +545,8 @@ ANSWER_SUPPORT_CANDIDATE = "+ answer-support model (dev-chosen: lift 4.25, stric
 # its dev-chosen setting (artifacts/passage_support_calibration.md), with its
 # scope narrowed, stacked on the answer-support model, and on top of the
 # embedding-on config. First held-out run of each.
-PASSAGE_SUPPORT_ON: dict = {"use_passage_support_model": True}
+# Known words pinned on: the 2026-10-10 candidate scope (the default turned them off on 2026-11-07).
+PASSAGE_SUPPORT_ON: dict = {"use_passage_support_model": True, "passage_support_known_words": True}
 PASSAGE_SUPPORT_CANDIDATE = "+ passage classifier (dev-chosen: P 0.575, strict, known words, 1 word)"
 PASSAGE_SUPPORT_ABLATIONS: dict[str, dict] = {
     "default (passage classifier off)": {},

@@ -83,7 +83,10 @@ def test_artifact_choice_is_the_config_setting() -> None:
     cfg = CopilotConfig()
     assert cfg.passage_support_min_prob == chosen["min_prob"]
     assert cfg.passage_support_max_terms == chosen["max_terms"]
-    assert cfg.passage_support_known_words == chosen["known_words"]
+    # The Oct 10 calibration chose known words on; the 2026-11-07 swap null protocol
+    # turned them off (artifacts/swap_null_confirm.json), so the default now differs.
+    assert chosen["known_words"] is True and cfg.passage_support_known_words is False
+    assert json.loads((Path(__file__).resolve().parents[1] / "artifacts" / "swap_null_confirm.json").read_text())["ships"]
     assert cfg.passage_support_strict == chosen["strict"]
 
 

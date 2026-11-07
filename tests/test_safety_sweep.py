@@ -23,7 +23,7 @@ def test_collects_query_literals_including_every_labelled_one():
 def test_chosen_arm_opens_the_revert_toggle_trap_and_default_does_not():
     chosen = json.loads((ROOT / "artifacts" / "datamuse_dev3_confirm.json").read_text())["chosen"]
     # the 2026-10-21 record, on the default of that day (credited-word check off)
-    pre = replace(CopilotConfig(), passage_support_credit_stop=False)
+    pre = replace(CopilotConfig(), passage_support_credit_stop=False, passage_support_known_words=True)
     rep = sweep(config_for(chosen, pre), base=pre, queries=[REVERT, "What is the chargeback runbook for INC-4821?"])
     assert [c["query"] for c in rep["changed"]] == [REVERT]
     assert rep["changed"][0]["base"] == "REFUSE_UNGROUNDED" and rep["changed"][0]["candidate"] == "ANSWER"
