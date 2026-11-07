@@ -44,8 +44,11 @@ def test_candidate_is_the_dev_chosen_setting() -> None:
     assert PASSAGE_SUPPORT_ABLATIONS[PASSAGE_SUPPORT_CANDIDATE] == PASSAGE_SUPPORT_ON
     cal = json.loads((METRICS.parent / "passage_support_calibration.json").read_text())["chosen"]
     cfg = CopilotConfig()
-    assert (cfg.passage_support_min_prob, cfg.passage_support_strict, cfg.passage_support_known_words,
-            cfg.passage_support_max_terms) == (cal["min_prob"], cal["strict"], cal["known_words"], cal["max_terms"])
+    assert (cfg.passage_support_min_prob, cfg.passage_support_strict,
+            cfg.passage_support_max_terms) == (cal["min_prob"], cal["strict"], cal["max_terms"])
+    # known words: on in the Oct 10 candidate (pinned in PASSAGE_SUPPORT_ON), off by default since 2026-11-07
+    assert cal["known_words"] is True and PASSAGE_SUPPORT_ON["passage_support_known_words"] is True
+    assert cfg.passage_support_known_words is False
 
 
 def test_changed_rows_are_fixes_only(off, on) -> None:

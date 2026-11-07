@@ -5,4 +5,4 @@ Vocabulary problems: none. Held-out words in file: none. Split: {'tune': 22, 'co
 | half | correct | ANSWER | must-refuse opened | fail-open | spurious write | raw PII |
 | --- | ---: | ---: | --- | ---: | ---: | ---: |
 | tune | 5/22 | 1/13 | - | 0 | 0 | 0 |
-| confirm | 5/18 | 2/13 | - | 0 | 0 | 0 |
+| confirm | 4/18 | 1/13 | - | 0 | 0 | 0 |

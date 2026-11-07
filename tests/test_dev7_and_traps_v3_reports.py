@@ -27,11 +27,16 @@ def test_dev7_report_matches_a_fresh_run_and_pins_the_shipped_default():
     assert fresh["vocabulary_problems"] == {} and fresh["heldout_words_in_file"] == []
     assert fresh["split_sizes"] == {"tune": 22, "confirm": 18} and fresh["n_must_refuse"] == 13
     t, c = fresh["default"]["tune"], fresh["default"]["confirm"]
-    assert (t["correct"], t["answer_correct"], c["correct"], c["answer_correct"]) == (5, 1, 5, 2)
+    # confirm (5, 2) until 2026-11-07: known-word passage rescues off loses one ANSWER row,
+    # counted in the swap null confirm's cost (2 of 48 answered rows)
+    assert (t["correct"], t["answer_correct"], c["correct"], c["answer_correct"]) == (5, 1, 4, 1)
     assert t["must_refuse_opened"] == c["must_refuse_opened"] == []
     # agrees with the one-shot confirm's arm (the confirm ran before the flip)
     arm = json.loads((ROOT / "artifacts" / "credit_check_confirm.json").read_text())["dev7_confirm"]["arm"]
-    assert arm["decisions"] == c["decisions"]
+    # except d7-18, the row the 2026-11-07 known-word flip refuses (ANSWER -> REFUSE_UNGROUNDED)
+    assert {k: v for k, v in arm["decisions"].items() if k != "d7-18"} == {
+        k: v for k, v in c["decisions"].items() if k != "d7-18"}
+    assert (arm["decisions"]["d7-18"], c["decisions"]["d7-18"]) == ("ANSWER", "REFUSE_UNGROUNDED")
 
 
 def test_traps_v3_report_matches_a_fresh_run_and_has_no_power_yet():

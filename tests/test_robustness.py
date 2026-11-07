@@ -190,14 +190,14 @@ def test_default_config_matches_pr12_except_the_parsed_writes(report_pre_passage
 
 # Default config (passage classifier + gloss-sense write backoff) vs the
 # pre-passage baseline (both off). Passage rows stay the gold-label fixes
-# from 2026-10-10/11; gloss-sense adds the held-out write verbs bounce/reboot.
+# from 2026-10-10/11, minus g39 ('route' <- 'path') and g48 ('secret' <- 'vault'):
+# known-word rescues, off by default since the 2026-11-07 swap null protocol
+# (g48 is still refused, as REFUSE_UNGROUNDED instead of REFUSE_PII); gloss-sense adds the held-out write verbs bounce/reboot.
 PASSAGE_AND_GLOSS_CHANGES = {
     "g28-synonym": "REFUSE_DISAGREE",
     "g35-synonym": "REFUSE_CANARY",
-    "g39-synonym": "ANSWER",
     "g41-synonym": "PROPOSE_WRITE",
     "g44-synonym": "PROPOSE_WRITE",
-    "g48-synonym": "REFUSE_PII",
 }
 
 

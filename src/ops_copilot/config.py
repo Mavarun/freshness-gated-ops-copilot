@@ -261,7 +261,12 @@ class CopilotConfig:
     use_passage_support_model: bool = True
     passage_support_min_prob: float = 0.575
     passage_support_max_terms: int = 1
-    passage_support_known_words: bool = True
+    # Known corpus words off since 2026-11-07 (swap null protocol,
+    # artifacts/swap_null_confirm.md): a known word the evidence lacks names its
+    # own topic, and random known words were rescued from unrelated passage words
+    # ("max" <- "rate"). Confirm: random-swap answers 0.407 -> 0.150, 2 of 48
+    # answered rows lost, 0 of 114 attribute traps open.
+    passage_support_known_words: bool = False
     passage_support_strict: bool = True
     # Word-meaning check on passage rescues (off): a rescued query word must
     # also have the credited evidence word among its counter-fitted corpus

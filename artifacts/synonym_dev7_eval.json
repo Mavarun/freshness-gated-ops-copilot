@@ -1,9 +1,9 @@
 {
  "default": {
   "confirm": {
-   "accuracy": 0.2777777777777778,
-   "answer_correct": 2,
-   "correct": 5,
+   "accuracy": 0.2222222222222222,
+   "answer_correct": 1,
+   "correct": 4,
    "decisions": {
     "d7-10": "REFUSE_UNGROUNDED",
     "d7-11": "REFUSE_UNGROUNDED",
@@ -11,7 +11,7 @@
     "d7-15": "REFUSE_UNGROUNDED",
     "d7-16": "REFUSE_UNGROUNDED",
     "d7-17": "REFUSE_UNGROUNDED",
-    "d7-18": "ANSWER",
+    "d7-18": "REFUSE_UNGROUNDED",
     "d7-19": "ANSWER",
     "d7-20": "REFUSE_UNGROUNDED",
     "d7-21": "REFUSE_UNGROUNDED",

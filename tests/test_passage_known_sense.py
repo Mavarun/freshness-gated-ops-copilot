@@ -16,8 +16,8 @@ def test_knob_is_off_by_default():
 
 def test_known_random_word_rescue_is_closed():
     q = "What is the remaining error budget for max?"
-    assert Copilot().ask(q).grounding.passage_rescued == ["max<-rate"]
-    res = _bot(passage_support_known_sense_check=True).ask(q)
+    assert _bot(passage_support_known_words=True).ask(q).grounding.passage_rescued == ["max<-rate"]
+    res = _bot(passage_support_known_words=True, passage_support_known_sense_check=True).ask(q)
     assert res.decision.value == "REFUSE_UNGROUNDED"
     assert not res.grounding.passage_rescued
 

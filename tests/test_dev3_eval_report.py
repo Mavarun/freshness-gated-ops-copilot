@@ -30,4 +30,6 @@ def test_committed_report_matches_a_fresh_run(tmp_path):
     default = fresh["halves"]["confirm"]["default (shipped)"]
     # 11 until 2026-10-25; the null-control test turns d3-27 (execute <- procedure)
     # from REFUSE_STALE into REFUSE_UNGROUNDED, a row already counted in its calibration cost.
-    assert (default["correct"], default["n_fail_open"]) == (10, 0)
+    # 10 until 2026-11-07; known-word passage rescues off (swap null protocol) loses one more,
+    # counted in that protocol's dev2-dev6 calibration cost (2 rows).
+    assert (default["correct"], default["n_fail_open"]) == (9, 0)

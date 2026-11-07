@@ -1,3 +1,6 @@
+from dataclasses import replace
+
+from ops_copilot.config import CopilotConfig
 from ops_copilot.pipeline import Copilot
 from ops_copilot.swap_null import (
     MECHANISMS,
@@ -30,9 +33,11 @@ def test_swaps_are_seeded_and_only_on_answered_rows():
 
 
 def test_passage_rescue_of_a_random_word_is_attributed():
-    bot = Copilot()
+    # the default before 2026-11-07 (known-word passage rescues on)
+    bot = Copilot(config=replace(CopilotConfig(), passage_support_known_words=True))
     res = bot.ask("What is the remaining error budget for max?")
     assert res.decision.value == "ANSWER"  # the leniency this module measures
+    assert Copilot().ask("What is the remaining error budget for max?").decision.value == "REFUSE_UNGROUNDED"
     assert mechanism(res, "max") == "passage"
     assert mechanism(bot.ask("What is the current checkout p99 latency?"), "checkout") == "lexical"
 
