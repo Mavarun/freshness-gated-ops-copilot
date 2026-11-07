@@ -111,6 +111,12 @@ jobs:
       - name: EFF-wordlist passphrases (shipped vs Oct 29 vs Oct 13; glued-digit and invented rows vs Oct 30)
         run: python scripts/run_passphrase_wordlist_eval.py
 
+      # Gating: the shipped default may answer no more random one-word swaps than the
+      # confirmed known_off arm (42 of 384 on golden + dev2-dev6), and no passage,
+      # translation or semantic rescue of a swapped-in word may reappear.
+      - name: Swap null control (random one-word swaps on answered rows)
+        run: python scripts/run_swap_null_report.py
+
       - name: Upload eval artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -149,3 +155,5 @@ jobs:
             artifacts/attribute_traps_v3_eval.json
             artifacts/passphrase_wordlist_eval.md
             artifacts/passphrase_wordlist_eval.json
+            artifacts/swap_null_report.md
+            artifacts/swap_null_report.json

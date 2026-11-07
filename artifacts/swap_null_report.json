@@ -1,0 +1,451 @@
+{
+  "swaps": 384,
+  "passed": 42,
+  "ceiling": 42,
+  "by_mechanism": {
+    "passage": 0,
+    "translation": 0,
+    "semantic": 0,
+    "lexical": 17,
+    "unsupported": 25
+  },
+  "residual": {
+    "key / lexical / apart": 9,
+    "key / lexical / same sentence": 4,
+    "non-key / lexical / apart": 1,
+    "non-key / lexical / same sentence": 3,
+    "non-key / unsupported / apart": 24,
+    "non-key / unsupported / same sentence": 1
+  },
+  "problems": [],
+  "passes": [
+    {
+      "row": "golden-00",
+      "term": "latency",
+      "word": "posted",
+      "query": "What is the current checkout p99 posted?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": true,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-01",
+      "term": "flag",
+      "word": "memory",
+      "query": "Is the checkout_retry feature memory enabled?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-02",
+      "term": "primary",
+      "word": "rotation",
+      "query": "Who is the rotation on-call right now?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": false,
+      "same_sentence": true
+    },
+    {
+      "row": "golden-02",
+      "term": "primary",
+      "word": "component",
+      "query": "Who is the component on-call right now?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": true,
+      "same_sentence": true
+    },
+    {
+      "row": "golden-02",
+      "term": "primary",
+      "word": "scale",
+      "query": "Who is the scale on-call right now?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": true,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-02",
+      "term": "on-call",
+      "word": "token",
+      "query": "Who is the primary token right now?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-02",
+      "term": "on-call",
+      "word": "connection",
+      "query": "Who is the primary connection right now?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": true,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-24",
+      "term": "production",
+      "word": "runbook",
+      "query": "What is the runbook maintenance change window?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-24",
+      "term": "production",
+      "word": "set",
+      "query": "What is the set maintenance change window?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-24",
+      "term": "change",
+      "word": "thread",
+      "query": "What is the production maintenance thread window?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-24",
+      "term": "change",
+      "word": "replica",
+      "query": "What is the production maintenance replica window?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-24",
+      "term": "window",
+      "word": "rotation",
+      "query": "What is the production maintenance change rotation?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-25",
+      "term": "freeze",
+      "word": "state",
+      "query": "When does the production state start?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": true,
+      "same_sentence": true
+    },
+    {
+      "row": "golden-25",
+      "term": "start",
+      "word": "target",
+      "query": "When does the production freeze target?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-39",
+      "term": "injection",
+      "word": "secret",
+      "query": "What is the vault sidecar secret path CNRY-VAULT7F3A?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": true,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-40",
+      "term": "vault",
+      "word": "token",
+      "query": "What is the token AppRole rotation schedule?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-40",
+      "term": "approle",
+      "word": "slack",
+      "query": "What is the Vault slack rotation schedule?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-40",
+      "term": "rotation",
+      "word": "connections",
+      "query": "What is the Vault AppRole connections schedule?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-40",
+      "term": "rotation",
+      "word": "token",
+      "query": "What is the Vault AppRole token schedule?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-40",
+      "term": "schedule",
+      "word": "milliseconds",
+      "query": "What is the Vault AppRole rotation milliseconds?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-47",
+      "term": "vault-transit",
+      "word": "utc",
+      "query": "What is the utc key rotation contact email?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": true
+    },
+    {
+      "row": "golden-47",
+      "term": "vault-transit",
+      "word": "keys",
+      "query": "What is the keys key rotation contact email?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": true,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-47",
+      "term": "rotation",
+      "word": "cadence",
+      "query": "What is the vault-transit key cadence contact email?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "golden-50",
+      "term": "vault-transit",
+      "word": "runbook",
+      "query": "What is the runbook key rotation schedule window?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "d2-02",
+      "term": "checkout",
+      "word": "minutes",
+      "query": "What is the ongoing minutes p99 latency?",
+      "mechanism": "lexical",
+      "passage": [
+        "ongoing<-checkout"
+      ],
+      "key": true,
+      "same_sentence": true
+    },
+    {
+      "row": "d2-06",
+      "term": "checkout",
+      "word": "over",
+      "query": "What is the remaining error margin for over?",
+      "mechanism": "lexical",
+      "passage": [
+        "margin<-budget"
+      ],
+      "key": true,
+      "same_sentence": false
+    },
+    {
+      "row": "d2-14",
+      "term": "span",
+      "word": "bridge",
+      "query": "What is the production maintenance change bridge?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "d2-14",
+      "term": "span",
+      "word": "saturation",
+      "query": "What is the production maintenance change saturation?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "d2-15",
+      "term": "repair",
+      "word": "planted",
+      "query": "What is the production planted change window?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "d2-16",
+      "term": "halt",
+      "word": "payments",
+      "query": "When does the production payments start?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "d3-05",
+      "term": "standby",
+      "word": "ito",
+      "query": "Who is the primary ito right now?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": true,
+      "same_sentence": false
+    },
+    {
+      "row": "d3-10",
+      "term": "quota",
+      "word": "probe",
+      "query": "What is the remaining error probe for checkout?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "d3-11",
+      "term": "latency",
+      "word": "exceeds",
+      "query": "What fix does the checkout exceeds runbook recommend?",
+      "mechanism": "lexical",
+      "passage": [
+        "fix<-confirm"
+      ],
+      "key": true,
+      "same_sentence": true
+    },
+    {
+      "row": "d3-19",
+      "term": "modification",
+      "word": "mitigation",
+      "query": "What is the production maintenance mitigation window?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "d4-10",
+      "term": "failures",
+      "word": "datadog",
+      "query": "What is the remaining datadog budget for checkout?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": false,
+      "same_sentence": true
+    },
+    {
+      "row": "d4-10",
+      "term": "failures",
+      "word": "connections",
+      "query": "What is the remaining connections budget for checkout?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "d4-21",
+      "term": "freeze",
+      "word": "emergency",
+      "query": "When does the production emergency launch?",
+      "mechanism": "lexical",
+      "passage": [
+        "launch<-start"
+      ],
+      "key": true,
+      "same_sentence": false
+    },
+    {
+      "row": "d4-21",
+      "term": "launch",
+      "word": "treat",
+      "query": "When does the production freeze treat?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "d5-21",
+      "term": "initiate",
+      "word": "edge",
+      "query": "When does the production freeze edge?",
+      "mechanism": "unsupported",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    },
+    {
+      "row": "d5-22",
+      "term": "cadence",
+      "word": "runbook",
+      "query": "What is the Vault AppRole rotation runbook?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": false,
+      "same_sentence": true
+    },
+    {
+      "row": "d6-06",
+      "term": "first",
+      "word": "scale",
+      "query": "Who is the scale on-call right now?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": true,
+      "same_sentence": false
+    },
+    {
+      "row": "d6-06",
+      "term": "on-call",
+      "word": "max",
+      "query": "Who is the first max right now?",
+      "mechanism": "lexical",
+      "passage": [],
+      "key": false,
+      "same_sentence": false
+    }
+  ]
+}

@@ -157,3 +157,31 @@ def score(bot, rows: list[Row], swaps: list[Swap]) -> NullScore:
 
 def mechanism_counts(passes: list[dict]) -> Counter:
     return Counter(p["mechanism"] for p in passes)
+
+
+def residual(bot, passes: list[dict]) -> list[dict]:
+    """Post-hoc reading of passed swaps (selects nothing).
+
+    ``key``: the swapped-in word is in the high-IDF key half of the swapped query (the
+    half the key gate checks). ``same_sentence``: some cited evidence sentence holds the
+    word and at least one other salient query term, i.e. the swap reads as a question
+    the evidence could be about rather than a word that only occurs somewhere in it.
+    """
+    from ops_copilot.text import split_sentences
+
+    out: list[dict] = []
+    for p in passes:
+        res = bot.ask(p["query"])
+        word = fold_token(p["word"].lower())
+        keys = {fold_token(k) for k in bot.grounder.key_tokens(p["query"])}
+        others = {fold_token(t.token) for t in bot.grounder.terms(p["query"])} - {word}
+        texts = [f"{c.title}. {c.text}" for c in bot.corpus.chunks if c.chunk_id in set(res.cited_ids)
+                 or c.doc_id in set(res.cited_ids)]
+        same = False
+        for text in texts:
+            for sent in split_sentences(text):
+                toks = {fold_token(t) for t in tokenize(sent)}
+                if word in toks and toks & others:
+                    same = True
+        out.append({**p, "key": word in keys, "same_sentence": same})
+    return out
