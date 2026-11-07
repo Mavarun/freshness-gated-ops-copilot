@@ -240,6 +240,7 @@ class Grounder:
         passage_max_terms: int = 1,
         passage_strict: bool = True,
         passage_sense: NeighbourTable | None = None,
+        passage_sense_known_only: bool = False,
         passage_null_min: float = 0.0,
         passage_null_controls: int = 100,
         passage_null_seed: int = NULL_SEED,
@@ -278,6 +279,8 @@ class Grounder:
         self.passage_max_terms = int(passage_max_terms)
         self.passage_strict = bool(passage_strict)
         self.passage_sense = passage_sense
+        # Apply the word-meaning check to known corpus words only (unknown words skip it).
+        self.passage_sense_known_only = bool(passage_sense_known_only)
         self.passage_null_min = float(passage_null_min)
         self.passage_null_controls: tuple[str, ...] = ()
         self.passage_null_sticky = bool(passage_null_sticky)
@@ -601,7 +604,10 @@ class Grounder:
             # Word-meaning check (off by default): the domain vectors credit
             # topical neighbours ("colour" <- "default"), so the counter-fitted
             # table must also list the credited word as a substitute.
-            if self.passage_sense is not None and not self.passage_sense_ok(t.token, word):
+            # Known-only mode (off): a corpus word the evidence lacks names its own
+            # topic, so only it needs a listed substitute ("max" <- "rate" fails).
+            sense_applies = not self.passage_sense_known_only or t.kind == "known"
+            if self.passage_sense is not None and sense_applies and not self.passage_sense_ok(t.token, word):
                 return (), best.prob
             # Null-control test (off by default): the passage must prefer this
             # word to most unrelated words, or the probability came from the
