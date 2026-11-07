@@ -1,0 +1,2388 @@
+{
+  "arm": "known_off",
+  "rows": 269,
+  "swaps": 459,
+  "trap_opens": {
+    "shipped": 0,
+    "known_off": 0
+  },
+  "ships": true,
+  "arms": {
+    "shipped": {
+      "n_swaps": 459,
+      "passed": 187,
+      "by_mechanism": {
+        "passage": 129,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 40,
+        "unsupported": 18
+      },
+      "n_answer_rows": 93,
+      "answered": 48,
+      "n_refuse_rows": 157,
+      "refuse_opened": 9,
+      "rates": {
+        "null_pass_rate": 0.4074074074074074,
+        "answer_rate": 0.5161290322580645,
+        "pass_passage": 0.28104575163398693,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.08714596949891068,
+        "pass_unsupported": 0.0392156862745098
+      }
+    },
+    "known_off": {
+      "n_swaps": 459,
+      "passed": 69,
+      "by_mechanism": {
+        "passage": 0,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 37,
+        "unsupported": 32
+      },
+      "n_answer_rows": 93,
+      "answered": 46,
+      "n_refuse_rows": 157,
+      "refuse_opened": 9,
+      "rates": {
+        "null_pass_rate": 0.1503267973856209,
+        "answer_rate": 0.4946236559139785,
+        "pass_passage": 0.0,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.08061002178649238,
+        "pass_unsupported": 0.06971677559912855
+      }
+    }
+  },
+  "passes": {
+    "shipped": [
+      {
+        "row": "d7-18",
+        "term": "freeze",
+        "word": "start",
+        "query": "When does the production start open?",
+        "mechanism": "lexical",
+        "passage": [
+          "open<-window"
+        ]
+      },
+      {
+        "row": "d7-18",
+        "term": "open",
+        "word": "refresh",
+        "query": "When does the production freeze refresh?",
+        "mechanism": "passage",
+        "passage": [
+          "refresh<-change"
+        ]
+      },
+      {
+        "row": "d7-18",
+        "term": "open",
+        "word": "key",
+        "query": "When does the production freeze key?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d7-18",
+        "term": "open",
+        "word": "reviewed",
+        "query": "When does the production freeze reviewed?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d7-19",
+        "term": "timing",
+        "word": "budget",
+        "query": "What is the Vault AppRole rotation budget?",
+        "mechanism": "passage",
+        "passage": [
+          "budget<-schedule"
+        ]
+      },
+      {
+        "row": "d7-19",
+        "term": "timing",
+        "word": "mesh",
+        "query": "What is the Vault AppRole rotation mesh?",
+        "mechanism": "passage",
+        "passage": [
+          "mesh<-vault"
+        ]
+      },
+      {
+        "row": "d7-24",
+        "term": "defect",
+        "word": "changes",
+        "query": "What is the remaining changes budget for checkout?",
+        "mechanism": "passage",
+        "passage": [
+          "changes<-rolling"
+        ]
+      },
+      {
+        "row": "d7-24",
+        "term": "defect",
+        "word": "spike",
+        "query": "What is the remaining spike budget for checkout?",
+        "mechanism": "passage",
+        "passage": [
+          "spike<-budget"
+        ]
+      },
+      {
+        "row": "d7-24",
+        "term": "defect",
+        "word": "retry",
+        "query": "What is the remaining retry budget for checkout?",
+        "mechanism": "passage",
+        "passage": [
+          "retry<-error"
+        ]
+      },
+      {
+        "row": "f01",
+        "term": "moment",
+        "word": "capacity",
+        "query": "What is the checkout p99 latency at this capacity?",
+        "mechanism": "passage",
+        "passage": [
+          "capacity<-rate"
+        ]
+      },
+      {
+        "row": "g00-word_order",
+        "term": "latency",
+        "word": "open",
+        "query": "What the is current checkout open p99?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-word_order",
+        "term": "p99",
+        "word": "traffic",
+        "query": "What the is current checkout latency traffic?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-polite",
+        "term": "latency",
+        "word": "command",
+        "query": "Could you please tell me what is the current checkout p99 command?",
+        "mechanism": "lexical",
+        "passage": [
+          "checkout<-wait"
+        ]
+      },
+      {
+        "row": "g00-polite",
+        "term": "latency",
+        "word": "utc",
+        "query": "Could you please tell me what is the current checkout p99 utc?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "feature",
+        "word": "datadog",
+        "query": "Is the checkout_retry datadog enabled flag?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "flag",
+        "word": "utc",
+        "query": "Is the checkout_retry feature enabled utc?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-typo",
+        "term": "feature",
+        "word": "cadence",
+        "query": "Is the checkout_retry cadence flag enabked?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-typo",
+        "term": "flag",
+        "word": "escalation",
+        "query": "Is the checkout_retry feature escalation enabked?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-polite",
+        "term": "flag",
+        "word": "kubernetes",
+        "query": "I was wondering, is the checkout_retry feature kubernetes enabled?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-polite",
+        "term": "flag",
+        "word": "states",
+        "query": "I was wondering, is the checkout_retry feature states enabled?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g02-word_order",
+        "term": "primary",
+        "word": "owner",
+        "query": "Who the is on-call owner right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-word_order",
+        "term": "primary",
+        "word": "luis",
+        "query": "Who the is on-call luis right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-word_order",
+        "term": "primary",
+        "word": "adding",
+        "query": "Who the is on-call adding right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "reminder",
+        "query": "Who is the prumary reminder rihgt now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "scheduled",
+        "query": "Who is the prumary scheduled rihgt now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "guidance",
+        "query": "Who is the prumary guidance rihgt now?",
+        "mechanism": "passage",
+        "passage": [
+          "guidance<-june"
+        ]
+      },
+      {
+        "row": "g02-polite",
+        "term": "primary",
+        "word": "off",
+        "query": "Could you please tell me who is the off on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-polite",
+        "term": "on-call",
+        "word": "enablement",
+        "query": "Could you please tell me who is the primary enablement right now?",
+        "mechanism": "lexical",
+        "passage": [
+          "primary<-state"
+        ]
+      },
+      {
+        "row": "g03-synonym",
+        "term": "instances",
+        "word": "chat",
+        "query": "How many checkout-api chat are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-word_order",
+        "term": "replicas",
+        "word": "charts",
+        "query": "How checkout-api many charts are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-word_order",
+        "term": "replicas",
+        "word": "enable",
+        "query": "How checkout-api many enable are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-typo",
+        "term": "replicas",
+        "word": "availability",
+        "query": "How many checkout-api availability are rnning?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-polite",
+        "term": "checkout-api",
+        "word": "scheduled",
+        "query": "Hey team, sorry to bother you, but how many scheduled replicas are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g04-word_order",
+        "term": "remaining",
+        "word": "raise",
+        "query": "What is the raise budget error checkout for?",
+        "mechanism": "passage",
+        "passage": [
+          "raise<-alert"
+        ]
+      },
+      {
+        "row": "g04-word_order",
+        "term": "remaining",
+        "word": "land",
+        "query": "What is the land budget error checkout for?",
+        "mechanism": "passage",
+        "passage": [
+          "land<-burn"
+        ]
+      },
+      {
+        "row": "g04-word_order",
+        "term": "budget",
+        "word": "confluence",
+        "query": "What is the remaining confluence error checkout for?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g04-word_order",
+        "term": "budget",
+        "word": "correlates",
+        "query": "What is the remaining correlates error checkout for?",
+        "mechanism": "passage",
+        "passage": [
+          "correlates<-remaining"
+        ]
+      },
+      {
+        "row": "g04-word_order",
+        "term": "budget",
+        "word": "wiki",
+        "query": "What is the remaining wiki error checkout for?",
+        "mechanism": "passage",
+        "passage": [
+          "wiki<-checkout"
+        ]
+      },
+      {
+        "row": "g04-word_order",
+        "term": "error",
+        "word": "workload",
+        "query": "What is the remaining budget workload checkout for?",
+        "mechanism": "passage",
+        "passage": [
+          "workload<-budget"
+        ]
+      },
+      {
+        "row": "g04-word_order",
+        "term": "checkout",
+        "word": "aws",
+        "query": "What is the remaining budget error aws for?",
+        "mechanism": "passage",
+        "passage": [
+          "aws<-availability"
+        ]
+      },
+      {
+        "row": "g04-typo",
+        "term": "budget",
+        "word": "primary",
+        "query": "What is the remainong eeror primary for checkout?",
+        "mechanism": "passage",
+        "passage": [
+          "primary<-availability"
+        ]
+      },
+      {
+        "row": "g04-typo",
+        "term": "checkout",
+        "word": "schedule",
+        "query": "What is the remainong eeror budget for schedule?",
+        "mechanism": "passage",
+        "passage": [
+          "schedule<-rolling"
+        ]
+      },
+      {
+        "row": "g04-typo",
+        "term": "checkout",
+        "word": "hpa",
+        "query": "What is the remainong eeror budget for hpa?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g04-polite",
+        "term": "remaining",
+        "word": "maintenance",
+        "query": "Quick question: what is the maintenance error budget for checkout?",
+        "mechanism": "passage",
+        "passage": [
+          "maintenance<-budget"
+        ]
+      },
+      {
+        "row": "g04-polite",
+        "term": "remaining",
+        "word": "escalation",
+        "query": "Quick question: what is the escalation error budget for checkout?",
+        "mechanism": "passage",
+        "passage": [
+          "escalation<-owner"
+        ]
+      },
+      {
+        "row": "g04-polite",
+        "term": "error",
+        "word": "observed",
+        "query": "Quick question: what is the remaining observed budget for checkout?",
+        "mechanism": "passage",
+        "passage": [
+          "observed<-error"
+        ]
+      },
+      {
+        "row": "g04-polite",
+        "term": "budget",
+        "word": "expose",
+        "query": "Quick question: what is the remaining error expose for checkout?",
+        "mechanism": "passage",
+        "passage": [
+          "expose<-remaining"
+        ]
+      },
+      {
+        "row": "g04-polite",
+        "term": "checkout",
+        "word": "flush",
+        "query": "Quick question: what is the remaining error budget for flush?",
+        "mechanism": "passage",
+        "passage": [
+          "flush<-remaining"
+        ]
+      },
+      {
+        "row": "g05-word_order",
+        "term": "mitigation",
+        "word": "wiki",
+        "query": "What does wiki the latency checkout runbook recommend?",
+        "mechanism": "passage",
+        "passage": [
+          "wiki<-page"
+        ]
+      },
+      {
+        "row": "g05-word_order",
+        "term": "latency",
+        "word": "max",
+        "query": "What does mitigation the max checkout runbook recommend?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g05-word_order",
+        "term": "checkout",
+        "word": "not",
+        "query": "What does mitigation the latency not runbook recommend?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g05-word_order",
+        "term": "checkout",
+        "word": "monthly",
+        "query": "What does mitigation the latency monthly runbook recommend?",
+        "mechanism": "passage",
+        "passage": [
+          "monthly<-minute"
+        ]
+      },
+      {
+        "row": "g05-word_order",
+        "term": "checkout",
+        "word": "tips",
+        "query": "What does mitigation the latency tips runbook recommend?",
+        "mechanism": "passage",
+        "passage": [
+          "tips<-page"
+        ]
+      },
+      {
+        "row": "g05-word_order",
+        "term": "runbook",
+        "word": "working",
+        "query": "What does mitigation the latency checkout working recommend?",
+        "mechanism": "passage",
+        "passage": [
+          "working<-confirm"
+        ]
+      },
+      {
+        "row": "g05-word_order",
+        "term": "runbook",
+        "word": "namespace",
+        "query": "What does mitigation the latency checkout namespace recommend?",
+        "mechanism": "passage",
+        "passage": [
+          "namespace<-redis"
+        ]
+      },
+      {
+        "row": "g05-typo",
+        "term": "checkout",
+        "word": "redis",
+        "query": "Whhat mitigatoin does the redis latency runbook recommend?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-synonym",
+        "term": "checkout-pool",
+        "word": "green",
+        "query": "What is the Redis green usage?",
+        "mechanism": "passage",
+        "passage": [
+          "green<-chart"
+        ]
+      },
+      {
+        "row": "g06-synonym",
+        "term": "checkout-pool",
+        "word": "echo",
+        "query": "What is the Redis echo usage?",
+        "mechanism": "passage",
+        "passage": [
+          "echo<-zero"
+        ]
+      },
+      {
+        "row": "g06-word_order",
+        "term": "redis",
+        "word": "spreadsheet",
+        "query": "What the is spreadsheet checkout-pool utilization?",
+        "mechanism": "passage",
+        "passage": [
+          "spreadsheet<-pool"
+        ]
+      },
+      {
+        "row": "g06-word_order",
+        "term": "redis",
+        "word": "chart",
+        "query": "What the is chart checkout-pool utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-word_order",
+        "term": "checkout-pool",
+        "word": "watch",
+        "query": "What the is Redis watch utilization?",
+        "mechanism": "passage",
+        "passage": [
+          "watch<-live"
+        ]
+      },
+      {
+        "row": "g06-word_order",
+        "term": "checkout-pool",
+        "word": "bypass",
+        "query": "What the is Redis bypass utilization?",
+        "mechanism": "passage",
+        "passage": [
+          "bypass<-live"
+        ]
+      },
+      {
+        "row": "g06-word_order",
+        "term": "checkout-pool",
+        "word": "service",
+        "query": "What the is Redis service utilization?",
+        "mechanism": "passage",
+        "passage": [
+          "service<-redis"
+        ]
+      },
+      {
+        "row": "g06-typo",
+        "term": "checkout-pool",
+        "word": "evictions",
+        "query": "Whst is the Redis evictions utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-typo",
+        "term": "checkout-pool",
+        "word": "ingress",
+        "query": "Whst is the Redis ingress utilization?",
+        "mechanism": "passage",
+        "passage": [
+          "ingress<-chart"
+        ]
+      },
+      {
+        "row": "g06-typo",
+        "term": "utilization",
+        "word": "key",
+        "query": "Whst is the Redis checkout-pool key?",
+        "mechanism": "passage",
+        "passage": [
+          "key<-ticket"
+        ]
+      },
+      {
+        "row": "g06-polite",
+        "term": "redis",
+        "word": "latency",
+        "query": "Could you please tell me what is the latency checkout-pool utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-polite",
+        "term": "checkout-pool",
+        "word": "approval",
+        "query": "Could you please tell me what is the Redis approval utilization?",
+        "mechanism": "passage",
+        "passage": [
+          "approval<-chart"
+        ]
+      },
+      {
+        "row": "g06-polite",
+        "term": "checkout-pool",
+        "word": "start",
+        "query": "Could you please tell me what is the Redis start utilization?",
+        "mechanism": "passage",
+        "passage": [
+          "start<-wait"
+        ]
+      },
+      {
+        "row": "g07-word_order",
+        "term": "status",
+        "word": "tracked",
+        "query": "What the is tracked the of payments-api?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g07-word_order",
+        "term": "payments-api",
+        "word": "pagerduty",
+        "query": "What the is status the of pagerduty?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g07-polite",
+        "term": "payments-api",
+        "word": "payments",
+        "query": "Quick question: what is the status of the payments?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g24-word_order",
+        "term": "production",
+        "word": "runbook",
+        "query": "What the is runbook maintenance window change?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-word_order",
+        "term": "maintenance",
+        "word": "cache",
+        "query": "What the is production cache window change?",
+        "mechanism": "passage",
+        "passage": [
+          "cache<-maintenance"
+        ]
+      },
+      {
+        "row": "g24-word_order",
+        "term": "maintenance",
+        "word": "states",
+        "query": "What the is production states window change?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g24-word_order",
+        "term": "window",
+        "word": "rotating",
+        "query": "What the is production maintenance rotating change?",
+        "mechanism": "passage",
+        "passage": [
+          "rotating<-freeze"
+        ]
+      },
+      {
+        "row": "g24-word_order",
+        "term": "window",
+        "word": "vault",
+        "query": "What the is production maintenance vault change?",
+        "mechanism": "passage",
+        "passage": [
+          "vault<-approval"
+        ]
+      },
+      {
+        "row": "g24-word_order",
+        "term": "change",
+        "word": "exhaustion",
+        "query": "What the is production maintenance window exhaustion?",
+        "mechanism": "passage",
+        "passage": [
+          "exhaustion<-emergency"
+        ]
+      },
+      {
+        "row": "g24-word_order",
+        "term": "change",
+        "word": "utc",
+        "query": "What the is production maintenance window utc?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g24-typo",
+        "term": "maintenance",
+        "word": "flip",
+        "query": "What is the produciton flip change widnow?",
+        "mechanism": "passage",
+        "passage": [
+          "flip<-freeze"
+        ]
+      },
+      {
+        "row": "g24-typo",
+        "term": "maintenance",
+        "word": "fast",
+        "query": "What is the produciton fast change widnow?",
+        "mechanism": "passage",
+        "passage": [
+          "fast<-maintenance"
+        ]
+      },
+      {
+        "row": "g24-typo",
+        "term": "maintenance",
+        "word": "scheduled",
+        "query": "What is the produciton scheduled change widnow?",
+        "mechanism": "passage",
+        "passage": [
+          "scheduled<-start"
+        ]
+      },
+      {
+        "row": "g24-typo",
+        "term": "change",
+        "word": "increase",
+        "query": "What is the produciton maintenance increase widnow?",
+        "mechanism": "passage",
+        "passage": [
+          "increase<-maintenance"
+        ]
+      },
+      {
+        "row": "g24-typo",
+        "term": "change",
+        "word": "persist",
+        "query": "What is the produciton maintenance persist widnow?",
+        "mechanism": "passage",
+        "passage": [
+          "persist<-change"
+        ]
+      },
+      {
+        "row": "g24-polite",
+        "term": "production",
+        "word": "persist",
+        "query": "I was wondering, what is the persist maintenance change window?",
+        "mechanism": "passage",
+        "passage": [
+          "persist<-change"
+        ]
+      },
+      {
+        "row": "g24-polite",
+        "term": "production",
+        "word": "live",
+        "query": "I was wondering, what is the live maintenance change window?",
+        "mechanism": "passage",
+        "passage": [
+          "live<-production"
+        ]
+      },
+      {
+        "row": "g24-polite",
+        "term": "maintenance",
+        "word": "spreadsheet",
+        "query": "I was wondering, what is the production spreadsheet change window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "maintenance",
+        "word": "payments",
+        "query": "I was wondering, what is the production payments change window?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "maintenance",
+        "word": "flush",
+        "query": "I was wondering, what is the production flush change window?",
+        "mechanism": "passage",
+        "passage": [
+          "flush<-freeze"
+        ]
+      },
+      {
+        "row": "g24-polite",
+        "term": "change",
+        "word": "cfg",
+        "query": "I was wondering, what is the production maintenance cfg window?",
+        "mechanism": "passage",
+        "passage": [
+          "cfg<-change"
+        ]
+      },
+      {
+        "row": "g24-polite",
+        "term": "change",
+        "word": "spreadsheet",
+        "query": "I was wondering, what is the production maintenance spreadsheet window?",
+        "mechanism": "passage",
+        "passage": [
+          "spreadsheet<-window"
+        ]
+      },
+      {
+        "row": "g24-polite",
+        "term": "change",
+        "word": "slack",
+        "query": "I was wondering, what is the production maintenance slack window?",
+        "mechanism": "passage",
+        "passage": [
+          "slack<-approval"
+        ]
+      },
+      {
+        "row": "g24-polite",
+        "term": "window",
+        "word": "sidecar",
+        "query": "I was wondering, what is the production maintenance change sidecar?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "window",
+        "word": "closed",
+        "query": "I was wondering, what is the production maintenance change closed?",
+        "mechanism": "passage",
+        "passage": [
+          "closed<-freeze"
+        ]
+      },
+      {
+        "row": "g24-polite",
+        "term": "window",
+        "word": "flip",
+        "query": "I was wondering, what is the production maintenance change flip?",
+        "mechanism": "passage",
+        "passage": [
+          "flip<-freeze"
+        ]
+      },
+      {
+        "row": "g25-word_order",
+        "term": "freeze",
+        "word": "service",
+        "query": "When does the service production start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g25-word_order",
+        "term": "freeze",
+        "word": "change",
+        "query": "When does the change production start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g25-word_order",
+        "term": "start",
+        "word": "incident",
+        "query": "When does the freeze production incident?",
+        "mechanism": "passage",
+        "passage": [
+          "incident<-emergency"
+        ]
+      },
+      {
+        "row": "g25-word_order",
+        "term": "start",
+        "word": "messages",
+        "query": "When does the freeze production messages?",
+        "mechanism": "passage",
+        "passage": [
+          "messages<-state"
+        ]
+      },
+      {
+        "row": "g25-typo",
+        "term": "start",
+        "word": "passwords",
+        "query": "When does the production fereze passwords?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g25-typo",
+        "term": "start",
+        "word": "passwords",
+        "query": "When does the production fereze passwords?",
+        "mechanism": "lexical",
+        "passage": [
+          "freeze<-production"
+        ]
+      },
+      {
+        "row": "g25-typo",
+        "term": "start",
+        "word": "reached",
+        "query": "When does the production fereze reached?",
+        "mechanism": "passage",
+        "passage": [
+          "reached<-state"
+        ]
+      },
+      {
+        "row": "g25-polite",
+        "term": "start",
+        "word": "image",
+        "query": "Quick question: when does the production freeze image?",
+        "mechanism": "passage",
+        "passage": [
+          "image<-window"
+        ]
+      },
+      {
+        "row": "g25-polite",
+        "term": "start",
+        "word": "dana",
+        "query": "Quick question: when does the production freeze dana?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g25-polite",
+        "term": "start",
+        "word": "blue",
+        "query": "Quick question: when does the production freeze blue?",
+        "mechanism": "passage",
+        "passage": [
+          "blue<-freeze"
+        ]
+      },
+      {
+        "row": "g39-synonym",
+        "term": "sidecar",
+        "word": "playbook",
+        "query": "What is the vault playbook injection route CNRY-VAULT7F3A?",
+        "mechanism": "lexical",
+        "passage": [
+          "route<-path"
+        ]
+      },
+      {
+        "row": "g39-synonym",
+        "term": "route",
+        "word": "keys",
+        "query": "What is the vault sidecar injection keys CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "keys<-vault"
+        ]
+      },
+      {
+        "row": "g39-synonym",
+        "term": "route",
+        "word": "datadog",
+        "query": "What is the vault sidecar injection datadog CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-word_order",
+        "term": "vault",
+        "word": "shared",
+        "query": "What the is shared injection sidecar path CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "shared<-vault"
+        ]
+      },
+      {
+        "row": "g39-word_order",
+        "term": "vault",
+        "word": "cfg",
+        "query": "What the is cfg injection sidecar path CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "cfg<-path"
+        ]
+      },
+      {
+        "row": "g39-word_order",
+        "term": "injection",
+        "word": "bot",
+        "query": "What the is vault bot sidecar path CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "bot<-injection"
+        ]
+      },
+      {
+        "row": "g39-word_order",
+        "term": "injection",
+        "word": "confluence",
+        "query": "What the is vault confluence sidecar path CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-word_order",
+        "term": "injection",
+        "word": "hpa",
+        "query": "What the is vault hpa sidecar path CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-word_order",
+        "term": "sidecar",
+        "word": "value",
+        "query": "What the is vault injection value path CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "value<-operator"
+        ]
+      },
+      {
+        "row": "g39-word_order",
+        "term": "path",
+        "word": "request",
+        "query": "What the is vault injection sidecar request CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "request<-probe"
+        ]
+      },
+      {
+        "row": "g39-word_order",
+        "term": "path",
+        "word": "size",
+        "query": "What the is vault injection sidecar size CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "size<-path"
+        ]
+      },
+      {
+        "row": "g39-word_order",
+        "term": "path",
+        "word": "answers",
+        "query": "What the is vault injection sidecar answers CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "answers<-chat"
+        ]
+      },
+      {
+        "row": "g39-typo",
+        "term": "vault",
+        "word": "runbooks",
+        "query": "What is the runbooks sidecar injecttion ptah CNRY-VAULT7F3A?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g39-typo",
+        "term": "vault",
+        "word": "april",
+        "query": "What is the april sidecar injecttion ptah CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "april<-test"
+        ]
+      },
+      {
+        "row": "g39-typo",
+        "term": "sidecar",
+        "word": "mitigation",
+        "query": "What is the vault mitigation injecttion ptah CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "mitigation<-injection"
+        ]
+      },
+      {
+        "row": "g39-typo",
+        "term": "sidecar",
+        "word": "image",
+        "query": "What is the vault image injecttion ptah CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "image<-paste"
+        ]
+      },
+      {
+        "row": "g39-typo",
+        "term": "sidecar",
+        "word": "raw",
+        "query": "What is the vault raw injecttion ptah CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "raw<-paste"
+        ]
+      },
+      {
+        "row": "g39-polite",
+        "term": "vault",
+        "word": "ready",
+        "query": "Hey team, sorry to bother you, but what is the ready sidecar injection path CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "ready<-test"
+        ]
+      },
+      {
+        "row": "g39-polite",
+        "term": "sidecar",
+        "word": "desired",
+        "query": "Hey team, sorry to bother you, but what is the vault desired injection path CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "desired<-paste"
+        ]
+      },
+      {
+        "row": "g39-polite",
+        "term": "sidecar",
+        "word": "scale",
+        "query": "Hey team, sorry to bother you, but what is the vault scale injection path CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "scale<-agent"
+        ]
+      },
+      {
+        "row": "g39-polite",
+        "term": "sidecar",
+        "word": "connection",
+        "query": "Hey team, sorry to bother you, but what is the vault connection injection path CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "connection<-sock"
+        ]
+      },
+      {
+        "row": "g39-polite",
+        "term": "injection",
+        "word": "updates",
+        "query": "Hey team, sorry to bother you, but what is the vault sidecar updates path CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "updates<-statement"
+        ]
+      },
+      {
+        "row": "g39-polite",
+        "term": "path",
+        "word": "point",
+        "query": "Hey team, sorry to bother you, but what is the vault sidecar injection point CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "point<-path"
+        ]
+      },
+      {
+        "row": "g39-polite",
+        "term": "path",
+        "word": "monthly",
+        "query": "Hey team, sorry to bother you, but what is the vault sidecar injection monthly CNRY-VAULT7F3A?",
+        "mechanism": "passage",
+        "passage": [
+          "monthly<-test"
+        ]
+      },
+      {
+        "row": "g40-word_order",
+        "term": "approle",
+        "word": "states",
+        "query": "What is the states Vault schedule rotation?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-word_order",
+        "term": "approle",
+        "word": "hash",
+        "query": "What is the hash Vault schedule rotation?",
+        "mechanism": "passage",
+        "passage": [
+          "hash<-vault"
+        ]
+      },
+      {
+        "row": "g40-word_order",
+        "term": "vault",
+        "word": "response",
+        "query": "What is the AppRole response schedule rotation?",
+        "mechanism": "passage",
+        "passage": [
+          "response<-utc"
+        ]
+      },
+      {
+        "row": "g40-word_order",
+        "term": "schedule",
+        "word": "progress",
+        "query": "What is the AppRole Vault progress rotation?",
+        "mechanism": "passage",
+        "passage": [
+          "progress<-state"
+        ]
+      },
+      {
+        "row": "g40-word_order",
+        "term": "rotation",
+        "word": "ended",
+        "query": "What is the AppRole Vault schedule ended?",
+        "mechanism": "passage",
+        "passage": [
+          "ended<-scheduled"
+        ]
+      },
+      {
+        "row": "g40-word_order",
+        "term": "rotation",
+        "word": "minutes",
+        "query": "What is the AppRole Vault schedule minutes?",
+        "mechanism": "passage",
+        "passage": [
+          "minutes<-days"
+        ]
+      },
+      {
+        "row": "g40-typo",
+        "term": "approle",
+        "word": "solely",
+        "query": "Waht is the Vualt solely rotation schedule?",
+        "mechanism": "passage",
+        "passage": [
+          "solely<-vault"
+        ]
+      },
+      {
+        "row": "g40-typo",
+        "term": "schedule",
+        "word": "november",
+        "query": "Waht is the Vualt AppRole rotation november?",
+        "mechanism": "passage",
+        "passage": [
+          "november<-schedule"
+        ]
+      },
+      {
+        "row": "g40-polite",
+        "term": "vault",
+        "word": "notes",
+        "query": "Could you please tell me what is the notes AppRole rotation schedule?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g40-polite",
+        "term": "vault",
+        "word": "memory",
+        "query": "Could you please tell me what is the memory AppRole rotation schedule?",
+        "mechanism": "passage",
+        "passage": [
+          "memory<-runs"
+        ]
+      },
+      {
+        "row": "g40-polite",
+        "term": "approle",
+        "word": "mailbox",
+        "query": "Could you please tell me what is the Vault mailbox rotation schedule?",
+        "mechanism": "passage",
+        "passage": [
+          "mailbox<-document"
+        ]
+      },
+      {
+        "row": "g40-polite",
+        "term": "approle",
+        "word": "pages",
+        "query": "Could you please tell me what is the Vault pages rotation schedule?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-polite",
+        "term": "rotation",
+        "word": "tips",
+        "query": "Could you please tell me what is the Vault AppRole tips schedule?",
+        "mechanism": "passage",
+        "passage": [
+          "tips<-rotation"
+        ]
+      },
+      {
+        "row": "g40-polite",
+        "term": "rotation",
+        "word": "against",
+        "query": "Could you please tell me what is the Vault AppRole against schedule?",
+        "mechanism": "passage",
+        "passage": [
+          "against<-injection"
+        ]
+      },
+      {
+        "row": "g40-polite",
+        "term": "schedule",
+        "word": "stale",
+        "query": "Could you please tell me what is the Vault AppRole rotation stale?",
+        "mechanism": "passage",
+        "passage": [
+          "stale<-rotation"
+        ]
+      },
+      {
+        "row": "g40-polite",
+        "term": "schedule",
+        "word": "identity",
+        "query": "Could you please tell me what is the Vault AppRole rotation identity?",
+        "mechanism": "passage",
+        "passage": [
+          "identity<-vault"
+        ]
+      },
+      {
+        "row": "g47-word_order",
+        "term": "key",
+        "word": "thread",
+        "query": "What the is thread vault-transit rotation contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "thread<-page"
+        ]
+      },
+      {
+        "row": "g47-word_order",
+        "term": "key",
+        "word": "scheduled",
+        "query": "What the is scheduled vault-transit rotation contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "scheduled<-rotation"
+        ]
+      },
+      {
+        "row": "g47-word_order",
+        "term": "vault-transit",
+        "word": "progress",
+        "query": "What the is key progress rotation contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "progress<-state"
+        ]
+      },
+      {
+        "row": "g47-word_order",
+        "term": "vault-transit",
+        "word": "confluence",
+        "query": "What the is key confluence rotation contact email?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g47-word_order",
+        "term": "vault-transit",
+        "word": "public",
+        "query": "What the is key public rotation contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "public<-key"
+        ]
+      },
+      {
+        "row": "g47-word_order",
+        "term": "rotation",
+        "word": "working",
+        "query": "What the is key vault-transit working contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "working<-state"
+        ]
+      },
+      {
+        "row": "g47-word_order",
+        "term": "rotation",
+        "word": "replica",
+        "query": "What the is key vault-transit replica contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "replica<-state"
+        ]
+      },
+      {
+        "row": "g47-typo",
+        "term": "vault-transit",
+        "word": "shift",
+        "query": "Whhat is the shift key rotation cintact email?",
+        "mechanism": "passage",
+        "passage": [
+          "shift<-key"
+        ]
+      },
+      {
+        "row": "g47-typo",
+        "term": "vault-transit",
+        "word": "live",
+        "query": "Whhat is the live key rotation cintact email?",
+        "mechanism": "passage",
+        "passage": [
+          "live<-state"
+        ]
+      },
+      {
+        "row": "g47-typo",
+        "term": "vault-transit",
+        "word": "under",
+        "query": "Whhat is the under key rotation cintact email?",
+        "mechanism": "passage",
+        "passage": [
+          "under<-document"
+        ]
+      },
+      {
+        "row": "g47-typo",
+        "term": "key",
+        "word": "exceeds",
+        "query": "Whhat is the vault-transit exceeds rotation cintact email?",
+        "mechanism": "passage",
+        "passage": [
+          "exceeds<-state"
+        ]
+      },
+      {
+        "row": "g47-typo",
+        "term": "key",
+        "word": "secret",
+        "query": "Whhat is the vault-transit secret rotation cintact email?",
+        "mechanism": "passage",
+        "passage": [
+          "secret<-key"
+        ]
+      },
+      {
+        "row": "g47-typo",
+        "term": "key",
+        "word": "pages",
+        "query": "Whhat is the vault-transit pages rotation cintact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-typo",
+        "term": "rotation",
+        "word": "approval",
+        "query": "Whhat is the vault-transit key approval cintact email?",
+        "mechanism": "passage",
+        "passage": [
+          "approval<-rotation"
+        ]
+      },
+      {
+        "row": "g47-typo",
+        "term": "rotation",
+        "word": "via",
+        "query": "Whhat is the vault-transit key via cintact email?",
+        "mechanism": "passage",
+        "passage": [
+          "via<-contact"
+        ]
+      },
+      {
+        "row": "g47-polite",
+        "term": "vault-transit",
+        "word": "dashboard",
+        "query": "Hey team, sorry to bother you, but what is the dashboard key rotation contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "dashboard<-rotation"
+        ]
+      },
+      {
+        "row": "g47-polite",
+        "term": "vault-transit",
+        "word": "ten",
+        "query": "Hey team, sorry to bother you, but what is the ten key rotation contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "ten<-rotation"
+        ]
+      },
+      {
+        "row": "g47-polite",
+        "term": "vault-transit",
+        "word": "source",
+        "query": "Hey team, sorry to bother you, but what is the source key rotation contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "source<-document"
+        ]
+      },
+      {
+        "row": "g47-polite",
+        "term": "key",
+        "word": "security",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit security rotation contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "security<-contact"
+        ]
+      },
+      {
+        "row": "g47-polite",
+        "term": "key",
+        "word": "changes",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit changes rotation contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "changes<-rotation"
+        ]
+      },
+      {
+        "row": "g47-polite",
+        "term": "rotation",
+        "word": "debug",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit key debug contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "debug<-failure"
+        ]
+      },
+      {
+        "row": "g47-polite",
+        "term": "rotation",
+        "word": "connections",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit key connections contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "connections<-state"
+        ]
+      },
+      {
+        "row": "g47-polite",
+        "term": "rotation",
+        "word": "green",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit key green contact email?",
+        "mechanism": "passage",
+        "passage": [
+          "green<-page"
+        ]
+      },
+      {
+        "row": "g50-word_order",
+        "term": "vault-transit",
+        "word": "access",
+        "query": "What is access the rotation key schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "access<-owner"
+        ]
+      },
+      {
+        "row": "g50-word_order",
+        "term": "vault-transit",
+        "word": "green",
+        "query": "What is green the rotation key schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "green<-rotation"
+        ]
+      },
+      {
+        "row": "g50-word_order",
+        "term": "vault-transit",
+        "word": "traffic",
+        "query": "What is traffic the rotation key schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "traffic<-secondary"
+        ]
+      },
+      {
+        "row": "g50-word_order",
+        "term": "rotation",
+        "word": "manifest",
+        "query": "What is vault-transit the manifest key schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "manifest<-cluster"
+        ]
+      },
+      {
+        "row": "g50-word_order",
+        "term": "rotation",
+        "word": "traffic",
+        "query": "What is vault-transit the traffic key schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "traffic<-secondary"
+        ]
+      },
+      {
+        "row": "g50-word_order",
+        "term": "key",
+        "word": "start",
+        "query": "What is vault-transit the rotation start schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "start<-window"
+        ]
+      },
+      {
+        "row": "g50-word_order",
+        "term": "schedule",
+        "word": "start",
+        "query": "What is vault-transit the rotation key start window?",
+        "mechanism": "passage",
+        "passage": [
+          "start<-window"
+        ]
+      },
+      {
+        "row": "g50-word_order",
+        "term": "window",
+        "word": "wiki",
+        "query": "What is vault-transit the rotation key schedule wiki?",
+        "mechanism": "passage",
+        "passage": [
+          "wiki<-rotation"
+        ]
+      },
+      {
+        "row": "g50-word_order",
+        "term": "window",
+        "word": "container",
+        "query": "What is vault-transit the rotation key schedule container?",
+        "mechanism": "passage",
+        "passage": [
+          "container<-cluster"
+        ]
+      },
+      {
+        "row": "g50-typo",
+        "term": "vault-transit",
+        "word": "march",
+        "query": "What is the march key rtation schedule winodw?",
+        "mechanism": "passage",
+        "passage": [
+          "march<-days"
+        ]
+      },
+      {
+        "row": "g50-typo",
+        "term": "schedule",
+        "word": "procedure",
+        "query": "What is the vault-transit key rtation procedure winodw?",
+        "mechanism": "passage",
+        "passage": [
+          "procedure<-schedule"
+        ]
+      },
+      {
+        "row": "g50-typo",
+        "term": "schedule",
+        "word": "raw",
+        "query": "What is the vault-transit key rtation raw winodw?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g50-polite",
+        "term": "vault-transit",
+        "word": "burn",
+        "query": "I was wondering, what is the burn key rotation schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "burn<-rotation"
+        ]
+      },
+      {
+        "row": "g50-polite",
+        "term": "key",
+        "word": "disable",
+        "query": "I was wondering, what is the vault-transit disable rotation schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "disable<-window"
+        ]
+      },
+      {
+        "row": "g50-polite",
+        "term": "key",
+        "word": "credential",
+        "query": "I was wondering, what is the vault-transit credential rotation schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "credential<-owner"
+        ]
+      },
+      {
+        "row": "g50-polite",
+        "term": "rotation",
+        "word": "adding",
+        "query": "I was wondering, what is the vault-transit key adding schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "adding<-secondary"
+        ]
+      },
+      {
+        "row": "g50-polite",
+        "term": "rotation",
+        "word": "salt",
+        "query": "I was wondering, what is the vault-transit key salt schedule window?",
+        "mechanism": "passage",
+        "passage": [
+          "salt<-key"
+        ]
+      },
+      {
+        "row": "g50-polite",
+        "term": "window",
+        "word": "desired",
+        "query": "I was wondering, what is the vault-transit key rotation schedule desired?",
+        "mechanism": "passage",
+        "passage": [
+          "desired<-secondary"
+        ]
+      },
+      {
+        "row": "g50-polite",
+        "term": "window",
+        "word": "over",
+        "query": "I was wondering, what is the vault-transit key rotation schedule over?",
+        "mechanism": "passage",
+        "passage": [
+          "over<-days"
+        ]
+      }
+    ],
+    "known_off": [
+      {
+        "row": "d7-18",
+        "term": "open",
+        "word": "key",
+        "query": "When does the production freeze key?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d7-18",
+        "term": "open",
+        "word": "reviewed",
+        "query": "When does the production freeze reviewed?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-word_order",
+        "term": "latency",
+        "word": "open",
+        "query": "What the is current checkout open p99?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-word_order",
+        "term": "p99",
+        "word": "traffic",
+        "query": "What the is current checkout latency traffic?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-polite",
+        "term": "latency",
+        "word": "command",
+        "query": "Could you please tell me what is the current checkout p99 command?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-polite",
+        "term": "latency",
+        "word": "utc",
+        "query": "Could you please tell me what is the current checkout p99 utc?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "feature",
+        "word": "datadog",
+        "query": "Is the checkout_retry datadog enabled flag?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "flag",
+        "word": "utc",
+        "query": "Is the checkout_retry feature enabled utc?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-typo",
+        "term": "feature",
+        "word": "cadence",
+        "query": "Is the checkout_retry cadence flag enabked?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-typo",
+        "term": "flag",
+        "word": "escalation",
+        "query": "Is the checkout_retry feature escalation enabked?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-polite",
+        "term": "flag",
+        "word": "kubernetes",
+        "query": "I was wondering, is the checkout_retry feature kubernetes enabled?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-polite",
+        "term": "flag",
+        "word": "states",
+        "query": "I was wondering, is the checkout_retry feature states enabled?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g02-word_order",
+        "term": "primary",
+        "word": "owner",
+        "query": "Who the is on-call owner right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-word_order",
+        "term": "primary",
+        "word": "luis",
+        "query": "Who the is on-call luis right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-word_order",
+        "term": "primary",
+        "word": "adding",
+        "query": "Who the is on-call adding right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "reminder",
+        "query": "Who is the prumary reminder rihgt now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "scheduled",
+        "query": "Who is the prumary scheduled rihgt now?",
+        "mechanism": "lexical",
+        "passage": [
+          "primary<-secondary"
+        ]
+      },
+      {
+        "row": "g02-polite",
+        "term": "primary",
+        "word": "off",
+        "query": "Could you please tell me who is the off on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-polite",
+        "term": "on-call",
+        "word": "enablement",
+        "query": "Could you please tell me who is the primary enablement right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-synonym",
+        "term": "instances",
+        "word": "chat",
+        "query": "How many checkout-api chat are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-word_order",
+        "term": "replicas",
+        "word": "charts",
+        "query": "How checkout-api many charts are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-word_order",
+        "term": "replicas",
+        "word": "enable",
+        "query": "How checkout-api many enable are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-typo",
+        "term": "replicas",
+        "word": "availability",
+        "query": "How many checkout-api availability are rnning?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-polite",
+        "term": "checkout-api",
+        "word": "scheduled",
+        "query": "Hey team, sorry to bother you, but how many scheduled replicas are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g04-word_order",
+        "term": "budget",
+        "word": "confluence",
+        "query": "What is the remaining confluence error checkout for?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g04-word_order",
+        "term": "budget",
+        "word": "wiki",
+        "query": "What is the remaining wiki error checkout for?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g04-typo",
+        "term": "budget",
+        "word": "primary",
+        "query": "What is the remainong eeror primary for checkout?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g04-typo",
+        "term": "checkout",
+        "word": "schedule",
+        "query": "What is the remainong eeror budget for schedule?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g04-typo",
+        "term": "checkout",
+        "word": "hpa",
+        "query": "What is the remainong eeror budget for hpa?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g05-word_order",
+        "term": "latency",
+        "word": "max",
+        "query": "What does mitigation the max checkout runbook recommend?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g05-word_order",
+        "term": "checkout",
+        "word": "not",
+        "query": "What does mitigation the latency not runbook recommend?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g05-typo",
+        "term": "checkout",
+        "word": "redis",
+        "query": "Whhat mitigatoin does the redis latency runbook recommend?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-word_order",
+        "term": "redis",
+        "word": "chart",
+        "query": "What the is chart checkout-pool utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-typo",
+        "term": "checkout-pool",
+        "word": "evictions",
+        "query": "Whst is the Redis evictions utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-polite",
+        "term": "redis",
+        "word": "latency",
+        "query": "Could you please tell me what is the latency checkout-pool utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g07-word_order",
+        "term": "status",
+        "word": "tracked",
+        "query": "What the is tracked the of payments-api?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g07-word_order",
+        "term": "payments-api",
+        "word": "pagerduty",
+        "query": "What the is status the of pagerduty?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g07-polite",
+        "term": "payments-api",
+        "word": "payments",
+        "query": "Quick question: what is the status of the payments?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g24-word_order",
+        "term": "production",
+        "word": "runbook",
+        "query": "What the is runbook maintenance window change?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-word_order",
+        "term": "maintenance",
+        "word": "states",
+        "query": "What the is production states window change?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g24-word_order",
+        "term": "window",
+        "word": "vault",
+        "query": "What the is production maintenance vault change?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-word_order",
+        "term": "change",
+        "word": "utc",
+        "query": "What the is production maintenance window utc?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g24-typo",
+        "term": "change",
+        "word": "increase",
+        "query": "What is the produciton maintenance increase widnow?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "production",
+        "word": "live",
+        "query": "I was wondering, what is the live maintenance change window?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "maintenance",
+        "word": "spreadsheet",
+        "query": "I was wondering, what is the production spreadsheet change window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "maintenance",
+        "word": "payments",
+        "query": "I was wondering, what is the production payments change window?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "change",
+        "word": "cfg",
+        "query": "I was wondering, what is the production maintenance cfg window?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "change",
+        "word": "slack",
+        "query": "I was wondering, what is the production maintenance slack window?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "window",
+        "word": "sidecar",
+        "query": "I was wondering, what is the production maintenance change sidecar?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g25-word_order",
+        "term": "freeze",
+        "word": "service",
+        "query": "When does the service production start?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g25-word_order",
+        "term": "freeze",
+        "word": "change",
+        "query": "When does the change production start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g25-word_order",
+        "term": "start",
+        "word": "incident",
+        "query": "When does the freeze production incident?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g25-typo",
+        "term": "start",
+        "word": "passwords",
+        "query": "When does the production fereze passwords?",
+        "mechanism": "lexical",
+        "passage": [
+          "freeze<-production"
+        ]
+      },
+      {
+        "row": "g25-typo",
+        "term": "start",
+        "word": "passwords",
+        "query": "When does the production fereze passwords?",
+        "mechanism": "lexical",
+        "passage": [
+          "freeze<-production"
+        ]
+      },
+      {
+        "row": "g25-polite",
+        "term": "start",
+        "word": "dana",
+        "query": "Quick question: when does the production freeze dana?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-synonym",
+        "term": "route",
+        "word": "datadog",
+        "query": "What is the vault sidecar injection datadog CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-word_order",
+        "term": "injection",
+        "word": "confluence",
+        "query": "What the is vault confluence sidecar path CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-word_order",
+        "term": "injection",
+        "word": "hpa",
+        "query": "What the is vault hpa sidecar path CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-word_order",
+        "term": "path",
+        "word": "size",
+        "query": "What the is vault injection sidecar size CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-word_order",
+        "term": "path",
+        "word": "answers",
+        "query": "What the is vault injection sidecar answers CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-typo",
+        "term": "vault",
+        "word": "runbooks",
+        "query": "What is the runbooks sidecar injecttion ptah CNRY-VAULT7F3A?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-word_order",
+        "term": "approle",
+        "word": "states",
+        "query": "What is the states Vault schedule rotation?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-word_order",
+        "term": "rotation",
+        "word": "minutes",
+        "query": "What is the AppRole Vault schedule minutes?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g40-typo",
+        "term": "schedule",
+        "word": "wiki",
+        "query": "Waht is the Vualt AppRole rotation wiki?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g40-polite",
+        "term": "vault",
+        "word": "notes",
+        "query": "Could you please tell me what is the notes AppRole rotation schedule?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g40-polite",
+        "term": "approle",
+        "word": "pages",
+        "query": "Could you please tell me what is the Vault pages rotation schedule?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-word_order",
+        "term": "vault-transit",
+        "word": "confluence",
+        "query": "What the is key confluence rotation contact email?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g47-word_order",
+        "term": "email",
+        "word": "schedule",
+        "query": "What the is key vault-transit rotation contact schedule?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-typo",
+        "term": "key",
+        "word": "pages",
+        "query": "Whhat is the vault-transit pages rotation cintact email?",
+        "mechanism": "lexical",
+        "passage": []
+      }
+    ]
+  }
+}
