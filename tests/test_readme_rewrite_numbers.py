@@ -21,7 +21,8 @@ def _j(name: str) -> dict:
 def test_it_is_the_newest_section():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
     # newest until the 2026-11-07 swap null section went above it
-    assert heads[1].startswith(HEAD) and heads[0].startswith("## Random one-word swaps")
+    i = next(k for k, h in enumerate(heads) if h.startswith(HEAD))
+    assert i >= 1 and heads[i - 1].startswith("## Random one-word swaps")
 
 
 def test_calibration_rows_match():

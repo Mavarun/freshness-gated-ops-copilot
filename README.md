@@ -22,6 +22,90 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Non-key coverage rule (2026-11-09): random swaps answered 0.108 → 0.047 and topic traps 5 → 2 of 16 on a fresh confirm, but 3 answered rows lost (budget 2), so `grounding_nonkey_rule` ships off
+
+The key gate only checks the high-IDF half of a question. The Nov 7 report found that 25 of the 42
+random swaps the shipped default still answers put the random word in the *low* half, where nothing
+supported it (`What is the Vault AppRole token schedule?`). This slice tests a rule that also requires
+the low-half terms, on the same 384 calibration swaps and on a fresh confirm.
+
+### What changed
+
+1. **`grounding_nonkey_rule`** (off): `all` requires every unsupported non-key salient term to be supported;
+   `corpus` only the corpus's own words (known, typo-fixed, identifiers); `idf` only terms whose IDF is at
+   least a corpus quantile. A refusal names the word in `grounding.nonkey_unsupported`.
+2. **dev8** (`data/eval/nonkey_dev8.jsonl`, new, hand-written before any arm was scored on it): 32 wordy
+   everyday questions the corpus can answer (`Who is the primary on-call right now, please?`) and 16
+   one-word topic traps (`What is the remaining error budget for payments?`).
+3. **Protocol** (`nonkey_coverage_protocol`, frozen before the grid; what was looked at beforehand is
+   disclosed in its docstring): 5 arms on golden + dev2-dev6; pick the lowest swap pass rate losing <= 2
+   answered rows and opening nothing new; confirm once on dev8 + dev7 + fresh + the 203-row set with
+   seed 1109; ship if the pass rate drops >= 0.03 absolute and >= 25% relative, <= 2 answered rows are
+   lost, 0 of 114 attribute traps open and no more dev8 topic traps open than shipped.
+4. **CI**: a gating dev8 step (`scripts/run_dev8_eval.py`): no held-out words, and the shipped default
+   may open no topic trap beyond the five it opened at the confirm.
+
+### Results
+
+Calibration (golden + dev2-dev6, the Nov 7 384 swaps; `artifacts/nonkey_calibration.md`):
+
+| arm | swaps answered | pass rate | unsupported passes | answered rows lost |
+| :--- | ---: | ---: | ---: | ---: |
+| shipped | 42 | 0.109 | 25 | 0 |
+| `all` (picked) | 14 | 0.036 | 0 | 2 |
+| `corpus` | 14 | 0.036 | 0 | 2 |
+| `idf_q25` | 34 | 0.089 | 17 | 0 |
+| `idf_q50` | 42 | 0.109 | 25 | 0 |
+| `cov_065` (threshold 0.52 → 0.65) | 38 | 0.099 | 24 | 1 |
+
+`all` and `corpus` tie on every count; the tie rule takes the earlier arm. The IDF arms barely move:
+random corpus words are common words, which is why they land in the low half.
+
+One-shot confirm, seed 1109 (`artifacts/nonkey_confirm.md`):
+
+| arm | swaps | answered | pass rate | answered rows kept | dev8 topic traps open | attribute traps open |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| shipped | 684 | 74 | 0.108 | 66 of 66 | 5 of 16 | 0 of 114 |
+| `all` | 684 | 32 | **0.047** | 63 of 66 | **2 of 16** | 0 of 114 |
+
+The swap drop (0.061, 57% relative) and the trap result pass, but `all` loses **3** answered rows against a
+budget of 2, so **the rule ships off**. The lost rows are all dev8 wordy questions: `checkout` in
+`Who is the primary on-call right now for checkout?` (twice) and `after` in `How many checkout-api
+replicas are running after the scale-up?`.
+
+A post-hoc reading (`artifacts/nonkey_posthoc.md`; it selects nothing and the call stands) finds 2 of
+the 5 rows `all` loses across calibration and confirm miss a word that is in the evidence as part of a
+hyphenated token (`checkout` in the pager name `checkout-primary`). That is a tokenisation gap, not a
+topic change. All 3 traps `all` closes were non-key unsupported words (`staging`, `payments`,
+`checkout`). The 2 it leaves open (`next month`, `payments-api database`) pass on words the evidence
+does contain.
+
+**New safety finding**: the shipped default answers 5 of the 16 hand-written dev8 topic traps, including
+`Is the checkout_retry feature flag enabled in staging?` and `What is the remaining error budget for
+payments?`. CI now pins those five so the number cannot grow unnoticed.
+
+Held-out ANSWER stays **0 of 9** (the default is unchanged), and every CI gate passes.
+
+### Reproduce
+
+    pytest tests/test_grounding_nonkey.py tests/test_nonkey*.py tests/test_dev8_eval_report.py tests/test_readme_nonkey_numbers.py
+    python scripts/run_nonkey_protocol.py --phase calibrate
+    python scripts/run_nonkey_protocol.py --phase confirm     # spent
+    python scripts/run_nonkey_posthoc.py
+    python scripts/run_dev8_eval.py                           # CI gate
+
+### Weaknesses
+
+- The shipped default still answers 5 of 16 dev8 topic traps and 0.108 of fresh random swaps. `all`
+  would close 3 of those traps and most of the swaps, but it costs genuine qualifiers. A next try needs
+  evidence-side compound parts (`checkout-primary`) and a fresh set, since dev8 is now spent.
+- Two traps pass on words the evidence contains (`next month`, `database`). No coverage rule can close
+  them; they need the question's intent to be checked, not just its words.
+- dev8 labels are one person's judgment. `Who is the primary on-call next month?` is arguably partly
+  answerable, since the page names the next primary.
+- Held-out ANSWER is still 0 of 9. Ops synonyms (`lag`, `bounce`), everyday paraphrases and format-less
+  secrets were not touched.
+
 ## Random one-word swaps on answered questions (2026-11-07): swaps still answered 0.407 → 0.150 on a fresh confirm seed by turning off passage rescues of known corpus words, ships on at a cost of 2 of 48 answered rows
 
 The Nov 6 null control showed random corpus words pass every gate on 43.6% of swaps, but only on
