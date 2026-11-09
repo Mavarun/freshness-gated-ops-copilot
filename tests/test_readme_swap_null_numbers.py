@@ -22,7 +22,8 @@ def _j(name: str) -> dict:
 
 def test_it_is_the_newest_section():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
-    assert heads[0].startswith(HEAD)
+    # newest until the 2026-11-09 non-key coverage section went above it
+    assert heads[1].startswith(HEAD) and heads[0].startswith("## Non-key coverage rule")
 
 
 def test_calibration_table_matches():
