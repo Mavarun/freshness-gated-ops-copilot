@@ -100,8 +100,12 @@ class GroundingResult:
     # classifier's probability for the chunk it read.
     passage_rescued: list[str] = field(default_factory=list)
     passage_probability: float | None = None
+    # Non-key coverage rule (off by default): low-IDF-half query terms the rule
+    # required and the evidence did not support. Empty when the rule is off.
+    nonkey_unsupported: list[str] = field(default_factory=list)
 
     def as_dict(self) -> dict:
+        extra = {"nonkey_unsupported": self.nonkey_unsupported} if self.nonkey_unsupported else {}
         return {
             "passed": self.passed,
             "query_coverage": round(self.query_coverage, 4),
@@ -117,6 +121,7 @@ class GroundingResult:
             "passage_probability": (
                 None if self.passage_probability is None else round(self.passage_probability, 4)
             ),
+            **extra,
         }
 
 

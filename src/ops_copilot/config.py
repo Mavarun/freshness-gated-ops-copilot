@@ -320,6 +320,15 @@ class CopilotConfig:
     passage_support_credit_stop: bool = True
     passage_support_credit_top_freq: int = 0
     passage_support_credit_max_rank: int = 0
+    # Non-key coverage rule (off). The key gate checks the high-IDF half of the
+    # query only; the 2026-11-07 swap null report found 25 of 42 random swaps
+    # still answered with the swapped word in the low half and nothing
+    # supporting it. "all": every non-key salient term must be supported;
+    # "corpus": non-key corpus words (known / typo / identifier) must be;
+    # "idf": non-key terms with IDF >= the grounding_nonkey_idf_quantile of
+    # corpus IDFs must be. Protocol: nonkey_coverage_protocol.py.
+    grounding_nonkey_rule: str = "off"
+    grounding_nonkey_idf_quantile: float = 0.5
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in

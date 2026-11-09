@@ -212,6 +212,19 @@ class Support:
         )
 
 
+NONKEY_RULES = ("off", "all", "corpus", "idf")
+# Term kinds that are the corpus's own words (not a substitute found for an outside word).
+CORPUS_KINDS = frozenset({"known", "typo", "identifier"})
+
+
+def _quantile(values: list[float], q: float) -> float:
+    """Lower empirical quantile of sorted ``values`` (0.0 when empty)."""
+    if not values:
+        return 0.0
+    q = min(max(q, 0.0), 1.0)
+    return values[min(int(q * len(values)), len(values) - 1)]
+
+
 class Grounder:
     """Mark an answer ungrounded when the query is not supported by evidence."""
 
@@ -252,9 +265,16 @@ class Grounder:
         gloss_sense: GlossSenseBackoff | None = None,
         noun_gloss: NounGlossSenseBackoff | None = None,
         noun_gloss_known: bool = False,
+        nonkey_rule: str = "off",
+        nonkey_idf_quantile: float = 0.5,
     ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
+        if nonkey_rule not in NONKEY_RULES:
+            raise ValueError(f"nonkey_rule must be one of {NONKEY_RULES}, got {nonkey_rule!r}")
+        # Non-key coverage rule (off by default; see nonkey_unsupported).
+        self.nonkey_rule = nonkey_rule
+        self.nonkey_min_idf = _quantile(sorted(self.idf.values()), float(nonkey_idf_quantile))
         self.n_docs = max(len(tokenized), 1)
         self.oov_idf = math.log(self.n_docs + 1.0) + 1.0
         self.threshold = threshold
@@ -739,6 +759,31 @@ class Grounder:
             return 0.0, overlap
         return present / total, overlap
 
+    def nonkey_unsupported(self, sup: Support) -> list[str]:
+        """Non-key salient terms the rule says must be supported but are not.
+
+        The key gate checks only the high-IDF half of the query, so a corpus word in the
+        low half may be missing from the evidence and the query still answers on the
+        other terms' coverage (``What is the Vault AppRole token schedule?``). Rules:
+        ``off`` (shipped), ``all`` (every non-key term), ``corpus`` (non-key terms that
+        are the corpus's own words: known, typo-fixed or identifiers; outside words with
+        a substitute or unknown fillers keep the old leniency), ``idf`` (non-key terms
+        whose IDF is at least the ``nonkey_idf_quantile`` of corpus IDFs).
+        """
+        if self.nonkey_rule == "off" or not sup.terms:
+            return []
+        keys = {t.token for t in self._key_terms(sup.terms)}
+        out = []
+        for t in sup.terms:
+            if t.token in keys or sup.ok(t):
+                continue
+            if self.nonkey_rule == "corpus" and t.kind not in CORPUS_KINDS:
+                continue
+            if self.nonkey_rule == "idf" and t.weight < self.nonkey_min_idf:
+                continue
+            out.append(t.token)
+        return out
+
     def chunk_support(self, query: str, evidence: str) -> tuple[float, bool]:
         """(coverage, key gate) for one chunk's evidence string, one pass."""
         sup = self.support(query, evidence)
@@ -773,9 +818,11 @@ class Grounder:
         else:
             a_cov = 0.0
         answer_ok = (not answer) or a_cov >= 0.50
+        nonkey_missing = self.nonkey_unsupported(sup)
         passed = (
             q_cov >= thresh
             and keys_ok
+            and not nonkey_missing
             and bool(evidence_chunks)
             and answer_ok
             and bool(answer)
@@ -791,4 +838,5 @@ class Grounder:
             translation_rescued=[f"{t.query_word}<-{t.evidence_word}" for t in sup.translated],
             passage_rescued=[f"{t.query_word}<-{t.evidence_word}" for t in sup.passage],
             passage_probability=sup.passage_prob,
+            nonkey_unsupported=nonkey_missing,
         )
