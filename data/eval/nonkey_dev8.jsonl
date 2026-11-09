@@ -1,0 +1,48 @@
+{"id": "d8-01", "query": "What is the checkout p99 latency at the moment?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-02", "query": "Could you tell me the current checkout p99 latency?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-03", "query": "What does the current checkout p99 latency look like?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-04", "query": "Is the checkout_retry feature flag enabled in us-east-1?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-05", "query": "Is the checkout_retry feature flag currently enabled?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-06", "query": "Who is the primary on-call right now for checkout?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-07", "query": "Who is the primary on-call right now, please?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-08", "query": "How many checkout-api replicas are running in the checkout namespace?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-09", "query": "How many checkout-api replicas are running today?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-10", "query": "What is the remaining error budget for checkout this month?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-11", "query": "What is the remaining error budget for the checkout SLO?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-12", "query": "What mitigation does the checkout latency runbook recommend first?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-13", "query": "Which mitigation does the checkout latency runbook recommend?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-14", "query": "What is the Redis checkout-pool utilization right now?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-15", "query": "What is the current Redis checkout-pool utilization percentage?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-16", "query": "What is the status of the payments-api in us-east-1?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-17", "query": "What is the current status of the payments-api?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-18", "query": "What is the production maintenance change window this week?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-19", "query": "What is the production maintenance change window in UTC?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-20", "query": "When does the production freeze start this week?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-21", "query": "When exactly does the production freeze start?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-22", "query": "What is the Vault AppRole rotation schedule for checkout-api?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-23", "query": "What is the Vault AppRole rotation schedule these days?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-24", "query": "What is the vault-transit key rotation schedule window for payments?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-25", "query": "What is the vault-transit key rotation contact email again?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-26", "query": "What is the remaining error budget for checkout as of today?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-27", "query": "What is the checkout p99 latency on the dashboard?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-28", "query": "Is the checkout_retry feature flag enabled for customers?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-29", "query": "Who is the primary on-call right now on the checkout rotation?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-30", "query": "How many checkout-api replicas are running after the scale-up?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-31", "query": "What is the Redis checkout-pool utilization during the incident?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-32", "query": "What is the status of the payments-api during the incident?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d8-t01", "query": "What is the checkout p99 latency in eu-west-1?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t02", "query": "Is the checkout_retry feature flag enabled in staging?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t03", "query": "Who is the primary on-call next month?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t04", "query": "How many checkout-api replicas are crashing?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t05", "query": "What is the remaining error budget for payments?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t06", "query": "What mitigation does the payments latency runbook recommend?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t07", "query": "What is the Redis checkout-pool password?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t08", "query": "What is the status of the payments-api database?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t09", "query": "What is the staging maintenance change window?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t10", "query": "When does the staging freeze start?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t11", "query": "What is the Vault AppRole rotation schedule for payments-worker?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t12", "query": "What is the vault-transit key rotation schedule for the checkout cluster?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t13", "query": "What is the checkout p99 latency budget for mobile?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t14", "query": "What is the memory limit of the checkout-api pods?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t15", "query": "How many payments-api replicas are running?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d8-t16", "query": "What is the error budget for the search service?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
