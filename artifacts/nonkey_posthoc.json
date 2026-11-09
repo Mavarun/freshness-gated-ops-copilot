@@ -1,0 +1,109 @@
+{
+  "arm": "all",
+  "lost": [
+    {
+      "id": "d5-22",
+      "query": "What is the Vault AppRole rotation cadence?",
+      "words": [
+        "cadence"
+      ],
+      "compound_part": [],
+      "phase": "calibration"
+    },
+    {
+      "id": "d6-06",
+      "query": "Who is the first on-call right now?",
+      "words": [
+        "on-call"
+      ],
+      "compound_part": [],
+      "phase": "calibration"
+    },
+    {
+      "id": "d8-06",
+      "query": "Who is the primary on-call right now for checkout?",
+      "words": [
+        "checkout"
+      ],
+      "compound_part": [
+        "checkout"
+      ],
+      "phase": "confirm"
+    },
+    {
+      "id": "d8-29",
+      "query": "Who is the primary on-call right now on the checkout rotation?",
+      "words": [
+        "checkout"
+      ],
+      "compound_part": [
+        "checkout"
+      ],
+      "phase": "confirm"
+    },
+    {
+      "id": "d8-30",
+      "query": "How many checkout-api replicas are running after the scale-up?",
+      "words": [
+        "after"
+      ],
+      "compound_part": [],
+      "phase": "confirm"
+    }
+  ],
+  "lost_compound_part": 2,
+  "traps": [
+    {
+      "id": "d8-t02",
+      "query": "Is the checkout_retry feature flag enabled in staging?",
+      "unsupported": [
+        "staging"
+      ],
+      "unsupported_nonkey": [
+        "staging"
+      ],
+      "kind": "non-key unsupported",
+      "arm_decision": "REFUSE_UNGROUNDED"
+    },
+    {
+      "id": "d8-t03",
+      "query": "Who is the primary on-call next month?",
+      "unsupported": [],
+      "unsupported_nonkey": [],
+      "kind": "lexical",
+      "arm_decision": "ANSWER"
+    },
+    {
+      "id": "d8-t05",
+      "query": "What is the remaining error budget for payments?",
+      "unsupported": [
+        "payments"
+      ],
+      "unsupported_nonkey": [
+        "payments"
+      ],
+      "kind": "non-key unsupported",
+      "arm_decision": "REFUSE_UNGROUNDED"
+    },
+    {
+      "id": "d8-t08",
+      "query": "What is the status of the payments-api database?",
+      "unsupported": [],
+      "unsupported_nonkey": [],
+      "kind": "lexical",
+      "arm_decision": "ANSWER"
+    },
+    {
+      "id": "d8-t12",
+      "query": "What is the vault-transit key rotation schedule for the checkout cluster?",
+      "unsupported": [
+        "checkout"
+      ],
+      "unsupported_nonkey": [
+        "checkout"
+      ],
+      "kind": "non-key unsupported",
+      "arm_decision": "REFUSE_UNGROUNDED"
+    }
+  ]
+}
