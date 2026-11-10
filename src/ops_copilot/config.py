@@ -329,6 +329,10 @@ class CopilotConfig:
     # corpus IDFs must be. Protocol: nonkey_coverage_protocol.py.
     grounding_nonkey_rule: str = "off"
     grounding_nonkey_idf_quantile: float = 0.5
+    # Compound parts of evidence tokens the non-key rule credits ("off" | "hyphen" |
+    # "joined"); no effect while grounding_nonkey_rule is "off". Protocol:
+    # nonkey_parts_protocol.py.
+    grounding_nonkey_parts: str = "off"
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in

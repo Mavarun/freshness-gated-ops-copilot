@@ -215,6 +215,31 @@ class Support:
 NONKEY_RULES = ("off", "all", "corpus", "idf")
 # Term kinds that are the corpus's own words (not a substitute found for an outside word).
 CORPUS_KINDS = frozenset({"known", "typo", "identifier"})
+# Evidence-side compound parts the non-key rule may credit (off by default):
+# "hyphen" splits "checkout-primary" into checkout/primary; "joined" also splits
+# underscores ("checkout_retry"). Only plain alphabetic parts of >= 3 letters count.
+NONKEY_PARTS = ("off", "hyphen", "joined")
+
+
+def evidence_part_forms(evidence: str, mode: str) -> frozenset[str]:
+    """Plain-word parts of the evidence's compound tokens, with plural variants.
+
+    ``mode`` is one of ``NONKEY_PARTS``. Parts with a digit or under three letters
+    (``p99``, ``us`` in ``us-east-1``) are dropped: they are identifier fragments,
+    not words a question would use on their own.
+    """
+    if mode == "off":
+        return frozenset()
+    seps = "-" if mode == "hyphen" else "-_"
+    parts: list[str] = []
+    for tok in content_tokens(evidence):
+        if not any(ch in tok for ch in seps):
+            continue
+        piece = tok
+        for ch in seps[1:]:
+            piece = piece.replace(ch, seps[0])
+        parts.extend(x for x in piece.split(seps[0]) if len(x) >= 3 and x.isalpha())
+    return frozenset(match_tokens(parts))
 
 
 def _quantile(values: list[float], q: float) -> float:
@@ -267,6 +292,7 @@ class Grounder:
         noun_gloss_known: bool = False,
         nonkey_rule: str = "off",
         nonkey_idf_quantile: float = 0.5,
+        nonkey_parts: str = "off",
     ) -> None:
         tokenized = [content_tokens(text) for text in corpus_texts]
         self.idf = idf_map(tokenized)
@@ -274,6 +300,9 @@ class Grounder:
             raise ValueError(f"nonkey_rule must be one of {NONKEY_RULES}, got {nonkey_rule!r}")
         # Non-key coverage rule (off by default; see nonkey_unsupported).
         self.nonkey_rule = nonkey_rule
+        if nonkey_parts not in NONKEY_PARTS:
+            raise ValueError(f"nonkey_parts must be one of {NONKEY_PARTS}, got {nonkey_parts!r}")
+        self.nonkey_parts = nonkey_parts
         self.nonkey_min_idf = _quantile(sorted(self.idf.values()), float(nonkey_idf_quantile))
         self.n_docs = max(len(tokenized), 1)
         self.oov_idf = math.log(self.n_docs + 1.0) + 1.0
@@ -759,7 +788,7 @@ class Grounder:
             return 0.0, overlap
         return present / total, overlap
 
-    def nonkey_unsupported(self, sup: Support) -> list[str]:
+    def nonkey_unsupported(self, sup: Support, part_forms: frozenset[str] = frozenset()) -> list[str]:
         """Non-key salient terms the rule says must be supported but are not.
 
         The key gate checks only the high-IDF half of the query, so a corpus word in the
@@ -769,6 +798,12 @@ class Grounder:
         are the corpus's own words: known, typo-fixed or identifiers; outside words with
         a substitute or unknown fillers keep the old leniency), ``idf`` (non-key terms
         whose IDF is at least the ``nonkey_idf_quantile`` of corpus IDFs).
+
+        ``part_forms`` (from ``evidence_part_forms``; empty unless ``nonkey_parts`` is on)
+        lets a plain non-key word be supported by a compound part of an evidence token
+        (``checkout`` by the pager name ``checkout-primary``). Only the word itself (or its
+        plural/singular form) counts, not its synonym alts. It never touches the key
+        gate or the coverage score, and identifiers stay exact-only.
         """
         if self.nonkey_rule == "off" or not sup.terms:
             return []
@@ -776,6 +811,10 @@ class Grounder:
         out = []
         for t in sup.terms:
             if t.token in keys or sup.ok(t):
+                continue
+            # The word itself only: synonym alts of a part would let 'token' ride on
+            # 'secret' inside 'platform-secrets' (found by the unit test, 2026-11-10).
+            if part_forms and t.kind != "identifier" and t.token in part_forms:
                 continue
             if self.nonkey_rule == "corpus" and t.kind not in CORPUS_KINDS:
                 continue
@@ -818,7 +857,8 @@ class Grounder:
         else:
             a_cov = 0.0
         answer_ok = (not answer) or a_cov >= 0.50
-        nonkey_missing = self.nonkey_unsupported(sup)
+        part_forms = evidence_part_forms(evidence, self.nonkey_parts) if self.nonkey_rule != "off" else frozenset()
+        nonkey_missing = self.nonkey_unsupported(sup, part_forms)
         passed = (
             q_cov >= thresh
             and keys_ok
