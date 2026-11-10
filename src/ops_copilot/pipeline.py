@@ -280,6 +280,7 @@ class Copilot:
             passage_credit_max_rank=self.config.passage_support_credit_max_rank,
             nonkey_rule=self.config.grounding_nonkey_rule,
             nonkey_idf_quantile=self.config.grounding_nonkey_idf_quantile,
+            nonkey_parts=self.config.grounding_nonkey_parts,
             gloss_sense=(
                 self.gloss_sense
                 if self.config.use_gloss_sense_backoff and self.config.gloss_sense_grounding
