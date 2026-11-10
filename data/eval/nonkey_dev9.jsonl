@@ -1,0 +1,48 @@
+{"id": "d9-01", "query": "What is the checkout p50 latency right now?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-02", "query": "Can you tell me how many qps checkout is serving?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-03", "query": "Who is the secondary on-call for checkout this week?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-04", "query": "Who is the secondary on-call right now?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-05", "query": "When is the next on-call handoff happening?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-06", "query": "Who takes over as the next primary on-call after the handoff?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-07", "query": "What severity is incident INC-4821 at currently?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-08", "query": "What is the current status of incident INC-4821?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-09", "query": "What is the error rate on the checkout-api during INC-4821?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-10", "query": "What is the burn rate on the checkout error budget lately?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-11", "query": "What is the checkout SLO availability target over the rolling window?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-12", "query": "What percent canary is the checkout_retry flag enabled at?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-13", "query": "Which region has the checkout_retry flag enabled?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-14", "query": "Who is the assignee on OPS-9912 for the Redis pool increase?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-15", "query": "What is the status of the Jira ticket OPS-9912?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-16", "query": "What is the Redis checkout-pool wait p99 right now?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-17", "query": "How many Redis checkout-pool connections are in use at the moment?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-18", "query": "What is the target CPU utilization on the checkout-api HPA?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-19", "query": "What is the observed CPU utilization of checkout-api pods today?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-20", "query": "What is the max replicas setting on the checkout-api HPA?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-21", "query": "What percent 5xx is card-capture seeing on payments-api?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-22", "query": "Is payments-api degraded in us-east-1 right now?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-23", "query": "What is the payments-api qps in us-east-1 at the moment?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-24", "query": "What is the payments-api p50 latency on the dashboard panel?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-25", "query": "Who acked INC-4821 in the incident Slack thread?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-26", "query": "What is the first mitigation in the checkout latency runbook?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-27", "query": "When does the production maintenance change window open on Saturday?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-28", "query": "Who can approve an emergency SEV-1 change during the production freeze?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-29", "query": "What is the leading hypothesis for the checkout p99 latency incident?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-30", "query": "Which pager does the primary on-call carry for checkout?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-31", "query": "How much is promo-service fanout adding to checkout latency?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-32", "query": "What is the Redis checkout-pool memory usage right now?", "expect_decision": "ANSWER", "kind": "wordy"}
+{"id": "d9-t01", "query": "What is the checkout p50 latency in eu-west-1?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t02", "query": "Who is the secondary on-call for payments right now?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t03", "query": "What severity is incident INC-4821 in staging?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t04", "query": "What is the burn rate on the payments error budget?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t05", "query": "What percent canary is the checkout_retry flag enabled at for mobile users?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t06", "query": "Who is the assignee on the Jira ticket for the Kafka broker upgrade?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t07", "query": "What is the Redis checkout-pool wait p99 in staging?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t08", "query": "What is the target CPU utilization on the payments-api HPA?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t09", "query": "What is the max replicas setting on the search-api HPA?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t10", "query": "What percent of payout calls are failing with 5xx on payments-api?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t11", "query": "What is the payments-api qps in eu-west-1?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t12", "query": "Who acked the database incident in the Slack thread?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t13", "query": "What is the first mitigation in the payments latency runbook?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t14", "query": "When does the staging maintenance window open on Saturday?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t15", "query": "Which pager does the primary on-call carry for payments?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
+{"id": "d9-t16", "query": "What is the checkout p99 latency on mobile devices?", "expect_decision": "REFUSE_UNGROUNDED", "kind": "topic_trap"}
