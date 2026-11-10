@@ -1,0 +1,52 @@
+{
+  "arm": "all_hyphen",
+  "lost": [
+    {
+      "id": "d5-22",
+      "query": "What is the Vault AppRole rotation cadence?",
+      "source_query": "What is the Vault AppRole rotation schedule?",
+      "words": [
+        "cadence"
+      ],
+      "shipped_cited": [
+        "vault_approle_rotation",
+        "canary_vault_sidecar"
+      ],
+      "source_cited": [
+        "vault_approle_rotation"
+      ],
+      "same_doc_as_source": true,
+      "reading": "genuine loss"
+    },
+    {
+      "id": "d6-06",
+      "query": "Who is the first on-call right now?",
+      "source_query": "Who is the primary on-call right now?",
+      "words": [
+        "on-call"
+      ],
+      "shipped_cited": [
+        "rb_checkout_latency"
+      ],
+      "source_cited": [
+        "wiki_oncall_now"
+      ],
+      "same_doc_as_source": false,
+      "reading": "wrong-evidence answer"
+    },
+    {
+      "id": "d8-30",
+      "query": "How many checkout-api replicas are running after the scale-up?",
+      "source_query": null,
+      "words": [
+        "after"
+      ],
+      "shipped_cited": [
+        "k8s_checkout_api"
+      ],
+      "source_cited": [],
+      "same_doc_as_source": null,
+      "reading": "no source question"
+    }
+  ]
+}
