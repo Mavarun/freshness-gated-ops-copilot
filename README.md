@@ -22,6 +22,78 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Compound parts for the non-key rule (2026-11-10): parts win back both hyphen rows (`checkout` in `checkout-primary`) at the same swap rate, but every arm still loses 3 calibration rows (budget 2), so nothing is picked, `grounding_nonkey_parts` ships off and dev9 stays unspent
+
+The Nov 9 `all` rule closed most random swaps but lost genuine answers. Two of those losses missed a word
+the evidence holds only inside a hyphenated token (`checkout` in the pager name `checkout-primary`). This
+slice lets the non-key rule credit those parts and re-runs the protocol on a calibration set that now
+includes the spent dev8.
+
+### What changed
+
+1. **`grounding_nonkey_parts`** (off; no effect while `grounding_nonkey_rule` is off): `hyphen` lets a plain
+   non-key word be supported by a hyphen part of an evidence token; `joined` also splits underscores
+   (`checkout_retry`). Only the word itself counts, never its synonym alts: a unit test found that
+   `token` (alt `secret`) would otherwise ride on `platform-secrets`. Parts with digits or under three
+   letters are dropped. The key gate and the coverage score are untouched.
+2. **dev9** (`data/eval/nonkey_dev9.jsonl`, new, committed before the knob existed and before any arm was
+   scored on it): 32 wordy questions the corpus can answer and 16 one-word topic traps, mostly on facts
+   dev8 did not ask about (secondary on-call, handoff, burn rate, HPA settings, OPS-9912).
+3. **Protocol** (`nonkey_parts_protocol`, frozen before the grid; spot queries disclosed in its
+   docstring): 3 parts arms on golden + dev2-dev6 + dev8 (320 rows) with the same 384 swaps as Nov 7 and
+   Nov 9; Nov 9 `all` is scored as a reference that cannot be picked. Same pick and ship rules as Nov 9:
+   <= 2 answered rows lost and no new must-refuse opens to be eligible; confirm once on dev9 + dev7 +
+   fresh + the 203-row set with seed 1110.
+
+### Results
+
+Calibration (`artifacts/nonkey_parts_calibration.md`):
+
+| arm | swaps answered | pass rate | must-refuse opened | answered rows lost |
+| :--- | ---: | ---: | ---: | ---: |
+| shipped | 42 | 0.109 | 8 of 144 | 0 |
+| `all` (Nov 9, reference) | 14 | 0.036 | 5 of 144 | 5 |
+| `all_hyphen` | 14 | 0.036 | 5 of 144 | 3 |
+| `all_joined` | 14 | 0.036 | 5 of 144 | 3 |
+| `corpus_hyphen` | 14 | 0.036 | 5 of 144 | 3 |
+
+Parts win back exactly the two hyphen rows (`d8-06`, `d8-29`) and cost nothing on swaps or traps. But
+every parts arm still loses `d5-22`, `d6-06` and `d8-30`, one more than the budget of 2 (adding dev8 to
+calibration brought in `d8-30`). **No arm is picked, so the confirm is not run, the knob ships off and
+dev9 stays unseen** for the next attempt.
+
+A post-hoc reading of those 3 rows (`artifacts/nonkey_parts_posthoc.md`; it selects nothing):
+
+| row | word the rule names | reading |
+| :--- | :--- | :--- |
+| `d6-06` `Who is the first on-call right now?` | `on-call` | **wrong-evidence answer**: the shipped default cites the latency runbook (`first` matches `as a first step`), not the on-call page its clean question cites |
+| `d5-22` `What is the Vault AppRole rotation cadence?` | `cadence` | genuine loss: a paraphrase of `schedule` the evidence does not use |
+| `d8-30` `How many checkout-api replicas are running after the scale-up?` | `after` | no clean source question; the snapshot does state the post-scale-up count |
+
+**New safety finding**: the shipped default answers `Who is the first on-call right now?` from the
+checkout latency runbook. The `all` rule's refusal there is a fix, but the protocol counts it as a lost
+answer because it scores decisions, not citations. A test now pins this so a change is noticed.
+
+Held-out ANSWER stays **0 of 9** (the default is unchanged), and every CI gate passes.
+
+### Reproduce
+
+    pytest tests/test_grounding_nonkey_parts.py tests/test_nonkey_parts*.py tests/test_nonkey_dev9_set.py tests/test_readme_nonkey_parts_numbers.py
+    python scripts/run_nonkey_parts_protocol.py --phase calibrate
+    python scripts/run_nonkey_parts_posthoc.py
+
+### Weaknesses
+
+- The shipped default still answers 0.108 of fresh random swaps and 5 of 16 dev8 topic traps, and now
+  also a staffing question from a runbook (`d6-06`). Parts remove the tokenisation cost of the non-key
+  rule, but not the other three.
+- The lost-row budget counts decisions, not citations, so a wrong-evidence answer counts as a loss when
+  a rule refuses it. A citation-aware keep count must be pre-registered before dev9 is used; changing
+  the rule after seeing this calibration and re-scoring it would be tuning on the result.
+- `cadence` for `schedule` and temporal qualifiers (`after the scale-up`) are real paraphrase gaps. Ops
+  synonyms (`lag`, `bounce`), everyday paraphrases and format-less secrets were not touched, and
+  held-out ANSWER is still 0 of 9.
+
 ## Non-key coverage rule (2026-11-09): random swaps answered 0.108 → 0.047 and topic traps 5 → 2 of 16 on a fresh confirm, but 3 answered rows lost (budget 2), so `grounding_nonkey_rule` ships off
 
 The key gate only checks the high-IDF half of a question. The Nov 7 report found that 25 of the 42
