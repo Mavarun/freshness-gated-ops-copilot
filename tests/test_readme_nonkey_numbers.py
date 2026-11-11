@@ -22,7 +22,7 @@ def _j(name: str) -> dict:
 
 def test_section_order():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
-    assert heads[1].startswith(HEAD) and heads[0].startswith("## Compound parts for the non-key rule")
+    assert heads[2].startswith(HEAD) and heads[1].startswith("## Compound parts for the non-key rule")
 
 
 def test_calibration_table_matches():
