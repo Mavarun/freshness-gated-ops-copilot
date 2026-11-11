@@ -47,6 +47,7 @@ from ops_copilot.gloss_sense import GlossSenseBackoff
 from ops_copilot.noun_gloss_sense import NounGlossSenseBackoff
 from ops_copilot.datamuse_senses import DatamuseSense
 from ops_copilot.wordnet_senses import ChainedNounSense, WordNetNounSense
+from ops_copilot.resource_agreement import AgreementSense
 from ops_copilot.write_targets import EntityRegistry, default_registry
 
 
@@ -206,24 +207,35 @@ class Copilot:
             if self.config.use_datamuse_ml
             else None
         )
+        self.agreement = (
+            AgreementSense.from_corpus(
+                texts,
+                min_votes=self.config.agreement_min_votes,
+                scope=self.config.agreement_scope,
+                max_neighbours=self.config.agreement_max_neighbours,
+            )
+            if self.config.use_resource_agreement
+            else None
+        )
         # One noun read-path slot: Wiktionary gloss sense first, then WordNet,
-        # then Datamuse means-like.
+        # then Datamuse means-like, then resource agreement.
         for name in ("wordnet_scope", "datamuse_scope"):
             if getattr(self.config, name) not in ("known", "lone", "all"):
                 raise ValueError(
                     f"{name} must be 'known', 'lone' or 'all', got {getattr(self.config, name)!r}"
                 )
-        self.noun_sense = ChainedNounSense.of(self.noun_gloss, self.wordnet_noun, self.datamuse)
+        self.noun_sense = ChainedNounSense.of(self.noun_gloss, self.wordnet_noun, self.datamuse, self.agreement)
         # Known-only and lone-unknown backoffs stay out of the retrieval rewrite.
         retrieve_noun = ChainedNounSense.of(
             self.noun_gloss,
             self.wordnet_noun if self.config.wordnet_scope == "all" else None,
             self.datamuse if self.config.datamuse_scope == "all" else None,
+            self.agreement if self.config.agreement_scope == "all" else None,
         )
         noun_known = (
             self.config.noun_gloss_sense_known_words
             if self.noun_gloss is not None
-            else (self.wordnet_noun is not None or self.datamuse is not None)
+            else (self.wordnet_noun is not None or self.datamuse is not None or self.agreement is not None)
         )
         self.retriever = Retriever(
             self.corpus.chunks,
