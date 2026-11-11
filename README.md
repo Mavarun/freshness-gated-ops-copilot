@@ -22,6 +22,87 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Resource agreement for ops synonyms (2026-11-11): words two or three outside resources agree on win back 3-6 calibration rows only by raising random swaps answered 0.109 → 0.128-0.151 (budget +0.01), so `use_resource_agreement` ships off and dev10 stays unseen; a citation-aware keep count is now pre-registered for dev9
+
+Every outside synonym resource tried so far was gated on its own, and each one that added held-out rows also
+opened a trap. This slice tests whether *agreement* between resources filters out the wrong senses: a corpus
+word may stand in for a query word only when at least 2 (or 3) of the five committed resources propose it.
+It also writes down, before dev9 is used, how lost answers will be counted when the evidence is wrong.
+
+### What changed
+
+1. **`use_resource_agreement`** (off; `resource_agreement.py`): counts votes from the counter-fitted vectors
+   (cosine >= 0.60), Datamuse means-like (rank <= 50), WordNet (synonym or direct hyper/hyponym), Wiktionary
+   computing senses and Stack Exchange tag synonyms; a candidate needs `agreement_min_votes` of them. Scopes
+   `known` / `lone` / `all` as for WordNet; it sits in the grounder's noun read-path slot. The resources are not
+   fully independent (the vectors were fitted to PPDB and WordNet, Datamuse draws on WordNet).
+2. **dev10** (`data/eval/synonym_dev10.jsonl`, new, committed before any arm was scored on it): 15 one-swap
+   ANSWER paraphrases, 7 must-refuse paraphrases and 4 attribute-style traps. The swap vocabulary is nearly used
+   up: the first two drafts lost 28 and 23 of 30 rows to the guard (held-out, dev and dev2-dev7 words).
+3. **Citation-aware keep count** (`citation_keep.py`, pre-registered for dev9): an answer is from the right
+   evidence when it cites the clean source question's documents (golden-derived rows) or one of a hand-written
+   doc list per dev9 wordy row (`data/eval/nonkey_dev9_docs.json`, written from the corpus text only; no config
+   was run on dev9). A refused wrong-evidence answer counts as fixed, not lost; any new wrong-evidence answer
+   blocks shipping. `d6-06` is pinned as a wrong-evidence answer of the shipped default.
+4. **Protocol** (`resource_agreement_protocol.py`, frozen before the grid; the dev-pair probes run beforehand are
+   disclosed in its docstring): 5 arms on golden + dev2-dev6 + dev8 (320 rows) with the same 384
+   swaps as Nov 7-10. Eligible: no new must-refuse open, swap pass rate up by at most 0.01, no new wrong-evidence
+   answer, at least 2 more answered rows. Confirm once on dev10 + dev7 + fresh + the 203-row set, seed 1111.
+
+### Results
+
+Calibration (`artifacts/resource_agreement_calibration.md`):
+
+| arm | swaps answered | pass rate | answered rows gained | must-refuse opened | new wrong evidence | right-evidence answers lost |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| shipped | 42 | 0.109 | +0 | 8 of 144 | 0 | 0 |
+| `agree2_known` | 45 | 0.117 | +0 | 8 of 144 | 0 | 0 |
+| `agree3_known` | 43 | 0.112 | +0 | 8 of 144 | 0 | 0 |
+| `agree2_lone` | 55 | 0.143 | +6 | 8 of 144 | 1 | 0 |
+| `agree2_all` | 58 | 0.151 | +3 | 8 of 144 | 0 | 5 |
+| `agree3_all` | 49 | 0.128 | +4 | 8 of 144 | 0 | 0 |
+
+The `known` arms change no calibration decision. Every arm that wins rows back also lets more random swaps
+through (budget +0.01). 2-vote `lone` also answers `d2-13` from the wrong page, and 2-vote `all` puts agreed
+words into the retrieval rewrite, which sends 5 right-evidence answers to `REFUSE_DISAGREE`. **No arm is
+eligible, so the confirm is not run, the knob ships off and dev10 stays unseen.**
+
+A post-hoc reading (`artifacts/resource_agreement_posthoc.md`; it selects nothing). Held-out pairs are read
+only because the go / no-go is already decided:
+
+| split | single-word pairs | gold word gets >= 2 votes | top agreed candidate is gold | top agreed candidate is wrong |
+| :--- | ---: | ---: | ---: | ---: |
+| dev | 57 | 8 | 7 | 22 |
+| held-out | 53 | 8 | 7 | 11 |
+
+- No resource pair agrees on the ops senses: `restart -> bounce` and `restart -> reboot` get 0 votes,
+  `latency -> lag` and `cadence -> frequency` 1.
+- 3 of the 6 rows 2-vote `lone` wins back are right only by luck: `chief -> executive`, `itinerary -> path`,
+  `customers -> consumer`.
+
+Held-out ANSWER stays **0 of 9** (the default is unchanged), and every CI gate passes.
+
+### Reproduce
+
+    pytest tests/test_resource_agreement*.py tests/test_synonym_dev10_set.py tests/test_citation_keep.py tests/test_readme_resource_agreement_numbers.py
+    python scripts/run_resource_agreement_protocol.py --phase calibrate
+    python scripts/run_resource_agreement_posthoc.py
+
+### Weaknesses
+
+- General-English resources do not hold ops senses, even when they agree: with this many resources, `bounce`,
+  `reboot` and `lag` still have no agreed corpus word. Held-out ANSWER is still 0 of 9. An ops synonym model
+  needs ops text with paraphrase signal (incident write-ups, runbook revisions), which this repo does not have.
+  The Stack Exchange snapshot is too small for pattern mining (549 noisy `aka` / `also known as` pairs on a
+  dev-only probe).
+- The shipped default still answers 0.108 of fresh random swaps, 5 of 16 dev8 topic traps and `d6-06` from a
+  runbook. This slice only made that last one countable.
+- The swap vocabulary for fresh paraphrase sets is nearly used up (dev10 needed three drafts), so future sets
+  will have more awkward wording (`lit`, `programme`, `sequence-of-actions`).
+- The dev9 doc labels are one person's reading of the corpus. `d9-20` (max replicas) accepts only the
+  workload snapshot, not the runbook that says to raise the max from 12 to 20.
+- Everyday paraphrases and format-less secrets were not touched.
+
 ## Compound parts for the non-key rule (2026-11-10): parts win back both hyphen rows (`checkout` in `checkout-primary`) at the same swap rate, but every arm still loses 3 calibration rows (budget 2), so nothing is picked, `grounding_nonkey_parts` ships off and dev9 stays unspent
 
 The Nov 9 `all` rule closed most random swaps but lost genuine answers. Two of those losses missed a word
