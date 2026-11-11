@@ -1,0 +1,1033 @@
+{
+  "coverage": {
+    "dev": {
+      "summary": {
+        "pairs": 57,
+        "gold_2plus": 8,
+        "gold_3plus": 3,
+        "top2_is_gold": 7,
+        "top2_is_wrong": 22
+      },
+      "rows": [
+        {
+          "pair": "page->alert",
+          "gold_votes": 0,
+          "top": "command",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "patch->update",
+          "gold_votes": 0,
+          "top": "refresh",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "replicas->pods",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "replicas->instances",
+          "gold_votes": 0,
+          "top": "example",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "utilization->usage",
+          "gold_votes": 2,
+          "top": "use",
+          "top_votes": 3,
+          "top_is_gold": false
+        },
+        {
+          "pair": "utilization->saturation",
+          "gold_votes": 0,
+          "top": "point",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "mitigation->remediation",
+          "gold_votes": 1,
+          "top": "mitigation",
+          "top_votes": 1,
+          "top_is_gold": true
+        },
+        {
+          "pair": "recommend->suggest",
+          "gold_votes": 0,
+          "top": "proposal",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "runbook->playbook",
+          "gold_votes": 0,
+          "top": "rules",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "procedure->process",
+          "gold_votes": 3,
+          "top": "procedure",
+          "top_votes": 3,
+          "top_is_gold": true
+        },
+        {
+          "pair": "email->e-mail",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "token->secret",
+          "gold_votes": 0,
+          "top": "password",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "schedule->calendar",
+          "gold_votes": 2,
+          "top": "schedule",
+          "top_votes": 2,
+          "top_is_gold": true
+        },
+        {
+          "pair": "window->timeframe",
+          "gold_votes": 0,
+          "top": "calendar",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "on-call->on-duty",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "on-call->pager",
+          "gold_votes": 0,
+          "top": "page",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "primary->lead",
+          "gold_votes": 0,
+          "top": "leading",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "outage->incident",
+          "gold_votes": 0,
+          "top": "event",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "config->setting",
+          "gold_votes": 1,
+          "top": "config",
+          "top_votes": 1,
+          "top_is_gold": true
+        },
+        {
+          "pair": "deploy->release",
+          "gold_votes": 0,
+          "top": "firing",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "remaining->leftover",
+          "gold_votes": 1,
+          "top": "remainder",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "current->present",
+          "gold_votes": 0,
+          "top": "cho",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "current->latest",
+          "gold_votes": 0,
+          "top": "last",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "freeze->lockdown",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "freeze->moratorium",
+          "gold_votes": 0,
+          "top": "default",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "production->prod",
+          "gold_votes": 1,
+          "top": "production",
+          "top_votes": 1,
+          "top_is_gold": true
+        },
+        {
+          "pair": "maintenance->upkeep",
+          "gold_votes": 3,
+          "top": "maintenance",
+          "top_votes": 3,
+          "top_is_gold": true
+        },
+        {
+          "pair": "maintenance->servicing",
+          "gold_votes": 1,
+          "top": "service",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "database->datastore",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "flag->toggle",
+          "gold_votes": 0,
+          "top": "switch",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "flag->switch",
+          "gold_votes": 1,
+          "top": "change",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "rollback->revert",
+          "gold_votes": 1,
+          "top": "returning",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "rollback->undo",
+          "gold_votes": 1,
+          "top": "checkout",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "owns->maintains",
+          "gold_votes": 0,
+          "top": "retained",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "directory->listing",
+          "gold_votes": 2,
+          "top": "directory",
+          "top_votes": 2,
+          "top_is_gold": true
+        },
+        {
+          "pair": "reset->clear",
+          "gold_votes": 0,
+          "top": "open",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "drain->clear",
+          "gold_votes": 0,
+          "top": "open",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "target->goal",
+          "gold_votes": 2,
+          "top": "target",
+          "top_votes": 2,
+          "top_is_gold": true
+        },
+        {
+          "pair": "endpoint->url",
+          "gold_votes": 0,
+          "top": "email",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "key->secret",
+          "gold_votes": 0,
+          "top": "password",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "path->route",
+          "gold_votes": 3,
+          "top": "path",
+          "top_votes": 3,
+          "top_is_gold": true
+        },
+        {
+          "pair": "path->location",
+          "gold_votes": 0,
+          "top": "region",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "route->url",
+          "gold_votes": 0,
+          "top": "email",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "gateway->proxy",
+          "gold_votes": 0,
+          "top": "agent",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "gateway->edge",
+          "gold_votes": 0,
+          "top": "capacity",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "start->begin",
+          "gold_votes": 2,
+          "top": "start",
+          "top_votes": 2,
+          "top_is_gold": true
+        },
+        {
+          "pair": "service->app",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "flush->clear",
+          "gold_votes": 0,
+          "top": "open",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "webhook->hook",
+          "gold_votes": 0,
+          "top": "endpoint",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "chargeback->dispute",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "chargeback->refund",
+          "gold_votes": 0,
+          "top": "payments",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "playbook->runbook",
+          "gold_votes": 0,
+          "top": "schedule",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "checkpoint->snapshot",
+          "gold_votes": 0,
+          "top": "freeze",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "handshake->setup",
+          "gold_votes": 0,
+          "top": "installed",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "setting->parameter",
+          "gold_votes": 0,
+          "top": "endpoint",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "qps->throughput",
+          "gold_votes": 0,
+          "top": "rate",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "stickiness->pinning",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        }
+      ]
+    },
+    "heldout": {
+      "summary": {
+        "pairs": 53,
+        "gold_2plus": 8,
+        "gold_3plus": 3,
+        "top2_is_gold": 7,
+        "top2_is_wrong": 11
+      },
+      "rows": [
+        {
+          "pair": "restart->reboot",
+          "gold_votes": 0,
+          "top": "bounce",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "restart->bounce",
+          "gold_votes": 0,
+          "top": "climb",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "restart->recycle",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "page->ping",
+          "gold_votes": 0,
+          "top": "latency",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "patch->modify",
+          "gold_votes": 0,
+          "top": "change",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "latency->lag",
+          "gold_votes": 1,
+          "top": "behind",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "status->health",
+          "gold_votes": 1,
+          "top": "hygiene",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "status->state",
+          "gold_votes": 1,
+          "top": "land",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "mitigation->workaround",
+          "gold_votes": 0,
+          "top": "procedure",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "recommend->advise",
+          "gold_votes": 0,
+          "top": "tips",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "runbook->guide",
+          "gold_votes": 0,
+          "top": "guidance",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "procedure->steps",
+          "gold_votes": 0,
+          "top": "path",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "contact->owner",
+          "gold_votes": 0,
+          "top": "manager",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "token->credential",
+          "gold_votes": 0,
+          "top": "document",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "rotation->rollover",
+          "gold_votes": 1,
+          "top": "change",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "rotation->cycling",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "schedule->timetable",
+          "gold_votes": 3,
+          "top": "schedule",
+          "top_votes": 3,
+          "top_is_gold": true
+        },
+        {
+          "pair": "window->period",
+          "gold_votes": 1,
+          "top": "hours",
+          "top_votes": 3,
+          "top_is_gold": false
+        },
+        {
+          "pair": "primary->main",
+          "gold_votes": 2,
+          "top": "primary",
+          "top_votes": 2,
+          "top_is_gold": true
+        },
+        {
+          "pair": "outage->downtime",
+          "gold_votes": 0,
+          "top": "latency",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "config->configuration",
+          "gold_votes": 2,
+          "top": "config",
+          "top_votes": 2,
+          "top_is_gold": true
+        },
+        {
+          "pair": "deploy->rollout",
+          "gold_votes": 1,
+          "top": "deploy",
+          "top_votes": 1,
+          "top_is_gold": true
+        },
+        {
+          "pair": "remaining->left",
+          "gold_votes": 1,
+          "top": "behind",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "cadence->frequency",
+          "gold_votes": 1,
+          "top": "cadence",
+          "top_votes": 1,
+          "top_is_gold": true
+        },
+        {
+          "pair": "cadence->interval",
+          "gold_votes": 0,
+          "top": "latency",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "interval->period",
+          "gold_votes": 0,
+          "top": "hours",
+          "top_votes": 3,
+          "top_is_gold": false
+        },
+        {
+          "pair": "interval->frequency",
+          "gold_votes": 0,
+          "top": "cadence",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "production->live",
+          "gold_votes": 0,
+          "top": "active",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "database->db",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "password->passphrase",
+          "gold_votes": 2,
+          "top": "password",
+          "top_votes": 2,
+          "top_is_gold": true
+        },
+        {
+          "pair": "password->credential",
+          "gold_votes": 1,
+          "top": "document",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "owner->maintainer",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        },
+        {
+          "pair": "owner->steward",
+          "gold_votes": 0,
+          "top": "manager",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "directory->roster",
+          "gold_votes": 1,
+          "top": "directory",
+          "top_votes": 1,
+          "top_is_gold": true
+        },
+        {
+          "pair": "reset->reinitialize",
+          "gold_votes": 0,
+          "top": "reinstall",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "target->objective",
+          "gold_votes": 3,
+          "top": "target",
+          "top_votes": 3,
+          "top_is_gold": true
+        },
+        {
+          "pair": "endpoint->address",
+          "gold_votes": 0,
+          "top": "answer",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "key->credential",
+          "gold_votes": 0,
+          "top": "document",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "route->path",
+          "gold_votes": 3,
+          "top": "route",
+          "top_votes": 3,
+          "top_is_gold": true
+        },
+        {
+          "pair": "provision->create",
+          "gold_votes": 0,
+          "top": "enable",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "service->system",
+          "gold_votes": 0,
+          "top": "calendar",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "flush->purge",
+          "gold_votes": 2,
+          "top": "flush",
+          "top_votes": 2,
+          "top_is_gold": true
+        },
+        {
+          "pair": "webhook->callback",
+          "gold_votes": 0,
+          "top": "reminder",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "allowlist->whitelist",
+          "gold_votes": 0,
+          "top": "lists",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "playbook->guide",
+          "gold_votes": 2,
+          "top": "guidance",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "handshake->negotiation",
+          "gold_votes": 0,
+          "top": "broker",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "size->capacity",
+          "gold_votes": 1,
+          "top": "edge",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "size->count",
+          "gold_votes": 0,
+          "top": "investigating",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "request->reservation",
+          "gold_votes": 0,
+          "top": "statement",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "request->allocation",
+          "gold_votes": 0,
+          "top": "budget",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "salt->seed",
+          "gold_votes": 0,
+          "top": "source",
+          "top_votes": 2,
+          "top_is_gold": false
+        },
+        {
+          "pair": "salt->nonce",
+          "gold_votes": 0,
+          "top": "value",
+          "top_votes": 1,
+          "top_is_gold": false
+        },
+        {
+          "pair": "stickiness->affinity",
+          "gold_votes": 0,
+          "top": null,
+          "top_votes": 0,
+          "top_is_gold": false
+        }
+      ]
+    }
+  },
+  "watch": {
+    "restart->reboot": {
+      "pair": "restart->reboot",
+      "gold_votes": 0,
+      "top": "bounce",
+      "top_votes": 1,
+      "top_is_gold": false
+    },
+    "restart->bounce": {
+      "pair": "restart->bounce",
+      "gold_votes": 0,
+      "top": "climb",
+      "top_votes": 1,
+      "top_is_gold": false
+    },
+    "restart->recycle": {
+      "pair": "restart->recycle",
+      "gold_votes": 0,
+      "top": null,
+      "top_votes": 0,
+      "top_is_gold": false
+    },
+    "latency->lag": {
+      "pair": "latency->lag",
+      "gold_votes": 1,
+      "top": "behind",
+      "top_votes": 1,
+      "top_is_gold": false
+    },
+    "cadence->frequency": {
+      "pair": "cadence->frequency",
+      "gold_votes": 1,
+      "top": "cadence",
+      "top_votes": 1,
+      "top_is_gold": true
+    }
+  },
+  "gained": {
+    "agree2_lone": [
+      {
+        "id": "d2-13",
+        "query": "What is the situation of the payments-api?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "sp_payments_degraded"
+        ],
+        "mapped": [
+          {
+            "token": "situation",
+            "kind": "resource_agreement",
+            "alts": [
+              "status"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d4-06",
+        "query": "Who is the chief on-call right now?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "wiki_oncall_now"
+        ],
+        "mapped": [
+          {
+            "token": "chief",
+            "kind": "resource_agreement",
+            "alts": [
+              "executive"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d4-19",
+        "query": "What is the production overhaul change window?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "wiki_maint_window"
+        ],
+        "mapped": [
+          {
+            "token": "overhaul",
+            "kind": "resource_agreement",
+            "alts": [
+              "maintenance"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d4-22",
+        "query": "What is the Vault AppRole rotation itinerary?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "vault_approle_rotation",
+          "canary_vault_sidecar"
+        ],
+        "mapped": [
+          {
+            "token": "itinerary",
+            "kind": "resource_agreement",
+            "alts": [
+              "path"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d5-04",
+        "query": "Is the checkout_retry feature marker enabled?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "ff_checkout_retry"
+        ],
+        "mapped": [
+          {
+            "token": "marker",
+            "kind": "resource_agreement",
+            "alts": [
+              "flag"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d8-28",
+        "query": "Is the checkout_retry feature flag enabled for customers?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "ff_checkout_retry"
+        ],
+        "mapped": [
+          {
+            "token": "customers",
+            "kind": "resource_agreement",
+            "alts": [
+              "consumer"
+            ]
+          }
+        ]
+      }
+    ],
+    "agree3_all": [
+      {
+        "id": "d2-13",
+        "query": "What is the situation of the payments-api?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "sp_payments_degraded",
+          "pd_inc_4821"
+        ],
+        "mapped": [
+          {
+            "token": "situation",
+            "kind": "resource_agreement",
+            "alts": [
+              "status"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d2-20",
+        "query": "What is the vault-transit key rotation liaison email?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "pii_vault_transit_rotation_contact",
+          "pii_vault_transit_rotation_window"
+        ],
+        "mapped": [
+          {
+            "token": "liaison",
+            "kind": "resource_agreement",
+            "alts": [
+              "contact"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d4-22",
+        "query": "What is the Vault AppRole rotation itinerary?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "vault_approle_rotation",
+          "canary_vault_sidecar"
+        ],
+        "mapped": [
+          {
+            "token": "itinerary",
+            "kind": "resource_agreement",
+            "alts": [
+              "path"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d8-28",
+        "query": "Is the checkout_retry feature flag enabled for customers?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "ff_checkout_retry"
+        ],
+        "mapped": [
+          {
+            "token": "customers",
+            "kind": "resource_agreement",
+            "alts": [
+              "consumer"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
