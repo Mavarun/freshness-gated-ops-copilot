@@ -1,0 +1,105 @@
+{
+ "written": "2026-11-11, from reading data/corpus/ops_docs.jsonl only; no config was run on any dev9 row",
+ "rule": "a dev9 wordy row is answered from the right evidence when its cited_ids share at least one doc with its list",
+ "docs": {
+  "d9-01": [
+   "graf_checkout_sli"
+  ],
+  "d9-02": [
+   "graf_checkout_sli"
+  ],
+  "d9-03": [
+   "wiki_oncall_now"
+  ],
+  "d9-04": [
+   "wiki_oncall_now"
+  ],
+  "d9-05": [
+   "wiki_oncall_now"
+  ],
+  "d9-06": [
+   "wiki_oncall_now"
+  ],
+  "d9-07": [
+   "pd_inc_4821"
+  ],
+  "d9-08": [
+   "pd_inc_4821"
+  ],
+  "d9-09": [
+   "pd_inc_4821",
+   "graf_checkout_sli"
+  ],
+  "d9-10": [
+   "dd_error_budget"
+  ],
+  "d9-11": [
+   "dd_error_budget"
+  ],
+  "d9-12": [
+   "ff_checkout_retry"
+  ],
+  "d9-13": [
+   "ff_checkout_retry"
+  ],
+  "d9-14": [
+   "jira_ops_9912"
+  ],
+  "d9-15": [
+   "jira_ops_9912"
+  ],
+  "d9-16": [
+   "dd_redis_pool"
+  ],
+  "d9-17": [
+   "dd_redis_pool",
+   "pd_inc_4821"
+  ],
+  "d9-18": [
+   "k8s_checkout_api"
+  ],
+  "d9-19": [
+   "k8s_checkout_api"
+  ],
+  "d9-20": [
+   "k8s_checkout_api"
+  ],
+  "d9-21": [
+   "sp_payments_degraded"
+  ],
+  "d9-22": [
+   "sp_payments_degraded"
+  ],
+  "d9-23": [
+   "graf_payments_qps"
+  ],
+  "d9-24": [
+   "graf_payments_qps"
+  ],
+  "d9-25": [
+   "slack_inc_4821"
+  ],
+  "d9-26": [
+   "rb_checkout_latency"
+  ],
+  "d9-27": [
+   "wiki_maint_window"
+  ],
+  "d9-28": [
+   "wiki_maint_window"
+  ],
+  "d9-29": [
+   "pd_inc_4821",
+   "slack_inc_4821"
+  ],
+  "d9-30": [
+   "wiki_oncall_now"
+  ],
+  "d9-31": [
+   "pd_inc_4821"
+  ],
+  "d9-32": [
+   "dd_redis_pool"
+  ]
+ }
+}
