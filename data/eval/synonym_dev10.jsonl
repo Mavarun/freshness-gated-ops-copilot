@@ -1,0 +1,26 @@
+{"id": "d10-01", "source_index": 0, "query": "What is the current checkout p99 slowdown?", "expect_decision": "ANSWER", "swap": "latency -> slowdown"}
+{"id": "d10-02", "source_index": 1, "query": "Is the checkout_retry feature flag lit?", "expect_decision": "ANSWER", "swap": "enabled -> lit"}
+{"id": "d10-03", "source_index": 1, "query": "Is the checkout_retry feature knob enabled?", "expect_decision": "ANSWER", "swap": "flag -> knob"}
+{"id": "d10-04", "source_index": 2, "query": "Who is the top on-call right now?", "expect_decision": "ANSWER", "swap": "primary -> top"}
+{"id": "d10-05", "source_index": 2, "query": "Who is the primary duty-officer right now?", "expect_decision": "ANSWER", "swap": "on-call -> duty-officer"}
+{"id": "d10-06", "source_index": 3, "query": "How many checkout-api replicas are functioning?", "expect_decision": "ANSWER", "swap": "running -> functioning"}
+{"id": "d10-07", "source_index": 4, "query": "What is the untouched error budget for checkout?", "expect_decision": "ANSWER", "swap": "remaining -> untouched"}
+{"id": "d10-08", "source_index": 5, "query": "What palliative does the checkout latency runbook recommend?", "expect_decision": "ANSWER", "swap": "mitigation -> palliative"}
+{"id": "d10-09", "source_index": 5, "query": "What mitigation does the checkout latency runbook favour?", "expect_decision": "ANSWER", "swap": "recommend -> favour"}
+{"id": "d10-10", "source_index": 25, "query": "When does the production freeze take effect?", "expect_decision": "ANSWER", "swap": "start -> take effect"}
+{"id": "d10-11", "source_index": 25, "query": "When does the production stoppage start?", "expect_decision": "ANSWER", "swap": "freeze -> stoppage"}
+{"id": "d10-12", "source_index": 40, "query": "What is the Vault AppRole rekeying schedule?", "expect_decision": "ANSWER", "swap": "rotation -> rekeying"}
+{"id": "d10-13", "source_index": 40, "query": "What is the Vault AppRole rotation programme?", "expect_decision": "ANSWER", "swap": "schedule -> programme"}
+{"id": "d10-14", "source_index": 47, "query": "What is the vault-transit key rotation contact electronic-mail?", "expect_decision": "ANSWER", "swap": "email -> electronic-mail"}
+{"id": "d10-15", "source_index": 50, "query": "What is the vault-transit key rotation schedule spell?", "expect_decision": "ANSWER", "swap": "window -> spell"}
+{"id": "d10-16", "source_index": 10, "query": "What is the auth token shelf-life?", "expect_decision": "REFUSE_STALE", "swap": "TTL -> shelf-life"}
+{"id": "d10-17", "source_index": 12, "query": "What was the Q1 checkout SLO bar?", "expect_decision": "REFUSE_STALE", "swap": "target -> bar"}
+{"id": "d10-18", "source_index": 19, "query": "What is the rollback sequence-of-actions for the checkout_retry feature flag?", "expect_decision": "REFUSE_UNGROUNDED", "swap": "procedure -> sequence-of-actions"}
+{"id": "d10-19", "source_index": 20, "query": "What millicore CPU claim is configured on checkout-api?", "expect_decision": "REFUSE_UNGROUNDED", "swap": "request -> claim"}
+{"id": "d10-20", "source_index": 22, "query": "What is the chargeback primer for INC-4821?", "expect_decision": "REFUSE_UNGROUNDED", "swap": "playbook -> primer"}
+{"id": "d10-21", "source_index": 15, "query": "What is the Snowflake warehouse auto-pause setting?", "expect_decision": "REFUSE_NO_EVIDENCE", "swap": "auto-suspend -> auto-pause"}
+{"id": "d10-22", "source_index": 14, "query": "How do I reset the SAP salary connector?", "expect_decision": "REFUSE_NO_EVIDENCE", "swap": "payroll -> salary"}
+{"id": "d10-23", "query": "What is the current checkout p99 temperature?", "expect_decision": "REFUSE_UNGROUNDED", "trap": "temperature absent"}
+{"id": "d10-24", "query": "Who is the primary landlord right now?", "expect_decision": "REFUSE_UNGROUNDED", "trap": "landlord absent"}
+{"id": "d10-25", "query": "How many checkout-api passengers are running?", "expect_decision": "REFUSE_UNGROUNDED", "trap": "passengers absent"}
+{"id": "d10-26", "query": "What is the Redis checkout-pool chlorine level?", "expect_decision": "REFUSE_UNGROUNDED", "trap": "chlorine absent"}
