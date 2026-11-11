@@ -174,6 +174,14 @@ class CopilotConfig:
     # counter-fitted vectors also call it a substitute for the query word
     # (cosine >= t; a word outside its vocabulary fails). Pre-registered on dev5 (datamuse_dev5.py).
     datamuse_sense_min: float = 0.0
+    # Resource-agreement backoff (resource_agreement.py, 2026-11-11): a corpus
+    # word substitutes for a query word only when >= agreement_min_votes of five
+    # outside resources propose it. Scope known / lone / all as for WordNet.
+    # Off until the frozen protocol (resource_agreement_protocol.py) says otherwise.
+    use_resource_agreement: bool = False
+    agreement_min_votes: int = 2
+    agreement_scope: str = "known"
+    agreement_max_neighbours: int = 1
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
