@@ -1,6 +1,6 @@
 # Swap null control, shipped default (golden + dev2-dev6, seed 1107)
 
-14 of 384 random one-word swaps answered (ceiling 42).
+14 of 384 random one-word swaps answered (ceiling 14).
 
 | swapped word | support | evidence | swaps |
 | :--- | :--- | :--- | ---: |

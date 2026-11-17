@@ -19,7 +19,7 @@ def test_committed_report_matches_a_fresh_run_and_pins_the_residual():
     assert fresh == committed
     # 42 of 384 under the Nov 7 default; the non-key rule (Nov 17) refuses every swap whose
     # word is supported nowhere, which was the largest residual (24 non-key / unsupported / apart)
-    assert (fresh["swaps"], fresh["passed"], fresh["ceiling"]) == (384, 14, 42)
+    assert (fresh["swaps"], fresh["passed"], fresh["ceiling"]) == (384, 14, 14)
     assert fresh["by_mechanism"] == {"passage": 0, "translation": 0, "semantic": 0, "lexical": 14, "unsupported": 0}
     assert not any("unsupported" in k for k in fresh["residual"])
     # what is left is lexical: the swapped word is in the evidence, mostly in the key half
@@ -31,3 +31,5 @@ def test_committed_report_matches_a_fresh_run_and_pins_the_residual():
 def test_ceiling_matches_the_protocol_calibration():
     cal = json.loads((ROOT / "artifacts" / "swap_null_calibration.json").read_text())
     assert cal["picked"] == "known_off" and cal["arms"]["known_off"]["passed"] == 42
+    nk = json.loads((ROOT / "artifacts" / "nonkey_citation_calibration.json").read_text())
+    assert nk["picked"] == "all_hyphen" and nk["arms"]["all_hyphen"]["passed"] == 14
