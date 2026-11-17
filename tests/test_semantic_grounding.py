@@ -11,6 +11,7 @@ import pytest
 from conftest import make_chunk
 
 from ops_copilot import Copilot, CopilotConfig
+from ops_copilot.config import pre_nonkey_config
 from ops_copilot.embeddings import EmbeddingBackend
 from ops_copilot.grounding import EmbeddingSupport, Grounder
 from ops_copilot.paraphrase_set import load_paraphrase_set
@@ -23,7 +24,8 @@ from ops_copilot.types import Decision
 ROOT = Path(__file__).resolve().parents[1]
 # The embedding slice predates the passage classifier (on since 2026-10-10),
 # which would rescue g35 before the embedding gets to it.
-FROZEN = replace(CopilotConfig(), embedding_backend="frozen", use_passage_support_model=False)
+# pinned to the non-key rule off, the setting these numbers were recorded with
+FROZEN = pre_nonkey_config(embedding_backend="frozen", use_passage_support_model=False)
 ROWS = {str(r["id"]): r for r in load_paraphrase_set()}
 
 

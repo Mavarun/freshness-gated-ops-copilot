@@ -12,7 +12,6 @@ scored on the same rows, report-only.
 from __future__ import annotations
 
 import argparse
-import dataclasses
 import json
 import sys
 from pathlib import Path
@@ -22,7 +21,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from ops_copilot import nonkey_citation_protocol as P  # noqa: E402
 from ops_copilot.citation_keep import citation_counts, load_dev9_docs  # noqa: E402
-from ops_copilot.config import CopilotConfig  # noqa: E402
+from ops_copilot.config import pre_nonkey_config  # noqa: E402
 from ops_copilot.paraphrase_set import load_paraphrase_set  # noqa: E402
 from ops_copilot.pipeline import Copilot  # noqa: E402
 from ops_copilot.swap_null import MECHANISMS, Row, build_swaps, file_rows, golden_rows, score  # noqa: E402
@@ -33,7 +32,9 @@ SPLIT = json.loads((ROOT / "data/golden/synonym_split.json").read_text())
 
 
 def bot(name: str) -> Copilot:
-    return Copilot(config=dataclasses.replace(CopilotConfig(), **P.ARMS[name]))
+    # arms are deltas from the default the protocol was frozen against (non-key rule off),
+    # so the records reproduce if the default changes
+    return Copilot(config=pre_nonkey_config(**P.ARMS[name]))
 
 
 def dict_rows(files) -> list[dict]:
@@ -88,7 +89,7 @@ def _cite_lines(cites: dict[str, dict]) -> list[str]:
 def calibrate() -> int:
     rows = golden_rows() + file_rows(P.CAL_FILES)
     drows = golden_dicts() + dict_rows(P.CAL_FILES)
-    ref_swaps = Copilot(config=dataclasses.replace(CopilotConfig(), passage_support_known_words=True))
+    ref_swaps = Copilot(config=pre_nonkey_config(passage_support_known_words=True))
     swaps = build_swaps(golden_rows() + file_rows(P.SWAP_BASE_FILES), ref_swaps, draws=P.CAL_DRAWS, seed=P.CAL_SEED)
     bots = {n: bot(n) for n in P.ARMS}
     scores = {n: score(b, rows, swaps).as_dict() for n, b in bots.items()}

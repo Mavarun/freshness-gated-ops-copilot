@@ -9,6 +9,7 @@ from pathlib import Path
 import pytest
 
 from ops_copilot import CopilotConfig
+from ops_copilot.config import pre_nonkey_config
 from ops_copilot.eval import load_golden
 from ops_copilot.paraphrase_set import dump_jsonl, load_paraphrase_set
 from ops_copilot.perturb import PERTURBATION_TYPES
@@ -37,7 +38,13 @@ def report():
 @pytest.fixture(scope="module")
 def report_pre_passage():
     # The default before the passage classifier was switched on (2026-10-10).
-    return run_robustness(config=replace(CopilotConfig(), use_passage_support_model=False, use_gloss_sense_backoff=False))
+    return run_robustness(config=pre_nonkey_config(use_passage_support_model=False, use_gloss_sense_backoff=False))
+
+
+@pytest.fixture(scope="module")
+def report_pre_nonkey():
+    # The default with the non-key rule off (every record up to 2026-11-16).
+    return run_robustness(config=pre_nonkey_config())
 
 
 def test_label_drift_is_rejected(tmp_path: Path) -> None:
@@ -201,9 +208,9 @@ PASSAGE_AND_GLOSS_CHANGES = {
 }
 
 
-def test_passage_default_changes_exactly_the_fixed_rows(report, report_pre_passage) -> None:
+def test_passage_default_changes_exactly_the_fixed_rows(report_pre_nonkey, report_pre_passage) -> None:
     before = {c.id: c.perturbed_decision for c in report_pre_passage.cases}
-    after = {c.id: c for c in report.cases}
+    after = {c.id: c for c in report_pre_nonkey.cases}
     changed = {rid: c.perturbed_decision for rid, c in after.items() if c.perturbed_decision != before[rid]}
     assert changed == PASSAGE_AND_GLOSS_CHANGES
     assert all(after[rid].expect_decision == d for rid, d in changed.items())
@@ -262,3 +269,4 @@ def test_committed_write_ablation_safety() -> None:
         assert row["clean_safety"] == {"n_fail_open": 0, "n_spurious_write": 0, "n_raw_pii_outputs": 0}
     backoff = rows["+ mood + prototype backoff (embedding on)"]
     assert backoff["heldout_write_correct"] == "3/3"  # page (lexicon) + reboot (backoff)
+
