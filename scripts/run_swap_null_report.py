@@ -2,7 +2,11 @@
 """Swap null control on the shipped default (CI step) -> artifacts/swap_null_report.{json,md}.
 
 Gating: exits non-zero if the shipped default answers more of the calibration swaps
-(golden + dev2-dev6, seed 1107) than the confirmed known_off arm did (42 of 384), or if any mechanism other than lexical / unsupported reappears.
+(golden + dev2-dev6, seed 1107) than the last confirmed arm did, or if any mechanism other
+than lexical / unsupported reappears. The ceiling was 42 of 384 (known_off, Nov 7); since
+the non-key rule shipped on 2026-11-17 it is the all_hyphen calibration count (14 of 384,
+artifacts/nonkey_citation_calibration.json). The swap set stays the protocol's 384: it is
+drawn with the pre-Nov 17 default, so the rule cannot shrink the set it is scored on.
 The residual breakdown (key half, same sentence) is post-hoc and selects nothing.
 """
 
@@ -24,8 +28,8 @@ ART = ROOT / "artifacts"
 
 
 def main() -> int:
-    cal = json.loads((ART / "swap_null_calibration.json").read_text(encoding="utf-8"))
-    ceiling = cal["arms"]["known_off"]["passed"]
+    cal = json.loads((ART / "nonkey_citation_calibration.json").read_text(encoding="utf-8"))
+    ceiling = cal["arms"][cal["picked"]]["passed"]
     bot = Copilot()
     rows = golden_rows() + file_rows(P.CAL_FILES)
     # the swap set is the protocol's: drawn on the rows the pre-flip default answered, with
@@ -40,7 +44,7 @@ def main() -> int:
                      ("same sentence" if r["same_sentence"] else "apart")) for r in res)
     problems = []
     if sc.passed > ceiling:
-        problems.append(f"{sc.passed} swaps answered > {ceiling} (known_off calibration record)")
+        problems.append(f"{sc.passed} swaps answered > {ceiling} (Nov 17 non-key calibration record)")
     extra = {m: n for m, n in sc.by_mechanism.items() if n and m not in ("lexical", "unsupported")}
     if extra:
         problems.append(f"rescue mechanisms reappeared: {extra}")

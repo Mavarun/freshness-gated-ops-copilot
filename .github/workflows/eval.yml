@@ -112,7 +112,8 @@ jobs:
         run: python scripts/run_passphrase_wordlist_eval.py
 
       # Gating: the shipped default may answer no more random one-word swaps than the
-      # confirmed known_off arm (42 of 384 on golden + dev2-dev6), and no passage,
+      # last confirmed arm (14 of 384 on golden + dev2-dev6 since the non-key rule
+      # shipped on 2026-11-17; 42 for known_off before), and no passage,
       # translation or semantic rescue of a swapped-in word may reappear.
       - name: Swap null control (random one-word swaps on answered rows)
         run: python scripts/run_swap_null_report.py
