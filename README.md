@@ -22,6 +22,97 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Non-key rule ships on (2026-11-17): on the unseen dev9 confirm, random swaps answered 0.140 → 0.052 and the one dev9 topic trap the default opened closes, at 1 right-evidence answer lost (budget 2), so `grounding_nonkey_rule` = `all` with hyphen parts now ships on; held-out ANSWER stays 0 of 9
+
+The Nov 9 and Nov 10 non-key rules closed most random swaps but failed a lost-answer budget that counted
+*decisions*. One of the "lost" rows, `d6-06`, was a wrong-evidence answer. This slice runs the Nov 10
+protocol again with the citation-aware keep count pre-registered on Nov 11, and spends the dev9 set and the
+seed-1110 confirm swaps that the Nov 10 protocol reserved but never used.
+
+### What changed
+
+1. **Protocol** (`nonkey_citation_protocol.py`, frozen before any citation score): the Nov 10 arms, rows and
+   384 calibration swaps, and the never-run Nov 10 confirm (dev9 wordy + dev7 + fresh + the 203-row set,
+   seed 1110). The lost-row budget (2) applies to right-evidence losses plus losses on rows without an evidence
+   label. A refused wrong-evidence answer counts as fixed, and any new wrong-evidence answer blocks shipping.
+   Disclosed in the docstring: the Nov 10 calibration had already been seen, so the re-score only chooses which
+   frozen arm goes to the confirm. The expected pick (`all_hyphen`) was written down before the re-score.
+2. **Ship**: `grounding_nonkey_rule="all"`, `grounding_nonkey_parts="hyphen"` are now the defaults.
+   `pre_nonkey_config()` keeps the old setting, so every record from before Nov 17 still reproduces.
+3. **CI**: the dev8 gate is tightened from 5 open traps to the 2 still open. The swap null ceiling goes from 42 to
+   14 of 384. A new gating dev9 step fails on any trap open, any wordy row answered outside its hand-written doc
+   list, or fewer than 12 wordy rows answered.
+
+### Results
+
+Calibration re-score (`artifacts/nonkey_citation_calibration.md`; already-seen rows, so not evidence):
+
+| arm | swaps answered | pass rate | decision lost | fixed (wrong evidence) | budget lost | new wrong evidence |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| rule off | 42 | 0.109 | 0 | 0 | 0 | 0 |
+| `all_hyphen` (picked) | 14 | 0.036 | 3 | 1 | 2 | 0 |
+| `all` (Nov 9, reference) | 14 | 0.036 | 5 | 1 | 4 | 0 |
+
+One-shot confirm, seed 1110 (`artifacts/nonkey_citation_confirm.md`; dev9 was unseen until this run):
+
+| arm | swaps | answered | pass rate | ANSWER kept | budget lost | new wrong evidence | dev9 topic traps open | attribute traps open |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| rule off | 591 | 83 | 0.140 | 59 of 125 | 0 | 0 | 1 of 16 | 0 of 114 |
+| `all_hyphen` | 591 | 31 | **0.052** | 58 of 125 | 1 | 0 | **0 of 16** | 0 of 114 |
+
+The pass rate drops by 0.088 (63% relative; the bars are 0.03 and 25%). The one lost answer is `d9-15`
+(`What is the status of the Jira ticket OPS-9912?`). **It ships on.** dev9 wordy rows answered go from 13 to
+12 of 32, and held-out ANSWER is 0 of 9 for both arms.
+
+What the shipped default changed in the live CI reports (all regenerated in this PR):
+
+| report | before (rule off) | after |
+| :--- | ---: | ---: |
+| calibration swaps answered (golden + dev2-dev6) | 42 of 384 | 14 of 384 |
+| dev8 topic traps open / wordy rows answered | 5 of 16 / 20 of 32 | 2 of 16 / 19 of 32 |
+| dev5 tune correct | 9 of 24 | 8 of 24 |
+| dev6 correct | 20 of 45 | 19 of 45 |
+| dev2 calib correct | 14 of 22 | 13 of 22 |
+| 203-row perturbed accuracy | 0.892 | 0.887 |
+| held-out synonym rows correct (35) | 0.514 | 0.486 |
+| fail-open rows | 0 | 0 |
+
+A post-hoc reading (`artifacts/nonkey_citation_posthoc.md`; it selects nothing and does not read dev10) finds
+that 10 of 751 eval rows change decision, and the rule only ever refuses:
+
+- **fixed 5**: four topic traps (`d8-t02` staging, `d8-t05` payments, `d8-t12` checkout cluster, `d9-t02`
+  payments on-call) and the wrong-evidence answer `d6-06`;
+- **lost 3**: `d5-22` (`cadence` for `schedule`), `d9-15` (the ticket says `In Progress` and never uses the
+  word `status`) and `d8-30` (`after the scale-up`);
+- **refused under another gate 2**: `d2-40` (PII) and the held-out `g36-synonym` (canary) are still refused,
+  but as `REFUSE_UNGROUNDED`, so the explanation loses its `scrub_secret` / `quarantine_doc` remediation. The
+  203-row and dev2 accuracy drops come from these two rows.
+
+Of the 20 dev9 wordy rows the shipped default refuses, only `d9-15` is the rule's doing. The others are 6
+retriever disagreements, 4 stale sources and 9 key-gate refusals.
+
+### Reproduce
+
+    pytest tests/test_nonkey_citation*.py tests/test_dev9_eval_report.py tests/test_readme_nonkey_citation_numbers.py
+    python scripts/run_nonkey_citation_protocol.py --phase calibrate
+    python scripts/run_nonkey_citation_protocol.py --phase confirm     # spent
+    python scripts/run_nonkey_citation_posthoc.py
+    python scripts/run_dev9_eval.py                                    # CI gate
+
+### Weaknesses
+
+- The rule refuses before the PII and canary gates get to name what they found, so 2 must-refuse rows now get
+  a less specific refusal. They are still refused (0 fail-open), but the remediation goes from `scrub_secret` /
+  `quarantine_doc` to `add_runbook` / `rephrase`, which is the wrong advice for a page that holds a secret.
+- "What is the status of X" loses its answer when the evidence states a value (`In Progress`) without naming
+  the attribute. `status`, `cadence` and temporal qualifiers need a value-type check, not word coverage.
+- 14 of 384 calibration swaps still pass, all on words the evidence does contain, mostly in the key half. Two
+  dev8 traps (`next month`, `payments-api database`) stay open for the same reason.
+- The arm choice rests on a re-score of an already-seen calibration; only the dev9 confirm is clean. dev9 labels
+  are one person's reading of the corpus.
+- dev9 is now spent; dev10 stays unseen. Ops synonyms (`lag`, `bounce`), everyday paraphrases and
+  format-less secrets are untouched, and held-out ANSWER is still 0 of 9.
+
 ## Resource agreement for ops synonyms (2026-11-11): words two or three outside resources agree on win back 3-6 calibration rows only by raising random swaps answered 0.109 → 0.128-0.151 (budget +0.01), so `use_resource_agreement` ships off and dev10 stays unseen; a citation-aware keep count is now pre-registered for dev9
 
 Every outside synonym resource tried so far was gated on its own, and each one that added held-out rows also
