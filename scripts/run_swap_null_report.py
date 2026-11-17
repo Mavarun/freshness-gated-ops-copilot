@@ -28,12 +28,11 @@ def main() -> int:
     ceiling = cal["arms"]["known_off"]["passed"]
     bot = Copilot()
     rows = golden_rows() + file_rows(P.CAL_FILES)
-    # the swap set is the protocol's: drawn on the rows the pre-flip default answered
-    import dataclasses
+    # the swap set is the protocol's: drawn on the rows the pre-flip default answered, with
+    # the non-key rule off as in the protocol, so a later default cannot shrink the set
+    from ops_copilot.config import pre_nonkey_config
 
-    from ops_copilot.config import CopilotConfig
-
-    ref = Copilot(config=dataclasses.replace(CopilotConfig(), passage_support_known_words=True))
+    ref = Copilot(config=pre_nonkey_config(passage_support_known_words=True))
     swaps = build_swaps(rows, ref, draws=P.CAL_DRAWS, seed=P.CAL_SEED)
     sc = score(bot, rows, swaps)
     res = residual(bot, sc.passes)

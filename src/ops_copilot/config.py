@@ -361,3 +361,16 @@ class CopilotConfig:
     # whose every other salient term is matched lexically, and refuse a rescued
     # answer whose cited page holds an unjustified canary. Off = unsafe ablation.
     semantic_grounding_strict: bool = True
+
+
+# The non-key rule's settings in every record written up to 2026-11-16 (ablations,
+# protocol baselines, the Oct 26 null sweep). Tests and runners that must reproduce those
+# records build their configs from these, so a later default flip cannot move them.
+NONKEY_OFF: dict = {"grounding_nonkey_rule": "off", "grounding_nonkey_parts": "off"}
+
+
+def pre_nonkey_config(**overrides) -> CopilotConfig:
+    """The shipped default with the non-key rule off (the default up to 2026-11-16)."""
+    from dataclasses import replace
+
+    return replace(CopilotConfig(), **{**NONKEY_OFF, **overrides})

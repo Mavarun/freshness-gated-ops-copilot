@@ -13,6 +13,7 @@ from dataclasses import replace
 import pytest
 
 from ops_copilot import CopilotConfig
+from ops_copilot.config import pre_nonkey_config
 from ops_copilot.robustness import (
     WORDVEC_ON,
     _understood,
@@ -23,7 +24,8 @@ from ops_copilot.robustness import (
 
 
 # Measured before the passage classifier was switched on (2026-10-10).
-PRE_PASSAGE = replace(CopilotConfig(), use_passage_support_model=False)
+# pinned to the non-key rule off, the setting these numbers were recorded with
+PRE_PASSAGE = pre_nonkey_config(use_passage_support_model=False)
 
 
 @pytest.fixture(scope="module")

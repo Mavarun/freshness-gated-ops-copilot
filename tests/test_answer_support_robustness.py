@@ -16,6 +16,7 @@ from pathlib import Path
 import pytest
 
 from ops_copilot import CopilotConfig
+from ops_copilot.config import pre_nonkey_config
 from ops_copilot.robustness import (
     ANSWER_SUPPORT_ABLATIONS,
     ANSWER_SUPPORT_CANDIDATE,
@@ -26,7 +27,8 @@ from ops_copilot.robustness import (
 )
 
 # Measured before the passage classifier was switched on (2026-10-10).
-PRE_PASSAGE = replace(CopilotConfig(), use_passage_support_model=False)
+# pinned to the non-key rule off, the setting these numbers were recorded with
+PRE_PASSAGE = pre_nonkey_config(use_passage_support_model=False)
 METRICS = Path(__file__).resolve().parents[1] / "artifacts" / "robustness_metrics.json"
 
 

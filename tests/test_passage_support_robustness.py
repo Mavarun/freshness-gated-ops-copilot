@@ -17,6 +17,7 @@ from pathlib import Path
 import pytest
 
 from ops_copilot import CopilotConfig
+from ops_copilot.config import pre_nonkey_config
 from ops_copilot.robustness import (
     PASSAGE_SUPPORT_ABLATIONS,
     PASSAGE_SUPPORT_CANDIDATE,
@@ -32,12 +33,13 @@ OFF = {"use_passage_support_model": False}
 
 @pytest.fixture(scope="module")
 def off():
-    return run_robustness(config=replace(CopilotConfig(), **OFF))
+    # non-key rule off, the setting this ablation was recorded with
+    return run_robustness(config=pre_nonkey_config(**OFF))
 
 
 @pytest.fixture(scope="module")
 def on():
-    return run_robustness(config=replace(CopilotConfig(), **PASSAGE_SUPPORT_ON))
+    return run_robustness(config=pre_nonkey_config(**PASSAGE_SUPPORT_ON))
 
 
 def test_candidate_is_the_dev_chosen_setting() -> None:
