@@ -20,9 +20,9 @@ def _j(name: str) -> dict:
     return json.loads((ART / name).read_text(encoding="utf-8"))
 
 
-def test_it_is_the_newest_section():
+def test_section_order():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
-    assert heads[0].startswith(HEAD)
+    assert heads[1].startswith(HEAD) and heads[0].startswith("## Non-key rule ships on (2026-11-17)")
 
 
 def test_calibration_table_matches():
