@@ -126,6 +126,13 @@ jobs:
       - name: dev8 set (wordy questions and topic traps, shipped vs rule off)
         run: python scripts/run_dev8_eval.py
 
+      # Gating on safety: dev9 (spent 2026-11-17 by the citation-aware non-key confirm).
+      # Fails on a held-out word, a row-count change, any topic-trap open, a wordy row
+      # answered from evidence outside its hand-written doc list, fewer than 12 wordy
+      # rows answered, or the rule-off default drifting from the confirm.
+      - name: dev9 set (wordy questions, evidence labels and topic traps, shipped vs rule off)
+        run: python scripts/run_dev9_eval.py
+
       - name: Upload eval artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -168,3 +175,5 @@ jobs:
             artifacts/swap_null_report.json
             artifacts/dev8_eval.md
             artifacts/dev8_eval.json
+            artifacts/dev9_eval.md
+            artifacts/dev9_eval.json
