@@ -4,9 +4,9 @@ Vocabulary problems: none. Split sizes: {'calib': 22, 'confirm': 21}.
 
 | half | arm | correct | ANSWER | fail-open | spurious write | raw PII |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| calib | default (shipped) | 14/22 | 3/10 | 0 | 0 | 0 |
-| calib | WordNet, dev2-chosen (ships off) | 16/22 | 5/10 | 0 | 0 | 0 |
-| calib | Datamuse means-like, dev2-chosen (ships off) | 16/22 | 5/10 | 0 | 0 | 0 |
+| calib | default (shipped) | 13/22 | 3/10 | 0 | 0 | 0 |
+| calib | WordNet, dev2-chosen (ships off) | 14/22 | 4/10 | 0 | 0 | 0 |
+| calib | Datamuse means-like, dev2-chosen (ships off) | 15/22 | 5/10 | 0 | 0 | 0 |
 | confirm | default (shipped) | 12/21 | 5/10 | 0 | 0 | 0 |
 | confirm | WordNet, dev2-chosen (ships off) | 12/21 | 5/10 | 0 | 0 | 0 |
-| confirm | Datamuse means-like, dev2-chosen (ships off) | 14/21 | 5/10 | 0 | 0 | 0 |
+| confirm | Datamuse means-like, dev2-chosen (ships off) | 13/21 | 4/10 | 0 | 0 | 0 |

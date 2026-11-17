@@ -47,6 +47,8 @@ def test_posthoc_rows_match():
     assert "**wrong-evidence answer**" in s and "genuine loss" in s
 
 
-def test_knobs_ship_off():
+def test_knobs_shipped_off_on_nov10_and_on_after_the_nov17_confirm():
+    assert _j("nonkey_parts_calibration.json")["picked"] is None
     cfg = CopilotConfig()
-    assert cfg.grounding_nonkey_parts == "off" and cfg.grounding_nonkey_rule == "off"
+    assert (cfg.grounding_nonkey_rule, cfg.grounding_nonkey_parts) == ("all", "hyphen")
+    assert _j("nonkey_citation_confirm.json")["ships"] is True

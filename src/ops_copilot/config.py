@@ -334,13 +334,14 @@ class CopilotConfig:
     # supporting it. "all": every non-key salient term must be supported;
     # "corpus": non-key corpus words (known / typo / identifier) must be;
     # "idf": non-key terms with IDF >= the grounding_nonkey_idf_quantile of
-    # corpus IDFs must be. Protocol: nonkey_coverage_protocol.py.
-    grounding_nonkey_rule: str = "off"
+    # corpus IDFs must be. Protocol: nonkey_coverage_protocol.py. Ships "all"
+    # since 2026-11-17 (with parts "hyphen"): nonkey_citation_protocol.py confirm.
+    grounding_nonkey_rule: str = "all"
     grounding_nonkey_idf_quantile: float = 0.5
     # Compound parts of evidence tokens the non-key rule credits ("off" | "hyphen" |
     # "joined"); no effect while grounding_nonkey_rule is "off". Protocol:
-    # nonkey_parts_protocol.py.
-    grounding_nonkey_parts: str = "off"
+    # nonkey_parts_protocol.py; "hyphen" ships with the rule (Nov 17 confirm).
+    grounding_nonkey_parts: str = "hyphen"
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
@@ -363,9 +364,9 @@ class CopilotConfig:
     semantic_grounding_strict: bool = True
 
 
-# The non-key rule's settings in every record written up to 2026-11-16 (ablations,
-# protocol baselines, the Oct 26 null sweep). Tests and runners that must reproduce those
-# records build their configs from these, so a later default flip cannot move them.
+# The non-key rule's settings before it shipped on 2026-11-17. Records written before
+# then (dev5 / dev6 / dev8 reports, the swap null report, the Nov 9 and Nov 10 post-hoc
+# readings) were scored with these; tests that pin those numbers use them explicitly.
 NONKEY_OFF: dict = {"grounding_nonkey_rule": "off", "grounding_nonkey_parts": "off"}
 
 

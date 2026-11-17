@@ -118,9 +118,11 @@ jobs:
         run: python scripts/run_swap_null_report.py
 
       # Gating on safety: dev8 (spent 2026-11-09 by the non-key coverage confirm).
-      # Fails on a held-out word, a row-count change, or a shipped-default open of a
-      # topic trap other than the five it opened at the confirm. Accuracy is report-only.
-      - name: dev8 set (wordy questions and topic traps, shipped vs non-key rule)
+      # Fails on a held-out word, a row-count change, a shipped-default open of a topic
+      # trap other than the two it opens since the non-key rule shipped (2026-11-17),
+      # fewer than 19 wordy rows answered, or the rule-off default drifting from the
+      # Nov 9 confirm.
+      - name: dev8 set (wordy questions and topic traps, shipped vs rule off)
         run: python scripts/run_dev8_eval.py
 
       - name: Upload eval artifacts

@@ -32,4 +32,6 @@ def test_ship_call_is_off_and_the_default_agrees():
     call = P.ships(a, s, len(rec["attribute_trap_opens"]["all"]), len(rec["topic_trap_opens"]["all"]),
                    len(rec["topic_trap_opens"]["shipped"]))
     assert call is rec["ships"] is False  # 3 answered rows lost, budget 2
-    assert CopilotConfig().grounding_nonkey_rule == "off"
+    # the rule shipped later, on Nov 17, with hyphen parts (nonkey_citation_confirm.json)
+    cfg = CopilotConfig()
+    assert (cfg.grounding_nonkey_rule, cfg.grounding_nonkey_parts) == ("all", "hyphen")

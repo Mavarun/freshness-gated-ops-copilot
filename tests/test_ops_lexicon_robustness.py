@@ -68,8 +68,10 @@ def test_committed_report_matches_the_pinned_outcome() -> None:
     assert set(changes) == {k for k, v in OPS_LEXICON_ABLATIONS.items() if v}
     for label, rows in changes.items():
         if "word vectors" in label:
-            # only the word vectors move rows: the PR #15 pair, unchanged
-            assert {r["id"] for r in rows} == {"g21-synonym", "g39-synonym"}
+            # only the word vectors move rows: the PR #15 pair, plus g36-synonym since the
+            # non-key rule (2026-11-17) refuses it as ungrounded and the vectors restore
+            # its canary refusal
+            assert {r["id"] for r in rows} == {"g21-synonym", "g36-synonym", "g39-synonym"}
         else:
             assert rows == [], label
     rows = m["ops_lexicon_ablations"]

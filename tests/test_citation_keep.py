@@ -1,4 +1,3 @@
-import dataclasses
 import json
 from pathlib import Path
 
@@ -9,7 +8,7 @@ from ops_copilot.citation_keep import (
     evidence_ok,
     load_dev9_docs,
 )
-from ops_copilot.config import CopilotConfig
+from ops_copilot.config import pre_nonkey_config
 from ops_copilot.pipeline import Copilot
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,15 +27,16 @@ def test_dev9_labels_cover_exactly_the_wordy_rows_with_real_doc_ids():
     assert all(v and v <= ids for v in labels.values())
 
 
-def test_d6_06_is_a_wrong_evidence_answer_under_the_shipped_default():
-    bot = Copilot()
+def test_d6_06_was_a_wrong_evidence_answer_and_the_nov17_default_refuses_it():
+    old = Copilot(config=pre_nonkey_config())
     row = next(r for r in _rows("synonym_dev6.jsonl") if r["id"] == "d6-06")
-    assert evidence_ok(bot, row, GOLDEN, {}) is False
+    assert evidence_ok(old, row, GOLDEN, {}) is False
+    assert evidence_ok(Copilot(), row, GOLDEN, {}) is None  # not answered
 
 
 def test_a_refused_wrong_evidence_row_counts_as_fixed_not_lost():
-    ref = Copilot()
-    arm = Copilot(config=dataclasses.replace(CopilotConfig(), grounding_nonkey_rule="all"))
+    ref = Copilot(config=pre_nonkey_config())
+    arm = Copilot()  # non-key rule "all" with hyphen parts, shipped Nov 17
     row = next(r for r in _rows("synonym_dev6.jsonl") if r["id"] == "d6-06")
     c = citation_counts(arm, ref, [row], GOLDEN)
     assert c["decision_lost"] == ["d6-06"] and c["fixed"] == ["d6-06"]
