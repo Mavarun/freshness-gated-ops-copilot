@@ -87,8 +87,8 @@ def calibrate() -> int:
 
 def confirm() -> int:
     target = ART / "nonkey_parts_confirm.json"
-    if target.exists():
-        print("confirm already spent:", target)
+    if target.exists() or (ART / "nonkey_citation_confirm.json").exists():
+        print("confirm already spent (dev9 and seed 1110 go to the Nov 17 citation-aware confirm)")
         return 1
     cal = json.loads((ART / "nonkey_parts_calibration.json").read_text(encoding="utf-8"))
     name = cal["picked"]
