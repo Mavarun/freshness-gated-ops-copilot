@@ -1,16 +1,14 @@
-"""Evidence-side compound parts for the non-key rule (``grounding_nonkey_parts``, off)."""
-
-import dataclasses
+"""Evidence-side compound parts for the non-key rule (``grounding_nonkey_parts``; ``hyphen`` ships since Nov 17)."""
 
 import pytest
 
-from ops_copilot.config import CopilotConfig
+from ops_copilot.config import CopilotConfig, pre_nonkey_config
 from ops_copilot.grounding import NONKEY_PARTS, Grounder, evidence_part_forms
 from ops_copilot.pipeline import Copilot
 
 
 def _bot(**kw):
-    return Copilot(config=dataclasses.replace(CopilotConfig(), **kw))
+    return Copilot(config=pre_nonkey_config(**kw))
 
 
 @pytest.fixture(scope="module")
@@ -23,9 +21,12 @@ def bots():
     }
 
 
-def test_parts_are_off_by_default():
-    assert CopilotConfig().grounding_nonkey_parts == "off"
-    assert Copilot().grounder.nonkey_parts == "off"
+def test_hyphen_parts_ship_with_the_rule():
+    assert CopilotConfig().grounding_nonkey_parts == "hyphen"
+    assert Copilot().grounder.nonkey_parts == "hyphen"
+    # the shipped default is exactly the Nov 17 confirmed arm
+    assert Copilot().ask("Who is the primary on-call right now for checkout?").decision.value == "ANSWER"
+    assert Copilot().ask("What is the Vault AppRole token schedule?").decision.value == "REFUSE_UNGROUNDED"
 
 
 def test_unknown_mode_is_rejected():
@@ -74,7 +75,7 @@ def test_parts_do_not_rescue_a_random_low_half_swap(bots, mode):
 def test_parts_need_the_rule(bots):
     # with grounding_nonkey_rule off the parts knob changes nothing
     q = "What is the Vault AppRole token schedule?"
-    assert bots["off_hyphen"].ask(q).decision.value == Copilot().ask(q).decision.value == "ANSWER"
+    assert bots["off_hyphen"].ask(q).decision.value == _bot().ask(q).decision.value == "ANSWER"
 
 
 def test_parts_never_touch_the_key_gate():

@@ -44,10 +44,11 @@ def test_confirm_table_and_ship_call_match():
     assert f"{a['answered']} of {sh['answered']}" in s
     assert f"{len(c['topic_trap_opens']['shipped'])} of 16" in s and f"**{len(c['topic_trap_opens']['all'])} of 16**" in s
     assert c["ships"] is False and "ships off" in s.splitlines()[0]
-    assert CopilotConfig().grounding_nonkey_rule == "off"
+    # the Nov 9 call stands for plain `all`; `all` + hyphen parts shipped on Nov 17
+    assert (CopilotConfig().grounding_nonkey_rule, CopilotConfig().grounding_nonkey_parts) == ("all", "hyphen")
 
 
 def test_posthoc_and_dev8_numbers_match():
     p, d, s = _j("nonkey_posthoc.json"), _j("dev8_eval.json"), _section()
     assert p["lost_compound_part"] == 2 and "2 of\nthe 5 rows" in s
-    assert len(d["arms"]["shipped"]["traps_open"]) == 5 and "answers 5 of the 16" in s
+    assert len(d["arms"]["rule off (pre-Nov 17)"]["traps_open"]) == 5 and "answers 5 of the 16" in s

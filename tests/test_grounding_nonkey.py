@@ -1,14 +1,12 @@
-import dataclasses
-
 import pytest
 
-from ops_copilot.config import CopilotConfig
+from ops_copilot.config import CopilotConfig, pre_nonkey_config
 from ops_copilot.grounding import NONKEY_RULES, Grounder, _quantile
 from ops_copilot.pipeline import Copilot
 
 
 def _bot(**kw):
-    return Copilot(config=dataclasses.replace(CopilotConfig(), **kw))
+    return Copilot(config=pre_nonkey_config(**kw))
 
 
 @pytest.fixture(scope="module")
@@ -16,9 +14,10 @@ def bots():
     return {r: _bot(grounding_nonkey_rule=r) for r in NONKEY_RULES}
 
 
-def test_rule_is_off_by_default():
-    assert CopilotConfig().grounding_nonkey_rule == "off"
-    assert Copilot().grounder.nonkey_rule == "off"
+def test_rule_ships_all_since_the_nov17_confirm():
+    assert CopilotConfig().grounding_nonkey_rule == "all"
+    assert Copilot().grounder.nonkey_rule == "all"
+    assert pre_nonkey_config().grounding_nonkey_rule == "off"
 
 
 def test_unknown_rule_is_rejected():

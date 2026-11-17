@@ -8,9 +8,9 @@
   "tune": 24
  },
  "tune_default": {
-  "accuracy": 0.375,
-  "answer_correct": 1,
-  "correct": 9,
+  "accuracy": 0.3333333333333333,
+  "answer_correct": 0,
+  "correct": 8,
   "must_refuse_opened": [],
   "n": 24,
   "n_answer": 13,

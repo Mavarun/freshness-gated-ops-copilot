@@ -49,7 +49,11 @@ def test_confirm_table_and_ship_call_match():
 
 
 def test_costs_and_residual_match():
-    rob, rep, s = _j("robustness_metrics.json"), _j("swap_null_report.json"), _section()
-    assert f"0.901 → {rob['perturbed_accuracy']:.3f}" in s
-    assert f"{rep['passed']} of {rep['swaps']} calibration" in s
-    assert f"In {rep['by_mechanism']['unsupported']} of them" in s
+    # the section quotes the Nov 7 default; the live reports moved on Nov 17 (non-key rule
+    # on), so the Nov 7 numbers are read from the frozen calibration record instead
+    rob, cal, rep, s = _j("robustness_metrics.json"), _j("swap_null_calibration.json"), _j("swap_null_report.json"), _section()
+    ko = cal["arms"]["known_off"]
+    assert "0.901 → 0.892" in s and rob["perturbed_accuracy"] < 0.892  # 0.887 since Nov 17
+    assert f"{ko['passed']} of {ko['n_swaps']} calibration" in s
+    assert f"In {ko['by_mechanism']['unsupported']} of them" in s
+    assert rep["passed"] < ko["passed"] and rep["by_mechanism"]["unsupported"] == 0

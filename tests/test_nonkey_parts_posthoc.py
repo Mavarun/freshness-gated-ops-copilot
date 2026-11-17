@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 
+from ops_copilot.config import pre_nonkey_config
 from ops_copilot.nonkey_parts_posthoc import same_source_doc
 from ops_copilot.pipeline import Copilot
 
@@ -20,16 +21,21 @@ def test_record_readings():
     assert by["d8-30"]["reading"] == "no source question" and by["d8-30"]["words"] == ["after"]
 
 
-def test_shipped_default_answers_first_on_call_from_the_latency_runbook():
-    # 'first' matches 'Do not bounce Redis as a first step'; the shipped default answers it
-    bot = Copilot()
+def test_pre_nov17_default_answers_first_on_call_from_the_latency_runbook():
+    # 'first' matches 'Do not bounce Redis as a first step'; the default up to Nov 16 answers it
+    bot = Copilot(config=pre_nonkey_config())
     res = bot.ask("Who is the first on-call right now?")
     assert res.decision.value == "ANSWER" and res.cited_ids == ["rb_checkout_latency"]
     assert same_source_doc(bot, "Who is the first on-call right now?", "Who is the primary on-call right now?") is False
 
 
+def test_nov17_default_refuses_first_on_call_and_names_the_word():
+    res = Copilot().ask("Who is the first on-call right now?")
+    assert res.decision.value == "REFUSE_UNGROUNDED" and "on-call" in res.grounding.nonkey_unsupported
+
+
 def test_same_source_doc_accepts_extra_citations_and_skips_missing_sources():
-    bot = Copilot()
+    bot = Copilot(config=pre_nonkey_config())
     assert same_source_doc(bot, "What is the Vault AppRole rotation cadence?",
                            "What is the Vault AppRole rotation schedule?") is True
     assert same_source_doc(bot, "Who is the primary on-call right now?", None) is None

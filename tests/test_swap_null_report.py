@@ -17,10 +17,14 @@ def test_committed_report_matches_a_fresh_run_and_pins_the_residual():
                    capture_output=True, text=True)
     fresh = json.loads((ROOT / "artifacts" / "swap_null_report.json").read_text())
     assert fresh == committed
-    assert (fresh["swaps"], fresh["passed"], fresh["ceiling"]) == (384, 42, 42)
-    assert fresh["by_mechanism"] == {"passage": 0, "translation": 0, "semantic": 0, "lexical": 17, "unsupported": 25}
-    # the largest residual: a swapped word outside the key half, supported nowhere
-    assert fresh["residual"]["non-key / unsupported / apart"] == 24
+    # 42 of 384 under the Nov 7 default; the non-key rule (Nov 17) refuses every swap whose
+    # word is supported nowhere, which was the largest residual (24 non-key / unsupported / apart)
+    assert (fresh["swaps"], fresh["passed"], fresh["ceiling"]) == (384, 14, 42)
+    assert fresh["by_mechanism"] == {"passage": 0, "translation": 0, "semantic": 0, "lexical": 14, "unsupported": 0}
+    assert not any("unsupported" in k for k in fresh["residual"])
+    # what is left is lexical: the swapped word is in the evidence, mostly in the key half
+    assert fresh["residual"] == {"key / lexical / apart": 6, "key / lexical / same sentence": 4,
+                                 "non-key / lexical / apart": 1, "non-key / lexical / same sentence": 3}
     assert fresh["problems"] == []
 
 
