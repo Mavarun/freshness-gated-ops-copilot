@@ -1,0 +1,1342 @@
+{
+  "arm": "all_hyphen",
+  "rows": 301,
+  "swaps": 591,
+  "attribute_trap_opens": {
+    "shipped": [],
+    "all_hyphen": [],
+    "all": []
+  },
+  "topic_trap_opens": {
+    "shipped": [
+      "d9-t02"
+    ],
+    "all_hyphen": [],
+    "all": []
+  },
+  "dev9_answered": {
+    "shipped": 13,
+    "all_hyphen": 12,
+    "all": 11
+  },
+  "n_dev9_answer": 32,
+  "heldout_answer": {
+    "shipped": 0,
+    "all_hyphen": 0,
+    "all": 0
+  },
+  "n_heldout_answer": 9,
+  "citation": {
+    "all_hyphen": {
+      "lost": [
+        "d9-15"
+      ],
+      "fixed": [],
+      "new_wrong": [],
+      "unknown_lost": [],
+      "decision_lost": [
+        "d9-15"
+      ],
+      "budget_lost": 1
+    },
+    "all": {
+      "lost": [
+        "d9-14",
+        "d9-15"
+      ],
+      "fixed": [],
+      "new_wrong": [],
+      "unknown_lost": [],
+      "decision_lost": [
+        "d9-14",
+        "d9-15"
+      ],
+      "budget_lost": 2
+    }
+  },
+  "ships": true,
+  "arms": {
+    "shipped": {
+      "n_swaps": 591,
+      "passed": 83,
+      "by_mechanism": {
+        "passage": 0,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 44,
+        "unsupported": 39
+      },
+      "n_answer_rows": 125,
+      "answered": 59,
+      "n_refuse_rows": 157,
+      "refuse_opened": 9,
+      "rates": {
+        "null_pass_rate": 0.1404399323181049,
+        "answer_rate": 0.472,
+        "pass_passage": 0.0,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.07445008460236886,
+        "pass_unsupported": 0.06598984771573604
+      }
+    },
+    "all_hyphen": {
+      "n_swaps": 591,
+      "passed": 31,
+      "by_mechanism": {
+        "passage": 0,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 31,
+        "unsupported": 0
+      },
+      "n_answer_rows": 125,
+      "answered": 58,
+      "n_refuse_rows": 157,
+      "refuse_opened": 9,
+      "rates": {
+        "null_pass_rate": 0.05245346869712352,
+        "answer_rate": 0.464,
+        "pass_passage": 0.0,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.05245346869712352,
+        "pass_unsupported": 0.0
+      }
+    },
+    "all": {
+      "n_swaps": 591,
+      "passed": 31,
+      "by_mechanism": {
+        "passage": 0,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 31,
+        "unsupported": 0
+      },
+      "n_answer_rows": 125,
+      "answered": 57,
+      "n_refuse_rows": 157,
+      "refuse_opened": 9,
+      "rates": {
+        "null_pass_rate": 0.05245346869712352,
+        "answer_rate": 0.456,
+        "pass_passage": 0.0,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.05245346869712352,
+        "pass_unsupported": 0.0
+      }
+    }
+  },
+  "passes": {
+    "shipped": [
+      {
+        "row": "d9-04",
+        "term": "secondary",
+        "word": "over",
+        "query": "Who is the over on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-04",
+        "term": "secondary",
+        "word": "revert",
+        "query": "Who is the revert on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-04",
+        "term": "on-call",
+        "word": "retries",
+        "query": "Who is the secondary retries right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-05",
+        "term": "next",
+        "word": "manager",
+        "query": "When is the manager on-call handoff happening?",
+        "mechanism": "lexical",
+        "passage": [
+          "happening<-escalation"
+        ]
+      },
+      {
+        "row": "d9-05",
+        "term": "happening",
+        "word": "minutes",
+        "query": "When is the next on-call handoff minutes?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d9-05",
+        "term": "happening",
+        "word": "replicas",
+        "query": "When is the next on-call handoff replicas?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d9-12",
+        "term": "percent",
+        "word": "slo",
+        "query": "What slo canary is the checkout_retry flag enabled at?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d9-12",
+        "term": "flag",
+        "word": "not",
+        "query": "What percent canary is the checkout_retry not enabled at?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d9-13",
+        "term": "region",
+        "word": "changes",
+        "query": "Which changes has the checkout_retry flag enabled?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-13",
+        "term": "region",
+        "word": "one",
+        "query": "Which one has the checkout_retry flag enabled?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-13",
+        "term": "flag",
+        "word": "auth",
+        "query": "Which region has the checkout_retry auth enabled?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d9-13",
+        "term": "flag",
+        "word": "injector",
+        "query": "Which region has the checkout_retry injector enabled?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d9-14",
+        "term": "pool",
+        "word": "ito",
+        "query": "Who is the assignee on OPS-9912 for the Redis ito increase?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-15",
+        "term": "jira",
+        "word": "ito",
+        "query": "What is the status of the ito ticket OPS-9912?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d9-15",
+        "term": "ops-9912",
+        "word": "treat",
+        "query": "What is the status of the Jira ticket treat?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d9-15",
+        "term": "ops-9912",
+        "word": "pool",
+        "query": "What is the status of the Jira ticket pool?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-17",
+        "term": "checkout-pool",
+        "word": "utc",
+        "query": "How many Redis utc connections are in use at the moment?",
+        "mechanism": "lexical",
+        "passage": [
+          "moment<-wait"
+        ]
+      },
+      {
+        "row": "d9-20",
+        "term": "hpa",
+        "word": "notes",
+        "query": "What is the max replicas setting on the checkout-api notes?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d9-25",
+        "term": "acked",
+        "word": "probe",
+        "query": "Who probe INC-4821 in the incident Slack thread?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d9-25",
+        "term": "thread",
+        "word": "page",
+        "query": "Who acked INC-4821 in the incident Slack page?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "d7-19",
+        "term": "vault",
+        "word": "owners",
+        "query": "What is the owners AppRole rotation timing?",
+        "mechanism": "lexical",
+        "passage": [
+          "timing<-schedule"
+        ]
+      },
+      {
+        "row": "f01",
+        "term": "latency",
+        "word": "milliseconds",
+        "query": "What is the checkout p99 milliseconds at this moment?",
+        "mechanism": "lexical",
+        "passage": [
+          "moment<-status"
+        ]
+      },
+      {
+        "row": "g00-word_order",
+        "term": "checkout",
+        "word": "percent",
+        "query": "What the is current percent latency p99?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-typo",
+        "term": "latency",
+        "word": "status",
+        "query": "What is the crrent checkuot p99 status?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-polite",
+        "term": "checkout",
+        "word": "document",
+        "query": "Could you please tell me what is the current document p99 latency?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g00-polite",
+        "term": "p99",
+        "word": "ten",
+        "query": "Could you please tell me what is the current checkout ten latency?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "checkout_retry",
+        "word": "set",
+        "query": "Is the set feature enabled flag?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "feature",
+        "word": "targeting",
+        "query": "Is the checkout_retry targeting enabled flag?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "feature",
+        "word": "modulo",
+        "query": "Is the checkout_retry modulo enabled flag?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "flag",
+        "word": "wait",
+        "query": "Is the checkout_retry feature enabled wait?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "flag",
+        "word": "redis",
+        "query": "Is the checkout_retry feature enabled redis?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-typo",
+        "term": "checkout_retry",
+        "word": "value",
+        "query": "Is the value feature flag enabked?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-typo",
+        "term": "feature",
+        "word": "rotation",
+        "query": "Is the checkout_retry rotation flag enabked?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-typo",
+        "term": "flag",
+        "word": "idempotent",
+        "query": "Is the checkout_retry feature idempotent enabked?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-typo",
+        "term": "flag",
+        "word": "deploy",
+        "query": "Is the checkout_retry feature deploy enabked?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-polite",
+        "term": "checkout_retry",
+        "word": "planted",
+        "query": "I was wondering, is the planted feature flag enabled?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-polite",
+        "term": "feature",
+        "word": "milliseconds",
+        "query": "I was wondering, is the checkout_retry milliseconds flag enabled?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g01-polite",
+        "term": "flag",
+        "word": "drain",
+        "query": "I was wondering, is the checkout_retry feature drain enabled?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g02-word_order",
+        "term": "primary",
+        "word": "pii",
+        "query": "Who the is on-call pii right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "budget",
+        "query": "Who is the prumary budget rihgt now?",
+        "mechanism": "lexical",
+        "passage": [
+          "primary<-state"
+        ]
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "working",
+        "query": "Who is the prumary working rihgt now?",
+        "mechanism": "lexical",
+        "passage": [
+          "primary<-snapshot"
+        ]
+      },
+      {
+        "row": "g02-polite",
+        "term": "primary",
+        "word": "monthly",
+        "query": "Could you please tell me who is the monthly on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-polite",
+        "term": "on-call",
+        "word": "calendar",
+        "query": "Could you please tell me who is the primary calendar right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-polite",
+        "term": "on-call",
+        "word": "seeing",
+        "query": "Could you please tell me who is the primary seeing right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-synonym",
+        "term": "instances",
+        "word": "retired",
+        "query": "How many checkout-api retired are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-word_order",
+        "term": "replicas",
+        "word": "after",
+        "query": "How checkout-api many after are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g03-polite",
+        "term": "checkout-api",
+        "word": "approle",
+        "query": "Hey team, sorry to bother you, but how many approle replicas are running?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g04-typo",
+        "term": "budget",
+        "word": "datadog",
+        "query": "What is the remainong eeror datadog for checkout?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g04-typo",
+        "term": "checkout",
+        "word": "slack",
+        "query": "What is the remainong eeror budget for slack?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g05-word_order",
+        "term": "mitigation",
+        "word": "pagerduty",
+        "query": "What does pagerduty the latency checkout runbook recommend?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g05-word_order",
+        "term": "latency",
+        "word": "raise",
+        "query": "What does mitigation the raise checkout runbook recommend?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-synonym",
+        "term": "redis",
+        "word": "via",
+        "query": "What is the via checkout-pool usage?",
+        "mechanism": "lexical",
+        "passage": [
+          "usage<-max"
+        ]
+      },
+      {
+        "row": "g06-word_order",
+        "term": "checkout-pool",
+        "word": "datadog",
+        "query": "What the is Redis datadog utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-polite",
+        "term": "checkout-pool",
+        "word": "saturation",
+        "query": "Could you please tell me what is the Redis saturation utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g07-word_order",
+        "term": "status",
+        "word": "wiki",
+        "query": "What the is wiki the of payments-api?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g07-word_order",
+        "term": "status",
+        "word": "container",
+        "query": "What the is container the of payments-api?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g07-word_order",
+        "term": "payments-api",
+        "word": "utc",
+        "query": "What the is status the of utc?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g07-polite",
+        "term": "payments-api",
+        "word": "cluster",
+        "query": "Quick question: what is the status of the cluster?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-word_order",
+        "term": "production",
+        "word": "percent",
+        "query": "What the is percent maintenance window change?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-word_order",
+        "term": "change",
+        "word": "consumer",
+        "query": "What the is production maintenance window consumer?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-word_order",
+        "term": "change",
+        "word": "tokens",
+        "query": "What the is production maintenance window tokens?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "production",
+        "word": "rate",
+        "query": "I was wondering, what is the rate maintenance change window?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "production",
+        "word": "incident",
+        "query": "I was wondering, what is the incident maintenance change window?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "change",
+        "word": "document",
+        "query": "I was wondering, what is the production maintenance document window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g25-word_order",
+        "term": "freeze",
+        "word": "salt",
+        "query": "When does the salt production start?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g25-word_order",
+        "term": "start",
+        "word": "thread",
+        "query": "When does the freeze production thread?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g25-word_order",
+        "term": "start",
+        "word": "consumer",
+        "query": "When does the freeze production consumer?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g25-typo",
+        "term": "start",
+        "word": "request",
+        "query": "When does the production fereze request?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g25-typo",
+        "term": "start",
+        "word": "state",
+        "query": "When does the production fereze state?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g25-polite",
+        "term": "freeze",
+        "word": "credentials",
+        "query": "Quick question: when does the production credentials start?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-polite",
+        "term": "sidecar",
+        "word": "config",
+        "query": "Hey team, sorry to bother you, but what is the vault config injection path CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-polite",
+        "term": "path",
+        "word": "key",
+        "query": "Hey team, sorry to bother you, but what is the vault sidecar injection key CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g39-polite",
+        "term": "path",
+        "word": "deployment",
+        "query": "Hey team, sorry to bother you, but what is the vault sidecar injection deployment CNRY-VAULT7F3A?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g40-word_order",
+        "term": "schedule",
+        "word": "salt",
+        "query": "What is the AppRole Vault salt rotation?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g40-typo",
+        "term": "rotation",
+        "word": "days",
+        "query": "Waht is the Vualt AppRole days schedule?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-polite",
+        "term": "approle",
+        "word": "secondary",
+        "query": "Could you please tell me what is the Vault secondary rotation schedule?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-polite",
+        "term": "schedule",
+        "word": "owners",
+        "query": "Could you please tell me what is the Vault AppRole rotation owners?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-word_order",
+        "term": "vault-transit",
+        "word": "windows",
+        "query": "What the is key windows rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-typo",
+        "term": "rotation",
+        "word": "phone",
+        "query": "Whhat is the vault-transit key phone cintact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-polite",
+        "term": "vault-transit",
+        "word": "runbook",
+        "query": "Hey team, sorry to bother you, but what is the runbook key rotation contact email?",
+        "mechanism": "unsupported",
+        "passage": []
+      },
+      {
+        "row": "g47-polite",
+        "term": "key",
+        "word": "states",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit states rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-polite",
+        "term": "email",
+        "word": "failures",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit key rotation contact failures?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g50-polite",
+        "term": "vault-transit",
+        "word": "email",
+        "query": "I was wondering, what is the email key rotation schedule window?",
+        "mechanism": "lexical",
+        "passage": []
+      }
+    ],
+    "all_hyphen": [
+      {
+        "row": "d9-05",
+        "term": "next",
+        "word": "manager",
+        "query": "When is the manager on-call handoff happening?",
+        "mechanism": "lexical",
+        "passage": [
+          "happening<-escalation"
+        ]
+      },
+      {
+        "row": "d9-13",
+        "term": "region",
+        "word": "changes",
+        "query": "Which changes has the checkout_retry flag enabled?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-13",
+        "term": "region",
+        "word": "one",
+        "query": "Which one has the checkout_retry flag enabled?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-14",
+        "term": "pool",
+        "word": "ito",
+        "query": "Who is the assignee on OPS-9912 for the Redis ito increase?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-17",
+        "term": "checkout-pool",
+        "word": "utc",
+        "query": "How many Redis utc connections are in use at the moment?",
+        "mechanism": "lexical",
+        "passage": [
+          "moment<-wait"
+        ]
+      },
+      {
+        "row": "d7-19",
+        "term": "vault",
+        "word": "owners",
+        "query": "What is the owners AppRole rotation timing?",
+        "mechanism": "lexical",
+        "passage": [
+          "timing<-schedule"
+        ]
+      },
+      {
+        "row": "f01",
+        "term": "latency",
+        "word": "milliseconds",
+        "query": "What is the checkout p99 milliseconds at this moment?",
+        "mechanism": "lexical",
+        "passage": [
+          "moment<-status"
+        ]
+      },
+      {
+        "row": "g00-word_order",
+        "term": "checkout",
+        "word": "percent",
+        "query": "What the is current percent latency p99?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-typo",
+        "term": "latency",
+        "word": "status",
+        "query": "What is the crrent checkuot p99 status?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-polite",
+        "term": "p99",
+        "word": "ten",
+        "query": "Could you please tell me what is the current checkout ten latency?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "feature",
+        "word": "targeting",
+        "query": "Is the checkout_retry targeting enabled flag?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "feature",
+        "word": "modulo",
+        "query": "Is the checkout_retry modulo enabled flag?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-typo",
+        "term": "flag",
+        "word": "idempotent",
+        "query": "Is the checkout_retry feature idempotent enabked?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "budget",
+        "query": "Who is the prumary budget rihgt now?",
+        "mechanism": "lexical",
+        "passage": [
+          "primary<-state"
+        ]
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "working",
+        "query": "Who is the prumary working rihgt now?",
+        "mechanism": "lexical",
+        "passage": [
+          "primary<-snapshot"
+        ]
+      },
+      {
+        "row": "g04-typo",
+        "term": "budget",
+        "word": "datadog",
+        "query": "What is the remainong eeror datadog for checkout?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g05-word_order",
+        "term": "latency",
+        "word": "raise",
+        "query": "What does mitigation the raise checkout runbook recommend?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-synonym",
+        "term": "redis",
+        "word": "via",
+        "query": "What is the via checkout-pool usage?",
+        "mechanism": "lexical",
+        "passage": [
+          "usage<-max"
+        ]
+      },
+      {
+        "row": "g06-word_order",
+        "term": "checkout-pool",
+        "word": "datadog",
+        "query": "What the is Redis datadog utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-polite",
+        "term": "checkout-pool",
+        "word": "saturation",
+        "query": "Could you please tell me what is the Redis saturation utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g07-word_order",
+        "term": "payments-api",
+        "word": "utc",
+        "query": "What the is status the of utc?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "change",
+        "word": "document",
+        "query": "I was wondering, what is the production maintenance document window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g25-typo",
+        "term": "start",
+        "word": "state",
+        "query": "When does the production fereze state?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-typo",
+        "term": "rotation",
+        "word": "days",
+        "query": "Waht is the Vualt AppRole days schedule?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-polite",
+        "term": "approle",
+        "word": "secondary",
+        "query": "Could you please tell me what is the Vault secondary rotation schedule?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-polite",
+        "term": "schedule",
+        "word": "owners",
+        "query": "Could you please tell me what is the Vault AppRole rotation owners?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-word_order",
+        "term": "vault-transit",
+        "word": "windows",
+        "query": "What the is key windows rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-typo",
+        "term": "rotation",
+        "word": "phone",
+        "query": "Whhat is the vault-transit key phone cintact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-polite",
+        "term": "key",
+        "word": "states",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit states rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-polite",
+        "term": "email",
+        "word": "failures",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit key rotation contact failures?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g50-polite",
+        "term": "vault-transit",
+        "word": "email",
+        "query": "I was wondering, what is the email key rotation schedule window?",
+        "mechanism": "lexical",
+        "passage": []
+      }
+    ],
+    "all": [
+      {
+        "row": "d9-05",
+        "term": "next",
+        "word": "manager",
+        "query": "When is the manager on-call handoff happening?",
+        "mechanism": "lexical",
+        "passage": [
+          "happening<-escalation"
+        ]
+      },
+      {
+        "row": "d9-13",
+        "term": "region",
+        "word": "changes",
+        "query": "Which changes has the checkout_retry flag enabled?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-13",
+        "term": "region",
+        "word": "one",
+        "query": "Which one has the checkout_retry flag enabled?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-14",
+        "term": "pool",
+        "word": "ito",
+        "query": "Who is the assignee on OPS-9912 for the Redis ito increase?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d9-17",
+        "term": "checkout-pool",
+        "word": "utc",
+        "query": "How many Redis utc connections are in use at the moment?",
+        "mechanism": "lexical",
+        "passage": [
+          "moment<-wait"
+        ]
+      },
+      {
+        "row": "d7-19",
+        "term": "vault",
+        "word": "owners",
+        "query": "What is the owners AppRole rotation timing?",
+        "mechanism": "lexical",
+        "passage": [
+          "timing<-schedule"
+        ]
+      },
+      {
+        "row": "f01",
+        "term": "latency",
+        "word": "milliseconds",
+        "query": "What is the checkout p99 milliseconds at this moment?",
+        "mechanism": "lexical",
+        "passage": [
+          "moment<-status"
+        ]
+      },
+      {
+        "row": "g00-word_order",
+        "term": "checkout",
+        "word": "percent",
+        "query": "What the is current percent latency p99?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-typo",
+        "term": "latency",
+        "word": "status",
+        "query": "What is the crrent checkuot p99 status?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g00-polite",
+        "term": "p99",
+        "word": "ten",
+        "query": "Could you please tell me what is the current checkout ten latency?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "feature",
+        "word": "targeting",
+        "query": "Is the checkout_retry targeting enabled flag?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-word_order",
+        "term": "feature",
+        "word": "modulo",
+        "query": "Is the checkout_retry modulo enabled flag?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g01-typo",
+        "term": "flag",
+        "word": "idempotent",
+        "query": "Is the checkout_retry feature idempotent enabked?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "budget",
+        "query": "Who is the prumary budget rihgt now?",
+        "mechanism": "lexical",
+        "passage": [
+          "primary<-state"
+        ]
+      },
+      {
+        "row": "g02-typo",
+        "term": "on-call",
+        "word": "working",
+        "query": "Who is the prumary working rihgt now?",
+        "mechanism": "lexical",
+        "passage": [
+          "primary<-snapshot"
+        ]
+      },
+      {
+        "row": "g04-typo",
+        "term": "budget",
+        "word": "datadog",
+        "query": "What is the remainong eeror datadog for checkout?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g05-word_order",
+        "term": "latency",
+        "word": "raise",
+        "query": "What does mitigation the raise checkout runbook recommend?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-synonym",
+        "term": "redis",
+        "word": "via",
+        "query": "What is the via checkout-pool usage?",
+        "mechanism": "lexical",
+        "passage": [
+          "usage<-max"
+        ]
+      },
+      {
+        "row": "g06-word_order",
+        "term": "checkout-pool",
+        "word": "datadog",
+        "query": "What the is Redis datadog utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g06-polite",
+        "term": "checkout-pool",
+        "word": "saturation",
+        "query": "Could you please tell me what is the Redis saturation utilization?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g07-word_order",
+        "term": "payments-api",
+        "word": "utc",
+        "query": "What the is status the of utc?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g24-polite",
+        "term": "change",
+        "word": "document",
+        "query": "I was wondering, what is the production maintenance document window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g25-typo",
+        "term": "start",
+        "word": "state",
+        "query": "When does the production fereze state?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-typo",
+        "term": "rotation",
+        "word": "days",
+        "query": "Waht is the Vualt AppRole days schedule?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-polite",
+        "term": "approle",
+        "word": "secondary",
+        "query": "Could you please tell me what is the Vault secondary rotation schedule?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g40-polite",
+        "term": "schedule",
+        "word": "owners",
+        "query": "Could you please tell me what is the Vault AppRole rotation owners?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-word_order",
+        "term": "vault-transit",
+        "word": "windows",
+        "query": "What the is key windows rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-typo",
+        "term": "rotation",
+        "word": "phone",
+        "query": "Whhat is the vault-transit key phone cintact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-polite",
+        "term": "key",
+        "word": "states",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit states rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g47-polite",
+        "term": "email",
+        "word": "failures",
+        "query": "Hey team, sorry to bother you, but what is the vault-transit key rotation contact failures?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "g50-polite",
+        "term": "vault-transit",
+        "word": "email",
+        "query": "I was wondering, what is the email key rotation schedule window?",
+        "mechanism": "lexical",
+        "passage": []
+      }
+    ]
+  }
+}
