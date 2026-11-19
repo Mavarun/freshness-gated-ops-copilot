@@ -23,7 +23,7 @@ def _j(name: str) -> dict:
 def test_section_order():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
     # newest until the 2026-11-09 non-key coverage section went above it
-    assert heads[5].startswith(HEAD) and heads[4].startswith("## Non-key coverage rule")
+    assert heads[6].startswith(HEAD) and heads[5].startswith("## Non-key coverage rule")
 
 
 def test_calibration_table_matches():

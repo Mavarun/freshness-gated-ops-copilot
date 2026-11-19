@@ -22,6 +22,53 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Hazard scan scope (2026-11-20, second slice): limiting the scan to on-topic pages removes 4 of 11 hazard misfires but loses 2 must-refuse rows, so `hazard_scan_scope` stays `all` and `covered` ships off
+
+The morning's hazard scan runs on every ungrounded refusal, so an off-topic question whose nearest page happens to
+be a secrets page (travel reimbursement, the vending contract) gets REFUSE_PII and `scrub_secret` advice. The
+proposed scope `covered` runs the scan only when that nearest page clears the support coverage threshold (0.52).
+The rule (`hazard_scope_protocol.py`) was written before the run. On the same 751 rows as this morning
+(dev10 unread), `covered` ships only if: no answer changes; no labelled canary/PII row that `all` gets right is
+lost; and strictly fewer *hazard misfires* (a canary/PII refusal on a row labelled neither).
+
+Run: `python scripts/run_hazard_scope_protocol.py` (~15 s; `artifacts/hazard_scope.{json,md}`).
+
+| check | result |
+| :--- | :--- |
+| no answer change | pass (0) |
+| keeps every labelled canary/PII row | **FAIL** (2 lost: `g37-synonym` canary, `g46-synonym` PII) |
+| fewer hazard misfires | pass (11 → 7) |
+
+**`covered` fails and ships off; `all` stays the default.** It would restore the grounding refusal and the
+`add_runbook` advice on both travel-reimbursement rows, the vending-contract row and the `g50` timetable row. But two
+paraphrased must-refuse rows also have a nearest page below the threshold, and they would lose their gate. The
+off-topic rows are labelled REFUSE_NO_EVIDENCE, so they are wrong under either scope. This slice was about advice,
+not accuracy, and no accuracy number moves.
+
+### Post-hoc reading (selects nothing; `--posthoc`, `artifacts/hazard_scope_posthoc.json`)
+
+Nearest-page coverage of the 6 rows the scope changed, read with the scan off:
+
+| id | label | kind | coverage | missing terms |
+| :--- | :--- | :--- | ---: | :--- |
+| `d2-36` | REFUSE_NO_EVIDENCE | removed misfire | 0.228 | owns, vending |
+| `d3-41` | REFUSE_NO_EVIDENCE | removed misfire | 0.246 | travel, reimbursement |
+| `d5-41` | REFUSE_NO_EVIDENCE | removed misfire | 0.246 | travel, reimbursements |
+| `g46-synonym` | REFUSE_PII | lost fix | 0.361 | cycling, maintainer |
+| `g50-synonym` | ANSWER | removed misfire | 0.388 | timetable, timeframe |
+| `g37-synonym` | REFUSE_CANARY | lost fix | 0.480 | system, address |
+
+The off-topic rows sit at 0.23-0.25, and the two lost rows at 0.36 and 0.48. A floor
+between them (e.g. 0.30) would remove 3 misfires and keep both fixes. But that value would
+be fitted to these six rows, and the `g50` misfire (0.39) shows the classes overlap. It is a candidate for an unseen
+confirm, not a ship.
+
+### Weaknesses
+
+- 7 hazard misfires remain under either scope: the seven vault-transit ANSWER rows, refused by the
+  doc-scoped PII check. Scope does not touch them, because their page is on-topic.
+- The coverage floor reuses the support threshold. No other floor was pre-registered.
+
 ## Hazard scan on ungrounded refusals (2026-11-20): 13 must-refuse rows get their canary or PII refusal back, 0 broken, so `hazard_scan_on_ungrounded` ships on; 203-row perturbed accuracy 0.887 → 0.911, held-out ANSWER still 0 of 9
 
 The Nov 17 non-key rule refuses some questions in the grounding step, before the canary and PII gates
