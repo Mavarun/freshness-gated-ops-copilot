@@ -342,6 +342,12 @@ class CopilotConfig:
     # "joined"); no effect while grounding_nonkey_rule is "off". Protocol:
     # nonkey_parts_protocol.py; "hyphen" ships with the rule (Nov 17 confirm).
     grounding_nonkey_parts: str = "hyphen"
+    # Canary / PII scan on ungrounded refusals (off). Grounding refuses before the
+    # canary and PII gates see a draft, so since the Nov 17 non-key ship a page with a
+    # planted canary or a secret can get the generic grounding refusal and advice.
+    # On: draft from the refusal's evidence docs and let those two gates name it.
+    # Never turns a refusal into an answer. Protocol: hazard_scan_protocol.py.
+    hazard_scan_on_ungrounded: bool = False
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in

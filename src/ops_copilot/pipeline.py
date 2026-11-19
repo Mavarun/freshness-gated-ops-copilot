@@ -28,7 +28,7 @@ from ops_copilot.explain_redact import redact_string
 from ops_copilot.pii import detect_pii
 from ops_copilot.freshness import annotate, fresh_only
 from ops_copilot.grounding import EmbeddingSupport, Grounder
-from ops_copilot.policy import decide
+from ops_copilot.policy import decide, hazard_decision
 from ops_copilot.retrieve import Retriever
 from ops_copilot.semantic import SemanticBackoff
 from ops_copilot.passage_support import PassageSupportModel
@@ -528,6 +528,15 @@ class Copilot:
             explain=self._explain_context(query, retrieved, fresh_hits, cited_docs, canary_scan, pii_scan),
         )
 
+        if (
+            cfg.hazard_scan_on_ungrounded
+            and policy.decision is Decision.REFUSE_UNGROUNDED
+            and policy.explanation is not None
+        ):
+            shadow = self._ungrounded_hazard(query, rq, retrieved, policy.explanation, sla_lookup)
+            if shadow is not None:
+                policy, canary_scan, pii_scan = shadow
+
         proposed_write = None
         if policy.decision is Decision.ANSWER:
             if getattr(pii_scan, "action", "pass") == "redact":
@@ -587,6 +596,45 @@ class Copilot:
         if cfg.suggest_rewrites:
             self._attach_rewrites(result)
         return result
+
+    def _ungrounded_hazard(self, query: str, rq: str, retrieved: list[Chunk], explanation, sla_lookup):
+        """Canary / PII checks on the draft an ungrounded refusal would have produced.
+
+        ``hazard_scan_on_ungrounded`` (2026-11-20). Since the non-key rule shipped on
+        2026-11-17, grounding can refuse a question before the canary and PII gates see a
+        draft, so a page holding a planted canary or a secret gets the generic
+        ``add_runbook`` / ``rephrase`` advice. This drafts from the fresh chunks of the
+        documents the refusal names (``evidence_doc_ids``), runs the same two scans, and
+        returns ``(policy, canary_scan, pii_scan)`` when one of them refuses, else None.
+        It can only swap one refusal for another: nothing it returns is an ANSWER.
+        """
+        cfg = self.config
+        if isinstance(explanation, dict):
+            ev_ids = set(explanation.get("evidence_doc_ids") or ())
+        else:
+            ev_ids = set(getattr(explanation, "evidence_doc_ids", ()) or ())
+        if not ev_ids:
+            return None
+        chunks = [c for c in retrieved if c.doc_id in ev_ids]
+        shadow = fresh_only(chunks, None if sla_lookup else cfg.max_age_hours, sla_lookup=sla_lookup)
+        if not shadow:
+            return None
+        draft = extractive_answer(rq, shadow, max_sentences=cfg.max_answer_sentences)
+        cited = dict.fromkeys(c.doc_id for c in shadow)
+        canary_scan = scan_answer(draft, query, self.canary_registry)
+        pii_scan = scan_answer_pii(
+            draft, rq, evidence_texts=[t for d in cited for t in self._doc_texts.get(d, ())]
+        )
+        hazard = hazard_decision(
+            canary_scan,
+            pii_scan,
+            use_canary_gate=cfg.use_canary_gate,
+            use_pii_gate=cfg.use_pii_gate,
+            explain=self._explain_context(query, retrieved, shadow, cited, canary_scan, pii_scan),
+        )
+        if hazard is None:
+            return None
+        return hazard, canary_scan, pii_scan
 
     def _attach_rewrites(self, result: CopilotResult) -> None:
         """Verified did-you-mean rewrites on REFUSE_UNGROUNDED (off by default, 2026-11-06).
