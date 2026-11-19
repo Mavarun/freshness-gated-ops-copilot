@@ -607,13 +607,21 @@ class Copilot:
         documents the refusal names (``evidence_doc_ids``), runs the same two scans, and
         returns ``(policy, canary_scan, pii_scan)`` when one of them refuses, else None.
         It can only swap one refusal for another: nothing it returns is an ANSWER.
+        With ``hazard_scan_scope="covered"`` it runs only when the closest document
+        clears the support coverage threshold (``_clears_coverage``).
         """
         cfg = self.config
         if isinstance(explanation, dict):
             ev_ids = set(explanation.get("evidence_doc_ids") or ())
+            details = explanation.get("details") or {}
         else:
             ev_ids = set(getattr(explanation, "evidence_doc_ids", ()) or ())
+            details = getattr(explanation, "details", None) or {}
         if not ev_ids:
+            return None
+        if cfg.hazard_scan_scope not in ("all", "covered"):
+            raise ValueError(f"unknown hazard_scan_scope {cfg.hazard_scan_scope!r}")
+        if cfg.hazard_scan_scope == "covered" and not _clears_coverage(details):
             return None
         chunks = [c for c in retrieved if c.doc_id in ev_ids]
         shadow = fresh_only(chunks, None if sla_lookup else cfg.max_age_hours, sla_lookup=sla_lookup)
@@ -656,6 +664,19 @@ class Copilot:
         cfg = SuggestConfig(rank="context", min_context=self.config.suggest_rewrites_min_context)
         rws = suggest_rewrites(result, self, cfg, verifier=self._rewrite_verifier)
         result.explanation = {**result.explanation, "suggested_rewrites": [r.as_dict() for r in rws]}
+
+
+def _clears_coverage(details) -> bool:
+    """True when a grounding refusal's closest document clears the support threshold.
+
+    ``hazard_scan_scope="covered"``: the refusal is then a missing key term on a page about
+    the question; below the threshold the page is mostly off-topic and was only the nearest.
+    A refusal with no coverage figure (another stage) does not clear.
+    """
+    try:
+        return float(details["coverage"]) >= float(details["threshold"])
+    except (KeyError, TypeError, ValueError):
+        return False
 
 
 def run_query(
