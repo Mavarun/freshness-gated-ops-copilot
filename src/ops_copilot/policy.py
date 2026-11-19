@@ -237,6 +237,39 @@ def decide(
             ),
         )
 
+    hazard = hazard_decision(
+        canary_scan, pii_scan, use_canary_gate=use_canary_gate, use_pii_gate=use_pii_gate, explain=ctx
+    )
+    if hazard is not None:
+        return hazard
+
+    cited = ", ".join(dict.fromkeys(c.doc_id for c in fresh_supporting[:3]))
+    return PolicyDecision(
+        decision=Decision.ANSWER,
+        reason=f"fresh supporting evidence passed grounding; citing {cited}",
+    )
+
+
+def hazard_decision(
+    canary_scan: object | None,
+    pii_scan: object | None,
+    *,
+    use_canary_gate: bool = True,
+    use_pii_gate: bool = True,
+    explain: ExplainContext | None = None,
+) -> PolicyDecision | None:
+    """Steps 9-10 of ``decide``: the canary and PII refusals for a draft, or None.
+
+    Split out (2026-11-20) so the pipeline can run the same two checks on the
+    draft an ungrounded refusal would have produced (``hazard_scan_on_ungrounded``)
+    and keep the specific gate, remediation included, instead of the generic
+    grounding refusal.
+    """
+    ctx = explain or ExplainContext()
+
+    def _fin(expl):
+        return finalize(expl, context=(ctx.query,) if ctx.query else ())
+
     if (
         use_canary_gate
         and canary_scan is not None
@@ -280,9 +313,4 @@ def decide(
             ),
             explanation=_fin(explain_pii(pii_scan, ctx.pii_doc_ids)),
         )
-
-    cited = ", ".join(dict.fromkeys(c.doc_id for c in fresh_supporting[:3]))
-    return PolicyDecision(
-        decision=Decision.ANSWER,
-        reason=f"fresh supporting evidence passed grounding; citing {cited}",
-    )
+    return None
