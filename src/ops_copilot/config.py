@@ -349,6 +349,11 @@ class CopilotConfig:
     # Never turns a refusal into an answer. Protocol: hazard_scan_protocol.py; ships
     # on since 2026-11-20 (13 rows fixed, 0 broken, 0 answer changes on 751 rows).
     hazard_scan_on_ungrounded: bool = True
+    # Which ungrounded refusals the hazard scan runs on: "all" (the Nov 20 morning ship)
+    # or "covered" (only when the closest document clears the support coverage threshold,
+    # so an off-topic question whose nearest page happens to be a secrets page keeps the
+    # grounding refusal). Protocol: hazard_scope_protocol.py.
+    hazard_scan_scope: str = "all"
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
