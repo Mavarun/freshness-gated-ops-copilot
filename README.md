@@ -22,6 +22,64 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Hazard scan on ungrounded refusals (2026-11-20): 13 must-refuse rows get their canary or PII refusal back, 0 broken, so `hazard_scan_on_ungrounded` ships on; 203-row perturbed accuracy 0.887 → 0.911, held-out ANSWER still 0 of 9
+
+The Nov 17 non-key rule refuses some questions in the grounding step, before the canary and PII gates
+read a draft. Those rows stay refused, but a page holding a planted canary or a secret got the advice
+`add_runbook` / `rephrase` instead of `quarantine_doc` / `scrub_secret`. That was a listed weakness of the
+Nov 17 slice (`g36-synonym`, `d2-40`).
+
+### What changed
+
+1. `policy.hazard_decision()`: the canary and PII steps of `decide()`, split out with no behaviour change.
+2. `hazard_scan_on_ungrounded`: on a `REFUSE_UNGROUNDED`, draft from the fresh chunks of the documents the
+   refusal names and run the same two scans. If one fires, its refusal replaces the grounding one. It
+   cannot turn a refusal into an answer.
+3. **Protocol** (`hazard_scan_protocol.py`, committed before the run): every labelled row except dev10
+   (751 rows), knob off vs on. Ship only if no row moves into or out of ANSWER / PROPOSE_WRITE, no row that
+   matches its label stops matching, and at least 1 must-refuse row regains its labelled gate.
+4. `pre_hazard_config()` keeps the Nov 17-19 default, so the earlier records still reproduce.
+
+### Results (`artifacts/hazard_scan.md`)
+
+| effect | rows |
+| :--- | ---: |
+| must-refuse row regains its labelled gate (7 canary, 6 PII) | 13 |
+| already wrong, now refused as `REFUSE_PII` instead of `REFUSE_UNGROUNDED` | 10 |
+| broke (matched its label, no longer does) | 0 |
+| moved into or out of ANSWER / PROPOSE_WRITE | 0 |
+
+All three checks pass, so **it ships on**. Live CI reports with the shipped default:
+
+| report | before (Nov 17-19) | after |
+| :--- | ---: | ---: |
+| 203-row perturbed accuracy | 0.887 | 0.911 |
+| 203-row `REFUSE_CANARY` / `REFUSE_PII` rows right | 0.812 / 0.833 | 1.000 / 1.000 |
+| held-out synonym rows correct (35) | 0.486 | 0.600 |
+| dev2 calib / dev5 tune / dev6 / dev7 tune correct | 13 / 8 / 19 / 5 | 14 / 9 / 20 / 7 |
+| fresh general-English set correct (26) | 7 | 9 |
+| held-out ANSWER | 0 of 9 | 0 of 9 |
+| fail-open rows | 0 | 0 |
+
+The held-out gain is refusal labels only. No new question is answered.
+
+### Reproduce
+
+    pytest tests/test_policy_hazard.py tests/test_hazard_scan*.py tests/test_readme_hazard_numbers.py
+    python scripts/run_hazard_scan_protocol.py
+
+### Weaknesses
+
+- The scan trusts the nearest page. Ten rows that were already wrong now read `REFUSE_PII`, and three of them
+  are off-topic questions labelled `REFUSE_NO_EVIDENCE` (`Who approves travel reimbursement?`, `Who owns the
+  vending contract?`) whose nearest page holds a secret. Their advice is now `scrub_secret` for a page they
+  were not about. The read-only write-eval row `r06` (`Is it safe to rotate the vault-transit key now?`) moves
+  the same way. These are still refusals, but the explanation is less useful for them.
+- The other seven are `What is the vault-transit key rotation <contact or schedule>?` rows labelled ANSWER. The page
+  holds a secret elsewhere, so the doc-scoped PII check refuses them even if grounding later learns the synonym.
+- The rule could not fail on answers by design, so the protocol tests only that refusal types stay right.
+- Nothing here helps understanding: held-out ANSWER is still 0 of 9 and dev10 is still unseen.
+
 ## Non-key rule ships on (2026-11-17): on the unseen dev9 confirm, random swaps answered 0.140 → 0.052 and the one dev9 topic trap the default opened closes, at 1 right-evidence answer lost (budget 2), so `grounding_nonkey_rule` = `all` with hyphen parts now ships on; held-out ANSWER stays 0 of 9
 
 The Nov 9 and Nov 10 non-key rules closed most random swaps but failed a lost-answer budget that counted

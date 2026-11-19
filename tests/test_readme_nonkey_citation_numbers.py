@@ -20,9 +20,10 @@ def _j(name: str) -> dict:
     return json.loads((ART / name).read_text(encoding="utf-8"))
 
 
-def test_it_is_the_newest_section():
+def test_it_follows_the_hazard_section():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
-    assert heads[0].startswith(HEAD)
+    assert heads[0].startswith("## Hazard scan on ungrounded refusals (2026-11-20)")
+    assert heads[1].startswith(HEAD)
 
 
 def test_headline_and_ship_call():
