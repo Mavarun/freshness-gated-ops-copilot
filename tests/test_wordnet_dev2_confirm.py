@@ -47,5 +47,6 @@ def test_heldout_unchanged_and_safe():
 def test_fresh_set_arm_for_the_dev2_choice_is_recorded_and_safe():
     out = json.loads((ART / "synonym_fresh_eval.json").read_text())
     arm = out["configs"]["+ WordNet noun senses, dev2-chosen (lone, path 1, first sense; ships off)"]
-    assert arm["n"] - len(arm["wrong"]) == 8 and arm["answer_correct"] == "1/11"
+    # 8 until 2026-11-19; 10 on top of the 2026-11-20 default (hazard scan, f21 and one more)
+    assert arm["n"] - len(arm["wrong"]) == 10 and arm["answer_correct"] == "1/11"
     assert arm["n_fail_open"] == 0 and arm["n_spurious_write"] == 0

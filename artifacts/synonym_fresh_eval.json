@@ -1,7 +1,7 @@
 {
  "configs": {
   "+ Datamuse means-like, dev2-chosen (lone, rank<=10, 2 neighbours; ships off)": {
-   "accuracy": 0.5384615384615384,
+   "accuracy": 0.5769230769230769,
    "answer_correct": "5/11",
    "by_gate": {
     "ANSWER": {
@@ -25,7 +25,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -59,7 +59,7 @@
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
     "f21": "REFUSE_CANARY",
-    "f22": "REFUSE_UNGROUNDED",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -79,13 +79,12 @@
     "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ Stack Exchange tag synonyms (dev-chosen)": {
-   "accuracy": 0.2692307692307692,
+   "accuracy": 0.34615384615384615,
    "answer_correct": "0/11",
    "by_gate": {
     "ANSWER": {
@@ -97,7 +96,7 @@
      "n": 2
     },
     "REFUSE_CANARY": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_DISAGREE": {
@@ -109,7 +108,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -142,8 +141,8 @@
     "f18": "REFUSE_UNGROUNDED",
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
-    "f21": "REFUSE_UNGROUNDED",
-    "f22": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_CANARY",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -169,14 +168,12 @@
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f14:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ Wiktionary computing senses (dev-chosen)": {
-   "accuracy": 0.2692307692307692,
+   "accuracy": 0.34615384615384615,
    "answer_correct": "0/11",
    "by_gate": {
     "ANSWER": {
@@ -188,7 +185,7 @@
      "n": 2
     },
     "REFUSE_CANARY": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_DISAGREE": {
@@ -200,7 +197,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -233,8 +230,8 @@
     "f18": "REFUSE_UNGROUNDED",
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
-    "f21": "REFUSE_UNGROUNDED",
-    "f22": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_CANARY",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -260,14 +257,12 @@
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f14:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ WordNet noun senses (dev-chosen, known scope)": {
-   "accuracy": 0.2692307692307692,
+   "accuracy": 0.34615384615384615,
    "answer_correct": "0/11",
    "by_gate": {
     "ANSWER": {
@@ -279,7 +274,7 @@
      "n": 2
     },
     "REFUSE_CANARY": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_DISAGREE": {
@@ -291,7 +286,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -324,8 +319,8 @@
     "f18": "REFUSE_UNGROUNDED",
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
-    "f21": "REFUSE_UNGROUNDED",
-    "f22": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_CANARY",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -351,14 +346,12 @@
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f14:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ WordNet noun senses, dev2-chosen (lone, path 1, first sense; ships off)": {
-   "accuracy": 0.3076923076923077,
+   "accuracy": 0.38461538461538464,
    "answer_correct": "1/11",
    "by_gate": {
     "ANSWER": {
@@ -370,7 +363,7 @@
      "n": 2
     },
     "REFUSE_CANARY": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_DISAGREE": {
@@ -382,7 +375,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -415,8 +408,8 @@
     "f18": "REFUSE_UNGROUNDED",
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
-    "f21": "REFUSE_UNGROUNDED",
-    "f22": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_CANARY",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -441,14 +434,12 @@
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f14:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ WordNet noun senses, lone scope, path 1 (not blind)": {
-   "accuracy": 0.4230769230769231,
+   "accuracy": 0.46153846153846156,
    "answer_correct": "2/11",
    "by_gate": {
     "ANSWER": {
@@ -472,7 +463,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -506,7 +497,7 @@
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
     "f21": "REFUSE_CANARY",
-    "f22": "REFUSE_UNGROUNDED",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -529,13 +520,12 @@
     "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ WordNet noun senses, lone scope, path 2 fan-out 25 (not blind)": {
-   "accuracy": 0.4230769230769231,
+   "accuracy": 0.46153846153846156,
    "answer_correct": "2/11",
    "by_gate": {
     "ANSWER": {
@@ -559,7 +549,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -593,7 +583,7 @@
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
     "f21": "REFUSE_CANARY",
-    "f22": "REFUSE_UNGROUNDED",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -616,13 +606,12 @@
     "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ WordNet noun senses, scope all, path 1": {
-   "accuracy": 0.4230769230769231,
+   "accuracy": 0.46153846153846156,
    "answer_correct": "4/11",
    "by_gate": {
     "ANSWER": {
@@ -646,7 +635,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -680,7 +669,7 @@
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
     "f21": "REFUSE_CANARY",
-    "f22": "REFUSE_UNGROUNDED",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -703,13 +692,12 @@
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f16:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
     "f17:REFUSE_NO_EVIDENCE->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ answer-support model (dev-chosen)": {
-   "accuracy": 0.3076923076923077,
+   "accuracy": 0.38461538461538464,
    "answer_correct": "1/11",
    "by_gate": {
     "ANSWER": {
@@ -721,7 +709,7 @@
      "n": 2
     },
     "REFUSE_CANARY": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_DISAGREE": {
@@ -733,7 +721,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -766,8 +754,8 @@
     "f18": "REFUSE_UNGROUNDED",
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
-    "f21": "REFUSE_UNGROUNDED",
-    "f22": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_CANARY",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -792,14 +780,12 @@
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f14:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ answer-support model + word vectors": {
-   "accuracy": 0.4230769230769231,
+   "accuracy": 0.46153846153846156,
    "answer_correct": "2/11",
    "by_gate": {
     "ANSWER": {
@@ -823,7 +809,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -857,7 +843,7 @@
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
     "f21": "REFUSE_CANARY",
-    "f22": "REFUSE_UNGROUNDED",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -880,13 +866,12 @@
     "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ corpus PPMI backoff (PR #11, for comparison)": {
-   "accuracy": 0.2692307692307692,
+   "accuracy": 0.34615384615384615,
    "answer_correct": "0/11",
    "by_gate": {
     "ANSWER": {
@@ -898,7 +883,7 @@
      "n": 2
     },
     "REFUSE_CANARY": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_DISAGREE": {
@@ -910,7 +895,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -943,8 +928,8 @@
     "f18": "REFUSE_UNGROUNDED",
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
-    "f21": "REFUSE_UNGROUNDED",
-    "f22": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_CANARY",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -970,14 +955,12 @@
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f14:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ passage classifier (dev-chosen)": {
-   "accuracy": 0.38461538461538464,
+   "accuracy": 0.4230769230769231,
    "answer_correct": "1/11",
    "by_gate": {
     "ANSWER": {
@@ -989,7 +972,7 @@
      "n": 2
     },
     "REFUSE_CANARY": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_DISAGREE": {
@@ -1034,7 +1017,7 @@
     "f18": "REFUSE_UNGROUNDED",
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
-    "f21": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_CANARY",
     "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
@@ -1059,7 +1042,6 @@
     "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
@@ -1151,7 +1133,7 @@
    ]
   },
   "+ tag synonyms + Wiktionary + word vectors": {
-   "accuracy": 0.38461538461538464,
+   "accuracy": 0.4230769230769231,
    "answer_correct": "1/11",
    "by_gate": {
     "ANSWER": {
@@ -1175,7 +1157,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -1209,7 +1191,7 @@
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
     "f21": "REFUSE_CANARY",
-    "f22": "REFUSE_UNGROUNDED",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -1233,13 +1215,12 @@
     "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ word-vector backoff (calibrated)": {
-   "accuracy": 0.38461538461538464,
+   "accuracy": 0.4230769230769231,
    "answer_correct": "1/11",
    "by_gate": {
     "ANSWER": {
@@ -1263,7 +1244,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -1297,7 +1278,7 @@
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
     "f21": "REFUSE_CANARY",
-    "f22": "REFUSE_UNGROUNDED",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -1321,13 +1302,12 @@
     "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "+ word-vector backoff, unknown words only": {
-   "accuracy": 0.38461538461538464,
+   "accuracy": 0.4230769230769231,
    "answer_correct": "1/11",
    "by_gate": {
     "ANSWER": {
@@ -1351,7 +1331,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -1385,7 +1365,7 @@
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
     "f21": "REFUSE_CANARY",
-    "f22": "REFUSE_UNGROUNDED",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -1409,13 +1389,12 @@
     "f12:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]
   },
   "default (word-vector backoff off; = PR #14)": {
-   "accuracy": 0.2692307692307692,
+   "accuracy": 0.34615384615384615,
    "answer_correct": "0/11",
    "by_gate": {
     "ANSWER": {
@@ -1427,7 +1406,7 @@
      "n": 2
     },
     "REFUSE_CANARY": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_DISAGREE": {
@@ -1439,7 +1418,7 @@
      "n": 2
     },
     "REFUSE_PII": {
-     "correct": 0,
+     "correct": 1,
      "n": 1
     },
     "REFUSE_STALE": {
@@ -1472,8 +1451,8 @@
     "f18": "REFUSE_UNGROUNDED",
     "f19": "REFUSE_UNGROUNDED",
     "f20": "REFUSE_UNGROUNDED",
-    "f21": "REFUSE_UNGROUNDED",
-    "f22": "REFUSE_UNGROUNDED",
+    "f21": "REFUSE_CANARY",
+    "f22": "REFUSE_PII",
     "f23": "PROPOSE_WRITE",
     "f24": "PROPOSE_WRITE",
     "f25": "REFUSE_UNGROUNDED",
@@ -1499,8 +1478,6 @@
     "f13:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f14:REFUSE_STALE->REFUSE_UNGROUNDED",
     "f15:REFUSE_STALE->REFUSE_UNGROUNDED",
-    "f21:REFUSE_CANARY->REFUSE_UNGROUNDED",
-    "f22:REFUSE_PII->REFUSE_UNGROUNDED",
     "f25:REFUSE_DISAGREE->REFUSE_UNGROUNDED",
     "f26:REFUSE_DISAGREE->REFUSE_UNGROUNDED"
    ]

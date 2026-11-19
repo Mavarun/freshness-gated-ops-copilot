@@ -56,7 +56,8 @@ def test_fresh_set_arm_is_recorded_and_safe():
     arm = out["configs"]["+ Datamuse means-like, dev2-chosen (lone, rank<=10, 2 neighbours; ships off)"]
     # 15 when recorded; 14 since the non-key rule shipped (2026-11-17): the off-by-default
     # arms are scored on top of the shipped default, which now refuses f22 as ungrounded
-    assert arm["n"] - len(arm["wrong"]) == 14 and arm["answer_correct"] == "5/11"
+    # 15 again since the hazard scan (2026-11-20) refuses f21 under its canary gate
+    assert arm["n"] - len(arm["wrong"]) == 15 and arm["answer_correct"] == "5/11"
     assert arm["n_fail_open"] == 0 and arm["n_spurious_write"] == 0
 
 
@@ -64,7 +65,8 @@ def test_dev2_report_carries_the_datamuse_arm():
     out = json.loads((ART / "synonym_dev2_eval.json").read_text())
     arm = "Datamuse means-like, dev2-chosen (ships off)"
     # 16 / 14 when recorded; 15 / 13 on top of the 2026-11-17 default (non-key rule on)
-    assert out["halves"]["calib"][arm]["correct"] == 15
+    # 16 again on top of the 2026-11-20 default (hazard scan names d2-40's secret)
+    assert out["halves"]["calib"][arm]["correct"] == 16
     assert out["halves"]["confirm"][arm]["correct"] == 13
     assert out["halves"]["confirm"]["default (shipped)"]["correct"] == 12
-    assert out["halves"]["calib"]["default (shipped)"]["correct"] == 13  # 14 before Nov 17
+    assert out["halves"]["calib"]["default (shipped)"]["correct"] == 14  # 13 from Nov 17 to Nov 19

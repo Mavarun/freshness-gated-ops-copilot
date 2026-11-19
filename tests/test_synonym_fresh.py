@@ -35,9 +35,11 @@ def test_no_swapped_word_comes_from_the_perturbation_vocabulary() -> None:
 def test_backoff_helps_general_english_a_little_and_stays_safe(result: dict) -> None:
     off = result["configs"]["default (word-vector backoff off; = PR #14)"]
     on = result["configs"]["+ word-vector backoff (calibrated)"]
-    assert off["n"] - len(off["wrong"]) == 7 and on["n"] - len(on["wrong"]) == 10
+    # 7 -> 10 with f10 / f14 / f21 fixed until 2026-11-19; the 2026-11-20 hazard scan
+    # names f21's canary (and one more row) in both arms, so the backoff now adds 2
+    assert off["n"] - len(off["wrong"]) == 9 and on["n"] - len(on["wrong"]) == 11
     fixed = {r for r, d in on["decisions"].items() if d != off["decisions"][r]}
-    assert fixed == {"f10", "f14", "f21"}
+    assert fixed == {"f10", "f14"}
     for r in result["configs"].values():
         assert r["n_fail_open"] == r["n_spurious_write"] == r["n_raw_pii_outputs"] == 0
 

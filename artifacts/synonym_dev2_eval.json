@@ -2,9 +2,9 @@
  "halves": {
   "calib": {
    "Datamuse means-like, dev2-chosen (ships off)": {
-    "accuracy": 0.6818181818181818,
+    "accuracy": 0.7272727272727273,
     "answer_correct": 5,
-    "correct": 15,
+    "correct": 16,
     "decisions": {
      "d2-01": "ANSWER",
      "d2-03": "REFUSE_UNGROUNDED",
@@ -26,7 +26,7 @@
      "d2-34": "REFUSE_UNGROUNDED",
      "d2-37": "REFUSE_NO_EVIDENCE",
      "d2-39": "REFUSE_CANARY",
-     "d2-40": "REFUSE_UNGROUNDED",
+     "d2-40": "REFUSE_PII",
      "d2-42": "PROPOSE_WRITE"
     },
     "n": 22,
@@ -36,9 +36,9 @@
     "n_spurious_write": 0
    },
    "WordNet, dev2-chosen (ships off)": {
-    "accuracy": 0.6363636363636364,
+    "accuracy": 0.6818181818181818,
     "answer_correct": 4,
-    "correct": 14,
+    "correct": 15,
     "decisions": {
      "d2-01": "REFUSE_STALE",
      "d2-03": "REFUSE_UNGROUNDED",
@@ -60,7 +60,7 @@
      "d2-34": "REFUSE_UNGROUNDED",
      "d2-37": "REFUSE_NO_EVIDENCE",
      "d2-39": "REFUSE_CANARY",
-     "d2-40": "REFUSE_UNGROUNDED",
+     "d2-40": "REFUSE_PII",
      "d2-42": "PROPOSE_WRITE"
     },
     "n": 22,
@@ -70,9 +70,9 @@
     "n_spurious_write": 0
    },
    "default (shipped)": {
-    "accuracy": 0.5909090909090909,
+    "accuracy": 0.6363636363636364,
     "answer_correct": 3,
-    "correct": 13,
+    "correct": 14,
     "decisions": {
      "d2-01": "REFUSE_STALE",
      "d2-03": "REFUSE_UNGROUNDED",
@@ -94,7 +94,7 @@
      "d2-34": "REFUSE_UNGROUNDED",
      "d2-37": "REFUSE_NO_EVIDENCE",
      "d2-39": "REFUSE_CANARY",
-     "d2-40": "REFUSE_UNGROUNDED",
+     "d2-40": "REFUSE_PII",
      "d2-42": "PROPOSE_WRITE"
     },
     "n": 22,
@@ -119,7 +119,7 @@
      "d2-14": "ANSWER",
      "d2-17": "REFUSE_UNGROUNDED",
      "d2-18": "REFUSE_UNGROUNDED",
-     "d2-20": "REFUSE_UNGROUNDED",
+     "d2-20": "REFUSE_PII",
      "d2-21": "REFUSE_STALE",
      "d2-22": "REFUSE_STALE",
      "d2-26": "REFUSE_STALE",
@@ -127,7 +127,7 @@
      "d2-32": "REFUSE_UNGROUNDED",
      "d2-33": "REFUSE_UNGROUNDED",
      "d2-35": "REFUSE_UNGROUNDED",
-     "d2-36": "REFUSE_UNGROUNDED",
+     "d2-36": "REFUSE_PII",
      "d2-38": "REFUSE_CANARY",
      "d2-41": "REFUSE_PII",
      "d2-43": "PROPOSE_WRITE"
@@ -152,7 +152,7 @@
      "d2-14": "ANSWER",
      "d2-17": "ANSWER",
      "d2-18": "REFUSE_UNGROUNDED",
-     "d2-20": "REFUSE_UNGROUNDED",
+     "d2-20": "REFUSE_PII",
      "d2-21": "REFUSE_UNGROUNDED",
      "d2-22": "REFUSE_STALE",
      "d2-26": "REFUSE_UNGROUNDED",
@@ -160,7 +160,7 @@
      "d2-32": "REFUSE_UNGROUNDED",
      "d2-33": "REFUSE_UNGROUNDED",
      "d2-35": "REFUSE_UNGROUNDED",
-     "d2-36": "REFUSE_UNGROUNDED",
+     "d2-36": "REFUSE_PII",
      "d2-38": "REFUSE_CANARY",
      "d2-41": "REFUSE_PII",
      "d2-43": "PROPOSE_WRITE"
@@ -185,7 +185,7 @@
      "d2-14": "ANSWER",
      "d2-17": "ANSWER",
      "d2-18": "REFUSE_UNGROUNDED",
-     "d2-20": "REFUSE_UNGROUNDED",
+     "d2-20": "REFUSE_PII",
      "d2-21": "REFUSE_UNGROUNDED",
      "d2-22": "REFUSE_STALE",
      "d2-26": "REFUSE_UNGROUNDED",
@@ -193,7 +193,7 @@
      "d2-32": "REFUSE_UNGROUNDED",
      "d2-33": "REFUSE_UNGROUNDED",
      "d2-35": "REFUSE_UNGROUNDED",
-     "d2-36": "REFUSE_UNGROUNDED",
+     "d2-36": "REFUSE_PII",
      "d2-38": "REFUSE_CANARY",
      "d2-41": "REFUSE_PII",
      "d2-43": "PROPOSE_WRITE"

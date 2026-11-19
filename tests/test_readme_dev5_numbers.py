@@ -49,6 +49,7 @@ def test_pair_table_and_dev5_report_numbers_match():
     t = rep["tune_default"]
     # 10 / 2 under the 2026-10-25 default; 9 / 1 since the credited-word check
     # (2026-10-28) refuses d5-18 (artifacts/credit_check_calibration.md); 8 / 0 since the
-    # non-key rule (2026-11-17) refuses d5-22 (artifacts/nonkey_citation_calibration.md)
-    assert (t["correct"], t["answer_correct"]) == (8, 0)
+    # non-key rule (2026-11-17) refuses d5-22 (artifacts/nonkey_citation_calibration.md);
+    # 9 / 0 since the hazard scan (2026-11-20) names d5-42's canary (artifacts/hazard_scan.md)
+    assert (t["correct"], t["answer_correct"]) == (9, 0)
     assert rep["split_sizes"] == {"tune": 24, "confirm": 20} and "24 `tune` / 20 `confirm`" in s

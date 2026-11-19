@@ -72,7 +72,9 @@ def test_artifact_records_the_first_heldout_run() -> None:
     base = rows["default (answer-support model off)"]
     assert cand["synonym_heldout"] == base["synonym_heldout"]
     assert cand["heldout_answer_write_correct"] == "3/12"
-    assert [r["id"] for r in m["answer_support_changed_rows"][ANSWER_SUPPORT_CANDIDATE]] == ["g48-synonym"]
+    # g48-synonym until 2026-11-19; since the 2026-11-20 hazard scan the default already
+    # refuses it as REFUSE_PII, so the candidate changes no row of the live report
+    assert [r["id"] for r in m["answer_support_changed_rows"][ANSWER_SUPPORT_CANDIDATE]] == []
 
 
 def test_fresh_set_blind_run_fixes_one_row_and_opens_nothing() -> None:

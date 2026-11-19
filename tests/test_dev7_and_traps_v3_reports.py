@@ -29,13 +29,18 @@ def test_dev7_report_matches_a_fresh_run_and_pins_the_shipped_default():
     t, c = fresh["default"]["tune"], fresh["default"]["confirm"]
     # confirm (5, 2) until 2026-11-07: known-word passage rescues off loses one ANSWER row,
     # counted in the swap null confirm's cost (2 of 48 answered rows)
-    assert (t["correct"], t["answer_correct"], c["correct"], c["answer_correct"]) == (5, 1, 4, 1)
+    assert (t["correct"], t["answer_correct"], c["correct"], c["answer_correct"]) == (7, 1, 4, 1)  # tune 5 before the 2026-11-20 hazard scan (d7-35, d7-36)
     assert t["must_refuse_opened"] == c["must_refuse_opened"] == []
     # agrees with the one-shot confirm's arm (the confirm ran before the flip)
     arm = json.loads((ROOT / "artifacts" / "credit_check_confirm.json").read_text())["dev7_confirm"]["arm"]
     # except d7-18, the row the 2026-11-07 known-word flip refuses (ANSWER -> REFUSE_UNGROUNDED)
-    assert {k: v for k, v in arm["decisions"].items() if k != "d7-18"} == {
-        k: v for k, v in c["decisions"].items() if k != "d7-18"}
+    # and d7-21 / d7-22, ANSWER rows already refused, now refused as REFUSE_PII by the
+    # 2026-11-20 hazard scan (artifacts/hazard_scan.md: still wrong, not a break)
+    moved = {"d7-18", "d7-21", "d7-22"}
+    assert {k: v for k, v in arm["decisions"].items() if k not in moved} == {
+        k: v for k, v in c["decisions"].items() if k not in moved}
+    assert {arm["decisions"][k] for k in ("d7-21", "d7-22")} == {"REFUSE_UNGROUNDED"}
+    assert {c["decisions"][k] for k in ("d7-21", "d7-22")} == {"REFUSE_PII"}
     assert (arm["decisions"]["d7-18"], c["decisions"]["d7-18"]) == ("ANSWER", "REFUSE_UNGROUNDED")
 
 

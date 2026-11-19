@@ -57,5 +57,7 @@ def test_posthoc_and_seed_numbers_match():
     ev = _j("synonym_dev6_eval.json")["default"]
     # the section quotes the 2026-10-26 default; the report now scores the 2026-10-28
     # default, which loses d6-09 to the credited-word check (one row, one ANSWER), then the
-    # 2026-11-17 default, which refuses the wrong-evidence answer d6-06 (one more of each)
-    assert f"({ev['correct'] + 2}/45, ANSWER\n   {ev['answer_correct'] + 2}/24)" in s
+    # 2026-11-17 default, which refuses the wrong-evidence answer d6-06 (one more of each);
+    # the 2026-11-20 hazard scan gives d6-44 its labelled REFUSE_PII back (one correct row,
+    # no ANSWER)
+    assert f"({ev['correct'] + 1}/45, ANSWER\n   {ev['answer_correct'] + 2}/24)" in s

@@ -17,7 +17,7 @@ from pathlib import Path
 import pytest
 
 from ops_copilot import CopilotConfig
-from ops_copilot.config import pre_nonkey_config
+from ops_copilot.config import HAZARD_OFF, pre_nonkey_config
 from ops_copilot.robustness import (
     PASSAGE_SUPPORT_ABLATIONS,
     PASSAGE_SUPPORT_CANDIDATE,
@@ -85,7 +85,7 @@ def test_fresh_set_blind_run() -> None:
     from ops_copilot.fresh_synonym_eval import CONFIGS, load_fresh, score
 
     rows = load_fresh()
-    base = replace(CopilotConfig(), use_word_vector_backoff=False, **OFF)
+    base = replace(CopilotConfig(), use_word_vector_backoff=False, **OFF, **HAZARD_OFF)
     off = score(base, rows)
     on = score(replace(base, **CONFIGS["+ passage classifier (dev-chosen)"]), rows)
     # 18/26 at its 2026-10-11 run (all rescues), 14/26 by PR #28; 11/26 since the
