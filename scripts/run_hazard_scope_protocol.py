@@ -71,5 +71,29 @@ def main() -> int:
     return 0
 
 
+def posthoc() -> int:
+    """POST-HOC (after the decision; selects nothing): the closest page's coverage for each row
+    the scope changed, read with the scan off. Writes artifacts/hazard_scope_posthoc.json."""
+    from ops_copilot.config import HAZARD_OFF
+
+    out = json.loads((ART / "hazard_scope.json").read_text())
+    bot = Copilot(config=replace(CopilotConfig(), **HAZARD_OFF))
+    rows_ = []
+    for c in out["changed"]:
+        e = bot.ask(c["query"]).explanation
+        rows_.append({"id": c["id"], "expect": c["expect"], "coverage": round(float(e["details"]["coverage"]), 4),
+                      "threshold": float(e["details"]["threshold"]), "closest": e["evidence_doc_ids"],
+                      "missing_terms": e["missing_terms"],
+                      "kind": "lost fix" if c["expect"] in P.HAZARD_GATES else "removed misfire"})
+    rows_.sort(key=lambda r: r["coverage"])
+    lost = [r["coverage"] for r in rows_ if r["kind"] == "lost fix"]
+    removed = [r["coverage"] for r in rows_ if r["kind"] == "removed misfire"]
+    summary = {"rows": rows_, "min_lost_fix_coverage": min(lost) if lost else None,
+               "removed_below_min_lost": sum(c < min(lost) for c in removed) if lost else len(removed)}
+    (ART / "hazard_scope_posthoc.json").write_text(json.dumps(summary, indent=2) + "\n")
+    print(json.dumps(summary, indent=2))
+    return 0
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(posthoc() if "--posthoc" in sys.argv else main())
