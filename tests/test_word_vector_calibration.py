@@ -7,6 +7,7 @@ from dataclasses import replace
 from pathlib import Path
 
 from ops_copilot import Copilot, CopilotConfig
+from ops_copilot.config import HAZARD_OFF
 from ops_copilot.semantic_calibration import calibration_rows, score
 from ops_copilot.synonym_split import load_split, row_splits
 from ops_copilot.word_vector_calibration import GRID, dev_pair_report, select
@@ -59,7 +60,8 @@ def test_selection_prefers_safety_then_accuracy_then_narrow_scope() -> None:
 
 
 def test_calibrated_setting_is_safe_on_the_calibration_rows() -> None:
-    cfg = replace(CopilotConfig(), use_word_vector_backoff=True, use_passage_support_model=False)
+    # the 2026-10-08 calibration predates the hazard scan (2026-11-20)
+    cfg = replace(CopilotConfig(), use_word_vector_backoff=True, use_passage_support_model=False, **HAZARD_OFF)
     res = score(Copilot(config=cfg), calibration_rows())
     assert res["clean_accuracy"] == 1.0
     assert res["n_fail_open"] == res["n_spurious_write"] == res["n_raw_pii_outputs"] == 0

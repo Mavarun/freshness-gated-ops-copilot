@@ -34,5 +34,5 @@ def test_committed_report_matches_a_fresh_run():
     # d5-38 closed by the null-control test (2026-10-25); one ANSWER row lost (3 -> 2 of 13);
     # the credited-word check (2026-10-28) costs d5-18 (2 -> 1 of 13); the non-key rule
     # (2026-11-17) costs d5-22, `cadence` for `schedule` (1 -> 0 of 13)
-    assert (t["correct"], t["n"], t["must_refuse_opened"]) == (8, 24, [])
+    assert (t["correct"], t["n"], t["must_refuse_opened"]) == (9, 24, [])  # 8 before the 2026-11-20 hazard scan (d5-42)
     assert (t["answer_correct"], t["n_answer"], t["n_fail_open"]) == (0, 13, 0)

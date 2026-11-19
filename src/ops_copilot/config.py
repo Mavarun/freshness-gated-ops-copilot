@@ -346,8 +346,9 @@ class CopilotConfig:
     # canary and PII gates see a draft, so since the Nov 17 non-key ship a page with a
     # planted canary or a secret can get the generic grounding refusal and advice.
     # On: draft from the refusal's evidence docs and let those two gates name it.
-    # Never turns a refusal into an answer. Protocol: hazard_scan_protocol.py.
-    hazard_scan_on_ungrounded: bool = False
+    # Never turns a refusal into an answer. Protocol: hazard_scan_protocol.py; ships
+    # on since 2026-11-20 (13 rows fixed, 0 broken, 0 answer changes on 751 rows).
+    hazard_scan_on_ungrounded: bool = True
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
@@ -373,7 +374,7 @@ class CopilotConfig:
 # The non-key rule's settings before it shipped on 2026-11-17. Records written before
 # then (dev5 / dev6 / dev8 reports, the swap null report, the Nov 9 and Nov 10 post-hoc
 # readings) were scored with these; tests that pin those numbers use them explicitly.
-NONKEY_OFF: dict = {"grounding_nonkey_rule": "off", "grounding_nonkey_parts": "off"}
+NONKEY_OFF: dict = {"grounding_nonkey_rule": "off", "grounding_nonkey_parts": "off", "hazard_scan_on_ungrounded": False}
 
 
 def pre_nonkey_config(**overrides) -> CopilotConfig:
@@ -381,3 +382,15 @@ def pre_nonkey_config(**overrides) -> CopilotConfig:
     from dataclasses import replace
 
     return replace(CopilotConfig(), **{**NONKEY_OFF, **overrides})
+
+
+# hazard_scan_on_ungrounded shipped on 2026-11-20. Records scored between the Nov 17
+# non-key ship and then (the Nov 17 live reports, the dev9 gate) used this setting.
+HAZARD_OFF: dict = {"hazard_scan_on_ungrounded": False}
+
+
+def pre_hazard_config(**overrides) -> CopilotConfig:
+    """The shipped default with the hazard scan off (the default 2026-11-17 to 2026-11-19)."""
+    from dataclasses import replace
+
+    return replace(CopilotConfig(), **{**HAZARD_OFF, **overrides})

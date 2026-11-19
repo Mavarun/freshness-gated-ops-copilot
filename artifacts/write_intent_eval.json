@@ -236,7 +236,7 @@
       },
       {
         "action": null,
-        "decision": "REFUSE_UNGROUNDED",
+        "decision": "REFUSE_PII",
         "id": "r06",
         "label": "read",
         "target": null
@@ -622,7 +622,7 @@
       },
       {
         "action": null,
-        "decision": "REFUSE_UNGROUNDED",
+        "decision": "REFUSE_PII",
         "id": "r06",
         "label": "read",
         "target": null
@@ -1008,7 +1008,7 @@
       },
       {
         "action": null,
-        "decision": "REFUSE_UNGROUNDED",
+        "decision": "REFUSE_PII",
         "id": "r06",
         "label": "read",
         "target": null

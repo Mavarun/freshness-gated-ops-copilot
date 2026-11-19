@@ -4,8 +4,8 @@ Expectations: `data/eval/explanation_expectations.jsonl`, one hand-written row p
 
 | config | golden rows fully correct | golden checks | schema ok (golden / perturbed) | transfer rows | transfer checks | write reason codes | did-you-mean | leaks |
 |---|---|---|---|---|---|---|---|---|
-| default | 33/33 (1.000) | 182/182 (1.000) | 51/51 / 203/203 | 112/121 (0.926) | 409/418 (0.978) | 10/11 | 5/5 | 0 |
-| embedding on (frozen MiniLM) | 33/33 (1.000) | 182/182 (1.000) | 51/51 / 203/203 | 113/122 (0.926) | 416/425 (0.979) | 10/11 | 5/5 | 0 |
+| default | 33/33 (1.000) | 182/182 (1.000) | 51/51 / 203/203 | 117/126 (0.929) | 421/430 (0.979) | 10/11 | 5/5 | 0 |
+| embedding on (frozen MiniLM) | 33/33 (1.000) | 182/182 (1.000) | 51/51 / 203/203 | 118/127 (0.929) | 428/437 (0.979) | 10/11 | 5/5 | 0 |
 
 ## default: checks
 
@@ -13,20 +13,20 @@ Expectations: `data/eval/explanation_expectations.jsonl`, one hand-written row p
 |---|---|---|
 | bm25_doc_correct | 4/4 (1.000) | 14/14 (1.000) |
 | budget_correct | 3/3 (1.000) | 12/12 (1.000) |
-| canary_doc_correct | 4/4 (1.000) | 13/13 (1.000) |
+| canary_doc_correct | 4/4 (1.000) | 16/16 (1.000) |
 | decision_correct | 33/33 (1.000) | - |
 | dense_doc_correct | 4/4 (1.000) | 14/14 (1.000) |
 | gate_correct | 33/33 (1.000) | - |
 | missing_term_named | 11/11 (1.000) | 37/44 (0.841) |
-| pii_doc_correct | 3/3 (1.000) | 10/10 (1.000) |
-| pii_kind_correct | 3/3 (1.000) | 10/10 (1.000) |
+| pii_doc_correct | 3/3 (1.000) | 12/12 (1.000) |
+| pii_kind_correct | 3/3 (1.000) | 12/12 (1.000) |
 | projected_exceeds_budget | 3/3 (1.000) | 12/12 (1.000) |
 | remediation_add_runbook | 11/11 (1.000) | 44/44 (1.000) |
 | remediation_new_session | 3/3 (1.000) | 12/12 (1.000) |
-| remediation_quarantine | 4/4 (1.000) | 13/13 (1.000) |
+| remediation_quarantine | 4/4 (1.000) | 16/16 (1.000) |
 | remediation_reconcile | 4/4 (1.000) | 14/14 (1.000) |
 | remediation_refresh_source | 8/8 (1.000) | 28/28 (1.000) |
-| remediation_scrub | 3/3 (1.000) | 10/10 (1.000) |
+| remediation_scrub | 3/3 (1.000) | 12/12 (1.000) |
 | stale_age_correct | 8/8 (1.000) | 28/28 (1.000) |
 | stale_doc_first | 8/8 (1.000) | 26/28 (0.929) |
 | stale_doc_named | 8/8 (1.000) | 28/28 (1.000) |
@@ -95,20 +95,20 @@ Over-redaction cost vs PR #19: trace `query` changed on 0 golden, 0 perturbed an
 |---|---|---|
 | bm25_doc_correct | 4/4 (1.000) | 14/14 (1.000) |
 | budget_correct | 3/3 (1.000) | 12/12 (1.000) |
-| canary_doc_correct | 4/4 (1.000) | 13/13 (1.000) |
+| canary_doc_correct | 4/4 (1.000) | 16/16 (1.000) |
 | decision_correct | 33/33 (1.000) | - |
 | dense_doc_correct | 4/4 (1.000) | 14/14 (1.000) |
 | gate_correct | 33/33 (1.000) | - |
 | missing_term_named | 11/11 (1.000) | 37/44 (0.841) |
-| pii_doc_correct | 3/3 (1.000) | 10/10 (1.000) |
-| pii_kind_correct | 3/3 (1.000) | 10/10 (1.000) |
+| pii_doc_correct | 3/3 (1.000) | 12/12 (1.000) |
+| pii_kind_correct | 3/3 (1.000) | 12/12 (1.000) |
 | projected_exceeds_budget | 3/3 (1.000) | 12/12 (1.000) |
 | remediation_add_runbook | 11/11 (1.000) | 44/44 (1.000) |
 | remediation_new_session | 3/3 (1.000) | 12/12 (1.000) |
-| remediation_quarantine | 4/4 (1.000) | 13/13 (1.000) |
+| remediation_quarantine | 4/4 (1.000) | 16/16 (1.000) |
 | remediation_reconcile | 4/4 (1.000) | 14/14 (1.000) |
 | remediation_refresh_source | 8/8 (1.000) | 29/29 (1.000) |
-| remediation_scrub | 3/3 (1.000) | 10/10 (1.000) |
+| remediation_scrub | 3/3 (1.000) | 12/12 (1.000) |
 | stale_age_correct | 8/8 (1.000) | 29/29 (1.000) |
 | stale_doc_first | 8/8 (1.000) | 27/29 (0.931) |
 | stale_doc_named | 8/8 (1.000) | 29/29 (1.000) |

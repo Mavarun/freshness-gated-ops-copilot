@@ -68,21 +68,29 @@ def test_confirm_table_and_text():
 
 
 def test_live_report_table():
+    # The "after" column is the Nov 17 shipped default. The 2026-11-20 hazard scan moved
+    # the dev2 / dev5 / dev6 / 203-row reports again (README "Hazard scan" section), so
+    # those cells are pinned to the Nov 17 values, re-scored here with the scan off.
     s = _section()
-    d8, rob, d5, d6, d2 = (_j("dev8_eval.json"), _j("robustness_metrics.json"), _j("synonym_dev5_eval.json"),
-                           _j("synonym_dev6_eval.json"), _j("synonym_dev2_eval.json"))
-    rep = _j("swap_null_report.json")
+    d8, rep = _j("dev8_eval.json"), _j("swap_null_report.json")
     assert f"| 42 of 384 | {rep['passed']} of {rep['swaps']} |" in s
     sh, pre = d8["arms"]["shipped"], d8["arms"]["rule off (pre-Nov 17)"]
     assert (f"| {len(pre['traps_open'])} of 16 / {pre['answered']} of 32 | "
             f"{len(sh['traps_open'])} of 16 / {sh['answered']} of 32 |") in s
-    assert f"| 9 of 24 | {d5['tune_default']['correct']} of 24 |" in s
-    assert f"| 20 of 45 | {d6['default']['correct']} of 45 |" in s
-    assert f"| 14 of 22 | {d2['halves']['calib']['default (shipped)']['correct']} of 22 |" in s
-    assert f"| 0.892 | {rob['perturbed_accuracy']:.3f} |" in s
-    held = rob["per_synonym_split"]["heldout"]["perturbed_accuracy"]
-    assert f"| 0.514 | {held:.3f} |" in s
+    from ops_copilot.config import pre_hazard_config
+    from ops_copilot.robustness import run_robustness
+    from ops_copilot.synonym_dev2 import half as dev2_half
+    from ops_copilot.synonym_dev5 import half as dev5_half
+    from ops_copilot.synonym_dev6 import load_dev6
+    from ops_copilot.wordnet_dev2 import score_rows
 
+    cfg = pre_hazard_config()
+    assert f"| 9 of 24 | {score_rows(cfg, dev5_half('tune'))['correct']} of 24 |" in s
+    assert f"| 20 of 45 | {score_rows(cfg, load_dev6())['correct']} of 45 |" in s
+    assert f"| 14 of 22 | {score_rows(cfg, dev2_half('calib'))['correct']} of 22 |" in s
+    rob = run_robustness(config=cfg)
+    assert f"| 0.892 | {rob.perturbed_accuracy:.3f} |" in s
+    assert f"| 0.514 | {rob.per_synonym_split['heldout']['perturbed_accuracy']:.3f} |" in s
 
 def test_posthoc_numbers():
     p, s = _j("nonkey_citation_posthoc.json"), _section()

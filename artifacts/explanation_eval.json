@@ -420,8 +420,8 @@
             "n": 12
           },
           "canary_doc_correct": {
-            "correct": 13,
-            "n": 13
+            "correct": 16,
+            "n": 16
           },
           "dense_doc_correct": {
             "correct": 14,
@@ -432,12 +432,12 @@
             "n": 44
           },
           "pii_doc_correct": {
-            "correct": 10,
-            "n": 10
+            "correct": 12,
+            "n": 12
           },
           "pii_kind_correct": {
-            "correct": 10,
-            "n": 10
+            "correct": 12,
+            "n": 12
           },
           "projected_exceeds_budget": {
             "correct": 12,
@@ -452,8 +452,8 @@
             "n": 12
           },
           "remediation_quarantine": {
-            "correct": 13,
-            "n": 13
+            "correct": 16,
+            "n": 16
           },
           "remediation_reconcile": {
             "correct": 14,
@@ -464,8 +464,8 @@
             "n": 28
           },
           "remediation_scrub": {
-            "correct": 10,
-            "n": 10
+            "correct": 12,
+            "n": 12
           },
           "stale_age_correct": {
             "correct": 28,
@@ -492,10 +492,10 @@
             "n": 28
           }
         },
-        "n_checks": 418,
-        "n_checks_correct": 409,
-        "n_rows": 121,
-        "rows_all_correct": 112
+        "n_checks": 430,
+        "n_checks_correct": 421,
+        "n_rows": 126,
+        "rows_all_correct": 117
       }
     },
     "random_tokens": {
@@ -1025,8 +1025,8 @@
             "n": 12
           },
           "canary_doc_correct": {
-            "correct": 13,
-            "n": 13
+            "correct": 16,
+            "n": 16
           },
           "dense_doc_correct": {
             "correct": 14,
@@ -1037,12 +1037,12 @@
             "n": 44
           },
           "pii_doc_correct": {
-            "correct": 10,
-            "n": 10
+            "correct": 12,
+            "n": 12
           },
           "pii_kind_correct": {
-            "correct": 10,
-            "n": 10
+            "correct": 12,
+            "n": 12
           },
           "projected_exceeds_budget": {
             "correct": 12,
@@ -1057,8 +1057,8 @@
             "n": 12
           },
           "remediation_quarantine": {
-            "correct": 13,
-            "n": 13
+            "correct": 16,
+            "n": 16
           },
           "remediation_reconcile": {
             "correct": 14,
@@ -1069,8 +1069,8 @@
             "n": 29
           },
           "remediation_scrub": {
-            "correct": 10,
-            "n": 10
+            "correct": 12,
+            "n": 12
           },
           "stale_age_correct": {
             "correct": 29,
@@ -1097,10 +1097,10 @@
             "n": 29
           }
         },
-        "n_checks": 425,
-        "n_checks_correct": 416,
-        "n_rows": 122,
-        "rows_all_correct": 113
+        "n_checks": 437,
+        "n_checks_correct": 428,
+        "n_rows": 127,
+        "rows_all_correct": 118
       }
     },
     "random_tokens": {

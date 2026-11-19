@@ -24,7 +24,8 @@ def test_committed_report_matches_a_fresh_run_and_agrees_with_the_confirm_off_ar
     # 21 / 3 under the 2026-10-26 default; the credited-word check (2026-10-28) costs d6-09;
     # the non-key rule (2026-11-17) refuses d6-06, a wrong-evidence answer the decision
     # score counted as correct (artifacts/nonkey_citation_calibration.md: fixed, not lost)
-    assert (d["correct"], d["n"], d["answer_correct"], d["n_answer"]) == (19, 45, 1, 24)
+    assert (d["correct"], d["n"], d["answer_correct"], d["n_answer"]) == (20, 45, 1, 24)  # 19 before the 2026-11-20 hazard scan (d6-44)
     assert d["must_refuse_opened"] == [] and d["n_fail_open"] == 0
     off = json.loads((ROOT / "artifacts" / "datamuse_dev6_confirm.json").read_text())["confirm"]["off"]
-    assert (off["correct"], off["answer_correct"]) == (d["correct"] + 2, d["answer_correct"] + 2)
+    # +1 correct since the 2026-11-20 hazard scan gives d6-44 back its REFUSE_PII (no ANSWER)
+    assert (off["correct"], off["answer_correct"]) == (d["correct"] + 1, d["answer_correct"] + 2)
