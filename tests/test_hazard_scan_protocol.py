@@ -8,7 +8,7 @@ from dataclasses import replace
 from pathlib import Path
 
 from ops_copilot import hazard_scan_protocol as P
-from ops_copilot.config import CopilotConfig
+from ops_copilot.config import CopilotConfig, pre_contact_config
 from ops_copilot.pipeline import Copilot
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,7 +35,7 @@ def test_artifact_numbers() -> None:
 
 
 def test_changed_rows_recompute() -> None:
-    base = CopilotConfig()
+    base = pre_contact_config()  # the Nov 20 record predates the Nov 21 contact-channel ship
     off = Copilot(config=replace(base, hazard_scan_on_ungrounded=False))
     on = Copilot(config=replace(base, hazard_scan_on_ungrounded=True))
     rows = {r["id"]: r for r in _script().rows()}

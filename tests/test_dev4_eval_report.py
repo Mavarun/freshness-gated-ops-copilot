@@ -29,6 +29,9 @@ def test_committed_report_matches_a_fresh_run():
     assert fresh == committed
     assert fresh["vocabulary_problems"] == {} and fresh["heldout_words_in_file"] == []
     default = fresh["halves"]["confirm"]["default (shipped)"]
-    assert (default["correct"], default["n_fail_open"], default["must_refuse_opened"]) == (7, 0, [])
+    # 7 and 10 before the 2026-11-21 contact-channel ship: d4-24 ("contact inbox") now
+    # answers masked instead of REFUSE_PII (artifacts/contact_channel.md)
+    assert (default["correct"], default["n_fail_open"], default["must_refuse_opened"]) == (8, 0, [])
+    assert (default["answer_correct"], default["n_raw_pii"]) == (3, 0)  # 2 before; the answer is masked
     arm = next(v for k, v in fresh["halves"]["confirm"].items() if k.startswith("Datamuse"))
-    assert (arm["correct"], arm["must_refuse_opened"]) == (10, ["d4-37"])
+    assert (arm["correct"], arm["must_refuse_opened"]) == (11, ["d4-37"])

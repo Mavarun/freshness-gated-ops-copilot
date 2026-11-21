@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from ops_copilot.config import CopilotConfig
+from ops_copilot.config import CopilotConfig, pre_contact_config
 from ops_copilot.pipeline import Copilot
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,7 +21,7 @@ def fresh():
     from run_hazard_scan_protocol import rows
     from run_hazard_scope_protocol import score
 
-    base = CopilotConfig()
+    base = pre_contact_config()  # the Nov 20 record predates the Nov 21 contact-channel ship
     return score(Copilot(config=replace(base, hazard_scan_scope="all")),
                  Copilot(config=replace(base, hazard_scan_scope="covered")), rows())
 
