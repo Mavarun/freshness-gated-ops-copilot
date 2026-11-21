@@ -1,0 +1,296 @@
+{
+  "rows": [
+    {
+      "id": "f-cc01",
+      "query": "What is the vault-transit key rotation contact e-mail?",
+      "expect": "ANSWER",
+      "phrases": {
+        "decision": "REFUSE_PII",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [],
+        "advice": [
+          "scrub_secret",
+          "rephrase"
+        ]
+      },
+      "channel": {
+        "decision": "ANSWER",
+        "evidence": [
+          "pii_vault_transit_rotation_contact",
+          "pii_vault_transit_rotation_window"
+        ],
+        "missing": [],
+        "advice": []
+      }
+    },
+    {
+      "id": "f-cc02",
+      "query": "What is the vault-transit key rotation contact inbox address?",
+      "expect": "ANSWER",
+      "phrases": {
+        "decision": "REFUSE_PII",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [],
+        "advice": [
+          "scrub_secret",
+          "rephrase"
+        ]
+      },
+      "channel": {
+        "decision": "REFUSE_UNGROUNDED",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [
+          "inbox",
+          "address"
+        ],
+        "advice": [
+          "add_runbook",
+          "rephrase"
+        ]
+      }
+    },
+    {
+      "id": "f-cc04",
+      "query": "What is the vault-transit key rotation contact mobile?",
+      "expect": "ANSWER",
+      "phrases": {
+        "decision": "REFUSE_PII",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [],
+        "advice": [
+          "scrub_secret",
+          "rephrase"
+        ]
+      },
+      "channel": {
+        "decision": "ANSWER",
+        "evidence": [
+          "pii_vault_transit_rotation_contact",
+          "pii_vault_transit_rotation_window"
+        ],
+        "missing": [],
+        "advice": []
+      }
+    },
+    {
+      "id": "f-cc05",
+      "query": "Which mailbox is the vault-transit key rotation contact?",
+      "expect": "ANSWER",
+      "phrases": {
+        "decision": "REFUSE_PII",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [],
+        "advice": [
+          "scrub_secret",
+          "rephrase"
+        ]
+      },
+      "channel": {
+        "decision": "REFUSE_UNGROUNDED",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [
+          "mailbox"
+        ],
+        "advice": [
+          "add_runbook",
+          "rephrase"
+        ]
+      }
+    },
+    {
+      "id": "f-cc06",
+      "query": "What is the e-mail of the vault-transit key rotation contact?",
+      "expect": "ANSWER",
+      "phrases": {
+        "decision": "REFUSE_PII",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [],
+        "advice": [
+          "scrub_secret",
+          "rephrase"
+        ]
+      },
+      "channel": {
+        "decision": "ANSWER",
+        "evidence": [
+          "pii_vault_transit_rotation_contact",
+          "pii_vault_transit_rotation_window"
+        ],
+        "missing": [],
+        "advice": []
+      }
+    },
+    {
+      "id": "f-cc07",
+      "query": "vault-transit key rotation contact inbox?",
+      "expect": "ANSWER",
+      "phrases": {
+        "decision": "REFUSE_PII",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [],
+        "advice": [
+          "scrub_secret",
+          "rephrase"
+        ]
+      },
+      "channel": {
+        "decision": "REFUSE_UNGROUNDED",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [
+          "inbox"
+        ],
+        "advice": [
+          "add_runbook",
+          "rephrase"
+        ]
+      }
+    },
+    {
+      "id": "f-cc08",
+      "query": "Where do I email the vault-transit key rotation contact?",
+      "expect": "ANSWER",
+      "phrases": {
+        "decision": "REFUSE_PII",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [],
+        "advice": [
+          "scrub_secret",
+          "rephrase"
+        ]
+      },
+      "channel": {
+        "decision": "ANSWER",
+        "evidence": [
+          "pii_vault_transit_rotation_contact",
+          "pii_vault_transit_rotation_window"
+        ],
+        "missing": [],
+        "advice": []
+      }
+    },
+    {
+      "id": "f-cc09",
+      "query": "What is the vault-transit key rotation contact telephone?",
+      "expect": "ANSWER",
+      "phrases": {
+        "decision": "REFUSE_PII",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [],
+        "advice": [
+          "scrub_secret",
+          "rephrase"
+        ]
+      },
+      "channel": {
+        "decision": "REFUSE_UNGROUNDED",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [
+          "telephone"
+        ],
+        "advice": [
+          "add_runbook",
+          "rephrase"
+        ]
+      }
+    },
+    {
+      "id": "f-cc10",
+      "query": "What is the vault-transit key rotation contact phone number?",
+      "expect": "ANSWER",
+      "phrases": {
+        "decision": "REFUSE_UNGROUNDED",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [
+          "numbers"
+        ],
+        "advice": [
+          "add_runbook",
+          "rephrase"
+        ]
+      },
+      "channel": {
+        "decision": "REFUSE_UNGROUNDED",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [
+          "numbers"
+        ],
+        "advice": [
+          "add_runbook",
+          "rephrase"
+        ]
+      }
+    },
+    {
+      "id": "f-cc12",
+      "query": "What is the vault-transit rotation owner email?",
+      "expect": "REFUSE_PII",
+      "phrases": {
+        "decision": "REFUSE_PII",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [],
+        "advice": [
+          "scrub_secret",
+          "rephrase"
+        ]
+      },
+      "channel": {
+        "decision": "REFUSE_UNGROUNDED",
+        "evidence": [
+          "pii_vault_transit_rotation_contact"
+        ],
+        "missing": [
+          "owner"
+        ],
+        "advice": [
+          "add_runbook",
+          "rephrase"
+        ]
+      }
+    }
+  ],
+  "wrong_under_channel": [
+    "f-cc02",
+    "f-cc05",
+    "f-cc07",
+    "f-cc09",
+    "f-cc10",
+    "f-cc12"
+  ],
+  "wrong_by_gate": {
+    "grounding": 6,
+    "pii": 0
+  },
+  "pii_refusal_on_contact_page_for_owner_question": [
+    "f-cc12"
+  ]
+}
