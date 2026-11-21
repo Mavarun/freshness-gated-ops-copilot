@@ -22,6 +22,67 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Contact-channel authorization (2026-11-21): the PII gate reads which channel is asked for and whether the page offers the value as a contact, so `pii_contact_auth` ships `channel`; hazard misfires 11 → 4 on 751 rows, confirm set 10 → 13 of 19 with 0 traps answered
+
+The PII gate allowed a masked email / phone answer only for ten fixed phrases. "Contact email" got a masked
+answer, but "contact inbox" (`d4-24`, labelled ANSWER) got REFUSE_PII. Six other vault-transit contact
+paraphrases that grounding already refuses were reported as PII refusals with `scrub_secret` advice. Those
+were the "seven vault-transit ANSWER rows" in the weaknesses of both Nov 20 sections.
+
+### What changed
+
+1. `contact_channel.py` splits authorization into two checks, both written from the gate's own definitions:
+   the query names a **channel** (email / phone nouns mapped to the two detector kinds; bare `address` and
+   `number` are left out), and every email / phone match sits in a sentence that **offers it as a contact**
+   (the old allowlist's role words: contact, on-call, pager, notify). "The rotation contact email is X"
+   qualifies. "The directory lists X as the primary owner mailbox for break-glass" does not, so the owner
+   mailbox still refuses. Secrets never authorize, and authorized answers are still masked.
+2. `pii_contact_auth` = `phrases` | `channel` (the old allowlist is kept inside `channel`), used by both PII
+   scans: the answer draft and the Nov 20 hazard draft.
+3. **Protocol** (`contact_channel_protocol.py`, committed before the run, with a 19-row confirm set of 11 ANSWER
+   rows and 8 REFUSE_PII owner-mailbox / secret traps). On the same 751 rows as Nov 20 (dev10 unread): no trap
+   opened, no break, strictly fewer hazard misfires. On the confirm set: no trap answered, no fewer correct.
+4. `pre_contact_config()` keeps the old allowlist, and `NONKEY_OFF` / `HAZARD_OFF` now include it, so every
+   earlier record still reproduces. The swap null set stays the protocol's 384.
+
+### Results (`artifacts/contact_channel.md`)
+
+| set | correct | hazard misfires | answered |
+| :--- | ---: | ---: | ---: |
+| 751 regression rows, phrases → channel | 509 → 510 | 11 → 4 | 123 → 124 |
+| 19-row confirm set, phrases → channel | 10 → 13 | 8 → 0 | 2 → 6 |
+
+All five checks pass, so **`channel` ships**. On the regression rows, 7 change: `d4-24` now answers (masked),
+and six rows (`d2-20`, `d3-24`, `d5-24`, `d6-24`, `d7-21`, `d7-22`) go back to the grounding refusal with
+`add_runbook` / `rephrase` advice. They are still wrong, because grounding does not know liaison, correspondent,
+custodian, point-person, mailbox or mail-address. On the confirm set, 4 rows are fixed (`e-mail`, `mobile`,
+`e-mail of the ... contact`, `Where do I email ...`). One row loses its label: `f-cc12` (`owner email`) moves
+from REFUSE_PII to REFUSE_UNGROUNDED. It is still refused. Live reports: dev4 confirm 7 → 8 of 21 (answer rows
+2 → 3 of 13). The 203-row robustness report, the fresh synonym set and the swap null report (14 of 384) do not move.
+
+### Post-hoc reading (selects nothing; `artifacts/contact_channel_posthoc.md`)
+
+All 6 confirm rows still wrong under `channel` are grounding refusals on the contact page. Each is missing one
+word: inbox / address, mailbox, inbox, telephone, numbers, owner. None of them is a PII refusal. Under `phrases`, the `f-cc12`
+REFUSE_PII came from a match on the *contact* page, not the owner directory. Retrieval never reaches the owner
+directory for that question. So the lost label was a match for the wrong page.
+
+### Reproduce
+
+    pytest tests/test_contact_channel*.py tests/test_pii_contact_auth.py tests/test_readme_contact_channel_numbers.py
+    python scripts/run_contact_channel_protocol.py && python scripts/run_contact_channel_posthoc.py
+
+### Weaknesses
+
+- This changes the gate, not understanding. 6 of the 7 vault-transit contact paraphrases and 6 of 11 confirm
+  ANSWER rows are still refused by grounding. Held-out ANSWER is still 0 of 9, and dev10 is still unseen.
+- The corpus has one contact page and one owner page, so the confirm set is narrow (19 rows). Two of its
+  wordings were typed as development probes before it was written. The channel nouns and role words are
+  hand-written lists.
+- 4 hazard misfires remain: the three off-topic travel / vending rows and the `g50` timetable row.
+- The swap null set is drawn with the pre-ship default, so it has no swaps of `d4-24`. A development probe found
+  that one swap of it (`rotation` → `schedule`) still answers.
+
 ## Hazard scan scope (2026-11-20, second slice): limiting the scan to on-topic pages removes 4 of 11 hazard misfires but loses 2 must-refuse rows, so `hazard_scan_scope` stays `all` and `covered` ships off
 
 The morning's hazard scan runs on every ungrounded refusal, so an off-topic question whose nearest page happens to
