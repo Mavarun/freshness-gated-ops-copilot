@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from ops_copilot import hazard_scan_protocol as P  # noqa: E402
-from ops_copilot.config import CopilotConfig  # noqa: E402
+from ops_copilot.config import CopilotConfig, pre_contact_config  # noqa: E402
 from ops_copilot.paraphrase_set import load_paraphrase_set  # noqa: E402
 from ops_copilot.pipeline import Copilot  # noqa: E402
 
@@ -81,7 +81,7 @@ def render(out: dict) -> str:
 
 
 def main() -> int:
-    base = CopilotConfig()
+    base = pre_contact_config()  # the Nov 20 record predates the Nov 21 contact-channel ship
     off = Copilot(config=replace(base, hazard_scan_on_ungrounded=False))
     on = Copilot(config=replace(base, hazard_scan_on_ungrounded=True))
     out = score(off, on, rows())

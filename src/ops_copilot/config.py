@@ -358,8 +358,9 @@ class CopilotConfig:
     # allowlist in pii.py, the default up to 2026-11-20) or "channel" (also when the
     # query names an email / phone channel and every match sits in a sentence that
     # offers it as a contact; contact_channel.py). Secrets never authorize.
-    # Protocol: contact_channel_protocol.py.
-    pii_contact_auth: str = "phrases"
+    # Protocol: contact_channel_protocol.py; ships "channel" since 2026-11-21 (751 rows:
+    # 0 traps opened, 0 breaks, misfires 11 -> 4; 19-row confirm: 0 traps answered, 10 -> 13).
+    pii_contact_auth: str = "channel"
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in
@@ -385,7 +386,10 @@ class CopilotConfig:
 # The non-key rule's settings before it shipped on 2026-11-17. Records written before
 # then (dev5 / dev6 / dev8 reports, the swap null report, the Nov 9 and Nov 10 post-hoc
 # readings) were scored with these; tests that pin those numbers use them explicitly.
-NONKEY_OFF: dict = {"grounding_nonkey_rule": "off", "grounding_nonkey_parts": "off", "hazard_scan_on_ungrounded": False}
+NONKEY_OFF: dict = {
+    "grounding_nonkey_rule": "off", "grounding_nonkey_parts": "off", "hazard_scan_on_ungrounded": False,
+    "pii_contact_auth": "phrases",  # shipped "channel" 2026-11-21, after every record scored with this
+}
 
 
 def pre_nonkey_config(**overrides) -> CopilotConfig:
@@ -397,7 +401,7 @@ def pre_nonkey_config(**overrides) -> CopilotConfig:
 
 # hazard_scan_on_ungrounded shipped on 2026-11-20. Records scored between the Nov 17
 # non-key ship and then (the Nov 17 live reports, the dev9 gate) used this setting.
-HAZARD_OFF: dict = {"hazard_scan_on_ungrounded": False}
+HAZARD_OFF: dict = {"hazard_scan_on_ungrounded": False, "pii_contact_auth": "phrases"}
 
 
 def pre_hazard_config(**overrides) -> CopilotConfig:
@@ -405,3 +409,15 @@ def pre_hazard_config(**overrides) -> CopilotConfig:
     from dataclasses import replace
 
     return replace(CopilotConfig(), **{**HAZARD_OFF, **overrides})
+
+
+# pii_contact_auth shipped "channel" on 2026-11-21. Records scored before then (the Nov 20
+# hazard protocols and every earlier report) used the fixed phrase allowlist.
+CONTACT_OFF: dict = {"pii_contact_auth": "phrases"}
+
+
+def pre_contact_config(**overrides) -> CopilotConfig:
+    """The shipped default with the phrase-only contact allowlist (the default up to 2026-11-20)."""
+    from dataclasses import replace
+
+    return replace(CopilotConfig(), **{**CONTACT_OFF, **overrides})

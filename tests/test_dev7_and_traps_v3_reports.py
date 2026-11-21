@@ -34,13 +34,15 @@ def test_dev7_report_matches_a_fresh_run_and_pins_the_shipped_default():
     # agrees with the one-shot confirm's arm (the confirm ran before the flip)
     arm = json.loads((ROOT / "artifacts" / "credit_check_confirm.json").read_text())["dev7_confirm"]["arm"]
     # except d7-18, the row the 2026-11-07 known-word flip refuses (ANSWER -> REFUSE_UNGROUNDED)
-    # and d7-21 / d7-22, ANSWER rows already refused, now refused as REFUSE_PII by the
-    # 2026-11-20 hazard scan (artifacts/hazard_scan.md: still wrong, not a break)
-    moved = {"d7-18", "d7-21", "d7-22"}
+    # and d7-21 / d7-22, ANSWER rows already refused: REFUSE_PII under the 2026-11-20 hazard
+    # scan, back to REFUSE_UNGROUNDED since the 2026-11-21 contact-channel ship (the query
+    # names an email channel and the page offers the value as a contact, so the PII gate no
+    # longer fires; artifacts/contact_channel.md). Still wrong, not a break.
+    moved = {"d7-18"}
     assert {k: v for k, v in arm["decisions"].items() if k not in moved} == {
         k: v for k, v in c["decisions"].items() if k not in moved}
     assert {arm["decisions"][k] for k in ("d7-21", "d7-22")} == {"REFUSE_UNGROUNDED"}
-    assert {c["decisions"][k] for k in ("d7-21", "d7-22")} == {"REFUSE_PII"}
+    assert {c["decisions"][k] for k in ("d7-21", "d7-22")} == {"REFUSE_UNGROUNDED"}
     assert (arm["decisions"]["d7-18"], c["decisions"]["d7-18"]) == ("ANSWER", "REFUSE_UNGROUNDED")
 
 

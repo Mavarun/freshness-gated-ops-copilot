@@ -2,9 +2,9 @@
  "halves": {
   "confirm": {
    "Datamuse unknown words only, dev4-chosen (ships off: opens d4-37)": {
-    "accuracy": 0.47619047619047616,
-    "answer_correct": 6,
-    "correct": 10,
+    "accuracy": 0.5238095238095238,
+    "answer_correct": 7,
+    "correct": 11,
     "must_refuse_opened": [
      "d4-37"
     ],
@@ -15,9 +15,9 @@
     "n_spurious_write": 0
    },
    "default (shipped)": {
-    "accuracy": 0.3333333333333333,
-    "answer_correct": 2,
-    "correct": 7,
+    "accuracy": 0.38095238095238093,
+    "answer_correct": 3,
+    "correct": 8,
     "must_refuse_opened": [],
     "n": 21,
     "n_answer": 13,

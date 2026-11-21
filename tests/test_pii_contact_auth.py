@@ -45,8 +45,11 @@ def test_unknown_mode_raises() -> None:
         scan_answer_pii(CONTACT_DRAFT, "contact email", contact_auth="fuzzy")
 
 
-def test_default_is_phrases_until_the_protocol_runs() -> None:
-    assert CopilotConfig().pii_contact_auth == "phrases"
+def test_channel_ships_and_pre_contact_config_reproduces_phrases() -> None:
+    from ops_copilot.config import pre_contact_config
+
+    assert CopilotConfig().pii_contact_auth == "channel"
+    assert pre_contact_config().pii_contact_auth == "phrases"
 
 
 def test_contact_inbox_answers_masked_under_channel(bots) -> None:

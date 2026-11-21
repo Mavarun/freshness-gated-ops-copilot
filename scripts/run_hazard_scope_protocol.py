@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from ops_copilot import hazard_scope_protocol as P  # noqa: E402
-from ops_copilot.config import CopilotConfig  # noqa: E402
+from ops_copilot.config import CopilotConfig, pre_contact_config  # noqa: E402
 from ops_copilot.pipeline import Copilot  # noqa: E402
 from run_hazard_scan_protocol import rows  # noqa: E402
 
@@ -61,7 +61,7 @@ def render(out: dict) -> str:
 
 
 def main() -> int:
-    base = CopilotConfig()
+    base = pre_contact_config()  # the Nov 20 record predates the Nov 21 contact-channel ship
     out = score(Copilot(config=replace(base, hazard_scan_scope="all")),
                 Copilot(config=replace(base, hazard_scan_scope="covered")), rows())
     ART.mkdir(exist_ok=True)
