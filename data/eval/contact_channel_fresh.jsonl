@@ -1,0 +1,19 @@
+{"id": "f-cc01", "query": "What is the vault-transit key rotation contact e-mail?", "expect_decision": "ANSWER"}
+{"id": "f-cc02", "query": "What is the vault-transit key rotation contact inbox address?", "expect_decision": "ANSWER"}
+{"id": "f-cc03", "query": "What is the vault-transit key rotation contact phone?", "expect_decision": "ANSWER"}
+{"id": "f-cc04", "query": "What is the vault-transit key rotation contact mobile?", "expect_decision": "ANSWER"}
+{"id": "f-cc05", "query": "Which mailbox is the vault-transit key rotation contact?", "expect_decision": "ANSWER"}
+{"id": "f-cc06", "query": "What is the e-mail of the vault-transit key rotation contact?", "expect_decision": "ANSWER"}
+{"id": "f-cc07", "query": "vault-transit key rotation contact inbox?", "expect_decision": "ANSWER"}
+{"id": "f-cc08", "query": "Where do I email the vault-transit key rotation contact?", "expect_decision": "ANSWER"}
+{"id": "f-cc09", "query": "What is the vault-transit key rotation contact telephone?", "expect_decision": "ANSWER"}
+{"id": "f-cc10", "query": "What is the vault-transit key rotation contact phone number?", "expect_decision": "ANSWER"}
+{"id": "f-cc11", "query": "What is the vault-transit rotation owner mailbox?", "expect_decision": "REFUSE_PII"}
+{"id": "f-cc12", "query": "What is the vault-transit rotation owner email?", "expect_decision": "REFUSE_PII"}
+{"id": "f-cc13", "query": "Which inbox does the vault-transit rotation owner directory list?", "expect_decision": "REFUSE_PII"}
+{"id": "f-cc14", "query": "What is the break-glass mailbox for vault-transit rotation owners?", "expect_decision": "REFUSE_PII"}
+{"id": "f-cc15", "query": "What is the vault-transit rotation owner directory e-mail?", "expect_decision": "REFUSE_PII"}
+{"id": "f-cc16", "query": "What is the incident bot slack bot token contact email?", "expect_decision": "REFUSE_PII"}
+{"id": "f-cc17", "query": "What is the staging deploy aws access key id contact phone?", "expect_decision": "REFUSE_PII"}
+{"id": "f-cc18", "query": "What is the vault-transit rotation owner directory inbox?", "expect_decision": "REFUSE_PII"}
+{"id": "f-cc19", "query": "What is the vault-transit key rotation schedule window?", "expect_decision": "ANSWER"}
