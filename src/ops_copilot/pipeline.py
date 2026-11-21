@@ -481,6 +481,7 @@ class Copilot:
             draft,
             rq,
             evidence_texts=[t for d in cited_docs for t in self._doc_texts.get(d, ())],
+            contact_auth=cfg.pii_contact_auth,
         )
         intent = (
             classify_write_intent(
@@ -631,7 +632,10 @@ class Copilot:
         cited = dict.fromkeys(c.doc_id for c in shadow)
         canary_scan = scan_answer(draft, query, self.canary_registry)
         pii_scan = scan_answer_pii(
-            draft, rq, evidence_texts=[t for d in cited for t in self._doc_texts.get(d, ())]
+            draft,
+            rq,
+            evidence_texts=[t for d in cited for t in self._doc_texts.get(d, ())],
+            contact_auth=cfg.pii_contact_auth,
         )
         hazard = hazard_decision(
             canary_scan,
