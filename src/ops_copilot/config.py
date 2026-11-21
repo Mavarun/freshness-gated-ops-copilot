@@ -354,6 +354,12 @@ class CopilotConfig:
     # so an off-topic question whose nearest page happens to be a secrets page keeps the
     # grounding refusal). Protocol: hazard_scope_protocol.py.
     hazard_scan_scope: str = "all"
+    # How the PII gate authorizes a masked email / phone answer: "phrases" (the fixed
+    # allowlist in pii.py, the default up to 2026-11-20) or "channel" (also when the
+    # query names an email / phone channel and every match sits in a sentence that
+    # offers it as a contact; contact_channel.py). Secrets never authorize.
+    # Protocol: contact_channel_protocol.py.
+    pii_contact_auth: str = "phrases"
     # Optional sentence embeddings (embeddings.py, extra "[embed]").
     # "off" keeps the offline title-hash dense stub and lexical-only grounding
     # (the CI default); "frozen" reads the committed float16 fixtures in

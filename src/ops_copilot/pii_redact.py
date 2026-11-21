@@ -16,6 +16,7 @@ from ops_copilot.pii import (
     SECRET_KINDS,
     detect_pii,
 )
+from ops_copilot.contact_channel import authorizes as authorizes_channel
 from ops_copilot.text import normalize_text
 
 
@@ -125,6 +126,8 @@ def scan_answer_pii(
     answer: str,
     query: str,
     evidence_texts: Sequence[str] = (),
+    *,
+    contact_auth: str = "phrases",
 ) -> PiiScanResult:
     """Detect PII in ``answer`` and decide pass / redact / refuse.
 
@@ -141,7 +144,14 @@ def scan_answer_pii(
       around the credential and ANSWERs from the secret's own page, which the
       robustness eval counted as fail-open. Contacts (email/phone) in
       evidence do not trigger this; only never-authorizable secrets do.
+
+    ``contact_auth``: "phrases" authorizes email/phone only through the fixed
+    allowlist (the default up to 2026-11-20); "channel" also authorizes when the
+    query names a channel of a kind in the draft and every match sits in a sentence
+    that offers it as a contact (``contact_channel.authorizes``).
     """
+    if contact_auth not in ("phrases", "channel"):
+        raise ValueError(f"unknown contact_auth {contact_auth!r}")
     matches = detect_pii(answer)
     if not matches and answer:
         quarantined = evidence_secret_kinds(evidence_texts)
@@ -163,8 +173,10 @@ def scan_answer_pii(
             redactions_count=0,
         )
 
-    authorized = query_authorizes_contact(query)
     has_secret = any(m.is_secret for m in matches)
+    authorized = query_authorizes_contact(query) or (
+        contact_auth == "channel" and not has_secret and authorizes_channel(query, answer, matches)
+    )
 
     if has_secret or not authorized:
         redacted, n = redact_text(answer, matches)
