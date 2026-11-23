@@ -22,11 +22,11 @@ def _j(name: str) -> dict:
 
 def test_it_follows_the_hazard_section():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
-    assert heads[0].startswith("## Hazard scan floor and duplicate-question paraphrases (2026-11-23)")
-    assert heads[1].startswith("## Contact-channel authorization (2026-11-21)")
-    assert heads[2].startswith("## Hazard scan scope (2026-11-20, second slice)")
-    assert heads[3].startswith("## Hazard scan on ungrounded refusals (2026-11-20)")
-    assert heads[4].startswith(HEAD)
+    assert heads[1].startswith("## Hazard scan floor and duplicate-question paraphrases (2026-11-23)")
+    assert heads[2].startswith("## Contact-channel authorization (2026-11-21)")
+    assert heads[3].startswith("## Hazard scan scope (2026-11-20, second slice)")
+    assert heads[4].startswith("## Hazard scan on ungrounded refusals (2026-11-20)")
+    assert heads[5].startswith(HEAD)
 
 
 def test_headline_and_ship_call():

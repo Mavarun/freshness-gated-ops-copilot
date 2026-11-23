@@ -22,7 +22,7 @@ def _j(name: str) -> dict:
 
 def test_it_is_the_newest_section():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
-    assert heads[6].startswith(HEAD) and heads[5].startswith("## Resource agreement for ops synonyms")
+    assert heads[7].startswith(HEAD) and heads[6].startswith("## Resource agreement for ops synonyms")
 
 
 def test_calibration_table_matches():

@@ -18,10 +18,10 @@ P = json.loads((ROOT / "artifacts" / "dupe_paraphrase_posthoc.json").read_text()
 
 def test_first_section_and_headline():
     heads = [h for h in README.splitlines() if h.startswith("## ")]
-    assert heads[0].startswith(HEAD) and heads[1].startswith(NEXT)
+    assert heads[1].startswith(HEAD) and heads[2].startswith(NEXT)
     r, c = F["decision"]["regression"], F["decision"]["confirm"]
-    assert f"hazard misfires {r['misfires_all']} → {r['misfires_floor']} on {F['regression']['n_rows']} rows" in heads[0]
-    assert f"{c['misfires_all']} → {c['misfires_floor']} on a {F['confirm']['n_rows']}-row fresh confirm" in heads[0]
+    assert f"hazard misfires {r['misfires_all']} → {r['misfires_floor']} on {F['regression']['n_rows']} rows" in heads[1]
+    assert f"{c['misfires_all']} → {c['misfires_floor']} on a {F['confirm']['n_rows']}-row fresh confirm" in heads[1]
     assert F["decision"]["ship"] and "**`floor` ships**" in SECTION
     assert D["picked"] is None and "**No arm is eligible.**" in SECTION
 

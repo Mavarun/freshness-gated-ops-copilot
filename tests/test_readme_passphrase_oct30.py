@@ -20,7 +20,7 @@ def test_section_is_first_then_oct29() -> None:
     heads = [h for h in README.splitlines() if h.startswith("## ")]
     i = next(k for k, h in enumerate(heads) if h.startswith(HEAD))
     assert heads[i + 1].startswith("## Real-wordlist passphrases (2026-10-29)")
-    assert i <= 14  # only the Oct 31, the two Nov 1, the Nov 4, Nov 6, Nov 7, Nov 9, Nov 10, Nov 11, Nov 17, two Nov 20, the Nov 21 and the Nov 23 sections may come before it
+    assert i <= 15  # only the Oct 31, the two Nov 1, the Nov 4, Nov 6, Nov 7, Nov 9, Nov 10, Nov 11, Nov 17, two Nov 20, the Nov 21, the Nov 23 and the Nov 24 sections may come before it
 
 
 def test_confirm_table_and_intro() -> None:
