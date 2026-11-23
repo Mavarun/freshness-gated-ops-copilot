@@ -329,5 +329,8 @@ contact-channel-posthoc:
 dupe-calibrate:
 	python scripts/run_dupe_paraphrase_protocol.py --phase calibrate
 
+dupe-posthoc:
+	python scripts/run_dupe_paraphrase_posthoc.py
+
 dupe-confirm:
 	python scripts/run_dupe_paraphrase_protocol.py --phase confirm
