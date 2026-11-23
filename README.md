@@ -22,6 +22,76 @@ Every refusal also returns a structured, redacted `explanation` (gate, evidence 
 
 
 
+## Hazard scan floor and duplicate-question paraphrases (2026-11-23): `hazard_scan_scope` ships `floor` (0.30), hazard misfires 4 → 1 on 751 rows and 4 → 0 on a 28-row fresh confirm; `use_dupe_paraphrase` ships off (no arm eligible)
+
+Two slices today. The Nov 21 weaknesses left 4 hazard misfires. Three were off-topic travel / vending questions whose
+nearest page happens to be a secrets page, so they got REFUSE_PII and `scrub_secret` advice. The other was the `g50`
+timetable row. Grounding still misses many single-word paraphrases (lag, bounce, timetable, cycling).
+
+### 1. Hazard scan floor: ships
+
+1. `hazard_scan_scope = "floor"` runs the ungrounded hazard scan only when the refusal's closest document reaches
+   `hazard_scan_floor = 0.30`. 0.30 was the Nov 20 post-hoc candidate, read off six rows. Off-topic misfires sat
+   at 0.23-0.25 and the lost must-refuse rows at 0.36 / 0.48, so it needed a fresh confirm before it could ship.
+2. **Protocol** (`hazard_floor_protocol.py`, committed before the run) plus a 28-row fresh set written from the
+   corpus text before any run: 16 off-topic office questions that share a word with a secrets or canary page
+   (REFUSE_NO_EVIDENCE) and 12 paraphrased questions about those pages (6 REFUSE_PII, 6 REFUSE_CANARY). Both parts
+   need no answer change and no lost canary/PII row. The 751 regression rows (dev10 unread) need no more misfires,
+   and the fresh set needs strictly fewer.
+3. `pre_floor_config()` keeps `all`, and `pre_contact_config()` now includes it, so every earlier record still
+   reproduces. The Nov 21 contact-channel scripts use it.
+
+| set | hazard misfires all → floor | lost canary/PII rows | answer changes | correct |
+| :--- | ---: | ---: | ---: | ---: |
+| 751 regression rows | 4 → 1 | 0 | 0 | 510 → 510 |
+| 28-row fresh confirm | 4 → 0 | 0 | 0 | 18 → 18 |
+
+Both parts pass, so **`floor` ships** (`artifacts/hazard_floor.md`). `d2-36` (vending contract) and both
+travel-reimbursement rows (`d3-41`, `d5-41`) go back to the grounding refusal with `add_runbook` advice. On the fresh
+set, the conference-travel, parking-access-key, laptop-sticker and downtown-bridge rows do the same (all below 0.27
+coverage). Correct counts do not move, because those rows are labelled REFUSE_NO_EVIDENCE and REFUSE_UNGROUNDED is
+still wrong for them. Live reports: `d2-36` (dev2) and `d3-41` (dev3) move from REFUSE_PII to REFUSE_UNGROUNDED in
+every arm, and no accuracy changes.
+
+### 2. Duplicate-question paraphrases: ships off
+
+1. `dupe_paraphrase.py` learns word pairs from Stack Exchange questions closed as duplicates. It keeps only the words
+   on one side of each title pair, counts cross-pair co-occurrence against same-title co-occurrence, and scores
+   pairs with Dunning G². The result is a symmetric word table (no titles) and a noun backoff
+   (`DupeParaphraseSense`) that only proposes corpus words.
+2. `data/dupes/se_duplicate_paraphrase.json.gz` is built from 78,895 duplicate title pairs (LinkTypeId=3) in the
+   2024-04 dumps of the eight ops sites, reduced to 6,255 words. It is stored as a columnar pair list (349 KB,
+   under the 512 KB raw-dump guard) and is CC BY-SA 4.0 (`data/dupes/NOTICE.md`).
+3. `use_dupe_paraphrase` (off) uses five pre-registered arms (`dupe_paraphrase_protocol.py`). They were calibrated
+   on 320 rows (golden + dev2-dev6 + dev8) plus the swap null control's 384 swaps (`artifacts/dupe_paraphrase_calibration.md`).
+
+| arm | random swaps passed | ANSWER kept (of 165) | must-refuse opened |
+| :--- | ---: | ---: | ---: |
+| shipped | 14 | 52 | 5 |
+| strict_known | 18 | 52 | 5 |
+| strict_lone / strict_all | 18 | 53 | 5 |
+| loose_lone | 21 | 55 | 5 |
+| loose_all | 24 | 54 | 5 |
+
+**No arm is eligible.** Each one lets through more random swaps than the +0.01 budget allows (3.8 swaps;
+strict misses by one), and none gains the 2 required answers within budget. So the confirm was not run and dev10
+stays unseen. Post-hoc (`artifacts/dupe_paraphrase_posthoc.md`, selects nothing): the table covers only 6 of 54 dev
+and 8 of 53 held-out single-word pairs. Under strict gates the top candidate is wrong 15 / 10 times for every 2
+gold hits. Of the README's ops pairs, only restart → reboot is in the table, and `restart` is not a corpus word.
+
+### Reproduce
+
+    pytest tests/test_hazard_floor*.py tests/test_dupe_paraphrase*.py tests/test_readme_nov23_numbers.py
+    python scripts/run_hazard_floor_protocol.py && python scripts/run_dupe_paraphrase_protocol.py
+
+### Weaknesses
+
+- The floor is a fixed number taken from 6 rows. The fresh confirm's must-refuse rows that need the scan sit at
+  0.52-0.79, so only the regression rows guard the 0.30-0.50 band. `g50` (0.39) is still a misfire.
+- Duplicate titles are a weak paraphrase signal for this corpus. Most ops synonyms are missing and the table maps
+  random words onto near corpus words (set → change, identity → key), so held-out ANSWER is still 0 of 9.
+- The 28-row fresh set and the 19-row Nov 21 set were both written by the same hand from the same small corpus.
+
 ## Contact-channel authorization (2026-11-21): the PII gate reads which channel is asked for and whether the page offers the value as a contact, so `pii_contact_auth` ships `channel`; hazard misfires 11 → 4 on 751 rows, confirm set 10 → 13 of 19 with 0 traps answered
 
 The PII gate allowed a masked email / phone answer only for ten fixed phrases. "Contact email" got a masked

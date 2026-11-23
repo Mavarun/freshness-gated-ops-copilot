@@ -35,7 +35,7 @@ def test_decision_is_the_preregistered_one():
     assert ART["n_rows"] == 751 and not ch["ship"] and not ch["keeps_fixes"]
     assert ch["no_answer_change"] and ch["fewer_hazard_misfires"]
     assert (ch["misfires_all"], ch["misfires_covered"], ch["lost_fixes"]) == (11, 7, 2)
-    assert CopilotConfig().hazard_scan_scope == "all"
+    assert CopilotConfig().hazard_scan_scope != "covered"  # 'covered' never shipped ('floor' did, Nov 23)
 
 
 def test_posthoc_reads_the_changed_rows_only():

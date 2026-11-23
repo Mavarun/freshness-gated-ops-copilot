@@ -18,7 +18,7 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from ops_copilot import contact_channel_protocol as P  # noqa: E402
-from ops_copilot.config import CopilotConfig  # noqa: E402
+from ops_copilot.config import pre_floor_config  # noqa: E402
 from ops_copilot.pipeline import Copilot  # noqa: E402
 from run_hazard_scan_protocol import rows as nov20_rows  # noqa: E402
 
@@ -55,7 +55,7 @@ def summary(rs: list[dict]) -> dict:
 
 
 def run() -> dict:
-    base = CopilotConfig()
+    base = pre_floor_config()  # the Nov 21 record predates the Nov 23 hazard-floor ship
     phrases = Copilot(config=replace(base, pii_contact_auth="phrases"))
     channel = Copilot(config=replace(base, pii_contact_auth="channel"))
     a = score(phrases, channel, nov20_rows())

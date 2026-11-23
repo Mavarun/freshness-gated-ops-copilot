@@ -19,6 +19,7 @@ def _arrow(d):
 
 def test_first_section_and_head_numbers():
     heads = [h for h in README.splitlines() if h.startswith("## ")]
+    heads = heads[heads.index(next(h for h in heads if h.startswith(HEAD))):]
     assert heads[0].startswith(HEAD) and heads[1].startswith(NEXT)
     R, C = A["regression"], A["confirm"]
     assert f"hazard misfires {_arrow(R['misfires'])} on {R['n']} rows" in heads[0]
