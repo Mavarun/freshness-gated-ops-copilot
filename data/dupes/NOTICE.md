@@ -2,8 +2,8 @@
 
 `se_duplicate_paraphrase.json.gz` is a table of word statistics derived from the titles
 of questions closed as duplicates on Stack Exchange and the titles of their originals
-(per word: its strongest cross-pair partners with a G² score, a cross-pair count and a
-same-title count). It contains **no post text, titles, user names or post ids**: each
+(a list of word pairs, each with a G² score, a cross-pair count and a same-title count;
+every word keeps its 40 strongest partners). It contains **no post text, titles, user names or post ids**: each
 entry is a lowercase content word and numbers. The archives it was built from are not
 in this repository (they are pinned by SHA-256 in the table's `meta.archives_sha256`).
 
@@ -26,4 +26,5 @@ in this repository (they are pinned by SHA-256 in the table's `meta.archives_sha
   (<https://creativecommons.org/licenses/by-sa/4.0/>).
 - **Licence of this table:** shared under the same terms, **CC BY-SA 4.0**, with the
   attribution above. It was changed (tokenised, reduced to one-side-only word pairs,
-  scored with G², cut to 40 partners per word).
+  scored with G², cut to 40 partners per word). The repository's MIT licence covers
+  the code only, not this file.

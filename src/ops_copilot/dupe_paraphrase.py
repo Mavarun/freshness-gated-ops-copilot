@@ -111,9 +111,8 @@ def build_table(title_pairs: Iterable[tuple[str, str]]) -> dict:
     """Word statistics from (title, title) pairs: per word, its strongest cross partners."""
     pairs = [(title_words(a), title_words(b)) for a, b in title_pairs]
     n = len(pairs)
-    df: Counter = Counter()      # pairs where the word is on one side only
+    df: Counter = Counter()      # pairs where the word is on one side only (G² margins)
     cross: Counter = Counter()   # unordered {a, b}: a one side only, b the other side only
-    title_df: Counter = Counter()
     for a, b in pairs:
         oa, ob = a - b, b - a
         df.update(oa | ob)
@@ -121,8 +120,6 @@ def build_table(title_pairs: Iterable[tuple[str, str]]) -> dict:
             for y in ob:
                 if x != y:
                     cross[(x, y) if x < y else (y, x)] += 1
-        title_df.update(a)
-        title_df.update(b)
     same: Counter = Counter()
     cand = {k for k, v in cross.items() if v >= BUILD_MIN_CROSS}
     cand_words = {w for k in cand for w in k}
@@ -142,15 +139,47 @@ def build_table(title_pairs: Iterable[tuple[str, str]]) -> dict:
         rec = [round(score, 3), c, same[(x, y)]]
         rows.setdefault(x, []).append([y, *rec])
         rows.setdefault(y, []).append([x, *rec])
-    for w in rows:
-        rows[w].sort(key=lambda r: (-r[1], r[0]))
-        rows[w] = rows[w][:BUILD_MAX_PER_WORD]
-    return {"n_pairs": n, "df": {w: df[w] for w in sorted(rows)}, "rows": dict(sorted(rows.items()))}
+    return {"n_pairs": n, "rows": _cap(rows)}
+
+
+def _cap(rows: dict[str, list]) -> dict[str, list]:
+    """Per word: strongest partners first (G² desc, then word), at most ``BUILD_MAX_PER_WORD``."""
+    out = {}
+    for w in sorted(rows):
+        out[w] = sorted(rows[w], key=lambda r: (-r[1], r[0]))[:BUILD_MAX_PER_WORD]
+    return out
+
+
+def _columnar(rows: dict[str, list]) -> dict:
+    """Each kept unordered pair once, as word indices plus three number columns.
+
+    Lossless for the capped rows: a word's top ``BUILD_MAX_PER_WORD`` partners are all in the
+    union, and the union holds nothing stronger for it, so ``_rows`` rebuilds them exactly.
+    """
+    pairs = {}
+    for w, rs in rows.items():
+        for other, score, cross, same in rs:
+            pairs[(w, other) if w < other else (other, w)] = (score, cross, same)
+    words = sorted({x for k in pairs for x in k})
+    idx = {w: i for i, w in enumerate(words)}
+    keys = sorted(pairs)
+    return {"words": words, "a": [idx[a] for a, _ in keys], "b": [idx[b] for _, b in keys],
+            "g2": [pairs[k][0] for k in keys], "cross": [pairs[k][1] for k in keys],
+            "same": [pairs[k][2] for k in keys]}
+
+
+def _rows(col: dict) -> dict[str, list]:
+    words, rows = col["words"], {}
+    for a, b, score, cross, same in zip(col["a"], col["b"], col["g2"], col["cross"], col["same"]):
+        rows.setdefault(words[a], []).append([words[b], score, cross, same])
+        rows.setdefault(words[b], []).append([words[a], score, cross, same])
+    return _cap(rows)
 
 
 def dump_table(table: dict, meta: dict, path: str | Path) -> str:
-    """Byte-stable gzip (zero mtime); returns the payload SHA-256."""
-    payload = json.dumps({"meta": meta, **table}, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    """Byte-stable gzip (zero mtime) of the columnar pair list; returns the payload SHA-256."""
+    body = {"meta": meta, "n_pairs": table["n_pairs"], "pairs": _columnar(table["rows"])}
+    payload = json.dumps(body, sort_keys=True, separators=(",", ":")).encode("utf-8")
     buf = io.BytesIO()
     with gzip.GzipFile(fileobj=buf, mode="wb", mtime=0, compresslevel=9) as gz:
         gz.write(payload)
@@ -162,7 +191,6 @@ def dump_table(table: dict, meta: dict, path: str | Path) -> str:
 class DupeTable:
     meta: dict
     n_pairs: int
-    df: dict
     rows: dict
 
     def get(self, word: str) -> tuple:
@@ -180,7 +208,7 @@ def load_table(path: str | Path = DEFAULT_TABLE) -> DupeTable:
     if key not in _CACHE:
         raw = gzip.decompress(Path(path).read_bytes())
         d = json.loads(raw)
-        _CACHE[key] = DupeTable(d["meta"], d["n_pairs"], d["df"], d["rows"])
+        _CACHE[key] = DupeTable(d["meta"], d["n_pairs"], _rows(d["pairs"]))
     return _CACHE[key]
 
 
