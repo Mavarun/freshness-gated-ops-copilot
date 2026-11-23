@@ -364,11 +364,13 @@ class CopilotConfig:
     # or "covered" (only when the closest document clears the support coverage threshold,
     # so an off-topic question whose nearest page happens to be a secrets page keeps the
     # grounding refusal). Protocol: hazard_scope_protocol.py.
-    hazard_scan_scope: str = "all"
+    # Ships "floor" since 2026-11-23 (hazard_floor_protocol.py: misfires 4 -> 1 on 751
+    # rows and 4 -> 0 on a 28-row fresh confirm, 0 lost canary/PII rows, 0 answer changes).
+    hazard_scan_scope: str = "floor"
     # Scope "floor" (2026-11-23): run the scan only when the closest document's coverage
     # reaches this fixed value. 0.30 is the value the Nov 20 post-hoc reading named
     # (off-topic misfires at 0.23-0.25, must-refuse rows at 0.36 / 0.48); it was read off
-    # those 6 rows, so hazard_floor_protocol.py confirms it on a fresh set first.
+    # those 6 rows, so hazard_floor_protocol.py confirmed it on a fresh set first.
     hazard_scan_floor: float = 0.30
     # How the PII gate authorizes a masked email / phone answer: "phrases" (the fixed
     # allowlist in pii.py, the default up to 2026-11-20) or "channel" (also when the
@@ -429,7 +431,7 @@ def pre_hazard_config(**overrides) -> CopilotConfig:
 
 # pii_contact_auth shipped "channel" on 2026-11-21. Records scored before then (the Nov 20
 # hazard protocols and every earlier report) used the fixed phrase allowlist.
-CONTACT_OFF: dict = {"pii_contact_auth": "phrases"}
+CONTACT_OFF: dict = {"pii_contact_auth": "phrases", "hazard_scan_scope": "all"}
 
 
 def pre_contact_config(**overrides) -> CopilotConfig:
@@ -437,3 +439,15 @@ def pre_contact_config(**overrides) -> CopilotConfig:
     from dataclasses import replace
 
     return replace(CopilotConfig(), **{**CONTACT_OFF, **overrides})
+
+
+# hazard_scan_scope shipped "floor" on 2026-11-23. Records scored before then (the Nov 21
+# contact-channel protocol and live reports, every earlier hazard record) used "all".
+FLOOR_OFF: dict = {"hazard_scan_scope": "all"}
+
+
+def pre_floor_config(**overrides) -> CopilotConfig:
+    """The shipped default with the hazard scan on every ungrounded refusal (2026-11-20 to 2026-11-22)."""
+    from dataclasses import replace
+
+    return replace(CopilotConfig(), **{**FLOOR_OFF, **overrides})

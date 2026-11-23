@@ -14,9 +14,18 @@ def floor_bot():
     return Copilot(config=replace(CopilotConfig(), hazard_scan_scope="floor"))
 
 
-def test_default_stays_all_and_floor_value_is_the_nov20_candidate():
+def test_default_ships_floor_at_the_nov20_candidate_and_records_keep_all():
+    from ops_copilot.config import pre_contact_config, pre_floor_config
+
     cfg = CopilotConfig()
-    assert cfg.hazard_scan_scope == "all" and cfg.hazard_scan_floor == 0.30
+    assert cfg.hazard_scan_scope == "floor" and cfg.hazard_scan_floor == 0.30  # hazard_floor.json: ship
+    assert pre_floor_config().hazard_scan_scope == "all" == pre_contact_config().hazard_scan_scope
+    assert pre_floor_config().pii_contact_auth == cfg.pii_contact_auth == "channel"
+
+
+def test_shipped_default_keeps_the_grounding_refusal_off_topic():
+    r = Copilot().ask("Who approves travel reimbursement?")
+    assert r.decision is Decision.REFUSE_UNGROUNDED
 
 
 def test_clears_coverage_with_a_floor():

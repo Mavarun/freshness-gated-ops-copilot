@@ -22,7 +22,7 @@ def _j(name: str) -> dict:
 
 def test_section_order():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
-    assert heads[4].startswith(HEAD) and heads[3].startswith("## Non-key rule ships on (2026-11-17)")
+    assert heads[5].startswith(HEAD) and heads[4].startswith("## Non-key rule ships on (2026-11-17)")
 
 
 def test_calibration_table_matches():

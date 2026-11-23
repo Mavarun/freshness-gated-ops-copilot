@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from ops_copilot.config import CopilotConfig, pre_contact_config  # noqa: E402
+from ops_copilot.config import pre_contact_config, pre_floor_config  # noqa: E402
 from ops_copilot.pipeline import Copilot  # noqa: E402
 from run_contact_channel_protocol import confirm_rows  # noqa: E402
 
@@ -36,7 +36,7 @@ def _view(res) -> dict:
 
 
 def run() -> dict:
-    bots = {"phrases": Copilot(config=pre_contact_config()), "channel": Copilot(config=CopilotConfig())}
+    bots = {"phrases": Copilot(config=pre_contact_config()), "channel": Copilot(config=pre_floor_config())}  # Nov 21 record, before the floor ship
     rows = []
     for r in confirm_rows():
         v = {arm: _view(b.ask(r["query"])) for arm, b in bots.items()}

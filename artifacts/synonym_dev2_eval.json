@@ -127,7 +127,7 @@
      "d2-32": "REFUSE_UNGROUNDED",
      "d2-33": "REFUSE_UNGROUNDED",
      "d2-35": "REFUSE_UNGROUNDED",
-     "d2-36": "REFUSE_PII",
+     "d2-36": "REFUSE_UNGROUNDED",
      "d2-38": "REFUSE_CANARY",
      "d2-41": "REFUSE_PII",
      "d2-43": "PROPOSE_WRITE"
@@ -160,7 +160,7 @@
      "d2-32": "REFUSE_UNGROUNDED",
      "d2-33": "REFUSE_UNGROUNDED",
      "d2-35": "REFUSE_UNGROUNDED",
-     "d2-36": "REFUSE_PII",
+     "d2-36": "REFUSE_UNGROUNDED",
      "d2-38": "REFUSE_CANARY",
      "d2-41": "REFUSE_PII",
      "d2-43": "PROPOSE_WRITE"
@@ -193,7 +193,7 @@
      "d2-32": "REFUSE_UNGROUNDED",
      "d2-33": "REFUSE_UNGROUNDED",
      "d2-35": "REFUSE_UNGROUNDED",
-     "d2-36": "REFUSE_PII",
+     "d2-36": "REFUSE_UNGROUNDED",
      "d2-38": "REFUSE_CANARY",
      "d2-41": "REFUSE_PII",
      "d2-43": "PROPOSE_WRITE"
