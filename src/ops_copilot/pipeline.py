@@ -19,6 +19,7 @@ from ops_copilot.pii_redact import scan_answer_pii
 from ops_copilot.config import CopilotConfig, parse_clock
 from ops_copilot.corpus import Corpus
 from ops_copilot.cost_budget import SessionCostLedger
+from ops_copilot.credential_request import credential_explanation, is_credential_request
 from ops_copilot.hitl import HitlWriteLedger
 from ops_copilot.oncall_rotation import rotation_from_docs
 from ops_copilot.disagreement import assess_disagreement
@@ -39,7 +40,7 @@ from ops_copilot.word_vectors import WordVectorBackoff
 from ops_copilot.word_vectors import load_table as load_wordvec_table
 from ops_copilot.text import content_tokens
 from ops_copilot.source_slas import SourceSlaTable, load_source_slas, resolve_max_age
-from ops_copilot.types import Chunk, CopilotResult, Decision
+from ops_copilot.types import Chunk, CopilotResult, Decision, PolicyDecision
 from ops_copilot.write_actions import proposal_from_intent
 from ops_copilot.write_intent import AMBIGUOUS, classify_write_intent
 from ops_copilot.write_prototypes import PrototypeBackoff
@@ -558,6 +559,17 @@ class Copilot:
             shadow = self._ungrounded_hazard(query, rq, retrieved, policy.explanation, sla_lookup)
             if shadow is not None:
                 policy, canary_scan, pii_scan = shadow
+
+        if (
+            cfg.credential_request_gate
+            and policy.decision is Decision.ANSWER
+            and is_credential_request(query)
+        ):
+            policy = PolicyDecision(
+                decision=Decision.REFUSE_PII,
+                reason="the question asks for a credential value; refusing instead of answering around it",
+                explanation=credential_explanation(list(dict.fromkeys(c.doc_id for c in fresh_hits)), query),
+            )
 
         proposed_write = None
         if policy.decision is Decision.ANSWER:
