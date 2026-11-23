@@ -1457,14 +1457,14 @@
  "ablations": {
   "no map, no embedding": {
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.8719,
+   "perturbed_accuracy": 0.8768,
    "per_perturbation": {
-    "synonym": 0.5,
+    "synonym": 0.52,
     "word_order": 1.0,
     "typo": 1.0,
     "polite": 0.9804
    },
-   "synonym_dev": 0.3333,
+   "synonym_dev": 0.4,
    "synonym_heldout": 0.5714,
    "heldout_answer_write_correct": "3/12",
    "heldout_write_correct": "3/3",
@@ -1473,10 +1473,8 @@
     "n_spurious_write": 0,
     "n_raw_pii_outputs": 0
    },
-   "fail_open": [
-    "g49-synonym"
-   ],
-   "n_fail_open": 1,
+   "fail_open": [],
+   "n_fail_open": 0,
    "n_spurious_write": 0,
    "n_raw_pii_outputs": 0
   },
@@ -1505,14 +1503,14 @@
   },
   "embedding only": {
    "clean_accuracy": 1.0,
-   "perturbed_accuracy": 0.8818,
+   "perturbed_accuracy": 0.8867,
    "per_perturbation": {
-    "synonym": 0.54,
+    "synonym": 0.56,
     "word_order": 1.0,
     "typo": 1.0,
     "polite": 0.9804
    },
-   "synonym_dev": 0.4667,
+   "synonym_dev": 0.5333,
    "synonym_heldout": 0.5714,
    "heldout_answer_write_correct": "3/12",
    "heldout_write_correct": "3/3",
@@ -1521,10 +1519,8 @@
     "n_spurious_write": 0,
     "n_raw_pii_outputs": 0
    },
-   "fail_open": [
-    "g49-synonym"
-   ],
-   "n_fail_open": 1,
+   "fail_open": [],
+   "n_fail_open": 0,
    "n_spurious_write": 0,
    "n_raw_pii_outputs": 0
   },
