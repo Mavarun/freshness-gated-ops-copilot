@@ -16,8 +16,8 @@ def _section() -> str:
 
 def test_newest_first():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
-    assert heads[0].startswith(HEAD) and heads[1].startswith("## Hazard scan floor and duplicate-question")
-    assert f"misfires {A['misfires']['all']} → {A['misfires']['floor']} on a 24-row fresh set" in heads[0]
+    assert heads[1].startswith(HEAD) and heads[2].startswith("## Hazard scan floor and duplicate-question")
+    assert f"misfires {A['misfires']['all']} → {A['misfires']['floor']} on a 24-row fresh set" in heads[1]
 
 
 def test_table_and_claims():
