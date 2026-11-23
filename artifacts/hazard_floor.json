@@ -1,0 +1,4899 @@
+{
+  "floor": 0.3,
+  "regression": {
+    "n_rows": 751,
+    "rows": [
+      {
+        "id": "golden-00",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-01",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-02",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-03",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-04",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-05",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-06",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-07",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-08",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "golden-09",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "golden-10",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "golden-11",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "golden-12",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "golden-13",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "golden-14",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "golden-15",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "golden-16",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "golden-17",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "golden-18",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "golden-19",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "golden-20",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "golden-21",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "golden-22",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "golden-23",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "golden-24",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-25",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-26",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "golden-27",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "golden-28",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "golden-29",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "golden-30",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "golden-31",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "golden-32",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-33",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-34",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-35",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "golden-36",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "golden-37",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "golden-38",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "golden-39",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-40",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-41",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "golden-42",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "golden-43",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "golden-44",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "golden-45",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "golden-46",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "golden-47",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "golden-48",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "golden-49",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "golden-50",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d2-01",
+        "expect": "ANSWER",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d2-02",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d2-03",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-04",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-05",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-06",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d2-07",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d2-08",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-09",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d2-10",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-11",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-12",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-13",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-14",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d2-15",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d2-16",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d2-17",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d2-18",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-19",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-20",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-21",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-22",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d2-23",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d2-24",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d2-25",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d2-26",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-27",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-28",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-29",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-30",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-31",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-32",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-33",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-34",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-35",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-36",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d2-37",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "d2-38",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "d2-39",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "d2-40",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "d2-41",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "d2-42",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "d2-43",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "d3-01",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-02",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-03",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-04",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-05",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d3-06",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-07",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-08",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-09",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-10",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d3-11",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d3-12",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-13",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-14",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-15",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-16",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d3-17",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-18",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d3-19",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d3-20",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-21",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-22",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-23",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d3-24",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-25",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-26",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-27",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-28",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d3-29",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d3-30",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d3-31",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-32",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-33",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-34",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-35",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-36",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-37",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-38",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-39",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-40",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "d3-41",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d3-42",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "d3-43",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "d3-44",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "d3-45",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "d4-01",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-02",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-03",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-04",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-05",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-06",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-07",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-08",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-09",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-10",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d4-11",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-12",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-13",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-14",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-15",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-16",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-17",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-18",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-19",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-20",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-21",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d4-22",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-23",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-24",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d4-25",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-26",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-27",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d4-28",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-29",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-30",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-31",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-32",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-33",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-34",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-35",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-36",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-37",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-38",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-39",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-40",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "d4-41",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d4-42",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "d4-43",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "d4-44",
+        "expect": "PROPOSE_WRITE",
+        "all": "REFUSE_AMBIGUOUS_WRITE",
+        "floor": "REFUSE_AMBIGUOUS_WRITE"
+      },
+      {
+        "id": "d5-01",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-02",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-03",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-04",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-05",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-06",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-07",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-08",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-09",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-10",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-11",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-12",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-13",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-14",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-15",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-16",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-17",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-18",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-19",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-20",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-21",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d5-22",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-23",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-24",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-25",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-26",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-27",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-28",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-29",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d5-30",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-31",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d5-32",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-33",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-34",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-35",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-36",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-37",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-38",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-39",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-40",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "d5-41",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d5-42",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "d5-43",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "d5-44",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "d6-01",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-02",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-03",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-04",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-05",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-06",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-07",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-08",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-09",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-10",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-11",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-12",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-13",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-14",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-15",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-16",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-17",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-18",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-19",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-20",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d6-21",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-22",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-23",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-24",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-25",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-26",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d6-27",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-28",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d6-29",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d6-30",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-31",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-32",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-33",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-34",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-35",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-36",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-37",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-38",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-39",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-40",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d6-41",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "d6-42",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "d6-43",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "d6-44",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "d6-45",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "d7-01",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-02",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-03",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-04",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-05",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-06",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-07",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-08",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-09",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-10",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-11",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-12",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-13",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-14",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-15",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-16",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-17",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-18",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-19",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d7-20",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-21",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-22",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-23",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-24",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d7-25",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-26",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-27",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-28",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-29",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-30",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-31",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-32",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-33",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-34",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-35",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "d7-36",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "d7-37",
+        "expect": "PROPOSE_WRITE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-38",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-39",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d7-40",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-01",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-02",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d8-03",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-04",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-05",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-06",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-07",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-08",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d8-09",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-10",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-11",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-12",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-13",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-14",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d8-15",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-16",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-17",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-18",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-19",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-20",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-21",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-22",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-23",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-24",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-25",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-26",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-27",
+        "expect": "ANSWER",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d8-28",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-29",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-30",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-31",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-32",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t01",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t02",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t03",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-t04",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t05",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t06",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t07",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t08",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d8-t09",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t10",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t11",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t12",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t13",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t14",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d8-t15",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d8-t16",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-01",
+        "expect": "ANSWER",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d9-02",
+        "expect": "ANSWER",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d9-03",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-04",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-05",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-06",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-07",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d9-08",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d9-09",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-10",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-11",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-12",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-13",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-14",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-15",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-16",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-17",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-18",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d9-19",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d9-20",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-21",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d9-22",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-23",
+        "expect": "ANSWER",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d9-24",
+        "expect": "ANSWER",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "d9-25",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-26",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-27",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-28",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-29",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-30",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-31",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d9-32",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "d9-t01",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t02",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t03",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t04",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t05",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t06",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t07",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t08",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d9-t09",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t10",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t11",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t12",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "d9-t13",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t14",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t15",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "d9-t16",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f01",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "f02",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f03",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f04",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f05",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f06",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f07",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f08",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f09",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f10",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f11",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f12",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f13",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f14",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "f15",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f16",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "f17",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "f18",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f19",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f20",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f21",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "f22",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "f23",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "f24",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "f25",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "f26",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-01",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-02",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-03",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-04",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-05",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-06",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-07",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-08",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-09",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "at-10",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-11",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-12",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-13",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-14",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-15",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-16",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-17",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-18",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-19",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-20",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-21",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-22",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-23",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-24",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-25",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-26",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-27",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-28",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-29",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "at-30",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-31",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-32",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-33",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-34",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-35",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at-36",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-01",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-02",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-03",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-04",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-05",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-06",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-07",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-08",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-09",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-10",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-11",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-12",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-13",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-14",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-15",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-16",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-17",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-18",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-19",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-20",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-21",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-22",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-23",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-24",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-25",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-26",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-27",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-28",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-29",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-30",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-31",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-32",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-33",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-34",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-35",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-36",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-37",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-38",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-39",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at2-40",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "at3-01",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-02",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-03",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-04",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-05",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-06",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-07",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-08",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-09",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-10",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-11",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-12",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-13",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-14",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-15",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-16",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-17",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-18",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-19",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-20",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-21",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-22",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-23",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-24",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-25",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-26",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-27",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-28",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-29",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-30",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-31",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-32",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-33",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-34",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-35",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-36",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-37",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "at3-38",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g00-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g00-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g00-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g00-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g01-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g01-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g01-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g01-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g02-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g02-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g02-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g02-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g03-synonym",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g03-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g03-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g03-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g04-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g04-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g04-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g04-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g05-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g05-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g05-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g05-polite",
+        "expect": "ANSWER",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g06-synonym",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g06-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g06-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g06-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g07-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g07-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g07-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g07-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g08-word_order",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g08-typo",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g08-polite",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g09-synonym",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g09-word_order",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g09-typo",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g09-polite",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g10-synonym",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g10-word_order",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g10-typo",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g10-polite",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g11-synonym",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g11-word_order",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g11-typo",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g11-polite",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g12-synonym",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g12-word_order",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g12-typo",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g12-polite",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g13-synonym",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g13-word_order",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g13-typo",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g13-polite",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g14-synonym",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g14-word_order",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g14-typo",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g14-polite",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g15-synonym",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g15-word_order",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g15-typo",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g15-polite",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g16-synonym",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g16-word_order",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g16-typo",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g16-polite",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g17-synonym",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g17-word_order",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g17-typo",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g17-polite",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g18-synonym",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g18-word_order",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g18-typo",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g18-polite",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g19-synonym",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g19-word_order",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g19-typo",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g19-polite",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g20-synonym",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g20-word_order",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g20-typo",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g20-polite",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g21-synonym",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g21-word_order",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g21-typo",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g21-polite",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g22-synonym",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g22-word_order",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g22-typo",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g22-polite",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g23-synonym",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g23-word_order",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g23-typo",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g23-polite",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g24-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g24-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g24-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g24-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g25-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g25-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g25-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g25-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g26-synonym",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g26-word_order",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g26-typo",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g26-polite",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g27-synonym",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g27-word_order",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g27-typo",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g27-polite",
+        "expect": "REFUSE_STALE",
+        "all": "REFUSE_STALE",
+        "floor": "REFUSE_STALE"
+      },
+      {
+        "id": "g28-synonym",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g28-word_order",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g28-typo",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g28-polite",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g29-synonym",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g29-word_order",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g29-typo",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g29-polite",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g30-synonym",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g30-word_order",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g30-typo",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g30-polite",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g31-synonym",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g31-word_order",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g31-typo",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g31-polite",
+        "expect": "REFUSE_DISAGREE",
+        "all": "REFUSE_DISAGREE",
+        "floor": "REFUSE_DISAGREE"
+      },
+      {
+        "id": "g32-synonym",
+        "expect": "REFUSE_BUDGET",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g32-word_order",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g32-typo",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g32-polite",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g33-synonym",
+        "expect": "REFUSE_BUDGET",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g33-word_order",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g33-typo",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g33-polite",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g34-synonym",
+        "expect": "REFUSE_BUDGET",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "g34-word_order",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g34-typo",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g34-polite",
+        "expect": "REFUSE_BUDGET",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g35-synonym",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g35-word_order",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g35-typo",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g35-polite",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g36-synonym",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g36-word_order",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g36-typo",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g36-polite",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g37-synonym",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g37-word_order",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g37-typo",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g37-polite",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g38-synonym",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g38-word_order",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g38-typo",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g38-polite",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "g39-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g39-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g39-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g39-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g40-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g40-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g40-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g40-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g41-synonym",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g41-word_order",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g41-typo",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g41-polite",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g42-synonym",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g42-word_order",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g42-typo",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g42-polite",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g43-synonym",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g43-word_order",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g43-typo",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g43-polite",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g44-synonym",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g44-word_order",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g44-typo",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g44-polite",
+        "expect": "PROPOSE_WRITE",
+        "all": "PROPOSE_WRITE",
+        "floor": "PROPOSE_WRITE"
+      },
+      {
+        "id": "g45-synonym",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g45-word_order",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g45-typo",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g45-polite",
+        "expect": "REFUSE_UNGROUNDED",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g46-synonym",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g46-word_order",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g46-typo",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g46-polite",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g47-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "g47-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g47-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g47-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g48-synonym",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g48-word_order",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g48-typo",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g48-polite",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g49-synonym",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g49-word_order",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g49-typo",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g49-polite",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g50-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "g50-word_order",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g50-typo",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      },
+      {
+        "id": "g50-polite",
+        "expect": "ANSWER",
+        "all": "ANSWER",
+        "floor": "ANSWER"
+      }
+    ],
+    "notable": [
+      {
+        "id": "d2-36",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED",
+        "query": "Who owns the vending contract?",
+        "advice_all": [
+          "scrub_secret",
+          "rephrase"
+        ],
+        "advice_floor": [
+          "add_runbook",
+          "rephrase"
+        ],
+        "coverage": 0.228
+      },
+      {
+        "id": "d3-41",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED",
+        "query": "Who approves travel reimbursement?",
+        "advice_all": [
+          "scrub_secret"
+        ],
+        "advice_floor": [
+          "add_runbook",
+          "rephrase"
+        ],
+        "coverage": 0.246
+      },
+      {
+        "id": "d5-41",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED",
+        "query": "Who approves travel reimbursements?",
+        "advice_all": [
+          "scrub_secret"
+        ],
+        "advice_floor": [
+          "add_runbook",
+          "rephrase"
+        ],
+        "coverage": 0.246
+      },
+      {
+        "id": "g50-synonym",
+        "expect": "ANSWER",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII",
+        "query": "What is the vault-transit key rotation timetable timeframe?",
+        "advice_all": [
+          "scrub_secret",
+          "rephrase"
+        ],
+        "advice_floor": [
+          "scrub_secret",
+          "rephrase"
+        ],
+        "coverage": 0.388
+      }
+    ]
+  },
+  "confirm": {
+    "n_rows": 28,
+    "rows": [
+      {
+        "id": "hf-01",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "hf-02",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "hf-03",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "hf-04",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "hf-05",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "hf-06",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "hf-07",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "hf-08",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "hf-09",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "hf-10",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "hf-11",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "hf-12",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "hf-13",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "hf-14",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_UNGROUNDED",
+        "floor": "REFUSE_UNGROUNDED"
+      },
+      {
+        "id": "hf-15",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "hf-16",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_NO_EVIDENCE",
+        "floor": "REFUSE_NO_EVIDENCE"
+      },
+      {
+        "id": "hf-21",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "hf-22",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "hf-23",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "hf-24",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "hf-25",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "hf-26",
+        "expect": "REFUSE_PII",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_PII"
+      },
+      {
+        "id": "hf-27",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "hf-28",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "hf-29",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "hf-30",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "hf-31",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      },
+      {
+        "id": "hf-32",
+        "expect": "REFUSE_CANARY",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_CANARY"
+      }
+    ],
+    "notable": [
+      {
+        "id": "hf-01",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED",
+        "query": "Who approves conference travel expenses?",
+        "advice_all": [
+          "scrub_secret"
+        ],
+        "advice_floor": [
+          "add_runbook",
+          "rephrase"
+        ],
+        "coverage": 0.179
+      },
+      {
+        "id": "hf-02",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED",
+        "query": "What is the parking garage access key for visitors?",
+        "advice_all": [
+          "scrub_secret"
+        ],
+        "advice_floor": [
+          "add_runbook",
+          "rephrase"
+        ],
+        "coverage": 0.265
+      },
+      {
+        "id": "hf-06",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_PII",
+        "floor": "REFUSE_UNGROUNDED",
+        "query": "Who is the contact for laptop stickers and swag?",
+        "advice_all": [
+          "scrub_secret",
+          "rephrase"
+        ],
+        "advice_floor": [
+          "add_runbook",
+          "rephrase"
+        ],
+        "coverage": 0.165
+      },
+      {
+        "id": "hf-12",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "all": "REFUSE_CANARY",
+        "floor": "REFUSE_UNGROUNDED",
+        "query": "Which bridge do I take to the downtown office?",
+        "advice_all": [
+          "quarantine_doc"
+        ],
+        "advice_floor": [
+          "add_runbook",
+          "rephrase"
+        ],
+        "coverage": 0.165
+      }
+    ],
+    "must_refuse_scan_off": [
+      {
+        "id": "hf-21",
+        "scan_off": "REFUSE_PII",
+        "coverage": null
+      },
+      {
+        "id": "hf-22",
+        "scan_off": "REFUSE_UNGROUNDED",
+        "coverage": 0.775
+      },
+      {
+        "id": "hf-23",
+        "scan_off": "REFUSE_UNGROUNDED",
+        "coverage": 0.645
+      },
+      {
+        "id": "hf-24",
+        "scan_off": "REFUSE_UNGROUNDED",
+        "coverage": 0.707
+      },
+      {
+        "id": "hf-25",
+        "scan_off": "REFUSE_PII",
+        "coverage": null
+      },
+      {
+        "id": "hf-26",
+        "scan_off": "REFUSE_UNGROUNDED",
+        "coverage": 0.791
+      },
+      {
+        "id": "hf-27",
+        "scan_off": "REFUSE_UNGROUNDED",
+        "coverage": 0.579
+      },
+      {
+        "id": "hf-28",
+        "scan_off": "REFUSE_UNGROUNDED",
+        "coverage": 0.518
+      },
+      {
+        "id": "hf-29",
+        "scan_off": "REFUSE_UNGROUNDED",
+        "coverage": 0.751
+      },
+      {
+        "id": "hf-30",
+        "scan_off": "REFUSE_CANARY",
+        "coverage": null
+      },
+      {
+        "id": "hf-31",
+        "scan_off": "REFUSE_CANARY",
+        "coverage": null
+      },
+      {
+        "id": "hf-32",
+        "scan_off": "REFUSE_UNGROUNDED",
+        "coverage": 0.649
+      }
+    ]
+  },
+  "decision": {
+    "regression": {
+      "no_answer_change": true,
+      "keeps_fixes": true,
+      "misfires_ok": true,
+      "pass": true,
+      "misfires_all": 4,
+      "misfires_floor": 1,
+      "lost_fixes": 0,
+      "answer_changes": 0
+    },
+    "confirm": {
+      "no_answer_change": true,
+      "keeps_fixes": true,
+      "misfires_ok": true,
+      "pass": true,
+      "misfires_all": 4,
+      "misfires_floor": 0,
+      "lost_fixes": 0,
+      "answer_changes": 0
+    },
+    "ship": true
+  }
+}
