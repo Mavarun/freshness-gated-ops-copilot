@@ -630,7 +630,8 @@ class Copilot:
         returns ``(policy, canary_scan, pii_scan)`` when one of them refuses, else None.
         It can only swap one refusal for another: nothing it returns is an ANSWER.
         With ``hazard_scan_scope="covered"`` it runs only when the closest document
-        clears the support coverage threshold (``_clears_coverage``).
+        clears the support coverage threshold (``_clears_coverage``); with ``"floor"``
+        only when its coverage reaches ``hazard_scan_floor`` (2026-11-23).
         """
         cfg = self.config
         if isinstance(explanation, dict):
@@ -641,9 +642,11 @@ class Copilot:
             details = getattr(explanation, "details", None) or {}
         if not ev_ids:
             return None
-        if cfg.hazard_scan_scope not in ("all", "covered"):
+        if cfg.hazard_scan_scope not in ("all", "covered", "floor"):
             raise ValueError(f"unknown hazard_scan_scope {cfg.hazard_scan_scope!r}")
         if cfg.hazard_scan_scope == "covered" and not _clears_coverage(details):
+            return None
+        if cfg.hazard_scan_scope == "floor" and not _clears_coverage(details, floor=cfg.hazard_scan_floor):
             return None
         chunks = [c for c in retrieved if c.doc_id in ev_ids]
         shadow = fresh_only(chunks, None if sla_lookup else cfg.max_age_hours, sla_lookup=sla_lookup)
@@ -691,15 +694,17 @@ class Copilot:
         result.explanation = {**result.explanation, "suggested_rewrites": [r.as_dict() for r in rws]}
 
 
-def _clears_coverage(details) -> bool:
+def _clears_coverage(details, floor: float | None = None) -> bool:
     """True when a grounding refusal's closest document clears the support threshold.
 
     ``hazard_scan_scope="covered"``: the refusal is then a missing key term on a page about
     the question; below the threshold the page is mostly off-topic and was only the nearest.
+    ``floor`` (scope ``"floor"``) replaces the threshold with a fixed lower coverage.
     A refusal with no coverage figure (another stage) does not clear.
     """
     try:
-        return float(details["coverage"]) >= float(details["threshold"])
+        bar = float(details["threshold"]) if floor is None else float(floor)
+        return float(details["coverage"]) >= bar
     except (KeyError, TypeError, ValueError):
         return False
 
