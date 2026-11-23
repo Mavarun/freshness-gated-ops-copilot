@@ -48,6 +48,7 @@ from ops_copilot.noun_gloss_sense import NounGlossSenseBackoff
 from ops_copilot.datamuse_senses import DatamuseSense
 from ops_copilot.wordnet_senses import ChainedNounSense, WordNetNounSense
 from ops_copilot.resource_agreement import AgreementSense
+from ops_copilot.dupe_paraphrase import DupeParaphraseSense
 from ops_copilot.write_targets import EntityRegistry, default_registry
 
 
@@ -217,25 +218,45 @@ class Copilot:
             if self.config.use_resource_agreement
             else None
         )
+        self.dupe = (
+            DupeParaphraseSense.from_corpus(
+                texts,
+                min_cross=self.config.dupe_min_cross,
+                min_g2=self.config.dupe_min_g2,
+                min_ratio=self.config.dupe_min_ratio,
+                scope=self.config.dupe_scope,
+                max_neighbours=self.config.dupe_max_neighbours,
+            )
+            if self.config.use_dupe_paraphrase
+            else None
+        )
         # One noun read-path slot: Wiktionary gloss sense first, then WordNet,
-        # then Datamuse means-like, then resource agreement.
-        for name in ("wordnet_scope", "datamuse_scope"):
+        # then Datamuse means-like, then resource agreement, then duplicate paraphrases.
+        for name in ("wordnet_scope", "datamuse_scope", "dupe_scope"):
             if getattr(self.config, name) not in ("known", "lone", "all"):
                 raise ValueError(
                     f"{name} must be 'known', 'lone' or 'all', got {getattr(self.config, name)!r}"
                 )
-        self.noun_sense = ChainedNounSense.of(self.noun_gloss, self.wordnet_noun, self.datamuse, self.agreement)
+        self.noun_sense = ChainedNounSense.of(
+            self.noun_gloss, self.wordnet_noun, self.datamuse, self.agreement, self.dupe
+        )
         # Known-only and lone-unknown backoffs stay out of the retrieval rewrite.
         retrieve_noun = ChainedNounSense.of(
             self.noun_gloss,
             self.wordnet_noun if self.config.wordnet_scope == "all" else None,
             self.datamuse if self.config.datamuse_scope == "all" else None,
             self.agreement if self.config.agreement_scope == "all" else None,
+            self.dupe if self.config.dupe_scope == "all" else None,
         )
         noun_known = (
             self.config.noun_gloss_sense_known_words
             if self.noun_gloss is not None
-            else (self.wordnet_noun is not None or self.datamuse is not None or self.agreement is not None)
+            else (
+                self.wordnet_noun is not None
+                or self.datamuse is not None
+                or self.agreement is not None
+                or self.dupe is not None
+            )
         )
         self.retriever = Retriever(
             self.corpus.chunks,
