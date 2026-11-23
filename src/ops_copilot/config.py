@@ -365,6 +365,11 @@ class CopilotConfig:
     # so an off-topic question whose nearest page happens to be a secrets page keeps the
     # grounding refusal). Protocol: hazard_scope_protocol.py.
     hazard_scan_scope: str = "all"
+    # Scope "floor" (2026-11-23): run the scan only when the closest document's coverage
+    # reaches this fixed value. 0.30 is the value the Nov 20 post-hoc reading named
+    # (off-topic misfires at 0.23-0.25, must-refuse rows at 0.36 / 0.48); it was read off
+    # those 6 rows, so hazard_floor_protocol.py confirms it on a fresh set first.
+    hazard_scan_floor: float = 0.30
     # How the PII gate authorizes a masked email / phone answer: "phrases" (the fixed
     # allowlist in pii.py, the default up to 2026-11-20) or "channel" (also when the
     # query names an email / phone channel and every match sits in a sentence that
