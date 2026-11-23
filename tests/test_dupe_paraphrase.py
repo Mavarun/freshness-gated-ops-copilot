@@ -29,7 +29,7 @@ PAIRS = (
 
 def table():
     t = build_table(PAIRS)
-    return DupeTable({}, t["n_pairs"], t["df"], t["rows"])
+    return DupeTable({}, t["n_pairs"], t["rows"])
 
 
 def test_title_words_are_plain_folded_content_words():
@@ -76,7 +76,7 @@ def test_sense_gates_and_corpus_words():
 def test_ratio_gate_drops_topical_neighbours():
     t = build_table([("nginx proxy timeout", "nginx proxy slow")] * 3 + [("nginx reload", "proxy reload")] * 3
                     + [("proxy nginx cache", "proxy nginx cache")] * 4)
-    tab = DupeTable({}, t["n_pairs"], t["df"], t["rows"])
+    tab = DupeTable({}, t["n_pairs"], t["rows"])
     row = {r[0]: r for r in tab.get("nginx")}
     assert row["proxy"][2] == 3 and row["proxy"][3] >= 3
     words = frozenset({"proxy", "nginx"})
@@ -122,4 +122,5 @@ def test_dump_is_byte_stable_and_loads(tmp_path):
     assert a.read_bytes() == b.read_bytes()
     loaded = load_table(a)
     assert loaded.meta == {"x": 1} and loaded.n_pairs == len(PAIRS)
-    assert json.loads(gzip.decompress(a.read_bytes()))["rows"]["wipe"][0][0] == "erase"
+    assert loaded.get("wipe")[0][0] == "erase"
+    assert set(json.loads(gzip.decompress(a.read_bytes()))) == {"meta", "n_pairs", "pairs"}

@@ -17,7 +17,7 @@ def test_single_word_pairs_skip_phrases_and_hyphens():
 
 
 def _sense():
-    table = DupeTable({}, 10, {}, {"wipe": [["erase", 20.0, 5, 0], ["disk", 30.0, 5, 0]],
+    table = DupeTable({}, 10, {"wipe": [["erase", 20.0, 5, 0], ["disk", 30.0, 5, 0]],
                                    "erase": [["wipe", 20.0, 5, 0]], "disk": [["wipe", 30.0, 5, 0]]})
     return DupeParaphraseSense(frozenset({"erase", "disk"}), table, min_cross=3, min_g2=10.0, scope="all", max_neighbours=5), table
 

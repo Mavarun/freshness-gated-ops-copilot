@@ -3764,6 +3764,10 @@ each snapshot pins its source by SHA-256 or URL in its `meta`):
 - `data/domainvec/se_ppmi_svd.json.gz`: 6,000 words x 48-dim int8 PPMI-SVD vectors
   derived from the same Stack Exchange snapshot as the QA table (no post text),
   CC BY-SA 4.0 with the same attribution; see `data/domainvec/NOTICE.md`.
+- `data/dupes/se_duplicate_paraphrase.json.gz`: word-pair statistics derived from the
+  titles of questions closed as duplicates in the 2024-04 Stack Exchange data dumps of
+  the same eight sites (no titles, no post ids), CC BY-SA 4.0 with attribution to their
+  users and Stack Exchange Inc.; see `data/dupes/NOTICE.md`.
 - `data/wiktionary/computing_senses.json.gz`: Wiktionary contributors via
   Wiktextract (kaikki.org), CC BY-SA 4.0 and GFDL.
 - `data/wordvec/cf_neighbours.json.gz`: neighbours from counter-fitted vectors
