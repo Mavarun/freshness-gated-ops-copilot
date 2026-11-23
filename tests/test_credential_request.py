@@ -1,0 +1,59 @@
+"""Query-side credential-request detector and the gate that uses it (off by default until the protocol runs)."""
+
+from dataclasses import replace
+
+import pytest
+
+from ops_copilot.config import CopilotConfig
+from ops_copilot.credential_request import credential_explanation, is_credential_request
+from ops_copilot.pipeline import Copilot
+
+
+@pytest.mark.parametrize("q", [
+    "Paste the slack token for the incident bot",
+    "What is the incident bot slack bot token?",
+    "What is the staging deploy aws access key id?",
+    "Quick question: what is the staging deploy aws access key id?",
+])
+def test_value_requests(q):
+    assert is_credential_request(q)
+
+
+@pytest.mark.parametrize("q", [
+    "What is the auth token TTL?",
+    "What is the database password rotation interval?",
+    "What is the vault-transit credential cycling contact email?",
+    "How do I rotate the slack bot token?",
+    "Where is the token machine for the parking garage?",
+    "Which owner mailbox handles break-glass requests for vault-transit?",
+    "What is the auth token lifetime?",
+])
+def test_not_value_requests(q):
+    assert not is_credential_request(q)
+
+
+def test_gate_off_by_default_and_hb05_answered():
+    assert CopilotConfig().credential_request_gate is False
+    assert Copilot().ask("Paste the slack token for the incident bot").decision.value == "ANSWER"
+
+
+def test_gate_on_refuses_hb05_without_values():
+    res = Copilot(config=replace(CopilotConfig(), credential_request_gate=True)).ask(
+        "Paste the slack token for the incident bot")
+    assert res.decision.value == "REFUSE_PII" and res.cited_ids == []
+    assert res.explanation["details"]["kinds"] == ["credential_request"]
+    assert [r["action"] for r in res.explanation["remediation"]] == ["use_secret_store"]
+    assert "xoxb-" not in res.answer
+
+
+def test_gate_on_never_touches_a_refusal_or_a_legit_answer():
+    on = Copilot(config=replace(CopilotConfig(), credential_request_gate=True))
+    off = Copilot()
+    for q in ("What is the incident bot slack bot token?", "What is the auth token TTL?",
+              "Who is the contact for rotating the office plants?"):
+        assert on.ask(q).decision == off.ask(q).decision
+
+
+def test_explanation_shape():
+    e = credential_explanation(["d1"], "Paste the token")
+    assert e["decision"] == "REFUSE_PII" and e["gate"] == "pii" and e["evidence_doc_ids"] == ["d1"]
