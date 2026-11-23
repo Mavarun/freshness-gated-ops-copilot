@@ -182,6 +182,17 @@ class CopilotConfig:
     agreement_min_votes: int = 2
     agreement_scope: str = "known"
     agreement_max_neighbours: int = 1
+    # Duplicate-question paraphrases (dupe_paraphrase.py, 2026-11-23): a corpus word
+    # substitutes for a query word when Stack Exchange duplicate titles swap one for
+    # the other (cross pairs >= dupe_min_cross, G2 >= dupe_min_g2, cross/(same+1) >=
+    # dupe_min_ratio). Scope known / lone / all as for WordNet. Off until the frozen
+    # protocol (dupe_paraphrase_protocol.py) says otherwise.
+    use_dupe_paraphrase: bool = False
+    dupe_min_cross: int = 3
+    dupe_min_g2: float = 15.13
+    dupe_min_ratio: float = 2.0
+    dupe_scope: str = "known"
+    dupe_max_neighbours: int = 1
     # PII/secret redaction gate: refuse unauthorized leaks; mask authorized contacts.
     use_pii_gate: bool = True
     # Typo tolerance: unknown plain words snap to a unique corpus word within
