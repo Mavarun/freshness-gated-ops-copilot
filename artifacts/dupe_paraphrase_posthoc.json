@@ -1,0 +1,1983 @@
+{
+  "coverage": {
+    "dev": {
+      "summary": {
+        "pairs": 54,
+        "in_table": 6,
+        "in_table_key_in_corpus": 6,
+        "strict_gold_passes": 2,
+        "strict_top_is_gold": 2,
+        "strict_top_is_wrong": 15,
+        "loose_gold_passes": 4,
+        "loose_top_is_gold": 3,
+        "loose_top_is_wrong": 20
+      },
+      "rows": [
+        {
+          "pair": "page->alert",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "patch->update",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": "target",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "lists",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "replicas->pods",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "replicas->instances",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "planning",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "planning",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "utilization->usage",
+          "raw": {
+            "g2": 73.651,
+            "cross": 12,
+            "same": 0
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": true,
+            "top": "utilization",
+            "top_is_gold": true
+          },
+          "loose": {
+            "gold_passes": true,
+            "top": "utilization",
+            "top_is_gold": true
+          }
+        },
+        {
+          "pair": "utilization->saturation",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "mitigation->remediation",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "recommend->suggest",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "request",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "runbook->playbook",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "procedure->process",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "command",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "sessions",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "token->secret",
+          "raw": {
+            "g2": 9.382,
+            "cross": 2,
+            "same": 1
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "credential",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "credential",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "schedule->calendar",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "window->timeframe",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "primary->lead",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "outage->incident",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "config->setting",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "deploy->release",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "update",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "update",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "remaining->leftover",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "current->present",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "current->latest",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": "outdated",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "outdated",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "freeze->lockdown",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "freeze->moratorium",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "production->prod",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "memory",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "maintenance->upkeep",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "maintenance->servicing",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "database->datastore",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "flag->toggle",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "switch",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "flag->switch",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "change",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "change",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "rollback->revert",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "rollback->undo",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "revert",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "owns->maintains",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "directory->listing",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "reset->clear",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": "flush",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "flush",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "drain->clear",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "flush",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "flush",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "target->goal",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "endpoint->url",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "rules",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "rules",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "key->secret",
+          "raw": {
+            "g2": 24.875,
+            "cross": 9,
+            "same": 9
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "credential",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "credential",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "path->route",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "connection",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "path->location",
+          "raw": {
+            "g2": 62.142,
+            "cross": 22,
+            "same": 16
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "directory",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": true,
+            "top": "path",
+            "top_is_gold": true
+          }
+        },
+        {
+          "pair": "route->url",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "rules",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "rules",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "gateway->proxy",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "gateway->edge",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "start->begin",
+          "raw": {
+            "g2": 14.057,
+            "cross": 6,
+            "same": 0
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "starting",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": true,
+            "top": "starting",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "service->app",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "flush->clear",
+          "raw": {
+            "g2": 37.508,
+            "cross": 4,
+            "same": 1
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": true,
+            "top": "flush",
+            "top_is_gold": true
+          },
+          "loose": {
+            "gold_passes": true,
+            "top": "flush",
+            "top_is_gold": true
+          }
+        },
+        {
+          "pair": "webhook->hook",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "chargeback->dispute",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "chargeback->refund",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "playbook->runbook",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "checkpoint->snapshot",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "handshake->setup",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "planning",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "planning",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "setting->parameter",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "qps->throughput",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "planning",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "stickiness->pinning",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        }
+      ]
+    },
+    "heldout": {
+      "summary": {
+        "pairs": 53,
+        "in_table": 8,
+        "in_table_key_in_corpus": 7,
+        "strict_gold_passes": 2,
+        "strict_top_is_gold": 1,
+        "strict_top_is_wrong": 10,
+        "loose_gold_passes": 2,
+        "loose_top_is_gold": 1,
+        "loose_top_is_wrong": 15
+      },
+      "rows": [
+        {
+          "pair": "restart->reboot",
+          "raw": {
+            "g2": 200.913,
+            "cross": 38,
+            "same": 8
+          },
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": "off",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "off",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "restart->bounce",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "restart->recycle",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "page->ping",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "patch->modify",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": "change",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "change",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "latency->lag",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "status->health",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "status->state",
+          "raw": {
+            "g2": 9.362,
+            "cross": 5,
+            "same": 2
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "mitigation->workaround",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "recommend->advise",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "runbook->guide",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "procedure->steps",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "contact->owner",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "token->credential",
+          "raw": {
+            "g2": 9.874,
+            "cross": 2,
+            "same": 1
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "password",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "password",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "rotation->rollover",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "rotation->cycling",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "schedule->timetable",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "window->period",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "primary->main",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "lists",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "lists",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "outage->downtime",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "config->configuration",
+          "raw": {
+            "g2": 37.924,
+            "cross": 11,
+            "same": 0
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": true,
+            "top": "planning",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": true,
+            "top": "planning",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "deploy->rollout",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "remaining->left",
+          "raw": {
+            "g2": 9.229,
+            "cross": 2,
+            "same": 0
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "more",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "cadence->frequency",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "memory",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "cadence->interval",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "increase",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "interval->period",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "interval->frequency",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "memory",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "production->live",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "database->db",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "password->passphrase",
+          "raw": {
+            "g2": 86.03,
+            "cross": 18,
+            "same": 33
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "password->credential",
+          "raw": {
+            "g2": 84.625,
+            "cross": 18,
+            "same": 2
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": true,
+            "top": "password",
+            "top_is_gold": true
+          },
+          "loose": {
+            "gold_passes": true,
+            "top": "password",
+            "top_is_gold": true
+          }
+        },
+        {
+          "pair": "owner->maintainer",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "owner->steward",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "directory->roster",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "reset->reinitialize",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "target->objective",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "endpoint->address",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "numbers",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "numbers",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "key->credential",
+          "raw": {
+            "g2": 3.26,
+            "cross": 3,
+            "same": 0
+          },
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "password",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "password",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "route->path",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "provision->create",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": "burn",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "burn",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "service->system",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "flush->purge",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "webhook->callback",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "allowlist->whitelist",
+          "raw": null,
+          "key_in_corpus": false,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "playbook->guide",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "handshake->negotiation",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "size->capacity",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "memory",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "memory",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "size->count",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "request->reservation",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "request->allocation",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "salt->seed",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "token",
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "salt->nonce",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": null,
+            "top_is_gold": false
+          }
+        },
+        {
+          "pair": "stickiness->affinity",
+          "raw": null,
+          "key_in_corpus": true,
+          "strict": {
+            "gold_passes": false,
+            "top": "cpu",
+            "top_is_gold": false
+          },
+          "loose": {
+            "gold_passes": false,
+            "top": "cpu",
+            "top_is_gold": false
+          }
+        }
+      ]
+    }
+  },
+  "watch": {
+    "restart->reboot": {
+      "pair": "restart->reboot",
+      "raw": {
+        "g2": 200.913,
+        "cross": 38,
+        "same": 8
+      },
+      "key_in_corpus": false,
+      "strict": {
+        "gold_passes": false,
+        "top": "off",
+        "top_is_gold": false
+      },
+      "loose": {
+        "gold_passes": false,
+        "top": "off",
+        "top_is_gold": false
+      }
+    },
+    "restart->bounce": {
+      "pair": "restart->bounce",
+      "raw": null,
+      "key_in_corpus": false,
+      "strict": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      },
+      "loose": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      }
+    },
+    "restart->recycle": {
+      "pair": "restart->recycle",
+      "raw": null,
+      "key_in_corpus": false,
+      "strict": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      },
+      "loose": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      }
+    },
+    "latency->lag": {
+      "pair": "latency->lag",
+      "raw": null,
+      "key_in_corpus": true,
+      "strict": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      },
+      "loose": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      }
+    },
+    "status->health": {
+      "pair": "status->health",
+      "raw": null,
+      "key_in_corpus": true,
+      "strict": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      },
+      "loose": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      }
+    },
+    "rotation->cycling": {
+      "pair": "rotation->cycling",
+      "raw": null,
+      "key_in_corpus": true,
+      "strict": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      },
+      "loose": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      }
+    },
+    "schedule->timetable": {
+      "pair": "schedule->timetable",
+      "raw": null,
+      "key_in_corpus": true,
+      "strict": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      },
+      "loose": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      }
+    },
+    "cadence->frequency": {
+      "pair": "cadence->frequency",
+      "raw": null,
+      "key_in_corpus": true,
+      "strict": {
+        "gold_passes": false,
+        "top": null,
+        "top_is_gold": false
+      },
+      "loose": {
+        "gold_passes": false,
+        "top": "memory",
+        "top_is_gold": false
+      }
+    }
+  },
+  "new_swap_passes": {
+    "strict_known": [
+      {
+        "row": "golden-24",
+        "term": "production",
+        "word": "set",
+        "mapped": "change",
+        "mapped_is_term": false
+      },
+      {
+        "row": "golden-50",
+        "term": "key",
+        "word": "identity",
+        "mapped": "key",
+        "mapped_is_term": true
+      },
+      {
+        "row": "d2-14",
+        "term": "change",
+        "word": "set",
+        "mapped": "change",
+        "mapped_is_term": true
+      },
+      {
+        "row": "d2-14",
+        "term": "span",
+        "word": "rules",
+        "mapped": "page",
+        "mapped_is_term": false
+      }
+    ],
+    "loose_lone": [
+      {
+        "row": "golden-06",
+        "term": "utilization",
+        "word": "hours",
+        "mapped": "time",
+        "mapped_is_term": false
+      },
+      {
+        "row": "golden-24",
+        "term": "production",
+        "word": "set",
+        "mapped": "change",
+        "mapped_is_term": false
+      },
+      {
+        "row": "golden-50",
+        "term": "key",
+        "word": "identity",
+        "mapped": "key",
+        "mapped_is_term": true
+      },
+      {
+        "row": "d2-14",
+        "term": "change",
+        "word": "set",
+        "mapped": "change",
+        "mapped_is_term": true
+      },
+      {
+        "row": "d2-14",
+        "term": "span",
+        "word": "rules",
+        "mapped": "page",
+        "mapped_is_term": false
+      },
+      {
+        "row": "d2-16",
+        "term": "halt",
+        "word": "starting",
+        "mapped": "start",
+        "mapped_is_term": false
+      },
+      {
+        "row": "d4-10",
+        "term": "remaining",
+        "word": "var",
+        "mapped": "error",
+        "mapped_is_term": false
+      }
+    ],
+    "loose_all": [
+      {
+        "row": "golden-00",
+        "term": "p99",
+        "word": "connection",
+        "mapped": "traffic",
+        "mapped_is_term": false
+      },
+      {
+        "row": "golden-06",
+        "term": "utilization",
+        "word": "hours",
+        "mapped": "time",
+        "mapped_is_term": false
+      },
+      {
+        "row": "golden-24",
+        "term": "production",
+        "word": "set",
+        "mapped": "change",
+        "mapped_is_term": false
+      },
+      {
+        "row": "golden-50",
+        "term": "key",
+        "word": "identity",
+        "mapped": "key",
+        "mapped_is_term": true
+      },
+      {
+        "row": "d2-09",
+        "term": "mitigation",
+        "word": "error",
+        "mapped": "var",
+        "mapped_is_term": false
+      },
+      {
+        "row": "d2-14",
+        "term": "change",
+        "word": "set",
+        "mapped": "change",
+        "mapped_is_term": true
+      },
+      {
+        "row": "d2-14",
+        "term": "span",
+        "word": "rules",
+        "mapped": "page",
+        "mapped_is_term": false
+      },
+      {
+        "row": "d2-16",
+        "term": "halt",
+        "word": "starting",
+        "mapped": "start",
+        "mapped_is_term": false
+      },
+      {
+        "row": "d3-11",
+        "term": "checkout",
+        "word": "default",
+        "mapped": "order",
+        "mapped_is_term": false
+      },
+      {
+        "row": "d4-10",
+        "term": "remaining",
+        "word": "var",
+        "mapped": "error",
+        "mapped_is_term": false
+      },
+      {
+        "row": "d4-10",
+        "term": "budget",
+        "word": "var",
+        "mapped": "error",
+        "mapped_is_term": false
+      }
+    ]
+  }
+}
