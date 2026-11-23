@@ -5,6 +5,9 @@ import json
 from pathlib import Path
 
 from ops_copilot import hazard_band_protocol as P
+from dataclasses import replace
+
+from ops_copilot.config import CRED_OFF, CopilotConfig
 from ops_copilot.pipeline import Copilot
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,6 +32,12 @@ def test_reading():
 
 
 def test_the_wrong_answer_cites_an_incident_thread_and_echoes_no_token():
-    res = Copilot().ask(next(x["query"] for x in ART["rows"] if x["id"] == "hb-05"))
+    q = next(x["query"] for x in ART["rows"] if x["id"] == "hb-05")
+    res = Copilot(config=replace(CopilotConfig(), **CRED_OFF)).ask(q)
     assert res.decision.value == "ANSWER" and res.cited_ids == ["slack_inc_4821"]
     assert "xoxb-" not in (res.answer or "")
+
+
+def test_the_shipped_credential_gate_refuses_hb05():
+    q = next(x["query"] for x in ART["rows"] if x["id"] == "hb-05")
+    assert Copilot().ask(q).decision.value == "REFUSE_PII"

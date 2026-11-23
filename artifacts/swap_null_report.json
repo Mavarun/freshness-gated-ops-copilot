@@ -1,16 +1,16 @@
 {
   "swaps": 384,
-  "passed": 14,
+  "passed": 13,
   "ceiling": 14,
   "by_mechanism": {
     "passage": 0,
     "translation": 0,
     "semantic": 0,
-    "lexical": 14,
+    "lexical": 13,
     "unsupported": 0
   },
   "residual": {
-    "key / lexical / apart": 6,
+    "key / lexical / apart": 5,
     "key / lexical / same sentence": 4,
     "non-key / lexical / apart": 1,
     "non-key / lexical / same sentence": 3
@@ -56,16 +56,6 @@
       "passage": [],
       "key": true,
       "same_sentence": true
-    },
-    {
-      "row": "golden-39",
-      "term": "injection",
-      "word": "secret",
-      "query": "What is the vault sidecar secret path CNRY-VAULT7F3A?",
-      "mechanism": "lexical",
-      "passage": [],
-      "key": true,
-      "same_sentence": false
     },
     {
       "row": "golden-47",

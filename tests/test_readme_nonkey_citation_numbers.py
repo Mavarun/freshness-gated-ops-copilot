@@ -77,7 +77,8 @@ def test_live_report_table():
     # those cells are pinned to the Nov 17 values, re-scored here with the scan off.
     s = _section()
     d8, rep = _j("dev8_eval.json"), _j("swap_null_report.json")
-    assert f"| 42 of 384 | {rep['passed']} of {rep['swaps']} |" in s
+    # 14 of 384 is the Nov 17 value; the 2026-11-24 credential-request gate refuses one more swap (13)
+    assert "| 42 of 384 | 14 of 384 |" in s and (rep["passed"], rep["swaps"]) == (13, 384)
     sh, pre = d8["arms"]["shipped"], d8["arms"]["rule off (pre-Nov 17)"]
     assert (f"| {len(pre['traps_open'])} of 16 / {pre['answered']} of 32 | "
             f"{len(sh['traps_open'])} of 16 / {sh['answered']} of 32 |") in s

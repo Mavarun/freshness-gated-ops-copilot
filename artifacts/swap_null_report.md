@@ -1,10 +1,10 @@
 # Swap null control, shipped default (golden + dev2-dev6, seed 1107)
 
-14 of 384 random one-word swaps answered (ceiling 14).
+13 of 384 random one-word swaps answered (ceiling 14).
 
 | swapped word | support | evidence | swaps |
 | :--- | :--- | :--- | ---: |
-| key | lexical | apart | 6 |
+| key | lexical | apart | 5 |
 | key | lexical | same sentence | 4 |
 | non-key | lexical | apart | 1 |
 | non-key | lexical | same sentence | 3 |

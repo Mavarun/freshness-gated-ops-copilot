@@ -374,8 +374,9 @@ class CopilotConfig:
     hazard_scan_floor: float = 0.30
     # Query-side credential-request gate (2026-11-24): turn an ANSWER into REFUSE_PII when the
     # question asks for a credential's value (credential_request.py). Never touches a refusal.
-    # Protocol: credential_request_protocol.py. Off until that protocol is run.
-    credential_request_gate: bool = False
+    # Protocol: credential_request_protocol.py; ships on since 2026-11-24 (751 rows: 0 changed;
+    # fresh set: request rows answered 1 -> 0 of 12, 0 of 12 legit rows changed).
+    credential_request_gate: bool = True
     # How the PII gate authorizes a masked email / phone answer: "phrases" (the fixed
     # allowlist in pii.py, the default up to 2026-11-20) or "channel" (also when the
     # query names an email / phone channel and every match sits in a sentence that
@@ -455,3 +456,8 @@ def pre_floor_config(**overrides) -> CopilotConfig:
     from dataclasses import replace
 
     return replace(CopilotConfig(), **{**FLOOR_OFF, **overrides})
+
+
+# credential_request_gate shipped on 2026-11-24. Records scored before then (the Nov 24 hazard
+# band stress test and every earlier record) ran without it.
+CRED_OFF: dict = {"credential_request_gate": False}

@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from ops_copilot import hazard_band_protocol as P  # noqa: E402
-from ops_copilot.config import HAZARD_OFF, CopilotConfig  # noqa: E402
+from ops_copilot.config import CRED_OFF, HAZARD_OFF, CopilotConfig  # noqa: E402
 from ops_copilot.pipeline import Copilot  # noqa: E402
 
 ART = ROOT / "artifacts"
@@ -28,7 +28,7 @@ def band_rows() -> list[dict]:
 
 
 def score() -> list[dict]:
-    base = CopilotConfig()
+    base = replace(CopilotConfig(), **CRED_OFF)  # scored before the credential gate shipped
     bots = {"all": Copilot(config=replace(base, hazard_scan_scope="all")),
             "floor": Copilot(config=replace(base, hazard_scan_scope="floor", hazard_scan_floor=P.FLOOR)),
             "off": Copilot(config=replace(base, **HAZARD_OFF))}

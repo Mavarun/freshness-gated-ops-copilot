@@ -238,9 +238,9 @@ Normalizer, filler list, typo tolerance, position-independent write cues and the
 
 | config | clean | perturbed | synonym | word_order | typo | polite | syn dev | syn held-out | held-out ANSWER/WRITE | held-out WRITE | fail-open | spurious write | raw PII | clean fail-open/spurious/PII |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| no map, no embedding | 1.000 | 0.872 | 0.500 | 1.000 | 1.000 | 0.980 | 0.333 | 0.571 | 3/12 | 3/3 | 1 (g49-synonym) | 0 | 0 | 0/0/0 |
+| no map, no embedding | 1.000 | 0.877 | 0.520 | 1.000 | 1.000 | 0.980 | 0.400 | 0.571 | 3/12 | 3/3 | 0 | 0 | 0 | 0/0/0 |
 | map only (leakage-free) | 1.000 | 0.906 | 0.640 | 1.000 | 1.000 | 0.980 | 0.800 | 0.571 | 3/12 | 3/3 | 0 | 0 | 0 | 0/0/0 |
-| embedding only | 1.000 | 0.882 | 0.540 | 1.000 | 1.000 | 0.980 | 0.467 | 0.571 | 3/12 | 3/3 | 1 (g49-synonym) | 0 | 0 | 0/0/0 |
+| embedding only | 1.000 | 0.887 | 0.560 | 1.000 | 1.000 | 0.980 | 0.533 | 0.571 | 3/12 | 3/3 | 0 | 0 | 0 | 0/0/0 |
 | map + embedding | 1.000 | 0.911 | 0.660 | 1.000 | 1.000 | 0.980 | 0.867 | 0.571 | 3/12 | 3/3 | 0 | 0 | 0 | 0/0/0 |
 
 ## Leakage check (product lexicons vs the eval's perturbation vocabulary)
