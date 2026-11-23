@@ -1,0 +1,1491 @@
+{
+  "rows": 320,
+  "swaps": 384,
+  "picked": null,
+  "arms": {
+    "shipped": {
+      "n_swaps": 384,
+      "passed": 14,
+      "by_mechanism": {
+        "passage": 0,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 14,
+        "unsupported": 0
+      },
+      "n_answer_rows": 165,
+      "answered": 52,
+      "n_refuse_rows": 144,
+      "refuse_opened": 5,
+      "rates": {
+        "null_pass_rate": 0.036458333333333336,
+        "answer_rate": 0.3151515151515151,
+        "pass_passage": 0.0,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.036458333333333336,
+        "pass_unsupported": 0.0
+      }
+    },
+    "strict_known": {
+      "n_swaps": 384,
+      "passed": 18,
+      "by_mechanism": {
+        "passage": 0,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 18,
+        "unsupported": 0
+      },
+      "n_answer_rows": 165,
+      "answered": 52,
+      "n_refuse_rows": 144,
+      "refuse_opened": 5,
+      "rates": {
+        "null_pass_rate": 0.046875,
+        "answer_rate": 0.3151515151515151,
+        "pass_passage": 0.0,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.046875,
+        "pass_unsupported": 0.0
+      }
+    },
+    "strict_lone": {
+      "n_swaps": 384,
+      "passed": 18,
+      "by_mechanism": {
+        "passage": 0,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 18,
+        "unsupported": 0
+      },
+      "n_answer_rows": 165,
+      "answered": 53,
+      "n_refuse_rows": 144,
+      "refuse_opened": 5,
+      "rates": {
+        "null_pass_rate": 0.046875,
+        "answer_rate": 0.3212121212121212,
+        "pass_passage": 0.0,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.046875,
+        "pass_unsupported": 0.0
+      }
+    },
+    "strict_all": {
+      "n_swaps": 384,
+      "passed": 18,
+      "by_mechanism": {
+        "passage": 0,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 18,
+        "unsupported": 0
+      },
+      "n_answer_rows": 165,
+      "answered": 53,
+      "n_refuse_rows": 144,
+      "refuse_opened": 5,
+      "rates": {
+        "null_pass_rate": 0.046875,
+        "answer_rate": 0.3212121212121212,
+        "pass_passage": 0.0,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.046875,
+        "pass_unsupported": 0.0
+      }
+    },
+    "loose_lone": {
+      "n_swaps": 384,
+      "passed": 21,
+      "by_mechanism": {
+        "passage": 0,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 21,
+        "unsupported": 0
+      },
+      "n_answer_rows": 165,
+      "answered": 55,
+      "n_refuse_rows": 144,
+      "refuse_opened": 5,
+      "rates": {
+        "null_pass_rate": 0.0546875,
+        "answer_rate": 0.3333333333333333,
+        "pass_passage": 0.0,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.0546875,
+        "pass_unsupported": 0.0
+      }
+    },
+    "loose_all": {
+      "n_swaps": 384,
+      "passed": 24,
+      "by_mechanism": {
+        "passage": 0,
+        "translation": 0,
+        "semantic": 0,
+        "lexical": 24,
+        "unsupported": 0
+      },
+      "n_answer_rows": 165,
+      "answered": 54,
+      "n_refuse_rows": 144,
+      "refuse_opened": 5,
+      "rates": {
+        "null_pass_rate": 0.0625,
+        "answer_rate": 0.32727272727272727,
+        "pass_passage": 0.0,
+        "pass_translation": 0.0,
+        "pass_semantic": 0.0,
+        "pass_lexical": 0.0625,
+        "pass_unsupported": 0.0
+      }
+    }
+  },
+  "citation": {
+    "strict_known": {
+      "lost": [],
+      "fixed": [],
+      "new_wrong": [],
+      "unknown_lost": [],
+      "decision_lost": [],
+      "budget_lost": 0
+    },
+    "strict_lone": {
+      "lost": [],
+      "fixed": [],
+      "new_wrong": [],
+      "unknown_lost": [],
+      "decision_lost": [],
+      "budget_lost": 0
+    },
+    "strict_all": {
+      "lost": [],
+      "fixed": [],
+      "new_wrong": [],
+      "unknown_lost": [],
+      "decision_lost": [],
+      "budget_lost": 0
+    },
+    "loose_lone": {
+      "lost": [],
+      "fixed": [],
+      "new_wrong": [],
+      "unknown_lost": [],
+      "decision_lost": [],
+      "budget_lost": 0
+    },
+    "loose_all": {
+      "lost": [],
+      "fixed": [],
+      "new_wrong": [],
+      "unknown_lost": [
+        "d8-03"
+      ],
+      "decision_lost": [
+        "d8-03"
+      ],
+      "budget_lost": 1
+    }
+  },
+  "changed_rows": {
+    "strict_known": [
+      {
+        "id": "d8-t06",
+        "query": "What mitigation does the payments latency runbook recommend?",
+        "expect": "REFUSE_UNGROUNDED",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      }
+    ],
+    "strict_lone": [
+      {
+        "id": "d6-23",
+        "query": "What is the Vault AppRole swap schedule?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "vault_approle_rotation"
+        ]
+      },
+      {
+        "id": "d8-t06",
+        "query": "What mitigation does the payments latency runbook recommend?",
+        "expect": "REFUSE_UNGROUNDED",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      }
+    ],
+    "strict_all": [
+      {
+        "id": "golden-14",
+        "query": "How do I reset the SAP payroll connector?",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "shipped": "REFUSE_NO_EVIDENCE",
+        "arm": "REFUSE_UNGROUNDED",
+        "arm_cited": []
+      },
+      {
+        "id": "golden-21",
+        "query": "What is the database password rotation interval?",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "shipped": "REFUSE_NO_EVIDENCE",
+        "arm": "REFUSE_UNGROUNDED",
+        "arm_cited": []
+      },
+      {
+        "id": "d2-37",
+        "query": "How do I reset the Okta federation connector?",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "shipped": "REFUSE_NO_EVIDENCE",
+        "arm": "REFUSE_UNGROUNDED",
+        "arm_cited": []
+      },
+      {
+        "id": "d3-17",
+        "query": "What is the uptime of the payments-api?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_DISAGREE",
+        "arm_cited": []
+      },
+      {
+        "id": "d6-23",
+        "query": "What is the Vault AppRole swap schedule?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "vault_approle_rotation"
+        ]
+      },
+      {
+        "id": "d6-32",
+        "query": "How do I reload the checkout-api service?",
+        "expect": "REFUSE_UNGROUNDED",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      },
+      {
+        "id": "d8-30",
+        "query": "How many checkout-api replicas are running after the scale-up?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_DISAGREE",
+        "arm_cited": []
+      },
+      {
+        "id": "d8-t06",
+        "query": "What mitigation does the payments latency runbook recommend?",
+        "expect": "REFUSE_UNGROUNDED",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      }
+    ],
+    "loose_lone": [
+      {
+        "id": "d3-01",
+        "query": "What is the current checkout p99 slowness?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_DISAGREE",
+        "arm_cited": []
+      },
+      {
+        "id": "d3-21",
+        "query": "When does the production pause start?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "wiki_maint_window"
+        ]
+      },
+      {
+        "id": "d3-27",
+        "query": "How do we execute the blue-green deploy procedure?",
+        "expect": "REFUSE_STALE",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      },
+      {
+        "id": "d6-23",
+        "query": "What is the Vault AppRole swap schedule?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "vault_approle_rotation"
+        ]
+      },
+      {
+        "id": "d8-32",
+        "query": "What is the status of the payments-api during the incident?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "sp_payments_degraded"
+        ]
+      },
+      {
+        "id": "d8-t06",
+        "query": "What mitigation does the payments latency runbook recommend?",
+        "expect": "REFUSE_UNGROUNDED",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      }
+    ],
+    "loose_all": [
+      {
+        "id": "golden-14",
+        "query": "How do I reset the SAP payroll connector?",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "shipped": "REFUSE_NO_EVIDENCE",
+        "arm": "REFUSE_UNGROUNDED",
+        "arm_cited": []
+      },
+      {
+        "id": "golden-16",
+        "query": "Who owns Android push-notification cert rotation?",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "shipped": "REFUSE_NO_EVIDENCE",
+        "arm": "REFUSE_UNGROUNDED",
+        "arm_cited": []
+      },
+      {
+        "id": "golden-21",
+        "query": "What is the database password rotation interval?",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "shipped": "REFUSE_NO_EVIDENCE",
+        "arm": "REFUSE_UNGROUNDED",
+        "arm_cited": []
+      },
+      {
+        "id": "d2-37",
+        "query": "How do I reset the Okta federation connector?",
+        "expect": "REFUSE_NO_EVIDENCE",
+        "shipped": "REFUSE_NO_EVIDENCE",
+        "arm": "REFUSE_UNGROUNDED",
+        "arm_cited": []
+      },
+      {
+        "id": "d3-01",
+        "query": "What is the current checkout p99 slowness?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_DISAGREE",
+        "arm_cited": []
+      },
+      {
+        "id": "d3-07",
+        "query": "How many checkout-api nodes are running?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      },
+      {
+        "id": "d3-15",
+        "query": "What is the Redis checkout-pool pressure?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_DISAGREE",
+        "arm_cited": []
+      },
+      {
+        "id": "d3-17",
+        "query": "What is the uptime of the payments-api?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_DISAGREE",
+        "arm_cited": []
+      },
+      {
+        "id": "d3-21",
+        "query": "When does the production pause start?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "wiki_maint_window"
+        ]
+      },
+      {
+        "id": "d3-27",
+        "query": "How do we execute the blue-green deploy procedure?",
+        "expect": "REFUSE_STALE",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      },
+      {
+        "id": "d4-07",
+        "query": "How many checkout-api clones are running?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      },
+      {
+        "id": "d6-06",
+        "query": "Who is the first on-call right now?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      },
+      {
+        "id": "d6-23",
+        "query": "What is the Vault AppRole swap schedule?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "vault_approle_rotation"
+        ]
+      },
+      {
+        "id": "d6-32",
+        "query": "How do I reload the checkout-api service?",
+        "expect": "REFUSE_UNGROUNDED",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      },
+      {
+        "id": "d8-03",
+        "query": "What does the current checkout p99 latency look like?",
+        "expect": "ANSWER",
+        "shipped": "ANSWER",
+        "arm": "REFUSE_DISAGREE",
+        "arm_cited": []
+      },
+      {
+        "id": "d8-30",
+        "query": "How many checkout-api replicas are running after the scale-up?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_DISAGREE",
+        "arm_cited": []
+      },
+      {
+        "id": "d8-32",
+        "query": "What is the status of the payments-api during the incident?",
+        "expect": "ANSWER",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "ANSWER",
+        "arm_cited": [
+          "sp_payments_degraded"
+        ]
+      },
+      {
+        "id": "d8-t06",
+        "query": "What mitigation does the payments latency runbook recommend?",
+        "expect": "REFUSE_UNGROUNDED",
+        "shipped": "REFUSE_UNGROUNDED",
+        "arm": "REFUSE_STALE",
+        "arm_cited": []
+      }
+    ]
+  },
+  "passes": {
+    "shipped": [
+      {
+        "row": "golden-00",
+        "term": "latency",
+        "word": "posted",
+        "query": "What is the current checkout p99 posted?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "rotation",
+        "query": "Who is the rotation on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "component",
+        "query": "Who is the component on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-25",
+        "term": "freeze",
+        "word": "state",
+        "query": "When does the production state start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-39",
+        "term": "injection",
+        "word": "secret",
+        "query": "What is the vault sidecar secret path CNRY-VAULT7F3A?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-47",
+        "term": "vault-transit",
+        "word": "keys",
+        "query": "What is the keys key rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d2-02",
+        "term": "checkout",
+        "word": "minutes",
+        "query": "What is the ongoing minutes p99 latency?",
+        "mechanism": "lexical",
+        "passage": [
+          "ongoing<-checkout"
+        ]
+      },
+      {
+        "row": "d2-06",
+        "term": "checkout",
+        "word": "over",
+        "query": "What is the remaining error margin for over?",
+        "mechanism": "lexical",
+        "passage": [
+          "margin<-budget"
+        ]
+      },
+      {
+        "row": "d3-05",
+        "term": "standby",
+        "word": "ito",
+        "query": "Who is the primary ito right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-11",
+        "term": "latency",
+        "word": "exceeds",
+        "query": "What fix does the checkout exceeds runbook recommend?",
+        "mechanism": "lexical",
+        "passage": [
+          "fix<-confirm"
+        ]
+      },
+      {
+        "row": "d4-10",
+        "term": "failures",
+        "word": "datadog",
+        "query": "What is the remaining datadog budget for checkout?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d4-21",
+        "term": "freeze",
+        "word": "emergency",
+        "query": "When does the production emergency launch?",
+        "mechanism": "lexical",
+        "passage": [
+          "launch<-start"
+        ]
+      },
+      {
+        "row": "d5-22",
+        "term": "cadence",
+        "word": "runbook",
+        "query": "What is the Vault AppRole rotation runbook?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d6-06",
+        "term": "on-call",
+        "word": "max",
+        "query": "Who is the first max right now?",
+        "mechanism": "lexical",
+        "passage": []
+      }
+    ],
+    "strict_known": [
+      {
+        "row": "golden-00",
+        "term": "latency",
+        "word": "posted",
+        "query": "What is the current checkout p99 posted?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "rotation",
+        "query": "Who is the rotation on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "component",
+        "query": "Who is the component on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-24",
+        "term": "production",
+        "word": "set",
+        "query": "What is the set maintenance change window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-25",
+        "term": "freeze",
+        "word": "state",
+        "query": "When does the production state start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-39",
+        "term": "injection",
+        "word": "secret",
+        "query": "What is the vault sidecar secret path CNRY-VAULT7F3A?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-47",
+        "term": "vault-transit",
+        "word": "keys",
+        "query": "What is the keys key rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-50",
+        "term": "key",
+        "word": "identity",
+        "query": "What is the vault-transit identity rotation schedule window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d2-02",
+        "term": "checkout",
+        "word": "minutes",
+        "query": "What is the ongoing minutes p99 latency?",
+        "mechanism": "lexical",
+        "passage": [
+          "ongoing<-checkout"
+        ]
+      },
+      {
+        "row": "d2-06",
+        "term": "checkout",
+        "word": "over",
+        "query": "What is the remaining error margin for over?",
+        "mechanism": "lexical",
+        "passage": [
+          "margin<-budget"
+        ]
+      },
+      {
+        "row": "d2-14",
+        "term": "change",
+        "word": "set",
+        "query": "What is the production maintenance set span?",
+        "mechanism": "lexical",
+        "passage": [
+          "span<-freeze"
+        ]
+      },
+      {
+        "row": "d2-14",
+        "term": "span",
+        "word": "rules",
+        "query": "What is the production maintenance change rules?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-05",
+        "term": "standby",
+        "word": "ito",
+        "query": "Who is the primary ito right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-11",
+        "term": "latency",
+        "word": "exceeds",
+        "query": "What fix does the checkout exceeds runbook recommend?",
+        "mechanism": "lexical",
+        "passage": [
+          "fix<-confirm"
+        ]
+      },
+      {
+        "row": "d4-10",
+        "term": "failures",
+        "word": "datadog",
+        "query": "What is the remaining datadog budget for checkout?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d4-21",
+        "term": "freeze",
+        "word": "emergency",
+        "query": "When does the production emergency launch?",
+        "mechanism": "lexical",
+        "passage": [
+          "launch<-start"
+        ]
+      },
+      {
+        "row": "d5-22",
+        "term": "cadence",
+        "word": "runbook",
+        "query": "What is the Vault AppRole rotation runbook?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d6-06",
+        "term": "on-call",
+        "word": "max",
+        "query": "Who is the first max right now?",
+        "mechanism": "lexical",
+        "passage": []
+      }
+    ],
+    "strict_lone": [
+      {
+        "row": "golden-00",
+        "term": "latency",
+        "word": "posted",
+        "query": "What is the current checkout p99 posted?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "rotation",
+        "query": "Who is the rotation on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "component",
+        "query": "Who is the component on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-24",
+        "term": "production",
+        "word": "set",
+        "query": "What is the set maintenance change window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-25",
+        "term": "freeze",
+        "word": "state",
+        "query": "When does the production state start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-39",
+        "term": "injection",
+        "word": "secret",
+        "query": "What is the vault sidecar secret path CNRY-VAULT7F3A?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-47",
+        "term": "vault-transit",
+        "word": "keys",
+        "query": "What is the keys key rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-50",
+        "term": "key",
+        "word": "identity",
+        "query": "What is the vault-transit identity rotation schedule window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d2-02",
+        "term": "checkout",
+        "word": "minutes",
+        "query": "What is the ongoing minutes p99 latency?",
+        "mechanism": "lexical",
+        "passage": [
+          "ongoing<-checkout"
+        ]
+      },
+      {
+        "row": "d2-06",
+        "term": "checkout",
+        "word": "over",
+        "query": "What is the remaining error margin for over?",
+        "mechanism": "lexical",
+        "passage": [
+          "margin<-budget"
+        ]
+      },
+      {
+        "row": "d2-14",
+        "term": "change",
+        "word": "set",
+        "query": "What is the production maintenance set span?",
+        "mechanism": "lexical",
+        "passage": [
+          "span<-freeze"
+        ]
+      },
+      {
+        "row": "d2-14",
+        "term": "span",
+        "word": "rules",
+        "query": "What is the production maintenance change rules?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-05",
+        "term": "standby",
+        "word": "ito",
+        "query": "Who is the primary ito right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-11",
+        "term": "latency",
+        "word": "exceeds",
+        "query": "What fix does the checkout exceeds runbook recommend?",
+        "mechanism": "lexical",
+        "passage": [
+          "fix<-confirm"
+        ]
+      },
+      {
+        "row": "d4-10",
+        "term": "failures",
+        "word": "datadog",
+        "query": "What is the remaining datadog budget for checkout?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d4-21",
+        "term": "freeze",
+        "word": "emergency",
+        "query": "When does the production emergency launch?",
+        "mechanism": "lexical",
+        "passage": [
+          "launch<-start"
+        ]
+      },
+      {
+        "row": "d5-22",
+        "term": "cadence",
+        "word": "runbook",
+        "query": "What is the Vault AppRole rotation runbook?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d6-06",
+        "term": "on-call",
+        "word": "max",
+        "query": "Who is the first max right now?",
+        "mechanism": "lexical",
+        "passage": []
+      }
+    ],
+    "strict_all": [
+      {
+        "row": "golden-00",
+        "term": "p99",
+        "word": "connection",
+        "query": "What is the current checkout connection latency?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-00",
+        "term": "latency",
+        "word": "posted",
+        "query": "What is the current checkout p99 posted?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "rotation",
+        "query": "Who is the rotation on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "component",
+        "query": "Who is the component on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-24",
+        "term": "production",
+        "word": "set",
+        "query": "What is the set maintenance change window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-25",
+        "term": "freeze",
+        "word": "state",
+        "query": "When does the production state start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-39",
+        "term": "injection",
+        "word": "secret",
+        "query": "What is the vault sidecar secret path CNRY-VAULT7F3A?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-47",
+        "term": "vault-transit",
+        "word": "keys",
+        "query": "What is the keys key rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-50",
+        "term": "key",
+        "word": "identity",
+        "query": "What is the vault-transit identity rotation schedule window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d2-02",
+        "term": "checkout",
+        "word": "minutes",
+        "query": "What is the ongoing minutes p99 latency?",
+        "mechanism": "lexical",
+        "passage": [
+          "ongoing<-checkout"
+        ]
+      },
+      {
+        "row": "d2-06",
+        "term": "checkout",
+        "word": "over",
+        "query": "What is the remaining error margin for over?",
+        "mechanism": "lexical",
+        "passage": [
+          "margin<-budget"
+        ]
+      },
+      {
+        "row": "d2-14",
+        "term": "change",
+        "word": "set",
+        "query": "What is the production maintenance set span?",
+        "mechanism": "lexical",
+        "passage": [
+          "span<-freeze"
+        ]
+      },
+      {
+        "row": "d2-14",
+        "term": "span",
+        "word": "rules",
+        "query": "What is the production maintenance change rules?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-05",
+        "term": "standby",
+        "word": "ito",
+        "query": "Who is the primary ito right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-11",
+        "term": "latency",
+        "word": "exceeds",
+        "query": "What fix does the checkout exceeds runbook recommend?",
+        "mechanism": "lexical",
+        "passage": [
+          "fix<-confirm"
+        ]
+      },
+      {
+        "row": "d4-10",
+        "term": "failures",
+        "word": "datadog",
+        "query": "What is the remaining datadog budget for checkout?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d4-21",
+        "term": "freeze",
+        "word": "emergency",
+        "query": "When does the production emergency launch?",
+        "mechanism": "lexical",
+        "passage": [
+          "launch<-start"
+        ]
+      },
+      {
+        "row": "d5-22",
+        "term": "cadence",
+        "word": "runbook",
+        "query": "What is the Vault AppRole rotation runbook?",
+        "mechanism": "lexical",
+        "passage": []
+      }
+    ],
+    "loose_lone": [
+      {
+        "row": "golden-00",
+        "term": "latency",
+        "word": "posted",
+        "query": "What is the current checkout p99 posted?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "rotation",
+        "query": "Who is the rotation on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "component",
+        "query": "Who is the component on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-06",
+        "term": "utilization",
+        "word": "hours",
+        "query": "What is the Redis checkout-pool hours?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-24",
+        "term": "production",
+        "word": "set",
+        "query": "What is the set maintenance change window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-25",
+        "term": "freeze",
+        "word": "state",
+        "query": "When does the production state start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-39",
+        "term": "injection",
+        "word": "secret",
+        "query": "What is the vault sidecar secret path CNRY-VAULT7F3A?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-47",
+        "term": "vault-transit",
+        "word": "keys",
+        "query": "What is the keys key rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-50",
+        "term": "key",
+        "word": "identity",
+        "query": "What is the vault-transit identity rotation schedule window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d2-02",
+        "term": "checkout",
+        "word": "minutes",
+        "query": "What is the ongoing minutes p99 latency?",
+        "mechanism": "lexical",
+        "passage": [
+          "ongoing<-checkout"
+        ]
+      },
+      {
+        "row": "d2-06",
+        "term": "checkout",
+        "word": "over",
+        "query": "What is the remaining error margin for over?",
+        "mechanism": "lexical",
+        "passage": [
+          "margin<-budget"
+        ]
+      },
+      {
+        "row": "d2-14",
+        "term": "change",
+        "word": "set",
+        "query": "What is the production maintenance set span?",
+        "mechanism": "lexical",
+        "passage": [
+          "span<-freeze"
+        ]
+      },
+      {
+        "row": "d2-14",
+        "term": "span",
+        "word": "rules",
+        "query": "What is the production maintenance change rules?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d2-16",
+        "term": "halt",
+        "word": "starting",
+        "query": "When does the production starting start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-05",
+        "term": "standby",
+        "word": "ito",
+        "query": "Who is the primary ito right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-11",
+        "term": "latency",
+        "word": "exceeds",
+        "query": "What fix does the checkout exceeds runbook recommend?",
+        "mechanism": "lexical",
+        "passage": [
+          "fix<-confirm"
+        ]
+      },
+      {
+        "row": "d4-10",
+        "term": "remaining",
+        "word": "var",
+        "query": "What is the var failure budget for checkout?",
+        "mechanism": "lexical",
+        "passage": [
+          "failures<-error"
+        ]
+      },
+      {
+        "row": "d4-10",
+        "term": "failures",
+        "word": "datadog",
+        "query": "What is the remaining datadog budget for checkout?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d4-21",
+        "term": "freeze",
+        "word": "emergency",
+        "query": "When does the production emergency launch?",
+        "mechanism": "lexical",
+        "passage": [
+          "launch<-start"
+        ]
+      },
+      {
+        "row": "d5-22",
+        "term": "cadence",
+        "word": "runbook",
+        "query": "What is the Vault AppRole rotation runbook?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d6-06",
+        "term": "on-call",
+        "word": "max",
+        "query": "Who is the first max right now?",
+        "mechanism": "lexical",
+        "passage": []
+      }
+    ],
+    "loose_all": [
+      {
+        "row": "golden-00",
+        "term": "p99",
+        "word": "connection",
+        "query": "What is the current checkout connection latency?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-00",
+        "term": "latency",
+        "word": "posted",
+        "query": "What is the current checkout p99 posted?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "rotation",
+        "query": "Who is the rotation on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-02",
+        "term": "primary",
+        "word": "component",
+        "query": "Who is the component on-call right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-06",
+        "term": "utilization",
+        "word": "hours",
+        "query": "What is the Redis checkout-pool hours?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-24",
+        "term": "production",
+        "word": "set",
+        "query": "What is the set maintenance change window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-25",
+        "term": "freeze",
+        "word": "state",
+        "query": "When does the production state start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-39",
+        "term": "injection",
+        "word": "secret",
+        "query": "What is the vault sidecar secret path CNRY-VAULT7F3A?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-47",
+        "term": "vault-transit",
+        "word": "keys",
+        "query": "What is the keys key rotation contact email?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "golden-50",
+        "term": "key",
+        "word": "identity",
+        "query": "What is the vault-transit identity rotation schedule window?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d2-02",
+        "term": "checkout",
+        "word": "minutes",
+        "query": "What is the ongoing minutes p99 latency?",
+        "mechanism": "lexical",
+        "passage": [
+          "ongoing<-checkout"
+        ]
+      },
+      {
+        "row": "d2-06",
+        "term": "checkout",
+        "word": "over",
+        "query": "What is the remaining error margin for over?",
+        "mechanism": "lexical",
+        "passage": [
+          "margin<-budget"
+        ]
+      },
+      {
+        "row": "d2-09",
+        "term": "mitigation",
+        "word": "error",
+        "query": "What error does the checkout latency manual recommend?",
+        "mechanism": "lexical",
+        "passage": [
+          "manual<-starting"
+        ]
+      },
+      {
+        "row": "d2-14",
+        "term": "change",
+        "word": "set",
+        "query": "What is the production maintenance set span?",
+        "mechanism": "lexical",
+        "passage": [
+          "span<-freeze"
+        ]
+      },
+      {
+        "row": "d2-14",
+        "term": "span",
+        "word": "rules",
+        "query": "What is the production maintenance change rules?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d2-16",
+        "term": "halt",
+        "word": "starting",
+        "query": "When does the production starting start?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-05",
+        "term": "standby",
+        "word": "ito",
+        "query": "Who is the primary ito right now?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d3-11",
+        "term": "checkout",
+        "word": "default",
+        "query": "What fix does the default latency runbook recommend?",
+        "mechanism": "lexical",
+        "passage": [
+          "fix<-step"
+        ]
+      },
+      {
+        "row": "d3-11",
+        "term": "latency",
+        "word": "exceeds",
+        "query": "What fix does the checkout exceeds runbook recommend?",
+        "mechanism": "lexical",
+        "passage": [
+          "fix<-confirm"
+        ]
+      },
+      {
+        "row": "d4-10",
+        "term": "remaining",
+        "word": "var",
+        "query": "What is the var failure budget for checkout?",
+        "mechanism": "lexical",
+        "passage": [
+          "failures<-error"
+        ]
+      },
+      {
+        "row": "d4-10",
+        "term": "failures",
+        "word": "datadog",
+        "query": "What is the remaining datadog budget for checkout?",
+        "mechanism": "lexical",
+        "passage": []
+      },
+      {
+        "row": "d4-10",
+        "term": "budget",
+        "word": "var",
+        "query": "What is the remaining failure var for checkout?",
+        "mechanism": "lexical",
+        "passage": [
+          "failures<-error"
+        ]
+      },
+      {
+        "row": "d4-21",
+        "term": "freeze",
+        "word": "emergency",
+        "query": "When does the production emergency launch?",
+        "mechanism": "lexical",
+        "passage": [
+          "launch<-start"
+        ]
+      },
+      {
+        "row": "d5-22",
+        "term": "cadence",
+        "word": "runbook",
+        "query": "What is the Vault AppRole rotation runbook?",
+        "mechanism": "lexical",
+        "passage": []
+      }
+    ]
+  }
+}
