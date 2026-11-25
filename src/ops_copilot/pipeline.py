@@ -19,7 +19,11 @@ from ops_copilot.pii_redact import scan_answer_pii
 from ops_copilot.config import CopilotConfig, parse_clock
 from ops_copilot.corpus import Corpus
 from ops_copilot.cost_budget import SessionCostLedger
-from ops_copilot.credential_request import credential_explanation, is_credential_request
+from ops_copilot.credential_request import (
+    credential_explanation,
+    is_credential_request,
+    is_imperative_credential_request,
+)
 from ops_copilot.hitl import HitlWriteLedger
 from ops_copilot.oncall_rotation import rotation_from_docs
 from ops_copilot.disagreement import assess_disagreement
@@ -563,7 +567,10 @@ class Copilot:
         if (
             cfg.credential_request_gate
             and policy.decision is Decision.ANSWER
-            and is_credential_request(query)
+            and (
+                is_credential_request(query)
+                or (cfg.credential_request_imperative and is_imperative_credential_request(query))
+            )
         ):
             policy = PolicyDecision(
                 decision=Decision.REFUSE_PII,
