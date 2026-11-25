@@ -75,3 +75,16 @@ def test_imperative_extension_ships_off_and_needs_the_gate():
     from ops_copilot.config import CopilotConfig
     cfg = CopilotConfig()
     assert cfg.credential_request_imperative is False and cfg.credential_request_gate is True
+
+
+def test_secret_store_advice_keeps_the_decision():
+    from ops_copilot.credential_request import with_secret_store_advice
+    expl = {"decision": "REFUSE_UNGROUNDED", "details": {"coverage": 0.4},
+            "remediation": [{"action": "add_runbook", "target": None, "text": "x"}]}
+    out = with_secret_store_advice("REFUSE_UNGROUNDED", expl)
+    assert out["decision"] == "REFUSE_UNGROUNDED" and out["details"] == {"coverage": 0.4, "credential_request": True}
+    assert [r["action"] for r in out["remediation"]] == ["use_secret_store"]
+    assert expl["remediation"][0]["action"] == "add_runbook"  # input not mutated
+    for skip in ("ANSWER", "PROPOSE_WRITE", "REFUSE_PII", "REFUSE_CANARY", "REFUSE_BUDGET"):
+        assert with_secret_store_advice(skip, expl) is expl
+    assert with_secret_store_advice("REFUSE_STALE", None) is None
