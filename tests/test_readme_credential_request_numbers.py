@@ -17,9 +17,9 @@ def _section() -> str:
 
 def test_newest_first_and_head():
     heads = [h for h in (ROOT / "README.md").read_text(encoding="utf-8").splitlines() if h.startswith("## ")]
-    assert heads[0].startswith(HEAD) and heads[1].startswith("## Hazard floor in the 0.30-0.50 band (2026-11-24)")
+    assert heads[1].startswith(HEAD) and heads[2].startswith("## Hazard floor in the 0.30-0.50 band (2026-11-24)")
     assert (f"answered {len(R['request_answered_off'])} → {len(R['request_answered_on'])} of 12, "
-            f"{len(R['regression_changed'])} of {A['n_regression']} regression rows change") in heads[0]
+            f"{len(R['regression_changed'])} of {A['n_regression']} regression rows change") in heads[1]
 
 
 def test_claims():
