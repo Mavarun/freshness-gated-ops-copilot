@@ -386,7 +386,9 @@ class CopilotConfig:
     # Advice on refused credential requests (2026-11-25): keep the decision, replace an ungrounded /
     # stale / disagree / ambiguous-write refusal's remediation with use_secret_store. "off", "shipped"
     # (is_credential_request) or "wide" (+ the imperative rule). Protocol: credential_advice_protocol.py.
-    credential_request_advice: str = "off"
+    # Ships "wide" (2026-11-25): 0 decisions change, 0 legit rows advised, coverage 15 / 15 (Nov 25) and
+    # 5 / 5 (Nov 24); "shipped" covers 9 / 15. One regression row (d8-t07) gets the advice.
+    credential_request_advice: str = "wide"
     # How the PII gate authorizes a masked email / phone answer: "phrases" (the fixed
     # allowlist in pii.py, the default up to 2026-11-20) or "channel" (also when the
     # query names an email / phone channel and every match sits in a sentence that
@@ -453,7 +455,7 @@ def pre_contact_config(**overrides) -> CopilotConfig:
     """The shipped default with the phrase-only contact allowlist (the default up to 2026-11-20)."""
     from dataclasses import replace
 
-    return replace(CopilotConfig(), **{**CONTACT_OFF, **overrides})
+    return replace(CopilotConfig(), **{**CONTACT_OFF, **ADVICE_OFF, **overrides})
 
 
 # hazard_scan_scope shipped "floor" on 2026-11-23. Records scored before then (the Nov 21
@@ -465,9 +467,15 @@ def pre_floor_config(**overrides) -> CopilotConfig:
     """The shipped default with the hazard scan on every ungrounded refusal (2026-11-20 to 2026-11-22)."""
     from dataclasses import replace
 
-    return replace(CopilotConfig(), **{**FLOOR_OFF, **overrides})
+    return replace(CopilotConfig(), **{**FLOOR_OFF, **ADVICE_OFF, **overrides})
 
 
 # credential_request_gate shipped on 2026-11-24. Records scored before then (the Nov 24 hazard
 # band stress test and every earlier record) ran without it.
 CRED_OFF: dict = {"credential_request_gate": False}
+
+
+# credential_request_advice shipped "wide" on 2026-11-25. It changes no decision, only the
+# remediation of refused credential requests; records that store remediation and were scored
+# before then (the Nov 20 hazard scan, the Nov 23 floor) ran with it off.
+ADVICE_OFF: dict = {"credential_request_advice": "off"}
