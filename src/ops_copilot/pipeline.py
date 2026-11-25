@@ -23,6 +23,7 @@ from ops_copilot.credential_request import (
     credential_explanation,
     is_credential_request,
     is_imperative_credential_request,
+    with_secret_store_advice,
 )
 from ops_copilot.hitl import HitlWriteLedger
 from ops_copilot.oncall_rotation import rotation_from_docs
@@ -577,6 +578,14 @@ class Copilot:
                 reason="the question asks for a credential value; refusing instead of answering around it",
                 explanation=credential_explanation(list(dict.fromkeys(c.doc_id for c in fresh_hits)), query),
             )
+
+        if cfg.credential_request_advice != "off" and policy.decision is not Decision.ANSWER and (
+            is_credential_request(query)
+            or (cfg.credential_request_advice == "wide" and is_imperative_credential_request(query))
+        ):
+            advised = with_secret_store_advice(policy.decision.value, policy.explanation)
+            if advised is not policy.explanation:
+                policy = PolicyDecision(decision=policy.decision, reason=policy.reason, explanation=advised)
 
         proposed_write = None
         if policy.decision is Decision.ANSWER:

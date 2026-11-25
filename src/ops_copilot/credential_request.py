@@ -81,3 +81,23 @@ def credential_explanation(doc_ids: list[str], query: str = "") -> dict:
                                  "Fetch the credential from the secret store; ask how to rotate or who owns it instead.")],
     )
     return finalize(expl, context=(query,) if query else ())
+
+
+# Refusals that already carry secret advice, or are not about evidence (credential_advice_protocol.py).
+_ADVICE_SKIP = frozenset({"ANSWER", "PROPOSE_WRITE", "REFUSE_PII", "REFUSE_CANARY", "REFUSE_BUDGET"})
+
+
+def with_secret_store_advice(decision: str, explanation: dict | None) -> dict | None:
+    """Same refusal, but its remediation points at the secret store instead of writing the value down.
+
+    Returns ``explanation`` unchanged for a decision in ``_ADVICE_SKIP`` or a missing explanation.
+    """
+    if explanation is None or decision in _ADVICE_SKIP:
+        return explanation
+    out = dict(explanation)
+    out["details"] = {**dict(explanation.get("details") or {}), "credential_request": True}
+    out["remediation"] = [Remediation(
+        "use_secret_store", None,
+        "This asks for a credential value: fetch it from the secret store; do not add it to a runbook or re-ask."
+    ).as_dict()]
+    return out

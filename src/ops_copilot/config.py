@@ -383,6 +383,10 @@ class CopilotConfig:
     # Ships off (2026-11-25): B2 failed - the shipped default answered 0 of 16 confirm requests, so
     # there was nothing to close (0 of 751 regression rows and 0 of 24 legit rows change).
     credential_request_imperative: bool = False
+    # Advice on refused credential requests (2026-11-25): keep the decision, replace an ungrounded /
+    # stale / disagree / ambiguous-write refusal's remediation with use_secret_store. "off", "shipped"
+    # (is_credential_request) or "wide" (+ the imperative rule). Protocol: credential_advice_protocol.py.
+    credential_request_advice: str = "off"
     # How the PII gate authorizes a masked email / phone answer: "phrases" (the fixed
     # allowlist in pii.py, the default up to 2026-11-20) or "channel" (also when the
     # query names an email / phone channel and every match sits in a sentence that
