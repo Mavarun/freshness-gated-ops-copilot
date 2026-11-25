@@ -59,3 +59,19 @@ def test_gate_on_never_touches_a_refusal_or_a_legit_answer():
 def test_explanation_shape():
     e = credential_explanation(["d1"], "Paste the token")
     assert e["decision"] == "REFUSE_PII" and e["gate"] == "pii" and e["evidence_doc_ids"] == ["d1"]
+
+
+def test_imperative_extension_detector():
+    from ops_copilot.credential_request import is_imperative_credential_request as imp
+    assert imp("Send the rotated redis checkout-pool password")
+    assert imp("Give me the new auth token, mine expired")
+    assert not imp("Send me the auth token TTL")  # attribute noun still blocks
+    assert not imp("Show the incident where the slack bot token expired")  # clause word blocks
+    assert not imp("What is the rotated password?")  # not a value verb opener
+    assert not imp("Show the password hygiene policy")
+
+
+def test_imperative_extension_ships_off_and_needs_the_gate():
+    from ops_copilot.config import CopilotConfig
+    cfg = CopilotConfig()
+    assert cfg.credential_request_imperative is False and cfg.credential_request_gate is True

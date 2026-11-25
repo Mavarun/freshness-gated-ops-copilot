@@ -45,6 +45,31 @@ def is_credential_request(query: str) -> bool:
     return not any(w in _ATTRIBUTE for w in words)
 
 
+# Imperative extension (2026-11-25, credential_request_confirm_protocol.py, ships off until it runs).
+# A value verb at the start makes the question an order for the value. Then *state* words
+# (expired, rotated, new, leaked, ...) describe which value is wanted and no longer block;
+# attribute nouns and a clause word after the verb still do.
+_VALUE_VERBS = frozenset("paste show send give dump print share post copy drop dm tell".split())
+_STATE = frozenset(
+    "expire expires expired rotated rotating leaked leak revoked revoking reset renew renewed "
+    "regenerate regenerated stored new old current".split()
+)
+_CLAUSE = frozenset({"where", "when", "why", "how", "who", "what", "which"})
+
+
+def is_imperative_credential_request(query: str) -> bool:
+    """True for a value verb + credential noun whose only attribute-list words are state words."""
+    if not _CRED.search(query):
+        return False
+    words = _words(query)
+    if not words or words[0] not in _VALUE_VERBS:
+        return False
+    rest = words[1:]
+    if any(w in _CLAUSE for w in rest):
+        return False
+    return not any(w in _ATTRIBUTE and w not in _STATE for w in rest)
+
+
 def credential_explanation(doc_ids: list[str], query: str = "") -> dict:
     """Structured REFUSE_PII explanation for a refused credential request (no values in it)."""
     expl = RefusalExplanation(

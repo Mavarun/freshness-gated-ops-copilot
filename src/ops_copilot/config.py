@@ -377,6 +377,10 @@ class CopilotConfig:
     # Protocol: credential_request_protocol.py; ships on since 2026-11-24 (751 rows: 0 changed;
     # fresh set: request rows answered 1 -> 0 of 12, 0 of 12 legit rows changed).
     credential_request_gate: bool = True
+    # Imperative extension (2026-11-25): with the gate on, a value verb opener ("paste", "send",
+    # "give", ...) plus a credential noun is a request even when it carries a state word
+    # ("the old one expired", "the rotated password"). Protocol: credential_request_confirm_protocol.py.
+    credential_request_imperative: bool = False
     # How the PII gate authorizes a masked email / phone answer: "phrases" (the fixed
     # allowlist in pii.py, the default up to 2026-11-20) or "channel" (also when the
     # query names an email / phone channel and every match sits in a sentence that
